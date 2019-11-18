@@ -10,6 +10,7 @@ import 'dart:convert';
 class AuthRepo extends BaseRepo {
   final appConfig = AppConfig();
   final xml2json = Xml2Json();
+  final localStorage = LocalStorage();
 
   Future<Result> login(context, phone, password) async {
     try {
@@ -28,8 +29,10 @@ class AuthRepo extends BaseRepo {
       var jsonData = xml2json.toParker();
       var data = json.decode(jsonData);
 
-      if (data.Table[0].msg == null) {
-        LocalStorage().saveUserId(response.user_id.toString());
+      print('data: $data');
+
+      /* if (data.Table[0].msg == null) {
+        localStorage.saveUserId(response.user_id.toString());
         // CrashReport().setUserIdentifier(response.user_id.toString());
         // CrashReport().setUserPhone(phone);
 
@@ -38,14 +41,30 @@ class AuthRepo extends BaseRepo {
         return Result(true, data: response);
       } else {
         return Result(false, message: data.Table[0].msg);
-      }
+      } */
     } catch (exception, stackTrace) {
       return handleError(exception, stackTrace);
     }
   }
 
   Future<Result> checkDiList(loginResponse) async {
-    try {} catch (exception, stackTrace) {
+    try {
+      String userId = await localStorage.getUserId();
+
+      var params = UserRegisteredDiRequest(
+          wsCodeCrypt: appConfig.wsCodeCrypt,
+          caUid: appConfig.caUid,
+          caPwd: appConfig.caPwd,
+          diCode: appConfig.diCode,
+          userId: userId);
+
+      var response = await Networking.getInstance().getUserRegisteredDi(params);
+      xml2json.parse(response);
+      var jsonData = xml2json.toParker();
+      var data = json.decode(jsonData);
+
+      print('data: $data');
+    } catch (exception, stackTrace) {
       return handleError(exception, stackTrace);
     }
   }

@@ -10,7 +10,11 @@ abstract class Api {
   factory Api(Dio dio) = _Api;
 
   @GET("GetUserByUserPhonePwd")
-  Future<dynamic> login(@Body() LoginRequest params);
+  Future<LoginResponse> login(@Body() LoginRequest params);
+
+  @GET("GetUserRegisteredDI")
+  Future<UserRegisteredDiResponse> getUserRegisteredDi(
+      @Body() UserRegisteredDiRequest params);
 }
 
 // xml2json toParker
