@@ -3,16 +3,16 @@ import 'package:device_info/device_info.dart';
 // import 'package:flutter/painting.dart';
 
 class ColorConstant {
-  static const primaryColor = Colors.orange;
+  static final primaryColor = Colors.amberAccent.shade400;
   static const green = Colors.green;
   static const red = Colors.red;
   static const amberAccent = Colors.amberAccent;
 }
 
 class ImagesConstant {
-  String logo = 'images/logo.png';
-  String avatar = 'images/avatar.jpg';
-//  String loginBackground = 'assets/images/login_background.jpg';
+  String logo = 'images/ePandu-logo.png';
+  // String avatar = 'images/avatar.jpg';
+  // String loginBackground = 'assets/images/login_background.jpg';
 }
 
 class Common {

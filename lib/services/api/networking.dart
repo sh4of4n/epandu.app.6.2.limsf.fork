@@ -6,13 +6,22 @@ import 'api.dart';
 import 'package:epandu/utils/app_config.dart';
 
 class Networking {
-  static Api getInstance() {
-    return Api(_getDio());
+  static Api getInstance({type}) {
+    return Api(_getDio(type));
   }
 
-  static Dio _getDio() {
+  static Dio _getDio(type) {
+    String url;
+
+    if (type == 'EWALLET')
+      url = AppConfig.eWalletUrl();
+    else if (type == 'SOS')
+      url = AppConfig.sosUrl();
+    else
+      url = AppConfig.getBaseUrl();
+
     var dio = Dio();
-    dio.options.baseUrl = AppConfig.getBaseUrl();
+    dio.options.baseUrl = url;
     dio.interceptors.add(
         LogInterceptor(responseBody: true, requestHeader: true, error: true));
     dio.interceptors.add(InterceptorsWrapper(onResponse: (Response response) {

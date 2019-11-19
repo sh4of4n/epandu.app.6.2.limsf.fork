@@ -1,3 +1,5 @@
+import 'package:epandu/initial_auth/authentication.dart';
+import 'package:epandu/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:epandu/home/home.dart';
 import 'package:epandu/utils/route_path.dart';
@@ -7,6 +9,16 @@ class RouteGenerator {
     var data = settings.arguments;
 
     switch (settings.name) {
+      case AUTH:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: AUTH),
+          builder: (_) => Authentication(),
+        );
+      case LOGIN:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: LOGIN),
+          builder: (_) => Login(),
+        );
       case HOME:
         return MaterialPageRoute(
           settings: RouteSettings(name: HOME),

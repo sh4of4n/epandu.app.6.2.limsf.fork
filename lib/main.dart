@@ -1,3 +1,4 @@
+import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:epandu/utils/route_generator.dart';
 import 'package:epandu/utils/route_path.dart';
@@ -10,9 +11,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'ePandu',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: ColorConstant.primaryColor,
       ),
-      initialRoute: HOME,
+      initialRoute: AUTH,
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }

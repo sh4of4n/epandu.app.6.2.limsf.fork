@@ -20,7 +20,8 @@ class _Api implements Api {
     ArgumentError.checkNotNull(params, 'params');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _data = params;
+    final _data = <String, dynamic>{};
+    _data.addAll(params.toJson() ?? <String, dynamic>{});
     final Response<Map<String, dynamic>> _result = await _dio.request(
         'GetUserByUserPhonePwd',
         queryParameters: queryParameters,
@@ -30,7 +31,27 @@ class _Api implements Api {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = dynamic.fromJson(_result.data);
+    final value = LoginResponse.fromJson(_result.data);
+    return Future.value(value);
+  }
+
+  @override
+  getUserRegisteredDi(params) async {
+    ArgumentError.checkNotNull(params, 'params');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(params.toJson() ?? <String, dynamic>{});
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        'GetUserRegisteredDI',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = UserRegisteredDiResponse.fromJson(_result.data);
     return Future.value(value);
   }
 }

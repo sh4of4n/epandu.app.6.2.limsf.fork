@@ -1,7 +1,7 @@
 import 'package:retrofit/http.dart';
 import 'package:dio/dio.dart';
 
-import 'model/login_model.dart';
+import 'model/auth_model.dart';
 
 part 'api.g.dart';
 
@@ -9,12 +9,15 @@ part 'api.g.dart';
 abstract class Api {
   factory Api(Dio dio) = _Api;
 
-  @GET("GetUserByUserPhonePwd")
-  Future<LoginResponse> login(@Body() LoginRequest params);
+  @GET("GetUserByUserPhonePwd?{params}")
+  Future<LoginResponse> login(@Path() String params);
 
-  @GET("GetUserRegisteredDI")
-  Future<UserRegisteredDiResponse> getUserRegisteredDi(
-      @Body() UserRegisteredDiRequest params);
+  @GET("GetUserRegisteredDI?{params}")
+  Future<UserRegisteredDiResponse> getUserRegisteredDi(@Path() String params);
+
+  @GET("GetUserByUserPhone?{params}")
+  Future<String> checkExistingUser(@Path() String params);
+
+  @POST("CreateAppAccount")
+  Future<String> register(@Body() RegisterRequest params);
 }
-
-// xml2json toParker
