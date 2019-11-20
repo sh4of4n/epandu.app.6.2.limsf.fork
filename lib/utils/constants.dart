@@ -3,7 +3,7 @@ import 'package:device_info/device_info.dart';
 // import 'package:flutter/painting.dart';
 
 class ColorConstant {
-  static final primaryColor = Colors.amberAccent.shade400;
+  static final primaryColor = Colors.amber.shade600;
   static const green = Colors.green;
   static const red = Colors.red;
   static const amberAccent = Colors.amberAccent;

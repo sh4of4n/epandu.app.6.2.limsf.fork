@@ -2,6 +2,7 @@ class AppConfig {
   String wsCodeCrypt = 'EPANDU';
   String caUid = 'epandu_devp_3';
   String caPwd = 'wTA@D@cUHR&3Mq@\$';
+  String caPwdUrlEncode = 'wTA%40D%40cUHR%263Mq%40%24';
   String tbsEduCaUid = 'tbsedu1_devp';
   String tbsEduCaPwd = 'DJNTjwSxXb8v43ar';
   String businessTypePass = 'visa2u';

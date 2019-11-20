@@ -25,7 +25,7 @@ class AuthRepo extends BaseRepo {
       ); */
 
       var params =
-          'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwd}&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0';
+          'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0';
 
       var response = await Networking.getInstance().login(params);
       xml2json.parse(response.toString());
@@ -64,7 +64,7 @@ class AuthRepo extends BaseRepo {
           userId: userId); */
 
       var params =
-          'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwd}&diCode=${appConfig.diCode}&userId=$userId';
+          'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=${appConfig.diCode}&userId=$userId';
 
       var response = await Networking.getInstance().getUserRegisteredDi(params);
       xml2json.parse(response.toString());
@@ -110,7 +110,7 @@ class AuthRepo extends BaseRepo {
       }
 
       params =
-          'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwd}&userPhone=$userPhone';
+          'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&userPhone=$userPhone';
 
       var response = await Networking.getInstance().checkExistingUser(params);
       xml2json.parse(response.toString());
