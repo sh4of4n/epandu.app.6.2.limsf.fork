@@ -16,7 +16,7 @@ class ImagesConstant {
 }
 
 class Common {
-  Future<String> getDeviceIdentifier(BuildContext context) async {
+  /* Future<String> getDeviceIdentifier(BuildContext context) async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
@@ -25,7 +25,7 @@ class Common {
       AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
       return androidDeviceInfo.androidId; // unique ID on Android
     }
-  }
+  } */
 
   static void printWrapped(String text) {
     final pattern = new RegExp('.{1,800}'); // 800 is the size of each chunk

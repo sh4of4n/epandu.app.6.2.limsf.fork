@@ -204,18 +204,24 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
 
   _submitLogin() async {
     if (_formKey.currentState.validate()) {
-      setState(() {
-        _height = ScreenUtil.getInstance().setHeight(1300);
-      });
-
       _formKey.currentState.save();
       FocusScope.of(context).requestFocus(new FocusNode());
+
+      /* setState(() {
+        _height = ScreenUtil.getInstance().setHeight(1300);
+      }); */
 
       var result = await authRepo.login(
         context,
         _phone,
         _password,
       );
+
+      if (result.isSuccess) {
+        print('Success!: ${result.data}');
+      } else {
+        print('Fail!');
+      }
     } else {
       setState(() {
         _height = ScreenUtil.getInstance().setHeight(1400);

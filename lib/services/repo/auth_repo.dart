@@ -32,21 +32,21 @@ class AuthRepo extends BaseRepo {
       var jsonData = xml2json.toParker();
       var data = json.decode(jsonData);
 
-      print('response: $response');
-      print('data: $data');
+      return Result(true, data: data);
+      // print('response: $response');
+      // print('data: $data');
 
       /* if (data.Table[0].msg == null) {
-        localStorage.saveUserId(response.user_id.toString());
+        // localStorage.saveUserId(response.user_id.toString());
         // CrashReport().setUserIdentifier(response.user_id.toString());
         // CrashReport().setUserPhone(phone);
 
-        checkDiList(response);
+        // checkDiList(response);
 
         return Result(true, data: response);
       } else {
         return Result(false, message: data.Table[0].msg);
-      } 
-      */
+      } */
     } catch (exception, stackTrace) {
       return handleError(exception, stackTrace);
     }

@@ -21,21 +21,28 @@ class Networking {
       url = AppConfig.getBaseUrl();
 
     var dio = Dio();
+    // dio.options.headers = {};
     dio.options.baseUrl = url;
     dio.interceptors.add(
         LogInterceptor(responseBody: true, requestHeader: true, error: true));
-    dio.interceptors.add(InterceptorsWrapper(onResponse: (Response response) {
-      if (response.data != null && response.data is String) {
-        response.data = jsonDecode(response.data);
-      }
-      return response;
-    }, onRequest: (RequestOptions options) {
-      if (options.data != null) {
-        Common.printWrapped('Request params: ' + jsonEncode(options.data));
-      }
-    }, onError: (DioError e) async {
-      return e;
-    }));
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onResponse: (Response response) {
+          /* if (response.data != null && response.data is String) {
+            response.data = jsonDecode(response.data);
+          } */
+          return response;
+        },
+        onRequest: (RequestOptions options) {
+          if (options.data != null) {
+            Common.printWrapped('Request params: ' + jsonEncode(options.data));
+          }
+        },
+        onError: (DioError e) async {
+          return e;
+        },
+      ),
+    );
 
     return dio;
   }
