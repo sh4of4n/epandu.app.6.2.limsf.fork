@@ -211,7 +211,18 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
         _height = ScreenUtil.getInstance().setHeight(1300);
       }); */
 
-      var result = await authRepo.login(
+      // return FutureBuilder(
+      //   future: authRepo.login(
+      //     context,
+      //     _phone,
+      //     _password,
+      //   ),
+      //   builder: (context, snapshot) {
+
+      //   },
+      // );
+
+      /* var result = await authRepo.login(
         context,
         _phone,
         _password,
@@ -221,7 +232,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
         print('Success!: ${result.data}');
       } else {
         print('Fail!');
-      }
+      } */
     } else {
       setState(() {
         _height = ScreenUtil.getInstance().setHeight(1400);
