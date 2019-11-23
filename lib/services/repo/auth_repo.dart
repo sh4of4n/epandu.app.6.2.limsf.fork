@@ -12,7 +12,7 @@ class AuthRepo extends BaseRepo {
   final xml2json = Xml2Json();
   final localStorage = LocalStorage();
 
-  Future<Result> login(context, phone, password) async {
+  Future<void> login(context, phone, password) async {
     try {
       /* var params = LoginRequest(
         wsCodeCrypt: appConfig.wsCodeCrypt,
@@ -27,12 +27,12 @@ class AuthRepo extends BaseRepo {
       var params =
           'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0';
 
-      var response = await Networking.getInstance().login(params);
-      xml2json.parse(response.toString());
+      await Networking.getInstance().login(params);
+      /* xml2json.parse(response.toString());
       var jsonData = xml2json.toParker();
       var data = json.decode(jsonData);
 
-      return Result(true, data: data);
+      return Result(true, data: data); */
       // print('response: $response');
       // print('data: $data');
 

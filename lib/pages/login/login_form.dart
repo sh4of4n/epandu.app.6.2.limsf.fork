@@ -26,10 +26,12 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
 
   var _height = ScreenUtil.getInstance().setHeight(1300);
 
+  // var _height = ScreenUtil.screenHeight / 4.5;
+
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(seconds: 1),
+      duration: Duration(milliseconds: 1500),
       curve: Curves.elasticOut,
       width: double.infinity,
       height: _height,
@@ -85,7 +87,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 },
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Field is required.';
+                    return 'Phone is required.';
                   }
                 },
                 onSaved: (value) {
@@ -128,7 +130,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 obscureText: _obscureText,
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Field is required.';
+                    return 'Password is required.';
                   }
                 },
                 onSaved: (value) {
@@ -211,16 +213,22 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
         _height = ScreenUtil.getInstance().setHeight(1300);
       }); */
 
-      // return FutureBuilder(
-      //   future: authRepo.login(
-      //     context,
-      //     _phone,
-      //     _password,
-      //   ),
-      //   builder: (context, snapshot) {
-
-      //   },
-      // );
+      /* return FutureBuilder(
+        future: authRepo.login(
+          context,
+          _phone,
+          _password,
+        ),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.none &&
+              snapshot.hasData == null) {
+            return Center(
+              child: Text('No data returned.'),
+            );
+          }
+          return snapshot.data;
+        },
+      ); */
 
       /* var result = await authRepo.login(
         context,
