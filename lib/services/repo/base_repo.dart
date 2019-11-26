@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+/* import 'package:dio/dio.dart';
 // import 'package:flutter/material.dart';
 // import 'package:epandu/utils/crash_report.dart';
 import '../result.dart';
@@ -19,3 +19,4 @@ class BaseRepo {
     return Result(false, message: errorMsg);
   }
 }
+ */

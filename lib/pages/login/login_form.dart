@@ -1,6 +1,8 @@
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,6 +21,8 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
   final FocusNode _passwordFocus = FocusNode();
 
   final primaryColor = ColorConstant.primaryColor;
+
+  final localStorage = LocalStorage();
 
   String _phone;
   String _password;
@@ -209,38 +213,30 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
       _formKey.currentState.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
-      /* setState(() {
+      setState(() {
         _height = ScreenUtil.getInstance().setHeight(1300);
-      }); */
+      });
 
-      /* return FutureBuilder(
-        future: authRepo.login(
-          context,
-          _phone,
-          _password,
-        ),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.none &&
-              snapshot.hasData == null) {
-            return Center(
-              child: Text('No data returned.'),
-            );
-          }
-          return snapshot.data;
-        },
-      ); */
-
-      /* var result = await authRepo.login(
+      var result = await authRepo.login(
         context,
         _phone,
         _password,
       );
 
       if (result.isSuccess) {
-        print('Success!: ${result.data}');
+        if (result.data == 'empty') {
+          Navigator.pushReplacementNamed(context, HOME);
+        } else if (result.data.length > 1) {
+          // Navigate to DI selection page
+        } else {
+          print(result.data[0]['di_code']);
+          localStorage.saveDiCode(result.data[0]['di_code']);
+
+          Navigator.pushReplacementNamed(context, HOME);
+        }
       } else {
         print('Fail!');
-      } */
+      }
     } else {
       setState(() {
         _height = ScreenUtil.getInstance().setHeight(1400);

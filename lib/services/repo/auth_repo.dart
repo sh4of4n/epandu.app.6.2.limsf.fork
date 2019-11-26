@@ -1,84 +1,91 @@
+import 'package:epandu/services/result.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/services/api/networking.dart';
 import 'package:epandu/services/api/model/auth_model.dart';
-import 'package:epandu/services/repo/base_repo.dart';
-import 'package:epandu/services/result.dart';
-import 'package:xml2json/xml2json.dart';
-import 'dart:convert';
 
-class AuthRepo extends BaseRepo {
+class AuthRepo {
   final appConfig = AppConfig();
-  final xml2json = Xml2Json();
   final localStorage = LocalStorage();
+  final networking = Networking();
 
-  Future<void> login(context, phone, password) async {
-    try {
-      /* var params = LoginRequest(
-        wsCodeCrypt: appConfig.wsCodeCrypt,
-        caUid: appConfig.caUid,
-        caPwd: appConfig.caPwd,
-        diCode: appConfig.diCode,
-        userPhone: phone,
-        userPwd: password,
-        ipAddress: '0.0.0.0',
-      ); */
+  Future login(context, phone, password) async {
+    var params =
+        'GetUserByUserPhonePwd?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0';
 
-      var params =
-          'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0';
+    var response = await networking.getData(path: params);
 
-      await Networking.getInstance().login(params);
-      /* xml2json.parse(response.toString());
-      var jsonData = xml2json.toParker();
-      var data = json.decode(jsonData);
+    var responseData = response['GetUserByUserPhonePwdResponse']
+        ['GetUserByUserPhonePwdResult']['UserInfo']['Table1'];
 
-      return Result(true, data: data); */
-      // print('response: $response');
-      // print('data: $data');
+    if (responseData['msg'] == null) {
+      print(responseData['userId']);
+      print(responseData['sessionId']);
 
-      /* if (data.Table[0].msg == null) {
-        // localStorage.saveUserId(response.user_id.toString());
-        // CrashReport().setUserIdentifier(response.user_id.toString());
-        // CrashReport().setUserPhone(phone);
+      localStorage.saveUserId(responseData['userId']);
+      localStorage.saveSessionId(responseData['sessionId']);
 
-        // checkDiList(response);
+      checkDiList(
+        Table1(
+          msg: responseData['message'],
+          userId: responseData['userId'],
+          sessionId: responseData['sessionId'],
+        ),
+      );
+    } else {
+      throw Exception(responseData['msg']);
+    }
+  }
 
-        return Result(true, data: response);
+  Future<Result> checkDiList(Table1 table1) async {
+    String userId = table1.userId;
+
+    var params =
+        'GetUserRegisteredDI?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&userId=$userId';
+
+    var response = await networking.getData(path: params);
+
+    if (response != null) {
+      var responseData = response['UserRegisteredDiResponse']
+          ['UserRegisteredDiResult']['ArmasterInfo']['Armaster'];
+
+      // List<Armaster> armasterData = responseData.map((item) => item).toList();
+
+      /* if (responseData.length <= 1) {
+        String diCode = responseData[0]['di_code'];
+
+        localStorage.saveDiCode(diCode);
+        localStorage.saveUserId(userId);
+
+        return Result(true, data: responseData);
       } else {
-        return Result(false, message: data.Table[0].msg);
+        // user need to choose from available diCode
+        return Result(true, data: responseData);
       } */
-    } catch (exception, stackTrace) {
-      return handleError(exception, stackTrace);
+
+      return Result(true, data: responseData);
+    } else {
+      String diCode = 'TBS';
+      localStorage.saveDiCode(diCode);
+
+      // navigate to main page
+      return Result(true, data: 'empty');
     }
   }
 
-  Future<Result> checkDiList(loginResponse) async {
-    try {
-      String userId = await localStorage.getUserId();
+  //logout
+  Future logout() async {
+    String userId = await localStorage.getUserId();
+    String diCode = await localStorage.getDiCode();
 
-      /* var params = UserRegisteredDiRequest(
-          wsCodeCrypt: appConfig.wsCodeCrypt,
-          caUid: appConfig.caUid,
-          caPwd: appConfig.caPwd,
-          diCode: appConfig.diCode,
-          userId: userId); */
+    var params =
+        'IsSessionActive?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=&userId=$userId&sessionId=&isLogout=true';
 
-      var params =
-          'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=${appConfig.diCode}&userId=$userId';
-
-      var response = await Networking.getInstance().getUserRegisteredDi(params);
-      xml2json.parse(response.toString());
-      var jsonData = xml2json.toParker();
-      var data = json.decode(jsonData);
-
-      print('response: $response');
-      print('data: $data');
-    } catch (exception, stackTrace) {
-      return handleError(exception, stackTrace);
-    }
+    await localStorage.reset();
+    await networking.getData(path: params);
   }
 
-  // Register
+  /* // Register
   Future<Result> checkExistingUser(
     context,
     countryCode,
@@ -179,5 +186,5 @@ class AuthRepo extends BaseRepo {
     } catch (exception, stackTrace) {
       return handleError(exception, stackTrace);
     }
-  }
+  } */
 }

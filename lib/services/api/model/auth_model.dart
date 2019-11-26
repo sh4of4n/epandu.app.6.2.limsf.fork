@@ -42,23 +42,19 @@ class LoginRequest {
 
 // LoginResponse
 class LoginResponse {
-  List<Table1> table1;
+  Table1 table1;
 
   LoginResponse({this.table1});
 
   LoginResponse.fromJson(Map<String, dynamic> json) {
-    if (json['Table1'] != null) {
-      table1 = new List<Table1>();
-      json['Table1'].forEach((v) {
-        table1.add(new Table1.fromJson(v));
-      });
-    }
+    table1 =
+        json['Table1'] != null ? new Table1.fromJson(json['Table1']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.table1 != null) {
-      data['Table1'] = this.table1.map((v) => v.toJson()).toList();
+      data['Table1'] = this.table1.toJson();
     }
     return data;
   }

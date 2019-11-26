@@ -1,6 +1,6 @@
 class AppConfig {
   String wsCodeCrypt = 'EPANDU';
-  String caUid = 'epandu_devp_3';
+  String caUid = 'epandu1_devp_3';
   // String caUid = 'epandu1_devp_3';
   String caPwd = 'wTA@D@cUHR&3Mq@\$';
   String caPwdUrlEncode = 'wTA%40D%40cUHR%263Mq%40%24';

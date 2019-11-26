@@ -1,49 +1,92 @@
-import 'package:dio/dio.dart';
-import 'package:epandu/utils/constants.dart';
-import 'dart:convert';
+import 'dart:async';
 
-import 'api.dart';
 import 'package:epandu/utils/app_config.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'dart:convert';
+import 'package:path/path.dart';
+import 'package:async/async.dart';
+import 'dart:io';
+import 'package:xml2json/xml2json.dart';
 
 class Networking {
-  static Api getInstance({type}) {
-    return Api(_getDio(type));
-  }
+  final xml2json = Xml2Json();
+  var body;
+  String url;
+  String type;
 
-  static Dio _getDio(type) {
-    String url;
-
+  Networking({this.body, this.type}) {
     if (type == 'EWALLET')
       url = AppConfig.eWalletUrl();
     else if (type == 'SOS')
       url = AppConfig.sosUrl();
     else
       url = AppConfig.getBaseUrl();
+  }
 
-    var dio = Dio();
-    // dio.options.headers = {};
-    dio.options.baseUrl = url;
-    dio.interceptors.add(
-        LogInterceptor(responseBody: true, requestHeader: true, error: true));
-    dio.interceptors.add(
-      InterceptorsWrapper(
-        onResponse: (Response response) {
-          /* if (response.data != null && response.data is String) {
-            response.data = jsonDecode(response.data);
-          } */
-          return response;
-        },
-        onRequest: (RequestOptions options) {
-          if (options.data != null) {
-            Common.printWrapped('Request params: ' + jsonEncode(options.data));
-          }
-        },
-        onError: (DioError e) async {
-          return e;
-        },
-      ),
+  Future getData({path}) async {
+    try {
+      http.Response response = await http
+          .get('$url/${path.isNotEmpty ? path : ""}')
+          .timeout(Duration(seconds: 15));
+
+      if (response.statusCode == 200) {
+        var convertResponse = response.body
+            .replaceAll('&lt;', '<')
+            .replaceAll('&gt;', '>')
+            .replaceAll('&#xD;', '');
+
+        xml2json.parse(convertResponse);
+        var jsonData = xml2json.toParker();
+        var data = jsonDecode(jsonData);
+
+        return data;
+      } else {
+        print(response.statusCode);
+      }
+    } catch (e) {
+      print(e);
+      return (e.toString());
+    }
+  }
+
+  Future postData({path}) async {
+    http.Response response =
+        await http.post('$url/${path.isNotEmpty ? path : ""}', body: body);
+
+    if (response.statusCode == 200) {
+      xml2json.parse(response.body);
+      var jsonData = xml2json.toParker();
+      var data = jsonDecode(jsonData);
+
+      return data;
+    } else {
+      print(response.statusCode);
+    }
+  }
+
+  Future multiPartRequest(File imageFile) async {
+    var stream =
+        new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    var length = await imageFile.length();
+
+    var uri = Uri.parse(url);
+
+    var request = new http.MultipartRequest("POST", uri);
+    var multipartFile = new http.MultipartFile(
+      'picture',
+      stream,
+      length,
+      filename: basename(imageFile.path),
+      contentType: new MediaType('image', 'jpg'),
     );
 
-    return dio;
+    request.files.add(multipartFile);
+    http.Response response =
+        await http.Response.fromStream(await request.send());
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    }
   }
 }
