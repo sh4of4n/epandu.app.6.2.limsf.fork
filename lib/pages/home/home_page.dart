@@ -20,6 +20,7 @@ class _HomeState extends State<Home> {
       ),
       body: Center(
         child: RaisedButton(
+          child: Text('Sign out'),
           onPressed: _logout,
         ),
       ),

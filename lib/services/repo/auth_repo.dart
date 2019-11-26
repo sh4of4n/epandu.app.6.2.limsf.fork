@@ -25,13 +25,15 @@ class AuthRepo {
       localStorage.saveUserId(responseData['userId']);
       localStorage.saveSessionId(responseData['sessionId']);
 
-      checkDiList(
+      var result = await checkDiList(
         Table1(
           msg: responseData['message'],
           userId: responseData['userId'],
           sessionId: responseData['sessionId'],
         ),
       );
+
+      return result;
     } else {
       throw Exception(responseData['msg']);
     }
@@ -45,10 +47,10 @@ class AuthRepo {
 
     var response = await networking.getData(path: params);
 
-    if (response != null) {
-      var responseData = response['UserRegisteredDiResponse']
-          ['UserRegisteredDiResult']['ArmasterInfo']['Armaster'];
+    var responseData = response['GetUserRegisteredDIResponse']
+        ['GetUserRegisteredDIResult']['ArmasterInfo'];
 
+    if (responseData != null) {
       // List<Armaster> armasterData = responseData.map((item) => item).toList();
 
       /* if (responseData.length <= 1) {
@@ -63,7 +65,7 @@ class AuthRepo {
         return Result(true, data: responseData);
       } */
 
-      return Result(true, data: responseData);
+      return Result(true, data: responseData['Armaster']);
     } else {
       String diCode = 'TBS';
       localStorage.saveDiCode(diCode);
@@ -77,9 +79,10 @@ class AuthRepo {
   Future logout() async {
     String userId = await localStorage.getUserId();
     String diCode = await localStorage.getDiCode();
+    String sessionId = await localStorage.getSessionId();
 
     var params =
-        'IsSessionActive?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=&userId=$userId&sessionId=&isLogout=true';
+        'IsSessionActive?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&userId=$userId&sessionId=$sessionId&isLogout=true';
 
     await localStorage.reset();
     await networking.getData(path: params);
