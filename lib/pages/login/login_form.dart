@@ -5,6 +5,7 @@ import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -23,6 +24,8 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
   final primaryColor = ColorConstant.primaryColor;
 
   final localStorage = LocalStorage();
+
+  bool _isLoading = false;
 
   String _phone;
   String _password;
@@ -166,22 +169,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  ButtonTheme(
-                    minWidth: ScreenUtil.getInstance().setWidth(420),
-                    padding: EdgeInsets.symmetric(vertical: 11.0),
-                    buttonColor: primaryColor,
-                    shape: StadiumBorder(),
-                    child: RaisedButton(
-                      onPressed: _submitLogin,
-                      textColor: Colors.white,
-                      child: Text(
-                        'LOGIN',
-                        style: TextStyle(
-                          fontSize: ScreenUtil.getInstance().setSp(56),
-                        ),
-                      ),
-                    ),
-                  ),
+                  _loginButton(),
                 ],
               ),
               SizedBox(
@@ -208,6 +196,31 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
     );
   }
 
+  _loginButton() {
+    return Container(
+      child: _isLoading
+          ? SpinKitFoldingCube(
+              color: primaryColor,
+            )
+          : ButtonTheme(
+              minWidth: ScreenUtil.getInstance().setWidth(420),
+              padding: EdgeInsets.symmetric(vertical: 11.0),
+              buttonColor: primaryColor,
+              shape: StadiumBorder(),
+              child: RaisedButton(
+                onPressed: _submitLogin,
+                textColor: Colors.white,
+                child: Text(
+                  'LOGIN',
+                  style: TextStyle(
+                    fontSize: ScreenUtil.getInstance().setSp(56),
+                  ),
+                ),
+              ),
+            ),
+    );
+  }
+
   _submitLogin() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
@@ -215,6 +228,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
 
       setState(() {
         _height = ScreenUtil.getInstance().setHeight(1300);
+        _isLoading = true;
       });
 
       var result = await authRepo.login(
@@ -236,6 +250,10 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
         }
       } else {
         print('Fail!');
+
+        setState(() {
+          _isLoading = false;
+        });
       }
     } else {
       setState(() {

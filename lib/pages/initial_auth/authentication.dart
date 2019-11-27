@@ -1,6 +1,7 @@
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Authentication extends StatefulWidget {
   @override
@@ -27,6 +28,10 @@ class _AuthenticationState extends State<Authentication> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
+    ScreenUtil.instance =
+        ScreenUtil(width: 1440, height: 2960, allowFontScaling: true);
+
     return Scaffold(
       body: Container(),
     );
