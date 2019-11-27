@@ -25,53 +25,58 @@ class AuthRepo {
       localStorage.saveUserId(responseData['userId']);
       localStorage.saveSessionId(responseData['sessionId']);
 
-      var result = await checkDiList(
-        Table1(
-          msg: responseData['message'],
-          userId: responseData['userId'],
-          sessionId: responseData['sessionId'],
-        ),
-      );
+      var result = await checkDiList();
 
       return result;
     } else {
-      throw Exception(responseData['msg']);
+      // throw Exception(responseData['msg']);
+
+      return Result(false, message: responseData['msg']);
     }
   }
 
-  Future<Result> checkDiList(Table1 table1) async {
-    String userId = table1.userId;
+  Future<Result> checkDiList() async {
+    String userId = await localStorage.getUserId();
+    String diCode = await localStorage.getDiCode();
 
     var params =
-        'GetUserRegisteredDI?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&userId=$userId';
+        'GetUserRegisteredDI?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&userId=$userId';
 
     var response = await networking.getData(path: params);
 
     var responseData = response['GetUserRegisteredDIResponse']
         ['GetUserRegisteredDIResult']['ArmasterInfo'];
 
-    if (responseData != null) {
-      // List<Armaster> armasterData = responseData.map((item) => item).toList();
-
-      /* if (responseData.length <= 1) {
-        String diCode = responseData[0]['di_code'];
-
-        localStorage.saveDiCode(diCode);
-        localStorage.saveUserId(userId);
-
-        return Result(true, data: responseData);
-      } else {
-        // user need to choose from available diCode
-        return Result(true, data: responseData);
-      } */
+    // API returns one DI
+    if (responseData != null && responseData['Armaster'].length == 1) {
+      localStorage.saveUsername(responseData['Armaster']['name'].toString());
+      localStorage.saveUserPhone(responseData['Armaster']
+              ['phone_country_code'] +
+          responseData['Armaster']['phone'].toString());
+      localStorage.saveEmail(responseData['Armaster']['e_mail'].toString());
 
       return Result(true, data: responseData['Armaster']);
-    } else {
+    }
+    // API returns more than one DI
+    else if (responseData != null && responseData['Armaster'].length > 1) {
+      localStorage.saveUsername(responseData['Armaster'][0]['name'].toString());
+      localStorage.saveUserPhone(responseData['Armaster'][0]
+              ['phone_country_code'] +
+          responseData['Armaster'][0]['phone'].toString());
+      localStorage.saveEmail(responseData['Armaster'][0]['e_mail'].toString());
+
+      return Result(true, data: responseData['Armaster']);
+    }
+    // API returns null
+    else if (responseData == null) {
       String diCode = 'TBS';
       localStorage.saveDiCode(diCode);
 
-      // navigate to main page
       return Result(true, data: 'empty');
+    } else {
+      return Result(false,
+          message:
+              'Oops! An unexpected error occurred. Please try again later.');
     }
   }
 

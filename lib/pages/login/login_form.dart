@@ -29,6 +29,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
 
   String _phone;
   String _password;
+  String _loginMessage = '';
   bool _obscureText = true;
 
   var _height = ScreenUtil.getInstance().setHeight(1300);
@@ -169,6 +170,12 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  _loginMessage.isNotEmpty
+                      ? Text(
+                          _loginMessage,
+                          style: TextStyle(color: Colors.red),
+                        )
+                      : SizedBox.shrink(),
                   _loginButton(),
                 ],
               ),
@@ -229,6 +236,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
       setState(() {
         _height = ScreenUtil.getInstance().setHeight(1300);
         _isLoading = true;
+        _loginMessage = '';
       });
 
       var result = await authRepo.login(
@@ -242,17 +250,17 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
           Navigator.pushReplacementNamed(context, HOME);
         } else if (result.data.length > 1) {
           // Navigate to DI selection page
+          // Temporary navigate to home
+          Navigator.pushReplacementNamed(context, HOME);
         } else {
-          print(result.data[0]['di_code']);
-          localStorage.saveDiCode(result.data[0]['di_code']);
+          localStorage.saveDiCode(result.data['di_code']);
 
           Navigator.pushReplacementNamed(context, HOME);
         }
       } else {
-        print('Fail!');
-
         setState(() {
           _isLoading = false;
+          _loginMessage = result.message;
         });
       }
     } else {

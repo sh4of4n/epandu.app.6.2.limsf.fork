@@ -5,9 +5,8 @@ import 'package:epandu/utils/drawer.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'icon_tile.dart';
+import 'home_menu_tiles.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -18,27 +17,44 @@ class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   final authRepo = AuthRepo();
-  final profileRepo = ProfileRepo();
   final localStorage = LocalStorage();
   final primaryColor = ColorConstant.primaryColor;
-  var profileData;
+  String _username = '';
 
   @override
   void initState() {
     super.initState();
 
-    _getStudentProfile();
+    getStudentInfo();
   }
 
-  _getStudentProfile() async {
-    profileData = await profileRepo.getStudentProfile();
+  getStudentInfo() async {
+    String _name = await localStorage.getUsername();
+    String _firstName;
+
+    if (_name.isEmpty) {
+      await authRepo.checkDiList();
+
+      _name = await localStorage.getUsername();
+      _firstName = _name.split(' ')[0];
+
+      setState(() {
+        _username = _firstName;
+      });
+    } else {
+      _firstName = _name.split(' ')[0];
+
+      setState(() {
+        _username = _firstName;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      // backgroundColor: primaryColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -49,51 +65,41 @@ class _HomeState extends State<Home> {
       ),
       drawer: DrawerMenu(),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                IconTile(
-                  title: 'Kecemasan',
-                  tileColor: Colors.amber,
+            padding: EdgeInsets.symmetric(
+              horizontal: 15.0,
+              vertical: 10.0,
+            ),
+            child: RichText(
+              text: TextSpan(
+                text: 'Hello, ',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 24,
                 ),
-                IconTile(
-                  title: 'KPP',
-                  tileColor: Colors.blue.shade600,
-                ),
-              ],
+                children: <TextSpan>[
+                  TextSpan(
+                    text: '\n$_username',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                IconTile(
-                  title: 'Payment',
-                  tileColor: Colors.deepPurple,
-                ),
-                IconTile(
-                  title: 'Invite Friends',
-                  tileColor: Colors.orange.shade400,
-                ),
-              ],
-            ),
+          HomeMenuTiles(),
+          RaisedButton(
+            child: Text('Sign out'),
+            onPressed: _logout,
           ),
         ],
       ),
     );
   }
-
-  /* RaisedButton(
-          child: Text('Sign out'),
-          onPressed: _logout,
-        ), */
 
   _logout() async {
     await authRepo.logout();

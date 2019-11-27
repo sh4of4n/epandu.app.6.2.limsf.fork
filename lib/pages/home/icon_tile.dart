@@ -3,9 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IconTile extends StatelessWidget {
   final title;
-  final tileColor;
+  final tileFirstColor;
+  final tileSecondColor;
 
-  IconTile({this.title, this.tileColor});
+  IconTile({
+    this.title,
+    this.tileFirstColor,
+    this.tileSecondColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +20,13 @@ class IconTile extends StatelessWidget {
         height: ScreenUtil.getInstance().setHeight(400),
         width: ScreenUtil.getInstance().setWidth(650),
         decoration: BoxDecoration(
-          color: tileColor,
+          gradient: LinearGradient(
+            colors: [
+              tileFirstColor,
+              tileSecondColor,
+            ],
+            stops: [0.5, 1],
+          ),
           borderRadius: BorderRadius.circular(25.0),
         ),
         child: Column(
