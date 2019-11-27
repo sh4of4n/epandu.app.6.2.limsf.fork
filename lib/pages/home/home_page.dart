@@ -7,6 +7,8 @@ import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'icon_tile.dart';
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -53,41 +55,15 @@ class _HomeState extends State<Home> {
             padding:
                 const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    height: ScreenUtil.getInstance().setHeight(200),
-                    width: ScreenUtil.getInstance().setWidth(600),
-                    decoration: BoxDecoration(
-                      color: Colors.purpleAccent.shade700,
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Kecemasan',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
+                IconTile(
+                  title: 'Kecemasan',
+                  tileColor: Colors.amber,
                 ),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    height: ScreenUtil.getInstance().setHeight(200),
-                    width: ScreenUtil.getInstance().setWidth(600),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade700,
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'KPP',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
+                IconTile(
+                  title: 'KPP',
+                  tileColor: Colors.blue.shade600,
                 ),
               ],
             ),
@@ -96,54 +72,15 @@ class _HomeState extends State<Home> {
             padding:
                 const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    height: ScreenUtil.getInstance().setHeight(200),
-                    width: ScreenUtil.getInstance().setWidth(600),
-                    decoration: BoxDecoration(
-                      color: Colors.yellow.shade700,
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Payment Selection',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
+                IconTile(
+                  title: 'Payment',
+                  tileColor: Colors.deepPurple,
                 ),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    height: ScreenUtil.getInstance().setHeight(400),
-                    width: ScreenUtil.getInstance().setWidth(600),
-                    decoration: BoxDecoration(
-                      color: Colors.orange.shade700,
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(left: 20.0, bottom: 15.0),
-                          child: Text(
-                            'Invite Friends',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                IconTile(
+                  title: 'Invite Friends',
+                  tileColor: Colors.orange.shade400,
                 ),
               ],
             ),
