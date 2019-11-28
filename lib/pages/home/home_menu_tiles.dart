@@ -1,8 +1,11 @@
+import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'icon_tile.dart';
 
 class HomeMenuTiles extends StatelessWidget {
+  final image = ImagesConstant();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -14,13 +17,16 @@ class HomeMenuTiles extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               IconTile(
-                  title: 'Kecemasan',
-                  tileFirstColor: Colors.amber,
-                  tileSecondColor: Colors.amber.shade200),
+                tileImage: image.iconEmergency,
+                title: 'Kecemasan',
+                tileFirstColor: Colors.teal,
+                tileSecondColor: Colors.cyan,
+              ),
               IconTile(
+                tileImage: image.iconCampus,
                 title: 'KPP',
-                tileFirstColor: Colors.blue.shade600,
-                tileSecondColor: Colors.blue.shade300,
+                tileFirstColor: Colors.blue.shade900,
+                tileSecondColor: Colors.lightBlue,
               ),
             ],
           ),
@@ -34,14 +40,16 @@ class HomeMenuTiles extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               IconTile(
+                tileImage: image.iconProgramme,
                 title: 'Payment',
                 tileFirstColor: Colors.deepPurple,
-                tileSecondColor: Colors.deepPurple.shade300,
+                tileSecondColor: Colors.indigoAccent,
               ),
               IconTile(
+                tileImage: image.iconProfile,
                 title: 'Invite Friends',
-                tileFirstColor: Colors.orange.shade400,
-                tileSecondColor: Colors.orange.shade200,
+                tileFirstColor: Colors.red,
+                tileSecondColor: Colors.orange,
               ),
             ],
           ),

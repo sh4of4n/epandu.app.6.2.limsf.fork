@@ -41,7 +41,7 @@ class LoginRequest {
 }
 
 // LoginResponse
-class LoginResponse {
+/* class LoginResponse {
   Table1 table1;
 
   LoginResponse({this.table1});
@@ -80,7 +80,7 @@ class Table1 {
     data['msg'] = this.msg;
     return data;
   }
-}
+} */
 // End LoginResponse
 
 class UserRegisteredDiRequest {
@@ -113,7 +113,7 @@ class UserRegisteredDiRequest {
 }
 
 // UserRegisteredDiResponse
-class UserRegisteredDiResponse {
+/* class UserRegisteredDiResponse {
   List<Armaster> armaster;
 
   UserRegisteredDiResponse({this.armaster});
@@ -551,7 +551,7 @@ class Armaster {
     data['di_name'] = this.diName;
     return data;
   }
-}
+} */
 
 // End UserRegisteredDiResponse
 

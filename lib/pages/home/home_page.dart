@@ -1,5 +1,5 @@
+import 'package:epandu/pages/home/feeds.dart';
 import 'package:epandu/services/repo/auth_repo.dart';
-import 'package:epandu/services/repo/profile_repo.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/drawer.dart';
 import 'package:epandu/utils/local_storage.dart';
@@ -52,52 +52,61 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () => _scaffoldKey.currentState.openDrawer(),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: RadialGradient(
+          colors: [Colors.amber.shade300, primaryColor],
+          radius: 0.8,
         ),
       ),
-      drawer: DrawerMenu(),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 15.0,
-              vertical: 10.0,
-            ),
-            child: RichText(
-              text: TextSpan(
-                text: 'Hello, ',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 26,
-                  fontWeight: FontWeight.w500,
-                ),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: '\n$_username',
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.w800,
-                    ),
+      child: Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.menu),
+            onPressed: () => _scaffoldKey.currentState.openDrawer(),
+          ),
+        ),
+        drawer: DrawerMenu(),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 15.0,
+                vertical: 10.0,
+              ),
+              child: RichText(
+                text: TextSpan(
+                  text: 'Hello, ',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 30,
+                    fontWeight: FontWeight.w400,
                   ),
-                ],
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: '\n$_username',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          HomeMenuTiles(),
-          RaisedButton(
-            child: Text('Sign out'),
-            onPressed: _logout,
-          ),
-        ],
+            HomeMenuTiles(),
+            Feeds(),
+            /* RaisedButton(
+              child: Text('Sign out'),
+              onPressed: _logout,
+            ), */
+          ],
+        ),
       ),
     );
   }

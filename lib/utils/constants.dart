@@ -11,12 +11,19 @@ class ColorConstant {
 
 class ImagesConstant {
   String logo = 'images/ePandu-logo.png';
+  String iconAbout = 'images/icon-about.png';
+  String iconCampus = 'images/icon-campus.png';
+  String iconEmergency = 'images/icon-emergency.png';
+  String iconProfile = 'images/icon-profile.png';
+  String iconProgramme = 'images/icon-programme.png';
+  String feedSample = 'images/feed-sample.jpg';
+  String feedSample2 = 'images/feed-sample.png';
   // String avatar = 'images/avatar.jpg';
   // String loginBackground = 'assets/images/login_background.jpg';
 }
 
-class Common {
-  /* Future<String> getDeviceIdentifier(BuildContext context) async {
+/* class Common {
+  Future<String> getDeviceIdentifier(BuildContext context) async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
@@ -25,10 +32,10 @@ class Common {
       AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
       return androidDeviceInfo.androidId; // unique ID on Android
     }
-  } */
+  }
 
   static void printWrapped(String text) {
     final pattern = new RegExp('.{1,800}'); // 800 is the size of each chunk
     pattern.allMatches(text).forEach((match) => print(match.group(0)));
   }
-}
+} */
