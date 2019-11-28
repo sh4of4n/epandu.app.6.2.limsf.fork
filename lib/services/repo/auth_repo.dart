@@ -48,7 +48,7 @@ class AuthRepo {
         ['GetUserRegisteredDIResult']['ArmasterInfo'];
 
     // API returns one DI
-    if (responseData != null && responseData['Armaster'].length == 1) {
+    if (responseData != null && responseData['Armaster'][0] == null) {
       localStorage.saveUsername(responseData['Armaster']['name'].toString());
       localStorage.saveUserPhone(responseData['Armaster']
               ['phone_country_code'] +
@@ -58,7 +58,7 @@ class AuthRepo {
       return Result(true, data: responseData['Armaster']);
     }
     // API returns more than one DI
-    else if (responseData != null && responseData['Armaster'].length > 1) {
+    else if (responseData != null && responseData['Armaster'][0] != null) {
       localStorage.saveUsername(responseData['Armaster'][0]['name'].toString());
       localStorage.saveUserPhone(responseData['Armaster'][0]
               ['phone_country_code'] +

@@ -77,14 +77,15 @@ class _HomeState extends State<Home> {
                 text: 'Hello, ',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 24,
+                  fontSize: 26,
+                  fontWeight: FontWeight.w500,
                 ),
                 children: <TextSpan>[
                   TextSpan(
                     text: '\n$_username',
                     style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 26,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                 ],

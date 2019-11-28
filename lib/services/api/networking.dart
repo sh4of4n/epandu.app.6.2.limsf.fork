@@ -55,7 +55,12 @@ class Networking {
         await http.post('$url/${path.isNotEmpty ? path : ""}', body: body);
 
     if (response.statusCode == 200) {
-      xml2json.parse(response.body);
+      var convertResponse = response.body
+          .replaceAll('&lt;', '<')
+          .replaceAll('&gt;', '>')
+          .replaceAll('&#xD;', '');
+
+      xml2json.parse(convertResponse);
       var jsonData = xml2json.toParker();
       var data = jsonDecode(jsonData);
 
