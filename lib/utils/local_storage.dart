@@ -7,6 +7,13 @@ class LocalStorage {
   static const String kEmail = 'EMAIL';
   static const String kDiCode = 'DI_CODE';
   static const String kSessionId = 'SESSION_ID';
+  static const String kNationality = 'NATIONALITY';
+  static const String kGender = 'GENDER';
+  static const String kAddress = 'ADDRESS';
+  static const String kStudentIc = 'STUDENT_IC';
+  static const String kState = 'STATE';
+  static const String kCountry = 'COUNTRY';
+  static const String kPostCode = 'POST_CODE';
 
   Future<void> saveUserId(String userId) {
     return Preference.setString(kUserId, userId);
@@ -54,6 +61,62 @@ class LocalStorage {
 
   Future<String> getSessionId() async {
     return Preference.getString(kSessionId, def: '');
+  }
+
+  Future<void> saveNationality(String nationality) async {
+    return Preference.setString(kNationality, nationality);
+  }
+
+  Future<String> getNationality() async {
+    return Preference.getString(kNationality, def: '');
+  }
+
+  Future<void> saveGender(String gender) async {
+    return Preference.setString(kGender, gender);
+  }
+
+  Future<String> getGender() async {
+    return Preference.getString(kGender, def: '');
+  }
+
+  Future<void> saveStudentIc(String icNo) async {
+    return Preference.setString(kStudentIc, icNo);
+  }
+
+  Future<String> getStudentIc() async {
+    return Preference.getString(kStudentIc, def: '');
+  }
+
+  Future<void> saveAddress(String address) async {
+    return Preference.setString(kAddress, address);
+  }
+
+  Future<String> getAddress() async {
+    return Preference.getString(kAddress, def: '');
+  }
+
+  Future<void> saveCountry(String country) async {
+    return Preference.setString(kCountry, country);
+  }
+
+  Future<String> getCountry() async {
+    return Preference.getString(kCountry, def: '');
+  }
+
+  Future<void> saveState(String state) async {
+    return Preference.setString(kState, state);
+  }
+
+  Future<String> getState() async {
+    return Preference.getString(kState, def: '');
+  }
+
+  Future<void> savePostCode(String postCode) async {
+    return Preference.setString(kPostCode, postCode);
+  }
+
+  Future<String> getPostCode() async {
+    return Preference.getString(kPostCode, def: '');
   }
 
   Future<void> reset() async {

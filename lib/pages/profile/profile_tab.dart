@@ -47,48 +47,49 @@ class _ProfileTabState extends State<ProfileTab> {
             PaymentHistory(),
             AttendanceRecord(),
           ]),
-          bottomNavigationBar: Material(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(25.0),
-                  topRight: Radius.circular(25.0)),
+          bottomNavigationBar: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black54,
+                  offset: Offset(0, 10.0),
+                  blurRadius: 15.0,
+                  spreadRadius: 5.0,
+                ),
+              ],
             ),
-            /* borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(25.0),
-                topRight: Radius.circular(25.0)), */
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 15.0),
-              child: TabBar(
-                indicatorColor: Colors.transparent,
-                labelColor: primaryColor,
-                unselectedLabelColor: Colors.grey.shade700,
-                tabs: [
-                  Tab(
-                    icon: new Icon(
-                      Icons.account_circle,
-                      size: 28.0,
-                    ),
+            padding: const EdgeInsets.only(top: 8.0, bottom: 15.0),
+            child: TabBar(
+              indicatorColor: Colors.transparent,
+              labelColor: primaryColor,
+              unselectedLabelColor: Colors.grey.shade700,
+              tabs: [
+                Tab(
+                  icon: new Icon(
+                    Icons.account_circle,
+                    size: 28.0,
                   ),
-                  Tab(
-                    icon: new Icon(
-                      Icons.library_books,
-                      size: 28.0,
-                    ),
+                ),
+                Tab(
+                  icon: new Icon(
+                    Icons.library_books,
+                    size: 28.0,
                   ),
-                  Tab(
-                    icon: new Icon(
-                      Icons.account_balance_wallet,
-                      size: 28.0,
-                    ),
+                ),
+                Tab(
+                  icon: new Icon(
+                    Icons.account_balance_wallet,
+                    size: 28.0,
                   ),
-                  Tab(
-                    icon: new Icon(
-                      Icons.check_circle,
-                      size: 28.0,
-                    ),
+                ),
+                Tab(
+                  icon: new Icon(
+                    Icons.check_circle,
+                    size: 28.0,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

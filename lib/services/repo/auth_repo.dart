@@ -54,6 +54,15 @@ class AuthRepo {
               ['phone_country_code'] +
           responseData['Armaster']['phone'].toString());
       localStorage.saveEmail(responseData['Armaster']['e_mail'].toString());
+      localStorage
+          .saveNationality(responseData['Armaster']['nationality'].toString());
+      localStorage.saveGender(responseData['Armaster']['gender'].toString());
+      localStorage.saveStudentIc(responseData['Armaster']['ic_no'].toString());
+      localStorage.saveAddress(responseData['Armaster']['add'].toString());
+      localStorage.saveCountry(responseData['Armaster']['country'].toString());
+      localStorage.saveState(responseData['Armaster']['state'].toString());
+      localStorage
+          .savePostCode(responseData['Armaster']['postcode'].toString());
 
       return Result(true, data: responseData['Armaster']);
     }
@@ -64,6 +73,17 @@ class AuthRepo {
               ['phone_country_code'] +
           responseData['Armaster'][0]['phone'].toString());
       localStorage.saveEmail(responseData['Armaster'][0]['e_mail'].toString());
+      localStorage.saveNationality(
+          responseData['Armaster'][0]['nationality'].toString());
+      localStorage.saveGender(responseData['Armaster'][0]['gender'].toString());
+      localStorage
+          .saveStudentIc(responseData['Armaster'][0]['ic_no'].toString());
+      localStorage.saveAddress(responseData['Armaster'][0]['add'].toString());
+      localStorage
+          .saveCountry(responseData['Armaster'][0]['country'].toString());
+      localStorage.saveState(responseData['Armaster'][0]['state'].toString());
+      localStorage
+          .savePostCode(responseData['Armaster'][0]['postcode'].toString());
 
       return Result(true, data: responseData['Armaster']);
     }
