@@ -69,6 +69,14 @@ class _HomeState extends State<Home> {
             icon: Icon(Icons.menu),
             onPressed: () => _scaffoldKey.currentState.openDrawer(),
           ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.account_circle, size: 30),
+              onPressed: () {
+                Navigator.pushNamed(context, PROFILE);
+              },
+            ),
+          ],
         ),
         drawer: DrawerMenu(),
         body: Column(

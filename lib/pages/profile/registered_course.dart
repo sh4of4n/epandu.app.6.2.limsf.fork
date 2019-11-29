@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class PaymentHistory extends StatelessWidget {
+class RegisteredCourse extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Payment'),
+      child: Text('Classes'),
     );
   }
 }

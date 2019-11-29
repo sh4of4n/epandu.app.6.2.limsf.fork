@@ -1,5 +1,6 @@
 import 'package:epandu/pages/initial_auth/authentication.dart';
 import 'package:epandu/pages/login/login.dart';
+import 'package:epandu/pages/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:epandu/pages/home/home.dart';
 import 'package:epandu/utils/route_path.dart';
@@ -23,6 +24,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           settings: RouteSettings(name: HOME),
           builder: (_) => Home(),
+        );
+      case PROFILE:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: PROFILE),
+          builder: (_) => ProfileTab(),
         );
       default:
         return _errorRoute();
