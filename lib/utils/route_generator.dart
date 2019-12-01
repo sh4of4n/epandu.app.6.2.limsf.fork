@@ -1,4 +1,7 @@
 import 'package:epandu/pages/initial_auth/authentication.dart';
+import 'package:epandu/pages/invite/invite.dart';
+import 'package:epandu/pages/kpp/kpp_category.dart';
+import 'package:epandu/pages/kpp/kpp_module.dart';
 import 'package:epandu/pages/login/login.dart';
 import 'package:epandu/pages/profile/profile.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +32,21 @@ class RouteGenerator {
         return MaterialPageRoute(
           settings: RouteSettings(name: PROFILE),
           builder: (_) => ProfileTab(),
+        );
+      case INVITE:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: PROFILE),
+          builder: (_) => Invite(),
+        );
+      case KPP:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: PROFILE),
+          builder: (_) => KppCategory(),
+        );
+      case MODULE:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: PROFILE),
+          builder: (_) => KppModule(),
         );
       default:
         return _errorRoute();

@@ -1,3 +1,5 @@
+import 'package:epandu/services/repo/auth_repo.dart';
+import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 
 class DrawerMenu extends StatefulWidget {
@@ -8,6 +10,8 @@ class DrawerMenu extends StatefulWidget {
 enum AppState { free, picked, cropped }
 
 class _DrawerMenuState extends State<DrawerMenu> {
+  final authRepo = AuthRepo();
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -42,8 +46,17 @@ class _DrawerMenuState extends State<DrawerMenu> {
               Navigator.pop(context);
             },
           ),
+          ListTile(
+            title: Text('Log out'),
+            onTap: _logout,
+          )
         ],
       ),
     );
+  }
+
+  _logout() async {
+    Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
+    await authRepo.logout();
   }
 }

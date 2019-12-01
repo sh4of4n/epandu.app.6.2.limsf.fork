@@ -14,6 +14,7 @@ class LocalStorage {
   static const String kState = 'STATE';
   static const String kCountry = 'COUNTRY';
   static const String kPostCode = 'POST_CODE';
+  static const String kInstituteLogo = 'INSTITUTE_LOGO';
 
   Future<void> saveUserId(String userId) {
     return Preference.setString(kUserId, userId);
@@ -117,6 +118,14 @@ class LocalStorage {
 
   Future<String> getPostCode() async {
     return Preference.getString(kPostCode, def: '');
+  }
+
+  Future<void> saveInstituteLogo(String instituteLogo) async {
+    return Preference.setString(kInstituteLogo, instituteLogo);
+  }
+
+  Future<String> getInstituteLogo() async {
+    return Preference.getString(kInstituteLogo, def: '');
   }
 
   Future<void> reset() async {

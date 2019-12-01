@@ -32,7 +32,7 @@ class Feeds extends StatelessWidget {
             physics: ClampingScrollPhysics(),
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
-            itemCount: 6,
+            itemCount: 2,
             itemBuilder: (BuildContext context, index) {
               return InkWell(
                 onTap: () {},

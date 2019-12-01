@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IconTile extends StatelessWidget {
+  final component;
   final title;
   final tileFirstColor;
   final tileSecondColor;
   final tileImage;
 
   IconTile({
+    this.component,
     this.title,
     this.tileFirstColor,
     this.tileSecondColor,
@@ -17,7 +19,11 @@ class IconTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        component != null
+            ? Navigator.pushNamed(context, component)
+            : SizedBox.shrink();
+      },
       child: Container(
         height: ScreenUtil.getInstance().setHeight(400),
         width: ScreenUtil.getInstance().setWidth(650),
@@ -36,7 +42,7 @@ class IconTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Opacity(
-              opacity: 0.8,
+              opacity: 0.9,
               child: Container(
                 alignment: Alignment(0.8, 0.0),
                 padding: EdgeInsets.only(bottom: 7.0),

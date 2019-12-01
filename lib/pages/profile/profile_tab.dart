@@ -32,7 +32,8 @@ class _ProfileTabState extends State<ProfileTab> {
         decoration: BoxDecoration(
           gradient: RadialGradient(
             colors: [Colors.amber.shade300, primaryColor],
-            radius: 0.8,
+            stops: [0.5, 1],
+            radius: 0.9,
           ),
         ),
         child: Scaffold(

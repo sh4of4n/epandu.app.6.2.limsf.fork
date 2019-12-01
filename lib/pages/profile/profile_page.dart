@@ -119,9 +119,9 @@ class _ProfileState extends State<Profile> {
                   ? Text('$_name', style: _titleStyle)
                   : SizedBox.shrink(),
               SizedBox(height: 5.0),
-              _nationality != 'null' && _gender != 'null'
+              _state != 'null' && _country != 'null'
                   ? Text(
-                      '${_nationality != "null" ? _nationality : ""}${_gender != "null" ? ", $_gender" : ""}',
+                      '${_state != "null" ? _state : ""}${_country != "null" ? ", $_country" : ""}',
                       style: _subtitleStyle)
                   : SizedBox.shrink(),
               SizedBox(height: 5.0),
@@ -133,7 +133,22 @@ class _ProfileState extends State<Profile> {
                   ? Text('$_email', style: _subtitleStyle)
                   : SizedBox.shrink(),
               SizedBox(height: 5.0),
-              // TODO: IcNo, Add, Country, state, postCode
+              _studentIc != 'null'
+                  ? Text('$_studentIc', style: _subtitleStyle)
+                  : SizedBox.shrink(),
+              SizedBox(height: 5.0),
+              _address != 'null'
+                  ? Text('$_address', style: _subtitleStyle)
+                  : SizedBox.shrink(),
+              _postCode != 'null'
+                  ? Text('$_postCode', style: _subtitleStyle)
+                  : SizedBox.shrink(),
+              _nationality != 'null'
+                  ? Text('$_nationality', style: _subtitleStyle)
+                  : SizedBox.shrink(),
+              /* _gender != 'null'
+                  ? Text('$_gender', style: _subtitleStyle)
+                  : SizedBox.shrink(), */
             ],
           ),
         ),

@@ -1,0 +1,241 @@
+import 'package:epandu/base/page_base_class.dart';
+import 'package:epandu/utils/constants.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+class Invite extends StatefulWidget with PageBaseClass {
+  @override
+  _InviteState createState() => _InviteState();
+}
+
+class _InviteState extends State<Invite> with PageBaseClass {
+  final _formKey = GlobalKey<FormState>();
+
+  final FocusNode _phoneFocus = FocusNode();
+
+  final FocusNode _nameFocus = FocusNode();
+
+  bool _isLoading = false;
+
+  final primaryColor = ColorConstant.primaryColor;
+
+  final image = ImagesConstant();
+
+  String _phone = '';
+  String _name = '';
+  String _inviteMessage = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        backgroundColor: Colors.amberAccent,
+        appBar: AppBar(
+          title: Text('Invite your friends'),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        body: Stack(
+          children: <Widget>[
+            Positioned(
+              top: 0.0,
+              child: Opacity(
+                opacity: 0.9,
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(image.friend),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  width: MediaQuery.of(context).size.width,
+                  height: ScreenUtil.getInstance().setHeight(800),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 0.0,
+              child: Container(
+                height: ScreenUtil.getInstance().setHeight(2000),
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Color(0xfff6f4fc),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30.0),
+                    topRight: Radius.circular(30.0),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 20.0, horizontal: 25.0),
+                  child: Text(
+                    'Having fun? Getting better? Invite your friends too! You don\'t have to be the only one. After all, the more the merrier!',
+                    style: TextStyle(letterSpacing: 0.6),
+                    maxLines: 3,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 0.0,
+              child: Container(
+                height: ScreenUtil.getInstance().setHeight(1600),
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30.0),
+                    topRight: Radius.circular(30.0),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 20.0, horizontal: 25.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(
+                          height: ScreenUtil.getInstance().setHeight(35),
+                        ),
+                        TextFormField(
+                          focusNode: _phoneFocus,
+                          keyboardType: TextInputType.phone,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: 16.0),
+                            hintStyle: TextStyle(
+                              color: primaryColor,
+                            ),
+                            labelText: 'Phone',
+                            fillColor: Colors.grey.withOpacity(.25),
+                            filled: true,
+                            prefixIcon: Icon(Icons.account_circle),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          onFieldSubmitted: (term) {
+                            fieldFocusChange(context, _phoneFocus, _nameFocus);
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Phone is required.';
+                            }
+                          },
+                          onSaved: (value) {
+                            if (value != _phone) {
+                              _phone = value;
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: ScreenUtil.getInstance().setHeight(70),
+                        ),
+                        TextFormField(
+                          focusNode: _nameFocus,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: 16.0),
+                            hintStyle: TextStyle(
+                              color: primaryColor,
+                            ),
+                            labelText: 'Name',
+                            fillColor: Colors.grey.withOpacity(.25),
+                            filled: true,
+                            prefixIcon: Icon(Icons.account_circle),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Name is required.';
+                            }
+                          },
+                          onSaved: (value) {
+                            if (value != _name) {
+                              _name = value;
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: ScreenUtil.getInstance().setHeight(40),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            _inviteMessage.isNotEmpty
+                                ? Text(
+                                    _inviteMessage,
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                : SizedBox.shrink(),
+                            _inviteButton(),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _inviteButton() {
+    return Container(
+      child: _isLoading
+          ? SpinKitFoldingCube(
+              color: primaryColor,
+            )
+          : ButtonTheme(
+              padding: EdgeInsets.all(0.0),
+              shape: StadiumBorder(),
+              child: RaisedButton(
+                onPressed: _submit,
+                textColor: Colors.white,
+                padding: const EdgeInsets.all(0.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(18.0),
+                    gradient: LinearGradient(
+                      colors: [Colors.amber, Colors.red],
+                    ),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30.0,
+                    vertical: 10.0,
+                  ),
+                  child: Text(
+                    'INVITE',
+                    style: TextStyle(
+                      fontSize: ScreenUtil.getInstance().setSp(56),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+    );
+  }
+
+  _submit() {}
+}

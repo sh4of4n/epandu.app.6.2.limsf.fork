@@ -54,9 +54,16 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        gradient: RadialGradient(
-          colors: [Colors.amber.shade300, primaryColor],
-          radius: 0.8,
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.cyan.shade100,
+            // Color(0xffbac1ff),
+            // Colors.tealAccent.shade100,
+            Colors.lightBlueAccent
+          ],
+          // stops: [0.1, 0.3, 1],
         ),
       ),
       child: Scaffold(

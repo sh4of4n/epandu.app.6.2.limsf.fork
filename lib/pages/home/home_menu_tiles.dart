@@ -1,5 +1,6 @@
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:epandu/utils/route_path.dart';
 
 import 'icon_tile.dart';
 
@@ -23,6 +24,7 @@ class HomeMenuTiles extends StatelessWidget {
                 tileSecondColor: Colors.cyan,
               ),
               IconTile(
+                component: KPP,
                 tileImage: image.iconCampus,
                 title: 'KPP',
                 tileFirstColor: Colors.blue.shade900,
@@ -46,6 +48,7 @@ class HomeMenuTiles extends StatelessWidget {
                 tileSecondColor: Colors.indigoAccent,
               ),
               IconTile(
+                component: INVITE,
                 tileImage: image.iconProfile,
                 title: 'Invite Friends',
                 tileFirstColor: Colors.red,
