@@ -19,7 +19,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
   var snapshotData;
   int totalQuestion;
   String question;
-  Image questionImage;
+  Uint8List questionImage;
 
   List<dynamic> questionOption = [];
   List<dynamic> answer = [];
@@ -30,14 +30,14 @@ class _ExamTemplateState extends State<ExamTemplate> {
   void initState() {
     super.initState();
 
-    snapshotData = widget.snapshot.data[widget.index]['TheoryQuestion'];
+    snapshotData = widget.snapshot.data[widget.index];
 
     setState(() {
       totalQuestion = widget.snapshot.data.length;
       question = snapshotData['question'];
 
       if (snapshotData['question_photo'] != null)
-        questionImage = snapshotData['question_photo'];
+        questionImage = base64Decode(snapshotData['question_photo']);
 
       for (var i = 0; i <= 4; i++) {
         String roman;
@@ -87,7 +87,20 @@ class _ExamTemplateState extends State<ExamTemplate> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: <Widget>[],
+      children: <Widget>[
+        Text(question),
+        // _getQuestionOptions(),
+      ],
     );
+  }
+
+  _getQuestionOptions() {
+    return questionOption.map((item) {
+      /* if (item is String) {
+        return Text(item);
+      }
+      return Image.memory(item); */
+      return item;
+    });
   }
 }
