@@ -3,9 +3,8 @@ import 'package:epandu/services/repo/kpp_repo.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'dart:math' as math;
+import 'package:random_color/random_color.dart';
 
 import 'kpp_module_icon.dart';
 
@@ -21,6 +20,9 @@ class KppModule extends StatefulWidget {
 class _KppModuleState extends State<KppModule> {
   final kppRepo = KppRepo();
   final primaryColor = ColorConstant.primaryColor;
+  RandomColor _randomColor = RandomColor();
+
+  final List<Color> _iconColors = [];
 
   _getExamNo() async {
     String groupId = widget.data;
@@ -28,7 +30,22 @@ class _KppModuleState extends State<KppModule> {
     var result = await kppRepo.getExamNo(groupId);
 
     if (result.isSuccess) {
+      _getRandomColors(result.data['PaperNo']);
+
       return result.data['PaperNo'];
+    }
+  }
+
+  _getRandomColors(result) {
+    for (var i = 0; i < result.length; i++) {
+      _iconColors.add(
+        _randomColor.randomColor(
+          // colorHue: ColorHue.multiple(
+          //     colorHues: [ColorHue.green, ColorHue.blue]),
+          colorBrightness: ColorBrightness.light,
+          colorSaturation: ColorSaturation.highSaturation,
+        ),
+      );
     }
   }
 
@@ -63,6 +80,7 @@ class _KppModuleState extends State<KppModule> {
                                 groupId: widget.data,
                                 paperNo: snapshot.data[index]["paper_no"],
                               ),
+                              iconColor: _iconColors[index],
                               snapshot: snapshot,
                               index: index,
                               icon: snapshot.data[index]["paper_no"]

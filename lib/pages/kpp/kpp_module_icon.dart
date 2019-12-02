@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:random_color/random_color.dart';
 
-RandomColor _randomColor = RandomColor();
-
 class KppModuleIcon extends StatelessWidget {
   final snapshot;
   final index;
   final icon;
   final component;
   final argument;
+  final iconColor;
 
   KppModuleIcon({
     this.snapshot,
@@ -18,6 +17,7 @@ class KppModuleIcon extends StatelessWidget {
     this.icon,
     this.component,
     this.argument,
+    this.iconColor,
   });
 
   @override
@@ -49,12 +49,7 @@ class KppModuleIcon extends StatelessWidget {
               height: ScreenUtil().setHeight(430),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100.0),
-                color: _randomColor.randomColor(
-                  // colorHue: ColorHue.multiple(
-                  //     colorHues: [ColorHue.green, ColorHue.blue]),
-                  colorBrightness: ColorBrightness.light,
-                  colorSaturation: ColorSaturation.highSaturation,
-                ),
+                color: iconColor,
               ),
               child: Center(
                 child: icon,
