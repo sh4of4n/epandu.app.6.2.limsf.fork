@@ -6,3 +6,4 @@ const String PROFILE = '/profile';
 const String INVITE = '/invite';
 const String KPP = '/kpp';
 const String MODULE = '/kpp_module';
+const String KPP_QUESTIONS = '/kpp_questions';

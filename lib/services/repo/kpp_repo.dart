@@ -39,15 +39,31 @@ class KppRepo {
         'GetTheoryQuestionPaperNo?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&groupId=$groupId&courseCode=$courseCode&langCode=$langCode';
 
     var response = await networking.getData(path: params);
+
+    var responseData = response['GetTheoryQuestionPaperNoResponse']
+        ['GetTheoryQuestionPaperNoResult']['TheoryQuestionInfo'];
+
+    if (responseData != null) {
+      return Result(true, data: responseData);
+    }
+    return Result(false);
   }
 
-  Future<Result> getExamQuestions(paperNo, groupId) async {
+  Future<Result> getExamQuestions({groupId, paperNo}) async {
     String courseCode = 'KPP1';
     String langCode = 'ms-MY';
 
     String params =
-        'GetTheoryQuestionByPaper?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&groupId=$groupId&courseCode=$courseCode&langCode=$langCode&paperNo=';
+        'GetTheoryQuestionByPaper?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&groupId=$groupId&courseCode=$courseCode&langCode=$langCode&paperNo=$paperNo';
 
     var response = await networking.getData(path: params);
+
+    var responseData = response['GetTheoryQuestionByPaperResponse']
+        ['GetTheoryQuestionByPaperResult']['TheoryQuestionInfo'];
+
+    if (responseData != null) {
+      return Result(true, data: responseData);
+    }
+    return Result(false);
   }
 }

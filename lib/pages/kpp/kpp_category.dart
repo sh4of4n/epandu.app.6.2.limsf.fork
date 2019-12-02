@@ -31,7 +31,7 @@ class _KppCategoryState extends State<KppCategory> {
   _getInstituteLogo() async {
     String instituteLogoBase64 = await localStorage.getInstituteLogo();
 
-    if (instituteLogoBase64 == null) {
+    if (instituteLogoBase64.isEmpty) {
       var result = await kppRepo.getInstituteLogo();
 
       if (result.data != null) {
@@ -61,7 +61,7 @@ class _KppCategoryState extends State<KppCategory> {
       body: Column(
         children: <Widget>[
           instituteLogo != null
-              ? Image.asset(instituteLogo)
+              ? Image.memory(instituteLogo)
               : SizedBox.shrink(),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -70,6 +70,7 @@ class _KppCategoryState extends State<KppCategory> {
               children: <Widget>[
                 KppCategoryIcon(
                   component: MODULE,
+                  argument: 'KPP-D',
                   width: ScreenUtil().setWidth(600),
                   height: ScreenUtil().setHeight(500),
                   borderWidth: 5.0,
@@ -78,6 +79,7 @@ class _KppCategoryState extends State<KppCategory> {
                 ),
                 KppCategoryIcon(
                   component: MODULE,
+                  argument: 'KPP-B',
                   width: ScreenUtil().setWidth(600),
                   height: ScreenUtil().setHeight(500),
                   borderWidth: 5.0,
