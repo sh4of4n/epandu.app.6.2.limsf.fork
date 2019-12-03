@@ -34,6 +34,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
   List<String> type = []; // answer letter
   List<dynamic> answers = [];
 
+  String selectedAnswer;
   String correctAnswer;
 
   TextStyle _questionStyle =
@@ -195,6 +196,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
           ),
           child: Column(
             children: <Widget>[
+              // Timer, No of Questions
               Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 20.0, vertical: 10.0),
@@ -210,6 +212,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   ],
                 ),
               ),
+              // Question
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
@@ -217,14 +220,19 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   style: _questionStyle,
                 ),
               ),
+              // Question Image
               questionImage != null ? _questionImage() : SizedBox.shrink(),
+              // Question options I, II, III, IV, V
               questionOption.length > 0
                   ? QuestionOptions(questionOption: questionOption)
+                  : SizedBox.shrink(),
+              // Answers a, b, c, d, e
+              answers.length > 0
+                  ? Answers(answers: answers, type: type)
                   : SizedBox.shrink(),
             ],
           ),
         ),
-        answers.length > 0 ? Answers(answers: answers) : SizedBox.shrink(),
         _nextButton(),
       ],
     );
