@@ -31,25 +31,36 @@ class _KppQuestionsState extends State<KppQuestions> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
+    return Container(
+      decoration: BoxDecoration(
+        gradient: RadialGradient(
+          colors: [Colors.amber.shade300, primaryColor],
+          stops: [0.5, 1],
+          radius: 0.9,
+        ),
       ),
-      body: FutureBuilder(
-          future: _getExamQuestions(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              return ExamTemplate(
-                snapshot: snapshot,
-                index: index,
-              );
-            }
-            return Center(
-                child: SpinKitFoldingCube(
-              color: primaryColor,
-            ));
-          }),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          title: Text('${widget.data.groupId} ${widget.data.paperNo}'),
+        ),
+        body: FutureBuilder(
+            future: _getExamQuestions(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return ExamTemplate(
+                  snapshot: snapshot,
+                  index: index,
+                );
+              }
+              return Center(
+                  child: SpinKitFoldingCube(
+                color: Colors.lightBlue,
+              ));
+            }),
+      ),
     );
   }
 }

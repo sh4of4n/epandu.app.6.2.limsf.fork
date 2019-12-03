@@ -45,10 +45,11 @@ class KppModuleIcon extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              width: ScreenUtil().setWidth(360),
-              height: ScreenUtil().setHeight(430),
+              width: ScreenUtil().setWidth(400),
+              height: ScreenUtil().setWidth(400),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100.0),
+                borderRadius:
+                    BorderRadius.circular(ScreenUtil().setHeight(300.0)),
                 color: iconColor,
               ),
               child: Center(
