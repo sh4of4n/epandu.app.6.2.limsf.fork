@@ -2,10 +2,22 @@ import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:epandu/utils/route_generator.dart';
 import 'package:epandu/utils/route_path.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:hive/hive.dart';
 
-void main() async => runApp(MyApp());
+void main() async {
+  final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
+  Hive.init(appDocumentDir.path);
 
-class MyApp extends StatelessWidget {
+  runApp(MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,5 +28,11 @@ class MyApp extends StatelessWidget {
       initialRoute: AUTH,
       onGenerateRoute: RouteGenerator.generateRoute,
     );
+  }
+
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
   }
 }

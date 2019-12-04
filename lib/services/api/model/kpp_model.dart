@@ -7,3 +7,13 @@ class KppModuleArguments {
     this.paperNo,
   });
 }
+
+class KppExamData {
+  final String selectedAnswer;
+  final String examTime;
+
+  KppExamData({
+    this.selectedAnswer,
+    this.examTime,
+  });
+}

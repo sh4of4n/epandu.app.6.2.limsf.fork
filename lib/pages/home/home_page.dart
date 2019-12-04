@@ -126,8 +126,8 @@ class _HomeState extends State<Home> {
     );
   }
 
-  _logout() async {
+/*   _logout() async {
     await authRepo.logout();
     Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
-  }
+  } */
 }
