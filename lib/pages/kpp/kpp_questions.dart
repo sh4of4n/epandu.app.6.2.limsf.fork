@@ -41,11 +41,11 @@ class _KppQuestionsState extends State<KppQuestions> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
+        /* appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
           title: Text('${widget.data.groupId} ${widget.data.paperNo}'),
-        ),
+        ), */
         body: FutureBuilder(
             future: _getExamQuestions(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -53,6 +53,8 @@ class _KppQuestionsState extends State<KppQuestions> {
                 return ExamTemplate(
                   snapshot: snapshot,
                   index: index,
+                  groupId: widget.data.groupId,
+                  paperNo: widget.data.paperNo,
                 );
               }
               return Center(

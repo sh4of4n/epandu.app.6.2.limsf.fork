@@ -33,6 +33,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.amberAccent,
         appBar: AppBar(
           title: Text('Invite your friends'),
@@ -42,6 +43,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
         body: Stack(
           children: <Widget>[
             Positioned(
+              height: ScreenUtil().setHeight(800),
               top: 0.0,
               child: Opacity(
                 opacity: 0.9,
@@ -58,6 +60,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
               ),
             ),
             Positioned(
+              height: ScreenUtil().setHeight(2000),
               bottom: 0.0,
               child: Container(
                 height: ScreenUtil.getInstance().setHeight(2000),
@@ -81,6 +84,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
               ),
             ),
             Positioned(
+              height: ScreenUtil().setHeight(1600),
               bottom: 0.0,
               child: Container(
                 height: ScreenUtil.getInstance().setHeight(1600),

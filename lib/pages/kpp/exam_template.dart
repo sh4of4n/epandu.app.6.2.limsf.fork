@@ -2,6 +2,7 @@ import 'package:epandu/pages/kpp/question_options.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,11 +11,10 @@ import 'exam_answers.dart';
 class ExamTemplate extends StatefulWidget {
   final snapshot;
   final index;
+  final groupId;
+  final paperNo;
 
-  ExamTemplate({
-    this.snapshot,
-    this.index,
-  });
+  ExamTemplate({this.snapshot, this.index, this.groupId, this.paperNo});
 
   @override
   _ExamTemplateState createState() => _ExamTemplateState();
@@ -108,7 +108,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
     });
   }
 
-  _nextQuestion() {
+  _clearCurrentQuestion() {
     setState(() {
       questionOption.clear();
       answers.clear();
@@ -143,9 +143,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 setState(() {
                   if (index < snapshotData.length - 1) {
                     index += 1;
-
-                    _nextQuestion();
                   }
+                  _clearCurrentQuestion();
                 });
               },
               textColor: Colors.white,
@@ -175,14 +174,73 @@ class _ExamTemplateState extends State<ExamTemplate> {
     );
   }
 
+  _backButton() {
+    return Platform.isAndroid
+        ? IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              size: ScreenUtil().setSp(90),
+            ),
+            onPressed: () {
+              if (index == 0)
+                Navigator.pop(context);
+              else {
+                setState(() {
+                  index -= 1;
+                });
+                _clearCurrentQuestion();
+              }
+            },
+          )
+        : IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: ScreenUtil().setSp(90),
+            ),
+            onPressed: () {
+              if (index == 0)
+                Navigator.pop(context);
+              else {
+                setState(() {
+                  index -= 1;
+                });
+                _clearCurrentQuestion();
+              }
+            },
+          );
+  }
+
+  _examTitle() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20.0),
+      child: Text(
+        '${widget.groupId} ${widget.paperNo}',
+        style: TextStyle(
+            fontSize: ScreenUtil().setSp(70), fontWeight: FontWeight.w600),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
+        SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 5.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                _backButton(),
+                _examTitle(),
+              ],
+            ),
+          ),
+        ),
         Container(
           margin: EdgeInsets.all(8.0),
           padding: EdgeInsets.symmetric(vertical: 10.0),
-          decoration: BoxDecoration(
+          /* decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10.0),
             boxShadow: [
@@ -193,7 +251,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 spreadRadius: 2.0,
               ),
             ],
-          ),
+          ), */
           child: Column(
             children: <Widget>[
               // Timer, No of Questions
@@ -228,7 +286,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   : SizedBox.shrink(),
               // Answers a, b, c, d, e
               answers.length > 0
-                  ? Answers(answers: answers, type: type)
+                  ? Answers(answers: answers, correctAnswer: correctAnswer, type: type)
                   : SizedBox.shrink(),
             ],
           ),
