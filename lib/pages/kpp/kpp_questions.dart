@@ -3,6 +3,7 @@ import 'package:epandu/services/repo/kpp_repo.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:hive/hive.dart';
 
 class KppQuestions extends StatefulWidget {
   final data;
@@ -19,6 +20,8 @@ class _KppQuestionsState extends State<KppQuestions> {
   int index = 0;
 
   _getExamQuestions() async {
+    await Hive.openBox('exam_data');
+
     var result = await kppRepo.getExamQuestions(
       groupId: widget.data.groupId,
       paperNo: widget.data.paperNo,

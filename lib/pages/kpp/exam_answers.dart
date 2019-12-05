@@ -1,7 +1,19 @@
+import 'package:epandu/services/api/model/kpp_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'dart:typed_data';
+
+import 'package:hive/hive.dart';
+
+// Required values to store:
+// selected answer
+// question number(index)
+
+// When user goes to the next question,
+// the selected answer from previous question must not be retained.
+// When user goes back to the previous question,
+// the selected answer from previous question must be restored.
 
 class Answers extends StatefulWidget {
   final answers;
@@ -22,10 +34,9 @@ class _AnswersState extends State<Answers> {
   double answerWidthImg = ScreenUtil().width / (ScreenUtil().height / 2);
 
   List<Color> _answerColor = [];
-  List<Icon> _answerIcon = [];
   int _correctIndex;
   // int _selectedIndex;
-  bool selected = false;
+  bool selected = false; // if not selected, next button is hidden
 
   @override
   void initState() {
@@ -33,7 +44,6 @@ class _AnswersState extends State<Answers> {
 
     for (var i = 0; i < widget.answers.length; i++) {
       _answerColor.add(Colors.white);
-      _answerIcon.add(null);
 
       // save correct answer index
       if (widget.type[i].toUpperCase() == widget.correctAnswer) {
@@ -49,22 +59,30 @@ class _AnswersState extends State<Answers> {
       if (widget.type[index].toUpperCase() == widget.correctAnswer) {
         setState(() {
           _answerColor[index] = Colors.green;
-          _answerIcon[index] = Icon(Icons.check_circle, color: Colors.blue);
-          selected = true;
+          selected = true; // if selected, next button appears
           // _selectedIndex = index;
         });
       } else {
         setState(() {
           _answerColor[_correctIndex] = Colors.green;
-          _answerIcon[_correctIndex] =
-              Icon(Icons.check_circle, color: Colors.blue);
           _answerColor[index] = Colors.red;
-          _answerIcon[index] = Icon(Icons.cancel, color: Colors.grey);
           selected = true;
           // _selectedIndex = index;
         });
       }
+
+      KppExamData kppExamData = KppExamData(
+        selectedAnswer: widget.type[index],
+        examQuestionNo: index,
+      );
+      _saveAnswer(kppExamData);
     }
+  }
+
+  _saveAnswer(KppExamData kppExamData) async {
+    final examDataBox = Hive.box('exam_data');
+
+    examDataBox.add(kppExamData);
   }
 
   @override
@@ -91,14 +109,8 @@ class _AnswersState extends State<Answers> {
                       blurRadius: 5.0),
                 ], */
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text('${widget.type[index]}. ${widget.answers[index]}',
-                      style: _answerStyle),
-                  _answerIcon[index] ?? SizedBox.shrink(),
-                ],
-              ),
+              child: Text('${widget.type[index]}. ${widget.answers[index]}',
+                  style: _answerStyle),
             ),
           );
         } else if (widget.answers[index] is Uint8List) {

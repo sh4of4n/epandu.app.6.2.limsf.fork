@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:device_info/device_info.dart';
+// import 'package:device_info/device_info.dart';
 // import 'package:flutter/painting.dart';
 
 class ColorConstant {

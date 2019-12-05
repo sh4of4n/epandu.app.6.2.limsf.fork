@@ -34,7 +34,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
   List<String> type = []; // answer letter
   List<dynamic> answers = [];
 
-  String selectedAnswer;
+  // String selectedAnswer;
   String correctAnswer;
 
   TextStyle _questionStyle =
@@ -72,7 +72,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
           roman.add('III)');
         else if (i == 3)
           roman.add('IV)');
-        else if (i == 4) roman.add('v.');
+        else if (i == 4) roman.add('V.');
 
         if (snapshotData[index]['question_option_$i'] != null)
           questionOption.add(snapshotData[index]['question_option_$i']);
@@ -286,7 +286,10 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   : SizedBox.shrink(),
               // Answers a, b, c, d, e
               answers.length > 0
-                  ? Answers(answers: answers, correctAnswer: correctAnswer, type: type)
+                  ? Answers(
+                      answers: answers,
+                      correctAnswer: correctAnswer,
+                      type: type)
                   : SizedBox.shrink(),
             ],
           ),
