@@ -1,12 +1,12 @@
 import 'package:epandu/pages/kpp/question_options.dart';
+import 'package:epandu/services/api/model/kpp_model.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:io';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'exam_answers.dart';
+import 'package:hive/hive.dart';
 
 class ExamTemplate extends StatefulWidget {
   final snapshot;
@@ -41,6 +41,20 @@ class _ExamTemplateState extends State<ExamTemplate> {
       TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
   TextStyle _clockStyle =
       TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400);
+
+  // Used for answers
+  TextStyle _answerStyle =
+      TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500);
+
+  double answerWidthText = ScreenUtil().width / (ScreenUtil().height / 5);
+  double answerWidthImg = ScreenUtil().width / (ScreenUtil().height / 2);
+
+  List<Color> _answerColor = [];
+  int _correctIndex;
+  // int _selectedIndex;
+  bool selected = false; // if not selected, next button is hidden
+
+  // ====
 
   @override
   void initState() {
@@ -106,6 +120,21 @@ class _ExamTemplateState extends State<ExamTemplate> {
 
       correctAnswer = snapshotData[index]['answer'];
     });
+
+    _getCorrectAnswerIndex();
+  }
+
+  _getCorrectAnswerIndex() {
+    for (var i = 0; i < answers.length; i++) {
+      _answerColor.add(Colors.white);
+
+      // save correct answer index
+      if (type[i].toUpperCase() == correctAnswer) {
+        setState(() {
+          _correctIndex = i;
+        });
+      }
+    }
   }
 
   _clearCurrentQuestion() {
@@ -210,6 +239,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
           );
   }
 
+  // Top bar
   _examTitle() {
     return Padding(
       padding: const EdgeInsets.only(left: 20.0),
@@ -219,6 +249,87 @@ class _ExamTemplateState extends State<ExamTemplate> {
             fontSize: ScreenUtil().setSp(70), fontWeight: FontWeight.w600),
       ),
     );
+  }
+
+  _answers({
+    answers,
+    correctAnswer,
+    type,
+  }) {
+    return ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: answers.length,
+      itemBuilder: (BuildContext context, int index) {
+        if (answers[index] is String) {
+          return InkWell(
+            onTap: () => _checkSelectedAnswer(index),
+            child: Container(
+              // margin: EdgeInsets.only(top: 15.0, bottom: 10.0),
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+              decoration: BoxDecoration(
+                color: _answerColor[index],
+                // borderRadius: BorderRadius.circular(10.0),
+                /* border: Border.all(width: 1.0, color: Colors.black12),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0.0, 4.0),
+                      blurRadius: 5.0),
+                ], */
+              ),
+              child: Text('${type[index]}. ${answers[index]}',
+                  style: _answerStyle),
+            ),
+          );
+        } else if (answers[index] is Uint8List) {
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 5.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Image.memory(
+                  answers[index],
+                  width: ScreenUtil().setWidth(500),
+                ),
+              ],
+            ),
+          );
+        }
+        return SizedBox.shrink();
+      },
+    );
+  }
+
+  _checkSelectedAnswer(index) {
+    if (!selected) {
+      if (type[index].toUpperCase() == correctAnswer) {
+        setState(() {
+          _answerColor[index] = Colors.green;
+          selected = true; // if selected, next button appears
+          // _selectedIndex = index;
+        });
+      } else {
+        setState(() {
+          _answerColor[_correctIndex] = Colors.green;
+          _answerColor[index] = Colors.red;
+          selected = true;
+          // _selectedIndex = index;
+        });
+      }
+
+      KppExamData kppExamData = KppExamData(
+        selectedAnswer: type[index],
+        examQuestionNo: index,
+      );
+      _saveAnswer(kppExamData);
+    }
+  }
+
+  _saveAnswer(KppExamData kppExamData) async {
+    final examDataBox = Hive.box('exam_data');
+
+    examDataBox.add(kppExamData);
   }
 
   @override
@@ -286,7 +397,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   : SizedBox.shrink(),
               // Answers a, b, c, d, e
               answers.length > 0
-                  ? Answers(
+                  ? _answers(
                       answers: answers,
                       correctAnswer: correctAnswer,
                       type: type)
@@ -294,7 +405,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
             ],
           ),
         ),
-        _nextButton(),
+        selected ? _nextButton() : SizedBox.shrink(),
       ],
     );
   }
