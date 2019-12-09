@@ -22,6 +22,7 @@ class ExamTemplate extends StatefulWidget {
 
 class _ExamTemplateState extends State<ExamTemplate> {
   var snapshotData;
+  final examDataBox = Hive.box('exam_data');
 
   int index; // Added from local index
   int totalQuestion;
@@ -34,7 +35,9 @@ class _ExamTemplateState extends State<ExamTemplate> {
   List<String> type = []; // answer letter
   List<dynamic> answers = [];
 
-  // String selectedAnswer;
+  List<int> selectedAnswerCorrect = [];
+  List<int> selectedAnswerIncorrect = [];
+
   String correctAnswer;
 
   TextStyle _questionStyle =
@@ -142,6 +145,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
       questionOption.clear();
       answers.clear();
       questionImage = null;
+      _answerColor.clear();
+      selected = false;
     });
 
     _renderQuestion();
@@ -212,7 +217,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
             ),
             onPressed: () {
               if (index == 0)
-                Navigator.pop(context);
+                _showExitDialog();
               else {
                 setState(() {
                   index -= 1;
@@ -239,6 +244,36 @@ class _ExamTemplateState extends State<ExamTemplate> {
           );
   }
 
+  Future<bool> _showExitDialog() async {
+    return showDialog<bool>(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            content: Text(
+                "Are you sure you want to quit? All your progress will be lost."),
+            title: Text("Warning!"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Yes"),
+                onPressed: () {
+                  Navigator.pop(context, true);
+                  Navigator.pop(context, true);
+
+                  // Hive box must be cleared here
+                  examDataBox.delete(index);
+                },
+              ),
+              FlatButton(
+                child: Text("No"),
+                onPressed: () {
+                  Navigator.pop(context, false);
+                },
+              ),
+            ],
+          );
+        });
+  }
+
   // Top bar
   _examTitle() {
     return Padding(
@@ -260,15 +295,15 @@ class _ExamTemplateState extends State<ExamTemplate> {
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: answers.length,
-      itemBuilder: (BuildContext context, int index) {
-        if (answers[index] is String) {
+      itemBuilder: (BuildContext context, int answerIndex) {
+        if (answers[answerIndex] is String) {
           return InkWell(
-            onTap: () => _checkSelectedAnswer(index),
+            onTap: () => _checkSelectedAnswer(answerIndex),
             child: Container(
               // margin: EdgeInsets.only(top: 15.0, bottom: 10.0),
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
               decoration: BoxDecoration(
-                color: _answerColor[index],
+                color: _answerColor[answerIndex],
                 // borderRadius: BorderRadius.circular(10.0),
                 /* border: Border.all(width: 1.0, color: Colors.black12),
                 boxShadow: [
@@ -301,35 +336,35 @@ class _ExamTemplateState extends State<ExamTemplate> {
     );
   }
 
-  _checkSelectedAnswer(index) {
+  _checkSelectedAnswer(answerIndex) {
     if (!selected) {
-      if (type[index].toUpperCase() == correctAnswer) {
+      if (type[answerIndex].toUpperCase() == correctAnswer) {
         setState(() {
-          _answerColor[index] = Colors.green;
+          _answerColor[answerIndex] = Colors.green;
           selected = true; // if selected, next button appears
+          selectedAnswerCorrect.add(answerIndex);
           // _selectedIndex = index;
         });
       } else {
         setState(() {
           _answerColor[_correctIndex] = Colors.green;
-          _answerColor[index] = Colors.red;
+          _answerColor[answerIndex] = Colors.red;
           selected = true;
+          selectedAnswerCorrect.add(_correctIndex);
+          selectedAnswerIncorrect.add(answerIndex);
           // _selectedIndex = index;
         });
       }
 
       KppExamData kppExamData = KppExamData(
-        selectedAnswer: type[index],
+        selectedAnswer: type[answerIndex],
+        correctAnswerIndex: _correctIndex,
+        incorrectAnswerIndex: answerIndex,
         examQuestionNo: index,
       );
-      _saveAnswer(kppExamData);
+
+      examDataBox.add(kppExamData);
     }
-  }
-
-  _saveAnswer(KppExamData kppExamData) async {
-    final examDataBox = Hive.box('exam_data');
-
-    examDataBox.add(kppExamData);
   }
 
   @override

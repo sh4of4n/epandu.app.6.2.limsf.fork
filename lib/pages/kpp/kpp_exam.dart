@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hive/hive.dart';
 
-class KppQuestions extends StatefulWidget {
+class KppExam extends StatefulWidget {
   final data;
 
-  KppQuestions(this.data);
+  KppExam(this.data);
 
   @override
-  _KppQuestionsState createState() => _KppQuestionsState();
+  _KppExamState createState() => _KppExamState();
 }
 
-class _KppQuestionsState extends State<KppQuestions> {
+class _KppExamState extends State<KppExam> {
   final kppRepo = KppRepo();
   final primaryColor = ColorConstant.primaryColor;
   int index = 0;
@@ -61,9 +61,10 @@ class _KppQuestionsState extends State<KppQuestions> {
                 );
               }
               return Center(
-                  child: SpinKitFoldingCube(
-                color: Colors.lightBlue,
-              ));
+                child: SpinKitFoldingCube(
+                  color: Colors.lightBlue,
+                ),
+              );
             }),
       ),
     );

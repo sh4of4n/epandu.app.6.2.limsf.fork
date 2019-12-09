@@ -20,6 +20,7 @@ dependencies:
   random_color: ^1.0.3
   hive: ^1.1.1
   hive_flutter: ^0.2.1
+  flutter_custom_clippers: ^1.1.0
 
 dev_dependencies:
   flutter_test:
