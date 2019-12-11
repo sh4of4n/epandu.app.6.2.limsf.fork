@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:io';
+import 'package:quiver/async.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
@@ -56,10 +57,15 @@ class _ExamTemplateState extends State<ExamTemplate> {
   double answerWidthText = ScreenUtil().width / (ScreenUtil().height / 5);
   double answerWidthImg = ScreenUtil().width / (ScreenUtil().height / 2);
 
+  int timer = 2700;
+  int currentTime = 2700;
+
   List<Color> _answerColor = [];
   int _correctIndex;
   // int _selectedIndex;
   bool selected = false; // if not selected, next button is hidden
+
+  var sub;
 
   // ====
 
@@ -74,7 +80,27 @@ class _ExamTemplateState extends State<ExamTemplate> {
       index = widget.index;
     });
 
+    _startTimer();
     _renderQuestion();
+  }
+
+  _startTimer() {
+    CountdownTimer countDownTimer = new CountdownTimer(
+      new Duration(seconds: timer),
+      new Duration(seconds: 1),
+    );
+
+    sub = countDownTimer.listen(null);
+    sub.onData((duration) {
+      setState(() {
+        currentTime = timer - duration.elapsed.inSeconds;
+      });
+    });
+
+    sub.onDone(() {
+      print("Done");
+      sub.cancel();
+    });
   }
 
   _renderQuestion() {
@@ -181,14 +207,24 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 setState(() {
                   if (index < snapshotData.length - 1) {
                     index += 1;
+                    _clearCurrentQuestion();
+
+                    // populate selected answer to question
+                    if (index < examDataBox.length) {
+                      final data = examDataBox.getAt(index) as KppExamData;
+                      _checkSelectedAnswer(data.answerIndex, 'next');
+                    }
                   } else {
                     Navigator.pushNamed(context, KPP_RESULT,
                         arguments: kppExamData);
 
+                    // end timer
+                    sub.cancel();
+
                     // clear data once exam is completed
-                    examDataBox.delete(index);
+                    examDataBox.clear();
                   }
-                  _clearCurrentQuestion();
+                  // _clearCurrentQuestion();
                 });
               },
               textColor: Colors.white,
@@ -219,42 +255,28 @@ class _ExamTemplateState extends State<ExamTemplate> {
   }
 
   _backButton() {
-    return Platform.isAndroid
-        ? IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              size: ScreenUtil().setSp(90),
-            ),
-            onPressed: () {
-              if (index == 0)
-                _showExitDialog();
-              else {
-                setState(() {
-                  index -= 1;
-                });
-                _clearCurrentQuestion();
-              }
-            },
-          )
-        : IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              size: ScreenUtil().setSp(90),
-            ),
-            onPressed: () {
-              if (index == 0)
-                Navigator.pop(context);
-              else {
-                setState(() {
-                  index -= 1;
-                });
-                _clearCurrentQuestion();
-              }
-            },
-          );
+    return IconButton(
+      icon: Icon(
+        Platform.isAndroid ? Icons.arrow_back : Icons.arrow_back_ios,
+        size: ScreenUtil().setSp(90),
+      ),
+      onPressed: () {
+        if (index == 0)
+          _showExitDialog();
+        else {
+          setState(() {
+            index -= 1;
+          });
+          _clearCurrentQuestion();
+
+          final data = examDataBox.getAt(index) as KppExamData;
+          _checkSelectedAnswer(data.answerIndex, 'back');
+        }
+      },
+    );
   }
 
-  Future<bool> _showExitDialog() async {
+  Future<bool> _showExitDialog({type}) async {
     return showDialog<bool>(
         context: context,
         builder: (_) {
@@ -266,11 +288,17 @@ class _ExamTemplateState extends State<ExamTemplate> {
               FlatButton(
                 child: Text("Yes"),
                 onPressed: () {
-                  Navigator.pop(context, true);
-                  Navigator.pop(context, true);
+                  if (type == 'system') {
+                    Navigator.pop(context, true);
+                  } else {
+                    Navigator.pop(context, true);
+                    Navigator.pop(context, true);
+                  }
+
+                  sub.cancel();
 
                   // Hive box must be cleared here
-                  examDataBox.delete(index);
+                  examDataBox.clear();
                 },
               ),
               FlatButton(
@@ -308,7 +336,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
       itemBuilder: (BuildContext context, int answerIndex) {
         if (answers[answerIndex] is String) {
           return InkWell(
-            onTap: () => _checkSelectedAnswer(answerIndex),
+            onTap: () => _checkSelectedAnswer(answerIndex, 'selected'),
             child: Container(
               margin: EdgeInsets.only(top: 10.0),
               padding:
@@ -332,7 +360,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
           );
         } else if (answers[answerIndex] is Uint8List) {
           return InkWell(
-            onTap: () => _checkSelectedAnswer(answerIndex),
+            onTap: () => _checkSelectedAnswer(answerIndex, 'selected'),
             child: Container(
               margin: EdgeInsets.only(top: 15.0),
               padding:
@@ -367,7 +395,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
     );
   }
 
-  _checkSelectedAnswer(answerIndex) {
+  _checkSelectedAnswer(answerIndex, status) {
     if (!selected) {
       if (type[answerIndex].toUpperCase() == correctAnswer) {
         setState(() {
@@ -391,93 +419,105 @@ class _ExamTemplateState extends State<ExamTemplate> {
 
       kppExamData = KppExamData(
         selectedAnswer: type[answerIndex],
-        correctAnswerIndex: _correctIndex,
-        incorrectAnswerIndex: answerIndex,
+        answerIndex: answerIndex,
         examQuestionNo: index,
         correct: correct,
         incorrect: incorrect,
         totalQuestions: snapshotData.length,
+        groupId: widget.groupId,
+        paperNo: widget.paperNo,
       );
 
-      examDataBox.add(kppExamData);
+      if (status == 'selected') {
+        examDataBox.add(kppExamData);
+      }
     }
+  }
+
+  Future<bool> _onWillPop() async {
+    return _showExitDialog(type: 'system');
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: ListView(
+        physics: BouncingScrollPhysics(),
+        children: <Widget>[
+          SafeArea(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 4.0, horizontal: 5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  _backButton(),
+                  _examTitle(),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.all(8.0),
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            /* decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  offset: Offset(2.0, 5.0),
+                  blurRadius: 4.0,
+                  spreadRadius: 2.0,
+                ),
+              ],
+            ), */
+            child: Column(
               children: <Widget>[
-                _backButton(),
-                _examTitle(),
+                // Timer, No of Questions
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        '$currentTime',
+                        style: _clockStyle,
+                      ),
+                      Text('${index + 1}/${snapshotData.length}',
+                          style: _clockStyle)
+                    ],
+                  ),
+                ),
+                // Question
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Text(
+                    question,
+                    style: _questionStyle,
+                  ),
+                ),
+                // Question Image
+                questionImage != null ? _questionImage() : SizedBox.shrink(),
+                // Question options I, II, III, IV, V
+                questionOption.length > 0
+                    ? QuestionOptions(questionOption: questionOption)
+                    : SizedBox.shrink(),
+                // Answers a, b, c, d, e
+                answers.length > 0
+                    ? _answers(
+                        answers: answers,
+                        correctAnswer: correctAnswer,
+                        type: type)
+                    : SizedBox.shrink(),
               ],
             ),
           ),
-        ),
-        Container(
-          margin: EdgeInsets.all(8.0),
-          padding: EdgeInsets.symmetric(vertical: 10.0),
-          /* decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                offset: Offset(2.0, 5.0),
-                blurRadius: 4.0,
-                spreadRadius: 2.0,
-              ),
-            ],
-          ), */
-          child: Column(
-            children: <Widget>[
-              // Timer, No of Questions
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0, vertical: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      '0:00',
-                      style: _clockStyle,
-                    ),
-                    Text('${index + 1}/${snapshotData.length}',
-                        style: _clockStyle)
-                  ],
-                ),
-              ),
-              // Question
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(
-                  question,
-                  style: _questionStyle,
-                ),
-              ),
-              // Question Image
-              questionImage != null ? _questionImage() : SizedBox.shrink(),
-              // Question options I, II, III, IV, V
-              questionOption.length > 0
-                  ? QuestionOptions(questionOption: questionOption)
-                  : SizedBox.shrink(),
-              // Answers a, b, c, d, e
-              answers.length > 0
-                  ? _answers(
-                      answers: answers,
-                      correctAnswer: correctAnswer,
-                      type: type)
-                  : SizedBox.shrink(),
-            ],
-          ),
-        ),
-        selected ? _nextButton() : SizedBox.shrink(),
-      ],
+          selected ? _nextButton() : SizedBox.shrink(),
+        ],
+      ),
     );
   }
 }

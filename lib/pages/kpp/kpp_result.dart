@@ -1,6 +1,7 @@
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class KppResult extends StatelessWidget {
   final primaryColor = ColorConstant.primaryColor;
@@ -77,12 +78,35 @@ class KppResult extends StatelessWidget {
                   ],
                 ),
               ),
-              RaisedButton(
-                child: Text('HOME'),
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, HOME, (r) => false);
-                },
+              ButtonTheme(
+                padding: EdgeInsets.all(0.0),
+                shape: StadiumBorder(),
+                child: RaisedButton(
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, HOME, (r) => false);
+                  },
+                  textColor: Colors.white,
+                  padding: const EdgeInsets.all(0.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25.0),
+                      gradient: LinearGradient(
+                        colors: [Colors.blueAccent.shade700, Colors.blue],
+                      ),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 40.0,
+                      vertical: 15.0,
+                    ),
+                    child: Text(
+                      'HOME',
+                      style: TextStyle(
+                        fontSize: ScreenUtil.getInstance().setSp(56),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           )),

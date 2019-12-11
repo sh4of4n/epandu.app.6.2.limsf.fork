@@ -67,7 +67,7 @@ class _KppExamState extends State<KppExam> {
                 }
                 return Center(
                   child: SpinKitFoldingCube(
-                    color: Colors.lightBlue,
+                    color: primaryColor,
                   ),
                 );
               }),

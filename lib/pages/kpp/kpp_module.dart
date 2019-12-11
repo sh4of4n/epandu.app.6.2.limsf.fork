@@ -78,7 +78,7 @@ class _KppModuleState extends State<KppModule> {
                 return GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 1.3,
+                    childAspectRatio: MediaQuery.of(context).size.height / 530,
                   ),
                   physics: BouncingScrollPhysics(),
                   itemCount: snapshot.data.length,

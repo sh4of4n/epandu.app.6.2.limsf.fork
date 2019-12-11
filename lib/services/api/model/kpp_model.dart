@@ -18,32 +18,38 @@ class KppExamData {
   final String selectedAnswer;
 
   @HiveField(1)
-  final int correctAnswerIndex;
+  final int answerIndex;
 
   @HiveField(2)
-  final int incorrectAnswerIndex;
-
-  @HiveField(3)
   final int examQuestionNo; // The index
 
-  @HiveField(4)
+  @HiveField(3)
   final int correct;
 
-  @HiveField(5)
+  @HiveField(4)
   final int incorrect;
 
-  @HiveField(6)
+  @HiveField(5)
   final int totalQuestions;
-  // final String examTime;
+
+  @HiveField(6)
+  final String examTime;
+
+  @HiveField(7)
+  final String groupId;
+
+  @HiveField(8)
+  final String paperNo;
 
   KppExamData({
     this.selectedAnswer,
-    this.correctAnswerIndex,
-    this.incorrectAnswerIndex,
+    this.answerIndex,
     this.examQuestionNo,
     this.correct,
     this.incorrect,
     this.totalQuestions,
-    // this.examTime,
+    this.examTime,
+    this.groupId,
+    this.paperNo,
   });
 }
