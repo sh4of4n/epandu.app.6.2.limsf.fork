@@ -6,6 +6,7 @@ import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'kpp_category_icon.dart';
@@ -20,6 +21,7 @@ class _KppCategoryState extends State<KppCategory> {
   final image = ImagesConstant();
   final localStorage = LocalStorage();
   Uint8List instituteLogo;
+  final primaryColor = ColorConstant.primaryColor;
 
   @override
   void initState() {
@@ -54,40 +56,53 @@ class _KppCategoryState extends State<KppCategory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: primaryColor,
         elevation: 0,
         title: Text('Choose your category'),
       ),
-      body: Column(
+      body: Stack(
         children: <Widget>[
-          instituteLogo != null
-              ? Image.memory(instituteLogo)
-              : SizedBox.shrink(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                KppCategoryIcon(
-                  component: MODULE,
-                  argument: 'KPP-D',
-                  width: ScreenUtil().setWidth(600),
-                  height: ScreenUtil().setHeight(500),
-                  borderWidth: 5.0,
-                  borderColor: Colors.amber,
-                  image: image.car,
-                ),
-                KppCategoryIcon(
-                  component: MODULE,
-                  argument: 'KPP-B',
-                  width: ScreenUtil().setWidth(600),
-                  height: ScreenUtil().setHeight(500),
-                  borderWidth: 5.0,
-                  borderColor: Colors.blue,
-                  image: image.motor,
-                ),
-              ],
+          ClipPath(
+            clipper: WaveClipperTwo(),
+            child: Container(
+              decoration: BoxDecoration(
+                color: primaryColor,
+              ),
+              height: ScreenUtil().setHeight(1000),
             ),
+          ),
+          Column(
+            children: <Widget>[
+              instituteLogo != null
+                  ? Image.memory(instituteLogo)
+                  : SizedBox.shrink(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    KppCategoryIcon(
+                      component: MODULE,
+                      argument: 'KPP-D',
+                      width: ScreenUtil().setWidth(600),
+                      height: ScreenUtil().setHeight(500),
+                      borderWidth: 5.0,
+                      borderColor: Colors.indigoAccent,
+                      image: image.car,
+                    ),
+                    KppCategoryIcon(
+                      component: MODULE,
+                      argument: 'KPP-B',
+                      width: ScreenUtil().setWidth(600),
+                      height: ScreenUtil().setHeight(500),
+                      borderWidth: 5.0,
+                      borderColor: Colors.blue,
+                      image: image.motor,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),

@@ -1,12 +1,13 @@
 import 'package:epandu/pages/kpp/question_options.dart';
+import 'package:epandu/services/api/model/kpp_model.dart';
+import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:io';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'exam_answers.dart';
+import 'package:hive/hive.dart';
 
 class ExamTemplate extends StatefulWidget {
   final snapshot;
@@ -22,6 +23,8 @@ class ExamTemplate extends StatefulWidget {
 
 class _ExamTemplateState extends State<ExamTemplate> {
   var snapshotData;
+  final examDataBox = Hive.box('exam_data');
+  KppExamData kppExamData;
 
   int index; // Added from local index
   int totalQuestion;
@@ -34,13 +37,31 @@ class _ExamTemplateState extends State<ExamTemplate> {
   List<String> type = []; // answer letter
   List<dynamic> answers = [];
 
-  // String selectedAnswer;
+  List<int> selectedAnswerCorrect = [];
+  List<int> selectedAnswerIncorrect = [];
+
   String correctAnswer;
+  int correct = 0; // number of correct answers selected
+  int incorrect = 0; // number of incorrect answers selected
 
   TextStyle _questionStyle =
       TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
   TextStyle _clockStyle =
       TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400);
+
+  // Used for answers
+  TextStyle _answerStyle =
+      TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500);
+
+  double answerWidthText = ScreenUtil().width / (ScreenUtil().height / 5);
+  double answerWidthImg = ScreenUtil().width / (ScreenUtil().height / 2);
+
+  List<Color> _answerColor = [];
+  int _correctIndex;
+  // int _selectedIndex;
+  bool selected = false; // if not selected, next button is hidden
+
+  // ====
 
   @override
   void initState() {
@@ -106,6 +127,21 @@ class _ExamTemplateState extends State<ExamTemplate> {
 
       correctAnswer = snapshotData[index]['answer'];
     });
+
+    _getCorrectAnswerIndex();
+  }
+
+  _getCorrectAnswerIndex() {
+    for (var i = 0; i < answers.length; i++) {
+      _answerColor.add(Colors.white);
+
+      // save correct answer index
+      if (type[i].toUpperCase() == correctAnswer) {
+        setState(() {
+          _correctIndex = i;
+        });
+      }
+    }
   }
 
   _clearCurrentQuestion() {
@@ -113,6 +149,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
       questionOption.clear();
       answers.clear();
       questionImage = null;
+      _answerColor.clear();
+      selected = false;
     });
 
     _renderQuestion();
@@ -143,6 +181,12 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 setState(() {
                   if (index < snapshotData.length - 1) {
                     index += 1;
+                  } else {
+                    Navigator.pushNamed(context, KPP_RESULT,
+                        arguments: kppExamData);
+
+                    // clear data once exam is completed
+                    examDataBox.delete(index);
                   }
                   _clearCurrentQuestion();
                 });
@@ -183,7 +227,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
             ),
             onPressed: () {
               if (index == 0)
-                Navigator.pop(context);
+                _showExitDialog();
               else {
                 setState(() {
                   index -= 1;
@@ -210,6 +254,37 @@ class _ExamTemplateState extends State<ExamTemplate> {
           );
   }
 
+  Future<bool> _showExitDialog() async {
+    return showDialog<bool>(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            content: Text(
+                "Are you sure you want to quit? All your progress will be lost."),
+            title: Text("Warning!"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Yes"),
+                onPressed: () {
+                  Navigator.pop(context, true);
+                  Navigator.pop(context, true);
+
+                  // Hive box must be cleared here
+                  examDataBox.delete(index);
+                },
+              ),
+              FlatButton(
+                child: Text("No"),
+                onPressed: () {
+                  Navigator.pop(context, false);
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  // Top bar
   _examTitle() {
     return Padding(
       padding: const EdgeInsets.only(left: 20.0),
@@ -219,6 +294,113 @@ class _ExamTemplateState extends State<ExamTemplate> {
             fontSize: ScreenUtil().setSp(70), fontWeight: FontWeight.w600),
       ),
     );
+  }
+
+  _answers({
+    answers,
+    correctAnswer,
+    type,
+  }) {
+    return ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: answers.length,
+      itemBuilder: (BuildContext context, int answerIndex) {
+        if (answers[answerIndex] is String) {
+          return InkWell(
+            onTap: () => _checkSelectedAnswer(answerIndex),
+            child: Container(
+              margin: EdgeInsets.only(top: 10.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
+              decoration: BoxDecoration(
+                color: _answerColor[answerIndex],
+                /* border: Border(
+                  bottom: BorderSide(color: Colors.black12),
+                ), */
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0.0, 2.0),
+                      blurRadius: 3.0),
+                ],
+              ),
+              child: Text('${type[answerIndex]}. ${answers[answerIndex]}',
+                  style: _answerStyle),
+            ),
+          );
+        } else if (answers[answerIndex] is Uint8List) {
+          return InkWell(
+            onTap: () => _checkSelectedAnswer(answerIndex),
+            child: Container(
+              margin: EdgeInsets.only(top: 15.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+              decoration: BoxDecoration(
+                color: _answerColor[answerIndex],
+                /* border: Border(
+                  bottom: BorderSide(color: Colors.black12),
+                ), */
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0.0, 2.0),
+                      blurRadius: 3.0),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Image.memory(
+                    answers[answerIndex],
+                    width: ScreenUtil().setWidth(500),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+        return SizedBox.shrink();
+      },
+    );
+  }
+
+  _checkSelectedAnswer(answerIndex) {
+    if (!selected) {
+      if (type[answerIndex].toUpperCase() == correctAnswer) {
+        setState(() {
+          _answerColor[answerIndex] = Colors.green;
+          selected = true; // if selected, next button appears
+          selectedAnswerCorrect.add(answerIndex);
+          correct += 1;
+          // _selectedIndex = index;
+        });
+      } else {
+        setState(() {
+          _answerColor[_correctIndex] = Colors.green;
+          _answerColor[answerIndex] = Colors.red;
+          selected = true;
+          selectedAnswerCorrect.add(_correctIndex);
+          selectedAnswerIncorrect.add(answerIndex);
+          incorrect += 1;
+          // _selectedIndex = index;
+        });
+      }
+
+      kppExamData = KppExamData(
+        selectedAnswer: type[answerIndex],
+        correctAnswerIndex: _correctIndex,
+        incorrectAnswerIndex: answerIndex,
+        examQuestionNo: index,
+        correct: correct,
+        incorrect: incorrect,
+        totalQuestions: snapshotData.length,
+      );
+
+      examDataBox.add(kppExamData);
+    }
   }
 
   @override
@@ -286,7 +468,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   : SizedBox.shrink(),
               // Answers a, b, c, d, e
               answers.length > 0
-                  ? Answers(
+                  ? _answers(
                       answers: answers,
                       correctAnswer: correctAnswer,
                       type: type)
@@ -294,7 +476,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
             ],
           ),
         ),
-        _nextButton(),
+        selected ? _nextButton() : SizedBox.shrink(),
       ],
     );
   }

@@ -29,32 +29,27 @@ class KppModuleIcon extends StatelessWidget {
             : SizedBox.shrink();
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 25.0),
+        // padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 25.0),
+        width: ScreenUtil().setWidth(650),
+        height: ScreenUtil().setHeight(600),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: iconColor,
           // border: Border.all(width: 1.0, color: Colors.black12),
           borderRadius: BorderRadius.circular(15.0),
           boxShadow: [
             BoxShadow(
-                color: Colors.black12,
-                offset: Offset(1.0, 2.0),
-                blurRadius: 5.0,
-                spreadRadius: 2.0),
+              color: Colors.black12,
+              offset: Offset(1.0, 2.0),
+              blurRadius: 5.0,
+              spreadRadius: 2.0,
+            ),
           ],
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              width: ScreenUtil().setWidth(400),
-              height: ScreenUtil().setWidth(400),
-              decoration: BoxDecoration(
-                borderRadius:
-                    BorderRadius.circular(ScreenUtil().setHeight(300.0)),
-                color: iconColor,
-              ),
-              child: Center(
-                child: icon,
-              ),
+            Center(
+              child: icon,
             ),
             SizedBox(height: 15.0),
             Text(
@@ -62,6 +57,7 @@ class KppModuleIcon extends StatelessWidget {
               style: TextStyle(
                 fontSize: ScreenUtil().setSp(60),
                 fontWeight: FontWeight.w500,
+                color: Colors.white,
               ),
               textAlign: TextAlign.center,
             ),

@@ -12,6 +12,7 @@ class QuestionOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      // padding: EdgeInsets.only(bottom: 10.0),
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
