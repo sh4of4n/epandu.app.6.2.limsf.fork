@@ -1,5 +1,6 @@
 import 'package:epandu/pages/kpp/question_options.dart';
 import 'package:epandu/services/api/model/kpp_model.dart';
+import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:typed_data';
@@ -23,6 +24,7 @@ class ExamTemplate extends StatefulWidget {
 class _ExamTemplateState extends State<ExamTemplate> {
   var snapshotData;
   final examDataBox = Hive.box('exam_data');
+  KppExamData kppExamData;
 
   int index; // Added from local index
   int totalQuestion;
@@ -39,6 +41,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
   List<int> selectedAnswerIncorrect = [];
 
   String correctAnswer;
+  int correct = 0; // number of correct answers selected
+  int incorrect = 0; // number of incorrect answers selected
 
   TextStyle _questionStyle =
       TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
@@ -177,6 +181,12 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 setState(() {
                   if (index < snapshotData.length - 1) {
                     index += 1;
+                  } else {
+                    Navigator.pushNamed(context, KPP_RESULT,
+                        arguments: kppExamData);
+
+                    // clear data once exam is completed
+                    examDataBox.delete(index);
                   }
                   _clearCurrentQuestion();
                 });
@@ -300,34 +310,55 @@ class _ExamTemplateState extends State<ExamTemplate> {
           return InkWell(
             onTap: () => _checkSelectedAnswer(answerIndex),
             child: Container(
-              // margin: EdgeInsets.only(top: 15.0, bottom: 10.0),
-              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+              margin: EdgeInsets.only(top: 10.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
               decoration: BoxDecoration(
                 color: _answerColor[answerIndex],
-                // borderRadius: BorderRadius.circular(10.0),
-                /* border: Border.all(width: 1.0, color: Colors.black12),
+                /* border: Border(
+                  bottom: BorderSide(color: Colors.black12),
+                ), */
+                borderRadius: BorderRadius.circular(10.0),
                 boxShadow: [
                   BoxShadow(
                       color: Colors.black12,
-                      offset: Offset(0.0, 4.0),
-                      blurRadius: 5.0),
-                ], */
+                      offset: Offset(0.0, 2.0),
+                      blurRadius: 3.0),
+                ],
               ),
-              child: Text('${type[index]}. ${answers[index]}',
+              child: Text('${type[answerIndex]}. ${answers[answerIndex]}',
                   style: _answerStyle),
             ),
           );
-        } else if (answers[index] is Uint8List) {
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Image.memory(
-                  answers[index],
-                  width: ScreenUtil().setWidth(500),
-                ),
-              ],
+        } else if (answers[answerIndex] is Uint8List) {
+          return InkWell(
+            onTap: () => _checkSelectedAnswer(answerIndex),
+            child: Container(
+              margin: EdgeInsets.only(top: 15.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+              decoration: BoxDecoration(
+                color: _answerColor[answerIndex],
+                /* border: Border(
+                  bottom: BorderSide(color: Colors.black12),
+                ), */
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0.0, 2.0),
+                      blurRadius: 3.0),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Image.memory(
+                    answers[answerIndex],
+                    width: ScreenUtil().setWidth(500),
+                  ),
+                ],
+              ),
             ),
           );
         }
@@ -343,6 +374,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
           _answerColor[answerIndex] = Colors.green;
           selected = true; // if selected, next button appears
           selectedAnswerCorrect.add(answerIndex);
+          correct += 1;
           // _selectedIndex = index;
         });
       } else {
@@ -352,15 +384,19 @@ class _ExamTemplateState extends State<ExamTemplate> {
           selected = true;
           selectedAnswerCorrect.add(_correctIndex);
           selectedAnswerIncorrect.add(answerIndex);
+          incorrect += 1;
           // _selectedIndex = index;
         });
       }
 
-      KppExamData kppExamData = KppExamData(
+      kppExamData = KppExamData(
         selectedAnswer: type[answerIndex],
         correctAnswerIndex: _correctIndex,
         incorrectAnswerIndex: answerIndex,
         examQuestionNo: index,
+        correct: correct,
+        incorrect: incorrect,
+        totalQuestions: snapshotData.length,
       );
 
       examDataBox.add(kppExamData);

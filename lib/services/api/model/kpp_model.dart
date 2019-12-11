@@ -25,6 +25,15 @@ class KppExamData {
 
   @HiveField(3)
   final int examQuestionNo; // The index
+
+  @HiveField(4)
+  final int correct;
+
+  @HiveField(5)
+  final int incorrect;
+
+  @HiveField(6)
+  final int totalQuestions;
   // final String examTime;
 
   KppExamData({
@@ -32,6 +41,9 @@ class KppExamData {
     this.correctAnswerIndex,
     this.incorrectAnswerIndex,
     this.examQuestionNo,
+    this.correct,
+    this.incorrect,
+    this.totalQuestions,
     // this.examTime,
   });
 }
