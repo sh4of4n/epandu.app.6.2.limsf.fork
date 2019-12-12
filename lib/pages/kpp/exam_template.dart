@@ -1,5 +1,6 @@
 import 'package:epandu/pages/kpp/question_options.dart';
 import 'package:epandu/services/api/model/kpp_model.dart';
+import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/custom_snackbar.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
@@ -199,6 +200,60 @@ class _ExamTemplateState extends State<ExamTemplate> {
     );
   }
 
+  _prevButton() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 5.0, bottom: 15.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          ButtonTheme(
+            padding: EdgeInsets.all(0.0),
+            shape: StadiumBorder(),
+            child: RaisedButton(
+              onPressed: () {
+                if (index != 0) {
+                  setState(() {
+                    index -= 1;
+                  });
+                  _clearCurrentQuestion();
+
+                  final data = examDataBox.getAt(index) as KppExamData;
+                  _checkSelectedAnswer(data.answerIndex, 'back');
+                } else {
+                  return customSnackbar.show(
+                    context,
+                    message: 'This is the first page.',
+                    type: MessageType.TOAST,
+                  );
+                }
+              },
+              textColor: Colors.white,
+              padding: const EdgeInsets.all(0.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25.0),
+                  gradient: LinearGradient(
+                    colors: [Colors.blueAccent.shade700, Colors.blue],
+                  ),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 40.0,
+                  vertical: 15.0,
+                ),
+                child: Text(
+                  'PREV',
+                  style: TextStyle(
+                    fontSize: ScreenUtil.getInstance().setSp(56),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   _nextButton() {
     return Padding(
       padding: const EdgeInsets.only(top: 5.0, bottom: 15.0),
@@ -275,17 +330,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
         size: ScreenUtil().setSp(90),
       ),
       onPressed: () {
-        if (index == 0)
-          _showExitDialog();
-        else {
-          setState(() {
-            index -= 1;
-          });
-          _clearCurrentQuestion();
-
-          final data = examDataBox.getAt(index) as KppExamData;
-          _checkSelectedAnswer(data.answerIndex, 'back');
-        }
+        _showExitDialog();
       },
     );
   }
@@ -294,7 +339,37 @@ class _ExamTemplateState extends State<ExamTemplate> {
     return showDialog<bool>(
         context: context,
         builder: (_) {
-          return AlertDialog(
+          return CustomDialog(
+            title: Text('Warning!'),
+            content:
+                'Are you sure you want to quit? All your progress will be lost.',
+            customActions: <Widget>[
+              FlatButton(
+                child: Text("Yes"),
+                onPressed: () {
+                  if (type == 'system') {
+                    Navigator.pop(context, true);
+                  } else {
+                    Navigator.pop(context, true);
+                    Navigator.pop(context, true);
+                  }
+
+                  _timer.cancel();
+
+                  // Hive box must be cleared here
+                  examDataBox.clear();
+                },
+              ),
+              FlatButton(
+                child: Text("No"),
+                onPressed: () {
+                  Navigator.pop(context, false);
+                },
+              ),
+            ],
+            type: DialogType.GENERAL,
+          );
+          /* return AlertDialog(
             content: Text(
                 "Are you sure you want to quit? All your progress will be lost."),
             title: Text("Warning!"),
@@ -322,7 +397,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 },
               ),
             ],
-          );
+          ); */
         });
   }
 
@@ -530,7 +605,13 @@ class _ExamTemplateState extends State<ExamTemplate> {
               ],
             ),
           ),
-          _nextButton(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              _prevButton(),
+              _nextButton(),
+            ],
+          ),
         ],
       ),
     );
