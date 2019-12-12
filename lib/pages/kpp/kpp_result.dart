@@ -83,8 +83,7 @@ class KppResult extends StatelessWidget {
                 shape: StadiumBorder(),
                 child: RaisedButton(
                   onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, HOME, (r) => false);
+                    Navigator.pop(context);
                   },
                   textColor: Colors.white,
                   padding: const EdgeInsets.all(0.0),
@@ -100,7 +99,7 @@ class KppResult extends StatelessWidget {
                       vertical: 15.0,
                     ),
                     child: Text(
-                      'HOME',
+                      'DONE',
                       style: TextStyle(
                         fontSize: ScreenUtil.getInstance().setSp(56),
                       ),

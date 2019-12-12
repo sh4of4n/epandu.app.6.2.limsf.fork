@@ -37,27 +37,27 @@ class RouteGenerator {
         );
       case INVITE:
         return MaterialPageRoute(
-          settings: RouteSettings(name: PROFILE),
+          settings: RouteSettings(name: INVITE),
           builder: (_) => Invite(),
         );
       case KPP:
         return MaterialPageRoute(
-          settings: RouteSettings(name: PROFILE),
+          settings: RouteSettings(name: KPP),
           builder: (_) => KppCategory(),
         );
       case MODULE:
         return MaterialPageRoute(
-          settings: RouteSettings(name: PROFILE),
+          settings: RouteSettings(name: MODULE),
           builder: (_) => KppModule(data),
         );
       case KPP_EXAM:
         return MaterialPageRoute(
-          settings: RouteSettings(name: PROFILE),
+          settings: RouteSettings(name: KPP_EXAM),
           builder: (_) => KppExam(data),
         );
       case KPP_RESULT:
         return MaterialPageRoute(
-          settings: RouteSettings(name: PROFILE),
+          settings: RouteSettings(name: KPP_RESULT),
           builder: (_) => KppResult(data),
         );
       default:

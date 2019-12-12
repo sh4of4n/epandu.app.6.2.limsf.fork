@@ -5,6 +5,7 @@ import 'package:epandu/utils/drawer.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'home_menu_tiles.dart';
 
@@ -97,10 +98,10 @@ class _HomeState extends State<Home> {
               child: RichText(
                 text: TextSpan(
                   text: 'Hello, ',
-                  style: TextStyle(
-                    color: Colors.black,
+                  style: GoogleFonts.dosis(
                     fontSize: 30,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
+                    textStyle: TextStyle(color: Colors.black),
                   ),
                   children: <TextSpan>[
                     TextSpan(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 // import 'package:device_info/device_info.dart';
 // import 'package:flutter/painting.dart';
 
@@ -7,6 +9,30 @@ class ColorConstant {
   static const green = Colors.green;
   static const red = Colors.red;
   static const amberAccent = Colors.amberAccent;
+}
+
+class FontTheme {
+  TextTheme primaryFont = TextTheme(
+    display4: GoogleFonts.dosis(fontSize: 98),
+    display3: GoogleFonts.dosis(fontSize: 61),
+    display2: GoogleFonts.dosis(fontSize: 49),
+    display1: GoogleFonts.dosis(fontSize: 35),
+    headline: GoogleFonts.dosis(fontSize: 24),
+    title: GoogleFonts.dosis(
+        fontSize: 20, textStyle: TextStyle(fontWeight: FontWeight.w600)),
+    subhead: GoogleFonts.dosis(fontSize: 16),
+    body2: GoogleFonts.dosis(fontSize: 17),
+    body1: GoogleFonts.dosis(fontSize: 15),
+    caption: GoogleFonts.dosis(fontSize: 13),
+    button: GoogleFonts.dosis(fontSize: 15),
+    subtitle: GoogleFonts.dosis(fontSize: 14),
+    overline: GoogleFonts.dosis(fontSize: 11),
+  );
+
+  /* TextStyle appBarTextStyle = TextStyle(
+    fontSize: ScreenUtil().setSp(70),
+    fontWeight: FontWeight.w600,
+  ); */
 }
 
 class ImagesConstant {

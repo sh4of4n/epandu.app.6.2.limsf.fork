@@ -1,11 +1,12 @@
 import 'package:epandu/pages/kpp/question_options.dart';
 import 'package:epandu/services/api/model/kpp_model.dart';
+import 'package:epandu/utils/custom_snackbar.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:io';
-import 'package:quiver/async.dart';
+import 'dart:async';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
@@ -26,6 +27,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
   var snapshotData;
   final examDataBox = Hive.box('exam_data');
   KppExamData kppExamData;
+  final customSnackbar = CustomSnackbar();
 
   int index; // Added from local index
   int totalQuestion;
@@ -57,15 +59,14 @@ class _ExamTemplateState extends State<ExamTemplate> {
   double answerWidthText = ScreenUtil().width / (ScreenUtil().height / 5);
   double answerWidthImg = ScreenUtil().width / (ScreenUtil().height / 2);
 
-  int timer = 2700;
-  int currentTime = 2700;
+  Timer _timer;
+  int minute = 45;
+  int second = 00;
 
   List<Color> _answerColor = [];
   int _correctIndex;
   // int _selectedIndex;
   bool selected = false; // if not selected, next button is hidden
-
-  var sub;
 
   // ====
 
@@ -85,22 +86,27 @@ class _ExamTemplateState extends State<ExamTemplate> {
   }
 
   _startTimer() {
-    CountdownTimer countDownTimer = new CountdownTimer(
-      new Duration(seconds: timer),
-      new Duration(seconds: 1),
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (Timer timer) => setState(
+        () {
+          if (minute > 0 && second == 0) {
+            minute -= 1;
+            second = 59;
+          } else if (minute == 0 && second == 0) {
+            timer.cancel();
+          } else {
+            second -= 1;
+          }
+        },
+      ),
     );
+  }
 
-    sub = countDownTimer.listen(null);
-    sub.onData((duration) {
-      setState(() {
-        currentTime = timer - duration.elapsed.inSeconds;
-      });
-    });
-
-    sub.onDone(() {
-      print("Done");
-      sub.cancel();
-    });
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   _renderQuestion() {
@@ -184,11 +190,11 @@ class _ExamTemplateState extends State<ExamTemplate> {
 
   _questionImage() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 12.0, vertical: 20.0),
+      margin: EdgeInsets.symmetric(vertical: 10.0),
       child: Image.memory(
         questionImage,
-        width: ScreenUtil().setWidth(600),
-        height: ScreenUtil().setHeight(800),
+        width: ScreenUtil().setWidth(1100),
+        height: ScreenUtil().setHeight(600),
       ),
     );
   }
@@ -204,28 +210,36 @@ class _ExamTemplateState extends State<ExamTemplate> {
             shape: StadiumBorder(),
             child: RaisedButton(
               onPressed: () {
-                setState(() {
-                  if (index < snapshotData.length - 1) {
-                    index += 1;
-                    _clearCurrentQuestion();
+                if (selected) {
+                  setState(() {
+                    if (index < snapshotData.length - 1) {
+                      index += 1;
+                      _clearCurrentQuestion();
 
-                    // populate selected answer to question
-                    if (index < examDataBox.length) {
-                      final data = examDataBox.getAt(index) as KppExamData;
-                      _checkSelectedAnswer(data.answerIndex, 'next');
+                      // populate selected answer to question
+                      if (index < examDataBox.length) {
+                        final data = examDataBox.getAt(index) as KppExamData;
+                        _checkSelectedAnswer(data.answerIndex, 'next');
+                      }
+                    } else {
+                      Navigator.pushReplacementNamed(context, KPP_RESULT,
+                          arguments: kppExamData);
+
+                      // end timer
+                      _timer.cancel();
+
+                      // clear data once exam is completed
+                      examDataBox.clear();
                     }
-                  } else {
-                    Navigator.pushNamed(context, KPP_RESULT,
-                        arguments: kppExamData);
-
-                    // end timer
-                    sub.cancel();
-
-                    // clear data once exam is completed
-                    examDataBox.clear();
-                  }
-                  // _clearCurrentQuestion();
-                });
+                    // _clearCurrentQuestion();
+                  });
+                } else {
+                  return customSnackbar.show(
+                    context,
+                    message: 'You must select an answer to continue.',
+                    type: MessageType.TOAST,
+                  );
+                }
               },
               textColor: Colors.white,
               padding: const EdgeInsets.all(0.0),
@@ -295,7 +309,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                     Navigator.pop(context, true);
                   }
 
-                  sub.cancel();
+                  _timer.cancel();
 
                   // Hive box must be cleared here
                   examDataBox.clear();
@@ -319,7 +333,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
       child: Text(
         '${widget.groupId} ${widget.paperNo}',
         style: TextStyle(
-            fontSize: ScreenUtil().setSp(70), fontWeight: FontWeight.w600),
+            fontSize: ScreenUtil().setSp(60), fontWeight: FontWeight.w600),
       ),
     );
   }
@@ -402,7 +416,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
           _answerColor[answerIndex] = Colors.green;
           selected = true; // if selected, next button appears
           selectedAnswerCorrect.add(answerIndex);
-          correct += 1;
+          if (status == 'selected') correct += 1;
           // _selectedIndex = index;
         });
       } else {
@@ -412,7 +426,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
           selected = true;
           selectedAnswerCorrect.add(_correctIndex);
           selectedAnswerIncorrect.add(answerIndex);
-          incorrect += 1;
+          if (status == 'selected') incorrect += 1;
           // _selectedIndex = index;
         });
       }
@@ -483,9 +497,10 @@ class _ExamTemplateState extends State<ExamTemplate> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        '$currentTime',
+                        "${minute < 10 ? '0$minute' : '$minute'}:${second < 10 ? '0$second' : '$second'}",
                         style: _clockStyle,
                       ),
+                      // Text('$currentTime', style: _clockStyle),
                       Text('${index + 1}/${snapshotData.length}',
                           style: _clockStyle)
                     ],
@@ -515,7 +530,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
               ],
             ),
           ),
-          selected ? _nextButton() : SizedBox.shrink(),
+          _nextButton(),
         ],
       ),
     );

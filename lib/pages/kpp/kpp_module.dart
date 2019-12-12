@@ -45,7 +45,7 @@ class _KppModuleState extends State<KppModule> {
           // colorHue: ColorHue.multiple(
           //     colorHues: [ColorHue.green, ColorHue.blue]),
           colorBrightness: ColorBrightness.dark,
-          colorSaturation: ColorSaturation.mediumSaturation,
+          colorSaturation: ColorSaturation.highSaturation,
         ),
       );
     }
@@ -78,7 +78,7 @@ class _KppModuleState extends State<KppModule> {
                 return GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: MediaQuery.of(context).size.height / 530,
+                    // childAspectRatio: MediaQuery.of(context).size.height / 530,
                   ),
                   physics: BouncingScrollPhysics(),
                   itemCount: snapshot.data.length,
@@ -101,10 +101,10 @@ class _KppModuleState extends State<KppModule> {
                                 icon: snapshot.data[index]["paper_no"]
                                         .contains('COB')
                                     ? Icon(Icons.color_lens,
-                                        size: ScreenUtil().setSp(200),
+                                        size: ScreenUtil().setSp(250),
                                         color: Colors.white)
                                     : Icon(Icons.library_books,
-                                        size: ScreenUtil().setSp(200),
+                                        size: ScreenUtil().setSp(250),
                                         color: Colors.white)),
                           ],
                         ),

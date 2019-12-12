@@ -8,6 +8,7 @@ import 'package:hive/hive.dart';
 import 'services/api/model/kpp_model.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
   Hive.registerAdapter(KppExamDataAdapter(), 0);
@@ -27,6 +28,9 @@ class _MyAppState extends State<MyApp> {
       title: 'ePandu',
       theme: ThemeData(
         primaryColor: ColorConstant.primaryColor,
+        textTheme: FontTheme().primaryFont,
+        primaryTextTheme: FontTheme().primaryFont,
+        accentTextTheme: FontTheme().primaryFont,
       ),
       initialRoute: AUTH,
       onGenerateRoute: RouteGenerator.generateRoute,

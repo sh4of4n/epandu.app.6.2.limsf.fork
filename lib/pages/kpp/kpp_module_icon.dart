@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:random_color/random_color.dart';
 
 class KppModuleIcon extends StatelessWidget {
   final snapshot;
@@ -31,7 +30,7 @@ class KppModuleIcon extends StatelessWidget {
       child: Container(
         // padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 25.0),
         width: ScreenUtil().setWidth(650),
-        height: ScreenUtil().setHeight(600),
+        height: ScreenUtil().setHeight(650),
         decoration: BoxDecoration(
           color: iconColor,
           // border: Border.all(width: 1.0, color: Colors.black12),
