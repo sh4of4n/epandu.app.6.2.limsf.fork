@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 // import 'package:device_info/device_info.dart';
 // import 'package:flutter/painting.dart';
@@ -10,6 +9,22 @@ class ColorConstant {
   static const red = Colors.red;
   static const amberAccent = Colors.amberAccent;
 }
+
+final ColorScheme colorScheme = ColorScheme.light(
+  primary: Color(0xFF501049),
+  secondary: Color(0xFFE30425),
+  primaryVariant: Color(0xFF5D1049),
+  secondaryVariant: Color(0xFFE30425),
+  surface: Color(0xFFFFFFFF),
+  background: Color(0xFFF4E2ED),
+  error: Color(0xFFB00020),
+  onPrimary: Color(0xFFFFFFFF),
+  onSecondary: Color(0xFFFFFFFF),
+  onSurface: Color(0xFF000000),
+  onError: Color(0xFFFD9726),
+  onBackground: Color(0xFF000000),
+  brightness: Brightness.light,
+);
 
 class FontTheme {
   TextTheme primaryFont = TextTheme(

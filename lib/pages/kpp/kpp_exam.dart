@@ -1,6 +1,8 @@
 import 'package:epandu/pages/kpp/exam_template.dart';
+import 'package:epandu/services/api/model/kpp_model.dart';
 import 'package:epandu/services/repo/kpp_repo.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,9 +22,47 @@ class _KppExamState extends State<KppExam> {
   final kppRepo = KppRepo();
   final primaryColor = ColorConstant.primaryColor;
   int index = 0;
+  // String groupId;
+  // String paperNo;
 
   _getExamQuestions() async {
     await Hive.openBox('exam_data');
+
+    // Check existing KPP exam
+    /* final examDataBox = Hive.box('exam_data');
+    KppExamData data;
+
+    if (examDataBox.length > 0) {
+      data = examDataBox.getAt(0) as KppExamData;
+
+      return CustomDialog().show(
+        context: context,
+        title: Center(child: Icon(Icons.info_outline)),
+        content:
+            'You have an existing session at ${data.groupId} ${data.paperNo}. Would you like to restore it?',
+        customActions: <Widget>[
+          FlatButton(
+            child: Text("Yes"),
+            onPressed: () {
+              groupId = data.groupId;
+              paperNo = data.paperNo;
+
+              Navigator.pop(context);
+            },
+          ),
+          FlatButton(
+            child: Text("No"),
+            onPressed: () {
+              // Hive box must be cleared here
+              examDataBox.clear();
+
+              Navigator.pop(context);
+            },
+          ),
+        ],
+        type: DialogType.GENERAL,
+      );
+    } */
 
     var result = await kppRepo.getExamQuestions(
       groupId: widget.data.groupId,
@@ -55,22 +95,23 @@ class _KppExamState extends State<KppExam> {
             ),
           ),
           FutureBuilder(
-              future: _getExamQuestions(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
-                  return ExamTemplate(
-                    snapshot: snapshot,
-                    index: index,
-                    groupId: widget.data.groupId,
-                    paperNo: widget.data.paperNo,
-                  );
-                }
-                return Center(
-                  child: SpinKitFoldingCube(
-                    color: primaryColor,
-                  ),
+            future: _getExamQuestions(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return ExamTemplate(
+                  snapshot: snapshot,
+                  index: index,
+                  groupId: widget.data.groupId,
+                  paperNo: widget.data.paperNo,
                 );
-              }),
+              }
+              return Center(
+                child: SpinKitFoldingCube(
+                  color: primaryColor,
+                ),
+              );
+            },
+          ),
         ],
       ),
     );

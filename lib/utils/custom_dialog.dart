@@ -8,26 +8,16 @@ enum DialogType {
   WARNING,
 }
 
-class CustomDialog extends StatelessWidget {
-  final String content;
-  final Widget title;
-  final List<Widget> customActions;
-  final DialogType type;
+class CustomDialog {
+  final double _defIconSize = 80;
 
-  CustomDialog({
-    @required this.content,
-    this.title,
-    this.customActions,
-    @required this.type,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        child: _dialogType(context, content, title, customActions));
-  }
-
-  _dialogType(context, content, title, customActions) {
+  show({
+    @required context,
+    @required content,
+    title,
+    customActions,
+    @required type,
+  }) {
     List<Widget> actions = <Widget>[
       FlatButton(
         child: Text("Ok"),
@@ -40,27 +30,52 @@ class CustomDialog extends StatelessWidget {
     switch (type) {
       case DialogType.GENERAL:
         actions = customActions;
-        return _dialog(title, content, actions);
+        return _dialog(context, title, content, actions);
       case DialogType.INFO:
-        title = Center(child: Icon(Icons.info_outline));
-        return _dialog(title, content, actions);
+        title = Center(
+          child: Icon(
+            Icons.info_outline,
+            size: _defIconSize,
+          ),
+        );
+        return _dialog(context, title, content, actions);
       case DialogType.SUCCESS:
-        title = Center(child: Icon(Icons.check_circle_outline));
-        return _dialog(title, content, actions);
+        title = Center(
+          child: Icon(
+            Icons.check_circle_outline,
+            size: _defIconSize,
+          ),
+        );
+        return _dialog(context, title, content, actions);
       case DialogType.WARNING:
-        title = Center(child: Icon(Icons.warning));
-        return _dialog(title, content, actions);
+        title = Center(
+          child: Icon(
+            Icons.warning,
+            size: _defIconSize,
+          ),
+        );
+        return _dialog(context, title, content, actions);
       case DialogType.ERROR:
-        title = Center(child: Icon(Icons.cancel));
-        return _dialog(title, content, actions);
+        title = Center(
+          child: Icon(
+            Icons.cancel,
+            size: _defIconSize,
+          ),
+        );
+        return _dialog(context, title, content, actions);
     }
   }
 
-  _dialog(title, content, actions) {
-    return AlertDialog(
-      content: Text(content),
-      title: title,
-      actions: actions,
+  _dialog(context, title, content, actions) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text(content),
+          title: title,
+          actions: actions,
+        );
+      },
     );
   }
 }

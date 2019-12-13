@@ -87,6 +87,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
     _renderQuestion();
   }
 
+  // Todo: Optimize timer, it currently re-renders the entire page
   _startTimer() {
     _timer = Timer.periodic(
       const Duration(seconds: 1),
@@ -337,45 +338,41 @@ class _ExamTemplateState extends State<ExamTemplate> {
     );
   }
 
-  Future<bool> _showExitDialog({type}) async {
-    return showDialog<bool>(
-        context: context,
-        builder: (_) {
-          return CustomDialog(
-            title: Text('Warning!'),
-            content:
-                'Are you sure you want to quit? All your progress will be lost.',
-            customActions: <Widget>[
-              FlatButton(
-                child: Text("Yes"),
-                onPressed: () {
-                  if (type == 'system') {
-                    Navigator.pop(context, true);
-                  } else {
-                    Navigator.pop(context, true);
-                    Navigator.pop(context, true);
-                  }
+  _showExitDialog({type}) {
+    return CustomDialog().show(
+      context: context,
+      title: Text('Warning!'),
+      content: 'Are you sure you want to quit? All your progress will be lost.',
+      customActions: <Widget>[
+        FlatButton(
+          child: Text("Yes"),
+          onPressed: () {
+            if (type == 'system') {
+              Navigator.pop(context);
+            } else {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            }
 
-                  _timer.cancel();
+            _timer.cancel();
 
-                  // Hive box must be cleared here
-                  examDataBox.clear();
-                },
-              ),
-              FlatButton(
-                child: Text("No"),
-                onPressed: () {
-                  Navigator.pop(context, false);
-                },
-              ),
-            ],
-            type: DialogType.GENERAL,
-          );
-        });
+            // Hive box must be cleared here
+            examDataBox.clear();
+          },
+        ),
+        FlatButton(
+          child: Text("No"),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ],
+      type: DialogType.GENERAL,
+    );
   }
 
   // Top bar
-  _examTitle() {
+  _appBarTitle() {
     return Padding(
       padding: const EdgeInsets.only(left: 20.0),
       child: Text(
@@ -445,7 +442,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 children: <Widget>[
                   Image.memory(
                     answers[answerIndex],
-                    width: ScreenUtil().setWidth(500),
+                    width: ScreenUtil().setWidth(400),
                   ),
                 ],
               ),
@@ -515,7 +512,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   _backButton(),
-                  _examTitle(),
+                  _appBarTitle(),
                 ],
               ),
             ),

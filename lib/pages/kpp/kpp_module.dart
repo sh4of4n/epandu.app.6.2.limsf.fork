@@ -45,7 +45,7 @@ class _KppModuleState extends State<KppModule> {
           // colorHue: ColorHue.multiple(
           //     colorHues: [ColorHue.green, ColorHue.blue]),
           colorBrightness: ColorBrightness.dark,
-          colorSaturation: ColorSaturation.highSaturation,
+          colorSaturation: ColorSaturation.mediumSaturation,
         ),
       );
     }
