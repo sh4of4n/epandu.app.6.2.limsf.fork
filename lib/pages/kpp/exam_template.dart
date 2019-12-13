@@ -369,35 +369,6 @@ class _ExamTemplateState extends State<ExamTemplate> {
             ],
             type: DialogType.GENERAL,
           );
-          /* return AlertDialog(
-            content: Text(
-                "Are you sure you want to quit? All your progress will be lost."),
-            title: Text("Warning!"),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("Yes"),
-                onPressed: () {
-                  if (type == 'system') {
-                    Navigator.pop(context, true);
-                  } else {
-                    Navigator.pop(context, true);
-                    Navigator.pop(context, true);
-                  }
-
-                  _timer.cancel();
-
-                  // Hive box must be cleared here
-                  examDataBox.clear();
-                },
-              ),
-              FlatButton(
-                child: Text("No"),
-                onPressed: () {
-                  Navigator.pop(context, false);
-                },
-              ),
-            ],
-          ); */
         });
   }
 

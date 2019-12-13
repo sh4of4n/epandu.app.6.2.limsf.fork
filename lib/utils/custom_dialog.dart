@@ -23,7 +23,8 @@ class CustomDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _dialogType(context, content, title, customActions);
+    return Container(
+        child: _dialogType(context, content, title, customActions));
   }
 
   _dialogType(context, content, title, customActions) {
@@ -39,24 +40,19 @@ class CustomDialog extends StatelessWidget {
     switch (type) {
       case DialogType.GENERAL:
         actions = customActions;
-        _dialog(title, content, actions);
-        break;
+        return _dialog(title, content, actions);
       case DialogType.INFO:
         title = Center(child: Icon(Icons.info_outline));
-        _dialog(title, content, actions);
-        break;
+        return _dialog(title, content, actions);
       case DialogType.SUCCESS:
         title = Center(child: Icon(Icons.check_circle_outline));
-        _dialog(title, content, actions);
-        break;
+        return _dialog(title, content, actions);
       case DialogType.WARNING:
         title = Center(child: Icon(Icons.warning));
-        _dialog(title, content, actions);
-        break;
+        return _dialog(title, content, actions);
       case DialogType.ERROR:
         title = Center(child: Icon(Icons.cancel));
-        _dialog(title, content, actions);
-        break;
+        return _dialog(title, content, actions);
     }
   }
 
