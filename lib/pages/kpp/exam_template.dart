@@ -36,7 +36,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
   Uint8List questionImage;
 
   List<String> roman = [];
-  List<dynamic> questionOption = [];
+  List<String> questionOption = []; // I) II) III) IV) V)
+  List<Uint8List> questionOptionImage = []; // Image in question option
 
   List<String> type = []; // answer letter
   List<dynamic> answers = [];
@@ -130,9 +131,9 @@ class _ExamTemplateState extends State<ExamTemplate> {
 
         if (snapshotData[index]['question_option_$i'] != null)
           questionOption.add(snapshotData[index]['question_option_$i']);
-        else if (snapshotData[index]['question_option_$i'] == null &&
-            snapshotData[index]['question_option_${i}_photo'] != null)
-          questionOption.add(
+
+        if (snapshotData[index]['question_option_${i}_photo'] != null)
+          questionOptionImage.add(
               base64Decode(snapshotData[index]['question_option_${i}_photo']));
       }
 
@@ -180,6 +181,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
   _clearCurrentQuestion() {
     setState(() {
       questionOption.clear();
+      questionOptionImage.clear();
       answers.clear();
       questionImage = null;
       _answerColor.clear();
@@ -538,7 +540,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 // Timer, No of Questions
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 10.0),
+                      horizontal: 20.0, vertical: 5.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -554,7 +556,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 ),
                 // Question
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
                   child: Text(
                     question,
                     style: _questionStyle,
@@ -564,7 +567,10 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 questionImage != null ? _questionImage() : SizedBox.shrink(),
                 // Question options I, II, III, IV, V
                 questionOption.length > 0
-                    ? QuestionOptions(questionOption: questionOption)
+                    ? QuestionOptions(
+                        questionOption: questionOption,
+                        image: questionOptionImage,
+                      )
                     : SizedBox.shrink(),
                 // Answers a, b, c, d, e
                 answers.length > 0
