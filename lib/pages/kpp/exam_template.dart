@@ -106,17 +106,19 @@ class _ExamTemplateState extends State<ExamTemplate> {
   _restoreSession() {
     if (examDataBox.length > 0) {
       final data = examDataBox.getAt(examDataBox.length - 1) as KppExamData;
-      final selectedAnswerIndex = examDataBox.getAt(index)
-          as KppExamData; // get Question 1 selected answer
-      _checkSelectedAnswer(selectedAnswerIndex.answerIndex, 'next');
+      // final selectedAnswerIndex = examDataBox.getAt(index)
+      //     as KppExamData; // get Question 1 selected answer
+      // _checkSelectedAnswer(selectedAnswerIndex.answerIndex, 'next');
 
       setState(() {
-        // index = data.examQuestionNo; // move to latest question
+        index = data.examQuestionNo + 1; // move to latest question
         correct += data.correct;
         incorrect += data.incorrect;
         minute = int.tryParse(data.minute);
         second = int.tryParse(data.second);
       });
+
+      _clearCurrentQuestion();
     }
   }
 
