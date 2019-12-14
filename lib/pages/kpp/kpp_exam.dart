@@ -22,14 +22,22 @@ class _KppExamState extends State<KppExam> {
   final kppRepo = KppRepo();
   final primaryColor = ColorConstant.primaryColor;
   int index = 0;
-  // String groupId;
-  // String paperNo;
+  String groupId;
+  String paperNo;
+  var snapshot;
 
-  _getExamQuestions() async {
+  @override
+  void initState() {
+    super.initState();
+
+    _checkExistingExam();
+  }
+
+  _checkExistingExam() async {
     await Hive.openBox('exam_data');
 
     // Check existing KPP exam
-    /* final examDataBox = Hive.box('exam_data');
+    final examDataBox = Hive.box('exam_data');
     KppExamData data;
 
     if (examDataBox.length > 0) {
@@ -37,7 +45,7 @@ class _KppExamState extends State<KppExam> {
 
       return CustomDialog().show(
         context: context,
-        title: Center(child: Icon(Icons.info_outline)),
+        title: Center(child: Icon(Icons.info_outline, size: 120)),
         content:
             'You have an existing session at ${data.groupId} ${data.paperNo}. Would you like to restore it?',
         customActions: <Widget>[
@@ -48,29 +56,47 @@ class _KppExamState extends State<KppExam> {
               paperNo = data.paperNo;
 
               Navigator.pop(context);
+
+              _getExamQuestions();
             },
           ),
           FlatButton(
             child: Text("No"),
             onPressed: () {
+              groupId = widget.data.groupId;
+              paperNo = widget.data.paperNo;
               // Hive box must be cleared here
               examDataBox.clear();
 
               Navigator.pop(context);
+
+              _getExamQuestions();
             },
           ),
         ],
         type: DialogType.GENERAL,
+        barrierDismissable: false,
       );
-    } */
+    } else {
+      groupId = widget.data.groupId;
+      paperNo = widget.data.paperNo;
 
+      _getExamQuestions();
+    }
+
+    // await _getExamQuestions();
+  }
+
+  _getExamQuestions() async {
     var result = await kppRepo.getExamQuestions(
-      groupId: widget.data.groupId,
-      paperNo: widget.data.paperNo,
+      groupId: groupId,
+      paperNo: paperNo,
     );
 
     if (result.isSuccess) {
-      return result.data['TheoryQuestion'];
+      setState(() {
+        snapshot = result.data['TheoryQuestion'];
+      });
     }
   }
 
@@ -94,24 +120,18 @@ class _KppExamState extends State<KppExam> {
               height: ScreenUtil().setHeight(1200),
             ),
           ),
-          FutureBuilder(
-            future: _getExamQuestions(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                return ExamTemplate(
+          snapshot != null
+              ? ExamTemplate(
                   snapshot: snapshot,
                   index: index,
-                  groupId: widget.data.groupId,
-                  paperNo: widget.data.paperNo,
-                );
-              }
-              return Center(
-                child: SpinKitFoldingCube(
-                  color: primaryColor,
+                  groupId: groupId,
+                  paperNo: paperNo,
+                )
+              : Center(
+                  child: SpinKitFoldingCube(
+                    color: primaryColor,
+                  ),
                 ),
-              );
-            },
-          ),
         ],
       ),
     );

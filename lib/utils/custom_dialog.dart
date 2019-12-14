@@ -9,7 +9,7 @@ enum DialogType {
 }
 
 class CustomDialog {
-  final double _defIconSize = 80;
+  final double _defIconSize = 120;
 
   show({
     @required context,
@@ -17,6 +17,7 @@ class CustomDialog {
     title,
     customActions,
     @required type,
+    bool barrierDismissable,
   }) {
     List<Widget> actions = <Widget>[
       FlatButton(
@@ -30,7 +31,13 @@ class CustomDialog {
     switch (type) {
       case DialogType.GENERAL:
         actions = customActions;
-        return _dialog(context, title, content, actions);
+        return _dialog(
+          context,
+          title,
+          content,
+          actions,
+          barrierDismissable,
+        );
       case DialogType.INFO:
         title = Center(
           child: Icon(
@@ -38,7 +45,13 @@ class CustomDialog {
             size: _defIconSize,
           ),
         );
-        return _dialog(context, title, content, actions);
+        return _dialog(
+          context,
+          title,
+          content,
+          actions,
+          barrierDismissable,
+        );
       case DialogType.SUCCESS:
         title = Center(
           child: Icon(
@@ -46,7 +59,13 @@ class CustomDialog {
             size: _defIconSize,
           ),
         );
-        return _dialog(context, title, content, actions);
+        return _dialog(
+          context,
+          title,
+          content,
+          actions,
+          barrierDismissable,
+        );
       case DialogType.WARNING:
         title = Center(
           child: Icon(
@@ -54,7 +73,13 @@ class CustomDialog {
             size: _defIconSize,
           ),
         );
-        return _dialog(context, title, content, actions);
+        return _dialog(
+          context,
+          title,
+          content,
+          actions,
+          barrierDismissable,
+        );
       case DialogType.ERROR:
         title = Center(
           child: Icon(
@@ -62,11 +87,23 @@ class CustomDialog {
             size: _defIconSize,
           ),
         );
-        return _dialog(context, title, content, actions);
+        return _dialog(
+          context,
+          title,
+          content,
+          actions,
+          barrierDismissable,
+        );
     }
   }
 
-  _dialog(context, title, content, actions) {
+  _dialog(
+    context,
+    title,
+    content,
+    actions,
+    barrierDismissable,
+  ) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -76,6 +113,7 @@ class CustomDialog {
           actions: actions,
         );
       },
+      barrierDismissible: barrierDismissable ?? true,
     );
   }
 }

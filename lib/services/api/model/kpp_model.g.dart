@@ -20,16 +20,17 @@ class KppExamDataAdapter extends TypeAdapter<KppExamData> {
       correct: fields[3] as int,
       incorrect: fields[4] as int,
       totalQuestions: fields[5] as int,
-      examTime: fields[6] as String,
-      groupId: fields[7] as String,
-      paperNo: fields[8] as String,
+      second: fields[6] as String,
+      minute: fields[7] as String,
+      groupId: fields[8] as String,
+      paperNo: fields[9] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, KppExamData obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.selectedAnswer)
       ..writeByte(1)
@@ -43,10 +44,12 @@ class KppExamDataAdapter extends TypeAdapter<KppExamData> {
       ..writeByte(5)
       ..write(obj.totalQuestions)
       ..writeByte(6)
-      ..write(obj.examTime)
+      ..write(obj.second)
       ..writeByte(7)
-      ..write(obj.groupId)
+      ..write(obj.minute)
       ..writeByte(8)
+      ..write(obj.groupId)
+      ..writeByte(9)
       ..write(obj.paperNo);
   }
 }

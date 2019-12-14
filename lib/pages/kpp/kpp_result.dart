@@ -78,6 +78,7 @@ class KppResult extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(height: 5.0),
               ButtonTheme(
                 padding: EdgeInsets.all(0.0),
                 shape: StadiumBorder(),

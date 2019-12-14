@@ -33,12 +33,15 @@ class KppExamData {
   final int totalQuestions;
 
   @HiveField(6)
-  final String examTime;
+  final String second;
 
   @HiveField(7)
-  final String groupId;
+  final String minute;
 
   @HiveField(8)
+  final String groupId;
+
+  @HiveField(9)
   final String paperNo;
 
   KppExamData({
@@ -48,7 +51,8 @@ class KppExamData {
     this.correct,
     this.incorrect,
     this.totalQuestions,
-    this.examTime,
+    this.second,
+    this.minute,
     this.groupId,
     this.paperNo,
   });

@@ -42,9 +42,6 @@ class _ExamTemplateState extends State<ExamTemplate> {
   List<String> type = []; // answer letter
   List<dynamic> answers = [];
 
-  List<int> selectedAnswerCorrect = [];
-  List<int> selectedAnswerIncorrect = [];
-
   String correctAnswer;
   int correct = 0; // number of correct answers selected
   int incorrect = 0; // number of incorrect answers selected
@@ -67,7 +64,6 @@ class _ExamTemplateState extends State<ExamTemplate> {
 
   List<Color> _answerColor = [];
   int _correctIndex;
-  // int _selectedIndex;
   bool selected = false; // if not selected, next button is hidden
 
   // ====
@@ -76,15 +72,16 @@ class _ExamTemplateState extends State<ExamTemplate> {
   void initState() {
     super.initState();
 
-    snapshotData = widget.snapshot.data;
+    snapshotData = widget.snapshot;
 
     setState(() {
-      totalQuestion = widget.snapshot.data.length;
+      totalQuestion = widget.snapshot.length;
       index = widget.index;
     });
 
     _startTimer();
     _renderQuestion();
+    _restoreSession();
   }
 
   // Todo: Optimize timer, it currently re-renders the entire page
@@ -104,6 +101,23 @@ class _ExamTemplateState extends State<ExamTemplate> {
         },
       ),
     );
+  }
+
+  _restoreSession() {
+    if (examDataBox.length > 0) {
+      final data = examDataBox.getAt(examDataBox.length - 1) as KppExamData;
+      final selectedAnswerIndex = examDataBox.getAt(index)
+          as KppExamData; // get Question 1 selected answer
+      _checkSelectedAnswer(selectedAnswerIndex.answerIndex, 'next');
+
+      setState(() {
+        // index = data.examQuestionNo; // move to latest question
+        correct += data.correct;
+        incorrect += data.incorrect;
+        minute = int.tryParse(data.minute);
+        second = int.tryParse(data.second);
+      });
+    }
   }
 
   @override
@@ -457,10 +471,10 @@ class _ExamTemplateState extends State<ExamTemplate> {
   _checkSelectedAnswer(answerIndex, status) {
     if (!selected) {
       if (type[answerIndex].toUpperCase() == correctAnswer) {
+        // checks for correct answer
         setState(() {
           _answerColor[answerIndex] = Colors.green;
           selected = true; // if selected, next button appears
-          selectedAnswerCorrect.add(answerIndex);
           if (status == 'selected') correct += 1;
           // _selectedIndex = index;
         });
@@ -469,15 +483,13 @@ class _ExamTemplateState extends State<ExamTemplate> {
           _answerColor[_correctIndex] = Colors.green;
           _answerColor[answerIndex] = Colors.red;
           selected = true;
-          selectedAnswerCorrect.add(_correctIndex);
-          selectedAnswerIncorrect.add(answerIndex);
           if (status == 'selected') incorrect += 1;
           // _selectedIndex = index;
         });
       }
 
       kppExamData = KppExamData(
-        selectedAnswer: type[answerIndex],
+        selectedAnswer: type[answerIndex], // not in use
         answerIndex: answerIndex,
         examQuestionNo: index,
         correct: correct,
@@ -485,6 +497,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
         totalQuestions: snapshotData.length,
         groupId: widget.groupId,
         paperNo: widget.paperNo,
+        minute: minute.toString(),
+        second: second.toString(),
       );
 
       if (status == 'selected') {
