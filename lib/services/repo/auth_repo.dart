@@ -118,7 +118,7 @@ class AuthRepo {
   // Register
   // Also used for invite friends
   Future<Result> checkExistingUser({
-    context,
+    String type,
     String countryCode,
     String phone,
     String userId,
@@ -160,7 +160,7 @@ class AuthRepo {
     if (responseData == null) {
       // Number not registered
       var result = await register(
-        context,
+        type,
         countryCode,
         phone,
         userId,
@@ -178,38 +178,12 @@ class AuthRepo {
 
       return result;
     } else {
-      return Result(false, message: responseData);
+      return Result(false, message: responseData.toString());
     }
   }
 
-  Future<Result> register(context, countryCode, phone, userId, name, add1, add2,
+  Future<Result> register(type, countryCode, phone, userId, name, add1, add2,
       add3, postCode, city, state, country, email, icNo) async {
-    /* String params = """{
-      'wsCodeCrypt': '${appConfig.wsCodeCrypt}',
-      'caUid': '${appConfig.caUid}',
-      'caPwd': '${appConfig.caPwd}',
-      'appCode': '',
-      'diCode': '${appConfig.diCode}',
-      'userId': $userId,
-      'name': $name,
-      'icNo': ${icNo ?? ''},
-      'passportNo': '',
-      'phoneCountryCode': $countryCode,
-      'phone': $phone,
-      'nationality': '',
-      'dateOfBirthString': '',
-      'gender': '',
-      'race': '',
-      'add1': '${add1 ?? ''}',
-      'add2': '${add2 ?? ''}',
-      'add3': '${add3 ?? ''}',
-      'postcode': '${postCode ?? ''}',
-      'city': '${city ?? ''}',
-      'state': '${state ?? ''}',
-      'country': '${country ?? ''}',
-      'email': '${email ?? ''}',
-    }"""; */
-
     RegisterRequest params = RegisterRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: appConfig.caUid,
@@ -245,10 +219,23 @@ class AuthRepo {
     var response =
         await networking.postData(api: api, body: body, headers: headers);
 
-    if (response != null) {
-      return Result(true, data: response);
+    var message = '';
+
+    if (response['CreateAppAccountResult'].isNotEmpty) {
+      if (type == 'INVITE')
+        message = 'Your invitation has been sent. Yay!';
+      else
+        message = 'Registration successful, you will recei';
+
+      return Result(true,
+          data: response['CreateAppAccountResult'], message: message);
     }
 
-    return Result(false, message: '');
+    if (type == 'INVITE')
+      message = 'Invitation failed, please try again later.';
+    else
+      message = 'You are now registered, you will receive a SMS notification.';
+
+    return Result(false, message: message);
   }
 }

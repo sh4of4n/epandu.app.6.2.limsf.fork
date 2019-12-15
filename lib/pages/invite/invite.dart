@@ -27,7 +27,8 @@ class _InviteState extends State<Invite> with PageBaseClass {
   String _countryCode = '+60';
   String _phone = '';
   String _name = '';
-  String _inviteMessage = '';
+  String _message = '';
+  TextStyle _messageStyle = TextStyle(color: Colors.red);
 
   final AuthRepo authRepo = AuthRepo();
 
@@ -189,13 +190,17 @@ class _InviteState extends State<Invite> with PageBaseClass {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            _inviteMessage.isNotEmpty
-                                ? Text(
-                                    _inviteMessage,
-                                    style: TextStyle(color: Colors.red),
-                                  )
-                                : SizedBox.shrink(),
-                            _inviteButton(),
+                            Column(
+                              children: <Widget>[
+                                _message.isNotEmpty
+                                    ? Text(
+                                        _message,
+                                        style: _messageStyle,
+                                      )
+                                    : SizedBox.shrink(),
+                                _inviteButton(),
+                              ],
+                            ),
                           ],
                         ),
                       ],
@@ -256,10 +261,11 @@ class _InviteState extends State<Invite> with PageBaseClass {
 
       setState(() {
         _isLoading = true;
+        _message = '';
       });
 
       var result = await authRepo.checkExistingUser(
-        context: context,
+        type: 'INVITE',
         countryCode: _countryCode,
         phone: _phone,
         userId: _userId,
@@ -268,9 +274,19 @@ class _InviteState extends State<Invite> with PageBaseClass {
 
       if (result.isSuccess) {
         setState(() {
-          _isLoading = false;
+          _message = result.message;
+          _messageStyle = TextStyle(color: Colors.green);
+        });
+      } else {
+        setState(() {
+          _message = result.message;
+          _messageStyle = TextStyle(color: Colors.red);
         });
       }
+
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 }

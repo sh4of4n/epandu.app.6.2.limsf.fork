@@ -170,13 +170,17 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  _loginMessage.isNotEmpty
-                      ? Text(
-                          _loginMessage,
-                          style: TextStyle(color: Colors.red),
-                        )
-                      : SizedBox.shrink(),
-                  _loginButton(),
+                  Column(
+                    children: <Widget>[
+                      _loginMessage.isNotEmpty
+                          ? Text(
+                              _loginMessage,
+                              style: TextStyle(color: Colors.red),
+                            )
+                          : SizedBox.shrink(),
+                      _loginButton(),
+                    ],
+                  ),
                 ],
               ),
               SizedBox(
