@@ -11,11 +11,11 @@ import 'package:xml2json/xml2json.dart';
 
 class Networking {
   final xml2json = Xml2Json();
-  var body;
+  // var body;
   String url;
   String type;
 
-  Networking({this.body, this.type}) {
+  Networking({this.type}) {
     if (type == 'EWALLET')
       url = AppConfig.eWalletUrl();
     else if (type == 'SOS')
@@ -50,23 +50,36 @@ class Networking {
     }
   }
 
-  Future postData({path}) async {
-    http.Response response =
-        await http.post('$url/${path.isNotEmpty ? path : ""}', body: body);
+  Future postData({String api, String path, body, headers}) async {
+    try {
+      http.Response response = await http
+          .post('$url/$api${path ?? ""}', body: body, headers: headers)
+          .timeout(Duration(seconds: 15));
 
-    if (response.statusCode == 200) {
-      var convertResponse = response.body
-          .replaceAll('&lt;', '<')
-          .replaceAll('&gt;', '>')
-          .replaceAll('&#xD;', '');
+      if (response.statusCode == 200) {
+        var data;
 
-      xml2json.parse(convertResponse);
-      var jsonData = xml2json.toParker();
-      var data = jsonDecode(jsonData);
+        if (response.body.contains('&lt;')) {
+          var convertResponse = response.body
+              .replaceAll('&lt;', '<')
+              .replaceAll('&gt;', '>')
+              .replaceAll('&#xD;', '');
 
-      return data;
-    } else {
-      print(response.statusCode);
+          xml2json.parse(convertResponse);
+          var jsonData = xml2json.toParker();
+
+          data = jsonDecode(jsonData);
+        } else {
+          data = jsonDecode(response.body);
+        }
+
+        return data;
+      } else {
+        print(response.statusCode);
+      }
+    } catch (e) {
+      print(e);
+      return (e.toString());
     }
   }
 

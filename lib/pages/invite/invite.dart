@@ -1,5 +1,7 @@
 import 'package:epandu/base/page_base_class.dart';
+import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -22,9 +24,12 @@ class _InviteState extends State<Invite> with PageBaseClass {
 
   final image = ImagesConstant();
 
+  String _countryCode = '+60';
   String _phone = '';
   String _name = '';
   String _inviteMessage = '';
+
+  final AuthRepo authRepo = AuthRepo();
 
   @override
   Widget build(BuildContext context) {
@@ -222,7 +227,8 @@ class _InviteState extends State<Invite> with PageBaseClass {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(18.0),
                     gradient: LinearGradient(
-                      colors: [Colors.amber, Colors.red],
+                      colors: [Colors.red, Colors.orange],
+                      // colors: [Colors.blueAccent.shade700, Colors.blue],
                     ),
                   ),
                   padding: const EdgeInsets.symmetric(
@@ -241,5 +247,30 @@ class _InviteState extends State<Invite> with PageBaseClass {
     );
   }
 
-  _submit() {}
+  _submit() async {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      FocusScope.of(context).requestFocus(new FocusNode());
+
+      String _userId = await LocalStorage().getUserId();
+
+      setState(() {
+        _isLoading = true;
+      });
+
+      var result = await authRepo.checkExistingUser(
+        context: context,
+        countryCode: _countryCode,
+        phone: _phone,
+        userId: _userId,
+        name: _name,
+      );
+
+      if (result.isSuccess) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
 }

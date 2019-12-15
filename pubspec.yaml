@@ -23,6 +23,7 @@ dependencies:
   flutter_custom_clippers: ^1.1.0
   google_fonts: ^0.1.1
   flushbar: ^1.9.1
+  json_annotation: ^3.0.0
 
 dev_dependencies:
   flutter_test:

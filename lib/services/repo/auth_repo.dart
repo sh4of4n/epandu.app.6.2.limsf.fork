@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:epandu/services/result.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
@@ -113,106 +115,140 @@ class AuthRepo {
     await networking.getData(path: params);
   }
 
-  /* // Register
-  Future<Result> checkExistingUser(
+  // Register
+  // Also used for invite friends
+  Future<Result> checkExistingUser({
     context,
-    countryCode,
-    phone,
-    userId,
-    name,
-    add1,
-    add2,
-    add3,
-    postcode,
-    city,
-    state,
-    country,
-    email,
-  ) async {
-    try {
-      String userPhone;
-      String params;
-      String defPhone;
+    String countryCode,
+    String phone,
+    String userId,
+    String name,
+    String add1,
+    String add2,
+    String add3,
+    String postcode,
+    String city,
+    String state,
+    String country,
+    String email,
+    String icNo,
+  }) async {
+    String userPhone;
+    String params;
+    // String defPhone;
 
-      if (countryCode.includes('60')) {
-        if (phone.startsWith('0')) {
-          userPhone = countryCode + phone.substring(1);
-          defPhone = phone.substring(1);
-        } else {
-          userPhone = countryCode + phone;
-          defPhone = phone;
-        }
+    if (countryCode.contains('60')) {
+      if (phone.startsWith('0')) {
+        userPhone = countryCode + phone.substring(1);
+        // defPhone = phone.substring(1);
+      } else {
+        userPhone = countryCode + phone;
+        // defPhone = phone;
       }
+    }
 
-      params =
-          'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&userPhone=$userPhone';
+    if (userId.isEmpty) userId = 'TBS';
 
-      var response = await Networking.getInstance().checkExistingUser(params);
-      xml2json.parse(response.toString());
-      var jsonData = xml2json.toParker();
-      var data = json.decode(jsonData);
+    params =
+        'GetUserByUserPhone?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&userPhone=$userPhone';
 
-      print('response: $response');
-      print('data: $data');
+    var response = await networking.getData(path: params);
 
-      // response returns null
-    } catch (exception, stackTrace) {
-      return handleError(exception, stackTrace);
+    var responseData = response['GetUserByUserPhoneResponse']
+        ['GetUserByUserPhoneResult']['UserInfo'];
+
+    if (responseData == null) {
+      // Number not registered
+      var result = await register(
+        context,
+        countryCode,
+        phone,
+        userId,
+        name,
+        add1,
+        add2,
+        add3,
+        postcode,
+        city,
+        state,
+        country,
+        email,
+        icNo,
+      );
+
+      return result;
+    } else {
+      return Result(false, message: responseData);
     }
   }
 
-  Future<Result> register(
-    context,
-    countryCode,
-    phone,
-    userId,
-    name,
-    add1,
-    add2,
-    add3,
-    postCode,
-    city,
-    state,
-    country,
-    email,
-  ) async {
-    try {
-      var params = RegisterRequest(
-        wsCodeCrypt: appConfig.wsCodeCrypt,
-        caUid: appConfig.caUid,
-        caPwd: appConfig.caPwd,
-        appCode: '',
-        diCode: appConfig.diCode,
-        userId: userId,
-        name: name,
-        icNo: '',
-        passportNo: '',
-        phoneCountryCode: countryCode,
-        phone: phone,
-        nationality: '',
-        dateOfBirthString: '',
-        gender: '',
-        race: '',
-        add1: add1,
-        add2: add2,
-        add3: add3,
-        postcode: postCode,
-        city: city,
-        state: state,
-        country: country,
-        email: email,
-      );
+  Future<Result> register(context, countryCode, phone, userId, name, add1, add2,
+      add3, postCode, city, state, country, email, icNo) async {
+    /* String params = """{
+      'wsCodeCrypt': '${appConfig.wsCodeCrypt}',
+      'caUid': '${appConfig.caUid}',
+      'caPwd': '${appConfig.caPwd}',
+      'appCode': '',
+      'diCode': '${appConfig.diCode}',
+      'userId': $userId,
+      'name': $name,
+      'icNo': ${icNo ?? ''},
+      'passportNo': '',
+      'phoneCountryCode': $countryCode,
+      'phone': $phone,
+      'nationality': '',
+      'dateOfBirthString': '',
+      'gender': '',
+      'race': '',
+      'add1': '${add1 ?? ''}',
+      'add2': '${add2 ?? ''}',
+      'add3': '${add3 ?? ''}',
+      'postcode': '${postCode ?? ''}',
+      'city': '${city ?? ''}',
+      'state': '${state ?? ''}',
+      'country': '${country ?? ''}',
+      'email': '${email ?? ''}',
+    }"""; */
 
-      var response = await Networking.getInstance().register(params);
-      xml2json.parse(response.toString());
-      var jsonData = xml2json.toParker();
-      var data = json.decode(jsonData);
+    RegisterRequest params = RegisterRequest(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: appConfig.caUid,
+      caPwd: appConfig.caPwd,
+      appCode: '',
+      diCode: appConfig.diCode,
+      userId: userId,
+      name: name,
+      icNo: icNo ?? '',
+      passportNo: '',
+      phoneCountryCode: countryCode,
+      phone: phone,
+      nationality: '',
+      dateOfBirthString: '',
+      gender: '',
+      race: '',
+      add1: add1 ?? '',
+      add2: add2 ?? '',
+      add3: add3 ?? '',
+      postcode: postCode ?? '',
+      city: city ?? '',
+      state: state ?? '',
+      country: country ?? '',
+      email: email ?? '',
+    );
 
-      print('response: $response');
-      print('data: $data');
-      // response returns User ID
-    } catch (exception, stackTrace) {
-      return handleError(exception, stackTrace);
+    String body = jsonEncode(params);
+
+    String api = 'CreateAppAccount';
+
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+
+    var response =
+        await networking.postData(api: api, body: body, headers: headers);
+
+    if (response != null) {
+      return Result(true, data: response);
     }
-  } */
+
+    return Result(false, message: '');
+  }
 }
