@@ -2,15 +2,9 @@ import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'login_form.dart';
+import 'form.dart';
 
-class Login extends StatefulWidget {
-  @override
-  _LoginState createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
-  GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
+class ForgotPassword extends StatelessWidget {
   final primaryColor = ColorConstant.primaryColor;
 
   @override
@@ -62,7 +56,7 @@ class _LoginState extends State<Login> {
                         SizedBox(
                           height: ScreenUtil.getInstance().setHeight(510),
                         ),
-                        LoginForm(),
+                        ForgotPasswordForm(),
                       ],
                     ),
                   ),

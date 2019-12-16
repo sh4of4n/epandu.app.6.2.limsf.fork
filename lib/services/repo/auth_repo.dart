@@ -11,7 +11,7 @@ class AuthRepo {
   final localStorage = LocalStorage();
   final networking = Networking();
 
-  Future login(context, phone, password) async {
+  Future login({String phone, String password}) async {
     var params =
         'GetUserByUserPhonePwd?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0';
 
@@ -30,11 +30,11 @@ class AuthRepo {
       var result = await checkDiList();
 
       return result;
-    } else {
-      // throw Exception(responseData['msg']);
-
-      return Result(false, message: responseData['msg']);
+    } else if (responseData['msg'] == 'Reset Password Success') {
+      return Result(true, message: responseData['msg']);
     }
+
+    return Result(false, message: responseData['msg']);
   }
 
   Future<Result> checkDiList() async {
@@ -182,8 +182,24 @@ class AuthRepo {
     }
   }
 
-  Future<Result> register(type, countryCode, phone, userId, name, add1, add2,
-      add3, postCode, city, state, country, email, icNo) async {
+  Future<Result> register(
+    String type,
+    String countryCode,
+    String phone,
+    String userId,
+    String name,
+    String add1,
+    String add2,
+    String add3,
+    String postCode,
+    String city,
+    String state,
+    String country,
+    String email,
+    String icNo,
+  ) async {
+    String trimIc = icNo?.replaceAll('-', '');
+
     RegisterRequest params = RegisterRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: appConfig.caUid,
@@ -192,7 +208,7 @@ class AuthRepo {
       diCode: appConfig.diCode,
       userId: userId,
       name: name,
-      icNo: icNo ?? '',
+      icNo: trimIc ?? '',
       passportNo: '',
       phoneCountryCode: countryCode,
       phone: phone,
@@ -225,7 +241,8 @@ class AuthRepo {
       if (type == 'INVITE')
         message = 'Your invitation has been sent. Yay!';
       else
-        message = 'Registration successful, you will recei';
+        message =
+            'You are now registered, you will receive a SMS notification.';
 
       return Result(true,
           data: response['CreateAppAccountResult'], message: message);
@@ -234,7 +251,7 @@ class AuthRepo {
     if (type == 'INVITE')
       message = 'Invitation failed, please try again later.';
     else
-      message = 'You are now registered, you will receive a SMS notification.';
+      message = 'Registration failed, please try again later.';
 
     return Result(false, message: message);
   }

@@ -10,7 +10,7 @@ enum MessageType {
 }
 
 class CustomSnackbar {
-  static const int _defaultDuration = 2;
+  static const int _defaultDuration = 2000;
   double _defaultTextSize = 15.0;
   double _defaultIconSize = 28.0;
   EdgeInsets _defaultPadding =
@@ -108,11 +108,11 @@ class CustomSnackbar {
         ),
       ),
       padding: _defaultPadding,
-      margin: type == MessageType.TOAST ? _defaultMargin : null,
-      borderRadius: type == MessageType.TOAST ? _defaultBorderRadius : null,
+      margin: type == MessageType.TOAST ? _defaultMargin : EdgeInsets.all(0.0),
+      borderRadius: type == MessageType.TOAST ? _defaultBorderRadius : 0.0,
       icon: icon,
       backgroundColor: bgColor != null ? bgColor : Color(0xFF303030),
-      duration: Duration(seconds: duration ?? _defaultDuration),
+      duration: Duration(milliseconds: duration ?? _defaultDuration),
     )..show(context);
   }
 }

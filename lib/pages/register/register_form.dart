@@ -1,6 +1,7 @@
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/custom_snackbar.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +15,21 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   final authRepo = AuthRepo();
+  final customSnackbar = CustomSnackbar();
 
   final _formKey = GlobalKey<FormState>();
 
   final FocusNode _phoneFocus = FocusNode();
-
-  final FocusNode _passwordFocus = FocusNode();
+  final FocusNode _nameFocus = FocusNode();
+  final FocusNode _idFocus = FocusNode();
+  final FocusNode _add1Focus = FocusNode();
+  final FocusNode _add2Focus = FocusNode();
+  final FocusNode _add3Focus = FocusNode();
+  final FocusNode _postCodeFocus = FocusNode();
+  final FocusNode _cityFocus = FocusNode();
+  final FocusNode _stateFocus = FocusNode();
+  final FocusNode _countryFocus = FocusNode();
+  final FocusNode _emailFocus = FocusNode();
 
   final primaryColor = ColorConstant.primaryColor;
 
@@ -28,39 +38,23 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   bool _isLoading = false;
 
   String _phone;
-  String _password;
-  String _loginMessage = '';
-  bool _obscureText = true;
-
-  var _height = ScreenUtil.getInstance().setHeight(2500);
-
-  // var _height = ScreenUtil.screenHeight / 4.5;
+  String _name;
+  String _icNo;
+  String _add1;
+  String _add2;
+  String _add3;
+  String _postcode;
+  String _city;
+  String _state;
+  String _country;
+  String _email;
+  String _message = '';
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 1500),
-      curve: Curves.elasticOut,
-      width: double.infinity,
-      height: _height,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            offset: Offset(0.0, 15.0),
-            blurRadius: 15.0,
-          ),
-          BoxShadow(
-            color: Colors.black12,
-            offset: Offset(0.0, -10.0),
-            blurRadius: 10.0,
-          ),
-        ],
-      ),
+    return Container(
       child: Padding(
-        padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+        padding: EdgeInsets.only(left: 16.0, right: 16.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -78,10 +72,10 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
-                  labelText: 'Phone',
+                  labelText: 'Phone*',
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.account_circle),
+                  prefixIcon: Icon(Icons.phone_android),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(30),
@@ -91,7 +85,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                   ),
                 ),
                 onFieldSubmitted: (term) {
-                  fieldFocusChange(context, _phoneFocus, _passwordFocus);
+                  fieldFocusChange(context, _phoneFocus, _nameFocus);
                 },
                 validator: (value) {
                   if (value.isEmpty) {
@@ -108,25 +102,17 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                 height: ScreenUtil.getInstance().setHeight(70),
               ),
               TextFormField(
-                focusNode: _passwordFocus,
+                focusNode: _nameFocus,
+                textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 16.0),
-                  hintStyle: TextStyle(color: primaryColor),
-                  labelText: 'Password',
+                  hintStyle: TextStyle(
+                    color: primaryColor,
+                  ),
+                  labelText: 'Name*',
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.lock),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                        _obscureText ? Icons.visibility_off : Icons.visibility),
-                    onPressed: () {
-                      setState(
-                        () {
-                          _obscureText = !_obscureText;
-                        },
-                      );
-                    },
-                  ),
+                  prefixIcon: Icon(Icons.account_circle),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(30),
@@ -135,48 +121,289 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                obscureText: _obscureText,
+                onFieldSubmitted: (term) {
+                  fieldFocusChange(context, _nameFocus, _idFocus);
+                },
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Password is required.';
+                    return 'Name is required.';
                   }
                 },
                 onSaved: (value) {
-                  if (value != _password) {
-                    _password = value;
+                  if (value != _name) {
+                    _name = value;
                   }
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(60),
+                height: ScreenUtil.getInstance().setHeight(70),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  InkWell(
-                    onTap: () {},
-                    child: Text(
-                      "Forgot Password?",
-                      style: TextStyle(
-                        fontSize: ScreenUtil.getInstance().setSp(56),
-                      ),
-                    ),
+              TextFormField(
+                focusNode: _idFocus,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  hintStyle: TextStyle(
+                    color: primaryColor,
                   ),
-                ],
+                  labelText: 'IC/Passport*',
+                  fillColor: Colors.grey.withOpacity(.25),
+                  filled: true,
+                  prefixIcon: Icon(Icons.assignment_ind),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                onFieldSubmitted: (term) {
+                  fieldFocusChange(context, _idFocus, _add1Focus);
+                },
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'IC/Passport is required.';
+                  }
+                },
+                onSaved: (value) {
+                  if (value != _icNo) {
+                    _icNo = value;
+                  }
+                },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(40),
+                height: ScreenUtil.getInstance().setHeight(70),
+              ),
+              TextFormField(
+                focusNode: _add1Focus,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  hintStyle: TextStyle(
+                    color: primaryColor,
+                  ),
+                  labelText: 'Address',
+                  fillColor: Colors.grey.withOpacity(.25),
+                  filled: true,
+                  prefixIcon: Icon(Icons.location_on),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                onFieldSubmitted: (term) {
+                  fieldFocusChange(context, _add1Focus, _postCodeFocus);
+                },
+                /* validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Address is required.';
+                  }
+                }, */
+                onSaved: (value) {
+                  if (value != _add1) {
+                    _add1 = value;
+                  }
+                },
+              ),
+              SizedBox(
+                height: ScreenUtil.getInstance().setHeight(70),
+              ),
+              TextFormField(
+                focusNode: _postCodeFocus,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  hintStyle: TextStyle(
+                    color: primaryColor,
+                  ),
+                  labelText: 'Postcode',
+                  fillColor: Colors.grey.withOpacity(.25),
+                  filled: true,
+                  prefixIcon: Icon(Icons.confirmation_number),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                onFieldSubmitted: (term) {
+                  fieldFocusChange(context, _postCodeFocus, _cityFocus);
+                },
+                /* validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Postcode is required.';
+                  }
+                }, */
+                onSaved: (value) {
+                  if (value != _postcode) {
+                    _postcode = value;
+                  }
+                },
+              ),
+              SizedBox(
+                height: ScreenUtil.getInstance().setHeight(70),
+              ),
+              TextFormField(
+                focusNode: _cityFocus,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  hintStyle: TextStyle(
+                    color: primaryColor,
+                  ),
+                  labelText: 'City',
+                  fillColor: Colors.grey.withOpacity(.25),
+                  filled: true,
+                  prefixIcon: Icon(Icons.location_city),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                onFieldSubmitted: (term) {
+                  fieldFocusChange(context, _cityFocus, _stateFocus);
+                },
+                /* validator: (value) {
+                  if (value.isEmpty) {
+                    return 'City is required.';
+                  }
+                }, */
+                onSaved: (value) {
+                  if (value != _city) {
+                    _city = value;
+                  }
+                },
+              ),
+              SizedBox(
+                height: ScreenUtil.getInstance().setHeight(70),
+              ),
+              TextFormField(
+                focusNode: _stateFocus,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  hintStyle: TextStyle(
+                    color: primaryColor,
+                  ),
+                  labelText: 'State',
+                  fillColor: Colors.grey.withOpacity(.25),
+                  filled: true,
+                  prefixIcon: Icon(Icons.map),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                onFieldSubmitted: (term) {
+                  fieldFocusChange(context, _stateFocus, _countryFocus);
+                },
+                /* validator: (value) {
+                  if (value.isEmpty) {
+                    return 'State is required.';
+                  }
+                }, */
+                onSaved: (value) {
+                  if (value != _state) {
+                    _state = value;
+                  }
+                },
+              ),
+              SizedBox(
+                height: ScreenUtil.getInstance().setHeight(70),
+              ),
+              TextFormField(
+                focusNode: _countryFocus,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  hintStyle: TextStyle(
+                    color: primaryColor,
+                  ),
+                  labelText: 'Country',
+                  fillColor: Colors.grey.withOpacity(.25),
+                  filled: true,
+                  prefixIcon: Icon(Icons.flag),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                onFieldSubmitted: (term) {
+                  fieldFocusChange(context, _countryFocus, _emailFocus);
+                },
+                /* validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Country is required.';
+                  }
+                }, */
+                onSaved: (value) {
+                  if (value != _country) {
+                    _country = value;
+                  }
+                },
+              ),
+              SizedBox(
+                height: ScreenUtil.getInstance().setHeight(70),
+              ),
+              TextFormField(
+                focusNode: _emailFocus,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  hintStyle: TextStyle(
+                    color: primaryColor,
+                  ),
+                  labelText: 'Email',
+                  fillColor: Colors.grey.withOpacity(.25),
+                  filled: true,
+                  prefixIcon: Icon(Icons.mail),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                /* validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Email is required.';
+                  }
+                }, */
+                onSaved: (value) {
+                  if (value != _email) {
+                    _email = value;
+                  }
+                },
+              ),
+              SizedBox(
+                height: ScreenUtil.getInstance().setHeight(70),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  _loginMessage.isNotEmpty
+                  _message.isNotEmpty
                       ? Text(
-                          _loginMessage,
+                          _message,
                           style: TextStyle(color: Colors.red),
                         )
                       : SizedBox.shrink(),
-                  _loginButton(),
+                  _signUpButton(),
                 ],
               ),
               SizedBox(
@@ -186,15 +413,20 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
                     child: Text(
-                      "SIGNUP",
+                      "GO BACK",
                       style: TextStyle(
                         fontSize: ScreenUtil.getInstance().setSp(56),
                       ),
                     ),
                   ),
                 ],
+              ),
+              SizedBox(
+                height: ScreenUtil.getInstance().setHeight(70),
               ),
             ],
           ),
@@ -203,7 +435,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
     );
   }
 
-  _loginButton() {
+  _signUpButton() {
     return Container(
       child: _isLoading
           ? SpinKitFoldingCube(
@@ -215,10 +447,10 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
               buttonColor: primaryColor,
               shape: StadiumBorder(),
               child: RaisedButton(
-                onPressed: _submitLogin,
+                onPressed: _submit,
                 textColor: Colors.white,
                 child: Text(
-                  'LOGIN',
+                  'SIGNUP',
                   style: TextStyle(
                     fontSize: ScreenUtil.getInstance().setSp(56),
                   ),
@@ -228,57 +460,52 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
     );
   }
 
-  _submitLogin() async {
+  _submit() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
       setState(() {
-        _height = ScreenUtil.getInstance().setHeight(1300);
         _isLoading = true;
-        _loginMessage = '';
+        _message = '';
       });
 
-      var result = await authRepo.login(
-        context,
-        _phone,
-        _password,
+      var result = await authRepo.checkExistingUser(
+        type: 'REGISTER',
+        countryCode: '+60',
+        phone: _phone,
+        userId: '',
+        name: _name,
+        icNo: _icNo,
+        add1: _add1,
+        add2: _add2,
+        add3: _add3,
+        postcode: _postcode,
+        city: _city,
+        state: _state,
+        country: _country,
+        email: _email,
       );
 
       if (result.isSuccess) {
-        if (result.data == 'empty') {
-          Navigator.pushReplacementNamed(context, HOME);
-        } else if (result.data.length > 1) {
-          // Navigate to DI selection page
-          // Temporary navigate to home
-          Navigator.pushReplacementNamed(context, HOME);
-        } else {
-          localStorage.saveDiCode(result.data['di_code']);
-
-          Navigator.pushReplacementNamed(context, HOME);
-        }
+        Navigator.pop(context);
+        customSnackbar.show(
+          context,
+          message: result.message.toString(),
+          type: MessageType.SUCCESS,
+          duration: 3000,
+        );
       } else {
-        setState(() {
-          _isLoading = false;
-          _loginMessage = result.message;
-        });
+        customSnackbar.show(
+          context,
+          message: result.message.toString(),
+          type: MessageType.ERROR,
+        );
       }
-    } else {
+
       setState(() {
-        _height = ScreenUtil.getInstance().setHeight(1400);
+        _isLoading = false;
       });
     }
   }
 }
-
-// Phone + Country code
-// Name
-// IC/Passport
-// Address 1
-// Address 2
-// Address 3
-// PostCode
-// City
-// State
-// Country
-// Email

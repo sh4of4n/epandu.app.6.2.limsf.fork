@@ -1,3 +1,4 @@
+import 'package:epandu/pages/forgot_password/forgot_password.dart';
 import 'package:epandu/pages/initial_auth/authentication.dart';
 import 'package:epandu/pages/invite/invite.dart';
 import 'package:epandu/pages/kpp/kpp_category.dart';
@@ -6,6 +7,7 @@ import 'package:epandu/pages/kpp/kpp_exam.dart';
 import 'package:epandu/pages/kpp/kpp_result.dart';
 import 'package:epandu/pages/login/login.dart';
 import 'package:epandu/pages/profile/profile.dart';
+import 'package:epandu/pages/register/register.dart';
 import 'package:flutter/material.dart';
 import 'package:epandu/pages/home/home.dart';
 import 'package:epandu/utils/route_path.dart';
@@ -24,6 +26,16 @@ class RouteGenerator {
         return MaterialPageRoute(
           settings: RouteSettings(name: LOGIN),
           builder: (_) => Login(),
+        );
+      case FORGOT_PASSWORD:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: LOGIN),
+          builder: (_) => ForgotPassword(),
+        );
+      case SIGN_UP:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: SIGN_UP),
+          builder: (_) => Register(),
         );
       case HOME:
         return MaterialPageRoute(

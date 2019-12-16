@@ -1,18 +1,20 @@
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/custom_snackbar.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class LoginForm extends StatefulWidget {
+class ForgotPasswordForm extends StatefulWidget {
   @override
-  _LoginFormState createState() => _LoginFormState();
+  _ForgotPasswordFormState createState() => _ForgotPasswordFormState();
 }
 
-class _LoginFormState extends State<LoginForm> with PageBaseClass {
+class _ForgotPasswordFormState extends State<ForgotPasswordForm>
+    with PageBaseClass {
   final authRepo = AuthRepo();
 
   final _formKey = GlobalKey<FormState>();
@@ -28,11 +30,10 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
   bool _isLoading = false;
 
   String _phone;
-  String _password;
-  String _loginMessage = '';
+  String _message = '';
   bool _obscureText = true;
 
-  var _height = ScreenUtil.getInstance().setHeight(1300);
+  var _height = ScreenUtil.getInstance().setHeight(1050);
 
   // var _height = ScreenUtil.screenHeight / 4.5;
 
@@ -105,66 +106,16 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(70),
-              ),
-              TextFormField(
-                focusNode: _passwordFocus,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
-                  hintStyle: TextStyle(color: primaryColor),
-                  labelText: 'Password',
-                  fillColor: Colors.grey.withOpacity(.25),
-                  filled: true,
-                  prefixIcon: Icon(Icons.lock),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                        _obscureText ? Icons.visibility_off : Icons.visibility),
-                    onPressed: () {
-                      setState(
-                        () {
-                          _obscureText = !_obscureText;
-                        },
-                      );
-                    },
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                obscureText: _obscureText,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Password is required.';
-                  }
-                },
-                onSaved: (value) {
-                  if (value != _password) {
-                    _password = value;
-                  }
-                },
-              ),
-              SizedBox(
                 height: ScreenUtil.getInstance().setHeight(60),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, FORGOT_PASSWORD);
-                    },
-                    child: Text(
-                      "Forgot Password?",
-                      style: TextStyle(
-                        fontSize: ScreenUtil.getInstance().setSp(56),
-                      ),
-                    ),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Wrap(
+                  children: <Widget>[
+                    Text(
+                        'Enter your phone number. You will receive an SMS notification with your new password.'),
+                  ],
+                ),
               ),
               SizedBox(
                 height: ScreenUtil.getInstance().setHeight(40),
@@ -174,13 +125,13 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      _loginMessage.isNotEmpty
+                      /* _message.isNotEmpty
                           ? Text(
-                              _loginMessage,
+                              _message,
                               style: TextStyle(color: Colors.red),
                             )
-                          : SizedBox.shrink(),
-                      _loginButton(),
+                          : SizedBox.shrink(), */
+                      _submitButton(),
                     ],
                   ),
                 ],
@@ -193,10 +144,10 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, SIGN_UP);
+                      Navigator.pop(context);
                     },
                     child: Text(
-                      "SIGNUP",
+                      "GO BACK",
                       style: TextStyle(
                         fontSize: ScreenUtil.getInstance().setSp(56),
                       ),
@@ -211,7 +162,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
     );
   }
 
-  _loginButton() {
+  _submitButton() {
     return Container(
       child: _isLoading
           ? SpinKitFoldingCube(
@@ -223,10 +174,10 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
               buttonColor: primaryColor,
               shape: StadiumBorder(),
               child: RaisedButton(
-                onPressed: _submitLogin,
+                onPressed: _submit,
                 textColor: Colors.white,
                 child: Text(
-                  'LOGIN',
+                  'SUBMIT',
                   style: TextStyle(
                     fontSize: ScreenUtil.getInstance().setSp(56),
                   ),
@@ -236,43 +187,43 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
     );
   }
 
-  _submitLogin() async {
+  _submit() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
       setState(() {
-        _height = ScreenUtil.getInstance().setHeight(1300);
+        _height = ScreenUtil.getInstance().setHeight(1050);
         _isLoading = true;
-        _loginMessage = '';
+        _message = '';
       });
 
       var result = await authRepo.login(
         phone: _phone,
-        password: _password,
       );
 
       if (result.isSuccess) {
-        if (result.data == 'empty') {
-          Navigator.pushReplacementNamed(context, HOME);
-        } else if (result.data.length > 1) {
-          // Navigate to DI selection page
-          // Temporary navigate to home
-          Navigator.pushReplacementNamed(context, HOME);
-        } else {
-          localStorage.saveDiCode(result.data['di_code']);
-
-          Navigator.pushReplacementNamed(context, HOME);
-        }
+        Navigator.pop(context);
+        CustomSnackbar().show(
+          context,
+          message: result.message.toString(),
+          type: MessageType.SUCCESS,
+        );
       } else {
+        CustomSnackbar().show(
+          context,
+          message: result.message.toString(),
+          type: MessageType.ERROR,
+        );
+
         setState(() {
           _isLoading = false;
-          _loginMessage = result.message;
+          _message = result.message;
         });
       }
     } else {
       setState(() {
-        _height = ScreenUtil.getInstance().setHeight(1450);
+        _height = ScreenUtil.getInstance().setHeight(1150);
       });
     }
   }
