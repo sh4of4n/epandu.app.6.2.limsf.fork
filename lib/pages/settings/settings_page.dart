@@ -58,6 +58,7 @@ class _SettingsState extends State<Settings> {
           padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
           margin: EdgeInsets.all(12.0),
           child: ListView(
+            physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: <Widget>[
               ListTile(
