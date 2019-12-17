@@ -20,4 +20,64 @@ class ProfileRepo {
   }
 
   Future getStudentProfilePicture() async {}
+
+  Future<Result> getStudentEnrollment() async {
+    String diCode = await localStorage.getDiCode();
+    String groupId;
+    String icNo;
+
+    String params =
+        'GetEnrollByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&icNo=$icNo&groupId=$groupId';
+
+    var response = await networking.getData(path: params);
+
+    var responseData = response;
+  }
+
+  Future<Result> getStudentPayment() async {
+    String diCode = await localStorage.getDiCode();
+    String icNo;
+
+    String params =
+        'GetCollectionByStudent?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&icNo=$icNo';
+
+    var response = await networking.getData(path: params);
+
+    var responseData = response;
+  }
+
+  Future<Result> getStudentAttendance() async {
+    String diCode = await localStorage.getDiCode();
+    String groupId;
+    String icNo;
+
+    String params =
+        'GetStuPracByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&icNo=$icNo&groupId=$groupId';
+
+    var response = await networking.getData(path: params);
+
+    var responseData = response;
+  }
+
+  Future<Result> getStudentEtestingLog() async {
+    String params =
+        'GetStudentFullLogByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}';
+
+    var response = await networking.getData(path: params);
+
+    var responseData = response;
+  }
+
+  Future<Result> getBookingTest() async {
+    String diCode = await localStorage.getDiCode();
+    String groupId;
+    String icNo;
+
+    String params =
+        'GetDTestByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&icNo=$icNo&groupId=$groupId';
+
+    var response = await networking.getData(path: params);
+
+    var responseData = response;
+  }
 }
