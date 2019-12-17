@@ -19,7 +19,7 @@ class HomeMenuTiles extends StatelessWidget {
             children: <Widget>[
               IconTile(
                 tileImage: image.iconEmergency,
-                title: 'Kecemasan',
+                title: 'Emergency',
                 tileFirstColor: Colors.teal,
                 tileSecondColor: Colors.cyan,
               ),

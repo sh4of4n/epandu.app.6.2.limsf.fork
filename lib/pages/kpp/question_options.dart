@@ -22,30 +22,34 @@ class QuestionOptions extends StatelessWidget {
         shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: MediaQuery.of(context).size.width /
-              (MediaQuery.of(context).size.height / 5),
-          mainAxisSpacing: 15.0,
+          childAspectRatio: 1.7,
+          // mainAxisSpacing: 15.0,
         ),
         itemCount: questionOption.length,
         itemBuilder: (BuildContext context, int index) {
           if (questionOption.length > 0 && image.length > 0) {
-            return Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
+            return ListTile(
+              title: Row(
                 children: <Widget>[
                   Text(questionOption[index], style: _questionOptionStyle),
-                  SizedBox(width: 10.0),
-                  Image.memory(
-                    image[index],
-                    fit: BoxFit.contain,
+                  SizedBox(width: 5.0),
+                  LimitedBox(
+                    maxWidth: ScreenUtil().setWidth(500),
+                    maxHeight: ScreenUtil().setHeight(600),
+                    child: Image.memory(
+                      image[index],
+                    ),
                   ),
                 ],
               ),
             );
           } else if (questionOption.length > 0) {
-            return Padding(
+            /* return Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(questionOption[index], style: _questionOptionStyle),
+            ); */
+            return ListTile(
+              title: Text(questionOption[index], style: _questionOptionStyle),
             );
           }
 

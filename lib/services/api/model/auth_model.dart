@@ -660,3 +660,32 @@ class RegisterRequest {
     return data;
   }
 }
+
+class UpdatePasswordRequest {
+  String wsCodeCrypt;
+  String caUid;
+  String caPwd;
+  String userId;
+  String password;
+
+  UpdatePasswordRequest(
+      {this.wsCodeCrypt, this.caUid, this.caPwd, this.userId, this.password});
+
+  UpdatePasswordRequest.fromJson(Map<String, dynamic> json) {
+    wsCodeCrypt = json['wsCodeCrypt'];
+    caUid = json['caUid'];
+    caPwd = json['caPwd'];
+    userId = json['userId'];
+    password = json['password'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['wsCodeCrypt'] = this.wsCodeCrypt;
+    data['caUid'] = this.caUid;
+    data['caPwd'] = this.caPwd;
+    data['userId'] = this.userId;
+    data['password'] = this.password;
+    return data;
+  }
+}

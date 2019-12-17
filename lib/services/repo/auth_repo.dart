@@ -255,4 +255,51 @@ class AuthRepo {
 
     return Result(false, message: message);
   }
+
+  Future<Result> verifyOldPassword({currentPassword, newPassword}) async {
+    String userId = await localStorage.getUserId();
+
+    String params =
+        'GetUserByUserIdPwd?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&userId=$userId&userPwd=$currentPassword';
+
+    var response = await networking.getData(path: params);
+
+    var responseData =
+        response['GetUserByUserIdPwdResponse']['GetUserByUserIdPwdResult'];
+
+    if (responseData != null && responseData.contains('Valid user.')) {
+      var result = await updatePassword(userId: userId, password: newPassword);
+
+      return result;
+    }
+
+    return Result(false, message: 'Incorrect password.');
+  }
+
+  Future<Result> updatePassword({userId, password}) async {
+    UpdatePasswordRequest updatePasswordRequest = UpdatePasswordRequest(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: appConfig.caUid,
+      caPwd: appConfig.caPwd,
+      userId: userId,
+      password: password,
+    );
+
+    String body = jsonEncode(updatePasswordRequest);
+
+    String api = 'SaveUserPassword';
+
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+
+    var response =
+        await networking.postData(api: api, body: body, headers: headers);
+
+    var responseData = response['SaveUserPasswordResult'];
+
+    if (responseData == true) {
+      return Result(true, message: 'Password successfully updated.');
+    }
+    return Result(false,
+        message: 'Failed to change password. Please try again later.');
+  }
 }

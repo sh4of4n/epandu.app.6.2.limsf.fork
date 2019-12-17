@@ -29,6 +29,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
   final examDataBox = Hive.box('exam_data');
   KppExamData kppExamData;
   final customSnackbar = CustomSnackbar();
+  final customDialog = CustomDialog();
 
   int index; // Added from local index
   int totalQuestion;
@@ -95,6 +96,24 @@ class _ExamTemplateState extends State<ExamTemplate> {
             second = 59;
           } else if (minute == 0 && second == 0) {
             timer.cancel();
+
+            // close dialog
+            customDialog.show(
+              context: context,
+              barrierDismissable: false,
+              title: Text('Expired'),
+              content: 'Exam time has expired.',
+              customActions: <Widget>[
+                FlatButton(
+                  child: Text("Ok"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+              type: DialogType.GENERAL,
+            );
           } else {
             second -= 1;
           }

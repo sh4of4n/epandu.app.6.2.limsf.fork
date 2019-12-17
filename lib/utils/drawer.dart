@@ -1,4 +1,5 @@
 import 'package:epandu/services/repo/auth_repo.dart';
+import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,7 @@ enum AppState { free, picked, cropped }
 
 class _DrawerMenuState extends State<DrawerMenu> {
   final authRepo = AuthRepo();
+  final customDialog = CustomDialog();
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,12 @@ class _DrawerMenuState extends State<DrawerMenu> {
             },
           ),
           ListTile(
+            title: Text('Settings'),
+            onTap: () {
+              Navigator.pushNamed(context, SETTINGS);
+            },
+          ),
+          ListTile(
             title: Text('Log out'),
             onTap: _logout,
           )
@@ -46,8 +54,26 @@ class _DrawerMenuState extends State<DrawerMenu> {
     );
   }
 
-  _logout() async {
-    Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
-    await authRepo.logout();
+  _logout() {
+    customDialog.show(
+        context: context,
+        title: Text('Confirm'),
+        content: 'Are you sure you want to log out?',
+        customActions: <Widget>[
+          FlatButton(
+            child: Text("Yes"),
+            onPressed: () async {
+              Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
+              await authRepo.logout();
+            },
+          ),
+          FlatButton(
+            child: Text("No"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+        type: DialogType.GENERAL);
   }
 }

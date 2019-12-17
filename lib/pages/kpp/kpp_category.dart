@@ -75,7 +75,7 @@ class _KppCategoryState extends State<KppCategory> {
             children: <Widget>[
               instituteLogo != null
                   ? Image.memory(instituteLogo)
-                  : SizedBox.shrink(),
+                  : SizedBox(height: ScreenUtil().setHeight(650)),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(

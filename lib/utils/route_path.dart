@@ -10,3 +10,5 @@ const String KPP = '/kpp';
 const String MODULE = '/kpp_module';
 const String KPP_EXAM = '/kpp_exam';
 const String KPP_RESULT = 'kpp_result';
+const String SETTINGS = '/settings';
+const String CHANGE_PASSWORD = '/change_password';

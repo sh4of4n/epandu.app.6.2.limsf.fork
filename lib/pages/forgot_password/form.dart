@@ -30,8 +30,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
   bool _isLoading = false;
 
   String _phone;
-  String _message = '';
-  bool _obscureText = true;
+  // String _message = '';
 
   var _height = ScreenUtil.getInstance().setHeight(1050);
 
@@ -195,7 +194,6 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
       setState(() {
         _height = ScreenUtil.getInstance().setHeight(1050);
         _isLoading = true;
-        _message = '';
       });
 
       var result = await authRepo.login(
@@ -218,7 +216,6 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
 
         setState(() {
           _isLoading = false;
-          _message = result.message;
         });
       }
     } else {

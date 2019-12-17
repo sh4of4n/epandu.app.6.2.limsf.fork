@@ -73,9 +73,13 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leading: IconButton(
+          /* leading: IconButton(
             icon: Icon(Icons.menu),
             onPressed: () => _scaffoldKey.currentState.openDrawer(),
+          ), */
+          leading: IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () => Navigator.pushNamed(context, SETTINGS),
           ),
           actions: <Widget>[
             IconButton(
@@ -87,41 +91,43 @@ class _HomeState extends State<Home> {
           ],
         ),
         drawer: DrawerMenu(),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 15.0,
-                vertical: 10.0,
-              ),
-              child: RichText(
-                text: TextSpan(
-                  text: 'Hello, ',
-                  style: GoogleFonts.dosis(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w500,
-                    textStyle: TextStyle(color: Colors.black),
-                  ),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: '\n$_username',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w800,
-                      ),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 15.0,
+                  vertical: 10.0,
+                ),
+                child: RichText(
+                  text: TextSpan(
+                    text: 'Hello, ',
+                    style: GoogleFonts.dosis(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w500,
+                      textStyle: TextStyle(color: Colors.black),
                     ),
-                  ],
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '\n$_username',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            HomeMenuTiles(),
-            Feeds(),
-            /* RaisedButton(
-              child: Text('Sign out'),
-              onPressed: _logout,
-            ), */
-          ],
+              HomeMenuTiles(),
+              Feeds(),
+              /* RaisedButton(
+                child: Text('Sign out'),
+                onPressed: _logout,
+              ), */
+            ],
+          ),
         ),
       ),
     );

@@ -8,6 +8,7 @@ import 'package:epandu/pages/kpp/kpp_result.dart';
 import 'package:epandu/pages/login/login.dart';
 import 'package:epandu/pages/profile/profile.dart';
 import 'package:epandu/pages/register/register.dart';
+import 'package:epandu/pages/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:epandu/pages/home/home.dart';
 import 'package:epandu/utils/route_path.dart';
@@ -71,6 +72,16 @@ class RouteGenerator {
         return MaterialPageRoute(
           settings: RouteSettings(name: KPP_RESULT),
           builder: (_) => KppResult(data),
+        );
+      case SETTINGS:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: SETTINGS),
+          builder: (_) => Settings(),
+        );
+      case CHANGE_PASSWORD:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: CHANGE_PASSWORD),
+          builder: (_) => ChangePassword(),
         );
       default:
         return _errorRoute();
