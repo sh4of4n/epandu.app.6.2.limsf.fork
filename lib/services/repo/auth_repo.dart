@@ -313,8 +313,14 @@ class AuthRepo {
 
     var response = await networking.getData(path: params);
 
-    var responseData = response['GetEnrollByCodeResponse']
-        ['GetEnrollByCodeResult']['EnrollInfo']['Enroll'];
+    var responseData;
+
+    if (response['GetEnrollByCodeResponse']['GetEnrollByCodeResult']
+            ['EnrollInfo'] !=
+        null) {
+      responseData = response['GetEnrollByCodeResponse']
+          ['GetEnrollByCodeResult']['EnrollInfo']['Enroll'];
+    }
 
     if (responseData != null) {
       localStorage.saveEnrolledGroupId(responseData['group_id']);
