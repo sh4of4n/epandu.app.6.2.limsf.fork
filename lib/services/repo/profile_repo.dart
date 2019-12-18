@@ -9,7 +9,7 @@ class ProfileRepo {
   final localStorage = LocalStorage();
   final networking = Networking();
 
-  Future getStudentProfile() async {
+  /* Future getStudentProfile() async {
     String userId = await localStorage.getUserId();
     String diCode = await localStorage.getDiCode();
 
@@ -19,24 +19,24 @@ class ProfileRepo {
     var response = await networking.getData(path: params);
   }
 
-  Future getStudentProfilePicture() async {}
+  Future getStudentProfilePicture() async {} */
 
-  Future<Result> getStudentEnrollment() async {
+  Future<Result> getCustomerData() async {
     String diCode = await localStorage.getDiCode();
-    String groupId;
-    String icNo;
+    String icNo = await localStorage.getStudentIc();
 
     String params =
-        'GetEnrollByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&icNo=$icNo&groupId=$groupId';
+        'GetCustomerByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&icNo=$icNo';
 
     var response = await networking.getData(path: params);
 
     var responseData = response;
   }
 
+  // Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
   Future<Result> getStudentPayment() async {
     String diCode = await localStorage.getDiCode();
-    String icNo;
+    String icNo = await localStorage.getStudentIc();
 
     String params =
         'GetCollectionByStudent?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&icNo=$icNo';
@@ -46,10 +46,11 @@ class ProfileRepo {
     var responseData = response;
   }
 
+  // Unknown column 'StuPrac.di_code' in 'where clause'
   Future<Result> getStudentAttendance() async {
     String diCode = await localStorage.getDiCode();
     String groupId;
-    String icNo;
+    String icNo = await localStorage.getStudentIc();
 
     String params =
         'GetStuPracByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&icNo=$icNo&groupId=$groupId';
@@ -59,19 +60,18 @@ class ProfileRepo {
     var responseData = response;
   }
 
-  Future<Result> getStudentEtestingLog() async {
+/*   Future<Result> getStudentEtestingLog() async {
     String params =
         'GetStudentFullLogByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}';
 
     var response = await networking.getData(path: params);
 
     var responseData = response;
-  }
+  } */
 
-  Future<Result> getBookingTest() async {
+  Future<Result> getBookingTest(groupId) async {
     String diCode = await localStorage.getDiCode();
-    String groupId;
-    String icNo;
+    String icNo = await localStorage.getStudentIc();
 
     String params =
         'GetDTestByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&icNo=$icNo&groupId=$groupId';

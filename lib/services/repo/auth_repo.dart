@@ -302,4 +302,27 @@ class AuthRepo {
     return Result(false,
         message: 'Failed to change password. Please try again later.');
   }
+
+  Future getStudentEnrollmentData() async {
+    String diCode = await localStorage.getDiCode();
+    String groupId = '';
+    String icNo = await localStorage.getStudentIc();
+
+    String params =
+        'GetEnrollByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&icNo=$icNo&groupId=$groupId';
+
+    var response = await networking.getData(path: params);
+
+    var responseData = response['GetEnrollByCodeResponse']
+        ['GetEnrollByCodeResult']['EnrollInfo']['Enroll'];
+
+    if (responseData != null) {
+      localStorage.saveEnrolledGroupId(responseData['group_id']);
+      localStorage.saveBlacklisted(responseData['blacklisted']);
+      // String tranDate = responseData['trandate'];
+      // String fees = responseData['fees_agree'];
+      // String hours = responseData['hrs_agree'];
+      // String additionalCharges = responseData['addhr_chrg'];
+    }
+  }
 }

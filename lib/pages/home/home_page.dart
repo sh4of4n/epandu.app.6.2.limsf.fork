@@ -49,6 +49,10 @@ class _HomeState extends State<Home> {
         _username = _firstName;
       });
     }
+
+    // Get student enrollment data
+    // Temporarily placed here
+    await authRepo.getStudentEnrollmentData();
   }
 
   @override

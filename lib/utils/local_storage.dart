@@ -15,6 +15,8 @@ class LocalStorage {
   static const String kCountry = 'COUNTRY';
   static const String kPostCode = 'POST_CODE';
   static const String kInstituteLogo = 'INSTITUTE_LOGO';
+  static const String kEnrolledGroupId = 'ENROLLED_GROUP_ID';
+  static const String kBlacklisted = 'BLACKLISTED';
 
   Future<void> saveUserId(String userId) {
     return Preference.setString(kUserId, userId);
@@ -126,6 +128,22 @@ class LocalStorage {
 
   Future<String> getInstituteLogo() async {
     return Preference.getString(kInstituteLogo, def: '');
+  }
+
+  Future<void> saveEnrolledGroupId(String enrolledGroupId) async {
+    return Preference.setString(kEnrolledGroupId, enrolledGroupId);
+  }
+
+  Future<String> getEnrolledGroupId() async {
+    return Preference.getString(kEnrolledGroupId, def: '');
+  }
+
+  Future<void> saveBlacklisted(String blacklisted) async {
+    return Preference.setString(kBlacklisted, blacklisted);
+  }
+
+  Future<String> getBlacklisted() async {
+    return Preference.getString(kBlacklisted, def: '');
   }
 
   Future<void> reset() async {

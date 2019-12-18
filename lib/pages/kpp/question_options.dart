@@ -16,46 +16,116 @@ class QuestionOptions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 10.0),
-      child: GridView.builder(
+      child: _renderQuestionOption(),
+    );
+  }
+
+  _renderQuestionOption() {
+    if (questionOption.length > 0 &&
+        questionOption[0].length > 4 &&
+        image.length > 0)
+      return _renderConditionAndImage();
+    else if (questionOption.length > 0 && image.length > 0)
+      return _renderRomanAndImage();
+    else if (questionOption.length > 0 && image.length == 0)
+      return _renderConditions();
+
+    return SizedBox.shrink();
+  }
+
+  _renderConditionAndImage() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      child: ListView.builder(
         // padding: EdgeInsets.only(bottom: 10.0),
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        /* gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 1.7,
+          childAspectRatio: 0.75,
           // mainAxisSpacing: 15.0,
-        ),
+        ), */
         itemCount: questionOption.length,
         itemBuilder: (BuildContext context, int index) {
-          if (questionOption.length > 0 && image.length > 0) {
-            return ListTile(
-              title: Row(
-                children: <Widget>[
-                  Text(questionOption[index], style: _questionOptionStyle),
-                  SizedBox(width: 5.0),
-                  LimitedBox(
-                    maxWidth: ScreenUtil().setWidth(500),
-                    maxHeight: ScreenUtil().setHeight(600),
-                    child: Image.memory(
-                      image[index],
-                    ),
+          return Container(
+            padding: EdgeInsets.all(15.0),
+            child: Wrap(
+              direction: Axis.horizontal,
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 10.0,
+              children: <Widget>[
+                LimitedBox(
+                  maxWidth: ScreenUtil().setWidth(300),
+                  maxHeight: ScreenUtil().setHeight(300),
+                  child: Image.memory(
+                    image[index],
                   ),
-                ],
-              ),
-            );
-          } else if (questionOption.length > 0) {
-            /* return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              child: Text(questionOption[index], style: _questionOptionStyle),
-            ); */
-            return ListTile(
-              title: Text(questionOption[index], style: _questionOptionStyle),
-            );
-          }
-
-          return SizedBox.shrink();
+                ),
+                Container(
+                  width: ScreenUtil().setWidth(900),
+                  alignment: Alignment.center,
+                  child:
+                      Text(questionOption[index], style: _questionOptionStyle),
+                ),
+              ],
+            ),
+          );
         },
       ),
+    );
+  }
+
+  _renderRomanAndImage() {
+    return GridView.builder(
+      // padding: EdgeInsets.only(bottom: 10.0),
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 1.7,
+        // mainAxisSpacing: 15.0,
+      ),
+      itemCount: questionOption.length,
+      itemBuilder: (BuildContext context, int index) {
+        return ListTile(
+          title: Row(
+            children: <Widget>[
+              Text(questionOption[index], style: _questionOptionStyle),
+              SizedBox(width: 5.0),
+              LimitedBox(
+                maxWidth: ScreenUtil().setWidth(500),
+                maxHeight: ScreenUtil().setHeight(600),
+                child: Image.memory(
+                  image[index],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  _renderConditions() {
+    return GridView.builder(
+      // padding: EdgeInsets.only(bottom: 10.0),
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 2.1,
+        // mainAxisSpacing: 15.0,
+      ),
+      itemCount: questionOption.length,
+      itemBuilder: (BuildContext context, int index) {
+        return ListTile(
+          title: Text(questionOption[index], style: _questionOptionStyle),
+        );
+      },
     );
   }
 }

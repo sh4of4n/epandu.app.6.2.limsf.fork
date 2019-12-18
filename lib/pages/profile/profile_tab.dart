@@ -5,6 +5,7 @@ import 'package:epandu/pages/profile/registered_course.dart';
 import 'package:epandu/services/repo/profile_repo.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
+
 // import 'package:epandu/utils/route_path.dart';
 
 class ProfileTab extends StatefulWidget {
@@ -13,16 +14,11 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab> {
-  final api = ProfileRepo();
+  final profileRepo = ProfileRepo();
   final primaryColor = ColorConstant.primaryColor;
   var tagResult;
   var quoteResult;
   int count = 0;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

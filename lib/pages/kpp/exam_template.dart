@@ -107,6 +107,9 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 FlatButton(
                   child: Text("Ok"),
                   onPressed: () {
+                    // Hive box must be cleared here
+                    examDataBox.clear();
+
                     Navigator.pop(context);
                     Navigator.pop(context);
                   },
@@ -232,8 +235,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
       margin: EdgeInsets.symmetric(vertical: 10.0),
       child: Image.memory(
         questionImage,
-        width: ScreenUtil().setWidth(1100),
-        height: ScreenUtil().setHeight(600),
+        width: ScreenUtil().setWidth(500),
+        height: ScreenUtil().setHeight(500),
       ),
     );
   }
@@ -329,6 +332,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 } else {
                   return customSnackbar.show(
                     context,
+                    duration: 1000,
                     message: 'You must select an answer to continue.',
                     type: MessageType.TOAST,
                   );
@@ -478,6 +482,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   Image.memory(
                     answers[answerIndex],
                     width: ScreenUtil().setWidth(400),
+                    height: ScreenUtil().setHeight(400),
                   ),
                 ],
               ),
