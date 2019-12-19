@@ -1,3 +1,5 @@
+import 'package:epandu/services/repo/auth_repo.dart';
+import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
@@ -9,15 +11,33 @@ class Authentication extends StatefulWidget {
 }
 
 class _AuthenticationState extends State<Authentication> {
+  final AuthRepo authRepo = AuthRepo();
+  final AppConfig appConfig = AppConfig();
+  final LocalStorage localStorage = LocalStorage();
+
   @override
   void initState() {
     super.initState();
 
+    _getWsUrl();
     _checkExistingLogin();
   }
 
+  _getWsUrl() async {
+    await appConfig.getCredentials(); // get client acc credentials
+    String wsUrl = await localStorage.getWsUrl();
+
+    if (wsUrl.isEmpty) {
+      await authRepo.getWsUrl(
+        acctUid: appConfig.caUid,
+        acctPwd: appConfig.caPwdUrlEncode,
+        loginType: appConfig.wsCodeCrypt,
+      );
+    }
+  }
+
   _checkExistingLogin() async {
-    String userId = await LocalStorage().getUserId();
+    String userId = await localStorage.getUserId();
 
     if (userId.isNotEmpty) {
       Navigator.pushReplacementNamed(context, HOME);

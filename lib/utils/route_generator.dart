@@ -1,5 +1,4 @@
 import 'package:epandu/pages/forgot_password/forgot_password.dart';
-import 'package:epandu/pages/initial_auth/authentication.dart';
 import 'package:epandu/pages/invite/invite.dart';
 import 'package:epandu/pages/kpp/kpp_category.dart';
 import 'package:epandu/pages/kpp/kpp_module.dart';

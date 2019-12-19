@@ -18,13 +18,12 @@ class CustomDialog {
     customActions,
     @required type,
     bool barrierDismissable,
+    onPressed,
   }) {
     List<Widget> actions = <Widget>[
       FlatButton(
         child: Text("Ok"),
-        onPressed: () {
-          Navigator.pop(context);
-        },
+        onPressed: onPressed ?? () => Navigator.pop(context),
       )
     ];
 

@@ -1,6 +1,8 @@
 import 'preferences.dart';
 
 class LocalStorage {
+  static const String kWsUrl = 'WS_URL';
+  static const String kServerType = 'SERVER_TYPE';
   static const String kUserId = 'USER_ID';
   static const String kUsername = 'USERNAME';
   static const String kUserPhone = 'USER_PHONE';
@@ -17,6 +19,22 @@ class LocalStorage {
   static const String kInstituteLogo = 'INSTITUTE_LOGO';
   static const String kEnrolledGroupId = 'ENROLLED_GROUP_ID';
   static const String kBlacklisted = 'BLACKLISTED';
+
+  Future<void> saveWsUrl(String wsUrl) {
+    return Preference.setString(kWsUrl, wsUrl);
+  }
+
+  Future<String> getWsUrl() async {
+    return Preference.getString(kWsUrl, def: '');
+  }
+
+  Future<void> saveServerType(String type) {
+    return Preference.setString(kServerType, type);
+  }
+
+  Future<String> getServerType() async {
+    return Preference.getString(kServerType, def: 'DEVP');
+  }
 
   Future<void> saveUserId(String userId) {
     return Preference.setString(kUserId, userId);
@@ -148,5 +166,22 @@ class LocalStorage {
 
   Future<void> reset() async {
     await Preference.removeAll();
+    // await Preference.remove(kWsUrl);
+    // await Preference.remove(kUserId);
+    // await Preference.remove(kUsername);
+    // await Preference.remove(kUserPhone);
+    // await Preference.remove(kEmail);
+    // await Preference.remove(kDiCode);
+    // await Preference.remove(kSessionId);
+    // await Preference.remove(kNationality);
+    // await Preference.remove(kGender);
+    // await Preference.remove(kAddress);
+    // await Preference.remove(kStudentIc);
+    // await Preference.remove(kState);
+    // await Preference.remove(kCountry);
+    // await Preference.remove(kPostCode);
+    // await Preference.remove(kInstituteLogo);
+    // await Preference.remove(kEnrolledGroupId);
+    // await Preference.remove(kBlacklisted);
   }
 }

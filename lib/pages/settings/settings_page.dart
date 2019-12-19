@@ -1,6 +1,7 @@
 import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
+import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
@@ -87,15 +88,23 @@ class _SettingsState extends State<Settings> {
                 leading: Icon(Icons.apps, size: _defIconSize),
                 title: Text('Version'),
                 subtitle: Text('V.$appVersion'),
-                onTap: () {
+                onTap: () async {
                   count += 1;
 
                   if (count == 4) {
+                    LocalStorage().saveServerType('DEVP');
+
                     customDialog.show(
-                        context: context,
-                        title: 'Developer mode',
-                        content: 'Developer mode has been enabled.',
-                        type: DialogType.SUCCESS);
+                      context: context,
+                      title: 'Developer mode',
+                      content: 'Developer mode has been enabled.',
+                      type: DialogType.SUCCESS,
+                      onPressed: () async {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, LOGIN, (r) => false);
+                        await authRepo.logout();
+                      },
+                    );
                   }
                 },
               ),

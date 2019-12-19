@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:epandu/utils/app_config.dart';
+import 'package:epandu/utils/local_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'dart:convert';
@@ -11,24 +12,25 @@ import 'package:xml2json/xml2json.dart';
 
 class Networking {
   final xml2json = Xml2Json();
+  final appConfig = AppConfig();
   // var body;
   String url;
-  String type;
+  String customUrl;
 
-  Networking({this.type}) {
-    if (type == 'EWALLET')
-      url = AppConfig.eWalletUrl();
-    else if (type == 'SOS')
-      url = AppConfig.sosUrl();
-    else
-      url = AppConfig.getBaseUrl();
-  }
+  Networking({this.customUrl});
 
   Future getData({path}) async {
+    if (customUrl != null) {
+      url = customUrl;
+    } else {
+      url = await appConfig.getBaseUrl();
+    }
+
     try {
-      http.Response response = await http
-          .get('$url/${path.isNotEmpty ? path : ""}')
-          .timeout(Duration(seconds: 15));
+      http.Response response =
+          await http.get('$url${path ?? ""}').timeout(Duration(seconds: 15));
+
+      // print('${wsUrl.isNotEmpty ? wsUrl : url}${path ?? ""}');
 
       if (response.statusCode == 200) {
         var convertResponse = response.body
@@ -40,6 +42,7 @@ class Networking {
         var jsonData = xml2json.toParker();
         var data = jsonDecode(jsonData);
 
+        // print(data);
         return data;
       } else {
         print(response.statusCode);
@@ -52,9 +55,17 @@ class Networking {
 
   Future postData({String api, String path, body, headers}) async {
     try {
+      if (customUrl != null) {
+        url = customUrl;
+      } else {
+        url = await appConfig.getBaseUrl();
+      }
+
       http.Response response = await http
           .post('$url/$api${path ?? ""}', body: body, headers: headers)
           .timeout(Duration(seconds: 15));
+
+      // print('${wsUrl.isNotEmpty ? wsUrl : url}/$api${path ?? ""}');
 
       if (response.statusCode == 200) {
         var data;
@@ -73,6 +84,7 @@ class Networking {
           data = jsonDecode(response.body);
         }
 
+        // print(data);
         return data;
       } else {
         print(response.statusCode);

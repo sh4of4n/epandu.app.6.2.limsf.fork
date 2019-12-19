@@ -11,6 +11,53 @@ class AuthRepo {
   final localStorage = LocalStorage();
   final networking = Networking();
 
+  Future getWsUrl({
+    acctUid,
+    acctPwd,
+    loginType,
+    callback,
+    altWsUrl,
+  }) async {
+    final String WSVER = '1.1';
+    final String WSURL0 =
+        'https://tbs.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
+    final String WSURL1 =
+        'https://tbscaws.tbsdns.com:9001/ClientAcct.MainService/_wsver_/MainService.asmx';
+    final String WSURL2 =
+        'http://tbscaws2.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
+    final String WSURL3 =
+        'http://tbscaws3.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
+
+    // bool async = false;
+
+    String wsUrl = WSURL0;
+    String wsCodeCrypt = 'TBSCLIENTACCTWS';
+
+    if (altWsUrl != null) wsUrl = altWsUrl;
+
+    wsUrl = wsUrl.replaceAll("_wsver_", WSVER.replaceAll(".", "_"));
+
+    /* WebserviceUrlRequest wsUrlRequest = WebserviceUrlRequest(
+      wsCodeCrypt: 'TBSCLIENTACCTWS',
+      acctUid: acctUid,
+      acctPwd: acctPwd,
+      loginType: loginType,
+      misc: '',
+    ); */
+
+    String params =
+        '?wsCodeCrypt=$wsCodeCrypt&acctUid=$acctUid&acctPwd=$acctPwd&loginType=$loginType&misc=';
+
+    String apiMethod = '/LoginPub';
+
+    var response =
+        await Networking(customUrl: '$wsUrl$apiMethod').getData(path: params);
+
+    var responseData = response['string']['LoginAcctInfo']['LoginAcct'];
+
+    localStorage.saveWsUrl(responseData['WsUrl']);
+  }
+
   Future login({String phone, String password}) async {
     var params =
         'GetUserByUserPhonePwd?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0';
@@ -111,8 +158,15 @@ class AuthRepo {
     var params =
         'IsSessionActive?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&userId=$userId&sessionId=$sessionId&isLogout=true';
 
-    await localStorage.reset();
     await networking.getData(path: params);
+    await localStorage.reset();
+
+    await appConfig.getCredentials();
+    await getWsUrl(
+      acctUid: appConfig.caUid,
+      acctPwd: appConfig.caPwdUrlEncode,
+      loginType: appConfig.wsCodeCrypt,
+    );
   }
 
   // Register
@@ -322,6 +376,7 @@ class AuthRepo {
           ['GetEnrollByCodeResult']['EnrollInfo']['Enroll'];
     }
 
+    // needs to have scenario one enrollment or multiple enrollment id
     if (responseData != null) {
       localStorage.saveEnrolledGroupId(responseData['group_id']);
       localStorage.saveBlacklisted(responseData['blacklisted']);

@@ -1,32 +1,66 @@
+import 'package:epandu/services/api/model/auth_model.dart';
+
+import 'local_storage.dart';
+import 'package:flutter/material.dart';
+
 class AppConfig {
+  final LocalStorage localStorage = LocalStorage();
   String wsCodeCrypt = 'EPANDU';
+
   String caUid = 'epandu1_devp_3';
-  // String caUid = 'epandu1_devp_3';
   String caPwd = 'wTA@D@cUHR&3Mq@\$';
   String caPwdUrlEncode = 'wTA%40D%40cUHR%263Mq%40%24';
-  String tbsEduCaUid = 'tbsedu1_devp';
-  String tbsEduCaPwd = 'DJNTjwSxXb8v43ar';
-  String businessTypePass = 'visa2u';
+
   String diCode = 'TBS';
 
-  static String getBaseUrl() {
-    return "http://tbsweb.tbsdns.com/ePandu.Mainservice/1_2/MainService.svc/webapi/";
+  getCredentials() async {
+    // await localStorage.reset();
+    String type = await localStorage.getServerType();
+
+    if (type == 'DEVP') {
+      caUid = 'epandu1_devp_3';
+      caPwd = 'wTA@D@cUHR&3Mq@\$';
+      caPwdUrlEncode = 'wTA%40D%40cUHR%263Mq%40%24';
+    } else if (type == 'PROD') {
+      caUid = 'epandu_prod';
+      caPwd = 'vWh7SmgDRJ%TW4xa';
+      caPwdUrlEncode = 'vWh7SmgDRJ%25TW4xa';
+    }
   }
 
-  String eWalletWsCodeCrypt = 'CARSERWS';
-  String eWalletCaUid = 'visa2u';
-  String eWalletCaPwd = 'visa2u';
+  /* static String getCaUid({@required String type}) {
+    String caUid;
 
-  static String eWalletUrl() {
-    return 'https://tbsweb.tbsdns.com/eCarser.WebService/1_9/MemberService.asmx/';
+    if (type == 'DEVP')
+      caUid = 'epandu1_devp_3';
+    else if (type == 'PROD') caUid = 'epandu_prod';
+
+    return caUid;
   }
 
-  String sosCodeCrypt = 'TBSSOS';
+  getCaPwd({@required String type}) {
+    String caPwd;
 
-  String sosCaUid = 'tbssos1_devp';
-  String sosCaPwd = 'DJNTjwSxXb8v43ar';
+    if (type == 'DEVP')
+      caPwd = 'wTA@D@cUHR&3Mq@\$';
+    else if (type == 'PROD') caPwd = 'wTA@D@cUHR&3Mq@\$';
 
-  static String sosUrl() {
-    return 'http://tbsweb.tbsdns.com/TbsSos.MainService/1_8/MainService.svc/webapi/';
+    return caPwd;
+  } */
+
+  Future<String> getBaseUrl() async {
+    String type = await localStorage.getServerType();
+    String wsUrl = await localStorage.getWsUrl();
+    String url;
+
+    if (type == 'DEVP' && wsUrl.isEmpty)
+      url =
+          'http://tbsweb.tbsdns.com/ePandu.Mainservice/1_2/MainService.svc/webapi/';
+    else if (type == 'PROD' && wsUrl.isEmpty)
+      url = 'https://epandu.com/ePandu.MainService/1_2/MainService.svc/webapi/';
+    else
+      url = wsUrl;
+
+    return url;
   }
 }

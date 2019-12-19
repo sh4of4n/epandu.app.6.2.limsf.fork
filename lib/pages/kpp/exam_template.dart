@@ -42,6 +42,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
 
   List<String> type = []; // answer letter
   List<dynamic> answers = [];
+  List<Uint8List> answersImage = [];
 
   String correctAnswer;
   int correct = 0; // number of correct answers selected
@@ -187,15 +188,32 @@ class _ExamTemplateState extends State<ExamTemplate> {
           type.add('d');
         else if (i == 4) type.add('e');
 
-        if (snapshotData[index]['option_${type[i]}'] != null)
+        if (snapshotData[index]['option_${type[i]}'] != null &&
+            snapshotData[index]['option_${type[i]}_photo'] == null) {
           answers.add(snapshotData[index]['option_${type[i]}']);
-        else if (snapshotData[index]['option_${type[i]}'] == null &&
-            snapshotData[index]['option_${type[i]}_photo'] != null)
+        } else if (snapshotData[index]['option_${type[i]}'] == null &&
+            snapshotData[index]['option_${type[i]}_photo'] != null) {
           answers.add(
             base64Decode(
               snapshotData[index]['option_${type[i]}_photo'],
             ),
           );
+
+          answersImage.add(
+            base64Decode(
+              snapshotData[index]['option_${type[i]}_photo'],
+            ),
+          );
+        } else if (snapshotData[index]['option_${type[i]}'] != null &&
+            snapshotData[index]['option_${type[i]}_photo'] != null) {
+          answers.add(snapshotData[index]['option_${type[i]}']);
+
+          answersImage.add(
+            base64Decode(
+              snapshotData[index]['option_${type[i]}_photo'],
+            ),
+          );
+        }
       }
 
       correctAnswer = snapshotData[index]['answer'];
@@ -222,6 +240,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
       questionOption.clear();
       questionOptionImage.clear();
       answers.clear();
+      answersImage.clear();
       questionImage = null;
       _answerColor.clear();
       selected = false;
@@ -424,15 +443,23 @@ class _ExamTemplateState extends State<ExamTemplate> {
 
   _answers({
     answers,
+    answersImage,
     correctAnswer,
     type,
   }) {
+    int itemCount;
+
+    if (answers.length > 0)
+      itemCount = answers.length;
+    else if (answers.length == 0 && answersImage.length > 0)
+      itemCount = answersImage.length;
+
     return ListView.builder(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: answers.length,
+      itemCount: itemCount,
       itemBuilder: (BuildContext context, int answerIndex) {
-        if (answers[answerIndex] is String) {
+        if (answers[answerIndex] is String && answersImage.isEmpty) {
           return InkWell(
             onTap: () => _checkSelectedAnswer(answerIndex, 'selected'),
             child: Container(
@@ -456,7 +483,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   style: _answerStyle),
             ),
           );
-        } else if (answers[answerIndex] is Uint8List) {
+        } else if (answers[answerIndex] is Uint8List &&
+            answersImage[answerIndex] is Uint8List) {
           return InkWell(
             onTap: () => _checkSelectedAnswer(answerIndex, 'selected'),
             child: Container(
@@ -480,9 +508,55 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Image.memory(
-                    answers[answerIndex],
-                    width: ScreenUtil().setWidth(400),
-                    height: ScreenUtil().setHeight(400),
+                    answersImage[answerIndex],
+                    width: ScreenUtil().setWidth(300),
+                    height: ScreenUtil().setHeight(300),
+                  ),
+                ],
+              ),
+            ),
+          );
+        } else if (answers[answerIndex] is String &&
+            answersImage[answerIndex] is Uint8List) {
+          return InkWell(
+            onTap: () => _checkSelectedAnswer(answerIndex, 'selected'),
+            child: Container(
+              margin: EdgeInsets.only(top: 15.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+              decoration: BoxDecoration(
+                color: _answerColor[answerIndex],
+                /* border: Border(
+                  bottom: BorderSide(color: Colors.black12),
+                ), */
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0.0, 2.0),
+                      blurRadius: 3.0),
+                ],
+              ),
+              child: Wrap(
+                direction: Axis.horizontal,
+                alignment: WrapAlignment.start,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 10.0,
+                children: <Widget>[
+                  LimitedBox(
+                    maxWidth: ScreenUtil().setWidth(300),
+                    maxHeight: ScreenUtil().setHeight(300),
+                    child: Image.memory(
+                      answersImage[answerIndex],
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                    ),
+                    width: ScreenUtil().setWidth(600),
+                    child: Text('${type[answerIndex]}. ${answers[answerIndex]}',
+                        style: _answerStyle),
                   ),
                 ],
               ),
@@ -610,9 +684,10 @@ class _ExamTemplateState extends State<ExamTemplate> {
                       )
                     : SizedBox.shrink(),
                 // Answers a, b, c, d, e
-                answers.length > 0
+                answers.length > 0 || answersImage.length > 0
                     ? _answers(
                         answers: answers,
+                        answersImage: answersImage,
                         correctAnswer: correctAnswer,
                         type: type)
                     : SizedBox.shrink(),

@@ -21,7 +21,7 @@ class KppRepo {
     var responseData = response['GetArmasterAppPhotoForCodeResponse']
         ['GetArmasterAppPhotoForCodeResult']['ArmasterInfo'];
 
-    if (responseData['Armaster'] != null) {
+    if (responseData != null) {
       localStorage
           .saveInstituteLogo(responseData['Armaster']['app_background_photo']);
 
