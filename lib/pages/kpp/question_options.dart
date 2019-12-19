@@ -97,8 +97,8 @@ class QuestionOptions extends StatelessWidget {
               Text(questionOption[index], style: _questionOptionStyle),
               SizedBox(width: 5.0),
               LimitedBox(
-                maxWidth: ScreenUtil().setWidth(500),
-                maxHeight: ScreenUtil().setHeight(600),
+                maxWidth: ScreenUtil().setWidth(470),
+                maxHeight: ScreenUtil().setHeight(580),
                 child: Image.memory(
                   image[index],
                 ),

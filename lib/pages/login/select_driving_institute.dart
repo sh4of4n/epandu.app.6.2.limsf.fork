@@ -1,27 +1,101 @@
+import 'dart:convert';
+
+import 'package:epandu/pages/login/login.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SelectDrivingInstitute extends StatelessWidget {
+  final diList;
+
+  SelectDrivingInstitute(this.diList);
+
   final primaryColor = ColorConstant.primaryColor;
+  final localStorage = LocalStorage();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        gradient: RadialGradient(
+        gradient: LinearGradient(
           colors: [
-            Colors.amber.shade50,
-            Colors.amber.shade100,
-            Colors.amber.shade200,
             Colors.amber.shade300,
-            primaryColor
+            primaryColor,
           ],
-          stops: [0.2, 0.4, 0.6, 0.7, 1],
-          radius: 0.7,
+          begin: Alignment.topCenter,
+          end: Alignment.bottomRight,
         ),
       ),
       child: Scaffold(
-        body: Container(),
+        backgroundColor: Colors.transparent,
+        body: Padding(
+          padding: EdgeInsets.symmetric(vertical: 25.0),
+          child: Column(
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 20.0),
+                    child: Image.asset(
+                      'images/ePandu-logo.png',
+                      width: ScreenUtil.getInstance().setWidth(1000),
+                      height: ScreenUtil.getInstance().setHeight(600),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                margin: EdgeInsets.all(10.0),
+                alignment: Alignment.center,
+                child: Text('Select your driving institute',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+              ),
+              GridView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: diList.length,
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  // mainAxisSpacing: 15.0,
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  return Column(
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {
+                          localStorage.saveDiCode(diList[index]['di_code']);
+
+                          Navigator.pushReplacementNamed(context, HOME);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10.0),
+                          padding: EdgeInsets.symmetric(vertical: 5.0),
+                          width: ScreenUtil().setWidth(500),
+                          height: ScreenUtil().setWidth(500),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          child: Image.memory(
+                            base64Decode(
+                              diList[index]['app_background_photo'],
+                            ),
+                            width: ScreenUtil().setWidth(300),
+                            height: ScreenUtil().setHeight(300),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

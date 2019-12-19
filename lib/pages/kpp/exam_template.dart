@@ -523,7 +523,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
             child: Container(
               margin: EdgeInsets.only(top: 15.0),
               padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
               decoration: BoxDecoration(
                 color: _answerColor[answerIndex],
                 /* border: Border(
@@ -537,26 +537,22 @@ class _ExamTemplateState extends State<ExamTemplate> {
                       blurRadius: 3.0),
                 ],
               ),
-              child: Wrap(
-                direction: Axis.horizontal,
-                alignment: WrapAlignment.start,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                spacing: 10.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  Container(
+                    alignment: Alignment.center,
+                    width: ScreenUtil().setWidth(600),
+                    child: Text('${type[answerIndex]}. ${answers[answerIndex]}',
+                        textAlign: TextAlign.center, style: _answerStyle),
+                  ),
+                  SizedBox(height: 8.0),
                   LimitedBox(
                     maxWidth: ScreenUtil().setWidth(300),
                     maxHeight: ScreenUtil().setHeight(300),
                     child: Image.memory(
                       answersImage[answerIndex],
                     ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                    ),
-                    width: ScreenUtil().setWidth(600),
-                    child: Text('${type[answerIndex]}. ${answers[answerIndex]}',
-                        style: _answerStyle),
                   ),
                 ],
               ),

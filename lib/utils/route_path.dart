@@ -2,6 +2,7 @@ const String AUTH = '/';
 const String LOGIN = '/login';
 const String FORGOT_PASSWORD = '/forgot_password';
 const String SIGN_UP = 'sign_up';
+const String SELECT_DI = 'select_driving_institute';
 const String HOME = '/home';
 const String PAYMENT = '/payment';
 const String PROFILE = '/profile';

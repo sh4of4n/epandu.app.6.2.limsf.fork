@@ -258,7 +258,10 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
         } else if (result.data.length > 1) {
           // Navigate to DI selection page
           // Temporary navigate to home
-          Navigator.pushReplacementNamed(context, HOME);
+          // Navigator.pushReplacementNamed(context, HOME);
+
+          Navigator.pushReplacementNamed(context, SELECT_DI,
+              arguments: result.data);
         } else {
           localStorage.saveDiCode(result.data['di_code']);
 

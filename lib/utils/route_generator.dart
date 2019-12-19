@@ -82,6 +82,11 @@ class RouteGenerator {
           settings: RouteSettings(name: CHANGE_PASSWORD),
           builder: (_) => ChangePassword(),
         );
+      case SELECT_DI:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: SELECT_DI),
+          builder: (_) => SelectDrivingInstitute(data),
+        );
       default:
         return _errorRoute();
     }
