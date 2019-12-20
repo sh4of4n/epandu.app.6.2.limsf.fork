@@ -59,7 +59,7 @@ class AppConfig {
     else if (type == 'PROD' && wsUrl.isEmpty)
       url = 'https://epandu.com/ePandu.MainService/1_2/MainService.svc/webapi/';
     else
-      url = wsUrl;
+      url = '$wsUrl/webapi/';
 
     return url;
   }

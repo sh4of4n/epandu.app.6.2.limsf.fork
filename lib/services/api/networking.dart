@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:epandu/utils/app_config.dart';
+import 'package:epandu/utils/custom_snackbar.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
@@ -13,6 +14,7 @@ import 'package:xml2json/xml2json.dart';
 class Networking {
   final xml2json = Xml2Json();
   final appConfig = AppConfig();
+  final customSnackbar = CustomSnackbar();
   // var body;
   String url;
   String customUrl;
@@ -47,8 +49,10 @@ class Networking {
       } else {
         print(response.statusCode);
       }
-    } catch (e) {
-      print(e);
+    } on TimeoutException catch (e) {
+      return (e.toString());
+    } on SocketException catch (e) {
+      // Other exception
       return (e.toString());
     }
   }
@@ -89,8 +93,10 @@ class Networking {
       } else {
         print(response.statusCode);
       }
-    } catch (e) {
-      print(e);
+    } on TimeoutException catch (e) {
+      return (e.toString());
+    } on SocketException catch (e) {
+      // Other exception
       return (e.toString());
     }
   }

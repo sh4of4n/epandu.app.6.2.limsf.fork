@@ -74,8 +74,8 @@ class SelectDrivingInstitute extends StatelessWidget {
                         child: Container(
                           margin: EdgeInsets.symmetric(horizontal: 10.0),
                           padding: EdgeInsets.symmetric(vertical: 5.0),
-                          width: ScreenUtil().setWidth(500),
-                          height: ScreenUtil().setWidth(500),
+                          width: ScreenUtil().setWidth(600),
+                          height: ScreenUtil().setHeight(700),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(15.0),

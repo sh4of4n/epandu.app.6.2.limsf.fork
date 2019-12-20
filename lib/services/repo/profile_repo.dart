@@ -22,7 +22,9 @@ class ProfileRepo {
   Future getStudentProfilePicture() async {} */
 
   Future<Result> getCustomerData() async {
-    String diCode = await localStorage.getDiCode();
+    //  Temporarily use TBS as diCode
+    String diCode = 'TBS';
+    // String diCode = await localStorage.getDiCode();
     String icNo = await localStorage.getStudentIc();
 
     String params =
@@ -35,7 +37,9 @@ class ProfileRepo {
 
   // Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
   Future<Result> getStudentPayment() async {
-    String diCode = await localStorage.getDiCode();
+    //  Temporarily use TBS as diCode
+    String diCode = 'TBS';
+    // String diCode = await localStorage.getDiCode();
     String icNo = await localStorage.getStudentIc();
 
     String params =
@@ -48,7 +52,9 @@ class ProfileRepo {
 
   // Unknown column 'StuPrac.di_code' in 'where clause'
   Future<Result> getStudentAttendance() async {
-    String diCode = await localStorage.getDiCode();
+    //  Temporarily use TBS as diCode
+    String diCode = 'TBS';
+    // String diCode = await localStorage.getDiCode();
     String groupId;
     String icNo = await localStorage.getStudentIc();
 
@@ -70,7 +76,9 @@ class ProfileRepo {
   } */
 
   Future<Result> getBookingTest(groupId) async {
-    String diCode = await localStorage.getDiCode();
+    //  Temporarily use TBS as diCode
+    String diCode = 'TBS';
+    // String diCode = await localStorage.getDiCode();
     String icNo = await localStorage.getStudentIc();
 
     String params =

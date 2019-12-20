@@ -21,6 +21,7 @@ class _HomeState extends State<Home> {
   final localStorage = LocalStorage();
   final primaryColor = ColorConstant.primaryColor;
   String _username = '';
+  var studentEnrollmentData;
 
   @override
   void initState() {
@@ -51,8 +52,7 @@ class _HomeState extends State<Home> {
     }
 
     // Get student enrollment data
-    // Temporarily placed here
-    // await authRepo.getStudentEnrollmentData();
+    studentEnrollmentData = await authRepo.getStudentEnrollmentData();
   }
 
   @override

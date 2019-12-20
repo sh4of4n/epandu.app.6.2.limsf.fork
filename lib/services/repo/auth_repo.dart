@@ -150,9 +150,11 @@ class AuthRepo {
   }
 
   //logout
-  Future logout() async {
+  Future<void> logout() async {
     String userId = await localStorage.getUserId();
-    String diCode = await localStorage.getDiCode();
+    //  Temporarily use TBS as diCode
+    String diCode = 'TBS';
+    // String diCode = await localStorage.getDiCode();
     String sessionId = await localStorage.getSessionId();
 
     var params =
@@ -357,8 +359,10 @@ class AuthRepo {
         message: 'Failed to change password. Please try again later.');
   }
 
-  Future getStudentEnrollmentData() async {
-    String diCode = await localStorage.getDiCode();
+  Future<Result> getStudentEnrollmentData() async {
+    //  Temporarily use TBS as diCode
+    String diCode = 'TBS';
+    // String diCode = await localStorage.getDiCode();
     String groupId = '';
     String icNo = await localStorage.getStudentIc();
 
@@ -376,14 +380,15 @@ class AuthRepo {
           ['GetEnrollByCodeResult']['EnrollInfo']['Enroll'];
     }
 
-    // needs to have scenario one enrollment or multiple enrollment id
-    if (responseData != null) {
+    return Result(true, data: responseData);
+
+    /* if (responseData != null && responseData[0] == null) {
       localStorage.saveEnrolledGroupId(responseData['group_id']);
       localStorage.saveBlacklisted(responseData['blacklisted']);
       // String tranDate = responseData['trandate'];
       // String fees = responseData['fees_agree'];
       // String hours = responseData['hrs_agree'];
       // String additionalCharges = responseData['addhr_chrg'];
-    }
+    } */
   }
 }
