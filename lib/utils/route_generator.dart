@@ -35,7 +35,7 @@ class RouteGenerator {
       case SIGN_UP:
         return MaterialPageRoute(
           settings: RouteSettings(name: SIGN_UP),
-          builder: (_) => Register(),
+          builder: (_) => Register(data),
         );
       case SIGN_UP_TYPE:
         return MaterialPageRoute(

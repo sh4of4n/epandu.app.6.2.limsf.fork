@@ -5,6 +5,10 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Register extends StatefulWidget {
+  final String argument;
+
+  Register(this.argument);
+
   @override
   _RegisterState createState() => _RegisterState();
 }
@@ -32,14 +36,11 @@ class _RegisterState extends State<Register> {
                       decoration: BoxDecoration(
                         gradient: RadialGradient(
                           colors: [
-                            Colors.amber.shade50,
-                            Colors.amber.shade100,
-                            Colors.amber.shade200,
-                            Colors.amber.shade300,
-                            primaryColor
+                            Colors.amber.shade400,
+                            Colors.amber.shade600,
                           ],
-                          stops: [0.2, 0.4, 0.6, 0.7, 1],
-                          radius: 0.9,
+                          stops: [0.7, 1],
+                          radius: 0.7,
                         ),
                       ),
                       height: ScreenUtil().setHeight(1100),
@@ -62,7 +63,7 @@ class _RegisterState extends State<Register> {
                   ),
                 ],
               ),
-              RegisterForm(),
+              RegisterForm(widget.argument),
             ],
           ),
         ),

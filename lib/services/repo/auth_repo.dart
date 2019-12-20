@@ -178,6 +178,7 @@ class AuthRepo {
     String countryCode,
     String phone,
     String userId,
+    String diCode,
     String name,
     String add1,
     String add2,
@@ -188,6 +189,7 @@ class AuthRepo {
     String country,
     String email,
     String icNo,
+    String registerAs,
   }) async {
     String userPhone;
     String params;
@@ -220,6 +222,7 @@ class AuthRepo {
         countryCode,
         phone,
         userId,
+        diCode,
         name,
         add1,
         add2,
@@ -230,6 +233,7 @@ class AuthRepo {
         country,
         email,
         icNo,
+        registerAs,
       );
 
       return result;
@@ -243,6 +247,7 @@ class AuthRepo {
     String countryCode,
     String phone,
     String userId,
+    String diCode,
     String name,
     String add1,
     String add2,
@@ -253,6 +258,7 @@ class AuthRepo {
     String country,
     String email,
     String icNo,
+    String registerAs,
   ) async {
     String trimIc = icNo?.replaceAll('-', '');
 
@@ -261,7 +267,7 @@ class AuthRepo {
       caUid: appConfig.caUid,
       caPwd: appConfig.caPwd,
       appCode: '',
-      diCode: appConfig.diCode,
+      diCode: diCode ?? appConfig.diCode,
       userId: userId,
       name: name,
       icNo: trimIc ?? '',
@@ -286,6 +292,11 @@ class AuthRepo {
 
     String api = 'CreateAppAccount';
 
+    // If user registered as normal or student
+    // if (registerAs == 'NORMAL')
+    //   api = 'CreateAppAccount';
+    // else if (registerAs == 'STUDENT') api = 'CreateMemberAccount';
+
     Map<String, String> headers = {'Content-Type': 'application/json'};
 
     var response =
@@ -300,8 +311,7 @@ class AuthRepo {
         message =
             'You are now registered, you will receive a SMS notification.';
 
-      return Result(true,
-          data: response['CreateAppAccountResult'], message: message);
+      return Result(true, message: message);
     }
 
     if (type == 'INVITE')

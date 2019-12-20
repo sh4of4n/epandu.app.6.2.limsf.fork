@@ -9,6 +9,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class RegisterForm extends StatefulWidget {
+  final String argument;
+
+  RegisterForm(this.argument);
+
   @override
   _RegisterFormState createState() => _RegisterFormState();
 }
@@ -22,6 +26,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   final FocusNode _phoneFocus = FocusNode();
   final FocusNode _nameFocus = FocusNode();
   final FocusNode _idFocus = FocusNode();
+  final FocusNode _diCodeFocus = FocusNode();
   final FocusNode _add1Focus = FocusNode();
   final FocusNode _add2Focus = FocusNode();
   final FocusNode _add3Focus = FocusNode();
@@ -40,6 +45,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   String _phone;
   String _name;
   String _icNo;
+  String _diCode;
   String _add1;
   String _add2;
   String _add3;
@@ -49,6 +55,53 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   String _country;
   String _email;
   String _message = '';
+
+  _renderDiCodeField() {
+    if (widget.argument == 'STUDENT') {
+      return Column(
+        children: <Widget>[
+          TextFormField(
+            focusNode: _diCodeFocus,
+            textInputAction: TextInputAction.next,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+              hintStyle: TextStyle(
+                color: primaryColor,
+              ),
+              labelText: 'Institute code*',
+              fillColor: Colors.grey.withOpacity(.25),
+              filled: true,
+              prefixIcon: Icon(Icons.assignment_ind),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.transparent),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+            onFieldSubmitted: (term) {
+              fieldFocusChange(context, _diCodeFocus, _add1Focus);
+            },
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Institute code is required.';
+              }
+            },
+            onSaved: (value) {
+              if (value != _diCode) {
+                _diCode = value;
+              }
+            },
+          ),
+          SizedBox(
+            height: ScreenUtil.getInstance().setHeight(70),
+          ),
+        ],
+      );
+    }
+    return SizedBox.shrink();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +212,11 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                   ),
                 ),
                 onFieldSubmitted: (term) {
-                  fieldFocusChange(context, _idFocus, _add1Focus);
+                  fieldFocusChange(
+                    context,
+                    _idFocus,
+                    widget.argument == 'STUDENT' ? _diCodeFocus : _add1Focus,
+                  );
                 },
                 validator: (value) {
                   if (value.isEmpty) {
@@ -175,6 +232,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
               SizedBox(
                 height: ScreenUtil.getInstance().setHeight(70),
               ),
+              _renderDiCodeField(),
               TextFormField(
                 focusNode: _add1Focus,
                 textInputAction: TextInputAction.next,
@@ -362,7 +420,6 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
               ),
               TextFormField(
                 focusNode: _emailFocus,
-                textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(
@@ -475,6 +532,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
         countryCode: '+60',
         phone: _phone,
         userId: '',
+        diCode: _diCode,
         name: _name,
         icNo: _icNo,
         add1: _add1,
@@ -485,10 +543,11 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
         state: _state,
         country: _country,
         email: _email,
+        registerAs: widget.argument,
       );
 
       if (result.isSuccess) {
-        Navigator.pop(context);
+        Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
         customSnackbar.show(
           context,
           message: result.message.toString(),

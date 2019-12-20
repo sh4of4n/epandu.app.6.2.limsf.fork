@@ -193,7 +193,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, SIGN_UP);
+                      Navigator.pushNamed(context, SIGN_UP_TYPE);
                     },
                     child: Text(
                       "SIGNUP",
