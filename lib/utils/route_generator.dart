@@ -37,6 +37,11 @@ class RouteGenerator {
           settings: RouteSettings(name: SIGN_UP),
           builder: (_) => Register(),
         );
+      case SIGN_UP_TYPE:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: SIGN_UP_TYPE),
+          builder: (_) => RegisterType(),
+        );
       case HOME:
         return MaterialPageRoute(
           settings: RouteSettings(name: HOME),
