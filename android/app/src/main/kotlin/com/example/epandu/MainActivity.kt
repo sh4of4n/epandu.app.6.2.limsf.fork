@@ -1,4 +1,4 @@
-package my.com.tbs.epandu
+package my.com.tbs.epandu.app
 
 import android.os.Bundle
 
