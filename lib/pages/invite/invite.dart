@@ -154,7 +154,6 @@ class _InviteState extends State<Invite> with PageBaseClass {
                         ),
                         TextFormField(
                           focusNode: _nameFocus,
-                          textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             contentPadding:
                                 EdgeInsets.symmetric(vertical: 16.0),
