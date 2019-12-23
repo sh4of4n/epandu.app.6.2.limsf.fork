@@ -13,6 +13,7 @@
   "intitute_student_btn": "Murid institut",
 
   "phone_required_lbl": "Nombor Telefon*",
+  "name_lbl": "Nama",
   "name_required_lbl": "Nama*",
   "name_required_msg": "Name diperlukan.",
   "ic_required_lbl": "IC/Pasport*",
@@ -26,7 +27,38 @@
   "country_lbl": "Negara",
   "email_lbl": "Emel",
 
+  "hello_lbl": "Apa khabar,",
+  "feeds_lbl": "Berita",
+  "payment_lbl": "Bayaran",
+  "invite_friends_lbl": "Jemput Kawan",
+  "emergency_lbl": "Kecemasan",
+  "kpp_lbl": "KPP",
+
+  "language_lbl": "Bahasa",
+  "settings_lbl": "Larasan",
+  "logout_lbl": "Log keluar",
+  "confirm_lbl": "Sahkan",
+  "confirm_log_out": "Adakah andi pasti untuk log keluar?",
+  "yes_lbl": "Ya",
+  "no_lbl": "Tidak",
+
+  "invite_your_friends_lbl": "Jemput kawan anda",
+  "invite_friends_desc": "Bersenang-senang? Semakin baik? Jemput kawan-kawan anda! Anda boleh menikmati manfaat ini bersama kawan-kawan anda!",
+
+  "choose_category": "Pilih kategori anda",
+  "choose_module": "Pilih modul anda",
+  "existing_session": "Anda ada sesi dalam ",
+  "existing_session_two": "Adakah anda mahu memulihkan sesi?",
+  "first_page_desc": "Ini adalah halaman pertama.",
+  "select_answer_desc": "Pilih jawapan untuk ke seterusnya.",
+  "expired_title": "Tamat",
+  "exam_expired": "Sesi peperiksaan dah tamat.",
+  "warning_title": "Makluman",
+  "confirm_exit_desc": "Adakah anda pasti? Kemajuan anda tidak akan disimpan.",
+
+  "ok_btn": "Ok",
   "sign_up_btn": "DAFTAR",
   "go_back_lbl": "KEMBALI",
-  "submit_btn": "HANTAR"
+  "submit_btn": "HANTAR",
+  "invite_btn": "JEMPUT"
 }

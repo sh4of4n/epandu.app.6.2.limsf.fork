@@ -13,6 +13,7 @@
   "intitute_student_btn": "Institute student",
 
   "phone_required_lbl": "Phone*",
+  "name_lbl": "Name",
   "name_required_lbl": "Name*",
   "name_required_msg": "Name is required.",
   "ic_required_lbl": "IC/Passport*",
@@ -26,7 +27,38 @@
   "country_lbl": "Country",
   "email_lbl": "Email",
 
+  "hello_lbl": "Hello,",
+  "feeds_lbl": "Feeds",
+  "payment_lbl": "Payment",
+  "invite_friends_lbl": "Invite Friends",
+  "emergency_lbl": "Emergency",
+  "kpp_lbl": "KPP",
+
+  "language_lbl": "Language",
+  "settings_lbl": "Settings",
+  "logout_lbl": "Log out",
+  "confirm_lbl": "Confirm",
+  "confirm_log_out": "Are you sure you want to log out?",
+  "yes_lbl": "Yes",
+  "no_lbl": "No",
+
+  "invite_your_friends_lbl": "Invite your friends",
+  "invite_friends_desc": "Having fun? Getting better? Invite your friends too! You don't have to be the only one. After all, the more the merrier!",
+
+  "choose_category": "Choose your category",
+  "choose_module": "Choose your module",
+  "existing_session": "You have an existing session at ",
+  "existing_session_two": "Would you like to restore it?",
+  "first_page_desc": "This is the first page.",
+  "select_answer_desc": "You must select an answer to continue.",
+  "expired_title": "Expired",
+  "exam_expired": "Exam time has expired.",
+  "warning_title": "Warning!",
+  "confirm_exit_desc": "Are you sure you want to quit? All your progress will be lost.",
+
+  "ok_btn": "Ok",
   "sign_up_btn": "SIGNUP",
   "go_back_lbl": "GO BACK",
-  "submit_btn": "SUBMIT"
+  "submit_btn": "SUBMIT",
+  "invite_btn": "INVITE"
 }

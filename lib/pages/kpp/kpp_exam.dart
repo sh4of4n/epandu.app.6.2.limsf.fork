@@ -1,3 +1,4 @@
+import 'package:epandu/app_localizations.dart';
 import 'package:epandu/pages/kpp/exam_template.dart';
 import 'package:epandu/services/api/model/kpp_model.dart';
 import 'package:epandu/services/repo/kpp_repo.dart';
@@ -47,10 +48,10 @@ class _KppExamState extends State<KppExam> {
         context: context,
         title: Center(child: Icon(Icons.info_outline, size: 120)),
         content:
-            'You have an existing session at ${data.groupId} ${data.paperNo}. Would you like to restore it?',
+            '${AppLocalizations.of(context).translate("existing_session")} ${data.groupId} ${data.paperNo}. ${AppLocalizations.of(context).translate("existing_session_two")}',
         customActions: <Widget>[
           FlatButton(
-            child: Text("Yes"),
+            child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () {
               groupId = data.groupId;
               paperNo = data.paperNo;
@@ -61,7 +62,7 @@ class _KppExamState extends State<KppExam> {
             },
           ),
           FlatButton(
-            child: Text("No"),
+            child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
               groupId = widget.data.groupId;
               paperNo = widget.data.paperNo;

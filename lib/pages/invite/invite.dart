@@ -1,3 +1,4 @@
+import 'package:epandu/app_localizations.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/constants.dart';
@@ -42,7 +43,9 @@ class _InviteState extends State<Invite> with PageBaseClass {
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.amberAccent,
         appBar: AppBar(
-          title: Text('Invite your friends'),
+          title: Text(
+            AppLocalizations.of(context).translate('invite_your_friends_lbl'),
+          ),
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
@@ -82,7 +85,8 @@ class _InviteState extends State<Invite> with PageBaseClass {
                   padding: const EdgeInsets.symmetric(
                       vertical: 20.0, horizontal: 25.0),
                   child: Text(
-                    'Having fun? Getting better? Invite your friends too! You don\'t have to be the only one. After all, the more the merrier!',
+                    AppLocalizations.of(context)
+                        .translate('invite_friends_desc'),
                     style: TextStyle(letterSpacing: 0.6),
                     maxLines: 3,
                   ),
@@ -123,7 +127,8 @@ class _InviteState extends State<Invite> with PageBaseClass {
                             hintStyle: TextStyle(
                               color: primaryColor,
                             ),
-                            labelText: 'Phone',
+                            labelText: AppLocalizations.of(context)
+                                .translate('phone_lbl'),
                             fillColor: Colors.grey.withOpacity(.25),
                             filled: true,
                             prefixIcon: Icon(Icons.account_circle),
@@ -140,7 +145,8 @@ class _InviteState extends State<Invite> with PageBaseClass {
                           },
                           validator: (value) {
                             if (value.isEmpty) {
-                              return 'Phone is required.';
+                              return AppLocalizations.of(context)
+                                  .translate('phone_required_msg');
                             }
                           },
                           onSaved: (value) {
@@ -160,7 +166,8 @@ class _InviteState extends State<Invite> with PageBaseClass {
                             hintStyle: TextStyle(
                               color: primaryColor,
                             ),
-                            labelText: 'Name',
+                            labelText: AppLocalizations.of(context)
+                                .translate('name_lbl'),
                             fillColor: Colors.grey.withOpacity(.25),
                             filled: true,
                             prefixIcon: Icon(Icons.account_circle),
@@ -174,7 +181,8 @@ class _InviteState extends State<Invite> with PageBaseClass {
                           ),
                           validator: (value) {
                             if (value.isEmpty) {
-                              return 'Name is required.';
+                              return AppLocalizations.of(context)
+                                  .translate('name_required_msg');
                             }
                           },
                           onSaved: (value) {
@@ -240,7 +248,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                     vertical: 10.0,
                   ),
                   child: Text(
-                    'INVITE',
+                    AppLocalizations.of(context).translate('invite_btn'),
                     style: TextStyle(
                       fontSize: ScreenUtil.getInstance().setSp(56),
                     ),

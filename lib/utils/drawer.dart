@@ -3,6 +3,8 @@ import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 
+import '../app_localizations.dart';
+
 class DrawerMenu extends StatefulWidget {
   @override
   _DrawerMenuState createState() => _DrawerMenuState();
@@ -31,7 +33,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
             ),
           ),
           ListTile(
-            title: Text('Language'),
+            title: Text(AppLocalizations.of(context).translate('language_lbl')),
             onTap: () {
               // Update the state of the app
               // ...
@@ -40,13 +42,13 @@ class _DrawerMenuState extends State<DrawerMenu> {
             },
           ),
           ListTile(
-            title: Text('Settings'),
+            title: Text(AppLocalizations.of(context).translate('settings_lbl')),
             onTap: () {
               Navigator.pushNamed(context, SETTINGS);
             },
           ),
           ListTile(
-            title: Text('Log out'),
+            title: Text(AppLocalizations.of(context).translate('logout_lbl')),
             onTap: _logout,
           )
         ],
@@ -57,18 +59,18 @@ class _DrawerMenuState extends State<DrawerMenu> {
   _logout() {
     customDialog.show(
         context: context,
-        title: Text('Confirm'),
-        content: 'Are you sure you want to log out?',
+        title: Text(AppLocalizations.of(context).translate('confirm_lbl')),
+        content: AppLocalizations.of(context).translate('confirm_log_out'),
         customActions: <Widget>[
           FlatButton(
-            child: Text("Yes"),
+            child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () async {
               Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
               await authRepo.logout();
             },
           ),
           FlatButton(
-            child: Text("No"),
+            child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
               Navigator.pop(context);
             },

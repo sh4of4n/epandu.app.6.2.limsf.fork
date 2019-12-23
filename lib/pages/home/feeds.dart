@@ -1,3 +1,4 @@
+import 'package:epandu/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,7 +19,7 @@ class Feeds extends StatelessWidget {
             bottom: 10.0,
           ),
           child: Text(
-            'Feeds',
+            AppLocalizations.of(context).translate('feeds_lbl'),
             style: TextStyle(
               fontSize: 26.0,
               fontWeight: FontWeight.w600,

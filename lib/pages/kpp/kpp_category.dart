@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:epandu/app_localizations.dart';
 import 'package:epandu/services/repo/kpp_repo.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
@@ -58,7 +59,7 @@ class _KppCategoryState extends State<KppCategory> {
       appBar: AppBar(
         backgroundColor: primaryColor,
         elevation: 0,
-        title: Text('Choose your category'),
+        title: Text(AppLocalizations.of(context).translate('choose_category')),
       ),
       body: Stack(
         children: <Widget>[
