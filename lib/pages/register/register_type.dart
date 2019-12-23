@@ -31,7 +31,7 @@ class RegisterType extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Image.asset(
-                  'images/ePandu-logo.png',
+                  ImagesConstant().logo,
                   width: ScreenUtil.getInstance().setWidth(1000),
                   height: ScreenUtil.getInstance().setHeight(600),
                 ),

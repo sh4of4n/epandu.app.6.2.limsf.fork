@@ -53,7 +53,7 @@ class _RegisterState extends State<Register> {
                         Padding(
                           padding: EdgeInsets.only(top: 50.0),
                           child: Image.asset(
-                            'images/ePandu-logo.png',
+                            ImagesConstant().logo,
                             width: ScreenUtil.getInstance().setWidth(1000),
                             height: ScreenUtil.getInstance().setHeight(600),
                           ),

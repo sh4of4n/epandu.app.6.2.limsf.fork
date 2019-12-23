@@ -51,17 +51,17 @@ class FontTheme {
 }
 
 class ImagesConstant {
-  String logo = 'images/ePandu-logo.png';
-  String iconAbout = 'images/icon-about.png';
-  String iconCampus = 'images/icon-campus.png';
-  String iconEmergency = 'images/icon-emergency.png';
-  String iconProfile = 'images/icon-profile.png';
-  String iconProgramme = 'images/icon-programme.png';
-  String feedSample = 'images/feed-sample.jpg';
-  String feedSample2 = 'images/feed-sample.png';
-  String friend = 'images/friend.png';
-  String car = 'images/car.png';
-  String motor = 'images/motor.png';
+  String logo = 'assets/images/ePandu-logo.png';
+  String iconAbout = 'assets/images/icon-about.png';
+  String iconCampus = 'assets/images/icon-campus.png';
+  String iconEmergency = 'assets/images/icon-emergency.png';
+  String iconProfile = 'assets/images/icon-profile.png';
+  String iconProgramme = 'assets/images/icon-programme.png';
+  String feedSample = 'assets/images/feed-sample.jpg';
+  String feedSample2 = 'assets/images/feed-sample.png';
+  String friend = 'assets/images/friend.png';
+  String car = 'assets/images/car.png';
+  String motor = 'assets/images/motor.png';
   // String avatar = 'images/avatar.jpg';
   // String loginBackground = 'assets/images/login_background.jpg';
 }

@@ -383,9 +383,10 @@ class AuthRepo {
 
     var responseData;
 
-    if (response['GetEnrollByCodeResponse']['GetEnrollByCodeResult']
-            ['EnrollInfo'] !=
-        null) {
+    if (response != null &&
+        response['GetEnrollByCodeResponse']['GetEnrollByCodeResult']
+                ['EnrollInfo'] !=
+            null) {
       responseData = response['GetEnrollByCodeResponse']
           ['GetEnrollByCodeResult']['EnrollInfo']['Enroll'];
     }

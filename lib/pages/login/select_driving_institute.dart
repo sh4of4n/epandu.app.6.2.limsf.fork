@@ -40,7 +40,7 @@ class SelectDrivingInstitute extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(top: 20.0),
                     child: Image.asset(
-                      'images/ePandu-logo.png',
+                      ImagesConstant().logo,
                       width: ScreenUtil.getInstance().setWidth(1000),
                       height: ScreenUtil.getInstance().setHeight(600),
                     ),
