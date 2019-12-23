@@ -1,0 +1,32 @@
+{
+  "phone_lbl": "Phone",
+  "phone_required_msg": "Phone is required.",
+  "password_lbl": "Password",
+  "password_required_msg": "Password is required.",
+  "forgot_password_lbl": "Forgot Password?",
+  "login_btn": "LOGIN",
+
+  "forgot_password_msg": "Enter your phone number. You will receive an SMS notification with your new password.",
+
+  "register_as_lbl": "Register as",
+  "normal_user_btn": "Normal user",
+  "intitute_student_btn": "Institute student",
+
+  "phone_required_lbl": "Phone*",
+  "name_required_lbl": "Name*",
+  "name_required_msg": "Name is required.",
+  "ic_required_lbl": "IC/Passport*",
+  "ic_required_msg": "IC/Passport is required.",
+  "institute_code_required_lbl": "Institute code*",
+  "institute_code_msg": "Institute code is required.",
+  "address_lbl": "Address",
+  "postcode_lbl": "Postcode",
+  "city_lbl": "City",
+  "state_lbl": "State",
+  "country_lbl": "Country",
+  "email_lbl": "Email",
+
+  "sign_up_btn": "SIGNUP",
+  "go_back_lbl": "GO BACK",
+  "submit_btn": "SUBMIT"
+}

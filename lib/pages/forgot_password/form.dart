@@ -1,3 +1,4 @@
+import 'package:epandu/app_localizations.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/constants.dart';
@@ -78,7 +79,8 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
-                  labelText: 'Phone',
+                  labelText:
+                      AppLocalizations.of(context).translate('phone_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.account_circle),
@@ -95,7 +97,8 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
                 },
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Phone is required.';
+                    return AppLocalizations.of(context)
+                        .translate('phone_required_msg');
                   }
                 },
                 onSaved: (value) {
@@ -111,8 +114,8 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Wrap(
                   children: <Widget>[
-                    Text(
-                        'Enter your phone number. You will receive an SMS notification with your new password.'),
+                    Text(AppLocalizations.of(context)
+                        .translate('forgot_password_msg')),
                   ],
                 ),
               ),
@@ -146,7 +149,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
                       Navigator.pop(context);
                     },
                     child: Text(
-                      "GO BACK",
+                      AppLocalizations.of(context).translate('go_back_lbl'),
                       style: TextStyle(
                         fontSize: ScreenUtil.getInstance().setSp(56),
                       ),
@@ -176,7 +179,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
                 onPressed: _submit,
                 textColor: Colors.white,
                 child: Text(
-                  'SUBMIT',
+                  AppLocalizations.of(context).translate('submit_btn'),
                   style: TextStyle(
                     fontSize: ScreenUtil.getInstance().setSp(56),
                   ),

@@ -1,0 +1,32 @@
+{
+  "phone_lbl": "Nombor Telefon",
+  "phone_required_msg": "Nombor telefon diperlukan.",
+  "password_lbl": "Kata Laluan",
+  "password_required_msg": "Kata laluan diperlukan.",
+  "forgot_password_lbl": "Lupa kata laluan?",
+  "login_btn": "LOG MASUK",
+
+  "forgot_password_msg": "Sila masukkan nombor telefon. Anda akan menerima SMS notifikasi untuk kata laluan yang baru.",
+
+  "register_as_lbl": "Daftar sebagai",
+  "normal_user_btn": "Pengguna biasa",
+  "intitute_student_btn": "Murid institut",
+
+  "phone_required_lbl": "Nombor Telefon*",
+  "name_required_lbl": "Nama*",
+  "name_required_msg": "Name diperlukan.",
+  "ic_required_lbl": "IC/Pasport*",
+  "ic_required_msg": "IC/Pasport diperlukan.",
+  "institute_code_required_lbl": "Kod institut*",
+  "institute_code_msg": "Kod institut diperlukan.",
+  "address_lbl": "Alamat",
+  "postcode_lbl": "Poskod",
+  "city_lbl": "Bandar",
+  "state_lbl": "Negeri",
+  "country_lbl": "Negara",
+  "email_lbl": "Emel",
+
+  "sign_up_btn": "DAFTAR",
+  "go_back_lbl": "KEMBALI",
+  "submit_btn": "HANTAR"
+}

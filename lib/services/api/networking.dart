@@ -32,7 +32,7 @@ class Networking {
       http.Response response =
           await http.get('$url${path ?? ""}').timeout(Duration(seconds: 15));
 
-      // print('${wsUrl.isNotEmpty ? wsUrl : url}${path ?? ""}');
+      print('$url${path ?? ""}');
 
       if (response.statusCode == 200) {
         var convertResponse = response.body
