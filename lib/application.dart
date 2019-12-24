@@ -11,12 +11,12 @@ class Application {
 
   final List<String> supportedLanguages = [
     "English",
-    "Spanish",
+    "Malay",
   ];
 
   final List<String> supportedLanguagesCodes = [
     "en",
-    "es",
+    "ms",
   ];
 
   //returns the list of supported Locales
