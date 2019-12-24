@@ -3,6 +3,8 @@ import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../app_localizations.dart';
+
 class RegisterType extends StatelessWidget {
   final primaryColor = ColorConstant.primaryColor;
 
@@ -37,7 +39,7 @@ class RegisterType extends StatelessWidget {
                 ),
               ],
             ),
-            Text('Register as',
+            Text(AppLocalizations.of(context).translate('register_as_lbl'),
                 style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w800)),
             GridView.count(
               shrinkWrap: true,
@@ -75,7 +77,8 @@ class RegisterType extends StatelessWidget {
                               color: Colors.white,
                             ),
                             Text(
-                              'Normal user',
+                              AppLocalizations.of(context)
+                                  .translate('normal_user_btn'),
                               style: TextStyle(
                                 fontSize: ScreenUtil().setSp(56),
                                 fontWeight: FontWeight.w600,
@@ -120,7 +123,8 @@ class RegisterType extends StatelessWidget {
                               color: Colors.white,
                             ),
                             Text(
-                              'Institute student',
+                              AppLocalizations.of(context)
+                                  .translate('intitute_student_btn'),
                               style: TextStyle(
                                 fontSize: ScreenUtil().setSp(56),
                                 fontWeight: FontWeight.w600,

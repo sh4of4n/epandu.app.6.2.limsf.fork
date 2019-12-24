@@ -193,12 +193,12 @@ class AuthRepo {
   }) async {
     String userPhone;
     String params;
-    // String defPhone;
+    String defPhone = phone;
 
     if (countryCode.contains('60')) {
       if (phone.startsWith('0')) {
         userPhone = countryCode + phone.substring(1);
-        // defPhone = phone.substring(1);
+        defPhone = phone.substring(1);
       } else {
         userPhone = countryCode + phone;
         // defPhone = phone;
@@ -220,7 +220,7 @@ class AuthRepo {
       var result = await register(
         type,
         countryCode,
-        phone,
+        defPhone,
         userId,
         diCode,
         name,

@@ -1,3 +1,4 @@
+import 'package:epandu/app_localizations.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/constants.dart';
@@ -68,7 +69,8 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
               hintStyle: TextStyle(
                 color: primaryColor,
               ),
-              labelText: 'Institute code*',
+              labelText: AppLocalizations.of(context)
+                  .translate('institute_code_required_lbl'),
               fillColor: Colors.grey.withOpacity(.25),
               filled: true,
               prefixIcon: Icon(Icons.assignment_ind),
@@ -85,7 +87,8 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
             },
             validator: (value) {
               if (value.isEmpty) {
-                return 'Institute code is required.';
+                return AppLocalizations.of(context)
+                    .translate('institute_code_msg');
               }
             },
             onSaved: (value) {
@@ -125,7 +128,8 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
-                  labelText: 'Phone*',
+                  labelText: AppLocalizations.of(context)
+                      .translate('phone_required_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.phone_android),
@@ -142,7 +146,8 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                 },
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Phone is required.';
+                    return AppLocalizations.of(context)
+                        .translate('phone_required_msg');
                   }
                 },
                 onSaved: (value) {
@@ -162,7 +167,8 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
-                  labelText: 'Name*',
+                  labelText: AppLocalizations.of(context)
+                      .translate('name_required_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.account_circle),
@@ -179,7 +185,8 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                 },
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Name is required.';
+                    return AppLocalizations.of(context)
+                        .translate('name_required_msg');
                   }
                 },
                 onSaved: (value) {
@@ -199,7 +206,8 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
-                  labelText: 'IC/Passport*',
+                  labelText:
+                      AppLocalizations.of(context).translate('ic_required_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.assignment_ind),
@@ -220,7 +228,8 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                 },
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'IC/Passport is required.';
+                    return AppLocalizations.of(context)
+                        .translate('ic_required_msg');
                   }
                 },
                 onSaved: (value) {
@@ -241,7 +250,8 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
-                  labelText: 'Address',
+                  labelText:
+                      AppLocalizations.of(context).translate('address_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.location_on),
@@ -278,7 +288,8 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
-                  labelText: 'Postcode',
+                  labelText:
+                      AppLocalizations.of(context).translate('postcode_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.confirmation_number),
@@ -315,7 +326,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
-                  labelText: 'City',
+                  labelText: AppLocalizations.of(context).translate('city_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.location_city),
@@ -352,7 +363,8 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
-                  labelText: 'State',
+                  labelText:
+                      AppLocalizations.of(context).translate('state_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.map),
@@ -389,7 +401,8 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
-                  labelText: 'Country',
+                  labelText:
+                      AppLocalizations.of(context).translate('country_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.flag),
@@ -425,7 +438,8 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
-                  labelText: 'Email',
+                  labelText:
+                      AppLocalizations.of(context).translate('email_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.mail),

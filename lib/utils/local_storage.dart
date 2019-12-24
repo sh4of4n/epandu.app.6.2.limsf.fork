@@ -1,6 +1,7 @@
 import 'preferences.dart';
 
 class LocalStorage {
+  static const String kLocale = 'LOCALE';
   static const String kWsUrl = 'WS_URL';
   static const String kServerType = 'SERVER_TYPE';
   static const String kUserId = 'USER_ID';
@@ -19,6 +20,14 @@ class LocalStorage {
   static const String kInstituteLogo = 'INSTITUTE_LOGO';
   static const String kEnrolledGroupId = 'ENROLLED_GROUP_ID';
   static const String kBlacklisted = 'BLACKLISTED';
+
+  Future<void> saveLocale(String locale) {
+    return Preference.setString(kLocale, locale);
+  }
+
+  Future<String> getLocale() async {
+    return Preference.getString(kLocale, def: 'en');
+  }
 
   Future<void> saveWsUrl(String wsUrl) {
     return Preference.setString(kWsUrl, wsUrl);
@@ -165,23 +174,24 @@ class LocalStorage {
   }
 
   Future<void> reset() async {
-    await Preference.removeAll();
-    // await Preference.remove(kWsUrl);
-    // await Preference.remove(kUserId);
-    // await Preference.remove(kUsername);
-    // await Preference.remove(kUserPhone);
-    // await Preference.remove(kEmail);
-    // await Preference.remove(kDiCode);
-    // await Preference.remove(kSessionId);
-    // await Preference.remove(kNationality);
-    // await Preference.remove(kGender);
-    // await Preference.remove(kAddress);
-    // await Preference.remove(kStudentIc);
-    // await Preference.remove(kState);
-    // await Preference.remove(kCountry);
-    // await Preference.remove(kPostCode);
-    // await Preference.remove(kInstituteLogo);
-    // await Preference.remove(kEnrolledGroupId);
-    // await Preference.remove(kBlacklisted);
+    // await Preference.removeAll();
+    await Preference.remove(kWsUrl);
+    await Preference.remove(kServerType);
+    await Preference.remove(kUserId);
+    await Preference.remove(kUsername);
+    await Preference.remove(kUserPhone);
+    await Preference.remove(kEmail);
+    await Preference.remove(kDiCode);
+    await Preference.remove(kSessionId);
+    await Preference.remove(kNationality);
+    await Preference.remove(kGender);
+    await Preference.remove(kAddress);
+    await Preference.remove(kStudentIc);
+    await Preference.remove(kState);
+    await Preference.remove(kCountry);
+    await Preference.remove(kPostCode);
+    await Preference.remove(kInstituteLogo);
+    await Preference.remove(kEnrolledGroupId);
+    await Preference.remove(kBlacklisted);
   }
 }

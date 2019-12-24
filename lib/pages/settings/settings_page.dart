@@ -6,6 +6,9 @@ import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 
+import '../../app_localizations.dart';
+import '../../application.dart';
+
 class Settings extends StatefulWidget {
   @override
   _SettingsState createState() => _SettingsState();
@@ -18,6 +21,7 @@ class _SettingsState extends State<Settings> {
   final customDialog = CustomDialog();
   double _defIconSize = 30;
   final primaryColor = ColorConstant.primaryColor;
+  final localStorage = LocalStorage();
 
   @override
   void initState() {
@@ -48,7 +52,7 @@ class _SettingsState extends State<Settings> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           elevation: 0,
-          title: Text('Settings'),
+          title: Text(AppLocalizations.of(context).translate('settings_lbl')),
           backgroundColor: Colors.transparent,
         ),
         body: Container(
@@ -64,15 +68,43 @@ class _SettingsState extends State<Settings> {
             children: <Widget>[
               ListTile(
                 leading: Icon(Icons.language, size: _defIconSize),
-                title: Text('Language'),
+                title: Text(
+                    AppLocalizations.of(context).translate('language_lbl')),
                 onTap: () {
-                  Navigator.pop(context);
+                  // Navigator.pop(context);
+                  return showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Container(
+                        child: Wrap(
+                          children: <Widget>[
+                            ListTile(
+                                title: Text('English'),
+                                onTap: () {
+                                  localStorage.saveLocale('en');
+                                  application.onLocaleChanged(Locale('en'));
+                                  Navigator.pop(context);
+                                }),
+                            ListTile(
+                              title: Text('Malay'),
+                              onTap: () {
+                                localStorage.saveLocale('ms');
+                                application.onLocaleChanged(Locale('ms'));
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
                 },
               ),
               Divider(),
               ListTile(
                 leading: Icon(Icons.lock, size: _defIconSize),
-                title: Text('Change Password'),
+                title: Text(AppLocalizations.of(context)
+                    .translate('change_password_lbl')),
                 onTap: () {
                   Navigator.pushNamed(context, CHANGE_PASSWORD);
                 },
@@ -80,13 +112,15 @@ class _SettingsState extends State<Settings> {
               Divider(),
               ListTile(
                 leading: Icon(Icons.exit_to_app, size: _defIconSize),
-                title: Text('Log out'),
+                title:
+                    Text(AppLocalizations.of(context).translate('logout_lbl')),
                 onTap: _logout,
               ),
               Divider(),
               ListTile(
                 leading: Icon(Icons.apps, size: _defIconSize),
-                title: Text('Version'),
+                title:
+                    Text(AppLocalizations.of(context).translate('version_lbl')),
                 subtitle: Text('V.$appVersion'),
                 onTap: () async {
                   count += 1;
@@ -96,8 +130,10 @@ class _SettingsState extends State<Settings> {
 
                     customDialog.show(
                       context: context,
-                      title: 'Developer mode',
-                      content: 'Developer mode has been enabled.',
+                      title: AppLocalizations.of(context)
+                          .translate('developer_title'),
+                      content: AppLocalizations.of(context)
+                          .translate('developer_desc'),
                       type: DialogType.SUCCESS,
                       onPressed: () async {
                         Navigator.pushNamedAndRemoveUntil(
@@ -118,18 +154,18 @@ class _SettingsState extends State<Settings> {
   _logout() {
     customDialog.show(
         context: context,
-        title: Text('Confirm'),
-        content: 'Are you sure you want to log out?',
+        title: Text(AppLocalizations.of(context).translate('confirm_lbl')),
+        content: AppLocalizations.of(context).translate('confirm_log_out'),
         customActions: <Widget>[
           FlatButton(
-            child: Text("Yes"),
+            child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () async {
               Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
               await authRepo.logout();
             },
           ),
           FlatButton(
-            child: Text("No"),
+            child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
               Navigator.pop(context);
             },

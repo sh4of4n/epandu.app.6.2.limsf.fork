@@ -1,3 +1,4 @@
+import 'package:epandu/app_localizations.dart';
 import 'package:epandu/services/api/model/kpp_model.dart';
 import 'package:epandu/services/repo/kpp_repo.dart';
 import 'package:epandu/utils/constants.dart';
@@ -58,7 +59,7 @@ class _KppModuleState extends State<KppModule> {
       appBar: AppBar(
         backgroundColor: primaryColor,
         elevation: 0,
-        title: Text('Choose your module'),
+        title: Text(AppLocalizations.of(context).translate('choose_module')),
       ),
       body: Stack(
         children: <Widget>[

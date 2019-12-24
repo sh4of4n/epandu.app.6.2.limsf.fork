@@ -1,3 +1,4 @@
+import 'package:epandu/app_localizations.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/constants.dart';
@@ -77,7 +78,8 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(color: primaryColor),
-                  labelText: 'Password',
+                  labelText:
+                      AppLocalizations.of(context).translate('password_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.lock),
@@ -108,7 +110,8 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                 },
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Password is required.';
+                    return AppLocalizations.of(context)
+                        .translate('password_required_msg');
                   }
                 },
                 onSaved: (value) {
@@ -125,7 +128,8 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(color: primaryColor),
-                  labelText: 'New Password',
+                  labelText: AppLocalizations.of(context)
+                      .translate('new_password_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.lock),
@@ -156,7 +160,8 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                 },
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'New Password is required.';
+                    return AppLocalizations.of(context)
+                        .translate('new_password_required');
                   }
                 },
                 onSaved: (value) {
@@ -173,7 +178,8 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(color: primaryColor),
-                  labelText: 'Confirm New Password',
+                  labelText: AppLocalizations.of(context)
+                      .translate('confirm_password_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.lock),
@@ -200,7 +206,8 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                 obscureText: _obscureConfirmPassword,
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Confirm New Password is required.';
+                    return AppLocalizations.of(context)
+                        .translate('confirm_password_required');
                   }
                 },
                 onSaved: (value) {
@@ -244,7 +251,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                 onPressed: _submit,
                 textColor: Colors.white,
                 child: Text(
-                  'SUBMIT',
+                  AppLocalizations.of(context).translate('submit_btn'),
                   style: TextStyle(
                     fontSize: ScreenUtil.getInstance().setSp(56),
                   ),
@@ -294,14 +301,16 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
         } else {
           CustomSnackbar().show(
             context,
-            message: 'New password is the same as current password.',
+            message:
+                AppLocalizations.of(context).translate('password_same_msg'),
             type: MessageType.ERROR,
           );
         }
       } else {
         CustomSnackbar().show(
           context,
-          message: 'Passwords do not match.',
+          message:
+              AppLocalizations.of(context).translate('password_not_match_msg'),
           type: MessageType.ERROR,
         );
       }

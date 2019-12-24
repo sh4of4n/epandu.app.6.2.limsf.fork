@@ -6,6 +6,7 @@ import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:epandu/app_localizations.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -78,7 +79,8 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
-                  labelText: 'Phone',
+                  labelText:
+                      AppLocalizations.of(context).translate('phone_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.account_circle),
@@ -95,7 +97,8 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 },
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Phone is required.';
+                    return AppLocalizations.of(context)
+                        .translate('phone_required_msg');
                   }
                 },
                 onSaved: (value) {
@@ -112,7 +115,8 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(color: primaryColor),
-                  labelText: 'Password',
+                  labelText:
+                      AppLocalizations.of(context).translate('password_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.lock),
@@ -138,7 +142,8 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 obscureText: _obscureText,
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Password is required.';
+                    return AppLocalizations.of(context)
+                        .translate('password_required_msg');
                   }
                 },
                 onSaved: (value) {
@@ -158,7 +163,8 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                       Navigator.pushNamed(context, FORGOT_PASSWORD);
                     },
                     child: Text(
-                      "Forgot Password?",
+                      AppLocalizations.of(context)
+                          .translate('forgot_password_lbl'),
                       style: TextStyle(
                         fontSize: ScreenUtil.getInstance().setSp(56),
                       ),
@@ -196,7 +202,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                       Navigator.pushNamed(context, SIGN_UP_TYPE);
                     },
                     child: Text(
-                      "SIGNUP",
+                      AppLocalizations.of(context).translate('sign_up_btn'),
                       style: TextStyle(
                         fontSize: ScreenUtil.getInstance().setSp(56),
                       ),

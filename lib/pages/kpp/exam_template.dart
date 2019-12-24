@@ -12,6 +12,8 @@ import 'dart:async';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 
+import '../../app_localizations.dart';
+
 class ExamTemplate extends StatefulWidget {
   final snapshot;
   final index;
@@ -102,11 +104,12 @@ class _ExamTemplateState extends State<ExamTemplate> {
             customDialog.show(
               context: context,
               barrierDismissable: false,
-              title: Text('Expired'),
-              content: 'Exam time has expired.',
+              title:
+                  Text(AppLocalizations.of(context).translate('expired_title')),
+              content: AppLocalizations.of(context).translate('exam_expired'),
               customActions: <Widget>[
                 FlatButton(
-                  child: Text("Ok"),
+                  child: Text(AppLocalizations.of(context).translate('ok_btn')),
                   onPressed: () {
                     // Hive box must be cleared here
                     examDataBox.clear();
@@ -282,7 +285,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 } else {
                   return customSnackbar.show(
                     context,
-                    message: 'This is the first page.',
+                    message: AppLocalizations.of(context)
+                        .translate('first_page_desc'),
                     type: MessageType.TOAST,
                   );
                 }
@@ -352,7 +356,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   return customSnackbar.show(
                     context,
                     duration: 1000,
-                    message: 'You must select an answer to continue.',
+                    message: AppLocalizations.of(context)
+                        .translate('select_answer_desc'),
                     type: MessageType.TOAST,
                   );
                 }
@@ -399,11 +404,11 @@ class _ExamTemplateState extends State<ExamTemplate> {
   _showExitDialog({type}) {
     return CustomDialog().show(
       context: context,
-      title: Text('Warning!'),
-      content: 'Are you sure you want to quit? All your progress will be lost.',
+      title: Text(AppLocalizations.of(context).translate('warning_title')),
+      content: AppLocalizations.of(context).translate('confirm_exit_desc'),
       customActions: <Widget>[
         FlatButton(
-          child: Text("Yes"),
+          child: Text(AppLocalizations.of(context).translate('yes_lbl')),
           onPressed: () {
             if (type == 'system') {
               Navigator.pop(context);
@@ -419,7 +424,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
           },
         ),
         FlatButton(
-          child: Text("No"),
+          child: Text(AppLocalizations.of(context).translate('no_lbl')),
           onPressed: () {
             Navigator.pop(context);
           },

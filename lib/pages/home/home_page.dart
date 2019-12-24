@@ -1,3 +1,4 @@
+import 'package:epandu/app_localizations.dart';
 import 'package:epandu/pages/home/feeds.dart';
 import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/constants.dart';
@@ -106,7 +107,7 @@ class _HomeState extends State<Home> {
                 ),
                 child: RichText(
                   text: TextSpan(
-                    text: 'Hello, ',
+                    text: AppLocalizations.of(context).translate('hello_lbl'),
                     style: GoogleFonts.dosis(
                       fontSize: 30,
                       fontWeight: FontWeight.w500,
