@@ -27,6 +27,8 @@
   "country_lbl": "Country",
   "email_lbl": "Email",
 
+  "select_di_desc": "Select your driving institute",
+
   "hello_lbl": "Hello,",
   "feeds_lbl": "Feeds",
   "payment_lbl": "Payment",
@@ -36,11 +38,23 @@
 
   "language_lbl": "Language",
   "settings_lbl": "Settings",
+  "change_password_lbl": "Change password",
+  "version_lbl": "Version",
+  "developer_title": "Developer mode",
+  "developer_desc": "Developer mode has been enabled.",
   "logout_lbl": "Log out",
   "confirm_lbl": "Confirm",
   "confirm_log_out": "Are you sure you want to log out?",
   "yes_lbl": "Yes",
   "no_lbl": "No",
+
+  "change_password_title": "Change your password",
+  "new_password_lbl": "New Password",
+  "new_password_required": "New password is required.",
+  "confirm_password_lbl": "Confirm New Password",
+  "confirm_password_required": "Confirm new password is required.",
+  "password_same_msg": "New password is the same as current password.",
+  "password_not_match_msg": "Passwords do not match.",
 
   "invite_your_friends_lbl": "Invite your friends",
   "invite_friends_desc": "Having fun? Getting better? Invite your friends too! You don't have to be the only one. After all, the more the merrier!",

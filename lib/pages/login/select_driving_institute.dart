@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:epandu/app_localizations.dart';
 import 'package:epandu/pages/login/login.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
@@ -50,7 +51,8 @@ class SelectDrivingInstitute extends StatelessWidget {
               Container(
                 margin: EdgeInsets.all(10.0),
                 alignment: Alignment.center,
-                child: Text('Select your driving institute',
+                child: Text(
+                    AppLocalizations.of(context).translate('select_di_desc'),
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
               ),

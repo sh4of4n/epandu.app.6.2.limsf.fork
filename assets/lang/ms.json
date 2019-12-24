@@ -27,8 +27,10 @@
   "country_lbl": "Negara",
   "email_lbl": "Emel",
 
+  "select_di_desc": "Pilih institut memandu anda",
+
   "hello_lbl": "Apa khabar,",
-  "feeds_lbl": "Berita",
+  "feeds_lbl": "Harian",
   "payment_lbl": "Bayaran",
   "invite_friends_lbl": "Jemput Kawan",
   "emergency_lbl": "Kecemasan",
@@ -36,14 +38,26 @@
 
   "language_lbl": "Bahasa",
   "settings_lbl": "Larasan",
+  "change_password_lbl": "Tukar kata laluan",
+  "version_lbl": "Versi",
+  "developer_title": "Mode developer",
+  "developer_desc": "Mod developer diaktifkan.",
   "logout_lbl": "Log keluar",
   "confirm_lbl": "Sahkan",
   "confirm_log_out": "Adakah andi pasti untuk log keluar?",
   "yes_lbl": "Ya",
   "no_lbl": "Tidak",
 
+  "change_password_title": "Tukar kata laluan",
+  "new_password_lbl": "Kata Laluan Baru",
+  "new_password_required": "Kata laluan baru diperlukan.",
+  "confirm_password_lbl": "Sahkan Kata Laluan Baru",
+  "confirm_password_required": "Sahkan kata laluan Baru diperlukan.",
+  "password_same_msg": "Kata laluan baru tak boleh sama dengan kata laluan semasa.",
+  "password_not_match_msg": "Kata laluan baru tidak sepadan.",
+
   "invite_your_friends_lbl": "Jemput kawan anda",
-  "invite_friends_desc": "Bersenang-senang? Semakin baik? Jemput kawan-kawan anda! Anda boleh menikmati manfaat ini bersama kawan-kawan anda!",
+  "invite_friends_desc": "Ada kemajuan? Jemput kawan-kawan anda! Anda boleh menikmati manfaat ini bersama kawan-kawan anda!",
 
   "choose_category": "Pilih kategori anda",
   "choose_module": "Pilih modul anda",

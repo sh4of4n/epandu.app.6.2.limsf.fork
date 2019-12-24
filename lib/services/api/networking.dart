@@ -32,7 +32,7 @@ class Networking {
       http.Response response =
           await http.get('$url${path ?? ""}').timeout(Duration(seconds: 15));
 
-      print('$url${path ?? ""}');
+      // print('$url${path ?? ""}');
 
       if (response.statusCode == 200) {
         var convertResponse = response.body
@@ -69,7 +69,11 @@ class Networking {
           .post('$url/$api${path ?? ""}', body: body, headers: headers)
           .timeout(Duration(seconds: 15));
 
-      // print('${wsUrl.isNotEmpty ? wsUrl : url}/$api${path ?? ""}');
+      // print(
+      //   '$url/$api${path ?? ""}',
+      // );
+
+      // print('body: ' + body);
 
       if (response.statusCode == 200) {
         var data;
@@ -88,7 +92,7 @@ class Networking {
           data = jsonDecode(response.body);
         }
 
-        // print(data);
+        print(data);
         return data;
       } else {
         print(response.statusCode);

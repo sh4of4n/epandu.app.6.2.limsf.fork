@@ -1,3 +1,4 @@
+import 'package:epandu/app_localizations.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,7 +34,8 @@ class ChangePassword extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            title: Text('Change your password'),
+            title: Text(AppLocalizations.of(context)
+                .translate('change_password_title')),
           ),
           body: SafeArea(
             child: Stack(
