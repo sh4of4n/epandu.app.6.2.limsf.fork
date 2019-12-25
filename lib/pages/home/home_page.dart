@@ -59,7 +59,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      /* decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -70,6 +70,16 @@ class _HomeState extends State<Home> {
             Colors.lightBlueAccent
           ],
           // stops: [0.1, 0.3, 1],
+        ),
+      ), */
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Colors.amber.shade300,
+            primaryColor,
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomRight,
         ),
       ),
       child: Scaffold(
