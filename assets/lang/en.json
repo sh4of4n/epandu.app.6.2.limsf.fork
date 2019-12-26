@@ -6,6 +6,10 @@
   "forgot_password_lbl": "Forgot Password?",
   "login_btn": "LOGIN",
 
+  "client_acc_id_lbl": "Client Account ID",
+  "client_acc_id_required": "Client account is required.",
+  "client_acc_pwd_lbl": "Client Account Password",
+
   "forgot_password_msg": "Enter your phone number. You will receive an SMS notification with your new password.",
 
   "register_as_lbl": "Register as",
@@ -37,6 +41,8 @@
   "kpp_lbl": "KPP",
 
   "language_lbl": "Language",
+  "english_lbl": "English",
+  "malay_lbl": "Malay",
   "settings_lbl": "Settings",
   "change_password_lbl": "Change password",
   "version_lbl": "Version",
@@ -74,5 +80,6 @@
   "sign_up_btn": "SIGNUP",
   "go_back_lbl": "GO BACK",
   "submit_btn": "SUBMIT",
+  "save_btn": "SAVE",
   "invite_btn": "INVITE"
 }

@@ -11,7 +11,7 @@ class AuthRepo {
   final localStorage = LocalStorage();
   final networking = Networking();
 
-  Future getWsUrl({
+  Future<Result> getWsUrl({
     acctUid,
     acctPwd,
     loginType,
@@ -55,7 +55,12 @@ class AuthRepo {
 
     var responseData = response['string']['LoginAcctInfo']['LoginAcct'];
 
-    localStorage.saveWsUrl(responseData['WsUrl']);
+    if (responseData['WsUrl']) {
+      localStorage.saveWsUrl(responseData['WsUrl']);
+
+      return Result(true, data: responseData['WsUrl'], message: '');
+    }
+    return Result(false, message: 'No URL found with this client account.');
   }
 
   Future login({String phone, String password}) async {

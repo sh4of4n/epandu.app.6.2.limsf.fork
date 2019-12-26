@@ -29,10 +29,9 @@ class Networking {
     }
 
     try {
-      http.Response response =
-          await http.get('$url${path ?? ""}').timeout(Duration(seconds: 15));
+      http.Response response = await http.get('$url${path ?? ""}');
 
-      // print('$url${path ?? ""}');
+      print('$url${path ?? ""}');
 
       if (response.statusCode == 200) {
         var convertResponse = response.body
@@ -44,15 +43,16 @@ class Networking {
         var jsonData = xml2json.toParker();
         var data = jsonDecode(jsonData);
 
-        // print(data);
+        print(data);
         return data;
+      } else if (response.statusCode == 400) {
+        print(response.statusCode);
+      } else if (response.statusCode == 500) {
+        print(response.statusCode);
       } else {
         print(response.statusCode);
       }
-    } on TimeoutException catch (e) {
-      return (e.toString());
-    } on SocketException catch (e) {
-      // Other exception
+    } catch (e) {
       return (e.toString());
     }
   }
@@ -65,13 +65,12 @@ class Networking {
         url = await appConfig.getBaseUrl();
       }
 
-      http.Response response = await http
-          .post('$url/$api${path ?? ""}', body: body, headers: headers)
-          .timeout(Duration(seconds: 15));
+      http.Response response = await http.post('$url/$api${path ?? ""}',
+          body: body, headers: headers);
 
-      // print(
-      //   '$url/$api${path ?? ""}',
-      // );
+      print(
+        '$url/$api${path ?? ""}',
+      );
 
       // print('body: ' + body);
 
@@ -94,6 +93,10 @@ class Networking {
 
         print(data);
         return data;
+      } else if (response.statusCode == 400) {
+        print(response.statusCode);
+      } else if (response.statusCode == 500) {
+        print(response.statusCode);
       } else {
         print(response.statusCode);
       }

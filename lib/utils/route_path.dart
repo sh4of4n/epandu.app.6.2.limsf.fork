@@ -1,4 +1,5 @@
 const String AUTH = '/';
+const String CLIENT_ACC = '/client_acc';
 const String LOGIN = '/login';
 const String FORGOT_PASSWORD = '/forgot_password';
 const String SIGN_UP = 'sign_up';

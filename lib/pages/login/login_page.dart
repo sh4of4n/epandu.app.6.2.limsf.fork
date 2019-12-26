@@ -1,7 +1,9 @@
+import 'package:epandu/app_localizations.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/language_options.dart';
+import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'login_form.dart';
 
 class Login extends StatefulWidget {
@@ -12,6 +14,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   GlobalKey<ScaffoldState> scaffoldState = GlobalKey<ScaffoldState>();
   final primaryColor = ColorConstant.primaryColor;
+  final localStorage = LocalStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -37,37 +40,53 @@ class _LoginState extends State<Login> {
           backgroundColor: Colors.transparent,
           resizeToAvoidBottomInset: true,
           body: SafeArea(
-            child: Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 20.0),
-                      child: Image.asset(
-                        ImagesConstant().logo,
-                        width: ScreenUtil.getInstance().setWidth(1000),
-                        height: ScreenUtil.getInstance().setHeight(600),
-                      ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 20.0),
+                    child: Image.asset(
+                      ImagesConstant().logo,
+                      width: ScreenUtil.getInstance().setWidth(1000),
+                      height: ScreenUtil.getInstance().setHeight(600),
                     ),
-                  ],
-                ),
-                SingleChildScrollView(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.only(left: 40.0, right: 40.0, top: 60.0),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 40.0, right: 40.0),
                     child: Column(
                       children: <Widget>[
                         SizedBox(
-                          height: ScreenUtil.getInstance().setHeight(510),
+                          height: ScreenUtil.getInstance().setHeight(120),
                         ),
                         LoginForm(),
                       ],
                     ),
                   ),
-                ),
-              ],
+                  Container(
+                    height: ScreenUtil().setHeight(680),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: GestureDetector(
+                        onTap: () {
+                          return showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return LanguageOptions();
+                            },
+                          );
+                        },
+                        child: Text(
+                          AppLocalizations.of(context)
+                              .translate('language_lbl'),
+                          style: TextStyle(
+                            fontSize: ScreenUtil.getInstance().setSp(56),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

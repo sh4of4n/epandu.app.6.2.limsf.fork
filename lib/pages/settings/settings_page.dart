@@ -1,6 +1,7 @@
 import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
+import 'package:epandu/utils/language_options.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
@@ -75,27 +76,7 @@ class _SettingsState extends State<Settings> {
                   return showModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
-                      return Container(
-                        child: Wrap(
-                          children: <Widget>[
-                            ListTile(
-                                title: Text('English'),
-                                onTap: () {
-                                  localStorage.saveLocale('en');
-                                  application.onLocaleChanged(Locale('en'));
-                                  Navigator.pop(context);
-                                }),
-                            ListTile(
-                              title: Text('Malay'),
-                              onTap: () {
-                                localStorage.saveLocale('ms');
-                                application.onLocaleChanged(Locale('ms'));
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ],
-                        ),
-                      );
+                      return LanguageOptions();
                     },
                   );
                 },
@@ -137,7 +118,7 @@ class _SettingsState extends State<Settings> {
                       type: DialogType.SUCCESS,
                       onPressed: () async {
                         Navigator.pushNamedAndRemoveUntil(
-                            context, LOGIN, (r) => false);
+                            context, CLIENT_ACC, (r) => false);
                         await authRepo.logout();
                       },
                     );

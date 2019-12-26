@@ -22,6 +22,11 @@ class RouteGenerator {
           settings: RouteSettings(name: AUTH),
           builder: (_) => Authentication(),
         );
+      case CLIENT_ACC:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: CLIENT_ACC),
+          builder: (_) => ClientAccount(),
+        );
       case LOGIN:
         return MaterialPageRoute(
           settings: RouteSettings(name: LOGIN),

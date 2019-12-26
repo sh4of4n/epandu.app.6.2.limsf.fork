@@ -24,6 +24,8 @@ class _AuthenticationState extends State<Authentication> {
   }
 
   _getWsUrl() async {
+    // localStorage.reset();
+
     await appConfig.getCredentials(); // get client acc credentials
     String wsUrl = await localStorage.getWsUrl();
 

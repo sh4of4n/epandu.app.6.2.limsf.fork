@@ -3,6 +3,9 @@ import 'preferences.dart';
 class LocalStorage {
   static const String kLocale = 'LOCALE';
   static const String kWsUrl = 'WS_URL';
+  static const String kCaUid = 'CAUID';
+  static const String kCaPwd = 'CAPWD';
+  static const String kCaPwdEncode = 'CAPWD_ENCODE';
   static const String kServerType = 'SERVER_TYPE';
   static const String kUserId = 'USER_ID';
   static const String kUsername = 'USERNAME';
@@ -35,6 +38,30 @@ class LocalStorage {
 
   Future<String> getWsUrl() async {
     return Preference.getString(kWsUrl, def: '');
+  }
+
+  Future<String> getCaUid() async {
+    return Preference.getString(kCaUid, def: '');
+  }
+
+  Future<void> saveCaUid(String caUid) async {
+    return Preference.setString(kCaUid, caUid);
+  }
+
+  Future<String> getCaPwd() async {
+    return Preference.getString(kCaPwd, def: '');
+  }
+
+  Future<void> saveCaPwd(String caUid) async {
+    return Preference.setString(kCaPwd, caUid);
+  }
+
+  Future<String> getCaPwdEncode() async {
+    return Preference.getString(kCaPwdEncode, def: '');
+  }
+
+  Future<void> saveCaPwdEncode(String caUid) async {
+    return Preference.setString(kCaPwdEncode, caUid);
   }
 
   Future<void> saveServerType(String type) {
@@ -176,6 +203,9 @@ class LocalStorage {
   Future<void> reset() async {
     // await Preference.removeAll();
     await Preference.remove(kWsUrl);
+    await Preference.remove(kCaUid);
+    await Preference.remove(kCaPwd);
+    await Preference.remove(kCaPwdEncode);
     await Preference.remove(kServerType);
     await Preference.remove(kUserId);
     await Preference.remove(kUsername);
