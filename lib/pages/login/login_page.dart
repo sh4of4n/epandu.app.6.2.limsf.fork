@@ -99,11 +99,16 @@ class _LoginState extends State<Login> {
                               },
                             );
                           },
-                          child: Text(
-                            '${AppLocalizations.of(context).translate('language_lbl')} ${Provider.of<LanguageModel>(context).language}',
-                            style: TextStyle(
-                                fontSize: ScreenUtil.getInstance().setSp(56),
-                                fontWeight: FontWeight.w500),
+                          child: Consumer<LanguageModel>(
+                            builder: (context, lang, child) {
+                              return Text(
+                                '${AppLocalizations.of(context).translate('language_lbl')} ${lang.language}',
+                                style: TextStyle(
+                                    fontSize:
+                                        ScreenUtil.getInstance().setSp(56),
+                                    fontWeight: FontWeight.w500),
+                              );
+                            },
                           ),
                         ),
                         SizedBox(height: 5.0),

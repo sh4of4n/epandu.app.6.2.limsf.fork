@@ -1,5 +1,7 @@
+import 'package:epandu/app_localizations.dart';
 import 'package:epandu/services/api/model/auth_model.dart';
 import 'package:epandu/services/api/model/credentials_model.dart';
+import 'package:epandu/services/api/model/language_model.dart';
 import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
@@ -23,6 +25,7 @@ class _AuthenticationState extends State<Authentication> {
     super.initState();
 
     _getWsUrl();
+    _setLocale();
     _checkExistingLogin();
   }
 
@@ -40,6 +43,18 @@ class _AuthenticationState extends State<Authentication> {
         acctPwd: Provider.of<CredentialsModel>(context).caPwd,
         loginType: Provider.of<CredentialsModel>(context).wsCodeCrypt,
       );
+    }
+  }
+
+  _setLocale() async {
+    String locale = await localStorage.getLocale();
+
+    if (locale == 'en') {
+      Provider.of<LanguageModel>(context).selectedLanguage(
+          AppLocalizations.of(context).translate('english_lbl'));
+    } else {
+      Provider.of<LanguageModel>(context).selectedLanguage(
+          AppLocalizations.of(context).translate('malay_lbl'));
     }
   }
 

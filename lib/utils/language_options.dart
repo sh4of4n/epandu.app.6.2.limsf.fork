@@ -15,18 +15,22 @@ class LanguageOptions extends StatelessWidget {
       child: Wrap(
         children: <Widget>[
           ListTile(
-              title:
-                  Text(AppLocalizations.of(context).translate('english_lbl')),
-              onTap: () {
-                localStorage.saveLocale('en');
-                application.onLocaleChanged(Locale('en'));
-                Navigator.pop(context);
-              }),
+            title: Text(AppLocalizations.of(context).translate('english_lbl')),
+            onTap: () {
+              localStorage.saveLocale('en');
+              application.onLocaleChanged(Locale('en'));
+              Provider.of<LanguageModel>(context).selectedLanguage(
+                  AppLocalizations.of(context).translate('english_lbl'));
+              Navigator.pop(context);
+            },
+          ),
           ListTile(
             title: Text(AppLocalizations.of(context).translate('malay_lbl')),
             onTap: () {
               localStorage.saveLocale('ms');
               application.onLocaleChanged(Locale('ms'));
+              Provider.of<LanguageModel>(context).selectedLanguage(
+                  AppLocalizations.of(context).translate('malay_lbl'));
               Navigator.pop(context);
             },
           ),
