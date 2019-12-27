@@ -103,12 +103,10 @@ class _SettingsState extends State<Settings> {
                 title:
                     Text(AppLocalizations.of(context).translate('version_lbl')),
                 subtitle: Text('V.$appVersion'),
-                onTap: () async {
+                onTap: () {
                   count += 1;
 
-                  if (count == 4) {
-                    LocalStorage().saveServerType('DEVP');
-
+                  if (count == 6) {
                     customDialog.show(
                       context: context,
                       title: AppLocalizations.of(context)
@@ -118,7 +116,8 @@ class _SettingsState extends State<Settings> {
                       type: DialogType.SUCCESS,
                       onPressed: () async {
                         Navigator.pushNamedAndRemoveUntil(
-                            context, CLIENT_ACC, (r) => false);
+                            context, CLIENT_ACC, (r) => false,
+                            arguments: 'SETTINGS');
                         await authRepo.logout();
                       },
                     );

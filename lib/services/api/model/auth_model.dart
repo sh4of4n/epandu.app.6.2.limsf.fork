@@ -1,36 +1,3 @@
-/* class WebserviceUrlRequest {
-  String wsCodeCrypt;
-  String acctUid;
-  String acctPwd;
-  String loginType;
-  String misc;
-
-  WebserviceUrlRequest(
-      {this.wsCodeCrypt,
-      this.acctUid,
-      this.acctPwd,
-      this.loginType,
-      this.misc});
-
-  WebserviceUrlRequest.fromJson(Map<String, dynamic> json) {
-    wsCodeCrypt = json['wsCodeCrypt'];
-    acctUid = json['acctUid'];
-    acctPwd = json['acctPwd'];
-    loginType = json['loginType'];
-    misc = json['misc'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['wsCodeCrypt'] = this.wsCodeCrypt;
-    data['acctUid'] = this.acctUid;
-    data['acctPwd'] = this.acctPwd;
-    data['loginType'] = this.loginType;
-    data['misc'] = this.misc;
-    return data;
-  }
-} */
-
 class LoginRequest {
   String wsCodeCrypt;
   String caUid;

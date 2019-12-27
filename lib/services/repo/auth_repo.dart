@@ -37,16 +37,8 @@ class AuthRepo {
 
     wsUrl = wsUrl.replaceAll("_wsver_", WSVER.replaceAll(".", "_"));
 
-    /* WebserviceUrlRequest wsUrlRequest = WebserviceUrlRequest(
-      wsCodeCrypt: 'TBSCLIENTACCTWS',
-      acctUid: acctUid,
-      acctPwd: acctPwd,
-      loginType: loginType,
-      misc: '',
-    ); */
-
     String params =
-        '?wsCodeCrypt=$wsCodeCrypt&acctUid=$acctUid&acctPwd=$acctPwd&loginType=$loginType&misc=';
+        '?wsCodeCrypt=$wsCodeCrypt&acctUid=$acctUid&acctPwd=${Uri.encodeQueryComponent(acctPwd)}&loginType=$loginType&misc=';
 
     String apiMethod = '/LoginPub';
 
@@ -55,8 +47,11 @@ class AuthRepo {
 
     var responseData = response['string']['LoginAcctInfo']['LoginAcct'];
 
-    if (responseData['WsUrl']) {
+    if (responseData['WsUrl'] != null) {
       localStorage.saveWsUrl(responseData['WsUrl']);
+      localStorage.saveCaUid(acctUid);
+      localStorage.saveCaPwd(acctPwd);
+      localStorage.saveCaPwdEncode(Uri.encodeQueryComponent(acctPwd));
 
       return Result(true, data: responseData['WsUrl'], message: '');
     }

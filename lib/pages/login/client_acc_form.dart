@@ -10,6 +10,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:epandu/app_localizations.dart';
 
 class ClientAccountForm extends StatefulWidget {
+  final data;
+
+  ClientAccountForm(this.data);
+
   @override
   _ClientAccountFormState createState() => _ClientAccountFormState();
 }
@@ -31,7 +35,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
 
   bool _isLoading = false;
 
-  String _message;
+  String _message = '';
   String _caUid;
   String _caPwd;
   bool _obscureText = true;
@@ -177,13 +181,15 @@ class _ClientAccountFormState extends State<ClientAccountForm>
               SizedBox(
                 height: ScreenUtil.getInstance().setHeight(40),
               ),
-              /* Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      // Navigator.pushReplacementNamed(context, LOGIN);
-                      Navigator.pop(context);
+                      if (widget.data == 'SETTINGS')
+                        Navigator.pushReplacementNamed(context, LOGIN);
+                      else
+                        Navigator.pop(context);
                     },
                     child: Text(
                       AppLocalizations.of(context).translate('go_back_lbl'),
@@ -193,7 +199,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                     ),
                   ),
                 ],
-              ), */
+              ),
             ],
           ),
         ),
@@ -231,6 +237,8 @@ class _ClientAccountFormState extends State<ClientAccountForm>
       _formKey.currentState.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
+      LocalStorage().saveServerType('DEVP');
+
       setState(() {
         _height = ScreenUtil.getInstance().setHeight(1200);
         _message = '';
@@ -238,15 +246,12 @@ class _ClientAccountFormState extends State<ClientAccountForm>
       });
 
       var result = await authRepo.getWsUrl(
-        acctUid: appConfig.caUid,
-        acctPwd: appConfig.caPwdUrlEncode,
+        acctUid: _caUid,
+        acctPwd: _caPwd,
         loginType: appConfig.wsCodeCrypt,
       );
 
       if (result.isSuccess) {
-        localStorage.saveCaUid(_caUid);
-        localStorage.saveCaPwd(_caPwd);
-
         Navigator.pushReplacementNamed(context, LOGIN);
       } else {
         setState(() {

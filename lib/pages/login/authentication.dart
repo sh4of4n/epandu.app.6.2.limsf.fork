@@ -1,9 +1,12 @@
+import 'package:epandu/services/api/model/auth_model.dart';
+import 'package:epandu/services/api/model/credentials_model.dart';
 import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class Authentication extends StatefulWidget {
   @override
@@ -29,11 +32,13 @@ class _AuthenticationState extends State<Authentication> {
     await appConfig.getCredentials(); // get client acc credentials
     String wsUrl = await localStorage.getWsUrl();
 
+    print(Provider.of<CredentialsModel>(context).caUid);
+
     if (wsUrl.isEmpty) {
       await authRepo.getWsUrl(
-        acctUid: appConfig.caUid,
-        acctPwd: appConfig.caPwdUrlEncode,
-        loginType: appConfig.wsCodeCrypt,
+        acctUid: Provider.of<CredentialsModel>(context).caUid,
+        acctPwd: Provider.of<CredentialsModel>(context).caPwd,
+        loginType: Provider.of<CredentialsModel>(context).wsCodeCrypt,
       );
     }
   }

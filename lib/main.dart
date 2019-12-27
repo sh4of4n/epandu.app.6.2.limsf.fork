@@ -1,3 +1,5 @@
+import 'package:epandu/services/api/model/credentials_model.dart';
+import 'package:epandu/services/api/model/language_model.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +8,7 @@ import 'package:epandu/utils/route_generator.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:hive/hive.dart';
-
+import 'package:provider/provider.dart';
 import 'app_localizations_delegate.dart';
 import 'application.dart';
 import 'services/api/model/kpp_model.dart';
@@ -17,7 +19,19 @@ void main() async {
   Hive.init(appDocumentDir.path);
   Hive.registerAdapter(KppExamDataAdapter(), 0);
 
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => CredentialsModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LanguageModel(),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {

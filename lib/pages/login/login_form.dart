@@ -229,7 +229,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
               buttonColor: primaryColor,
               shape: StadiumBorder(),
               child: RaisedButton(
-                onPressed: _submitLogin,
+                onPressed: _submitLogin, // () => localStorage.reset(),
                 textColor: Colors.white,
                 child: Text(
                   AppLocalizations.of(context).translate('login_btn'),

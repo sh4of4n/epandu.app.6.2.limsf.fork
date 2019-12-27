@@ -5,6 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'client_acc_form.dart';
 
 class ClientAccount extends StatefulWidget {
+  final data;
+
+  ClientAccount(this.data);
+
   @override
   _ClientAccountState createState() => _ClientAccountState();
 }
@@ -62,7 +66,7 @@ class _ClientAccountState extends State<ClientAccount> {
                         SizedBox(
                           height: ScreenUtil.getInstance().setHeight(510),
                         ),
-                        ClientAccountForm(),
+                        ClientAccountForm(widget.data),
                       ],
                     ),
                   ),
