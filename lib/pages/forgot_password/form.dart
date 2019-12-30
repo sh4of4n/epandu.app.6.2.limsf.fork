@@ -4,7 +4,6 @@ import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_snackbar.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';

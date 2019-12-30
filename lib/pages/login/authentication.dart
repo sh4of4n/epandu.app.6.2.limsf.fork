@@ -1,6 +1,4 @@
 import 'package:epandu/app_localizations.dart';
-import 'package:epandu/services/api/model/auth_model.dart';
-import 'package:epandu/services/api/model/credentials_model.dart';
 import 'package:epandu/services/api/model/language_model.dart';
 import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/app_config.dart';
@@ -31,17 +29,15 @@ class _AuthenticationState extends State<Authentication> {
 
   _getWsUrl() async {
     // localStorage.reset();
-
-    await appConfig.getCredentials(); // get client acc credentials
     String wsUrl = await localStorage.getWsUrl();
-
-    print(Provider.of<CredentialsModel>(context).caUid);
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
 
     if (wsUrl.isEmpty) {
       await authRepo.getWsUrl(
-        acctUid: Provider.of<CredentialsModel>(context).caUid,
-        acctPwd: Provider.of<CredentialsModel>(context).caPwd,
-        loginType: Provider.of<CredentialsModel>(context).wsCodeCrypt,
+        acctUid: caUid,
+        acctPwd: caPwd,
+        loginType: appConfig.wsCodeCrypt,
       );
     }
   }

@@ -41,7 +41,7 @@ class LocalStorage {
   }
 
   Future<String> getCaUid() async {
-    return Preference.getString(kCaUid, def: '');
+    return Preference.getString(kCaUid, def: 'epandu_prod');
   }
 
   Future<void> saveCaUid(String caUid) async {
@@ -49,19 +49,19 @@ class LocalStorage {
   }
 
   Future<String> getCaPwd() async {
-    return Preference.getString(kCaPwd, def: '');
+    return Preference.getString(kCaPwd, def: 'vWh7SmgDRJ%TW4xa');
   }
 
-  Future<void> saveCaPwd(String caUid) async {
-    return Preference.setString(kCaPwd, caUid);
+  Future<void> saveCaPwd(String caPwd) async {
+    return Preference.setString(kCaPwd, caPwd);
   }
 
   Future<String> getCaPwdEncode() async {
-    return Preference.getString(kCaPwdEncode, def: '');
+    return Preference.getString(kCaPwdEncode, def: 'vWh7SmgDRJ%25TW4xa');
   }
 
-  Future<void> saveCaPwdEncode(String caUid) async {
-    return Preference.setString(kCaPwdEncode, caUid);
+  Future<void> saveCaPwdEncode(String caPwdEncode) async {
+    return Preference.setString(kCaPwdEncode, caPwdEncode);
   }
 
   Future<void> saveServerType(String type) {
@@ -69,7 +69,7 @@ class LocalStorage {
   }
 
   Future<String> getServerType() async {
-    return Preference.getString(kServerType, def: 'DEVP');
+    return Preference.getString(kServerType, def: 'PROD');
   }
 
   Future<void> saveUserId(String userId) {
@@ -203,10 +203,10 @@ class LocalStorage {
   Future<void> reset() async {
     // await Preference.removeAll();
     await Preference.remove(kWsUrl);
-    await Preference.remove(kCaUid);
-    await Preference.remove(kCaPwd);
-    await Preference.remove(kCaPwdEncode);
-    await Preference.remove(kServerType);
+    // await Preference.remove(kCaUid);
+    // await Preference.remove(kCaPwd);
+    // await Preference.remove(kCaPwdEncode);
+    // await Preference.remove(kServerType);
     await Preference.remove(kUserId);
     await Preference.remove(kUsername);
     await Preference.remove(kUserPhone);

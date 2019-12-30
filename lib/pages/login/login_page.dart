@@ -113,10 +113,12 @@ class _LoginState extends State<Login> {
                         ),
                         SizedBox(height: 5.0),
                         GestureDetector(
-                          onTap: () {
+                          onTap: () async {
                             count += 1;
+                            String serverType =
+                                await localStorage.getServerType();
 
-                            if (count == 6) {
+                            if (count == 6 && serverType == 'PROD') {
                               customDialog.show(
                                 context: context,
                                 title: AppLocalizations.of(context)
@@ -124,10 +126,31 @@ class _LoginState extends State<Login> {
                                 content: AppLocalizations.of(context)
                                     .translate('developer_desc'),
                                 type: DialogType.SUCCESS,
+                                barrierDismissable: false,
                                 onPressed: () async {
                                   count = 0;
                                   Navigator.pop(context);
                                   Navigator.pushNamed(context, CLIENT_ACC);
+                                },
+                              );
+                            } else if (count == 6 && serverType == 'DEVP') {
+                              customDialog.show(
+                                context: context,
+                                title: AppLocalizations.of(context)
+                                    .translate('production_title'),
+                                content: AppLocalizations.of(context)
+                                    .translate('production_desc'),
+                                type: DialogType.SUCCESS,
+                                onPressed: () async {
+                                  count = 0;
+
+                                  localStorage.saveServerType('PROD');
+                                  localStorage.saveCaUid('epandu_prod');
+                                  localStorage.saveCaPwd('vWh7SmgDRJ%TW4xa');
+                                  localStorage
+                                      .saveCaPwdEncode('vWh7SmgDRJ%25TW4xa');
+
+                                  Navigator.pop(context);
                                 },
                               );
                             }

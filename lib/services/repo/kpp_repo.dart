@@ -2,7 +2,6 @@ import 'package:epandu/services/result.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/services/api/networking.dart';
-import 'package:epandu/services/api/model/kpp_model.dart';
 
 class KppRepo {
   final appConfig = AppConfig();
@@ -10,11 +9,14 @@ class KppRepo {
   final networking = Networking();
 
   Future<Result> getInstituteLogo() async {
+    String caUid = await localStorage.getCaUid();
+    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+
     String userId = await localStorage.getUserId();
     String diCode = await localStorage.getDiCode();
 
     String params =
-        'GetArmasterAppPhotoForCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&userId=$userId';
+        'GetArmasterAppPhotoForCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=$diCode&userId=$userId';
 
     var response = await networking.getData(path: params);
 
@@ -32,11 +34,14 @@ class KppRepo {
   }
 
   Future<Result> getExamNo(groupId) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+
     String courseCode = 'KPP1';
     String langCode = 'ms-MY';
 
     String params =
-        'GetTheoryQuestionPaperNo?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&groupId=$groupId&courseCode=$courseCode&langCode=$langCode';
+        'GetTheoryQuestionPaperNo?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&groupId=$groupId&courseCode=$courseCode&langCode=$langCode';
 
     var response = await networking.getData(path: params);
 
@@ -50,11 +55,14 @@ class KppRepo {
   }
 
   Future<Result> getExamQuestions({groupId, paperNo}) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+
     String courseCode = 'KPP1';
     String langCode = 'ms-MY';
 
     String params =
-        'GetTheoryQuestionByPaper?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&groupId=$groupId&courseCode=$courseCode&langCode=$langCode&paperNo=$paperNo';
+        'GetTheoryQuestionByPaper?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&groupId=$groupId&courseCode=$courseCode&langCode=$langCode&paperNo=$paperNo';
 
     var response = await networking.getData(path: params);
 

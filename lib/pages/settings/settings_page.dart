@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 
 import '../../app_localizations.dart';
-import '../../application.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -103,11 +102,13 @@ class _SettingsState extends State<Settings> {
                 title:
                     Text(AppLocalizations.of(context).translate('version_lbl')),
                 subtitle: Text('V.$appVersion'),
-                onTap: () {
+                onTap: () async {
                   count += 1;
+                  String serverType = await localStorage.getServerType();
 
-                  if (count == 6) {
+                  if (count == 6 && serverType == 'PROD') {
                     customDialog.show(
+                      barrierDismissable: false,
                       context: context,
                       title: AppLocalizations.of(context)
                           .translate('developer_title'),
@@ -119,6 +120,25 @@ class _SettingsState extends State<Settings> {
                             context, CLIENT_ACC, (r) => false,
                             arguments: 'SETTINGS');
                         await authRepo.logout();
+                      },
+                    );
+                  } else if (count == 6 && serverType == 'DEVP') {
+                    customDialog.show(
+                      context: context,
+                      title: AppLocalizations.of(context)
+                          .translate('production_title'),
+                      content: AppLocalizations.of(context)
+                          .translate('production_desc'),
+                      type: DialogType.SUCCESS,
+                      onPressed: () async {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, LOGIN, (r) => false);
+                        await authRepo.logout();
+
+                        localStorage.saveServerType('PROD');
+                        localStorage.saveCaUid('epandu_prod');
+                        localStorage.saveCaPwd('vWh7SmgDRJ%TW4xa');
+                        localStorage.saveCaPwdEncode('vWh7SmgDRJ%25TW4xa');
                       },
                     );
                   }

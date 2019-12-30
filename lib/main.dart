@@ -1,4 +1,3 @@
-import 'package:epandu/services/api/model/credentials_model.dart';
 import 'package:epandu/services/api/model/language_model.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
@@ -20,15 +19,8 @@ void main() async {
   Hive.registerAdapter(KppExamDataAdapter(), 0);
 
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => CredentialsModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => LanguageModel(),
-        ),
-      ],
+    ChangeNotifierProvider(
+      create: (context) => LanguageModel(),
       child: MyApp(),
     ),
   );

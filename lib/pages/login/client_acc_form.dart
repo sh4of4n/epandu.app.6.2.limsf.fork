@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:epandu/app_localizations.dart';
+import 'package:hive/hive.dart';
 
 class ClientAccountForm extends StatefulWidget {
   final data;
@@ -237,8 +238,6 @@ class _ClientAccountFormState extends State<ClientAccountForm>
       _formKey.currentState.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
-      LocalStorage().saveServerType('DEVP');
-
       setState(() {
         _height = ScreenUtil.getInstance().setHeight(1200);
         _message = '';
@@ -252,6 +251,11 @@ class _ClientAccountFormState extends State<ClientAccountForm>
       );
 
       if (result.isSuccess) {
+        localStorage.saveServerType('DEVP');
+        localStorage.saveCaUid(_caUid);
+        localStorage.saveCaPwd(_caPwd);
+        localStorage.saveCaPwdEncode(Uri.encodeQueryComponent(_caPwd));
+
         Navigator.pushReplacementNamed(context, LOGIN);
       } else {
         setState(() {

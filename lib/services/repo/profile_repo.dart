@@ -2,7 +2,6 @@ import 'package:epandu/services/result.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/services/api/networking.dart';
-import 'package:epandu/services/api/model/profile_model.dart';
 
 class ProfileRepo {
   final appConfig = AppConfig();
@@ -14,7 +13,7 @@ class ProfileRepo {
     String diCode = await localStorage.getDiCode();
 
     String params =
-        'GetUserRegisteredDI?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&userId=$userId';
+        'GetUserRegisteredDI?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${credentials.caUid}&caPwd=${credentials.caPwdUrlEncode}&diCode=$diCode&userId=$userId';
 
     var response = await networking.getData(path: params);
   }
@@ -22,13 +21,16 @@ class ProfileRepo {
   Future getStudentProfilePicture() async {} */
 
   Future<Result> getCustomerData() async {
+    String caUid = await localStorage.getCaUid();
+    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+
     //  Temporarily use TBS as diCode
     String diCode = 'TBS';
     // String diCode = await localStorage.getDiCode();
     String icNo = await localStorage.getStudentIc();
 
     String params =
-        'GetCustomerByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&icNo=$icNo';
+        'GetCustomerByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=$diCode&icNo=$icNo';
 
     var response = await networking.getData(path: params);
 
@@ -37,13 +39,16 @@ class ProfileRepo {
 
   // Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
   Future<Result> getStudentPayment() async {
+    String caUid = await localStorage.getCaUid();
+    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+
     //  Temporarily use TBS as diCode
     String diCode = 'TBS';
     // String diCode = await localStorage.getDiCode();
     String icNo = await localStorage.getStudentIc();
 
     String params =
-        'GetCollectionByStudent?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&icNo=$icNo';
+        'GetCollectionByStudent?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=$diCode&icNo=$icNo';
 
     var response = await networking.getData(path: params);
 
@@ -52,6 +57,9 @@ class ProfileRepo {
 
   // Unknown column 'StuPrac.di_code' in 'where clause'
   Future<Result> getStudentAttendance() async {
+    String caUid = await localStorage.getCaUid();
+    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+
     //  Temporarily use TBS as diCode
     String diCode = 'TBS';
     // String diCode = await localStorage.getDiCode();
@@ -59,7 +67,7 @@ class ProfileRepo {
     String icNo = await localStorage.getStudentIc();
 
     String params =
-        'GetStuPracByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&icNo=$icNo&groupId=$groupId';
+        'GetStuPracByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=$diCode&icNo=$icNo&groupId=$groupId';
 
     var response = await networking.getData(path: params);
 
@@ -68,7 +76,7 @@ class ProfileRepo {
 
 /*   Future<Result> getStudentEtestingLog() async {
     String params =
-        'GetStudentFullLogByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}';
+        'GetStudentFullLogByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${credentials.caUid}&caPwd=${credentials.caPwdUrlEncode}';
 
     var response = await networking.getData(path: params);
 
@@ -76,13 +84,16 @@ class ProfileRepo {
   } */
 
   Future<Result> getBookingTest(groupId) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+
     //  Temporarily use TBS as diCode
     String diCode = 'TBS';
     // String diCode = await localStorage.getDiCode();
     String icNo = await localStorage.getStudentIc();
 
     String params =
-        'GetDTestByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${appConfig.caUid}&caPwd=${appConfig.caPwdUrlEncode}&diCode=$diCode&icNo=$icNo&groupId=$groupId';
+        'GetDTestByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=$diCode&icNo=$icNo&groupId=$groupId';
 
     var response = await networking.getData(path: params);
 
