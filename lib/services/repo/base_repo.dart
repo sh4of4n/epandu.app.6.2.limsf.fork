@@ -1,10 +1,10 @@
 /* import 'package:dio/dio.dart';
 // import 'package:flutter/material.dart';
 // import 'package:epandu/utils/crash_report.dart';
-import '../result.dart';
+import '../response.dart';
 
 class BaseRepo {
-  Result handleError(exception, stackTrace) {
+  Response handleError(exception, stackTrace) {
     // CrashReport().logError(
     //     FlutterErrorDetails(exception: exception, stack: stackTrace));
 
@@ -16,7 +16,7 @@ class BaseRepo {
     } else {
       errorMsg = exception?.toString();
     }
-    return Result(false, message: errorMsg);
+    return Response(false, message: errorMsg);
   }
 }
  */

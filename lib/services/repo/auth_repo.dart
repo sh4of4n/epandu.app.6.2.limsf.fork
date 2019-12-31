@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:epandu/services/result.dart';
+import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/services/api/networking.dart';
@@ -10,7 +10,7 @@ class AuthRepo {
   final localStorage = LocalStorage();
   final networking = Networking();
 
-  Future<Result> getWsUrl({
+  Future<Response> getWsUrl({
     acctUid,
     acctPwd,
     loginType,
@@ -55,9 +55,9 @@ class AuthRepo {
       localStorage.saveCaPwd(acctPwd);
       localStorage.saveCaPwdEncode(Uri.encodeQueryComponent(acctPwd));
 
-      return Result(true, data: responseData['WsUrl'], message: '');
+      return Response(true, data: responseData['WsUrl'], message: '');
     }
-    return Result(false, message: 'No URL found with this client account.');
+    return Response(false, message: 'No URL found with this client account.');
   }
 
   Future login({String phone, String password}) async {
@@ -88,13 +88,13 @@ class AuthRepo {
       return result;
     } else if (response != null &&
         responseData['msg'] == 'Reset Password Success') {
-      return Result(true, message: responseData['msg']);
+      return Response(true, message: responseData['msg']);
     }
 
-    return Result(false, message: 'Invalid username or password.');
+    return Response(false, message: 'Invalid username or password.');
   }
 
-  Future<Result> checkDiList() async {
+  Future<Response> checkDiList() async {
     String caUid = await localStorage.getCaUid();
     String caPwdUrlEncode = await localStorage.getCaPwdEncode();
     String userId = await localStorage.getUserId();
@@ -125,7 +125,7 @@ class AuthRepo {
       localStorage
           .savePostCode(responseData['Armaster']['postcode'].toString());
 
-      return Result(true, data: responseData['Armaster']);
+      return Response(true, data: responseData['Armaster']);
     }
     // API returns more than one DI
     else if (responseData != null && responseData['Armaster'][0] != null) {
@@ -146,16 +146,16 @@ class AuthRepo {
       localStorage
           .savePostCode(responseData['Armaster'][0]['postcode'].toString());
 
-      return Result(true, data: responseData['Armaster']);
+      return Response(true, data: responseData['Armaster']);
     }
     // API returns null
     else if (responseData == null) {
       String diCode = 'TBS';
       localStorage.saveDiCode(diCode);
 
-      return Result(true, data: 'empty');
+      return Response(true, data: 'empty');
     } else {
-      return Result(false,
+      return Response(false,
           message:
               'Oops! An unexpected error occurred. Please try again later.');
     }
@@ -187,7 +187,7 @@ class AuthRepo {
 
   // Register
   // Also used for invite friends
-  Future<Result> checkExistingUser({
+  Future<Response> checkExistingUser({
     String type,
     String countryCode,
     String phone,
@@ -254,11 +254,11 @@ class AuthRepo {
 
       return result;
     } else {
-      return Result(false, message: responseData.toString());
+      return Response(false, message: responseData.toString());
     }
   }
 
-  Future<Result> register(
+  Future<Response> register(
     String type,
     String countryCode,
     String phone,
@@ -329,7 +329,7 @@ class AuthRepo {
         message =
             'You are now registered, you will receive a SMS notification.';
 
-      return Result(true, message: message);
+      return Response(true, message: message);
     }
 
     if (type == 'INVITE')
@@ -337,10 +337,10 @@ class AuthRepo {
     else
       message = 'Registration failed, please try again later.';
 
-    return Result(false, message: message);
+    return Response(false, message: message);
   }
 
-  Future<Result> verifyOldPassword({currentPassword, newPassword}) async {
+  Future<Response> verifyOldPassword({currentPassword, newPassword}) async {
     String caUid = await localStorage.getCaUid();
     String caPwdUrlEncode = await localStorage.getCaPwdEncode();
     String userId = await localStorage.getUserId();
@@ -359,10 +359,10 @@ class AuthRepo {
       return result;
     }
 
-    return Result(false, message: 'Incorrect password.');
+    return Response(false, message: 'Incorrect password.');
   }
 
-  Future<Result> updatePassword({userId, password}) async {
+  Future<Response> updatePassword({userId, password}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
@@ -386,13 +386,13 @@ class AuthRepo {
     var responseData = response['SaveUserPasswordResult'];
 
     if (responseData == true) {
-      return Result(true, message: 'Password successfully updated.');
+      return Response(true, message: 'Password successfully updated.');
     }
-    return Result(false,
+    return Response(false,
         message: 'Failed to change password. Please try again later.');
   }
 
-  Future<Result> getStudentEnrollmentData() async {
+  Future<Response> getStudentEnrollmentData() async {
     String caUid = await localStorage.getCaUid();
     String caPwdUrlEncode = await localStorage.getCaPwdEncode();
     //  Temporarily use TBS as diCode
@@ -416,7 +416,7 @@ class AuthRepo {
           ['GetEnrollByCodeResult']['EnrollInfo']['Enroll'];
     }
 
-    return Result(true, data: responseData);
+    return Response(true, data: responseData);
 
     /* if (responseData != null && responseData[0] == null) {
       localStorage.saveEnrolledGroupId(responseData['group_id']);

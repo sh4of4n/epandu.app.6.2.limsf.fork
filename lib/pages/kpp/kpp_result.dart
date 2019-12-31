@@ -23,7 +23,7 @@ class KppResult extends StatelessWidget {
       ),
       child: Scaffold(
           appBar: AppBar(
-            title: Text('Result'),
+            title: Text('Response'),
             elevation: 0,
             backgroundColor: Colors.transparent,
           ),

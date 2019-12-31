@@ -26,6 +26,8 @@ class _KppExamState extends State<KppExam> {
   String groupId;
   String paperNo;
   var snapshot;
+  String message = '';
+  final customDialog = CustomDialog();
 
   @override
   void initState() {
@@ -44,7 +46,7 @@ class _KppExamState extends State<KppExam> {
     if (examDataBox.length > 0) {
       data = examDataBox.getAt(0) as KppExamData;
 
-      return CustomDialog().show(
+      return customDialog.show(
         context: context,
         title: Center(child: Icon(Icons.info_outline, size: 120)),
         content:
@@ -96,20 +98,29 @@ class _KppExamState extends State<KppExam> {
 
     if (result.isSuccess) {
       setState(() {
+        message = '';
         snapshot = result.data['TheoryQuestion'];
       });
+    } else {
+      setState(() {
+        message = result.message;
+      });
     }
+  }
+
+  _renderMessage() {
+    return Center(
+      child: Text(
+        AppLocalizations.of(context).translate('activate_pin'),
+        style: TextStyle(fontSize: ScreenUtil().setSp(56)),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.amber.shade50,
-      /* appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Text('${widget.data.groupId} ${widget.data.paperNo}'),
-      ), */
       body: Stack(
         children: <Widget>[
           ClipPath(
@@ -121,6 +132,11 @@ class _KppExamState extends State<KppExam> {
               height: ScreenUtil().setHeight(1200),
             ),
           ),
+          if (message.isNotEmpty)
+            AppBar(
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+            ),
           snapshot != null
               ? ExamTemplate(
                   snapshot: snapshot,
@@ -128,11 +144,13 @@ class _KppExamState extends State<KppExam> {
                   groupId: groupId,
                   paperNo: paperNo,
                 )
-              : Center(
-                  child: SpinKitFoldingCube(
-                    color: primaryColor,
-                  ),
-                ),
+              : message.isEmpty
+                  ? Center(
+                      child: SpinKitFoldingCube(
+                        color: primaryColor,
+                      ),
+                    )
+                  : _renderMessage(),
         ],
       ),
     );

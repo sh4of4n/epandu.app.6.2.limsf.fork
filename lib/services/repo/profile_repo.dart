@@ -1,4 +1,4 @@
-import 'package:epandu/services/result.dart';
+import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/services/api/networking.dart';
@@ -20,7 +20,7 @@ class ProfileRepo {
 
   Future getStudentProfilePicture() async {} */
 
-  Future<Result> getCustomerData() async {
+  Future<Response> getCustomerData() async {
     String caUid = await localStorage.getCaUid();
     String caPwdUrlEncode = await localStorage.getCaPwdEncode();
 
@@ -38,7 +38,7 @@ class ProfileRepo {
   }
 
   // Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
-  Future<Result> getStudentPayment() async {
+  Future<Response> getStudentPayment() async {
     String caUid = await localStorage.getCaUid();
     String caPwdUrlEncode = await localStorage.getCaPwdEncode();
 
@@ -56,7 +56,7 @@ class ProfileRepo {
   }
 
   // Unknown column 'StuPrac.di_code' in 'where clause'
-  Future<Result> getStudentAttendance() async {
+  Future<Response> getStudentAttendance() async {
     String caUid = await localStorage.getCaUid();
     String caPwdUrlEncode = await localStorage.getCaPwdEncode();
 
@@ -74,7 +74,7 @@ class ProfileRepo {
     var responseData = response;
   }
 
-/*   Future<Result> getStudentEtestingLog() async {
+/*   Future<Response> getStudentEtestingLog() async {
     String params =
         'GetStudentFullLogByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${credentials.caUid}&caPwd=${credentials.caPwdUrlEncode}';
 
@@ -83,7 +83,7 @@ class ProfileRepo {
     var responseData = response;
   } */
 
-  Future<Result> getBookingTest(groupId) async {
+  Future<Response> getBookingTest(groupId) async {
     String caUid = await localStorage.getCaUid();
     String caPwdUrlEncode = await localStorage.getCaPwdEncode();
 

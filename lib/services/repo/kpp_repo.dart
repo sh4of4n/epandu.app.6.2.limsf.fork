@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:epandu/services/api/model/kpp_model.dart';
-import 'package:epandu/services/result.dart';
+import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/services/api/networking.dart';
@@ -11,7 +11,7 @@ class KppRepo {
   final localStorage = LocalStorage();
   final networking = Networking();
 
-  Future<Result> getInstituteLogo() async {
+  Future<Response> getInstituteLogo() async {
     String caUid = await localStorage.getCaUid();
     String caPwdUrlEncode = await localStorage.getCaPwdEncode();
 
@@ -30,13 +30,13 @@ class KppRepo {
       localStorage
           .saveInstituteLogo(responseData['Armaster']['app_background_photo']);
 
-      return Result(true,
+      return Response(true,
           data: responseData['Armaster']['app_background_photo']);
     }
-    return Result(false);
+    return Response(false);
   }
 
-  Future<Result> getExamNo(groupId) async {
+  Future<Response> getExamNo(groupId) async {
     String caUid = await localStorage.getCaUid();
     String caPwdUrlEncode = await localStorage.getCaPwdEncode();
 
@@ -52,33 +52,56 @@ class KppRepo {
         ['GetTheoryQuestionPaperNoResult']['TheoryQuestionInfo'];
 
     if (responseData != null) {
-      return Result(true, data: responseData);
+      return Response(true, data: responseData);
     }
-    return Result(false);
+    return Response(false);
   }
 
-  Future<Result> getExamQuestions({groupId, paperNo}) async {
+  Future<Response> getExamQuestions({groupId, paperNo}) async {
     String caUid = await localStorage.getCaUid();
-    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+    String caPwd = await localStorage.getCaPwd();
 
     String courseCode = 'KPP1';
     String langCode = 'ms-MY';
 
-    String params =
-        'GetTheoryQuestionByPaper?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&groupId=$groupId&courseCode=$courseCode&langCode=$langCode&paperNo=$paperNo';
+    String userId = await localStorage.getUserId();
+    String diCode = await localStorage.getDiCode();
+    String userPhone = await localStorage.getUserPhone();
+    String phone = userPhone.substring(2);
 
-    var response = await networking.getData(path: params);
+    Map<String, String> param = {
+      'wsCodeCrypt': appConfig.wsCodeCrypt,
+      'caUid': caUid,
+      'caPwd': caPwd,
+      'diCode': diCode,
+      'groupId': groupId,
+      'courseCode': courseCode,
+      'langCode': langCode,
+      'paperNo': paperNo,
+      'phone': phone,
+      'userId': userId,
+    };
 
-    var responseData = response['GetTheoryQuestionByPaperResponse']
-        ['GetTheoryQuestionByPaperResult']['TheoryQuestionInfo'];
+    String method = 'GetTheoryQuestionByPaperWithCreditControl';
 
-    if (responseData != null) {
-      return Result(true, data: responseData);
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+
+    var response = await networking.getRequest(
+        method: method, param: param, headers: headers);
+
+    if (response.isSuccess) {
+      var responseData = response.data['GetTheoryQuestionByPaperResponse']
+          ['GetTheoryQuestionByPaperResult']['TheoryQuestionInfo'];
+
+      if (responseData != null) {
+        return Response(true, data: responseData);
+      }
     }
-    return Result(false);
+
+    return Response(false, message: response.message);
   }
 
-  Future<Result> pinActivation(pinNumber, groupId) async {
+  Future<Response> pinActivation(pinNumber, groupId) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
     String userId = await localStorage.getUserId();
@@ -107,9 +130,9 @@ class KppRepo {
         await networking.postData(api: api, body: body, headers: headers);
 
     if (response != null) {
-      return Result(true, data: response);
+      return Response(true, data: response);
     }
 
-    return Result(false, message: 'Invalid pin number.');
+    return Response(false, message: 'Invalid pin number.');
   }
 }

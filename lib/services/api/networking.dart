@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/custom_snackbar.dart';
-import 'package:epandu/utils/local_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'dart:convert';
@@ -10,6 +9,8 @@ import 'package:path/path.dart';
 import 'package:async/async.dart';
 import 'dart:io';
 import 'package:xml2json/xml2json.dart';
+
+import '../response.dart';
 
 class Networking {
   final xml2json = Xml2Json();
@@ -31,7 +32,7 @@ class Networking {
     try {
       http.Response response = await http.get('$url${path ?? ""}');
 
-      print('$url${path ?? ""}');
+      // print('$url${path ?? ""}');
 
       if (response.statusCode == 200) {
         var convertResponse = response.body
@@ -43,9 +44,11 @@ class Networking {
         var jsonData = xml2json.toParker();
         var data = jsonDecode(jsonData);
 
-        print(data);
+        // print(data);
         return data;
       } else if (response.statusCode == 400) {
+        print(response.statusCode);
+      } else if (response.statusCode == 404) {
         print(response.statusCode);
       } else if (response.statusCode == 500) {
         print(response.statusCode);
@@ -54,6 +57,100 @@ class Networking {
       }
     } catch (e) {
       return (e.toString());
+    }
+  }
+
+  Future<Response> getRequest({method, param, headers}) async {
+    if (customUrl != null) {
+      url = customUrl;
+    } else {
+      url = await appConfig.getBaseUrl();
+    }
+
+    String parsedUrl;
+
+    if (url.contains('https')) {
+      parsedUrl = url.replaceAll('https://', '');
+    } else if (url.contains('http')) {
+      parsedUrl = url.replaceAll('http://', '');
+    }
+
+    List<String> authority = parsedUrl.split('/');
+    String unencodedpath =
+        '/${authority[1]}/${authority[2]}/${authority[3]}/${authority[4]}/$method';
+
+    Uri uri = Uri.http(authority[0], unencodedpath, param);
+
+    try {
+      http.Response response = await http.get(uri, headers: headers);
+
+      // print(uri);
+
+      if (response.statusCode == 200) {
+        var convertResponse = response.body
+            .replaceAll('&lt;', '<')
+            .replaceAll('&gt;', '>')
+            .replaceAll('&#xD;', '');
+
+        xml2json.parse(convertResponse);
+        var jsonData = xml2json.toParker();
+        var data = jsonDecode(jsonData);
+
+        // print(data);
+        return Response(true, data: data);
+      } else if (response.statusCode == 400) {
+        if (response.body.contains('BLException')) {
+          String message = response.body.replaceAll('[BLException]', '');
+
+          return Response(
+            false,
+            message: message,
+          );
+        }
+        print(response.statusCode);
+        return Response(
+          false,
+          message: 'Error 400 returned.',
+        );
+      } else if (response.statusCode == 404) {
+        if (response.body.contains('BLException')) {
+          return Response(
+            false,
+            message: response.body.replaceAll('[BLException]', ''),
+          );
+        }
+        print(response.statusCode);
+        return Response(
+          false,
+          message: 'Error 400 returned.',
+        );
+      } else if (response.statusCode == 500) {
+        if (response.body.contains('BLException')) {
+          return Response(
+            false,
+            message: response.body.replaceAll('[BLException]', ''),
+          );
+        }
+        print(response.statusCode);
+        return Response(
+          false,
+          message: 'Error 400 returned.',
+        );
+      } else {
+        if (response.body.contains('BLException')) {
+          return Response(
+            false,
+            message: response.body.replaceAll('[BLException]', ''),
+          );
+        }
+        print(response.statusCode);
+        return Response(
+          false,
+          message: 'Error 400 returned.',
+        );
+      }
+    } catch (e) {
+      return Response(false, message: e.toString());
     }
   }
 
@@ -68,9 +165,9 @@ class Networking {
       http.Response response = await http.post('$url/$api${path ?? ""}',
           body: body, headers: headers);
 
-      print(
-        '$url/$api${path ?? ""}',
-      );
+      // print(
+      //   '$url/$api${path ?? ""}',
+      // );
 
       // print('body: ' + body);
 
@@ -91,9 +188,11 @@ class Networking {
           data = jsonDecode(response.body);
         }
 
-        print(data);
+        // print(data);
         return data;
       } else if (response.statusCode == 400) {
+        print(response.statusCode);
+      } else if (response.statusCode == 404) {
         print(response.statusCode);
       } else if (response.statusCode == 500) {
         print(response.statusCode);
