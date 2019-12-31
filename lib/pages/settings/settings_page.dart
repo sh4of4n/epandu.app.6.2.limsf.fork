@@ -1,3 +1,4 @@
+import 'package:epandu/services/api/model/language_model.dart';
 import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
@@ -6,7 +7,7 @@ import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
-
+import 'package:provider/provider.dart';
 import '../../app_localizations.dart';
 
 class Settings extends StatefulWidget {
@@ -68,8 +69,13 @@ class _SettingsState extends State<Settings> {
             children: <Widget>[
               ListTile(
                 leading: Icon(Icons.language, size: _defIconSize),
-                title: Text(
-                    AppLocalizations.of(context).translate('language_lbl')),
+                title: Consumer<LanguageModel>(
+                  builder: (context, lang, child) {
+                    return Text(
+                      '${AppLocalizations.of(context).translate('language_lbl')} ${lang.language}',
+                    );
+                  },
+                ),
                 onTap: () {
                   // Navigator.pop(context);
                   return showModalBottomSheet(

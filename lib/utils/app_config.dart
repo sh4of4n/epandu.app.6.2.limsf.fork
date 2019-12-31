@@ -12,8 +12,6 @@ class AppConfig {
     String wsUrl = await localStorage.getWsUrl();
     String url;
 
-    // String caUidEncode = Uri.encodeFull(caUid);
-
     if (type == 'DEVP' && wsUrl.isEmpty)
       url =
           'http://tbsweb.tbsdns.com/ePandu.Mainservice/1_2/MainService.svc/webapi/';

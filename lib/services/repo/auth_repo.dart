@@ -69,10 +69,14 @@ class AuthRepo {
 
     var response = await networking.getData(path: params);
 
-    var responseData = response['GetUserByUserPhonePwdResponse']
-        ['GetUserByUserPhonePwdResult']['UserInfo']['Table1'];
+    var responseData;
 
-    if (responseData['msg'] == null) {
+    if (response != null) {
+      responseData = response['GetUserByUserPhonePwdResponse']
+          ['GetUserByUserPhonePwdResult']['UserInfo']['Table1'];
+    }
+
+    if (response != null && responseData['msg'] == null) {
       print(responseData['userId']);
       print(responseData['sessionId']);
 
@@ -82,11 +86,12 @@ class AuthRepo {
       var result = await checkDiList();
 
       return result;
-    } else if (responseData['msg'] == 'Reset Password Success') {
+    } else if (response != null &&
+        responseData['msg'] == 'Reset Password Success') {
       return Result(true, message: responseData['msg']);
     }
 
-    return Result(false, message: responseData['msg']);
+    return Result(false, message: 'Invalid username or password.');
   }
 
   Future<Result> checkDiList() async {

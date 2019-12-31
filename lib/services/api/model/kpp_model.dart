@@ -12,6 +12,56 @@ class KppModuleArguments {
   });
 }
 
+class PinRequest {
+  String wsCodeCrypt;
+  String caUid;
+  String caPwd;
+  String pinNumber;
+  String diCode;
+  String phone;
+  String userId;
+  String groupId;
+  String courseCode;
+
+  PinRequest({
+    this.wsCodeCrypt,
+    this.caUid,
+    this.caPwd,
+    this.pinNumber,
+    this.diCode,
+    this.phone,
+    this.userId,
+    this.groupId,
+    this.courseCode,
+  });
+
+  PinRequest.fromJson(Map<String, dynamic> json) {
+    wsCodeCrypt = json['wsCodeCrypt'];
+    caUid = json['caUid'];
+    caPwd = json['caPwd'];
+    pinNumber = json['pinNumber'];
+    diCode = json['diCode'];
+    phone = json['phone'];
+    userId = json['userId'];
+    groupId = json['groupId'];
+    courseCode = json['courseCode'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['wsCodeCrypt'] = this.wsCodeCrypt;
+    data['caUid'] = this.caUid;
+    data['caPwd'] = this.caPwd;
+    data['pinNumber'] = this.pinNumber;
+    data['diCode'] = this.diCode;
+    data['phone'] = this.phone;
+    data['userId'] = this.userId;
+    data['groupId'] = this.groupId;
+    data['courseCode'] = this.courseCode;
+    return data;
+  }
+}
+
 @HiveType()
 class KppExamData {
   @HiveField(0)
