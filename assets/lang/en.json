@@ -10,7 +10,7 @@
   "client_acc_id_required": "Client account is required.",
   "client_acc_pwd_lbl": "Client Account Password",
 
-  "forgot_password_msg": "Enter your phone number. You will receive an SMS notification with your new password.",
+  "forgot_password_msg": "You will receive an SMS notification with your new password.",
 
   "register_as_lbl": "Register as",
   "normal_user_btn": "Normal user",
