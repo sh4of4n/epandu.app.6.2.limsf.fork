@@ -1,1 +1,1 @@
-- Option to switch between English and Malay language
+- Fix displaying number keyboard in client acc id input
