@@ -200,6 +200,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
 
       var result = await authRepo.login(
         phone: _phone,
+        password: '',
       );
 
       if (result.isSuccess) {
