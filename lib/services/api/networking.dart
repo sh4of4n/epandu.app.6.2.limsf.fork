@@ -32,7 +32,7 @@ class Networking {
     try {
       http.Response response = await http.get('$url${path ?? ""}');
 
-      // print('$url${path ?? ""}');
+      print('$url${path ?? ""}');
 
       if (response.statusCode == 200) {
         var convertResponse = response.body

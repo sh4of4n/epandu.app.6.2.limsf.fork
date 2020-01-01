@@ -59,12 +59,13 @@ class KppRepo {
 
   Future<Response> getExamQuestions({groupId, paperNo}) async {
     String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
+    // String caPwd = await localStorage.getCaPwd();
+    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
 
     String courseCode = 'KPP1';
     String langCode = 'ms-MY';
 
-    String userId = await localStorage.getUserId();
+    /* String userId = await localStorage.getUserId();
     String diCode = await localStorage.getDiCode();
     String userPhone = await localStorage.getUserPhone();
     String phone = userPhone.substring(2);
@@ -98,7 +99,20 @@ class KppRepo {
       }
     }
 
-    return Response(false, message: response.message);
+    return Response(false, message: response.message); */
+
+    String params =
+        'GetTheoryQuestionByPaper?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&groupId=$groupId&courseCode=$courseCode&langCode=$langCode&paperNo=$paperNo';
+
+    var response = await networking.getData(path: params);
+
+    var responseData = response['GetTheoryQuestionByPaperResponse']
+        ['GetTheoryQuestionByPaperResult']['TheoryQuestionInfo'];
+
+    if (responseData != null) {
+      return Response(true, data: responseData);
+    }
+    return Response(false);
   }
 
   Future<Response> pinActivation(pinNumber, groupId) async {

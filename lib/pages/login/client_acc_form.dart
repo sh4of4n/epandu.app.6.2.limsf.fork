@@ -80,7 +80,6 @@ class _ClientAccountFormState extends State<ClientAccountForm>
               ),
               TextFormField(
                 focusNode: _caUidFocus,
-                keyboardType: TextInputType.phone,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 16.0),
