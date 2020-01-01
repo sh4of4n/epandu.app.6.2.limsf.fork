@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^4.0.0
+  chopper: ^3.0.1+1
 
   flutter_localizations:
     sdk: flutter
@@ -38,6 +39,7 @@ dev_dependencies:
   hive_generator: ^0.5.2
   build_runner:
   flutter_launcher_icons: ^0.7.4
+  chopper_generator: ^3.0.3
 
 flutter_icons:
   android: true
