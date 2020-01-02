@@ -36,7 +36,7 @@ class AuthRepo {
 
     wsUrl = wsUrl.replaceAll("_wsver_", WSVER.replaceAll(".", "_"));
 
-    String misc = ' ';
+    String misc = '';
 
     Map<String, String> param = {
       'wsCodeCrypt': wsCodeCrypt,
@@ -47,8 +47,6 @@ class AuthRepo {
     };
 
     String method = 'LoginPub';
-
-    // Map<String, String> headers = {'Content-Type': 'application/json'};
 
     var response = await Networking(customUrl: '$wsUrl')
         .getData(method: method, param: param);
@@ -85,8 +83,6 @@ class AuthRepo {
     };
 
     String method = 'GetUserByUserPhonePwd';
-
-    // Map<String, String> headers = {'Content-Type': 'application/json'};
 
     var response = await networking.getData(method: method, param: param);
 
@@ -133,8 +129,6 @@ class AuthRepo {
     };
 
     String method = 'GetUserRegisteredDI';
-
-    // Map<String, String> headers = {'Content-Type': 'application/json'};
 
     var response = await networking.getData(method: method, param: param);
 
@@ -220,8 +214,6 @@ class AuthRepo {
 
     String method = 'IsSessionActive';
 
-    // Map<String, String> headers = {'Content-Type': 'application/json'};
-
     await networking.getData(method: method, param: param);
 
     await localStorage.reset();
@@ -279,8 +271,6 @@ class AuthRepo {
 
     String method = 'GetUserByUserPhone';
 
-    // Map<String, String> headers = {'Content-Type': 'application/json'};
-
     var response = await networking.getData(method: method, param: param);
 
     var responseData;
@@ -288,7 +278,9 @@ class AuthRepo {
     if (response.data != null) {
       responseData = response.data['GetUserByUserPhoneResponse']
           ['GetUserByUserPhoneResult']['UserInfo'];
-    } else if (responseData == null) {
+    }
+
+    if (responseData == null) {
       // Number not registered
       var result = await register(
         type,
@@ -372,9 +364,10 @@ class AuthRepo {
     //   api = 'CreateAppAccount';
     // else if (registerAs == 'STUDENT') api = 'CreateMemberAccount';
 
-    // Map<String, String> headers = {'Content-Type': 'application/json'};
+    Map<String, String> headers = {'Content-Type': 'application/json'};
 
-    var response = await networking.postData(api: api, body: body);
+    var response =
+        await networking.postData(api: api, body: body, headers: headers);
 
     var message = '';
 
@@ -410,8 +403,6 @@ class AuthRepo {
     };
 
     String method = 'GetUserByUserIdPwd';
-
-    // Map<String, String> headers = {'Content-Type': 'application/json'};
 
     var response = await networking.getData(method: method, param: param);
 
@@ -480,8 +471,6 @@ class AuthRepo {
     };
 
     String method = 'GetEnrollByCode';
-
-    // Map<String, String> headers = {'Content-Type': 'application/json'};
 
     var response = await networking.getData(method: method, param: param);
 

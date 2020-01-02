@@ -39,8 +39,6 @@ class ProfileRepo {
 
     String method = 'GetCustomerByCode';
 
-    // Map<String, String> headers = {'Content-Type': 'application/json'};
-
     var response = await networking.getData(method: method, param: param);
 
     var responseData = response.data;
@@ -65,8 +63,6 @@ class ProfileRepo {
     };
 
     String method = 'GetCustomerByCode';
-
-    // Map<String, String> headers = {'Content-Type': 'application/json'};
 
     var response = await networking.getData(method: method, param: param);
 
@@ -94,8 +90,6 @@ class ProfileRepo {
     };
 
     String method = 'GetDTestByCode';
-
-    // Map<String, String> headers = {'Content-Type': 'application/json'};
 
     var response = await networking.getData(method: method, param: param);
 
@@ -130,8 +124,6 @@ class ProfileRepo {
     };
 
     String method = 'GetDTestByCode';
-
-    // Map<String, String> headers = {'Content-Type': 'application/json'};
 
     var response = await networking.getData(method: method, param: param);
 

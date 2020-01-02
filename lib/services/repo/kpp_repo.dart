@@ -28,8 +28,6 @@ class KppRepo {
 
     String method = 'GetArmasterAppPhotoForCode';
 
-    // Map<String, String> headers = {'Content-Type': 'application/json'};
-
     var response = await networking.getData(method: method, param: param);
 
     var responseData = response.data['GetArmasterAppPhotoForCodeResponse']
@@ -62,8 +60,6 @@ class KppRepo {
     };
 
     String method = 'GetTheoryQuestionPaperNo';
-
-    // Map<String, String> headers = {'Content-Type': 'application/json'};
 
     var response = await networking.getData(method: method, param: param);
 
@@ -131,8 +127,6 @@ class KppRepo {
     };
 
     String method = 'GetTheoryQuestionByPaper';
-
-    // Map<String, String> headers = {'Content-Type': 'application/json'};
 
     var response = await networking.getData(method: method, param: param);
 

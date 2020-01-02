@@ -22,44 +22,6 @@ class Networking {
 
   Networking({this.customUrl});
 
-  /* Future getData({path}) async {
-    if (customUrl != null) {
-      url = customUrl;
-    } else {
-      url = await appConfig.getBaseUrl();
-    }
-
-    try {
-      http.Response response = await http.get('$url${path ?? ""}');
-
-      print('$url${path ?? ""}');
-
-      if (response.statusCode == 200) {
-        var convertResponse = response.body
-            .replaceAll('&lt;', '<')
-            .replaceAll('&gt;', '>')
-            .replaceAll('&#xD;', '');
-
-        xml2json.parse(convertResponse);
-        var jsonData = xml2json.toParker();
-        var data = jsonDecode(jsonData);
-
-        // print(data);
-        return data;
-      } else if (response.statusCode == 400) {
-        print(response.statusCode);
-      } else if (response.statusCode == 404) {
-        print(response.statusCode);
-      } else if (response.statusCode == 500) {
-        print(response.statusCode);
-      } else {
-        print(response.statusCode);
-      }
-    } catch (e) {
-      return (e.toString());
-    }
-  } */
-
   Future<Response> getData({method, param, headers}) async {
     if (customUrl != null) {
       url = customUrl;
