@@ -181,9 +181,13 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                   Column(
                     children: <Widget>[
                       _loginMessage.isNotEmpty
-                          ? Text(
-                              _loginMessage,
-                              style: TextStyle(color: Colors.red),
+                          ? Container(
+                              width: ScreenUtil.getInstance().setWidth(1000),
+                              child: Text(
+                                _loginMessage,
+                                style: TextStyle(color: Colors.red),
+                                textAlign: TextAlign.center,
+                              ),
                             )
                           : SizedBox.shrink(),
                       _loginButton(),
