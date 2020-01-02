@@ -30,6 +30,8 @@ class _KppModuleState extends State<KppModule> {
   var snapshot;
   String message = '';
   String _pin;
+  var _height = ScreenUtil.getInstance().setHeight(900);
+  bool _isLoading = false;
 
   final List<Color> _iconColors = [];
 
@@ -74,7 +76,7 @@ class _KppModuleState extends State<KppModule> {
 
   _renderModule() {
     if (snapshot != null) {
-      GridView.builder(
+      return GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           // childAspectRatio: MediaQuery.of(context).size.height / 530,
@@ -110,93 +112,179 @@ class _KppModuleState extends State<KppModule> {
           );
         },
       );
-    } else if (snapshot == null && message.isEmpty) {
-      return Center(
-        child: SpinKitFoldingCube(
-          color: primaryColor,
+    } else if (snapshot == null && message.isNotEmpty) {
+      return Padding(
+        padding: const EdgeInsets.only(left: 40.0, right: 40.0, top: 90.0),
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 1500),
+          curve: Curves.elasticOut,
+          width: double.infinity,
+          height: _height,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                offset: Offset(0.0, 15.0),
+                blurRadius: 15.0,
+              ),
+              BoxShadow(
+                color: Colors.black12,
+                offset: Offset(0.0, -10.0),
+                blurRadius: 10.0,
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(
+                    height: ScreenUtil.getInstance().setHeight(35),
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                      hintStyle: TextStyle(
+                        color: primaryColor,
+                      ),
+                      labelText:
+                          AppLocalizations.of(context).translate('pin_lbl'),
+                      fillColor: Colors.grey.withOpacity(.25),
+                      filled: true,
+                      prefixIcon: Icon(Icons.account_circle),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.transparent),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return AppLocalizations.of(context)
+                            .translate('pin_required_msg');
+                      }
+                    },
+                    onSaved: (value) {
+                      if (value != _pin) {
+                        _pin = value;
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    height: ScreenUtil.getInstance().setHeight(60),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Wrap(
+                      children: <Widget>[
+                        Text(AppLocalizations.of(context)
+                            .translate('activate_pin')),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: ScreenUtil.getInstance().setHeight(40),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          _submitButton(),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       );
     }
 
-    return customDialog.show(
-      context: context,
-      title: AppLocalizations.of(context).translate('activate_pin_title'),
-      content: activationForm(),
-      type: DialogType.GENERAL,
-      customActions: <Widget>[
-        FlatButton(
-          child: Text(AppLocalizations.of(context).translate('submit_btn')),
-          onPressed: () {},
-        ),
-        FlatButton(
-          child: Text(AppLocalizations.of(context).translate('cancel_btn')),
-          onPressed: () {
-            Navigator.pop(context);
-            Navigator.pop(context);
-          },
-        ),
-      ],
-      barrierDismissable: false,
+    return Center(
+      child: SpinKitFoldingCube(
+        color: primaryColor,
+      ),
     );
   }
 
-  activationForm() {
-    return Column(
-      children: <Widget>[
-        Text(AppLocalizations.of(context).translate('activate_pin')),
-        Form(
-          key: _formKey,
-          child: TextFormField(
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 16.0),
-              hintStyle: TextStyle(
-                color: primaryColor,
-              ),
-              labelText: AppLocalizations.of(context).translate('phone_lbl'),
-              fillColor: Colors.grey.withOpacity(.25),
-              filled: true,
-              prefixIcon: Icon(Icons.account_circle),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.transparent),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
+  _submitButton() {
+    return Container(
+      child: _isLoading
+          ? SpinKitFoldingCube(
+              color: primaryColor,
+            )
+          : ButtonTheme(
+              minWidth: ScreenUtil.getInstance().setWidth(420),
+              padding: EdgeInsets.symmetric(vertical: 11.0),
+              buttonColor: primaryColor,
+              shape: StadiumBorder(),
+              child: RaisedButton(
+                onPressed: _submit,
+                textColor: Colors.white,
+                child: Text(
+                  AppLocalizations.of(context).translate('submit_btn'),
+                  style: TextStyle(
+                    fontSize: ScreenUtil.getInstance().setSp(56),
+                  ),
+                ),
               ),
             ),
-            onSaved: (value) {
-              if (value != _pin) {
-                _pin = value;
-              }
-            },
-          ),
-        ),
-      ],
     );
+  }
+
+  _submit() async {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      FocusScope.of(context).requestFocus(new FocusNode());
+
+      setState(() {
+        _height = ScreenUtil.getInstance().setHeight(900);
+        _isLoading = true;
+      });
+    } else {
+      setState(() {
+        _height = ScreenUtil.getInstance().setHeight(1000);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.amber.shade50,
-      appBar: AppBar(
-        backgroundColor: primaryColor,
-        elevation: 0,
-        title: Text(AppLocalizations.of(context).translate('choose_module')),
-      ),
-      body: Stack(
-        children: <Widget>[
-          ClipPath(
-            clipper: WaveClipperTwo(),
-            child: Container(
-              decoration: BoxDecoration(
-                color: primaryColor,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        backgroundColor: Colors.amber.shade50,
+        appBar: AppBar(
+          backgroundColor: primaryColor,
+          elevation: 0,
+          title: Text(AppLocalizations.of(context).translate('choose_module')),
+        ),
+        body: Stack(
+          children: <Widget>[
+            ClipPath(
+              clipper: WaveClipperTwo(),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                ),
+                height: ScreenUtil().setHeight(1000),
               ),
-              height: ScreenUtil().setHeight(1000),
             ),
-          ),
-          _renderModule(),
-        ],
+            _renderModule(),
+          ],
+        ),
       ),
     );
   }
