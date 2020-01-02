@@ -22,45 +22,7 @@ class Networking {
 
   Networking({this.customUrl});
 
-  Future getData({path}) async {
-    if (customUrl != null) {
-      url = customUrl;
-    } else {
-      url = await appConfig.getBaseUrl();
-    }
-
-    try {
-      http.Response response = await http.get('$url${path ?? ""}');
-
-      print('$url${path ?? ""}');
-
-      if (response.statusCode == 200) {
-        var convertResponse = response.body
-            .replaceAll('&lt;', '<')
-            .replaceAll('&gt;', '>')
-            .replaceAll('&#xD;', '');
-
-        xml2json.parse(convertResponse);
-        var jsonData = xml2json.toParker();
-        var data = jsonDecode(jsonData);
-
-        // print(data);
-        return data;
-      } else if (response.statusCode == 400) {
-        print(response.statusCode);
-      } else if (response.statusCode == 404) {
-        print(response.statusCode);
-      } else if (response.statusCode == 500) {
-        print(response.statusCode);
-      } else {
-        print(response.statusCode);
-      }
-    } catch (e) {
-      return (e.toString());
-    }
-  }
-
-  Future<Response> getRequest({method, param, headers}) async {
+  Future<Response> getData({method, param, headers}) async {
     if (customUrl != null) {
       url = customUrl;
     } else {
@@ -76,15 +38,22 @@ class Networking {
     }
 
     List<String> authority = parsedUrl.split('/');
+
+    String extraUri1 = '';
+
+    if (authority.length >= 5) {
+      extraUri1 = '${authority[4]}/';
+    }
+
     String unencodedpath =
-        '/${authority[1]}/${authority[2]}/${authority[3]}/${authority[4]}/$method';
+        '/${authority[1]}/${authority[2]}/${authority[3]}/$extraUri1$method';
 
     Uri uri = Uri.http(authority[0], unencodedpath, param);
 
     try {
       http.Response response = await http.get(uri, headers: headers);
 
-      // print(uri);
+      print(uri);
 
       if (response.statusCode == 200) {
         var convertResponse = response.body
@@ -162,11 +131,11 @@ class Networking {
         url = await appConfig.getBaseUrl();
       }
 
-      http.Response response = await http.post('$url/$api${path ?? ""}',
+      http.Response response = await http.post('$url$api${path ?? ""}',
           body: body, headers: headers);
 
       // print(
-      //   '$url/$api${path ?? ""}',
+      //   '$url$api${path ?? ""}',
       // );
 
       // print('body: ' + body);
@@ -188,7 +157,7 @@ class Networking {
           data = jsonDecode(response.body);
         }
 
-        // print(data);
+        print(data);
         return data;
       } else if (response.statusCode == 400) {
         print(response.statusCode);

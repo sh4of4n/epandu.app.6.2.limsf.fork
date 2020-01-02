@@ -22,43 +22,57 @@ class ProfileRepo {
 
   Future<Response> getCustomerData() async {
     String caUid = await localStorage.getCaUid();
-    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+    String caPwd = await localStorage.getCaPwd();
 
     //  Temporarily use TBS as diCode
     String diCode = 'TBS';
     // String diCode = await localStorage.getDiCode();
     String icNo = await localStorage.getStudentIc();
 
-    String params =
-        'GetCustomerByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=$diCode&icNo=$icNo';
+    Map<String, String> param = {
+      'wsCodeCrypt': appConfig.wsCodeCrypt,
+      'caUid': caUid,
+      'caPwd': caPwd,
+      'diCode': diCode,
+      'icNo': icNo,
+    };
 
-    var response = await networking.getData(path: params);
+    String method = 'GetCustomerByCode';
 
-    var responseData = response;
+    var response = await networking.getData(method: method, param: param);
+
+    var responseData = response.data;
   }
 
   // Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
   Future<Response> getStudentPayment() async {
     String caUid = await localStorage.getCaUid();
-    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+    String caPwd = await localStorage.getCaPwd();
 
     //  Temporarily use TBS as diCode
     String diCode = 'TBS';
     // String diCode = await localStorage.getDiCode();
     String icNo = await localStorage.getStudentIc();
 
-    String params =
-        'GetCollectionByStudent?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=$diCode&icNo=$icNo';
+    Map<String, String> param = {
+      'wsCodeCrypt': appConfig.wsCodeCrypt,
+      'caUid': caUid,
+      'caPwd': caPwd,
+      'diCode': diCode,
+      'icNo': icNo,
+    };
 
-    var response = await networking.getData(path: params);
+    String method = 'GetCustomerByCode';
 
-    var responseData = response;
+    var response = await networking.getData(method: method, param: param);
+
+    var responseData = response.data;
   }
 
   // Unknown column 'StuPrac.di_code' in 'where clause'
   Future<Response> getStudentAttendance() async {
     String caUid = await localStorage.getCaUid();
-    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+    String caPwd = await localStorage.getCaPwd();
 
     //  Temporarily use TBS as diCode
     String diCode = 'TBS';
@@ -66,12 +80,20 @@ class ProfileRepo {
     String groupId;
     String icNo = await localStorage.getStudentIc();
 
-    String params =
-        'GetStuPracByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=$diCode&icNo=$icNo&groupId=$groupId';
+    Map<String, String> param = {
+      'wsCodeCrypt': appConfig.wsCodeCrypt,
+      'caUid': caUid,
+      'caPwd': caPwd,
+      'diCode': diCode,
+      'icNo': icNo,
+      'groupId': groupId,
+    };
 
-    var response = await networking.getData(path: params);
+    String method = 'GetDTestByCode';
 
-    var responseData = response;
+    var response = await networking.getData(method: method, param: param);
+
+    var responseData = response.data;
   }
 
 /*   Future<Response> getStudentEtestingLog() async {
@@ -85,18 +107,26 @@ class ProfileRepo {
 
   Future<Response> getBookingTest(groupId) async {
     String caUid = await localStorage.getCaUid();
-    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+    String caPwd = await localStorage.getCaPwd();
 
     //  Temporarily use TBS as diCode
     String diCode = 'TBS';
     // String diCode = await localStorage.getDiCode();
     String icNo = await localStorage.getStudentIc();
 
-    String params =
-        'GetDTestByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=$diCode&icNo=$icNo&groupId=$groupId';
+    Map<String, String> param = {
+      'wsCodeCrypt': appConfig.wsCodeCrypt,
+      'caUid': caUid,
+      'caPwd': caPwd,
+      'diCode': diCode,
+      'icNo': icNo,
+      'groupId': groupId,
+    };
 
-    var response = await networking.getData(path: params);
+    String method = 'GetDTestByCode';
 
-    var responseData = response;
+    var response = await networking.getData(method: method, param: param);
+
+    var responseData = response.data;
   }
 }

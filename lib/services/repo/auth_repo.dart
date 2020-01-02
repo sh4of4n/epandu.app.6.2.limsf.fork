@@ -36,18 +36,26 @@ class AuthRepo {
 
     wsUrl = wsUrl.replaceAll("_wsver_", WSVER.replaceAll(".", "_"));
 
-    String params =
-        '?wsCodeCrypt=$wsCodeCrypt&acctUid=$acctUid&acctPwd=${Uri.encodeQueryComponent(acctPwd)}&loginType=$loginType&misc=';
+    String misc = '';
 
-    String apiMethod = '/LoginPub';
+    Map<String, String> param = {
+      'wsCodeCrypt': wsCodeCrypt,
+      'acctUid': acctUid,
+      'acctPwd': acctPwd,
+      'loginType': loginType,
+      'misc': misc,
+    };
 
-    var response =
-        await Networking(customUrl: '$wsUrl$apiMethod').getData(path: params);
+    String method = 'LoginPub';
+
+    var response = await Networking(customUrl: '$wsUrl')
+        .getData(method: method, param: param);
 
     var responseData;
 
-    if (response['string']['LoginAcctInfo'] != null)
-      responseData = response['string']['LoginAcctInfo']['LoginAcct'];
+    if (response.data != null &&
+        response.data['string']['LoginAcctInfo'] != null)
+      responseData = response.data['string']['LoginAcctInfo']['LoginAcct'];
 
     if (responseData != null && responseData['WsUrl'] != null) {
       localStorage.saveWsUrl(responseData['WsUrl']);
@@ -62,21 +70,30 @@ class AuthRepo {
 
   Future login({String phone, String password}) async {
     String caUid = await localStorage.getCaUid();
-    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+    String caPwd = await localStorage.getCaPwd();
 
-    var params =
-        'GetUserByUserPhonePwd?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0';
+    Map<String, String> param = {
+      'wsCodeCrypt': appConfig.wsCodeCrypt,
+      'caUid': caUid,
+      'caPwd': caPwd,
+      'diCode': appConfig.diCode,
+      'userPhone': phone,
+      'userPwd': password,
+      'ipAddress': '0.0.0.0',
+    };
 
-    var response = await networking.getData(path: params);
+    String method = 'GetUserByUserPhonePwd';
+
+    var response = await networking.getData(method: method, param: param);
 
     var responseData;
 
-    if (response != null) {
-      responseData = response['GetUserByUserPhonePwdResponse']
+    if (response.data != null) {
+      responseData = response.data['GetUserByUserPhonePwdResponse']
           ['GetUserByUserPhonePwdResult']['UserInfo']['Table1'];
     }
 
-    if (response != null && responseData['msg'] == null) {
+    if (response.data != null && responseData['msg'] == null) {
       print(responseData['userId']);
       print(responseData['sessionId']);
 
@@ -86,27 +103,41 @@ class AuthRepo {
       var result = await checkDiList();
 
       return result;
-    } else if (response != null &&
+    } else if (response.data != null &&
         responseData['msg'] == 'Reset Password Success') {
       return Response(true, message: responseData['msg']);
+    } else if (response.data != null && responseData['msg'] != null) {
+      return Response(false, message: responseData['msg']);
     }
 
-    return Response(false, message: 'Invalid username or password.');
+    return Response(false, message: 'Please check your internet connection.');
   }
 
   Future<Response> checkDiList() async {
     String caUid = await localStorage.getCaUid();
-    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+    String caPwd = await localStorage.getCaPwd();
+
     String userId = await localStorage.getUserId();
     String diCode = await localStorage.getDiCode();
 
-    var params =
-        'GetUserRegisteredDI?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=$diCode&userId=$userId';
+    Map<String, String> param = {
+      'wsCodeCrypt': appConfig.wsCodeCrypt,
+      'caUid': caUid,
+      'caPwd': caPwd,
+      'diCode': diCode,
+      'userId': userId,
+    };
 
-    var response = await networking.getData(path: params);
+    String method = 'GetUserRegisteredDI';
 
-    var responseData = response['GetUserRegisteredDIResponse']
-        ['GetUserRegisteredDIResult']['ArmasterInfo'];
+    var response = await networking.getData(method: method, param: param);
+
+    var responseData;
+
+    if (response.data != null) {
+      responseData = response.data['GetUserRegisteredDIResponse']
+          ['GetUserRegisteredDIResult']['ArmasterInfo'];
+    }
 
     // API returns one DI
     if (responseData != null && responseData['Armaster'][0] == null) {
@@ -165,17 +196,26 @@ class AuthRepo {
   Future<void> logout() async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
-    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
     String userId = await localStorage.getUserId();
     //  Temporarily use TBS as diCode
     String diCode = 'TBS';
     // String diCode = await localStorage.getDiCode();
     String sessionId = await localStorage.getSessionId();
 
-    var params =
-        'IsSessionActive?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=$diCode&userId=$userId&sessionId=$sessionId&isLogout=true';
+    Map<String, String> param = {
+      'wsCodeCrypt': appConfig.wsCodeCrypt,
+      'caUid': caUid,
+      'caPwd': caPwd,
+      'diCode': diCode,
+      'userId': userId,
+      'sessionId': sessionId,
+      'isLogout': 'true',
+    };
 
-    await networking.getData(path: params);
+    String method = 'IsSessionActive';
+
+    await networking.getData(method: method, param: param);
+
     await localStorage.reset();
 
     await getWsUrl(
@@ -206,9 +246,8 @@ class AuthRepo {
     String registerAs,
   }) async {
     String caUid = await localStorage.getCaUid();
-    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+    String caPwd = await localStorage.getCaPwd();
     String userPhone;
-    String params;
     String defPhone = phone;
 
     if (countryCode.contains('60')) {
@@ -223,13 +262,23 @@ class AuthRepo {
 
     if (userId.isEmpty) userId = 'TBS';
 
-    params =
-        'GetUserByUserPhone?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&userPhone=$userPhone';
+    Map<String, String> param = {
+      'wsCodeCrypt': appConfig.wsCodeCrypt,
+      'caUid': caUid,
+      'caPwd': caPwd,
+      'userPhone': userPhone,
+    };
 
-    var response = await networking.getData(path: params);
+    String method = 'GetUserByUserPhone';
 
-    var responseData = response['GetUserByUserPhoneResponse']
-        ['GetUserByUserPhoneResult']['UserInfo'];
+    var response = await networking.getData(method: method, param: param);
+
+    var responseData;
+
+    if (response.data != null) {
+      responseData = response.data['GetUserByUserPhoneResponse']
+          ['GetUserByUserPhoneResult']['UserInfo'];
+    }
 
     if (responseData == null) {
       // Number not registered
@@ -342,16 +391,27 @@ class AuthRepo {
 
   Future<Response> verifyOldPassword({currentPassword, newPassword}) async {
     String caUid = await localStorage.getCaUid();
-    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+    String caPwd = await localStorage.getCaPwd();
     String userId = await localStorage.getUserId();
 
-    String params =
-        'GetUserByUserIdPwd?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&userId=$userId&userPwd=$currentPassword';
+    Map<String, String> param = {
+      'wsCodeCrypt': appConfig.wsCodeCrypt,
+      'caUid': caUid,
+      'caPwd': caPwd,
+      'userId': userId,
+      'userPwd': currentPassword,
+    };
 
-    var response = await networking.getData(path: params);
+    String method = 'GetUserByUserIdPwd';
 
-    var responseData =
-        response['GetUserByUserIdPwdResponse']['GetUserByUserIdPwdResult'];
+    var response = await networking.getData(method: method, param: param);
+
+    var responseData;
+
+    if (response.data != null) {
+      responseData = response.data['GetUserByUserIdPwdResponse']
+          ['GetUserByUserIdPwdResult'];
+    }
 
     if (responseData != null && responseData.contains('Valid user.')) {
       var result = await updatePassword(userId: userId, password: newPassword);
@@ -394,25 +454,33 @@ class AuthRepo {
 
   Future<Response> getStudentEnrollmentData() async {
     String caUid = await localStorage.getCaUid();
-    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+    String caPwd = await localStorage.getCaPwd();
     //  Temporarily use TBS as diCode
     String diCode = 'TBS';
     // String diCode = await localStorage.getDiCode();
     String groupId = '';
     String icNo = await localStorage.getStudentIc();
 
-    String params =
-        'GetEnrollByCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=$diCode&icNo=$icNo&groupId=$groupId';
+    Map<String, String> param = {
+      'wsCodeCrypt': appConfig.wsCodeCrypt,
+      'caUid': caUid,
+      'caPwd': caPwd,
+      'diCode': diCode,
+      'icNo': icNo,
+      'groupId': groupId,
+    };
 
-    var response = await networking.getData(path: params);
+    String method = 'GetEnrollByCode';
+
+    var response = await networking.getData(method: method, param: param);
 
     var responseData;
 
-    if (response != null &&
-        response['GetEnrollByCodeResponse']['GetEnrollByCodeResult']
+    if (response.data != null &&
+        response.data['GetEnrollByCodeResponse']['GetEnrollByCodeResult']
                 ['EnrollInfo'] !=
             null) {
-      responseData = response['GetEnrollByCodeResponse']
+      responseData = response.data['GetEnrollByCodeResponse']
           ['GetEnrollByCodeResult']['EnrollInfo']['Enroll'];
     }
 

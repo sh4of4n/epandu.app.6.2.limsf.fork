@@ -13,17 +13,24 @@ class KppRepo {
 
   Future<Response> getInstituteLogo() async {
     String caUid = await localStorage.getCaUid();
-    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+    String caPwd = await localStorage.getCaPwd();
 
     String userId = await localStorage.getUserId();
     String diCode = await localStorage.getDiCode();
 
-    String params =
-        'GetArmasterAppPhotoForCode?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=$diCode&userId=$userId';
+    Map<String, String> param = {
+      'wsCodeCrypt': appConfig.wsCodeCrypt,
+      'caUid': caUid,
+      'caPwd': caPwd,
+      'diCode': diCode,
+      'userId': userId,
+    };
 
-    var response = await networking.getData(path: params);
+    String method = 'GetArmasterAppPhotoForCode';
 
-    var responseData = response['GetArmasterAppPhotoForCodeResponse']
+    var response = await networking.getData(method: method, param: param);
+
+    var responseData = response.data['GetArmasterAppPhotoForCodeResponse']
         ['GetArmasterAppPhotoForCodeResult']['ArmasterInfo'];
 
     if (responseData != null) {
@@ -33,44 +40,52 @@ class KppRepo {
       return Response(true,
           data: responseData['Armaster']['app_background_photo']);
     }
-    return Response(false);
+    return Response(false, message: response.message);
   }
 
   Future<Response> getExamNo(groupId) async {
     String caUid = await localStorage.getCaUid();
-    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+    String caPwd = await localStorage.getCaPwd();
 
     String courseCode = 'KPP1';
     String langCode = 'ms-MY';
 
-    String params =
-        'GetTheoryQuestionPaperNo?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&groupId=$groupId&courseCode=$courseCode&langCode=$langCode';
+    Map<String, String> param = {
+      'wsCodeCrypt': appConfig.wsCodeCrypt,
+      'caUid': caUid,
+      'caPwd': caPwd,
+      'groupId': groupId,
+      'courseCode': courseCode,
+      'langCode': langCode,
+    };
 
-    var response = await networking.getData(path: params);
+    String method = 'GetTheoryQuestionPaperNo';
 
-    var responseData = response['GetTheoryQuestionPaperNoResponse']
+    var response = await networking.getData(method: method, param: param);
+
+    var responseData = response.data['GetTheoryQuestionPaperNoResponse']
         ['GetTheoryQuestionPaperNoResult']['TheoryQuestionInfo'];
 
     if (responseData != null) {
       return Response(true, data: responseData);
     }
-    return Response(false);
+    return Response(false, message: response.message);
   }
 
   Future<Response> getExamQuestions({groupId, paperNo}) async {
     String caUid = await localStorage.getCaUid();
-    // String caPwd = await localStorage.getCaPwd();
-    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+    String caPwd = await localStorage.getCaPwd();
+    // String caPwdUrlEncode = await localStorage.getCaPwdEncode();
 
     String courseCode = 'KPP1';
     String langCode = 'ms-MY';
 
-    /* String userId = await localStorage.getUserId();
+    String userId = await localStorage.getUserId();
     String diCode = await localStorage.getDiCode();
     String userPhone = await localStorage.getUserPhone();
     String phone = userPhone.substring(2);
 
-    Map<String, String> param = {
+    /* Map<String, String> param = {
       'wsCodeCrypt': appConfig.wsCodeCrypt,
       'caUid': caUid,
       'caPwd': caPwd,
@@ -101,18 +116,27 @@ class KppRepo {
 
     return Response(false, message: response.message); */
 
-    String params =
-        'GetTheoryQuestionByPaper?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&groupId=$groupId&courseCode=$courseCode&langCode=$langCode&paperNo=$paperNo';
+    Map<String, String> param = {
+      'wsCodeCrypt': appConfig.wsCodeCrypt,
+      'caUid': caUid,
+      'caPwd': caPwd,
+      'groupId': groupId,
+      'courseCode': courseCode,
+      'langCode': langCode,
+      'paperNo': paperNo,
+    };
 
-    var response = await networking.getData(path: params);
+    String method = 'GetTheoryQuestionByPaper';
 
-    var responseData = response['GetTheoryQuestionByPaperResponse']
+    var response = await networking.getData(method: method, param: param);
+
+    var responseData = response.data['GetTheoryQuestionByPaperResponse']
         ['GetTheoryQuestionByPaperResult']['TheoryQuestionInfo'];
 
     if (responseData != null) {
       return Response(true, data: responseData);
     }
-    return Response(false);
+    return Response(false, message: response.message);
   }
 
   Future<Response> pinActivation(pinNumber, groupId) async {
@@ -143,7 +167,7 @@ class KppRepo {
     var response =
         await networking.postData(api: api, body: body, headers: headers);
 
-    if (response != null) {
+    if (response.data != null) {
       return Response(true, data: response);
     }
 
