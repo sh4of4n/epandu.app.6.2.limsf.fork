@@ -77,6 +77,7 @@
   "exam_expired": "Exam time has expired.",
   "warning_title": "Warning!",
   "confirm_exit_desc": "Are you sure you want to quit? All your progress will be lost.",
+  "activate_pin_title": "Pin activation",
   "activate_pin": "Please activate your pin number.",
 
   "ok_btn": "Ok",
@@ -84,5 +85,6 @@
   "go_back_lbl": "GO BACK",
   "submit_btn": "SUBMIT",
   "save_btn": "SAVE",
-  "invite_btn": "INVITE"
+  "invite_btn": "INVITE",
+  "cancel_btn": "CANCEL"
 }

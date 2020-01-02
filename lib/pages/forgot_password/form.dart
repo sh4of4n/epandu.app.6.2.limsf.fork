@@ -72,7 +72,6 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
               TextFormField(
                 focusNode: _phoneFocus,
                 keyboardType: TextInputType.phone,
-                textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(
@@ -91,9 +90,6 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                onFieldSubmitted: (term) {
-                  fieldFocusChange(context, _phoneFocus, _passwordFocus);
-                },
                 validator: (value) {
                   if (value.isEmpty) {
                     return AppLocalizations.of(context)

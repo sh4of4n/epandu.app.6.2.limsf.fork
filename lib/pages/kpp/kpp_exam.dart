@@ -108,15 +108,6 @@ class _KppExamState extends State<KppExam> {
     }
   }
 
-  _renderMessage() {
-    return Center(
-      child: Text(
-        AppLocalizations.of(context).translate('activate_pin'),
-        style: TextStyle(fontSize: ScreenUtil().setSp(56)),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,11 +123,6 @@ class _KppExamState extends State<KppExam> {
               height: ScreenUtil().setHeight(1200),
             ),
           ),
-          if (message.isNotEmpty)
-            AppBar(
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-            ),
           snapshot != null
               ? ExamTemplate(
                   snapshot: snapshot,
@@ -144,13 +130,11 @@ class _KppExamState extends State<KppExam> {
                   groupId: groupId,
                   paperNo: paperNo,
                 )
-              : message.isEmpty
-                  ? Center(
-                      child: SpinKitFoldingCube(
-                        color: primaryColor,
-                      ),
-                    )
-                  : _renderMessage(),
+              : Center(
+                  child: SpinKitFoldingCube(
+                    color: primaryColor,
+                  ),
+                )
         ],
       ),
     );

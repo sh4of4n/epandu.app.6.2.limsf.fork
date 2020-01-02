@@ -50,7 +50,12 @@ class KppRepo {
     String courseCode = 'KPP1';
     String langCode = 'ms-MY';
 
-    Map<String, String> param = {
+    String userId = await localStorage.getUserId();
+    String diCode = await localStorage.getDiCode();
+    String userPhone = await localStorage.getUserPhone();
+    String phone = userPhone.substring(2);
+
+    /* Map<String, String> param = {
       'wsCodeCrypt': appConfig.wsCodeCrypt,
       'caUid': caUid,
       'caPwd': caPwd,
@@ -59,15 +64,31 @@ class KppRepo {
       'langCode': langCode,
     };
 
-    String method = 'GetTheoryQuestionPaperNo';
+    String method = 'GetTheoryQuestionPaperNo'; */
+
+    Map<String, String> param = {
+      'wsCodeCrypt': appConfig.wsCodeCrypt,
+      'caUid': caUid,
+      'caPwd': caPwd,
+      'diCode': diCode,
+      'groupId': groupId,
+      'courseCode': courseCode,
+      'langCode': langCode,
+      'phone': phone,
+      'userId': userId,
+    };
+
+    String method = 'GetTheoryQuestionPaperNoWithCreditControl';
 
     var response = await networking.getData(method: method, param: param);
 
-    var responseData = response.data['GetTheoryQuestionPaperNoResponse']
-        ['GetTheoryQuestionPaperNoResult']['TheoryQuestionInfo'];
+    if (response.isSuccess) {
+      var responseData = response.data['GetTheoryQuestionPaperNoResponse']
+          ['GetTheoryQuestionPaperNoResult']['TheoryQuestionInfo'];
 
-    if (responseData != null) {
-      return Response(true, data: responseData);
+      if (responseData != null) {
+        return Response(true, data: responseData);
+      }
     }
     return Response(false, message: response.message);
   }

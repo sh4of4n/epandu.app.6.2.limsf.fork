@@ -36,14 +36,12 @@ class AuthRepo {
 
     wsUrl = wsUrl.replaceAll("_wsver_", WSVER.replaceAll(".", "_"));
 
-    String misc = '';
-
-    Map<String, String> param = {
+    /* Map<String, String> param = {
       'wsCodeCrypt': wsCodeCrypt,
       'acctUid': acctUid,
       'acctPwd': acctPwd,
       'loginType': loginType,
-      'misc': misc,
+      'misc': '',
     };
 
     String method = 'LoginPub';
@@ -55,7 +53,20 @@ class AuthRepo {
 
     if (response.data != null &&
         response.data['string']['LoginAcctInfo'] != null)
-      responseData = response.data['string']['LoginAcctInfo']['LoginAcct'];
+      responseData = response.data['string']['LoginAcctInfo']['LoginAcct']; */
+
+    String params =
+        '?wsCodeCrypt=$wsCodeCrypt&acctUid=$acctUid&acctPwd=${Uri.encodeQueryComponent(acctPwd)}&loginType=$loginType&misc=';
+
+    String apiMethod = '/LoginPub';
+
+    var response = await Networking(customUrl: '$wsUrl$apiMethod')
+        .getRequest(path: params);
+
+    var responseData;
+
+    if (response['string']['LoginAcctInfo'] != null)
+      responseData = response['string']['LoginAcctInfo']['LoginAcct'];
 
     if (responseData != null && responseData['WsUrl'] != null) {
       localStorage.saveWsUrl(responseData['WsUrl']);
@@ -70,9 +81,10 @@ class AuthRepo {
 
   Future login({String phone, String password}) async {
     String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
+    // String caPwd = await localStorage.getCaPwd();
+    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
 
-    Map<String, String> param = {
+    /* Map<String, String> param = {
       'wsCodeCrypt': appConfig.wsCodeCrypt,
       'caUid': caUid,
       'caPwd': caPwd,
@@ -84,16 +96,21 @@ class AuthRepo {
 
     String method = 'GetUserByUserPhonePwd';
 
-    var response = await networking.getData(method: method, param: param);
+    var response = await networking.getData(method: method, param: param); */
+
+    var params =
+        'GetUserByUserPhonePwd?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0';
+
+    var response = await networking.getRequest(path: params);
 
     var responseData;
 
-    if (response.data != null) {
-      responseData = response.data['GetUserByUserPhonePwdResponse']
+    if (response != null) {
+      responseData = response['GetUserByUserPhonePwdResponse']
           ['GetUserByUserPhonePwdResult']['UserInfo']['Table1'];
     }
 
-    if (response.data != null && responseData['msg'] == null) {
+    if (response != null && responseData['msg'] == null) {
       print(responseData['userId']);
       print(responseData['sessionId']);
 
@@ -103,10 +120,10 @@ class AuthRepo {
       var result = await checkDiList();
 
       return result;
-    } else if (response.data != null &&
+    } else if (response != null &&
         responseData['msg'] == 'Reset Password Success') {
       return Response(true, message: responseData['msg']);
-    } else if (response.data != null && responseData['msg'] != null) {
+    } else if (response != null && responseData['msg'] != null) {
       return Response(false, message: responseData['msg']);
     }
 

@@ -401,7 +401,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
     );
   }
 
-  _showExitDialog({type}) {
+  _showExitDialog() {
     return CustomDialog().show(
       context: context,
       title: Text(AppLocalizations.of(context).translate('warning_title')),
@@ -410,12 +410,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
         FlatButton(
           child: Text(AppLocalizations.of(context).translate('yes_lbl')),
           onPressed: () {
-            if (type == 'system') {
-              Navigator.pop(context);
-            } else {
-              Navigator.pop(context);
-              Navigator.pop(context);
-            }
+            Navigator.pop(context);
+            Navigator.pop(context);
 
             _timer.cancel();
 
@@ -609,7 +605,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
   }
 
   Future<bool> _onWillPop() async {
-    return _showExitDialog(type: 'system');
+    return _showExitDialog();
   }
 
   @override
