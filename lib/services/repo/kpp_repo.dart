@@ -83,14 +83,18 @@ class KppRepo {
     var response = await networking.getData(method: method, param: param);
 
     if (response.isSuccess) {
-      var responseData = response.data['GetTheoryQuestionPaperNoResponse']
-          ['GetTheoryQuestionPaperNoResult']['TheoryQuestionInfo'];
+      var responseData =
+          response.data['GetTheoryQuestionPaperNoWithCreditControlResponse']
+                  ['GetTheoryQuestionPaperNoWithCreditControlResult']
+              ['TheoryQuestionInfo'];
 
       if (responseData != null) {
         return Response(true, data: responseData);
       }
     }
-    return Response(false, message: response.message);
+
+    return Response(false,
+        message: response.data['string'].replaceAll(r'\r\n', ''));
   }
 
   Future<Response> getExamQuestions({groupId, paperNo}) async {
@@ -188,10 +192,15 @@ class KppRepo {
     var response =
         await networking.postData(api: api, body: body, headers: headers);
 
-    if (response.data != null) {
-      return Response(true, data: response);
+    if (response.isSuccess) {
+      var result = await getExamNo(groupId);
+
+      return result;
     }
 
-    return Response(false, message: 'Invalid pin number.');
+    return Response(false,
+        message: response.message
+            .replaceAll(r'\u000d\u000a', '')
+            .replaceAll(r'"', ''));
   }
 }

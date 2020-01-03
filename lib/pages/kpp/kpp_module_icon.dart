@@ -52,7 +52,7 @@ class KppModuleIcon extends StatelessWidget {
             ),
             SizedBox(height: 15.0),
             Text(
-              '${snapshot.data[index]["paper_no"]}',
+              '${snapshot[index]["paper_no"]}',
               style: TextStyle(
                 fontSize: ScreenUtil().setSp(60),
                 fontWeight: FontWeight.w500,

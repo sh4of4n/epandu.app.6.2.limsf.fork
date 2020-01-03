@@ -388,7 +388,8 @@ class AuthRepo {
 
     var message = '';
 
-    if (response['CreateAppAccountResult'].isNotEmpty) {
+    if (response.data != null &&
+        response.data['CreateAppAccountResult'].isNotEmpty) {
       if (type == 'INVITE')
         message = 'Your invitation has been sent. Yay!';
       else
@@ -460,7 +461,12 @@ class AuthRepo {
     var response =
         await networking.postData(api: api, body: body, headers: headers);
 
-    var responseData = response['SaveUserPasswordResult'];
+    var responseData;
+
+    if (response.data != null &&
+        response.data['SaveUserPasswordResult'] != null) {
+      responseData = response.data['SaveUserPasswordResult'];
+    }
 
     if (responseData == true) {
       return Response(true, message: 'Password successfully updated.');

@@ -29,9 +29,11 @@ class _KppModuleState extends State<KppModule> {
   final customDialog = CustomDialog();
   var snapshot;
   String message = '';
+  String pinMessage = '';
   String _pin;
   var _height = ScreenUtil.getInstance().setHeight(900);
   bool _isLoading = false;
+  String appBarTitle = '';
 
   final List<Color> _iconColors = [];
 
@@ -51,11 +53,14 @@ class _KppModuleState extends State<KppModule> {
       _getRandomColors(result.data['PaperNo']);
 
       setState(() {
+        appBarTitle = AppLocalizations.of(context).translate('choose_module');
         message = '';
         snapshot = result.data['PaperNo'];
       });
     } else {
       setState(() {
+        appBarTitle =
+            AppLocalizations.of(context).translate('activate_pin_title');
         message = result.message;
       });
     }
@@ -82,7 +87,7 @@ class _KppModuleState extends State<KppModule> {
           // childAspectRatio: MediaQuery.of(context).size.height / 530,
         ),
         physics: BouncingScrollPhysics(),
-        itemCount: snapshot.data.length,
+        itemCount: snapshot.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -94,12 +99,12 @@ class _KppModuleState extends State<KppModule> {
                       component: KPP_EXAM,
                       argument: KppModuleArguments(
                         groupId: widget.data,
-                        paperNo: snapshot.data[index]["paper_no"],
+                        paperNo: snapshot[index]["paper_no"],
                       ),
                       iconColor: _iconColors[index],
                       snapshot: snapshot,
                       index: index,
-                      icon: snapshot.data[index]["paper_no"].contains('COB')
+                      icon: snapshot[index]["paper_no"].contains('COB')
                           ? Icon(Icons.color_lens,
                               size: ScreenUtil().setSp(250),
                               color: Colors.white)
@@ -197,6 +202,12 @@ class _KppModuleState extends State<KppModule> {
                     children: <Widget>[
                       Column(
                         children: <Widget>[
+                          pinMessage.isNotEmpty
+                              ? Text(
+                                  pinMessage,
+                                  style: TextStyle(color: Colors.red),
+                                )
+                              : SizedBox.shrink(),
                           _submitButton(),
                         ],
                       ),
@@ -251,11 +262,33 @@ class _KppModuleState extends State<KppModule> {
         _height = ScreenUtil.getInstance().setHeight(900);
         _isLoading = true;
       });
+
+      var result = await kppRepo.pinActivation(_pin, widget.data);
+
+      if (result.isSuccess) {
+        setState(() {
+          pinMessage = '';
+          message = '';
+          snapshot = result.data['PaperNo'];
+        });
+
+        print(result.data);
+      } else {
+        setState(() {
+          pinMessage = result.message;
+        });
+
+        print(result.message);
+      }
     } else {
       setState(() {
         _height = ScreenUtil.getInstance().setHeight(1000);
       });
     }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -269,7 +302,7 @@ class _KppModuleState extends State<KppModule> {
         appBar: AppBar(
           backgroundColor: primaryColor,
           elevation: 0,
-          title: Text(AppLocalizations.of(context).translate('choose_module')),
+          title: Text(appBarTitle),
         ),
         body: Stack(
           children: <Widget>[

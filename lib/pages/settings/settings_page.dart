@@ -112,7 +112,7 @@ class _SettingsState extends State<Settings> {
                   count += 1;
                   String serverType = await localStorage.getServerType();
 
-                  if (count == 6 && serverType == 'PROD') {
+                  if (count == 4 && serverType == 'PROD') {
                     customDialog.show(
                       barrierDismissable: false,
                       context: context,
@@ -128,8 +128,9 @@ class _SettingsState extends State<Settings> {
                         await authRepo.logout();
                       },
                     );
-                  } else if (count == 6 && serverType == 'DEVP') {
+                  } else if (count == 4 && serverType == 'DEVP') {
                     customDialog.show(
+                      barrierDismissable: false,
                       context: context,
                       title: AppLocalizations.of(context)
                           .translate('production_title'),

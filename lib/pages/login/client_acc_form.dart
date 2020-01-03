@@ -187,7 +187,8 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                   InkWell(
                     onTap: () {
                       if (widget.data == 'SETTINGS')
-                        Navigator.pushReplacementNamed(context, LOGIN);
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, LOGIN, (r) => false);
                       else
                         Navigator.pop(context);
                     },

@@ -118,7 +118,7 @@ class _LoginState extends State<Login> {
                             String serverType =
                                 await localStorage.getServerType();
 
-                            if (count == 6 && serverType == 'PROD') {
+                            if (count == 4 && serverType == 'PROD') {
                               customDialog.show(
                                 context: context,
                                 title: AppLocalizations.of(context)
@@ -133,8 +133,9 @@ class _LoginState extends State<Login> {
                                   Navigator.pushNamed(context, CLIENT_ACC);
                                 },
                               );
-                            } else if (count == 6 && serverType == 'DEVP') {
+                            } else if (count == 4 && serverType == 'DEVP') {
                               customDialog.show(
+                                barrierDismissable: false,
                                 context: context,
                                 title: AppLocalizations.of(context)
                                     .translate('production_title'),
