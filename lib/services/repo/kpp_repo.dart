@@ -193,9 +193,7 @@ class KppRepo {
         await networking.postData(api: api, body: body, headers: headers);
 
     if (response.isSuccess) {
-      var result = await getExamNo(groupId);
-
-      return result;
+      return Response(true);
     }
 
     return Response(false,

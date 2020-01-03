@@ -269,16 +269,14 @@ class _KppModuleState extends State<KppModule> {
         setState(() {
           pinMessage = '';
           message = '';
-          snapshot = result.data['PaperNo'];
+          // snapshot = result.data['PaperNo'];
         });
 
-        print(result.data);
+        _getExamNo();
       } else {
         setState(() {
           pinMessage = result.message;
         });
-
-        print(result.message);
       }
     } else {
       setState(() {

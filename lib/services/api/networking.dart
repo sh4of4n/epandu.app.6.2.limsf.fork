@@ -56,21 +56,14 @@ class Networking {
       print(uri);
 
       if (response.statusCode == 200) {
-        var data;
+        var convertResponse = response.body
+            .replaceAll('&lt;', '<')
+            .replaceAll('&gt;', '>')
+            .replaceAll('&#xD;', '');
 
-        if (response.body.contains('&lt;')) {
-          var convertResponse = response.body
-              .replaceAll('&lt;', '<')
-              .replaceAll('&gt;', '>')
-              .replaceAll('&#xD;', '');
-
-          xml2json.parse(convertResponse);
-          var jsonData = xml2json.toParker();
-
-          data = jsonDecode(jsonData);
-        } else {
-          data = jsonDecode(response.body);
-        }
+        xml2json.parse(convertResponse);
+        var jsonData = xml2json.toParker();
+        var data = jsonDecode(jsonData);
 
         print(data);
         return Response(true, data: data);
@@ -147,21 +140,14 @@ class Networking {
       print('$url${path ?? ""}');
 
       if (response.statusCode == 200) {
-        var data;
+        var convertResponse = response.body
+            .replaceAll('&lt;', '<')
+            .replaceAll('&gt;', '>')
+            .replaceAll('&#xD;', '');
 
-        if (response.body.contains('&lt;')) {
-          var convertResponse = response.body
-              .replaceAll('&lt;', '<')
-              .replaceAll('&gt;', '>')
-              .replaceAll('&#xD;', '');
-
-          xml2json.parse(convertResponse);
-          var jsonData = xml2json.toParker();
-
-          data = jsonDecode(jsonData);
-        } else {
-          data = jsonDecode(response.body);
-        }
+        xml2json.parse(convertResponse);
+        var jsonData = xml2json.toParker();
+        var data = jsonDecode(jsonData);
 
         print(data);
         return data;

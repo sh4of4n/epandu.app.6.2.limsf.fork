@@ -187,8 +187,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                   InkWell(
                     onTap: () {
                       if (widget.data == 'SETTINGS')
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, LOGIN, (r) => false);
+                        Navigator.pushReplacementNamed(context, LOGIN);
                       else
                         Navigator.pop(context);
                     },
@@ -256,7 +255,10 @@ class _ClientAccountFormState extends State<ClientAccountForm>
         localStorage.saveCaPwd(_caPwd);
         localStorage.saveCaPwdEncode(Uri.encodeQueryComponent(_caPwd));
 
-        Navigator.pushReplacementNamed(context, LOGIN);
+        if (widget.data == 'SETTINGS')
+          Navigator.pushReplacementNamed(context, LOGIN);
+        else
+          Navigator.pop(context);
       } else {
         setState(() {
           _message = result.message.toString();

@@ -1,1 +1,2 @@
-- Fix displaying number keyboard in client acc id input
+- KPP now requires pin activation
+- Bug fixes
