@@ -110,37 +110,6 @@ class KppRepo {
     String userPhone = await localStorage.getUserPhone();
     String phone = userPhone.substring(2);
 
-    /* Map<String, String> param = {
-      'wsCodeCrypt': appConfig.wsCodeCrypt,
-      'caUid': caUid,
-      'caPwd': caPwd,
-      'diCode': diCode,
-      'groupId': groupId,
-      'courseCode': courseCode,
-      'langCode': langCode,
-      'paperNo': paperNo,
-      'phone': phone,
-      'userId': userId,
-    };
-
-    String method = 'GetTheoryQuestionByPaperWithCreditControl';
-
-    Map<String, String> headers = {'Content-Type': 'application/json'};
-
-    var response = await networking.getRequest(
-        method: method, param: param, headers: headers);
-
-    if (response.isSuccess) {
-      var responseData = response.data['GetTheoryQuestionByPaperResponse']
-          ['GetTheoryQuestionByPaperResult']['TheoryQuestionInfo'];
-
-      if (responseData != null) {
-        return Response(true, data: responseData);
-      }
-    }
-
-    return Response(false, message: response.message); */
-
     Map<String, String> param = {
       'wsCodeCrypt': appConfig.wsCodeCrypt,
       'caUid': caUid,
