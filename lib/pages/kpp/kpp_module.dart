@@ -152,6 +152,7 @@ class _KppModuleState extends State<KppModule> {
                     height: ScreenUtil.getInstance().setHeight(35),
                   ),
                   TextFormField(
+                    keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 16.0),
                       hintStyle: TextStyle(
