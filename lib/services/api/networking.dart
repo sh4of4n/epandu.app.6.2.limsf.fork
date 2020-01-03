@@ -53,7 +53,7 @@ class Networking {
     try {
       http.Response response = await http.get(uri, headers: headers);
 
-      // print(uri);
+      print(uri);
 
       if (response.statusCode == 200) {
         var data;
@@ -72,7 +72,7 @@ class Networking {
           data = jsonDecode(response.body);
         }
 
-        // print(data);
+        print(data);
         return Response(true, data: data);
       } else if (response.statusCode == 400) {
         if (response.body.contains('BLException')) {
@@ -87,7 +87,7 @@ class Networking {
             data: jsonData,
           );
         }
-        // print(response.statusCode);
+        print(response.statusCode);
         return Response(
           false,
           message: 'Error 400 returned.',
@@ -99,7 +99,7 @@ class Networking {
             message: response.body.replaceAll('[BLException]', ''),
           );
         }
-        // print(response.statusCode);
+        print(response.statusCode);
         return Response(
           false,
           message: 'Error 404 returned.',
@@ -111,7 +111,7 @@ class Networking {
             message: response.body.replaceAll('[BLException]', ''),
           );
         }
-        // print(response.statusCode);
+        print(response.statusCode);
         return Response(
           false,
           message: 'Error 500 returned.',
@@ -123,7 +123,7 @@ class Networking {
             message: response.body.replaceAll('[BLException]', ''),
           );
         }
-        // print(response.statusCode);
+        print(response.statusCode);
         return Response(
           false,
           message: 'Error returned.',
@@ -144,7 +144,7 @@ class Networking {
     try {
       http.Response response = await http.get('$url${path ?? ""}');
 
-      // print('$url${path ?? ""}');
+      print('$url${path ?? ""}');
 
       if (response.statusCode == 200) {
         var data;
@@ -163,16 +163,16 @@ class Networking {
           data = jsonDecode(response.body);
         }
 
-        // print(data);
+        print(data);
         return data;
       } else if (response.statusCode == 400) {
-        // print(response.statusCode);
+        print(response.statusCode);
       } else if (response.statusCode == 404) {
-        // print(response.statusCode);
+        print(response.statusCode);
       } else if (response.statusCode == 500) {
-        // print(response.statusCode);
+        print(response.statusCode);
       } else {
-        // print(response.statusCode);
+        print(response.statusCode);
       }
     } catch (e) {
       return (e.toString());
@@ -190,9 +190,9 @@ class Networking {
       http.Response response = await http.post('$url$api${path ?? ""}',
           body: body, headers: headers);
 
-      // print('$url$api${path ?? ""}');
+      print('$url$api${path ?? ""}');
 
-      // print('body: ' + body);
+      print('body: ' + body);
 
       if (response.statusCode == 200) {
         var data;
@@ -211,7 +211,7 @@ class Networking {
           data = jsonDecode(response.body);
         }
 
-        // print(data);
+        print(data);
         return Response(true, data: data);
       } else if (response.statusCode == 400) {
         if (response.body.contains('BLException')) {
@@ -222,7 +222,7 @@ class Networking {
             message: message,
           );
         }
-        // print(response.statusCode);
+        print(response.statusCode);
         return Response(
           false,
           message: 'Error 400 returned.',
@@ -234,7 +234,7 @@ class Networking {
             message: response.body.replaceAll('[BLException]', ''),
           );
         }
-        // print(response.statusCode);
+        print(response.statusCode);
         return Response(
           false,
           message: 'Error 404 returned.',
@@ -246,7 +246,7 @@ class Networking {
             message: response.body.replaceAll('[BLException]', ''),
           );
         }
-        // print(response.statusCode);
+        print(response.statusCode);
         return Response(
           false,
           message: 'Error 500 returned.',
@@ -258,7 +258,7 @@ class Networking {
             message: response.body.replaceAll('[BLException]', ''),
           );
         }
-        // print(response.statusCode);
+        print(response.statusCode);
         return Response(
           false,
           message: 'Error returned.',
