@@ -39,10 +39,26 @@ class _ClientAccountFormState extends State<ClientAccountForm>
   String _caUid;
   String _caPwd;
   bool _obscureText = true;
+  // String _connectedCa;
 
   var _height = ScreenUtil.getInstance().setHeight(1200);
 
   // var _height = ScreenUtil.screenHeight / 4.5;
+
+  /* @override
+  void initState() {
+    super.initState();
+
+    _getConnectedCa();
+  }
+
+  _getConnectedCa() async {
+    String _clientAcc = await localStorage.getCaUid();
+
+    setState(() {
+      _connectedCa = _clientAcc;
+    });
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -161,6 +177,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
               SizedBox(
                 height: ScreenUtil.getInstance().setHeight(60),
               ),
+              // _showConnectedCa(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -205,6 +222,23 @@ class _ClientAccountFormState extends State<ClientAccountForm>
       ),
     );
   }
+
+  /* _showConnectedCa() {
+    if (_connectedCa.isNotEmpty) {
+      return Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            child: Text(
+                '${AppLocalizations.of(context).translate('connected_ca')}: $_connectedCa'),
+          ),
+          SizedBox(
+            height: ScreenUtil().setHeight(60),
+          ),
+        ],
+      );
+    }
+  } */
 
   _saveButton() {
     return Container(

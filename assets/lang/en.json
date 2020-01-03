@@ -6,6 +6,7 @@
   "forgot_password_lbl": "Forgot Password?",
   "login_btn": "LOGIN",
 
+  "connected_ca": "Connected CA",
   "client_acc_id_lbl": "Client Account ID",
   "client_acc_id_required": "Client account is required.",
   "client_acc_pwd_lbl": "Client Account Password",
