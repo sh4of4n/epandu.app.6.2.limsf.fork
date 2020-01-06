@@ -1,3 +1,4 @@
+import 'package:epandu/pages/emergency/emergency.dart';
 import 'package:epandu/pages/forgot_password/forgot_password.dart';
 import 'package:epandu/pages/invite/invite.dart';
 import 'package:epandu/pages/kpp/kpp_category.dart';
@@ -66,6 +67,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           settings: RouteSettings(name: KPP),
           builder: (_) => KppCategory(),
+        );
+      case EMERGENCY:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: EMERGENCY),
+          builder: (_) => Emergency(),
         );
       case MODULE:
         return MaterialPageRoute(

@@ -62,7 +62,7 @@ class ProfileRepo {
       'icNo': icNo,
     };
 
-    String method = 'GetCustomerByCode';
+    String method = 'GetCollectionByStudent';
 
     var response = await networking.getData(method: method, param: param);
 

@@ -41,6 +41,12 @@
   "emergency_lbl": "Kecemasan",
   "kpp_lbl": "KPP",
 
+  "location_lbl": "Lokasi",
+
+  "having_emergency_lbl": "Dalam kecemasan?",
+  "having_emergency_desc": "Tekan butang SOS dan bantuan akan sampai secepat mungkin.",
+  "sos_lbl": "SOS",
+
   "language_lbl": "Bahasa",
   "english_lbl": "Eng",
   "malay_lbl": "BM",

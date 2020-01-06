@@ -1,3 +1,4 @@
+import 'package:epandu/app_localizations.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class _ProfileState extends State<Profile> {
 
   TextStyle _titleStyle = TextStyle(
     fontSize: 26,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w800,
   );
 
   TextStyle _subtitleStyle = TextStyle(
@@ -56,7 +57,7 @@ class _ProfileState extends State<Profile> {
     setState(() {
       _name = _getName;
       _email = _getEmail;
-      _phone = _getPhone;
+      _phone = _getPhone.substring(2);
       _nationality = _getNationality;
       _gender = _getGender;
       _studentIc = _getStudentIc;
@@ -75,22 +76,25 @@ class _ProfileState extends State<Profile> {
             height: ScreenUtil.getInstance().setHeight(300),
             width: ScreenUtil.screenWidth,
             color: Colors.blue), */
-        Positioned(
-          bottom: 0.0,
-          child: Container(
-            height: ScreenUtil.getInstance().setHeight(2000),
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30.0),
-                topRight: Radius.circular(30.0),
-              ),
-            ),
+        Container(
+          height: ScreenUtil.getInstance().setHeight(1450),
+          width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.symmetric(
+              vertical: ScreenUtil().setHeight(140.0),
+              horizontal: ScreenUtil().setWidth(35.0)),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(30.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                offset: Offset(0, 8.0),
+                blurRadius: 10.0,
+              )
+            ],
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 30.0),
           width: ScreenUtil.screenWidth,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -103,56 +107,49 @@ class _ProfileState extends State<Profile> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                width: ScreenUtil.getInstance().setWidth(450),
-                height: ScreenUtil.getInstance().setWidth(450),
+                width: ScreenUtil.getInstance().setWidth(280),
+                height: ScreenUtil.getInstance().setWidth(280),
               ),
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: 170.0),
-          width: ScreenUtil.screenWidth,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              _name != 'null'
-                  ? Text('$_name', style: _titleStyle)
-                  : SizedBox.shrink(),
-              SizedBox(height: 5.0),
-              _state != 'null' && _country != 'null'
-                  ? Text(
-                      '${_state != "null" ? _state : ""}${_country != "null" ? ", $_country" : ""}',
-                      style: _subtitleStyle)
-                  : SizedBox.shrink(),
-              SizedBox(height: 5.0),
-              _phone != 'null'
-                  ? Text('$_phone', style: _subtitleStyle)
-                  : SizedBox.shrink(),
-              SizedBox(height: 5.0),
-              _email != 'null'
-                  ? Text('$_email', style: _subtitleStyle)
-                  : SizedBox.shrink(),
-              SizedBox(height: 5.0),
-              _studentIc != 'null'
-                  ? Text('$_studentIc', style: _subtitleStyle)
-                  : SizedBox.shrink(),
-              SizedBox(height: 5.0),
-              _address != 'null'
-                  ? Text('$_address', style: _subtitleStyle)
-                  : SizedBox.shrink(),
-              _postCode != 'null'
-                  ? Text('$_postCode', style: _subtitleStyle)
-                  : SizedBox.shrink(),
-              _nationality != 'null'
-                  ? Text('$_nationality', style: _subtitleStyle)
-                  : SizedBox.shrink(),
-              /* _gender != 'null'
-                  ? Text('$_gender', style: _subtitleStyle)
-                  : SizedBox.shrink(), */
+              SizedBox(height: ScreenUtil().setHeight(30)),
+              _userInfo(),
             ],
           ),
         ),
       ],
+    );
+  }
+
+  _userInfo() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(120.0)),
+      child: Column(
+        children: <Widget>[
+          if (_name != 'null') Text('$_name', style: _titleStyle),
+          if (_phone != 'null')
+            ListTile(
+              leading: Icon(Icons.phone),
+              title: Text(AppLocalizations.of(context).translate('phone_lbl')),
+              subtitle: Text('$_phone', style: _subtitleStyle),
+            ),
+          SizedBox(height: ScreenUtil().setHeight(20)),
+          if (_email != 'null')
+            ListTile(
+              leading: Icon(Icons.email),
+              title: Text(AppLocalizations.of(context).translate('email_lbl')),
+              subtitle: Text('$_email', style: _subtitleStyle),
+            ),
+          SizedBox(height: ScreenUtil().setHeight(20)),
+          if (_state != 'null' && _country != 'null')
+            ListTile(
+              leading: Icon(Icons.location_on),
+              title:
+                  Text(AppLocalizations.of(context).translate('location_lbl')),
+              subtitle: Text(
+                  '${_state != "null" ? _state : ""}${_country != "null" ? ", $_country" : ""}',
+                  style: _subtitleStyle),
+            )
+        ],
+      ),
     );
   }
 }

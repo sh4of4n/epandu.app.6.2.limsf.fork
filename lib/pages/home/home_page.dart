@@ -88,10 +88,6 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          /* leading: IconButton(
-            icon: Icon(Icons.menu),
-            onPressed: () => _scaffoldKey.currentState.openDrawer(),
-          ), */
           leading: IconButton(
             icon: Icon(Icons.settings),
             onPressed: () => Navigator.pushNamed(context, SETTINGS),
@@ -147,9 +143,4 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-
-/*   _logout() async {
-    await authRepo.logout();
-    Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
-  } */
 }
