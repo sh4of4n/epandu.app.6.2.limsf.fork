@@ -53,7 +53,7 @@ class _HomeState extends State<Home> {
     }
 
     // Get student enrollment data
-    // studentEnrollmentData = await authRepo.getStudentEnrollmentData();
+    await authRepo.getStudentEnrollmentData();
   }
 
   @override

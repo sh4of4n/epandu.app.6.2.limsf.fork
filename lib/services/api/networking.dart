@@ -20,6 +20,12 @@ class Networking {
   String url;
   String customUrl;
 
+  String removeAllHtmlTags(String htmlText) {
+    RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+
+    return htmlText.replaceAll(exp, '');
+  }
+
   Networking({this.customUrl});
 
   Future<Response> getData({method, param, headers}) async {
@@ -52,8 +58,9 @@ class Networking {
 
     try {
       http.Response response = await http.get(uri, headers: headers);
+      // .timeout(const Duration(seconds: 30));
 
-      // print(uri);
+      print(uri);
 
       if (response.statusCode == 200) {
         var convertResponse = response.body
@@ -65,69 +72,34 @@ class Networking {
         var jsonData = xml2json.toParker();
         var data = jsonDecode(jsonData);
 
-        // print(data);
+        print(data);
         return Response(true, data: data);
-      } else if (response.statusCode == 400) {
-        if (response.body.contains('BLException')) {
-          String message = response.body.replaceAll('[BLException]', '');
-
-          xml2json.parse(message);
-          String parsedMessage = xml2json.toParker();
-          var jsonData = jsonDecode(parsedMessage);
-
-          return Response(
-            false,
-            data: jsonData,
-          );
-        }
-        // print(response.statusCode);
-        return Response(
-          false,
-          message: 'Error 400 returned.',
-        );
-      } else if (response.statusCode == 404) {
-        if (response.body.contains('BLException')) {
-          return Response(
-            false,
-            message: response.body.replaceAll('[BLException]', ''),
-          );
-        }
-        // print(response.statusCode);
-        return Response(
-          false,
-          message: 'Error 404 returned.',
-        );
-      } else if (response.statusCode == 500) {
-        if (response.body.contains('BLException')) {
-          return Response(
-            false,
-            message: response.body.replaceAll('[BLException]', ''),
-          );
-        }
-        // print(response.statusCode);
-        return Response(
-          false,
-          message: 'Error 500 returned.',
-        );
       } else {
-        if (response.body.contains('BLException')) {
-          return Response(
-            false,
-            message: response.body.replaceAll('[BLException]', ''),
-          );
-        }
-        // print(response.statusCode);
+        String message = response.body;
+        String trimmedMessage = removeAllHtmlTags(message);
+        String parsedMessage = trimmedMessage
+            .replaceAll('[BLException]', '')
+            .replaceAll('&#xD;', '')
+            .replaceAll(r'"', '')
+            .replaceAll('\n', '');
+
+        print(response.statusCode);
+
         return Response(
           false,
-          message: 'Error returned.',
+          message: parsedMessage,
         );
       }
-    } catch (e) {
+    } on TimeoutException catch (e) {
+      print(e.toString());
+      return Response(false, message: e.toString());
+    } on SocketException catch (e) {
+      print(e.toString());
       return Response(false, message: e.toString());
     }
   }
 
-  Future getRequest({path}) async {
+  Future<Response> getRequest({path}) async {
     if (customUrl != null) {
       url = customUrl;
     } else {
@@ -136,8 +108,9 @@ class Networking {
 
     try {
       http.Response response = await http.get('$url${path ?? ""}');
+      // .timeout(const Duration(seconds: 30));
 
-      // print('$url${path ?? ""}');
+      print('$url${path ?? ""}');
 
       if (response.statusCode == 200) {
         var convertResponse = response.body
@@ -149,19 +122,30 @@ class Networking {
         var jsonData = xml2json.toParker();
         var data = jsonDecode(jsonData);
 
-        // print(data);
-        return data;
-      } else if (response.statusCode == 400) {
-        // print(response.statusCode);
-      } else if (response.statusCode == 404) {
-        // print(response.statusCode);
-      } else if (response.statusCode == 500) {
-        // print(response.statusCode);
+        print(data);
+        return Response(true, data: data);
       } else {
-        // print(response.statusCode);
+        String message = response.body;
+        String trimmedMessage = removeAllHtmlTags(message);
+        String parsedMessage = trimmedMessage
+            .replaceAll('[BLException]', '')
+            .replaceAll('&#xD;', '')
+            .replaceAll(r'"', '')
+            .replaceAll('\n', '');
+
+        print(response.statusCode);
+
+        return Response(
+          false,
+          message: parsedMessage,
+        );
       }
-    } catch (e) {
-      return (e.toString());
+    } on TimeoutException catch (e) {
+      print(e.toString());
+      return Response(false, message: e.toString());
+    } on SocketException catch (e) {
+      print(e.toString());
+      return Response(false, message: e.toString());
     }
   }
 
@@ -175,10 +159,11 @@ class Networking {
 
       http.Response response = await http.post('$url$api${path ?? ""}',
           body: body, headers: headers);
+      // .timeout(const Duration(seconds: 30));
 
-      // print('$url$api${path ?? ""}');
+      print('$url$api${path ?? ""}');
 
-      // print('body: ' + body);
+      print('body: ' + body);
 
       if (response.statusCode == 200) {
         var data;
@@ -197,60 +182,27 @@ class Networking {
           data = jsonDecode(response.body);
         }
 
-        // print(data);
+        print(data);
         return Response(true, data: data);
-      } else if (response.statusCode == 400) {
-        if (response.body.contains('BLException')) {
-          String message = response.body.replaceAll('[BLException]', '');
-
-          return Response(
-            false,
-            message: message,
-          );
-        }
-        // print(response.statusCode);
-        return Response(
-          false,
-          message: 'Error 400 returned.',
-        );
-      } else if (response.statusCode == 404) {
-        if (response.body.contains('BLException')) {
-          return Response(
-            false,
-            message: response.body.replaceAll('[BLException]', ''),
-          );
-        }
-        // print(response.statusCode);
-        return Response(
-          false,
-          message: 'Error 404 returned.',
-        );
-      } else if (response.statusCode == 500) {
-        if (response.body.contains('BLException')) {
-          return Response(
-            false,
-            message: response.body.replaceAll('[BLException]', ''),
-          );
-        }
-        // print(response.statusCode);
-        return Response(
-          false,
-          message: 'Error 500 returned.',
-        );
       } else {
-        if (response.body.contains('BLException')) {
-          return Response(
-            false,
-            message: response.body.replaceAll('[BLException]', ''),
-          );
-        }
-        // print(response.statusCode);
+        String message = response.body
+            .replaceAll('[BLException]', '')
+            .replaceAll('&#xD;', '')
+            .replaceAll(r'"', '')
+            .replaceAll('\n', '');
+
+        print(response.statusCode);
+
         return Response(
           false,
-          message: 'Error returned.',
+          message: message,
         );
       }
-    } catch (e) {
+    } on TimeoutException catch (e) {
+      print(e.toString());
+      return Response(false, message: e.toString());
+    } on SocketException catch (e) {
+      print(e.toString());
       return Response(false, message: e.toString());
     }
   }

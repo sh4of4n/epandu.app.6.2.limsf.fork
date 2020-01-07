@@ -4,10 +4,11 @@ import 'dart:typed_data';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class QuestionOptions extends StatelessWidget {
+  final List<String> roman;
   final List<String> questionOption;
   final List<Uint8List> image;
 
-  QuestionOptions({this.questionOption, this.image});
+  QuestionOptions({this.roman, this.questionOption, this.image});
 
   final TextStyle _questionOptionStyle =
       TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600);
@@ -20,13 +21,16 @@ class QuestionOptions extends StatelessWidget {
     );
   }
 
+  // image with description
   _renderQuestionOption() {
     if (questionOption.length > 0 &&
         questionOption[0].length > 4 &&
         image.length > 0)
       return _renderConditionAndImage();
+    // image without description
     else if (questionOption.length > 0 && image.length > 0)
       return _renderRomanAndImage();
+    // no image
     else if (questionOption.length > 0 && image.length == 0)
       return _renderConditions();
 
@@ -58,6 +62,7 @@ class QuestionOptions extends StatelessWidget {
               crossAxisAlignment: WrapCrossAlignment.center,
               spacing: 10.0,
               children: <Widget>[
+                Text(roman[index], style: _questionOptionStyle),
                 LimitedBox(
                   maxWidth: ScreenUtil().setWidth(300),
                   maxHeight: ScreenUtil().setHeight(300),
@@ -66,7 +71,7 @@ class QuestionOptions extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: ScreenUtil().setWidth(900),
+                  width: ScreenUtil().setWidth(800),
                   alignment: Alignment.center,
                   child:
                       Text(questionOption[index], style: _questionOptionStyle),

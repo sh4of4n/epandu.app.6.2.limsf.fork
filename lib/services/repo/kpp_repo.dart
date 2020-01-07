@@ -55,17 +55,6 @@ class KppRepo {
     String userPhone = await localStorage.getUserPhone();
     String phone = userPhone.substring(2);
 
-    /* Map<String, String> param = {
-      'wsCodeCrypt': appConfig.wsCodeCrypt,
-      'caUid': caUid,
-      'caPwd': caPwd,
-      'groupId': groupId,
-      'courseCode': courseCode,
-      'langCode': langCode,
-    };
-
-    String method = 'GetTheoryQuestionPaperNo'; */
-
     Map<String, String> param = {
       'wsCodeCrypt': appConfig.wsCodeCrypt,
       'caUid': caUid,
@@ -91,10 +80,12 @@ class KppRepo {
       if (responseData != null) {
         return Response(true, data: responseData);
       }
+    } else if (response.data != null) {
+      return Response(false,
+          message: response.data['string'].replaceAll(r'\r\n', ''));
     }
 
-    return Response(false,
-        message: response.data['string'].replaceAll(r'\r\n', ''));
+    return Response(false, message: response.message);
   }
 
   Future<Response> getExamQuestions({groupId, paperNo}) async {

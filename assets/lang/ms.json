@@ -95,5 +95,7 @@
   "submit_btn": "HANTAR",
   "save_btn": "HANTAR",
   "invite_btn": "JEMPUT",
-  "cancel_btn": "KEMBALI"
+  "cancel_btn": "KEMBALI",
+  "timeout_exception": "Ralat berlaku, sila cuba sebentar lagi.",
+  "socket_exception": "Sila periksa internet anda."
 }

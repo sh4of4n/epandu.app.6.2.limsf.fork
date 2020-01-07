@@ -21,8 +21,6 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
 
   final FocusNode _phoneFocus = FocusNode();
 
-  final FocusNode _passwordFocus = FocusNode();
-
   final primaryColor = ColorConstant.primaryColor;
 
   final localStorage = LocalStorage();
@@ -30,7 +28,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
   bool _isLoading = false;
 
   String _phone;
-  // String _message = '';
+  String _message = '';
 
   var _height = ScreenUtil.getInstance().setHeight(1150);
 
@@ -207,9 +205,25 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
           type: MessageType.SUCCESS,
         );
       } else {
+        if (result.message.contains('timeout')) {
+          setState(() {
+            _message =
+                AppLocalizations.of(context).translate('timeout_exception');
+          });
+        } else if (result.message.contains('socket')) {
+          setState(() {
+            _message =
+                AppLocalizations.of(context).translate('socket_exception');
+          });
+        } else {
+          setState(() {
+            _message = result.message;
+          });
+        }
+
         CustomSnackbar().show(
           context,
-          message: result.message.toString(),
+          message: _message,
           type: MessageType.ERROR,
         );
 

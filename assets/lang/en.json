@@ -95,5 +95,7 @@
   "submit_btn": "SUBMIT",
   "save_btn": "SAVE",
   "invite_btn": "INVITE",
-  "cancel_btn": "CANCEL"
+  "cancel_btn": "CANCEL",
+  "timeout_exception": "An error occurred, please try again later.",
+  "socket_exception": "Please check your internet connection."
 }

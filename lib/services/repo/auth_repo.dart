@@ -65,8 +65,9 @@ class AuthRepo {
 
     var responseData;
 
-    if (response['string']['LoginAcctInfo'] != null)
-      responseData = response['string']['LoginAcctInfo']['LoginAcct'];
+    if (response.data != null &&
+        response.data['string']['LoginAcctInfo'] != null)
+      responseData = response.data['string']['LoginAcctInfo']['LoginAcct'];
 
     if (responseData != null && responseData['WsUrl'] != null) {
       localStorage.saveWsUrl(responseData['WsUrl']);
@@ -80,19 +81,21 @@ class AuthRepo {
   }
 
   Future login({String phone, String password}) async {
-    String caUid = await localStorage.getCaUid();
-    // String caPwd = await localStorage.getCaPwd();
-    String caPwdUrlEncode = await localStorage.getCaPwdEncode();
+    final String caUid = await localStorage.getCaUid();
+    // final String caPwd = await localStorage.getCaPwd();
+    final String caPwdUrlEncode = await localStorage.getCaPwdEncode();
 
-    /* Map<String, String> param = {
-      'wsCodeCrypt': appConfig.wsCodeCrypt,
-      'caUid': caUid,
-      'caPwd': caPwd,
-      'diCode': appConfig.diCode,
-      'userPhone': phone,
-      'userPwd': password,
-      'ipAddress': '0.0.0.0',
-    };
+    /* LoginRequest loginRequest = LoginRequest(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      diCode: appConfig.diCode,
+      userPhone: phone,
+      userPwd: password,
+      ipAddress: '0.0.0.0',
+    );
+
+    Map<String, dynamic> param = loginRequest.toJson();
 
     String method = 'GetUserByUserPhonePwd';
 
@@ -104,13 +107,16 @@ class AuthRepo {
     var response = await networking.getRequest(path: params);
 
     var responseData;
+    String responseMsg;
 
-    if (response != null) {
-      responseData = response['GetUserByUserPhonePwdResponse']
+    if (response.data != null) {
+      responseData = response.data['GetUserByUserPhonePwdResponse']
           ['GetUserByUserPhonePwdResult']['UserInfo']['Table1'];
+    } else if (response.message != null) {
+      responseMsg = response.message;
     }
 
-    if (response != null && responseData['msg'] == null) {
+    if (responseData != null && responseData['msg'] == null) {
       print(responseData['userId']);
       print(responseData['sessionId']);
 
@@ -120,14 +126,22 @@ class AuthRepo {
       var result = await checkDiList();
 
       return result;
-    } else if (response != null &&
+    } else if (responseData != null &&
         responseData['msg'] == 'Reset Password Success') {
       return Response(true, message: responseData['msg']);
-    } else if (response != null && responseData['msg'] != null) {
+    } else if (responseData != null && responseData['msg'] != null) {
       return Response(false, message: responseData['msg']);
+    } else if (responseData != null &&
+        responseData['msg'].contains('TimeoutException')) {
+      return Response(false, message: 'timeout');
+    } else if (responseData != null &&
+        responseData['msg'].contains('SocketException')) {
+      return Response(false, message: 'socket');
+    } else if (responseData == null && responseMsg != null) {
+      return Response(false, message: responseMsg);
     }
 
-    return Response(false, message: 'Please check your internet connection.');
+    return Response(false);
   }
 
   Future<Response> checkDiList() async {
@@ -475,7 +489,7 @@ class AuthRepo {
         message: 'Failed to change password. Please try again later.');
   }
 
-  Future<Response> getStudentEnrollmentData() async {
+  Future getStudentEnrollmentData() async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
     //  Temporarily use TBS as diCode
@@ -484,14 +498,25 @@ class AuthRepo {
     String groupId = '';
     String icNo = await localStorage.getStudentIc();
 
-    Map<String, String> param = {
+    /* Map<String, String> param = {
       'wsCodeCrypt': appConfig.wsCodeCrypt,
       'caUid': caUid,
       'caPwd': caPwd,
       'diCode': diCode,
       'icNo': icNo,
       'groupId': groupId,
-    };
+    }; */
+
+    GetEnrollmentRequest getEnrollmentRequest = GetEnrollmentRequest(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      diCode: diCode,
+      icNo: icNo,
+      groupId: groupId,
+    );
+
+    Map<String, String> param = getEnrollmentRequest.toJson();
 
     String method = 'GetEnrollByCode';
 
@@ -503,13 +528,14 @@ class AuthRepo {
         response.data['GetEnrollByCodeResponse']['GetEnrollByCodeResult']
                 ['EnrollInfo'] !=
             null) {
-      responseData = response.data['GetEnrollByCodeResponse']
-          ['GetEnrollByCodeResult']['EnrollInfo']['Enroll'];
+      responseData = GetEnrollmentResponse.fromJson(
+          response.data['GetEnrollByCodeResponse']['GetEnrollByCodeResult']
+              ['EnrollInfo']);
     }
 
-    return Response(true, data: responseData);
+    print(responseData?.enroll);
 
-    /* if (responseData != null && responseData[0] == null) {
+    /* if (responseData != null) {
       localStorage.saveEnrolledGroupId(responseData['group_id']);
       localStorage.saveBlacklisted(responseData['blacklisted']);
       // String tranDate = responseData['trandate'];

@@ -508,6 +508,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
+                  Text('${type[answerIndex]}. '),
                   Image.memory(
                     answersImage[answerIndex],
                     width: ScreenUtil().setWidth(300),
@@ -676,6 +677,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 // Question options I, II, III, IV, V
                 questionOption.length > 0
                     ? QuestionOptions(
+                        roman: roman,
                         questionOption: questionOption,
                         image: questionOptionImage,
                       )
