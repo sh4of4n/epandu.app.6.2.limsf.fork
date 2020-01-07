@@ -524,16 +524,23 @@ class AuthRepo {
 
     var responseData;
 
+    Map<String, dynamic> enrollmentData;
+
     if (response.data != null &&
         response.data['GetEnrollByCodeResponse']['GetEnrollByCodeResult']
                 ['EnrollInfo'] !=
             null) {
-      responseData = GetEnrollmentResponse.fromJson(
-          response.data['GetEnrollByCodeResponse']['GetEnrollByCodeResult']
-              ['EnrollInfo']);
+      enrollmentData = response.data['GetEnrollByCodeResponse']
+          ['GetEnrollByCodeResult']['EnrollInfo']['Enroll'];
+      GetEnrollmentResponse getEnrollmentResponse =
+          GetEnrollmentResponse.fromJson(enrollmentData);
+
+      responseData = getEnrollmentResponse.enroll;
+
+      print(getEnrollmentResponse.enroll[0]?.groupId);
     }
 
-    print(responseData?.enroll);
+    // print(responseData?.enroll);
 
     /* if (responseData != null) {
       localStorage.saveEnrolledGroupId(responseData['group_id']);
