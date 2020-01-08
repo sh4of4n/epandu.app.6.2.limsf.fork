@@ -42,6 +42,11 @@
   "kpp_lbl": "KPP",
 
   "location_lbl": "Lokasi",
+  "class_lbl": "Kelas",
+  "no_enrollment_desc": "Anda tidak adak daftaran kelas.",
+  "no_payment_desc": "Anda tidak adak sejarah bayaran.",
+  "no_attendance_desc": "Anda tidak adak sejarah kehadiran.",
+  "receipt_no_lbl": "Nombor resit",
 
   "having_emergency_lbl": "Dalam kecemasan?",
   "having_emergency_desc": "Tekan butang SOS dan bantuan akan sampai secepat mungkin.",

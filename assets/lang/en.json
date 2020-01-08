@@ -42,6 +42,11 @@
   "kpp_lbl": "KPP",
 
   "location_lbl": "Location",
+  "class_lbl": "Class",
+  "no_enrollment_desc": "You have no class enrolled.",
+  "no_payment_desc": "You have no payment history.",
+  "no_attendance_desc": "You have no attendance history.",
+  "receipt_no_lbl": "Receipt no",
 
   "having_emergency_lbl": "Are you having an emergency?",
   "having_emergency_desc": "Press the SOS button and help will reach you soon.",
