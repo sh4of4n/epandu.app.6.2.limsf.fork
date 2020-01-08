@@ -52,7 +52,7 @@ class PaymentHistory extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
             title: Text(
-              '${AppLocalizations.of(context).translate('receipt_no_lbl')} ${response.data[index].groupId}',
+              '${AppLocalizations.of(context).translate('receipt_no_lbl')} ${response.data[index].recpNo}',
             ),
             subtitle:
                 Text('Date ${response.data[index].trandate.substring(0, 10)}'),
