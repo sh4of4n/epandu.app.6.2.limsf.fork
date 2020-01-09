@@ -65,6 +65,6 @@ class Emergency extends StatelessWidget {
   }
 
   _sendSos() {
-    print('Send SOS');
+    // print('Send SOS');
   }
 }

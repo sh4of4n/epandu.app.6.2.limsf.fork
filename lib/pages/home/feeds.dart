@@ -30,7 +30,6 @@ class Feeds extends StatelessWidget {
           margin: EdgeInsets.only(left: 7.0, right: 7.0),
           height: ScreenUtil.getInstance().setHeight(900),
           child: ListView.builder(
-            physics: ClampingScrollPhysics(),
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemCount: 2,

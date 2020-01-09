@@ -12,6 +12,17 @@ class RegisteredCourse extends StatelessWidget {
   final response;
   final String message;
 
+  final TextStyle _titleStyle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+  );
+
+  final TextStyle _subtitleStyle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: Colors.grey.shade700,
+  );
+
   RegisteredCourse({this.response, this.message});
 
   @override
@@ -65,19 +76,31 @@ class RegisteredCourse extends StatelessWidget {
                       TextSpan(
                         text:
                             '${AppLocalizations.of(context).translate('class_lbl')}  ',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: _titleStyle,
                       ),
                       TextSpan(
                         text: response.data[index].groupId,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                        ),
+                        style: _subtitleStyle,
                       ),
                     ],
                   ),
                 ),
+                /* RichText(
+                  text: TextSpan(
+                    style: GoogleFonts.dosis(
+                      textStyle: TextStyle(color: Colors.black),
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text:
+                              '${AppLocalizations.of(context).translate('stu_no_lbl')}  ',
+                          style: _titleStyle),
+                      TextSpan(
+                          text: response.data[index].stuNo,
+                          style: _subtitleStyle),
+                    ],
+                  ),
+                ), */
                 RichText(
                   text: TextSpan(
                     style: GoogleFonts.dosis(
@@ -85,40 +108,12 @@ class RegisteredCourse extends StatelessWidget {
                     ),
                     children: <TextSpan>[
                       TextSpan(
-                        text:
-                            '${AppLocalizations.of(context).translate('stu_no_lbl')}  ',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                          text:
+                              '${AppLocalizations.of(context).translate('fees_lbl')}  ',
+                          style: _titleStyle),
                       TextSpan(
-                        text: response.data[index].stuNo,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    style: GoogleFonts.dosis(
-                      textStyle: TextStyle(color: Colors.black),
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text:
-                            '${AppLocalizations.of(context).translate('fees_lbl')}  ',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      TextSpan(
-                        text: response.data[index].feesAgree,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
+                          text: response.data[index].feesAgree,
+                          style: _subtitleStyle),
                     ],
                   ),
                 ),

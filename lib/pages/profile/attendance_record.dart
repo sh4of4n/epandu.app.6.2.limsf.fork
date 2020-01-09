@@ -11,6 +11,18 @@ class AttendanceRecord extends StatelessWidget {
   final response;
   final String message;
 
+  final TextStyle _titleStyle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: Colors.grey.shade700,
+  );
+
+  final TextStyle _subtitleStyle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w400,
+    color: Colors.grey.shade600,
+  );
+
   AttendanceRecord({this.response, this.message});
 
   @override
@@ -53,8 +65,12 @@ class AttendanceRecord extends StatelessWidget {
           return ListTile(
             title: Text(
               'Date ${response.data[index].testDate.substring(0, 10)}',
+              style: _titleStyle,
             ),
-            subtitle: Text('Type ${response.data[index].testType}'),
+            subtitle: Text(
+              'Type ${response.data[index].testType}',
+              style: _subtitleStyle,
+            ),
           );
         },
       ),

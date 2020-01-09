@@ -11,6 +11,18 @@ class PaymentHistory extends StatelessWidget {
   final response;
   final String message;
 
+  final TextStyle _titleStyle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: Colors.grey.shade700,
+  );
+
+  final TextStyle _subtitleStyle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w400,
+    color: Colors.grey.shade600,
+  );
+
   PaymentHistory({this.response, this.message});
 
   @override
@@ -53,9 +65,11 @@ class PaymentHistory extends StatelessWidget {
           return ListTile(
             title: Text(
               '${AppLocalizations.of(context).translate('receipt_no_lbl')} ${response.data[index].recpNo}',
+              style: _titleStyle,
             ),
-            subtitle:
-                Text('Date ${response.data[index].trandate.substring(0, 10)}'),
+            subtitle: Text(
+                'Date ${response.data[index].trandate.substring(0, 10)}',
+                style: _subtitleStyle),
           );
         },
       ),
