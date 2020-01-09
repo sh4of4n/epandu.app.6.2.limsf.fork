@@ -1,5 +1,0 @@
-- Updates for developer related settings
-- Information on class, payment and attendance in profile
-- Emergency UI concept
-- Some UI Updates
-- Other enhancements
