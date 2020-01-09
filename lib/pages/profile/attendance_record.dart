@@ -52,7 +52,7 @@ class AttendanceRecord extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
             title: Text(
-              'Date ${response.data[index].testDate}',
+              'Date ${response.data[index].testDate.substring(0, 10)}',
             ),
             subtitle: Text('Type ${response.data[index].testType}'),
           );

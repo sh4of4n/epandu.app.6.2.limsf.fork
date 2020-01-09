@@ -3,6 +3,7 @@ import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../app_localizations.dart';
 
@@ -50,11 +51,79 @@ class RegisteredCourse extends StatelessWidget {
         shrinkWrap: true,
         itemCount: response.data.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(
-              '${AppLocalizations.of(context).translate('class_lbl')} ${response.data[index].groupId}',
+          return Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                RichText(
+                  text: TextSpan(
+                    style: GoogleFonts.dosis(
+                      textStyle: TextStyle(color: Colors.black),
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text:
+                            '${AppLocalizations.of(context).translate('class_lbl')}  ',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextSpan(
+                        text: response.data[index].groupId,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                RichText(
+                  text: TextSpan(
+                    style: GoogleFonts.dosis(
+                      textStyle: TextStyle(color: Colors.black),
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text:
+                            '${AppLocalizations.of(context).translate('stu_no_lbl')}  ',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextSpan(
+                        text: response.data[index].stuNo,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                RichText(
+                  text: TextSpan(
+                    style: GoogleFonts.dosis(
+                      textStyle: TextStyle(color: Colors.black),
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text:
+                            '${AppLocalizations.of(context).translate('fees_lbl')}  ',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextSpan(
+                        text: response.data[index].feesAgree,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            subtitle: Text(response.data[index].stuNo),
           );
         },
       ),

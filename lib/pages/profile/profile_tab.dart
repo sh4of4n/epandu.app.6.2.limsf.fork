@@ -13,7 +13,36 @@ class ProfileTab extends StatefulWidget {
   _ProfileTabState createState() => _ProfileTabState();
 }
 
-class _ProfileTabState extends State<ProfileTab> {
+class _ProfileTabState extends State<ProfileTab>
+    with SingleTickerProviderStateMixin {
+  final List<Tab> myTabs = <Tab>[
+    Tab(
+      icon: new Icon(
+        Icons.account_circle,
+        size: 28.0,
+      ),
+    ),
+    Tab(
+      icon: new Icon(
+        Icons.library_books,
+        size: 28.0,
+      ),
+    ),
+    Tab(
+      icon: new Icon(
+        Icons.account_balance_wallet,
+        size: 28.0,
+      ),
+    ),
+    Tab(
+      icon: new Icon(
+        Icons.check_circle,
+        size: 28.0,
+      ),
+    ),
+  ];
+  TabController _tabController;
+  int _tabIndex;
   final profileRepo = ProfileRepo();
   final localStorage = LocalStorage();
   final primaryColor = ColorConstant.primaryColor;
@@ -38,6 +67,9 @@ class _ProfileTabState extends State<ProfileTab> {
   @override
   void initState() {
     super.initState();
+
+    _tabController = TabController(vsync: this, length: myTabs.length);
+    _tabController.addListener(_getTabSelection);
 
     _getEnrollmentData();
     _getPaymentData();
@@ -102,6 +134,25 @@ class _ProfileTabState extends State<ProfileTab> {
     }
   }
 
+  _getTabSelection() {
+    setState(() {
+      _tabIndex = _tabController.index;
+    });
+  }
+
+  _getTitle() {
+    switch (_tabIndex) {
+      case 0:
+        return Text(AppLocalizations.of(context).translate('profile_title'));
+      case 1:
+        return Text(AppLocalizations.of(context).translate('class_title'));
+      case 2:
+        return Text(AppLocalizations.of(context).translate('payment_title'));
+      case 3:
+        return Text(AppLocalizations.of(context).translate('attendance_title'));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -118,9 +169,10 @@ class _ProfileTabState extends State<ProfileTab> {
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
+            title: _getTitle(),
           ),
           backgroundColor: Colors.transparent,
-          body: TabBarView(children: [
+          body: TabBarView(controller: _tabController, children: [
             Profile(),
             RegisteredCourse(
               response: enrollmentData,
@@ -138,6 +190,10 @@ class _ProfileTabState extends State<ProfileTab> {
           bottomNavigationBar: Container(
             decoration: BoxDecoration(
               color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0),
+              ),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black54,
@@ -149,35 +205,11 @@ class _ProfileTabState extends State<ProfileTab> {
             ),
             padding: const EdgeInsets.only(top: 8.0, bottom: 15.0),
             child: TabBar(
+              controller: _tabController,
               indicatorColor: Colors.transparent,
               labelColor: primaryColor,
               unselectedLabelColor: Colors.grey.shade700,
-              tabs: [
-                Tab(
-                  icon: new Icon(
-                    Icons.account_circle,
-                    size: 28.0,
-                  ),
-                ),
-                Tab(
-                  icon: new Icon(
-                    Icons.library_books,
-                    size: 28.0,
-                  ),
-                ),
-                Tab(
-                  icon: new Icon(
-                    Icons.account_balance_wallet,
-                    size: 28.0,
-                  ),
-                ),
-                Tab(
-                  icon: new Icon(
-                    Icons.check_circle,
-                    size: 28.0,
-                  ),
-                ),
-              ],
+              tabs: myTabs,
             ),
           ),
         ),
