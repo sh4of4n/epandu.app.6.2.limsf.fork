@@ -42,7 +42,7 @@ class _ProfileTabState extends State<ProfileTab>
     ),
   ];
   TabController _tabController;
-  int _tabIndex;
+  int _tabIndex = 0;
   final profileRepo = ProfileRepo();
   final localStorage = LocalStorage();
   final primaryColor = ColorConstant.primaryColor;
