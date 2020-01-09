@@ -6,7 +6,6 @@ class LocalStorage {
   static const String kCaUid = 'CAUID';
   static const String kCaPwd = 'CAPWD';
   static const String kCaPwdEncode = 'CAPWD_ENCODE';
-  static const String kServerType = 'SERVER_TYPE';
   static const String kUserId = 'USER_ID';
   static const String kUsername = 'USERNAME';
   static const String kUserPhone = 'USER_PHONE';
@@ -62,14 +61,6 @@ class LocalStorage {
 
   Future<void> saveCaPwdEncode(String caPwdEncode) async {
     return Preference.setString(kCaPwdEncode, caPwdEncode);
-  }
-
-  Future<void> saveServerType(String type) {
-    return Preference.setString(kServerType, type);
-  }
-
-  Future<String> getServerType() async {
-    return Preference.getString(kServerType, def: 'PROD');
   }
 
   Future<void> saveUserId(String userId) {

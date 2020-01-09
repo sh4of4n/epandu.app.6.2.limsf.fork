@@ -110,42 +110,21 @@ class _SettingsState extends State<Settings> {
                 subtitle: Text('V.$appVersion'),
                 onTap: () async {
                   count += 1;
-                  String serverType = await localStorage.getServerType();
 
-                  if (count == 4 && serverType == 'PROD') {
+                  if (count == 4) {
                     customDialog.show(
                       barrierDismissable: false,
                       context: context,
                       title: AppLocalizations.of(context)
-                          .translate('developer_title'),
+                          .translate('client_acc_title'),
                       content: AppLocalizations.of(context)
-                          .translate('developer_desc'),
+                          .translate('client_acc_desc'),
                       type: DialogType.SUCCESS,
                       onPressed: () async {
                         Navigator.pushNamedAndRemoveUntil(
                             context, CLIENT_ACC, (r) => false,
                             arguments: 'SETTINGS');
                         await authRepo.logout();
-                      },
-                    );
-                  } else if (count == 4 && serverType == 'DEVP') {
-                    customDialog.show(
-                      barrierDismissable: false,
-                      context: context,
-                      title: AppLocalizations.of(context)
-                          .translate('production_title'),
-                      content: AppLocalizations.of(context)
-                          .translate('production_desc'),
-                      type: DialogType.SUCCESS,
-                      onPressed: () async {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, LOGIN, (r) => false);
-                        await authRepo.logout();
-
-                        localStorage.saveServerType('PROD');
-                        localStorage.saveCaUid('epandu_prod');
-                        localStorage.saveCaPwd('vWh7SmgDRJ%TW4xa');
-                        localStorage.saveCaPwdEncode('vWh7SmgDRJ%25TW4xa');
                       },
                     );
                   }
