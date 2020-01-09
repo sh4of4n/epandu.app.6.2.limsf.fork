@@ -39,13 +39,13 @@ class _ClientAccountFormState extends State<ClientAccountForm>
   String _caUid;
   String _caPwd;
   bool _obscureText = true;
-  // String _connectedCa;
+  String _connectedCa;
 
-  var _height = ScreenUtil.getInstance().setHeight(1200);
+  var _height = ScreenUtil.getInstance().setHeight(1300);
 
   // var _height = ScreenUtil.screenHeight / 4.5;
 
-  /* @override
+  @override
   void initState() {
     super.initState();
 
@@ -58,7 +58,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
     setState(() {
       _connectedCa = _clientAcc;
     });
-  } */
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +177,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
               SizedBox(
                 height: ScreenUtil.getInstance().setHeight(60),
               ),
-              // _showConnectedCa(),
+              _showConnectedCa(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -223,7 +223,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
     );
   }
 
-  /* _showConnectedCa() {
+  _showConnectedCa() {
     if (_connectedCa.isNotEmpty) {
       return Column(
         children: <Widget>[
@@ -238,7 +238,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
         ],
       );
     }
-  } */
+  }
 
   _saveButton() {
     return Container(
@@ -271,7 +271,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
       FocusScope.of(context).requestFocus(new FocusNode());
 
       setState(() {
-        _height = ScreenUtil.getInstance().setHeight(1200);
+        _height = ScreenUtil.getInstance().setHeight(1300);
         _message = '';
         _isLoading = true;
       });
@@ -283,7 +283,6 @@ class _ClientAccountFormState extends State<ClientAccountForm>
       );
 
       if (result.isSuccess) {
-        localStorage.saveServerType('DEVP');
         localStorage.saveCaUid(_caUid);
         localStorage.saveCaPwd(_caPwd);
         localStorage.saveCaPwdEncode(Uri.encodeQueryComponent(_caPwd));
@@ -303,7 +302,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
       });
     } else {
       setState(() {
-        _height = ScreenUtil.getInstance().setHeight(1350);
+        _height = ScreenUtil.getInstance().setHeight(1500);
       });
     }
   }

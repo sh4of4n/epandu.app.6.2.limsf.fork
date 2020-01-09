@@ -30,7 +30,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
   String _phone;
   String _message = '';
 
-  var _height = ScreenUtil.getInstance().setHeight(1150);
+  var _height = ScreenUtil.getInstance().setHeight(1200);
 
   // var _height = ScreenUtil.screenHeight / 4.5;
 
@@ -188,7 +188,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
       FocusScope.of(context).requestFocus(new FocusNode());
 
       setState(() {
-        _height = ScreenUtil.getInstance().setHeight(1150);
+        _height = ScreenUtil.getInstance().setHeight(1200);
         _isLoading = true;
       });
 
@@ -233,7 +233,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
       }
     } else {
       setState(() {
-        _height = ScreenUtil.getInstance().setHeight(1250);
+        _height = ScreenUtil.getInstance().setHeight(1300);
       });
     }
   }

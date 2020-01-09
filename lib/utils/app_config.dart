@@ -8,17 +8,8 @@ class AppConfig {
   String diCode = 'TBS';
 
   Future<String> getBaseUrl() async {
-    String type = await localStorage.getServerType();
     String wsUrl = await localStorage.getWsUrl();
-    String url;
-
-    if (type == 'DEVP' && wsUrl.isEmpty)
-      url =
-          'http://tbsweb.tbsdns.com/ePandu.Mainservice/1_2/MainService.svc/webapi/';
-    else if (type == 'PROD' && wsUrl.isEmpty)
-      url = 'https://epandu.com/ePandu.MainService/1_2/MainService.svc/webapi/';
-    else
-      url = '$wsUrl/webapi/';
+    String url = '$wsUrl/webapi/';
 
     return url;
   }

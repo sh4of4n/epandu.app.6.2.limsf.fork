@@ -68,6 +68,8 @@
   "developer_desc": "Mod developer diaktifkan.",
   "production_title": "Mod produksi",
   "production_desc": "Kembali ke mod produksi.",
+  "client_acc_title": "Mod akaun ID",
+  "client_acc_desc": "Mod akaun ID diaktifkan.",
   "logout_lbl": "Log keluar",
   "confirm_lbl": "Sahkan",
   "confirm_log_out": "Adakah andi pasti untuk log keluar?",

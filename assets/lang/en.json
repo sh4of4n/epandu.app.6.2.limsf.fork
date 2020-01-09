@@ -68,6 +68,8 @@
   "developer_desc": "Developer mode has been enabled.",
   "production_title": "Production mode",
   "production_desc": "Reverted to production mode",
+  "client_acc_title": "Client account mode",
+  "client_acc_desc": "Client account mode has been enabled.",
   "logout_lbl": "Log out",
   "confirm_lbl": "Confirm",
   "confirm_log_out": "Are you sure you want to log out?",

@@ -23,14 +23,12 @@ class _LoginState extends State<Login> {
   final customDialog = CustomDialog();
   int count = 0;
   String appVersion = '';
-  String serverType = '';
 
   @override
   void initState() {
     super.initState();
 
     _getPackageInfo();
-    _getServerType();
   }
 
   _getPackageInfo() async {
@@ -38,14 +36,6 @@ class _LoginState extends State<Login> {
 
     setState(() {
       appVersion = packageInfo.version;
-    });
-  }
-
-  _getServerType() async {
-    String server = await localStorage.getServerType();
-
-    setState(() {
-      serverType = server;
     });
   }
 
@@ -126,42 +116,19 @@ class _LoginState extends State<Login> {
                           onTap: () async {
                             count += 1;
 
-                            if (count == 4 && serverType == 'PROD') {
+                            if (count == 4) {
                               customDialog.show(
                                 context: context,
                                 title: AppLocalizations.of(context)
-                                    .translate('developer_title'),
+                                    .translate('client_acc_title'),
                                 content: AppLocalizations.of(context)
-                                    .translate('developer_desc'),
+                                    .translate('client_acc_desc'),
                                 type: DialogType.SUCCESS,
                                 barrierDismissable: false,
                                 onPressed: () async {
                                   count = 0;
                                   Navigator.pop(context);
                                   Navigator.pushNamed(context, CLIENT_ACC);
-                                },
-                              );
-                            } else if (count == 4 && serverType == 'DEVP') {
-                              customDialog.show(
-                                barrierDismissable: false,
-                                context: context,
-                                title: AppLocalizations.of(context)
-                                    .translate('production_title'),
-                                content: AppLocalizations.of(context)
-                                    .translate('production_desc'),
-                                type: DialogType.SUCCESS,
-                                onPressed: () async {
-                                  count = 0;
-
-                                  localStorage.saveServerType('PROD');
-                                  localStorage.saveCaUid('epandu_prod');
-                                  localStorage.saveCaPwd('vWh7SmgDRJ%TW4xa');
-                                  localStorage
-                                      .saveCaPwdEncode('vWh7SmgDRJ%25TW4xa');
-
-                                  _getServerType();
-
-                                  Navigator.pop(context);
                                 },
                               );
                             }
@@ -182,7 +149,6 @@ class _LoginState extends State<Login> {
                                   fontSize: ScreenUtil.getInstance().setSp(52),
                                 ),
                               ),
-                              if (serverType == 'DEVP') Text(' ($serverType)'),
                             ],
                           ),
                         ),
