@@ -36,10 +36,10 @@ class _ClientAccountFormState extends State<ClientAccountForm>
   bool _isLoading = false;
 
   String _message = '';
-  String _caUid;
-  String _caPwd;
+  String _caUid = '';
+  String _caPwd = '';
   bool _obscureText = true;
-  String _connectedCa;
+  String _connectedCa = '';
 
   var _height = ScreenUtil.getInstance().setHeight(1300);
 
@@ -238,6 +238,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
         ],
       );
     }
+    return Container(width: 0, height: 0);
   }
 
   _saveButton() {

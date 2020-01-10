@@ -1,9 +1,8 @@
 import 'package:epandu/app_localizations.dart';
+import 'package:epandu/pages/emergency/authorities_button.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'sos_button.dart';
 
 class Emergency extends StatelessWidget {
   final primaryColor = ColorConstant.primaryColor;
@@ -25,10 +24,8 @@ class Emergency extends StatelessWidget {
           backgroundColor: Colors.transparent,
           title: Text(AppLocalizations.of(context).translate('emergency_lbl')),
         ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(120)),
+        body: Container(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(
                 height: ScreenUtil().setHeight(70),
@@ -44,27 +41,42 @@ class Emergency extends StatelessWidget {
               SizedBox(
                 height: ScreenUtil().setHeight(20),
               ),
-              Text(
-                AppLocalizations.of(context).translate('having_emergency_desc'),
-                style: TextStyle(
-                  fontSize: ScreenUtil().setSp(70),
-                  fontWeight: FontWeight.w500,
+              Container(
+                width: ScreenUtil().setWidth(1200),
+                child: Text(
+                  AppLocalizations.of(context).translate('authorities_desc'),
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(70),
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
               SizedBox(
                 height: ScreenUtil().setHeight(120),
               ),
-              Center(
-                child: SosButton(onTap: _sendSos),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  AuthoritiesButton(
+                    tileFirstColor: Color(0xff08457e),
+                    tileSecondColor: Color(0xff0499c7),
+                    label: AppLocalizations.of(context).translate('police_lbl'),
+                    onTap: () {},
+                  ),
+                  AuthoritiesButton(
+                    tileFirstColor: Color(0xffc90000),
+                    tileSecondColor: Color(0xffd43b3b),
+                    label:
+                        AppLocalizations.of(context).translate('ambulance_lbl'),
+                    onTap: () {},
+                  )
+                ],
               ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  _sendSos() {
-    // print('Send SOS');
   }
 }
