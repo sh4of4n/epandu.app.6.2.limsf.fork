@@ -48,7 +48,7 @@ class AuthoritiesButton extends StatelessWidget {
         child: Text(
           label,
           style: TextStyle(
-            fontSize: ScreenUtil().setSp(110),
+            fontSize: ScreenUtil().setSp(100),
             fontWeight: FontWeight.w900,
             color: Colors.grey.shade200,
           ),

@@ -30,7 +30,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
   String _phone;
   String _message = '';
 
-  var _height = ScreenUtil.getInstance().setHeight(1200);
+  // var _height = ScreenUtil.getInstance().setHeight(1200);
 
   // var _height = ScreenUtil.screenHeight / 4.5;
 
@@ -40,7 +40,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
       duration: Duration(milliseconds: 1500),
       curve: Curves.elasticOut,
       width: double.infinity,
-      height: _height,
+      // height: _height,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.0),
@@ -58,7 +58,8 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+        padding:
+            EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 20.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -188,7 +189,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
       FocusScope.of(context).requestFocus(new FocusNode());
 
       setState(() {
-        _height = ScreenUtil.getInstance().setHeight(1200);
+        // _height = ScreenUtil.getInstance().setHeight(1200);
         _isLoading = true;
       });
 
@@ -233,7 +234,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
       }
     } else {
       setState(() {
-        _height = ScreenUtil.getInstance().setHeight(1300);
+        // _height = ScreenUtil.getInstance().setHeight(1300);
       });
     }
   }

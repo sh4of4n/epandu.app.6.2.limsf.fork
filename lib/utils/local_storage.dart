@@ -22,6 +22,8 @@ class LocalStorage {
   static const String kInstituteLogo = 'INSTITUTE_LOGO';
   static const String kEnrolledGroupId = 'ENROLLED_GROUP_ID';
   static const String kBlacklisted = 'BLACKLISTED';
+  static const String kUserLatitude = 'LATITUDE';
+  static const String kUserLongitude = 'LONGITUDE';
 
   Future<void> saveLocale(String locale) {
     return Preference.setString(kLocale, locale);
@@ -191,6 +193,22 @@ class LocalStorage {
     return Preference.getString(kBlacklisted, def: '');
   }
 
+  Future<void> saveUserLatitude(String latitude) async {
+    return Preference.setString(kUserLatitude, latitude);
+  }
+
+  Future<String> getUserLatitude() async {
+    return Preference.getString(kUserLongitude, def: '');
+  }
+
+  Future<void> saveUserLongitude(String longitude) async {
+    return Preference.setString(kUserLongitude, longitude);
+  }
+
+  Future<String> getUserLongitude() async {
+    return Preference.getString(kUserLongitude, def: '');
+  }
+
   Future<void> reset() async {
     // await Preference.removeAll();
     await Preference.remove(kWsUrl);
@@ -214,5 +232,7 @@ class LocalStorage {
     await Preference.remove(kInstituteLogo);
     await Preference.remove(kEnrolledGroupId);
     await Preference.remove(kBlacklisted);
+    await Preference.remove(kUserLatitude);
+    await Preference.remove(kUserLongitude);
   }
 }

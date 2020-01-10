@@ -43,7 +43,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
       duration: Duration(milliseconds: 1500),
       curve: Curves.elasticOut,
       width: double.infinity,
-      height: _height,
+      // height: _height,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.0),
@@ -61,7 +61,8 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+        padding:
+            EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 20.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -252,7 +253,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
       FocusScope.of(context).requestFocus(new FocusNode());
 
       setState(() {
-        _height = ScreenUtil.getInstance().setHeight(1300);
+        // _height = ScreenUtil.getInstance().setHeight(1300);
         _isLoading = true;
         _loginMessage = '';
       });
@@ -292,7 +293,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
       }
     } else {
       setState(() {
-        _height = ScreenUtil.getInstance().setHeight(1450);
+        // _height = ScreenUtil.getInstance().setHeight(1450);
       });
     }
   }

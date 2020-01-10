@@ -1,11 +1,37 @@
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/pages/emergency/authorities_button.dart';
+import 'package:epandu/services/location.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 
-class Emergency extends StatelessWidget {
+class Emergency extends StatefulWidget {
+  @override
+  _EmergencyState createState() => _EmergencyState();
+}
+
+class _EmergencyState extends State<Emergency> {
   final primaryColor = ColorConstant.primaryColor;
+  Location location = Location();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _getCurrentLocation();
+  }
+
+  _getCurrentLocation() async {
+    await location.getCurrentLocation();
+
+    GeolocationStatus geolocationStatus =
+        await Geolocator().checkGeolocationPermissionStatus();
+
+    if (geolocationStatus == GeolocationStatus.granted) {
+      print('distance: ${location.distanceInMeters}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

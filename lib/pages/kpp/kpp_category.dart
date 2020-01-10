@@ -9,6 +9,7 @@ import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'kpp_category_icon.dart';
 
@@ -22,6 +23,7 @@ class _KppCategoryState extends State<KppCategory> {
   final image = ImagesConstant();
   final localStorage = LocalStorage();
   Uint8List instituteLogo;
+  bool isLogoLoaded = false;
   final primaryColor = ColorConstant.primaryColor;
 
   @override
@@ -42,6 +44,7 @@ class _KppCategoryState extends State<KppCategory> {
 
         setState(() {
           instituteLogo = decodedImage;
+          isLogoLoaded = true;
         });
       }
     } else {
@@ -49,8 +52,29 @@ class _KppCategoryState extends State<KppCategory> {
 
       setState(() {
         instituteLogo = decodedImage;
+        isLogoLoaded = true;
       });
     }
+  }
+
+  _shimmerContainer() {
+    return Container(
+      padding: const EdgeInsets.all(20.0),
+      margin: const EdgeInsets.only(top: 15.0),
+      child: SizedBox(
+        width: ScreenUtil().setWidth(800),
+        height: ScreenUtil().setHeight(400),
+        child: Shimmer.fromColors(
+          baseColor: Colors.grey[400].withOpacity(0.5),
+          highlightColor: Colors.white10,
+          child: Container(
+            width: ScreenUtil().setWidth(800),
+            height: ScreenUtil().setHeight(400),
+            color: Colors.grey,
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -74,9 +98,16 @@ class _KppCategoryState extends State<KppCategory> {
           ),
           Column(
             children: <Widget>[
-              instituteLogo != null
-                  ? Image.memory(instituteLogo)
-                  : SizedBox(height: ScreenUtil().setHeight(650)),
+              AnimatedCrossFade(
+                crossFadeState: isLogoLoaded
+                    ? CrossFadeState.showFirst
+                    : CrossFadeState.showSecond,
+                duration: const Duration(milliseconds: 1500),
+                firstChild: instituteLogo != null
+                    ? Image.memory(instituteLogo)
+                    : _shimmerContainer(),
+                secondChild: _shimmerContainer(),
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
