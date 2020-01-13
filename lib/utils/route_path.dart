@@ -16,3 +16,5 @@ const String KPP_EXAM = '/kpp_exam';
 const String KPP_RESULT = 'kpp_result';
 const String SETTINGS = '/settings';
 const String CHANGE_PASSWORD = '/change_password';
+const String EMERGENCY_DIRECTORY = '/emergency_directory';
+const String DIRECTORY_LIST = '/directory_list';

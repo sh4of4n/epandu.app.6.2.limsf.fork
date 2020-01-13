@@ -39,6 +39,7 @@
   "payment_lbl": "Bayaran",
   "invite_friends_lbl": "Jemput Kawan",
   "emergency_lbl": "Kecemasan",
+  "directory_lbl": "Direktori",
   "kpp_lbl": "KPP",
 
   "profile_title": "Profil",
@@ -56,6 +57,7 @@
 
   "having_emergency_lbl": "Dalam kecemasan?",
   "having_emergency_desc": "Tekan butang SOS dan bantuan akan sampai secepat mungkin.",
+  "authorities_lbl": "Nak menghubungi pihak berkuasa?",
   "authorities_desc": "Tekan butang poliS atau 999 untuk mendapat bantuan.",
   "sos_lbl": "SOS",
   "police_lbl": "POLIS",

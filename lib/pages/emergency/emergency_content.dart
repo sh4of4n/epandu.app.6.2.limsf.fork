@@ -10,11 +10,7 @@ class EmergencyContent extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(120)),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(
-            height: ScreenUtil().setHeight(70),
-          ),
           Text(AppLocalizations.of(context).translate('having_emergency_lbl'),
               style: TextStyle(
                 fontSize: ScreenUtil().setSp(90),
@@ -30,9 +26,10 @@ class EmergencyContent extends StatelessWidget {
               fontSize: ScreenUtil().setSp(70),
               fontWeight: FontWeight.w500,
             ),
+            textAlign: TextAlign.center,
           ),
           SizedBox(
-            height: ScreenUtil().setHeight(120),
+            height: ScreenUtil().setHeight(70),
           ),
           Center(
             child: SosButton(onTap: _sendSos),

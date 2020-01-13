@@ -80,4 +80,20 @@ class Location {
     address = first.addressLine;
     places = first.adminArea;
   }
+
+  Future<double> getDistance({double locLatitude, double locLongitude}) async {
+    double _savedLatitude =
+        double.tryParse(await localStorage.getUserLatitude());
+    double _savedLongitude =
+        double.tryParse(await localStorage.getUserLongitude());
+
+    double distance;
+
+    distanceInMeters = await geolocator.distanceBetween(
+        _savedLatitude, _savedLongitude, locLatitude, locLongitude);
+
+    distance = distanceInMeters;
+
+    return distance;
+  }
 }

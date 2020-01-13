@@ -2,6 +2,7 @@ import 'package:epandu/app_localizations.dart';
 import 'package:epandu/pages/emergency/authorities_button.dart';
 import 'package:epandu/services/location.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
@@ -49,16 +50,21 @@ class _EmergencyState extends State<Emergency> {
           elevation: 0,
           backgroundColor: Colors.transparent,
           title: Text(AppLocalizations.of(context).translate('emergency_lbl')),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.collections_bookmark),
+              onPressed: () =>
+                  Navigator.pushNamed(context, EMERGENCY_DIRECTORY),
+            )
+          ],
         ),
         body: Container(
           child: Column(
             children: <Widget>[
               SizedBox(
-                height: ScreenUtil().setHeight(70),
+                height: ScreenUtil().setHeight(120),
               ),
-              Text(
-                  AppLocalizations.of(context)
-                      .translate('having_emergency_lbl'),
+              Text(AppLocalizations.of(context).translate('authorities_lbl'),
                   style: TextStyle(
                     fontSize: ScreenUtil().setSp(90),
                     fontWeight: FontWeight.w800,
@@ -79,7 +85,7 @@ class _EmergencyState extends State<Emergency> {
                 ),
               ),
               SizedBox(
-                height: ScreenUtil().setHeight(120),
+                height: ScreenUtil().setHeight(70),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

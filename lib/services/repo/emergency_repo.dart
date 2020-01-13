@@ -1,4 +1,5 @@
 import 'package:epandu/services/api/model/emergency_model.dart';
+import 'package:epandu/services/location.dart';
 import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
@@ -28,12 +29,12 @@ class EmergencyRepo {
 
     if (response.isSuccess) {
       if (response.data != null) {
-        defEmergencyContactResponse =
-            DefaultEmergencyContactResponse.fromJson(response.data);
+        defEmergencyContactResponse = DefaultEmergencyContactResponse.fromJson(
+            response.data['GetDefaultSosContactResponse']
+                ['GetDefaultSosContactResult']['SosContactInfo']);
 
         return Response(true,
-            data: defEmergencyContactResponse
-                .getDefaultSosContactResult.sosContactInfo.sosContactHelpDesk);
+            data: defEmergencyContactResponse.sosContactHelpDesk);
       }
     }
 
@@ -59,18 +60,35 @@ class EmergencyRepo {
 
     String method = 'GetSosContact';
 
-    DefaultEmergencyContactResponse defEmergencyContactResponse;
+    EmergencyContactResponse emergencyContactResponse;
 
     var response = await networking.getData(method: method, param: param);
 
     if (response.isSuccess) {
       if (response.data != null) {
-        defEmergencyContactResponse =
-            DefaultEmergencyContactResponse.fromJson(response.data);
+        emergencyContactResponse = EmergencyContactResponse.fromJson(
+            response.data['GetSosContactResponse']['GetSosContactResult']
+                ['SosContactInfo']);
 
-        return Response(true,
-            data: defEmergencyContactResponse
-                .getDefaultSosContactResult.sosContactInfo.sosContactHelpDesk);
+        for (int i = 0;
+            i < emergencyContactResponse.sosContact.length;
+            i += 1) {
+          double locLatitude =
+              double.tryParse(emergencyContactResponse.sosContact[i].latitude);
+          double locLongitude = double.tryParse(
+              emergencyContactResponse.sosContact[i].longtitude);
+
+          double locDistance = await Location().getDistance(
+              locLatitude: locLatitude, locLongitude: locLongitude);
+
+          // emergencyContactResponse.sosContact.insert(i, locDistance.toString());
+        }
+
+        /* emergencyContactResponse.sosContact.map((contact) {
+          contact
+        }); */
+
+        return Response(true, data: emergencyContactResponse.sosContact);
       }
     }
 

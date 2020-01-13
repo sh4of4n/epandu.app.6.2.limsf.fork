@@ -39,6 +39,7 @@
   "payment_lbl": "Payment",
   "invite_friends_lbl": "Invite Friends",
   "emergency_lbl": "Emergency",
+  "directory_lbl": "Directory",
   "kpp_lbl": "KPP",
 
   "profile_title": "Profile",
@@ -56,7 +57,8 @@
 
   "having_emergency_lbl": "Are you having an emergency?",
   "having_emergency_desc": "Press the SOS button and help will reach you soon.",
-  "authorities_desc": "Push the police button or 999 button to get assistance.",
+  "authorities_lbl": "Need to contact authorities?",
+  "authorities_desc": "Push the police or 999 button to get assistance.",
   "sos_lbl": "SOS",
   "police_lbl": "POLICE",
   "ambulance_lbl": "999",

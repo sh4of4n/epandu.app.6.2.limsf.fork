@@ -1,76 +1,38 @@
 // Get Default SoS contact
 class DefaultEmergencyContactResponse {
-  GetDefaultSosContactResult getDefaultSosContactResult;
+  List<SosContactHelpDesk> sosContactHelpDesk;
 
-  DefaultEmergencyContactResponse({this.getDefaultSosContactResult});
+  DefaultEmergencyContactResponse({this.sosContactHelpDesk});
 
   DefaultEmergencyContactResponse.fromJson(Map<String, dynamic> json) {
-    getDefaultSosContactResult = json['GetDefaultSosContactResult'] != null
-        ? new GetDefaultSosContactResult.fromJson(
-            json['GetDefaultSosContactResult'])
-        : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.getDefaultSosContactResult != null) {
-      data['GetDefaultSosContactResult'] =
-          this.getDefaultSosContactResult.toJson();
+    if (json['SosContactHelpDesk'] != null) {
+      sosContactHelpDesk = new List<SosContactHelpDesk>();
+      json['SosContactHelpDesk'].forEach((v) {
+        sosContactHelpDesk.add(new SosContactHelpDesk.fromJson(v));
+      });
     }
-    return data;
-  }
-}
-
-class GetDefaultSosContactResult {
-  SosContactInfo sosContactInfo;
-
-  GetDefaultSosContactResult({this.sosContactInfo});
-
-  GetDefaultSosContactResult.fromJson(Map<String, dynamic> json) {
-    sosContactInfo = json['SosContactInfo'] != null
-        ? new SosContactInfo.fromJson(json['SosContactInfo'])
-        : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.sosContactInfo != null) {
-      data['SosContactInfo'] = this.sosContactInfo.toJson();
-    }
-    return data;
-  }
-}
-
-class SosContactInfo {
-  SosContactHelpDesk sosContactHelpDesk;
-
-  SosContactInfo({this.sosContactHelpDesk});
-
-  SosContactInfo.fromJson(Map<String, dynamic> json) {
-    sosContactHelpDesk = json['SosContactHelpDesk'] != null
-        ? new SosContactHelpDesk.fromJson(json['SosContactHelpDesk'])
-        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.sosContactHelpDesk != null) {
-      data['SosContactHelpDesk'] = this.sosContactHelpDesk.toJson();
+      data['SosContactHelpDesk'] =
+          this.sosContactHelpDesk.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class SosContactHelpDesk {
-  Null sosCallPhone;
-  Null sosSmsPhone;
-  Null policeCallPhone;
-  Null policeSmsPhone;
-  Null ambulanceCallPhone;
-  Null ambulanceSmsPhone;
-  Null autoAssistCallPhone;
-  Null autoAssistSmsPhone;
-  Null sosSystemSmsPhone;
+  String sosCallPhone;
+  String sosSmsPhone;
+  String policeCallPhone;
+  String policeSmsPhone;
+  String ambulanceCallPhone;
+  String ambulanceSmsPhone;
+  String autoAssistCallPhone;
+  String autoAssistSmsPhone;
+  String sosSystemSmsPhone;
   String locRequestPriority;
   String locRequestFastestInterval;
   String locRequestInterval;
@@ -156,6 +118,139 @@ class EmergencyContactRequest {
     data['sosContactType'] = this.sosContactType;
     data['sosContactCode'] = this.sosContactCode;
     data['areaCode'] = this.areaCode;
+    return data;
+  }
+}
+
+// get sos contact response
+class EmergencyContactResponse {
+  List<SosContact> sosContact;
+
+  EmergencyContactResponse({this.sosContact});
+
+  EmergencyContactResponse.fromJson(Map<String, dynamic> json) {
+    if (json['SosContact'] != null) {
+      sosContact = new List<SosContact>();
+      json['SosContact'].forEach((v) {
+        sosContact.add(new SosContact.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.sosContact != null) {
+      data['SosContact'] = this.sosContact.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class SosContact {
+  String iD;
+  String sosContactType;
+  String sosContactSubtype;
+  String sosContactCode;
+  String sosContactName;
+  String add;
+  String phone;
+  String latitude;
+  String longtitude;
+  String areaCode;
+  String skipCall;
+  String createUser;
+  String editUser;
+  String editDate;
+  String compCode;
+  String branchCode;
+  String rowKey;
+  String lastupload;
+  String transtamp;
+  String deleted;
+  String lastEditedBy;
+  String createdBy;
+  String createDate;
+  String remark;
+
+  SosContact(
+      {this.iD,
+      this.sosContactType,
+      this.sosContactSubtype,
+      this.sosContactCode,
+      this.sosContactName,
+      this.add,
+      this.phone,
+      this.latitude,
+      this.longtitude,
+      this.areaCode,
+      this.skipCall,
+      this.createUser,
+      this.editUser,
+      this.editDate,
+      this.compCode,
+      this.branchCode,
+      this.rowKey,
+      this.lastupload,
+      this.transtamp,
+      this.deleted,
+      this.lastEditedBy,
+      this.createdBy,
+      this.createDate,
+      this.remark});
+
+  SosContact.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    sosContactType = json['sos_contact_type'];
+    sosContactSubtype = json['sos_contact_subtype'];
+    sosContactCode = json['sos_contact_code'];
+    sosContactName = json['sos_contact_name'];
+    add = json['add'];
+    phone = json['phone'];
+    latitude = json['latitude'];
+    longtitude = json['longtitude'];
+    areaCode = json['area_code'];
+    skipCall = json['skip_call'];
+    createUser = json['create_user'];
+    editUser = json['edit_user'];
+    editDate = json['edit_date'];
+    compCode = json['comp_code'];
+    branchCode = json['branch_code'];
+    rowKey = json['row_key'];
+    lastupload = json['lastupload'];
+    transtamp = json['transtamp'];
+    deleted = json['deleted'];
+    lastEditedBy = json['last_edited_by'];
+    createdBy = json['created_by'];
+    createDate = json['create_date'];
+    remark = json['remark'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['sos_contact_type'] = this.sosContactType;
+    data['sos_contact_subtype'] = this.sosContactSubtype;
+    data['sos_contact_code'] = this.sosContactCode;
+    data['sos_contact_name'] = this.sosContactName;
+    data['add'] = this.add;
+    data['phone'] = this.phone;
+    data['latitude'] = this.latitude;
+    data['longtitude'] = this.longtitude;
+    data['area_code'] = this.areaCode;
+    data['skip_call'] = this.skipCall;
+    data['create_user'] = this.createUser;
+    data['edit_user'] = this.editUser;
+    data['edit_date'] = this.editDate;
+    data['comp_code'] = this.compCode;
+    data['branch_code'] = this.branchCode;
+    data['row_key'] = this.rowKey;
+    data['lastupload'] = this.lastupload;
+    data['transtamp'] = this.transtamp;
+    data['deleted'] = this.deleted;
+    data['last_edited_by'] = this.lastEditedBy;
+    data['created_by'] = this.createdBy;
+    data['create_date'] = this.createDate;
+    data['remark'] = this.remark;
     return data;
   }
 }

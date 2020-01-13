@@ -66,7 +66,8 @@ class Networking {
         var convertResponse = response.body
             .replaceAll('&lt;', '<')
             .replaceAll('&gt;', '>')
-            .replaceAll('&#xD;', '');
+            .replaceAll('&#xD;', '')
+            .replaceAll(r"\'", "'");
 
         xml2json.parse(convertResponse);
         var jsonData = xml2json.toParker();
@@ -116,7 +117,8 @@ class Networking {
         var convertResponse = response.body
             .replaceAll('&lt;', '<')
             .replaceAll('&gt;', '>')
-            .replaceAll('&#xD;', '');
+            .replaceAll('&#xD;', '')
+            .replaceAll(r"\'", "'");
 
         xml2json.parse(convertResponse);
         var jsonData = xml2json.toParker();

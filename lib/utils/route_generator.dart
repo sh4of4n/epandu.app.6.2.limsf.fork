@@ -1,4 +1,6 @@
+import 'package:epandu/pages/emergency/directory_list.dart';
 import 'package:epandu/pages/emergency/emergency.dart';
+import 'package:epandu/pages/emergency/emergency_directory.dart';
 import 'package:epandu/pages/forgot_password/forgot_password.dart';
 import 'package:epandu/pages/invite/invite.dart';
 import 'package:epandu/pages/kpp/kpp_category.dart';
@@ -72,6 +74,16 @@ class RouteGenerator {
         return MaterialPageRoute(
           settings: RouteSettings(name: EMERGENCY),
           builder: (_) => Emergency(),
+        );
+      case EMERGENCY_DIRECTORY:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: EMERGENCY_DIRECTORY),
+          builder: (_) => EmergencyDirectory(),
+        );
+      case DIRECTORY_LIST:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: DIRECTORY_LIST),
+          builder: (_) => DirectoryList(data),
         );
       case MODULE:
         return MaterialPageRoute(
