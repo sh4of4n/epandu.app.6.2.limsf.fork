@@ -171,6 +171,7 @@ class SosContact {
   String createdBy;
   String createDate;
   String remark;
+  String distance;
 
   SosContact(
       {this.iD,
@@ -196,7 +197,8 @@ class SosContact {
       this.lastEditedBy,
       this.createdBy,
       this.createDate,
-      this.remark});
+      this.remark,
+      this.distance});
 
   SosContact.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];

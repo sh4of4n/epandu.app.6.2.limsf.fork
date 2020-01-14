@@ -7,7 +7,7 @@ import 'package:geocoder/geocoder.dart';
 class Location {
   final geolocator = Geolocator();
   final locationOptions = LocationOptions(
-    accuracy: LocationAccuracy.medium,
+    accuracy: LocationAccuracy.high,
     distanceFilter: 200,
   );
   double latitude;
@@ -30,15 +30,14 @@ class Location {
       Position position = await geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.medium);
 
+      latitude = position.latitude;
+      longitude = position.longitude;
+
       // calculate distance between user's old position with current position
       if (_savedLatitude != null && _savedLongitude != null) {
         distanceInMeters = await geolocator.distanceBetween(
             _savedLatitude, _savedLongitude, latitude, longitude);
       }
-
-      // override old position
-      latitude = position.latitude;
-      longitude = position.longitude;
 
       // save latest latitude and longitude
       localStorage.saveUserLatitude(latitude.toString());

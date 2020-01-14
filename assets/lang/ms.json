@@ -61,7 +61,9 @@
   "authorities_desc": "Tekan butang poliS atau 999 untuk mendapat bantuan.",
   "sos_lbl": "SOS",
   "police_lbl": "POLIS",
-  "ambulance_lbl": "999",
+  "ambulance_lbl": "AMBULANS",
+  "embassy_lbl": "EMBASSY",
+  "999_lbl": "999",
 
   "language_lbl": "Bahasa",
   "english_lbl": "Eng",

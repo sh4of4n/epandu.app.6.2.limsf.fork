@@ -104,7 +104,10 @@ class _KppCategoryState extends State<KppCategory> {
                     : CrossFadeState.showSecond,
                 duration: const Duration(milliseconds: 1500),
                 firstChild: instituteLogo != null
-                    ? Image.memory(instituteLogo)
+                    ? Image.memory(
+                        instituteLogo,
+                        semanticLabel: 'ePandu',
+                      )
                     : _shimmerContainer(),
                 secondChild: _shimmerContainer(),
               ),

@@ -36,14 +36,14 @@ class AuthoritiesButton extends StatelessWidget {
             // stops: [0.5, 1],
           ),
           borderRadius: BorderRadius.circular(25.0),
-          boxShadow: [
+          /* boxShadow: [
             BoxShadow(
               color: Colors.black26,
               offset: Offset(0.0, 6.0),
               spreadRadius: 2.0,
               blurRadius: 10.0,
             ),
-          ],
+          ], */
         ),
         child: Text(
           label,

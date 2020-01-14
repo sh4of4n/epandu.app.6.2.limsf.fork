@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:epandu/services/api/model/emergency_model.dart';
 import 'package:epandu/services/location.dart';
 import 'package:epandu/services/response.dart';
@@ -81,18 +83,27 @@ class EmergencyRepo {
           double locDistance = await Location().getDistance(
               locLatitude: locLatitude, locLongitude: locLongitude);
 
-          // emergencyContactResponse.sosContact.insert(i, locDistance.toString());
+          emergencyContactResponse.sosContact[i].distance =
+              '${(locDistance / 1000).roundToDouble().toString()}km';
         }
 
-        /* emergencyContactResponse.sosContact.map((contact) {
-          contact
-        }); */
+        var sortedResponse = await getSortedContacts(
+            emergencyContacts: emergencyContactResponse.sosContact);
 
-        return Response(true, data: emergencyContactResponse.sosContact);
+        return sortedResponse;
       }
     }
 
     return Response(false);
+  }
+
+  Future<Response> getSortedContacts(
+      {List<SosContact> emergencyContacts}) async {
+    emergencyContacts.sort((a, b) =>
+        double.tryParse(a.distance.replaceAll('km', ''))
+            .compareTo(double.tryParse(b.distance.replaceAll('km', ''))));
+
+    return Response(true, data: emergencyContacts);
   }
 
   // SendGpsSos

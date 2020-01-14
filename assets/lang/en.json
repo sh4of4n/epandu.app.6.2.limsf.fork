@@ -61,7 +61,9 @@
   "authorities_desc": "Push the police or 999 button to get assistance.",
   "sos_lbl": "SOS",
   "police_lbl": "POLICE",
-  "ambulance_lbl": "999",
+  "ambulance_lbl": "AMBULANCE",
+  "embassy_lbl": "EMBASSY",
+  "999_lbl": "999",
 
   "language_lbl": "Language",
   "english_lbl": "Eng",

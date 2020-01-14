@@ -6,6 +6,7 @@ import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Emergency extends StatefulWidget {
   @override
@@ -30,8 +31,16 @@ class _EmergencyState extends State<Emergency> {
         await Geolocator().checkGeolocationPermissionStatus();
 
     if (geolocationStatus == GeolocationStatus.granted) {
-      print('distance: ${location.distanceInMeters}');
+      print('distance: ${location.distanceInMeters.roundToDouble()}');
     }
+  }
+
+  _callPoliceNumber() async {
+    await launch('tel:045382222');
+  }
+
+  _callEmergencyNumber() async {
+    await launch('tel:999');
   }
 
   @override
@@ -94,14 +103,13 @@ class _EmergencyState extends State<Emergency> {
                     tileFirstColor: Color(0xff08457e),
                     tileSecondColor: Color(0xff0499c7),
                     label: AppLocalizations.of(context).translate('police_lbl'),
-                    onTap: () {},
+                    onTap: _callPoliceNumber,
                   ),
                   AuthoritiesButton(
                     tileFirstColor: Color(0xffc90000),
                     tileSecondColor: Color(0xffd43b3b),
-                    label:
-                        AppLocalizations.of(context).translate('ambulance_lbl'),
-                    onTap: () {},
+                    label: AppLocalizations.of(context).translate('999_lbl'),
+                    onTap: _callEmergencyNumber,
                   )
                 ],
               ),
