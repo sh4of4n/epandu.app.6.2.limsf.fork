@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:epandu/services/api/api_service.dart';
 import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
@@ -9,6 +10,7 @@ class AuthRepo {
   final appConfig = AppConfig();
   final localStorage = LocalStorage();
   final networking = Networking();
+  final postApiService = ApiService;
 
   Future<Response> getWsUrl({
     acctUid,
@@ -70,7 +72,10 @@ class AuthRepo {
       responseData = response.data['string']['LoginAcctInfo']['LoginAcct'];
 
     if (responseData != null && responseData['WsUrl'] != null) {
-      localStorage.saveWsUrl(responseData['WsUrl']);
+      // WsVersion to be updated in returned wsUrl
+      String wsVer = '1_3';
+
+      localStorage.saveWsUrl(responseData['WsUrl'].replaceAll('1_2', wsVer));
       localStorage.saveCaUid(acctUid);
       localStorage.saveCaPwd(acctPwd);
       localStorage.saveCaPwdEncode(Uri.encodeQueryComponent(acctPwd));
@@ -82,10 +87,10 @@ class AuthRepo {
 
   Future login({String phone, String password}) async {
     final String caUid = await localStorage.getCaUid();
-    // final String caPwd = await localStorage.getCaPwd();
+    final String caPwd = await localStorage.getCaPwd();
     final String caPwdUrlEncode = await localStorage.getCaPwdEncode();
 
-    /* LoginRequest loginRequest = LoginRequest(
+    LoginRequest loginRequest = LoginRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -99,9 +104,11 @@ class AuthRepo {
 
     String method = 'GetUserByUserPhonePwd';
 
-    var response = await networking.getData(method: method, param: param); */
+    var response = await PostApiService().login(params);
 
-    var params =
+    // var response = await networking.getData(method: method, param: param);
+
+    /* var params =
         'GetUserByUserPhonePwd?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0';
 
     var response = await networking.getRequest(path: params);
@@ -141,7 +148,7 @@ class AuthRepo {
       return Response(false, message: responseMsg);
     }
 
-    return Response(false);
+    return Response(false); */
   }
 
   Future<Response> checkDiList() async {

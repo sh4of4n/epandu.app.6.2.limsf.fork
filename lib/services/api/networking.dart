@@ -60,7 +60,7 @@ class Networking {
       http.Response response = await http.get(uri, headers: headers);
       // .timeout(const Duration(seconds: 30));
 
-      // print(uri);
+      print(uri);
 
       if (response.statusCode == 200) {
         var convertResponse = response.body
@@ -73,7 +73,7 @@ class Networking {
         var jsonData = xml2json.toParker();
         var data = jsonDecode(jsonData);
 
-        // print(data);
+        print(data);
         return Response(true, data: data);
       } else {
         String message = response.body;
@@ -84,7 +84,7 @@ class Networking {
             .replaceAll(r'"', '')
             .replaceAll('\n', '');
 
-        // print(response.statusCode);
+        print(response.statusCode);
 
         return Response(
           false,
@@ -92,10 +92,10 @@ class Networking {
         );
       }
     } on TimeoutException catch (e) {
-      // print(e.toString());
+      print(e.toString());
       return Response(false, message: e.toString());
     } on SocketException catch (e) {
-      // print(e.toString());
+      print(e.toString());
       return Response(false, message: e.toString());
     }
   }
@@ -111,7 +111,7 @@ class Networking {
       http.Response response = await http.get('$url${path ?? ""}');
       // .timeout(const Duration(seconds: 30));
 
-      // print('$url${path ?? ""}');
+      print('$url${path ?? ""}');
 
       if (response.statusCode == 200) {
         var convertResponse = response.body
@@ -124,7 +124,7 @@ class Networking {
         var jsonData = xml2json.toParker();
         var data = jsonDecode(jsonData);
 
-        // print(data);
+        print(data);
         return Response(true, data: data);
       } else {
         String message = response.body;
@@ -135,7 +135,7 @@ class Networking {
             .replaceAll(r'"', '')
             .replaceAll('\n', '');
 
-        // print(response.statusCode);
+        print(response.statusCode);
 
         return Response(
           false,
@@ -143,10 +143,10 @@ class Networking {
         );
       }
     } on TimeoutException catch (e) {
-      // print(e.toString());
+      print(e.toString());
       return Response(false, message: e.toString());
     } on SocketException catch (e) {
-      // print(e.toString());
+      print(e.toString());
       return Response(false, message: e.toString());
     }
   }
@@ -163,9 +163,9 @@ class Networking {
           body: body, headers: headers);
       // .timeout(const Duration(seconds: 30));
 
-      // print('$url$api${path ?? ""}');
+      print('$url$api${path ?? ""}');
 
-      // print('body: ' + body);
+      print('body: ' + body);
 
       if (response.statusCode == 200) {
         var data;
@@ -184,7 +184,7 @@ class Networking {
           data = jsonDecode(response.body);
         }
 
-        // print(data);
+        print(data);
         return Response(true, data: data);
       } else {
         String message = response.body
@@ -193,7 +193,7 @@ class Networking {
             .replaceAll(r'"', '')
             .replaceAll('\n', '');
 
-        // print(response.statusCode);
+        print(response.statusCode);
 
         return Response(
           false,
@@ -201,10 +201,10 @@ class Networking {
         );
       }
     } on TimeoutException catch (e) {
-      // print(e.toString());
+      print(e.toString());
       return Response(false, message: e.toString());
     } on SocketException catch (e) {
-      // print(e.toString());
+      print(e.toString());
       return Response(false, message: e.toString());
     }
   }

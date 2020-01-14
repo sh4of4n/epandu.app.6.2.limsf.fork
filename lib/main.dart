@@ -1,4 +1,5 @@
 import 'package:epandu/services/api/model/language_model.dart';
+import 'package:epandu/services/api/post_api_service.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +20,17 @@ void main() async {
   Hive.registerAdapter(KppExamDataAdapter(), 0);
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => LanguageModel(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => LanguageModel(),
+        ),
+        Provider(
+          create: (context) => PostApiService.create(),
+          dispose: (context, PostApiService service) =>
+              service.client.dispose(),
+        ),
+      ],
       child: MyApp(),
     ),
   );
