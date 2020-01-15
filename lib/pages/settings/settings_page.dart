@@ -147,7 +147,7 @@ class _SettingsState extends State<Settings> {
             child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () async {
               Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
-              await authRepo.logout();
+              await authRepo.logout(context: context);
             },
           ),
           FlatButton(

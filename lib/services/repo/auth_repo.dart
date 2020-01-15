@@ -5,6 +5,10 @@ import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/services/api/networking.dart';
 import 'package:epandu/services/api/model/auth_model.dart';
+import 'package:hive/hive.dart';
+import 'package:provider/provider.dart';
+
+import '../../app_localizations.dart';
 
 class AuthRepo {
   final appConfig = AppConfig();
@@ -38,25 +42,6 @@ class AuthRepo {
 
     wsUrl = wsUrl.replaceAll("_wsver_", WSVER.replaceAll(".", "_"));
 
-    /* Map<String, String> param = {
-      'wsCodeCrypt': wsCodeCrypt,
-      'acctUid': acctUid,
-      'acctPwd': acctPwd,
-      'loginType': loginType,
-      'misc': '',
-    };
-
-    String method = 'LoginPub';
-
-    var response = await Networking(customUrl: '$wsUrl')
-        .getData(method: method, param: param);
-
-    var responseData;
-
-    if (response.data != null &&
-        response.data['string']['LoginAcctInfo'] != null)
-      responseData = response.data['string']['LoginAcctInfo']['LoginAcct']; */
-
     String params =
         '?wsCodeCrypt=$wsCodeCrypt&acctUid=$acctUid&acctPwd=${Uri.encodeQueryComponent(acctPwd)}&loginType=$loginType&misc=';
 
@@ -74,6 +59,9 @@ class AuthRepo {
     if (responseData != null && responseData['WsUrl'] != null) {
       // WsVersion to be updated in returned wsUrl
       String wsVer = '1_3';
+      final wsUrlBox = Hive.box('ws_url');
+
+      wsUrlBox.put('wsUrl', responseData['WsUrl'].replaceAll('1_2', wsVer));
 
       localStorage.saveWsUrl(responseData['WsUrl'].replaceAll('1_2', wsVer));
       localStorage.saveCaUid(acctUid);
@@ -85,153 +73,91 @@ class AuthRepo {
     return Response(false, message: 'No URL found with this client account.');
   }
 
-  Future login({String phone, String password}) async {
+  Future<Response> login({context, String phone, String password}) async {
     final String caUid = await localStorage.getCaUid();
-    final String caPwd = await localStorage.getCaPwd();
+    // final String caPwd = await localStorage.getCaPwd();
     final String caPwdUrlEncode = await localStorage.getCaPwdEncode();
 
-    LoginRequest loginRequest = LoginRequest(
+    var response = await Provider.of<ApiService>(context).login(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
-      caPwd: caPwd,
+      caPwd: caPwdUrlEncode,
       diCode: appConfig.diCode,
       userPhone: phone,
       userPwd: password,
       ipAddress: '0.0.0.0',
     );
 
-    Map<String, dynamic> param = loginRequest.toJson();
+    if (response.body != 'null') {
+      LoginResponse loginResponse = LoginResponse.fromJson(response.body);
+      var responseData = loginResponse.table1[0];
 
-    String method = 'GetUserByUserPhonePwd';
+      if (responseData.userId != null && responseData.msg == null) {
+        print(responseData.userId);
+        print(responseData.sessionId);
 
-    var response = await PostApiService().login(params);
+        localStorage.saveUserId(responseData.userId);
+        localStorage.saveSessionId(responseData.sessionId);
 
-    // var response = await networking.getData(method: method, param: param);
+        var result = await checkDiList(context: context);
 
-    /* var params =
-        'GetUserByUserPhonePwd?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0';
-
-    var response = await networking.getRequest(path: params);
-
-    var responseData;
-    String responseMsg;
-
-    if (response.data != null) {
-      responseData = response.data['GetUserByUserPhonePwdResponse']
-          ['GetUserByUserPhonePwdResult']['UserInfo']['Table1'];
-    } else if (response.message != null) {
-      responseMsg = response.message;
+        return result;
+      } else if (responseData.msg == 'Reset Password Success') {
+        return Response(true, message: responseData.msg);
+      } else if (responseData.msg != null &&
+          responseData.msg.contains('TimeoutException')) {
+        return Response(false, message: 'timeout');
+      } else if (responseData.msg != null &&
+          responseData.msg.contains('SocketException')) {
+        return Response(false, message: 'socket');
+      } else if (responseData.msg != null) {
+        return Response(false, message: responseData.msg);
+      }
     }
-
-    if (responseData != null && responseData['msg'] == null) {
-      print(responseData['userId']);
-      print(responseData['sessionId']);
-
-      localStorage.saveUserId(responseData['userId']);
-      localStorage.saveSessionId(responseData['sessionId']);
-
-      var result = await checkDiList();
-
-      return result;
-    } else if (responseData != null &&
-        responseData['msg'] == 'Reset Password Success') {
-      return Response(true, message: responseData['msg']);
-    } else if (responseData != null && responseData['msg'] != null) {
-      return Response(false, message: responseData['msg']);
-    } else if (responseData != null &&
-        responseData['msg'].contains('TimeoutException')) {
-      return Response(false, message: 'timeout');
-    } else if (responseData != null &&
-        responseData['msg'].contains('SocketException')) {
-      return Response(false, message: 'socket');
-    } else if (responseData == null && responseMsg != null) {
-      return Response(false, message: responseMsg);
-    }
-
-    return Response(false); */
+    return Response(false);
   }
 
-  Future<Response> checkDiList() async {
+  Future<Response> checkDiList({context}) async {
     String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
+    String caPwd = await localStorage.getCaPwdEncode();
 
     String userId = await localStorage.getUserId();
     String diCode = await localStorage.getDiCode();
 
-    Map<String, String> param = {
-      'wsCodeCrypt': appConfig.wsCodeCrypt,
-      'caUid': caUid,
-      'caPwd': caPwd,
-      'diCode': diCode,
-      'userId': userId,
-    };
+    var response = await Provider.of<ApiService>(context).checkDiList(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      diCode: diCode,
+      userId: userId,
+    );
 
-    String method = 'GetUserRegisteredDI';
+    if (response.body != 'null') {
+      UserRegisteredDiResponse userRegisteredDiResponse =
+          UserRegisteredDiResponse.fromJson(response.body);
+      var responseData = userRegisteredDiResponse.armaster;
 
-    var response = await networking.getData(method: method, param: param);
+      localStorage.saveUsername(responseData[0].name);
+      localStorage.saveUserPhone(
+          responseData[0].phoneCountryCode + responseData[0].phone);
+      localStorage.saveEmail(responseData[0].eMail);
+      localStorage.saveNationality(responseData[0].nationality);
+      localStorage.saveGender(responseData[0].gender);
+      localStorage.saveStudentIc(responseData[0].icNo);
+      localStorage.saveAddress(responseData[0].add);
+      localStorage.saveCountry(responseData[0].country);
+      localStorage.saveState(responseData[0].state);
+      localStorage.savePostCode(responseData[0].postcode);
 
-    var responseData;
-
-    if (response.data != null) {
-      responseData = response.data['GetUserRegisteredDIResponse']
-          ['GetUserRegisteredDIResult']['ArmasterInfo'];
+      return Response(true, data: responseData);
     }
 
-    // API returns one DI
-    if (responseData != null && responseData['Armaster'][0] == null) {
-      localStorage.saveUsername(responseData['Armaster']['name'].toString());
-      localStorage.saveUserPhone(responseData['Armaster']
-              ['phone_country_code'] +
-          responseData['Armaster']['phone'].toString());
-      localStorage.saveEmail(responseData['Armaster']['e_mail'].toString());
-      localStorage
-          .saveNationality(responseData['Armaster']['nationality'].toString());
-      localStorage.saveGender(responseData['Armaster']['gender'].toString());
-      localStorage.saveStudentIc(responseData['Armaster']['ic_no'].toString());
-      localStorage.saveAddress(responseData['Armaster']['add'].toString());
-      localStorage.saveCountry(responseData['Armaster']['country'].toString());
-      localStorage.saveState(responseData['Armaster']['state'].toString());
-      localStorage
-          .savePostCode(responseData['Armaster']['postcode'].toString());
-
-      return Response(true, data: responseData['Armaster']);
-    }
-    // API returns more than one DI
-    else if (responseData != null && responseData['Armaster'][0] != null) {
-      localStorage.saveUsername(responseData['Armaster'][0]['name'].toString());
-      localStorage.saveUserPhone(responseData['Armaster'][0]
-              ['phone_country_code'] +
-          responseData['Armaster'][0]['phone'].toString());
-      localStorage.saveEmail(responseData['Armaster'][0]['e_mail'].toString());
-      localStorage.saveNationality(
-          responseData['Armaster'][0]['nationality'].toString());
-      localStorage.saveGender(responseData['Armaster'][0]['gender'].toString());
-      localStorage
-          .saveStudentIc(responseData['Armaster'][0]['ic_no'].toString());
-      localStorage.saveAddress(responseData['Armaster'][0]['add'].toString());
-      localStorage
-          .saveCountry(responseData['Armaster'][0]['country'].toString());
-      localStorage.saveState(responseData['Armaster'][0]['state'].toString());
-      localStorage
-          .savePostCode(responseData['Armaster'][0]['postcode'].toString());
-
-      return Response(true, data: responseData['Armaster']);
-    }
-    // API returns null
-    else if (responseData == null) {
-      String diCode = 'TBS';
-      localStorage.saveDiCode(diCode);
-
-      return Response(true, data: 'empty');
-    } else {
-      return Response(false,
-          message:
-              'Oops! An unexpected error occurred. Please try again later.');
-    }
+    localStorage.saveDiCode('TBS');
+    return Response(true, data: 'empty');
   }
 
   //logout
-  Future<void> logout() async {
+  Future<void> logout({context}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
     String userId = await localStorage.getUserId();
@@ -240,19 +166,15 @@ class AuthRepo {
     // String diCode = await localStorage.getDiCode();
     String sessionId = await localStorage.getSessionId();
 
-    Map<String, String> param = {
-      'wsCodeCrypt': appConfig.wsCodeCrypt,
-      'caUid': caUid,
-      'caPwd': caPwd,
-      'diCode': diCode,
-      'userId': userId,
-      'sessionId': sessionId,
-      'isLogout': 'true',
-    };
-
-    String method = 'IsSessionActive';
-
-    await networking.getData(method: method, param: param);
+    await Provider.of<ApiService>(context).logout(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      diCode: diCode,
+      userId: userId,
+      sessionId: sessionId,
+      isLogout: 'true',
+    );
 
     await localStorage.reset();
 
@@ -266,6 +188,7 @@ class AuthRepo {
   // Register
   // Also used for invite friends
   Future<Response> checkExistingUser({
+    context,
     String type,
     String countryCode,
     String phone,
@@ -300,52 +223,43 @@ class AuthRepo {
 
     if (userId.isEmpty) userId = 'TBS';
 
-    Map<String, String> param = {
-      'wsCodeCrypt': appConfig.wsCodeCrypt,
-      'caUid': caUid,
-      'caPwd': caPwd,
-      'userPhone': userPhone,
-    };
+    var response = await Provider.of<ApiService>(context).checkExistingUser(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      userPhone: userPhone,
+    );
 
-    String method = 'GetUserByUserPhone';
-
-    var response = await networking.getData(method: method, param: param);
-
-    var responseData;
-
-    if (response.data != null) {
-      responseData = response.data['GetUserByUserPhoneResponse']
-          ['GetUserByUserPhoneResult']['UserInfo'];
+    if (response.body != 'null') {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('registered_lbl'));
     }
+    // Number not registered
+    var result = await register(
+      context,
+      type,
+      countryCode,
+      defPhone,
+      userId,
+      diCode,
+      name,
+      add1,
+      add2,
+      add3,
+      postcode,
+      city,
+      state,
+      country,
+      email,
+      icNo,
+      registerAs,
+    );
 
-    if (responseData == null) {
-      // Number not registered
-      var result = await register(
-        type,
-        countryCode,
-        defPhone,
-        userId,
-        diCode,
-        name,
-        add1,
-        add2,
-        add3,
-        postcode,
-        city,
-        state,
-        country,
-        email,
-        icNo,
-        registerAs,
-      );
-
-      return result;
-    } else {
-      return Response(false, message: responseData.toString());
-    }
+    return result;
   }
 
   Future<Response> register(
+    context,
     String type,
     String countryCode,
     String phone,
@@ -393,75 +307,54 @@ class AuthRepo {
       email: email ?? '',
     );
 
-    String body = jsonEncode(params);
-
-    String api = 'CreateAppAccount';
-
-    // If user registered as normal or student
-    // if (registerAs == 'NORMAL')
-    //   api = 'CreateAppAccount';
-    // else if (registerAs == 'STUDENT') api = 'CreateMemberAccount';
-
-    Map<String, String> headers = {'Content-Type': 'application/json'};
-
-    var response =
-        await networking.postData(api: api, body: body, headers: headers);
+    var response = await Provider.of<ApiService>(context).register(params);
 
     var message = '';
 
-    if (response.data != null &&
-        response.data['CreateAppAccountResult'].isNotEmpty) {
+    // Success
+    if (response.body != 'null') {
       if (type == 'INVITE')
-        message = 'Your invitation has been sent. Yay!';
+        message = AppLocalizations.of(context).translate('invite_sent');
       else
-        message =
-            'You are now registered, you will receive a SMS notification.';
+        message = AppLocalizations.of(context).translate('register_success');
 
       return Response(true, message: message);
     }
 
+    // Fail
     if (type == 'INVITE')
-      message = 'Invitation failed, please try again later.';
+      message = AppLocalizations.of(context).translate('invite_fail');
     else
-      message = 'Registration failed, please try again later.';
+      message = AppLocalizations.of(context).translate('register_error');
 
     return Response(false, message: message);
   }
 
-  Future<Response> verifyOldPassword({currentPassword, newPassword}) async {
+  Future<Response> verifyOldPassword(
+      {context, currentPassword, newPassword}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
     String userId = await localStorage.getUserId();
 
-    Map<String, String> param = {
-      'wsCodeCrypt': appConfig.wsCodeCrypt,
-      'caUid': caUid,
-      'caPwd': caPwd,
-      'userId': userId,
-      'userPwd': currentPassword,
-    };
+    var response = await Provider.of<ApiService>(context).verifyOldPassword(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      userId: userId,
+      userPwd: currentPassword,
+    );
 
-    String method = 'GetUserByUserIdPwd';
-
-    var response = await networking.getData(method: method, param: param);
-
-    var responseData;
-
-    if (response.data != null) {
-      responseData = response.data['GetUserByUserIdPwdResponse']
-          ['GetUserByUserIdPwdResult'];
-    }
-
-    if (responseData != null && responseData.contains('Valid user.')) {
-      var result = await updatePassword(userId: userId, password: newPassword);
+    if (response.body.contains('Valid user.')) {
+      var result = await updatePassword(
+          context: context, userId: userId, password: newPassword);
 
       return result;
     }
 
-    return Response(false, message: 'Incorrect password.');
+    return Response(false, message: response.body);
   }
 
-  Future<Response> updatePassword({userId, password}) async {
+  Future<Response> updatePassword({context, userId, password}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
@@ -473,26 +366,13 @@ class AuthRepo {
       password: password,
     );
 
-    String body = jsonEncode(updatePasswordRequest);
+    var response = await Provider.of<ApiService>(context)
+        .updatePassword(updatePasswordRequest);
 
-    String api = 'SaveUserPassword';
-
-    Map<String, String> headers = {'Content-Type': 'application/json'};
-
-    var response =
-        await networking.postData(api: api, body: body, headers: headers);
-
-    var responseData;
-
-    if (response.data != null &&
-        response.data['SaveUserPasswordResult'] != null) {
-      responseData = response.data['SaveUserPasswordResult'];
+    if (response.body == 'True') {
+      return Response(true, message: 'password_updated');
     }
 
-    if (responseData == true) {
-      return Response(true, message: 'Password successfully updated.');
-    }
-    return Response(false,
-        message: 'Failed to change password. Please try again later.');
+    return Response(false, message: 'password_change_fail');
   }
 }

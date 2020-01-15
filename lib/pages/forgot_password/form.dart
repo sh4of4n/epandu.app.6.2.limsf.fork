@@ -194,6 +194,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
       });
 
       var result = await authRepo.login(
+        context: context,
         phone: _phone,
         password: '',
       );

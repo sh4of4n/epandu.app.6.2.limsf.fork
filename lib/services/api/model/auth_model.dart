@@ -1,4 +1,4 @@
-class LoginRequest {
+/* class LoginRequest {
   String wsCodeCrypt;
   String caUid;
   String caPwd;
@@ -17,7 +17,7 @@ class LoginRequest {
     this.ipAddress,
   });
 
-  LoginRequest.fromJson(Map<String, String> json) {
+  LoginRequest.fromJson(Map<String, dynamic> json) {
     wsCodeCrypt = json['wsCodeCrypt'];
     caUid = json['caUid'];
     caPwd = json['caPwd'];
@@ -27,8 +27,8 @@ class LoginRequest {
     ipAddress = json['ipAddress'];
   }
 
-  Map<String, String> toJson() {
-    final Map<String, String> data = new Map<String, String>();
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
     data['wsCodeCrypt'] = this.wsCodeCrypt;
     data['caUid'] = this.caUid;
     data['caPwd'] = this.caPwd;
@@ -38,23 +38,27 @@ class LoginRequest {
     data['ipAddress'] = this.ipAddress;
     return data;
   }
-}
+} */
 
 // LoginResponse
 class LoginResponse {
-  Table1 table1;
+  List<Table1> table1;
 
   LoginResponse({this.table1});
 
   LoginResponse.fromJson(Map<String, dynamic> json) {
-    table1 =
-        json['Table1'] != null ? new Table1.fromJson(json['Table1']) : null;
+    if (json['Table1'] != null) {
+      table1 = new List<Table1>();
+      json['Table1'].forEach((v) {
+        table1.add(new Table1.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.table1 != null) {
-      data['Table1'] = this.table1.toJson();
+      data['Table1'] = this.table1.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -81,9 +85,10 @@ class Table1 {
     return data;
   }
 }
+
 // End LoginResponse
 
-class UserRegisteredDiRequest {
+/* class UserRegisteredDiRequest {
   String wsCodeCrypt;
   String caUid;
   String caPwd;
@@ -110,7 +115,7 @@ class UserRegisteredDiRequest {
     data['userId'] = this.userId;
     return data;
   }
-}
+} */
 
 // UserRegisteredDiResponse
 class UserRegisteredDiResponse {

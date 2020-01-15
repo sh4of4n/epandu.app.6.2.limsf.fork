@@ -1,5 +1,5 @@
+import 'package:epandu/services/api/api_service.dart';
 import 'package:epandu/services/api/model/language_model.dart';
-import 'package:epandu/services/api/post_api_service.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +12,15 @@ import 'package:provider/provider.dart';
 import 'app_localizations_delegate.dart';
 import 'application.dart';
 import 'services/api/model/kpp_model.dart';
+import 'package:logging/logging.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
   Hive.registerAdapter(KppExamDataAdapter(), 0);
+  _setupLogging();
+  await Hive.openBox('ws_url');
 
   runApp(
     MultiProvider(
@@ -26,14 +29,20 @@ void main() async {
           create: (context) => LanguageModel(),
         ),
         Provider(
-          create: (context) => PostApiService.create(),
-          dispose: (context, PostApiService service) =>
-              service.client.dispose(),
+          create: (context) => ApiService.create(),
+          dispose: (context, ApiService service) => service.client.dispose(),
         ),
       ],
       child: MyApp(),
     ),
   );
+}
+
+void _setupLogging() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((rec) {
+    print('${rec.level.name}: ${rec.time}: ${rec.message}');
+  });
 }
 
 class MyApp extends StatefulWidget {

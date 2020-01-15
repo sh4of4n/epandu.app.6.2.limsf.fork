@@ -276,21 +276,23 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
           });
 
           var result = await authRepo.verifyOldPassword(
+            context: context,
             currentPassword: _oldPassword,
             newPassword: _newPassword,
           );
 
           if (result.isSuccess) {
             Navigator.pop(context);
+
             CustomSnackbar().show(
               context,
-              message: result.message.toString(),
+              message: AppLocalizations.of(context).translate(result.message),
               type: MessageType.SUCCESS,
             );
           } else {
             CustomSnackbar().show(
               context,
-              message: result.message.toString(),
+              message: AppLocalizations.of(context).translate(result.message),
               type: MessageType.ERROR,
             );
 

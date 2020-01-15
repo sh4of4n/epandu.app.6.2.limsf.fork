@@ -31,6 +31,9 @@
   "state_lbl": "State",
   "country_lbl": "Country",
   "email_lbl": "Email",
+  "registered_lbl": "Number is already registered.",
+  "register_success": "You are now registered, you will receive a SMS notification.",
+  "register_error": "Registration failed, please try again later.",
 
   "select_di_desc": "Select your driving institute",
 
@@ -90,9 +93,13 @@
   "confirm_password_required": "Confirm new password is required.",
   "password_same_msg": "New password is the same as current password.",
   "password_not_match_msg": "Passwords do not match.",
+  "password_updated": "Password successfully updated.",
+  "password_change_fail": "Failed to change password. Please try again later.",
 
   "invite_your_friends_lbl": "Invite your friends",
   "invite_friends_desc": "Having fun? Getting better? Invite your friends too! You don't have to be the only one. After all, the more the merrier!",
+  "invite_sent": "Your invitation has been sent. Yay!",
+  "invite_fail": "Invitation failed, please try again later.",
 
   "choose_category": "Choose your category",
   "choose_module": "Choose your module",
