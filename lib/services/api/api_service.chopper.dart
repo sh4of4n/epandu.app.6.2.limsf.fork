@@ -99,4 +99,59 @@ class _$ApiService extends ApiService {
     final $request = Request('POST', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
   }
+
+  @override
+  Future<Response> getStudentEnrollmentData(
+      {String wsCodeCrypt,
+      String caUid,
+      String caPwd,
+      String diCode,
+      String icNo,
+      String groupId}) {
+    final $url =
+        '/webapi/GetEnrollByCode?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo&groupId=$groupId';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response> getEnrolledClasses(
+      {String wsCodeCrypt,
+      String caUid,
+      String caPwd,
+      String diCode,
+      String icNo,
+      String groupId}) {
+    final $url =
+        '/webapi/GetStuPracByCode?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo&groupId=$groupId';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response> getStudentPayment(
+      {String wsCodeCrypt,
+      String caUid,
+      String caPwd,
+      String diCode,
+      String icNo}) {
+    final $url =
+        '/webapi/GetCollectionByStudent?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response> getStudentAttendance(
+      {String wsCodeCrypt,
+      String caUid,
+      String caPwd,
+      String diCode,
+      String icNo,
+      String groupId}) {
+    final $url =
+        '/webapi/GetDTestByCode?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo&groupId=$groupId';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
 }

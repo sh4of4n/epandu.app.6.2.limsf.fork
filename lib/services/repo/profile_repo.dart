@@ -24,7 +24,7 @@ class ProfileRepo {
   Future getStudentProfilePicture() async {} */
 
   // already obtained from getUserRegisteredDi
-  Future<Response> getCustomerData() async {
+  /* Future<Response> getCustomerData() async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
@@ -46,7 +46,7 @@ class ProfileRepo {
     var response = await networking.getData(method: method, param: param);
 
     var responseData = response.data;
-  }
+  } */
 
   Future<Response> getStudentEnrollmentData() async {
     String caUid = await localStorage.getCaUid();

@@ -43,6 +43,7 @@ abstract class ApiService extends ChopperService {
     return _$ApiService(client);
   }
 
+  // auth_repo
   @Get(
       path:
           'GetUserByUserPhonePwd?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&diCode={diCode}&userPhone={userPhone}&userPwd={userPwd}&ipAddress={ipAddress}')
@@ -112,4 +113,54 @@ abstract class ApiService extends ChopperService {
 
   @Post(path: 'SaveUserPassword')
   Future<Response> updatePassword(@Body() UpdatePasswordRequest body);
+  // end auth_repo
+
+  // profile_repo
+  @Get(
+      path:
+          'GetEnrollByCode?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&diCode={diCode}&icNo={icNo}&groupId={groupId}')
+  Future<Response> getStudentEnrollmentData({
+    @Path('wsCodeCrypt') String wsCodeCrypt,
+    @Path('caUid') String caUid,
+    @Path('caPwd') String caPwd,
+    @Path('diCode') String diCode,
+    @Path('icNo') String icNo,
+    @Path('groupId') String groupId,
+  });
+
+  @Get(
+      path:
+          'GetStuPracByCode?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&diCode={diCode}&icNo={icNo}&groupId={groupId}')
+  Future<Response> getEnrolledClasses({
+    @Path('wsCodeCrypt') String wsCodeCrypt,
+    @Path('caUid') String caUid,
+    @Path('caPwd') String caPwd,
+    @Path('diCode') String diCode,
+    @Path('icNo') String icNo,
+    @Path('groupId') String groupId,
+  });
+
+  @Get(
+      path:
+          'GetCollectionByStudent?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&diCode={diCode}&icNo={icNo}')
+  Future<Response> getStudentPayment({
+    @Path('wsCodeCrypt') String wsCodeCrypt,
+    @Path('caUid') String caUid,
+    @Path('caPwd') String caPwd,
+    @Path('diCode') String diCode,
+    @Path('icNo') String icNo,
+  });
+
+  @Get(
+      path:
+          'GetDTestByCode?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&diCode={diCode}&icNo={icNo}&groupId={groupId}')
+  Future<Response> getStudentAttendance({
+    @Path('wsCodeCrypt') String wsCodeCrypt,
+    @Path('caUid') String caUid,
+    @Path('caPwd') String caPwd,
+    @Path('diCode') String diCode,
+    @Path('icNo') String icNo,
+    @Path('groupId') String groupId,
+  });
+  // end profile_repo
 }
