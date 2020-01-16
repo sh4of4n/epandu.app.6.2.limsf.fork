@@ -75,7 +75,8 @@ class KppRepo {
     RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
 
     return Response(false,
-        message: response.body
+        message: response.error
+            .toString()
             .replaceAll(exp, '')
             .replaceAll('&#xD;', '')
             .replaceAll('[BLException]', ''));
@@ -140,9 +141,12 @@ class KppRepo {
     RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
 
     return Response(false,
-        message: response.body
+        message: response.error
+            .toString()
             .replaceAll(exp, '')
             .replaceAll('&#xD;', '')
-            .replaceAll('[BLException]', ''));
+            .replaceAll('[BLException]', '')
+            .replaceAll(r'\u000d\u000a', '')
+            .replaceAll(r'"', ''));
   }
 }

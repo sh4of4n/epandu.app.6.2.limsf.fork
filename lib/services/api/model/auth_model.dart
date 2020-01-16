@@ -294,7 +294,7 @@ class Armaster {
   String name;
   String nickName;
   String compName;
-  String add;
+  dynamic add;
   String postcode;
   String state;
   String country;

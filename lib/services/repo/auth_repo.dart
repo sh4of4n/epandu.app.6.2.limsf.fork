@@ -163,7 +163,11 @@ class AuthRepo {
       localStorage.saveNationality(responseData[0].nationality);
       localStorage.saveGender(responseData[0].gender);
       localStorage.saveStudentIc(responseData[0].icNo);
-      localStorage.saveAddress(responseData[0].add);
+
+      // Temporary workaround
+      if (responseData[0].add is String)
+        localStorage.saveAddress(responseData[0].add);
+
       localStorage.saveCountry(responseData[0].country);
       localStorage.saveState(responseData[0].state);
       localStorage.savePostCode(responseData[0].postcode);
@@ -371,7 +375,7 @@ class AuthRepo {
       return result;
     }
 
-    return Response(false, message: response.body);
+    return Response(false, message: response.error.toString());
   }
 
   Future<Response> updatePassword({context, userId, password}) async {
