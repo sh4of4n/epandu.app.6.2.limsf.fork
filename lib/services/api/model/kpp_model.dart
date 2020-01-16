@@ -808,7 +808,7 @@ class PinRequest {
   }
 }
 
-@HiveType()
+@HiveType(typeId: 0)
 class KppExamData {
   @HiveField(0)
   final String selectedAnswer;

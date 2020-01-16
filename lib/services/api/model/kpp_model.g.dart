@@ -8,6 +8,9 @@ part of 'kpp_model.dart';
 
 class KppExamDataAdapter extends TypeAdapter<KppExamData> {
   @override
+  final typeId = 0;
+
+  @override
   KppExamData read(BinaryReader reader) {
     var numOfFields = reader.readByte();
     var fields = <int, dynamic>{

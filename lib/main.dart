@@ -19,7 +19,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
-  Hive.registerAdapter(KppExamDataAdapter(), 0);
+  Hive.registerAdapter(KppExamDataAdapter());
   _setupLogging();
   await Hive.openBox('ws_url');
 
