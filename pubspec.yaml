@@ -19,28 +19,27 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  xml2json: ^4.0.0
+  xml2json: ^4.1.1
   cupertino_icons: ^0.1.2
-  path_provider: ^1.4.2
+  path_provider: ^1.5.1
   shared_preferences: ^0.5.6
-  device_info: ^0.4.1+4
+  # device_info: ^0.4.1+4
   flutter_screenutil: ^0.7.0
-  http: ^0.12.0+2
-  flutter_spinkit: ^4.1.0
+  flutter_spinkit: ^4.1.1+1
   random_color: ^1.0.3
-  hive: ^1.1.1
-  hive_flutter: ^0.2.1
+  hive: ^1.3.0
+  hive_flutter: ^0.3.0+1
   flutter_custom_clippers: ^1.1.0
-  google_fonts: ^0.1.1
+  google_fonts: ^0.3.2
   flushbar: ^1.9.1
-  json_annotation: ^3.0.0
+  json_annotation: ^3.0.1
   package_info: ^0.4.0+13
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  json_serializable: ^3.2.3
-  hive_generator: ^0.5.2
+  json_serializable: ^3.2.5
+  hive_generator: ^0.7.0
   build_runner:
   flutter_launcher_icons: ^0.7.4
   chopper_generator: ^3.0.3

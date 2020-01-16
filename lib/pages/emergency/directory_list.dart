@@ -25,8 +25,8 @@ class _DirectoryListState extends State<DirectoryList> {
     // var emergencyContacts = await localStorage.getEmergencyDirContacts();
 
     // if (emergencyContacts.isEmpty) {
-    var result =
-        await emergencyRepo.getEmergencyContact(sosContactType: widget.data);
+    var result = await emergencyRepo.getEmergencyContact(
+        context: context, sosContactType: widget.data);
 
     if (result.isSuccess) {
       return result.data;

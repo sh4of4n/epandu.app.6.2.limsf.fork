@@ -11,6 +11,7 @@ import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'app_localizations_delegate.dart';
 import 'application.dart';
+import 'services/api/get_base_url.dart';
 import 'services/api/model/kpp_model.dart';
 import 'package:logging/logging.dart';
 
@@ -32,6 +33,10 @@ void main() async {
           create: (context) => ApiService.create(),
           dispose: (context, ApiService service) => service.client.dispose(),
         ),
+        Provider(
+          create: (context) => GetBaseUrl.create(),
+          dispose: (context, GetBaseUrl service) => service.client.dispose(),
+        )
       ],
       child: MyApp(),
     ),

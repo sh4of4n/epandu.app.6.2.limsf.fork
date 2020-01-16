@@ -36,6 +36,7 @@ class _AuthenticationState extends State<Authentication> {
 
     if (wsUrl.isEmpty) {
       await authRepo.getWsUrl(
+        context: context,
         acctUid: caUid,
         acctPwd: caPwd,
         loginType: appConfig.wsCodeCrypt,

@@ -85,7 +85,7 @@ class SosContactHelpDesk {
 }
 
 // Get Sos Contact
-class EmergencyContactRequest {
+/* class EmergencyContactRequest {
   String wsCodeCrypt;
   String caUid;
   String caPwd;
@@ -120,7 +120,7 @@ class EmergencyContactRequest {
     data['areaCode'] = this.areaCode;
     return data;
   }
-}
+} */
 
 // get sos contact response
 class EmergencyContactResponse {
@@ -161,10 +161,10 @@ class SosContact {
   String createUser;
   String editUser;
   String editDate;
-  String compCode;
-  String branchCode;
+  dynamic compCode;
+  dynamic branchCode;
   String rowKey;
-  String lastupload;
+  dynamic lastupload;
   String transtamp;
   String deleted;
   String lastEditedBy;
@@ -173,32 +173,33 @@ class SosContact {
   String remark;
   String distance;
 
-  SosContact(
-      {this.iD,
-      this.sosContactType,
-      this.sosContactSubtype,
-      this.sosContactCode,
-      this.sosContactName,
-      this.add,
-      this.phone,
-      this.latitude,
-      this.longtitude,
-      this.areaCode,
-      this.skipCall,
-      this.createUser,
-      this.editUser,
-      this.editDate,
-      this.compCode,
-      this.branchCode,
-      this.rowKey,
-      this.lastupload,
-      this.transtamp,
-      this.deleted,
-      this.lastEditedBy,
-      this.createdBy,
-      this.createDate,
-      this.remark,
-      this.distance});
+  SosContact({
+    this.iD,
+    this.sosContactType,
+    this.sosContactSubtype,
+    this.sosContactCode,
+    this.sosContactName,
+    this.add,
+    this.phone,
+    this.latitude,
+    this.longtitude,
+    this.areaCode,
+    this.skipCall,
+    this.createUser,
+    this.editUser,
+    this.editDate,
+    this.compCode,
+    this.branchCode,
+    this.rowKey,
+    this.lastupload,
+    this.transtamp,
+    this.deleted,
+    this.lastEditedBy,
+    this.createdBy,
+    this.createDate,
+    this.remark,
+    this.distance,
+  });
 
   SosContact.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];

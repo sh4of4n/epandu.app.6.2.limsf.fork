@@ -92,6 +92,7 @@ class _KppExamState extends State<KppExam> {
 
   _getExamQuestions() async {
     var result = await kppRepo.getExamQuestions(
+      context: context,
       groupId: groupId,
       paperNo: paperNo,
     );
@@ -99,7 +100,7 @@ class _KppExamState extends State<KppExam> {
     if (result.isSuccess) {
       setState(() {
         message = '';
-        snapshot = result.data['TheoryQuestion'];
+        snapshot = result.data;
       });
     } else {
       setState(() {

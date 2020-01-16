@@ -47,15 +47,15 @@ class _KppModuleState extends State<KppModule> {
   _getExamNo() async {
     String groupId = widget.data;
 
-    var result = await kppRepo.getExamNo(groupId);
+    var result = await kppRepo.getExamNo(context: context, groupId: groupId);
 
     if (result.isSuccess) {
-      _getRandomColors(result.data['PaperNo']);
+      _getRandomColors(result.data);
 
       setState(() {
         appBarTitle = AppLocalizations.of(context).translate('choose_module');
         message = '';
-        snapshot = result.data['PaperNo'];
+        snapshot = result.data;
       });
     } else {
       setState(() {
@@ -99,12 +99,12 @@ class _KppModuleState extends State<KppModule> {
                       component: KPP_EXAM,
                       argument: KppModuleArguments(
                         groupId: widget.data,
-                        paperNo: snapshot[index]["paper_no"],
+                        paperNo: snapshot[index].paperNo,
                       ),
                       iconColor: _iconColors[index],
                       snapshot: snapshot,
                       index: index,
-                      icon: snapshot[index]["paper_no"].contains('COB')
+                      icon: snapshot[index].paperNo.contains('COB')
                           ? Icon(Icons.color_lens,
                               size: ScreenUtil().setSp(250),
                               color: Colors.white)
@@ -264,7 +264,8 @@ class _KppModuleState extends State<KppModule> {
         _isLoading = true;
       });
 
-      var result = await kppRepo.pinActivation(_pin, widget.data);
+      var result = await kppRepo.pinActivation(
+          context: context, pinNumber: _pin, groupId: widget.data);
 
       if (result.isSuccess) {
         setState(() {

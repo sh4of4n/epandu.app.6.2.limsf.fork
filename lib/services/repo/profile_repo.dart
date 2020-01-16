@@ -1,15 +1,13 @@
-import 'dart:convert';
-
+import 'package:epandu/services/api/api_service.dart';
 import 'package:epandu/services/api/model/profile_model.dart';
 import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/services/api/networking.dart';
+import 'package:provider/provider.dart';
 
 class ProfileRepo {
   final appConfig = AppConfig();
   final localStorage = LocalStorage();
-  final networking = Networking();
 
   /* Future getStudentProfile() async {
     String userId = await localStorage.getUserId();
@@ -48,7 +46,9 @@ class ProfileRepo {
     var responseData = response.data;
   } */
 
-  Future<Response> getStudentEnrollmentData() async {
+  Future<Response> getStudentEnrollmentData({context}) async {
+    assert(context != null);
+
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
     //  Temporarily use TBS as diCode
@@ -57,7 +57,8 @@ class ProfileRepo {
     String groupId = '';
     String icNo = await localStorage.getStudentIc();
 
-    GetEnrollmentRequest getEnrollmentRequest = GetEnrollmentRequest(
+    var response =
+        await Provider.of<ApiService>(context).getStudentEnrollmentData(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -66,61 +67,23 @@ class ProfileRepo {
       groupId: groupId,
     );
 
-    Map<String, String> param = getEnrollmentRequest.toJson();
+    if (response.body != 'null') {
+      GetEnrollmentResponse getEnrollmentResponse;
 
-    String method = 'GetEnrollByCode';
+      getEnrollmentResponse = GetEnrollmentResponse.fromJson(response.body);
 
-    var response = await networking.getData(method: method, param: param);
+      // not relevant anymore as there could be more than one enrollment
+      localStorage.saveEnrolledGroupId(getEnrollmentResponse.enroll[0].groupId);
+      localStorage.saveBlacklisted(getEnrollmentResponse.enroll[0].blacklisted);
 
-    Map<String, dynamic> enrollmentData;
-
-    String encodeData;
-    String processedData;
-    var decodedData;
-
-    GetEnrollmentResponse getEnrollmentResponse;
-
-    if (response.isSuccess) {
-      if (response.data != null &&
-          response.data['GetEnrollByCodeResponse']['GetEnrollByCodeResult']
-                  ['EnrollInfo'] !=
-              null) {
-        //  if response.data is not a list of object
-        if (response.data['GetEnrollByCodeResponse']['GetEnrollByCodeResult']
-                ['EnrollInfo']['Enroll'][0] ==
-            null) {
-          enrollmentData = response.data['GetEnrollByCodeResponse']
-              ['GetEnrollByCodeResult']['EnrollInfo']['Enroll'];
-
-          encodeData = '{"Enroll": [${jsonEncode(enrollmentData)}]}';
-          processedData = encodeData.replaceAll('null', '""');
-          decodedData = jsonDecode(processedData);
-        }
-        // if response.data is a list of object
-        else {
-          decodedData = response.data['GetEnrollByCodeResponse']
-              ['GetEnrollByCodeResult']['EnrollInfo'];
-        }
-
-        getEnrollmentResponse = GetEnrollmentResponse.fromJson(decodedData);
-
-        // print(getEnrollmentResponse.enroll[0].groupId);
-        // print(getEnrollmentResponse.enroll[0].blacklisted);
-
-        localStorage
-            .saveEnrolledGroupId(getEnrollmentResponse.enroll[0].groupId);
-        localStorage
-            .saveBlacklisted(getEnrollmentResponse.enroll[0].blacklisted);
-
-        return Response(true, data: getEnrollmentResponse.enroll);
-      }
+      return Response(true, data: getEnrollmentResponse.enroll);
     }
 
     return Response(false);
   }
 
-  // now using getenrolledbycode
-  Future<Response> getEnrolledClasses() async {
+  // now using GetEnrollByCode
+  /* Future<Response> getEnrolledClasses() async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
@@ -182,9 +145,11 @@ class ProfileRepo {
     }
 
     return Response(false);
-  }
+  } */
 
-  Future<Response> getStudentPayment() async {
+  Future<Response> getStudentPayment({context}) async {
+    assert(context != null);
+
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
@@ -193,7 +158,7 @@ class ProfileRepo {
     // String diCode = await localStorage.getDiCode();
     String icNo = await localStorage.getStudentIc();
 
-    StudentPaymentRequest studentPaymentRequest = StudentPaymentRequest(
+    var response = await Provider.of<ApiService>(context).getStudentPayment(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -201,53 +166,20 @@ class ProfileRepo {
       icNo: icNo,
     );
 
-    Map<String, String> param = studentPaymentRequest.toJson();
+    if (response.body != 'null') {
+      StudentPaymentResponse studentPaymentResponse;
 
-    String method = 'GetCollectionByStudent';
+      studentPaymentResponse = StudentPaymentResponse.fromJson(response.body);
 
-    var response = await networking.getData(method: method, param: param);
-
-    Map<String, dynamic> paymentData;
-
-    String encodeData;
-    String processedData;
-    var decodedData;
-
-    StudentPaymentResponse studentPaymentResponse;
-
-    if (response.isSuccess) {
-      if (response.data != null &&
-          response.data['GetCollectionByStudentResponse']
-                  ['GetCollectionByStudentResult']['PaymentInfo'] !=
-              null) {
-        //  if response.data is not a list of object
-        if (response.data['GetCollectionByStudentResponse']
-                    ['GetCollectionByStudentResult']['PaymentInfo']
-                ['CollectTrn'][0] ==
-            null) {
-          paymentData = response.data['GetCollectionByStudentResponse']
-              ['GetCollectionByStudentResult']['PaymentInfo']['CollectTrn'];
-
-          encodeData = '{"CollectTrn": [${jsonEncode(paymentData)}]}';
-          processedData = encodeData.replaceAll('null', '""');
-          decodedData = jsonDecode(processedData);
-        }
-        // if response.data is a list of object
-        else {
-          decodedData = response.data['GetCollectionByStudentResponse']
-              ['GetCollectionByStudentResult']['PaymentInfo'];
-        }
-
-        studentPaymentResponse = StudentPaymentResponse.fromJson(decodedData);
-
-        return Response(true, data: studentPaymentResponse.collectTrn);
-      }
+      return Response(true, data: studentPaymentResponse.collectTrn);
     }
 
     return Response(false);
   }
 
-  Future<Response> getStudentAttendance() async {
+  Future<Response> getStudentAttendance({context}) async {
+    assert(context != null);
+
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
@@ -257,8 +189,7 @@ class ProfileRepo {
     String groupId = await localStorage.getEnrolledGroupId();
     String icNo = await localStorage.getStudentIc();
 
-    StudentAttendanceRequest studentAttendanceRequest =
-        StudentAttendanceRequest(
+    var response = await Provider.of<ApiService>(context).getStudentAttendance(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -267,47 +198,13 @@ class ProfileRepo {
       groupId: groupId,
     );
 
-    Map<String, String> param = studentAttendanceRequest.toJson();
+    if (response.body != 'null') {
+      StudentAttendanceResponse studentAttendanceResponse;
 
-    String method = 'GetDTestByCode';
+      studentAttendanceResponse =
+          StudentAttendanceResponse.fromJson(response.body);
 
-    var response = await networking.getData(method: method, param: param);
-
-    Map<String, dynamic> attendanceData;
-
-    String encodeData;
-    String processedData;
-    var decodedData;
-
-    StudentAttendanceResponse studentAttendanceResponse;
-
-    if (response.isSuccess) {
-      if (response.data != null &&
-          response.data['GetDTestByCodeResponse']['GetDTestByCodeResult']
-                  ['DTestInfo'] !=
-              null) {
-        //  if response.data is not a list of object
-        if (response.data['GetDTestByCodeResponse']['GetDTestByCodeResult']
-                ['DTestInfo']['DTest'][0] ==
-            null) {
-          attendanceData = response.data['GetDTestByCodeResponse']
-              ['GetDTestByCodeResult']['DTestInfo']['DTest'];
-
-          encodeData = '{"DTest": [${jsonEncode(attendanceData)}]}';
-          processedData = encodeData.replaceAll('null', '""');
-          decodedData = jsonDecode(processedData);
-        }
-        // if response.data is a list of object
-        else {
-          decodedData = response.data['GetDTestByCodeResponse']
-              ['GetDTestByCodeResult']['DTestInfo'];
-        }
-
-        studentAttendanceResponse =
-            StudentAttendanceResponse.fromJson(decodedData);
-
-        return Response(true, data: studentAttendanceResponse.dTest);
-      }
+      return Response(true, data: studentAttendanceResponse.dTest);
     }
 
     return Response(false);

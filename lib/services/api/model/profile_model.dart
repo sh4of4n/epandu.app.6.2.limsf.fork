@@ -1,4 +1,4 @@
-class GetEnrollmentRequest {
+/* class GetEnrollmentRequest {
   String wsCodeCrypt;
   String caUid;
   String caPwd;
@@ -33,7 +33,7 @@ class GetEnrollmentRequest {
     data['groupId'] = this.groupId;
     return data;
   }
-}
+} */
 
 class GetEnrollmentResponse {
   List<Enroll> enroll;
@@ -542,7 +542,7 @@ class StuPrac {
 }
 
 // get student payment
-class StudentPaymentRequest {
+/* class StudentPaymentRequest {
   String wsCodeCrypt;
   String caUid;
   String caPwd;
@@ -569,7 +569,7 @@ class StudentPaymentRequest {
     data['icNo'] = this.icNo;
     return data;
   }
-}
+} */
 
 class StudentPaymentResponse {
   List<CollectTrn> collectTrn;
@@ -772,7 +772,7 @@ class CollectTrn {
 }
 
 // get student attendance
-class StudentAttendanceRequest {
+/* class StudentAttendanceRequest {
   String wsCodeCrypt;
   String caUid;
   String caPwd;
@@ -807,7 +807,7 @@ class StudentAttendanceRequest {
     data['groupId'] = this.groupId;
     return data;
   }
-}
+} */
 
 class StudentAttendanceResponse {
   List<DTest> dTest;

@@ -1,49 +1,46 @@
-import 'dart:convert';
-
+import 'package:epandu/app_localizations.dart';
+import 'package:epandu/services/api/api_service.dart';
 import 'package:epandu/services/api/model/kpp_model.dart';
 import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/services/api/networking.dart';
+import 'package:provider/provider.dart';
 
 class KppRepo {
   final appConfig = AppConfig();
   final localStorage = LocalStorage();
-  final networking = Networking();
 
-  Future<Response> getInstituteLogo() async {
+  Future<Response> getInstituteLogo({context}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
     String userId = await localStorage.getUserId();
     String diCode = await localStorage.getDiCode();
 
-    Map<String, String> param = {
-      'wsCodeCrypt': appConfig.wsCodeCrypt,
-      'caUid': caUid,
-      'caPwd': caPwd,
-      'diCode': diCode,
-      'userId': userId,
-    };
+    var response = await Provider.of<ApiService>(context).getInstituteLogo(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      diCode: diCode,
+      userId: userId,
+    );
 
-    String method = 'GetArmasterAppPhotoForCode';
+    if (response.body != 'null' && response.statusCode == 200) {
+      InstituteLogoResponse instituteLogoResponse;
 
-    var response = await networking.getData(method: method, param: param);
+      instituteLogoResponse = InstituteLogoResponse.fromJson(response.body);
 
-    var responseData = response.data['GetArmasterAppPhotoForCodeResponse']
-        ['GetArmasterAppPhotoForCodeResult']['ArmasterInfo'];
-
-    if (responseData != null) {
-      localStorage
-          .saveInstituteLogo(responseData['Armaster']['app_background_photo']);
+      localStorage.saveInstituteLogo(
+          instituteLogoResponse.armaster[0].appBackgroundPhoto);
 
       return Response(true,
-          data: responseData['Armaster']['app_background_photo']);
+          data: instituteLogoResponse.armaster[0].appBackgroundPhoto);
     }
-    return Response(false, message: response.message);
+
+    return Response(false);
   }
 
-  Future<Response> getExamNo(groupId) async {
+  Future<Response> getExamNo({context, groupId}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
@@ -55,76 +52,66 @@ class KppRepo {
     String userPhone = await localStorage.getUserPhone();
     String phone = userPhone.substring(2);
 
-    Map<String, String> param = {
-      'wsCodeCrypt': appConfig.wsCodeCrypt,
-      'caUid': caUid,
-      'caPwd': caPwd,
-      'diCode': diCode,
-      'groupId': groupId,
-      'courseCode': courseCode,
-      'langCode': langCode,
-      'phone': phone,
-      'userId': userId,
-    };
+    var response = await Provider.of<ApiService>(context).getExamNo(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      diCode: diCode,
+      groupId: groupId,
+      courseCode: courseCode,
+      langCode: langCode,
+      phone: phone,
+      userId: userId,
+    );
 
-    String method = 'GetTheoryQuestionPaperNoWithCreditControl';
+    if (response.body != 'null' && response.statusCode == 200) {
+      GetPaperNoResponse getPaperNoResponse;
 
-    var response = await networking.getData(method: method, param: param);
+      getPaperNoResponse = GetPaperNoResponse.fromJson(response.body);
 
-    if (response.isSuccess) {
-      var responseData =
-          response.data['GetTheoryQuestionPaperNoWithCreditControlResponse']
-                  ['GetTheoryQuestionPaperNoWithCreditControlResult']
-              ['TheoryQuestionInfo'];
-
-      if (responseData != null) {
-        return Response(true, data: responseData);
-      }
-    } else if (response.data != null) {
-      return Response(false,
-          message: response.data['string'].replaceAll(r'\r\n', ''));
+      return Response(true, data: getPaperNoResponse.paperNo);
     }
 
-    return Response(false, message: response.message);
+    RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+
+    return Response(false,
+        message: response.body
+            .replaceAll(exp, '')
+            .replaceAll('&#xD;', '')
+            .replaceAll('[BLException]', ''));
   }
 
-  Future<Response> getExamQuestions({groupId, paperNo}) async {
+  Future<Response> getExamQuestions({context, groupId, paperNo}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
     // String caPwdUrlEncode = await localStorage.getCaPwdEncode();
-
     String courseCode = 'KPP1';
     String langCode = 'ms-MY';
 
-    String userId = await localStorage.getUserId();
-    String diCode = await localStorage.getDiCode();
-    String userPhone = await localStorage.getUserPhone();
-    String phone = userPhone.substring(2);
+    var response = await Provider.of<ApiService>(context).getExamQuestions(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      groupId: groupId,
+      courseCode: courseCode,
+      langCode: langCode,
+      paperNo: paperNo,
+    );
 
-    Map<String, String> param = {
-      'wsCodeCrypt': appConfig.wsCodeCrypt,
-      'caUid': caUid,
-      'caPwd': caPwd,
-      'groupId': groupId,
-      'courseCode': courseCode,
-      'langCode': langCode,
-      'paperNo': paperNo,
-    };
+    if (response.body != 'null' && response.statusCode == 200) {
+      GetExamQuestionsResponse getExamQuestionsResponse;
 
-    String method = 'GetTheoryQuestionByPaper';
+      getExamQuestionsResponse =
+          GetExamQuestionsResponse.fromJson(response.body);
 
-    var response = await networking.getData(method: method, param: param);
-
-    var responseData = response.data['GetTheoryQuestionByPaperResponse']
-        ['GetTheoryQuestionByPaperResult']['TheoryQuestionInfo'];
-
-    if (responseData != null) {
-      return Response(true, data: responseData);
+      return Response(true, data: getExamQuestionsResponse.theoryQuestion);
     }
-    return Response(false, message: response.message);
+
+    return Response(false,
+        message: AppLocalizations.of(context).translate('timeout_exception'));
   }
 
-  Future<Response> pinActivation(pinNumber, groupId) async {
+  Future<Response> pinActivation({context, pinNumber, groupId}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
     String userId = await localStorage.getUserId();
@@ -143,22 +130,19 @@ class KppRepo {
       courseCode: 'KPP1',
     );
 
-    String body = jsonEncode(pinRequest);
-
-    String api = 'PinActivation';
-
-    Map<String, String> headers = {'Content-Type': 'application/json'};
-
     var response =
-        await networking.postData(api: api, body: body, headers: headers);
+        await Provider.of<ApiService>(context).pinActivation(pinRequest);
 
-    if (response.isSuccess) {
+    if (response.body != 'null' && response.statusCode == 200) {
       return Response(true);
     }
 
+    RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+
     return Response(false,
-        message: response.message
-            .replaceAll(r'\u000d\u000a', '')
-            .replaceAll(r'"', ''));
+        message: response.body
+            .replaceAll(exp, '')
+            .replaceAll('&#xD;', '')
+            .replaceAll('[BLException]', ''));
   }
 }

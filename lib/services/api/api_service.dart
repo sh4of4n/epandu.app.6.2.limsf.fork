@@ -2,6 +2,8 @@ import 'package:chopper/chopper.dart';
 import 'package:epandu/services/api/model/auth_model.dart';
 import 'package:hive/hive.dart';
 
+import 'model/kpp_model.dart';
+
 part 'api_service.chopper.dart';
 
 @ChopperApi(baseUrl: '/webapi/')
@@ -91,17 +93,12 @@ abstract class ApiService extends ChopperService {
     @Path('userPhone') String userPhone,
   });
 
-  @Post(
-    path: 'CreateAppAccount',
-    headers: {'Content-Type': 'application/json'},
-  )
+  @Post(path: 'CreateAppAccount')
   Future<Response> register(@Body() RegisterRequest body);
 
   @Get(
-    path:
-        'GetUserByUserIdPwd?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&diCode={diCode}&userId={userId}&userPwd={userPwd}',
-    headers: {'Content-Type': 'application/json'},
-  )
+      path:
+          'GetUserByUserIdPwd?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&diCode={diCode}&userId={userId}&userPwd={userPwd}')
   Future<Response> verifyOldPassword({
     @Path('wsCodeCrypt') String wsCodeCrypt,
     @Path('caUid') String caUid,
@@ -128,7 +125,7 @@ abstract class ApiService extends ChopperService {
     @Path('groupId') String groupId,
   });
 
-  @Get(
+  /* @Get(
       path:
           'GetStuPracByCode?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&diCode={diCode}&icNo={icNo}&groupId={groupId}')
   Future<Response> getEnrolledClasses({
@@ -138,7 +135,7 @@ abstract class ApiService extends ChopperService {
     @Path('diCode') String diCode,
     @Path('icNo') String icNo,
     @Path('groupId') String groupId,
-  });
+  }); */
 
   @Get(
       path:
@@ -163,4 +160,71 @@ abstract class ApiService extends ChopperService {
     @Path('groupId') String groupId,
   });
   // end profile_repo
+
+  // kpp_repo
+  @Get(
+      path:
+          'GetArmasterAppPhotoForCode?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&diCode={diCode}&userId={userId}')
+  Future<Response> getInstituteLogo({
+    @Path('wsCodeCrypt') String wsCodeCrypt,
+    @Path('caUid') String caUid,
+    @Path('caPwd') String caPwd,
+    @Path('diCode') String diCode,
+    @Path('userId') String userId,
+  });
+
+  @Get(
+      path:
+          'GetTheoryQuestionPaperNoWithCreditControl?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&diCode={diCode}&groupId={groupId}&courseCode={courseCode}&langCode={langCode}&phone={phone}&userId={userId}')
+  Future<Response> getExamNo({
+    @Path('wsCodeCrypt') String wsCodeCrypt,
+    @Path('caUid') String caUid,
+    @Path('caPwd') String caPwd,
+    @Path('diCode') String diCode,
+    @Path('groupId') String groupId,
+    @Path('courseCode') String courseCode,
+    @Path('langCode') String langCode,
+    @Path('phone') String phone,
+    @Path('userId') String userId,
+  });
+
+  @Get(
+      path:
+          'GetTheoryQuestionByPaper?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&groupId={groupId}&courseCode={courseCode}&langCode={langCode}&paperNo={paperNo}')
+  Future<Response> getExamQuestions({
+    @Path('wsCodeCrypt') String wsCodeCrypt,
+    @Path('caUid') String caUid,
+    @Path('caPwd') String caPwd,
+    @Path('groupId') String groupId,
+    @Path('courseCode') String courseCode,
+    @Path('langCode') String langCode,
+    @Path('paperNo') String paperNo,
+  });
+
+  @Post(path: 'PinActivation')
+  Future<Response> pinActivation(@Body() PinRequest body);
+  // end kpp_repo
+
+  // emergency_repo
+  @Get(
+      path:
+          'GetDefaultSosContact?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}')
+  Future<Response> getDefEmergencyContact({
+    @Path('wsCodeCrypt') String wsCodeCrypt,
+    @Path('caUid') String caUid,
+    @Path('caPwd') String caPwd,
+  });
+
+  @Get(
+      path:
+          'GetSosContact?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&sosContactType={sosContactType}&sosContactCode={sosContactCode}&areaCode={areaCode}')
+  Future<Response> getEmergencyContact({
+    @Path('wsCodeCrypt') String wsCodeCrypt,
+    @Path('caUid') String caUid,
+    @Path('caPwd') String caPwd,
+    @Path('sosContactType') String sosContactType,
+    @Path('sosContactCode') String sosContactCode,
+    @Path('areaCode') String areaCode,
+  });
+  // end emergency_repo
 }

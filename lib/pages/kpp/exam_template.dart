@@ -156,10 +156,10 @@ class _ExamTemplateState extends State<ExamTemplate> {
 
   _renderQuestion() {
     setState(() {
-      question = snapshotData[index]['question'];
+      question = snapshotData[index].question;
 
-      if (snapshotData[index]['question_photo'] != null)
-        questionImage = base64Decode(snapshotData[index]['question_photo']);
+      if (snapshotData[index].questionPhoto != null)
+        questionImage = base64Decode(snapshotData[index].questionPhoto);
 
       for (var i = 0; i <= 4; i++) {
         if (i == 0)
@@ -172,12 +172,49 @@ class _ExamTemplateState extends State<ExamTemplate> {
           roman.add('IV)');
         else if (i == 4) roman.add('V.');
 
-        if (snapshotData[index]['question_option_$i'] != null)
-          questionOption.add(snapshotData[index]['question_option_$i']);
+        // Add question options and question options image
+        switch (i) {
+          case 0:
+            if (snapshotData[index].questionOption1 != null)
+              questionOption.add(snapshotData[index].questionOption1);
 
-        if (snapshotData[index]['question_option_${i}_photo'] != null)
-          questionOptionImage.add(
-              base64Decode(snapshotData[index]['question_option_${i}_photo']));
+            if (snapshotData[index].questionOption1Photo != null)
+              questionOptionImage
+                  .add(base64Decode(snapshotData[index].questionOption1Photo));
+            break;
+          case 1:
+            if (snapshotData[index].questionOption2 != null)
+              questionOption.add(snapshotData[index].questionOption2);
+
+            if (snapshotData[index].questionOption2Photo != null)
+              questionOptionImage
+                  .add(base64Decode(snapshotData[index].questionOption2Photo));
+            break;
+          case 2:
+            if (snapshotData[index].questionOption3 != null)
+              questionOption.add(snapshotData[index].questionOption3);
+
+            if (snapshotData[index].questionOption3Photo != null)
+              questionOptionImage
+                  .add(base64Decode(snapshotData[index].questionOption3Photo));
+            break;
+          case 3:
+            if (snapshotData[index].questionOption4 != null)
+              questionOption.add(snapshotData[index].questionOption4);
+
+            if (snapshotData[index].questionOption4Photo != null)
+              questionOptionImage
+                  .add(base64Decode(snapshotData[index].questionOption4Photo));
+            break;
+          case 4:
+            if (snapshotData[index]?.questionOption5 != null)
+              questionOption.add(snapshotData[index].questionOption5);
+
+            if (snapshotData[index]?.questionOption5Photo != null)
+              questionOptionImage
+                  .add(base64Decode(snapshotData[index].questionOption5Photo));
+            break;
+        }
       }
 
       for (var i = 0; i <= 4; i++) {
@@ -191,35 +228,151 @@ class _ExamTemplateState extends State<ExamTemplate> {
           type.add('d');
         else if (i == 4) type.add('e');
 
-        if (snapshotData[index]['option_${type[i]}'] != null &&
-            snapshotData[index]['option_${type[i]}_photo'] == null) {
-          answers.add(snapshotData[index]['option_${type[i]}']);
-        } else if (snapshotData[index]['option_${type[i]}'] == null &&
-            snapshotData[index]['option_${type[i]}_photo'] != null) {
-          answers.add(
-            base64Decode(
-              snapshotData[index]['option_${type[i]}_photo'],
-            ),
-          );
+        switch (i) {
+          case 0:
+            if (snapshotData[index].optionA != null &&
+                snapshotData[index].optionAPhoto == null) {
+              answers.add(snapshotData[index].optionA);
+            } else if (snapshotData[index].optionA == null &&
+                snapshotData[index].optionAPhoto != null) {
+              answers.add(
+                base64Decode(
+                  snapshotData[index].optionAPhoto,
+                ),
+              );
 
-          answersImage.add(
-            base64Decode(
-              snapshotData[index]['option_${type[i]}_photo'],
-            ),
-          );
-        } else if (snapshotData[index]['option_${type[i]}'] != null &&
-            snapshotData[index]['option_${type[i]}_photo'] != null) {
-          answers.add(snapshotData[index]['option_${type[i]}']);
+              answersImage.add(
+                base64Decode(
+                  snapshotData[index].optionAPhoto,
+                ),
+              );
+            } else if (snapshotData[index].optionA != null &&
+                snapshotData[index].optionAPhoto != null) {
+              answers.add(snapshotData[index].optionA);
 
-          answersImage.add(
-            base64Decode(
-              snapshotData[index]['option_${type[i]}_photo'],
-            ),
-          );
+              answersImage.add(
+                base64Decode(
+                  snapshotData[index].optionAPhoto,
+                ),
+              );
+            }
+            break;
+          case 1:
+            if (snapshotData[index].optionB != null &&
+                snapshotData[index].optionBPhoto == null) {
+              answers.add(snapshotData[index].optionB);
+            } else if (snapshotData[index].optionB == null &&
+                snapshotData[index].optionBPhoto != null) {
+              answers.add(
+                base64Decode(
+                  snapshotData[index].optionBPhoto,
+                ),
+              );
+
+              answersImage.add(
+                base64Decode(
+                  snapshotData[index].optionBPhoto,
+                ),
+              );
+            } else if (snapshotData[index].optionB != null &&
+                snapshotData[index].optionBPhoto != null) {
+              answers.add(snapshotData[index].optionB);
+
+              answersImage.add(
+                base64Decode(
+                  snapshotData[index].optionBPhoto,
+                ),
+              );
+            }
+            break;
+          case 2:
+            if (snapshotData[index].optionC != null &&
+                snapshotData[index].optionCPhoto == null) {
+              answers.add(snapshotData[index].optionC);
+            } else if (snapshotData[index].optionC == null &&
+                snapshotData[index].optionCPhoto != null) {
+              answers.add(
+                base64Decode(
+                  snapshotData[index].optionCPhoto,
+                ),
+              );
+
+              answersImage.add(
+                base64Decode(
+                  snapshotData[index].optionCPhoto,
+                ),
+              );
+            } else if (snapshotData[index].optionC != null &&
+                snapshotData[index].optionCPhoto != null) {
+              answers.add(snapshotData[index].optionC);
+
+              answersImage.add(
+                base64Decode(
+                  snapshotData[index].optionCPhoto,
+                ),
+              );
+            }
+            break;
+          case 3:
+            if (snapshotData[index].optionD != null &&
+                snapshotData[index].optionDPhoto == null) {
+              answers.add(snapshotData[index].optionD);
+            } else if (snapshotData[index].optionD == null &&
+                snapshotData[index].optionDPhoto != null) {
+              answers.add(
+                base64Decode(
+                  snapshotData[index].optionDPhoto,
+                ),
+              );
+
+              answersImage.add(
+                base64Decode(
+                  snapshotData[index].optionDPhoto,
+                ),
+              );
+            } else if (snapshotData[index].optionD != null &&
+                snapshotData[index].optionDPhoto != null) {
+              answers.add(snapshotData[index].optionD);
+
+              answersImage.add(
+                base64Decode(
+                  snapshotData[index].optionDPhoto,
+                ),
+              );
+            }
+            break;
+          case 4:
+            if (snapshotData[index].optionE != null &&
+                snapshotData[index].optionEPhoto == null) {
+              answers.add(snapshotData[index].optionE);
+            } else if (snapshotData[index].optionE == null &&
+                snapshotData[index].optionEPhoto != null) {
+              answers.add(
+                base64Decode(
+                  snapshotData[index].optionEPhoto,
+                ),
+              );
+
+              answersImage.add(
+                base64Decode(
+                  snapshotData[index].optionEPhoto,
+                ),
+              );
+            } else if (snapshotData[index].optionE != null &&
+                snapshotData[index].optionEPhoto != null) {
+              answers.add(snapshotData[index].optionE);
+
+              answersImage.add(
+                base64Decode(
+                  snapshotData[index].optionEPhoto,
+                ),
+              );
+            }
+            break;
         }
       }
 
-      correctAnswer = snapshotData[index]['answer'];
+      correctAnswer = snapshotData[index].answer;
     });
 
     _getCorrectAnswerIndex();

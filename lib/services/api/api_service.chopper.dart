@@ -70,10 +70,8 @@ class _$ApiService extends ApiService {
   @override
   Future<Response> register(RegisterRequest body) {
     final $url = '/webapi/CreateAppAccount';
-    final $headers = {'Content-Type': 'application/json'};
     final $body = body;
-    final $request =
-        Request('POST', $url, client.baseUrl, body: $body, headers: $headers);
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
   }
 
@@ -87,8 +85,7 @@ class _$ApiService extends ApiService {
       String userPwd}) {
     final $url =
         '/webapi/GetUserByUserIdPwd?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&userId=$userId&userPwd=$userPwd';
-    final $headers = {'Content-Type': 'application/json'};
-    final $request = Request('GET', $url, client.baseUrl, headers: $headers);
+    final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
@@ -110,20 +107,6 @@ class _$ApiService extends ApiService {
       String groupId}) {
     final $url =
         '/webapi/GetEnrollByCode?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo&groupId=$groupId';
-    final $request = Request('GET', $url, client.baseUrl);
-    return client.send<dynamic, dynamic>($request);
-  }
-
-  @override
-  Future<Response> getEnrolledClasses(
-      {String wsCodeCrypt,
-      String caUid,
-      String caPwd,
-      String diCode,
-      String icNo,
-      String groupId}) {
-    final $url =
-        '/webapi/GetStuPracByCode?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo&groupId=$groupId';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
@@ -151,6 +134,82 @@ class _$ApiService extends ApiService {
       String groupId}) {
     final $url =
         '/webapi/GetDTestByCode?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo&groupId=$groupId';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response> getInstituteLogo(
+      {String wsCodeCrypt,
+      String caUid,
+      String caPwd,
+      String diCode,
+      String userId}) {
+    final $url =
+        '/webapi/GetArmasterAppPhotoForCode?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&userId=$userId';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response> getExamNo(
+      {String wsCodeCrypt,
+      String caUid,
+      String caPwd,
+      String diCode,
+      String groupId,
+      String courseCode,
+      String langCode,
+      String phone,
+      String userId}) {
+    final $url =
+        '/webapi/GetTheoryQuestionPaperNoWithCreditControl?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&groupId=$groupId&courseCode=$courseCode&langCode=$langCode&phone=$phone&userId=$userId';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response> getExamQuestions(
+      {String wsCodeCrypt,
+      String caUid,
+      String caPwd,
+      String groupId,
+      String courseCode,
+      String langCode,
+      String paperNo}) {
+    final $url =
+        '/webapi/GetTheoryQuestionByPaper?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&groupId=$groupId&courseCode=$courseCode&langCode=$langCode&paperNo=$paperNo';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response> pinActivation(PinRequest body) {
+    final $url = '/webapi/PinActivation';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response> getDefEmergencyContact(
+      {String wsCodeCrypt, String caUid, String caPwd}) {
+    final $url =
+        '/webapi/GetDefaultSosContact?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response> getEmergencyContact(
+      {String wsCodeCrypt,
+      String caUid,
+      String caPwd,
+      String sosContactType,
+      String sosContactCode,
+      String areaCode}) {
+    final $url =
+        '/webapi/GetSosContact?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&sosContactType=$sosContactType&sosContactCode=$sosContactCode&areaCode=$areaCode';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }

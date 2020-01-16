@@ -1,3 +1,136 @@
+class GetWsUrlResponse {
+  LoginAcctInfo loginAcctInfo;
+
+  GetWsUrlResponse({this.loginAcctInfo});
+
+  GetWsUrlResponse.fromJson(Map<String, dynamic> json) {
+    loginAcctInfo = json['LoginAcctInfo'] != null
+        ? new LoginAcctInfo.fromJson(json['LoginAcctInfo'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.loginAcctInfo != null) {
+      data['LoginAcctInfo'] = this.loginAcctInfo.toJson();
+    }
+    return data;
+  }
+}
+
+class LoginAcctInfo {
+  LoginAcct loginAcct;
+
+  LoginAcctInfo({this.loginAcct});
+
+  LoginAcctInfo.fromJson(Map<String, dynamic> json) {
+    loginAcct = json['LoginAcct'] != null
+        ? new LoginAcct.fromJson(json['LoginAcct'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.loginAcct != null) {
+      data['LoginAcct'] = this.loginAcct.toJson();
+    }
+    return data;
+  }
+}
+
+class LoginAcct {
+  String loginAcctId;
+  String acctUid;
+  String acctPwd;
+  String acctName;
+  String acctStatus;
+  String loginType;
+  String loginIp;
+  String loginUid;
+  String loginPwd;
+  String loginDb;
+  String loginDir;
+  String loginAcctno;
+  String loginMisc;
+  String loginPort;
+  String checkLoginInterval;
+  String deleted;
+  String createUser;
+  String editUser;
+  String lastupload;
+  String wsUrl;
+
+  LoginAcct(
+      {this.loginAcctId,
+      this.acctUid,
+      this.acctPwd,
+      this.acctName,
+      this.acctStatus,
+      this.loginType,
+      this.loginIp,
+      this.loginUid,
+      this.loginPwd,
+      this.loginDb,
+      this.loginDir,
+      this.loginAcctno,
+      this.loginMisc,
+      this.loginPort,
+      this.checkLoginInterval,
+      this.deleted,
+      this.createUser,
+      this.editUser,
+      this.lastupload,
+      this.wsUrl});
+
+  LoginAcct.fromJson(Map<String, dynamic> json) {
+    loginAcctId = json['login_acct_id'];
+    acctUid = json['acct_uid'];
+    acctPwd = json['acct_pwd'];
+    acctName = json['acct_name'];
+    acctStatus = json['acct_status'];
+    loginType = json['login_type'];
+    loginIp = json['login_ip'];
+    loginUid = json['login_uid'];
+    loginPwd = json['login_pwd'];
+    loginDb = json['login_db'];
+    loginDir = json['login_dir'];
+    loginAcctno = json['login_acctno'];
+    loginMisc = json['login_misc'];
+    loginPort = json['login_port'];
+    checkLoginInterval = json['check_login_interval'];
+    deleted = json['deleted'];
+    createUser = json['create_user'];
+    editUser = json['edit_user'];
+    lastupload = json['lastupload'];
+    wsUrl = json['WsUrl'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['login_acct_id'] = this.loginAcctId;
+    data['acct_uid'] = this.acctUid;
+    data['acct_pwd'] = this.acctPwd;
+    data['acct_name'] = this.acctName;
+    data['acct_status'] = this.acctStatus;
+    data['login_type'] = this.loginType;
+    data['login_ip'] = this.loginIp;
+    data['login_uid'] = this.loginUid;
+    data['login_pwd'] = this.loginPwd;
+    data['login_db'] = this.loginDb;
+    data['login_dir'] = this.loginDir;
+    data['login_acctno'] = this.loginAcctno;
+    data['login_misc'] = this.loginMisc;
+    data['login_port'] = this.loginPort;
+    data['check_login_interval'] = this.checkLoginInterval;
+    data['deleted'] = this.deleted;
+    data['create_user'] = this.createUser;
+    data['edit_user'] = this.editUser;
+    data['lastupload'] = this.lastupload;
+    data['WsUrl'] = this.wsUrl;
+    return data;
+  }
+}
+
 /* class LoginRequest {
   String wsCodeCrypt;
   String caUid;

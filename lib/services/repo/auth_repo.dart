@@ -1,22 +1,25 @@
 import 'dart:convert';
+
 import 'package:epandu/services/api/api_service.dart';
+import 'package:epandu/services/api/get_base_url.dart';
 import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/services/api/networking.dart';
 import 'package:epandu/services/api/model/auth_model.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'package:xml2json/xml2json.dart';
 
 import '../../app_localizations.dart';
 
 class AuthRepo {
   final appConfig = AppConfig();
   final localStorage = LocalStorage();
-  final networking = Networking();
   final postApiService = ApiService;
+  final xml2json = Xml2Json();
 
   Future<Response> getWsUrl({
+    context,
     acctUid,
     acctPwd,
     loginType,
@@ -42,34 +45,50 @@ class AuthRepo {
 
     wsUrl = wsUrl.replaceAll("_wsver_", WSVER.replaceAll(".", "_"));
 
-    String params =
-        '?wsCodeCrypt=$wsCodeCrypt&acctUid=$acctUid&acctPwd=${Uri.encodeQueryComponent(acctPwd)}&loginType=$loginType&misc=';
+    var response = await Provider.of<GetBaseUrl>(context).getWsUrl(
+      baseUrl: wsUrl,
+      wsCodeCrypt: wsCodeCrypt,
+      acctUid: acctUid,
+      acctPwd: acctPwd,
+      loginType: loginType,
+      misc: '',
+    );
 
-    String apiMethod = '/LoginPub';
+    if (response.body != 'null' && response.statusCode == 200) {
+      RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+      var trimTags = response.body.replaceAll(exp, '');
 
-    var response = await Networking(customUrl: '$wsUrl$apiMethod')
-        .getRequest(path: params);
+      var convertResponse = trimTags
+          .replaceAll('&lt;', '<')
+          .replaceAll('&gt;', '>')
+          .replaceAll('&#xD;', '')
+          .replaceAll(r"\'", "'");
 
-    var responseData;
+      xml2json.parse(convertResponse);
+      var jsonData = xml2json.toParker();
+      var data = jsonDecode(jsonData);
 
-    if (response.data != null &&
-        response.data['string']['LoginAcctInfo'] != null)
-      responseData = response.data['string']['LoginAcctInfo']['LoginAcct'];
-
-    if (responseData != null && responseData['WsUrl'] != null) {
-      // WsVersion to be updated in returned wsUrl
+      GetWsUrlResponse getWsUrlResponse = GetWsUrlResponse.fromJson(data);
       String wsVer = '1_3';
       final wsUrlBox = Hive.box('ws_url');
 
-      wsUrlBox.put('wsUrl', responseData['WsUrl'].replaceAll('1_2', wsVer));
+      wsUrlBox.put(
+          'wsUrl',
+          getWsUrlResponse.loginAcctInfo.loginAcct.wsUrl
+              .replaceAll('1_2', wsVer));
 
-      localStorage.saveWsUrl(responseData['WsUrl'].replaceAll('1_2', wsVer));
+      localStorage.saveWsUrl(getWsUrlResponse.loginAcctInfo.loginAcct.wsUrl
+          .replaceAll('1_2', wsVer));
       localStorage.saveCaUid(acctUid);
       localStorage.saveCaPwd(acctPwd);
       localStorage.saveCaPwdEncode(Uri.encodeQueryComponent(acctPwd));
 
-      return Response(true, data: responseData['WsUrl'], message: '');
+      return Response(true,
+          data: getWsUrlResponse.loginAcctInfo.loginAcct.wsUrl
+              .replaceAll('1_2', wsVer),
+          message: '');
     }
+
     return Response(false, message: 'No URL found with this client account.');
   }
 
@@ -178,11 +197,12 @@ class AuthRepo {
 
     await localStorage.reset();
 
-    await getWsUrl(
+    /* await getWsUrl(
+      context: context,
       acctUid: caUid,
       acctPwd: caPwd,
       loginType: appConfig.wsCodeCrypt,
-    );
+    ); */
   }
 
   // Register

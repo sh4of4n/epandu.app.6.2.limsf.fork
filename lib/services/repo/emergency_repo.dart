@@ -1,43 +1,35 @@
-import 'dart:convert';
-
+import 'package:epandu/services/api/api_service.dart';
 import 'package:epandu/services/api/model/emergency_model.dart';
 import 'package:epandu/services/location.dart';
 import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/services/api/networking.dart';
+import 'package:provider/provider.dart';
 
 class EmergencyRepo {
   final appConfig = AppConfig();
   final localStorage = LocalStorage();
-  final networking = Networking();
 
   // GetDefaultSosContact
-  Future<Response> getDefEmergencyContact() async {
+  Future<Response> getDefEmergencyContact({context}) async {
+    assert(context != null);
+
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
-    Map<String, String> param = {
-      'wsCodeCrypt': appConfig.wsCodeCrypt,
-      'caUid': caUid,
-      'caPwd': caPwd,
-    };
+    var response =
+        await Provider.of<ApiService>(context).getDefEmergencyContact(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+    );
 
-    String method = 'GetDefaultSosContact';
+    if (response.body != 'null' && response.statusCode == 200) {
+      DefaultEmergencyContactResponse defEmergencyContactResponse =
+          DefaultEmergencyContactResponse.fromJson(response.body);
 
-    DefaultEmergencyContactResponse defEmergencyContactResponse;
-
-    var response = await networking.getData(method: method, param: param);
-
-    if (response.isSuccess) {
-      if (response.data != null) {
-        defEmergencyContactResponse = DefaultEmergencyContactResponse.fromJson(
-            response.data['GetDefaultSosContactResponse']
-                ['GetDefaultSosContactResult']['SosContactInfo']);
-
-        return Response(true,
-            data: defEmergencyContactResponse.sosContactHelpDesk);
-      }
+      return Response(true,
+          data: defEmergencyContactResponse.sosContactHelpDesk);
     }
 
     return Response(false);
@@ -45,11 +37,11 @@ class EmergencyRepo {
 
   // GetSosContact
   Future<Response> getEmergencyContact(
-      {sosContactType, sosContactCode, areaCode}) async {
+      {context, sosContactType, sosContactCode, areaCode}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
-    EmergencyContactRequest emergencyContactRequest = EmergencyContactRequest(
+    var response = await Provider.of<ApiService>(context).getEmergencyContact(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -58,40 +50,27 @@ class EmergencyRepo {
       areaCode: areaCode ?? '',
     );
 
-    Map<String, String> param = emergencyContactRequest.toJson();
+    if (response.body != 'null' && response.statusCode == 200) {
+      EmergencyContactResponse emergencyContactResponse =
+          EmergencyContactResponse.fromJson(response.body);
 
-    String method = 'GetSosContact';
+      for (int i = 0; i < emergencyContactResponse.sosContact.length; i += 1) {
+        double locLatitude =
+            double.tryParse(emergencyContactResponse.sosContact[i].latitude);
+        double locLongitude =
+            double.tryParse(emergencyContactResponse.sosContact[i].longtitude);
 
-    EmergencyContactResponse emergencyContactResponse;
+        double locDistance = await Location()
+            .getDistance(locLatitude: locLatitude, locLongitude: locLongitude);
 
-    var response = await networking.getData(method: method, param: param);
-
-    if (response.isSuccess) {
-      if (response.data != null) {
-        emergencyContactResponse = EmergencyContactResponse.fromJson(
-            response.data['GetSosContactResponse']['GetSosContactResult']
-                ['SosContactInfo']);
-
-        for (int i = 0;
-            i < emergencyContactResponse.sosContact.length;
-            i += 1) {
-          double locLatitude =
-              double.tryParse(emergencyContactResponse.sosContact[i].latitude);
-          double locLongitude = double.tryParse(
-              emergencyContactResponse.sosContact[i].longtitude);
-
-          double locDistance = await Location().getDistance(
-              locLatitude: locLatitude, locLongitude: locLongitude);
-
-          emergencyContactResponse.sosContact[i].distance =
-              '${(locDistance / 1000).roundToDouble().toString()}km';
-        }
-
-        var sortedResponse = await getSortedContacts(
-            emergencyContacts: emergencyContactResponse.sosContact);
-
-        return sortedResponse;
+        emergencyContactResponse.sosContact[i].distance =
+            '${(locDistance / 1000).roundToDouble().toString()}km';
       }
+
+      var sortedResponse = await getSortedContacts(
+          emergencyContacts: emergencyContactResponse.sosContact);
+
+      return sortedResponse;
     }
 
     return Response(false);

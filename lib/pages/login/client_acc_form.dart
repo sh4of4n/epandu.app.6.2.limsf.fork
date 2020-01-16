@@ -278,16 +278,13 @@ class _ClientAccountFormState extends State<ClientAccountForm>
       });
 
       var result = await authRepo.getWsUrl(
+        context: context,
         acctUid: _caUid,
         acctPwd: _caPwd,
         loginType: appConfig.wsCodeCrypt,
       );
 
       if (result.isSuccess) {
-        localStorage.saveCaUid(_caUid);
-        localStorage.saveCaPwd(_caPwd);
-        localStorage.saveCaPwdEncode(Uri.encodeQueryComponent(_caPwd));
-
         if (widget.data == 'SETTINGS')
           Navigator.pushReplacementNamed(context, LOGIN);
         else

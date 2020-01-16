@@ -37,7 +37,7 @@ class _KppCategoryState extends State<KppCategory> {
     String instituteLogoBase64 = await localStorage.getInstituteLogo();
 
     if (instituteLogoBase64.isEmpty) {
-      var result = await kppRepo.getInstituteLogo();
+      var result = await kppRepo.getInstituteLogo(context: context);
 
       if (result.data != null) {
         Uint8List decodedImage = base64Decode(result.data);
