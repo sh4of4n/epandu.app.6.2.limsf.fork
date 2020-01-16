@@ -50,6 +50,8 @@
   "payment_title": "Payment",
   "attendance_title": "Attendance",
   "location_lbl": "Location",
+  "no_email": "No email registered.",
+  "no_location": "No address registered.",
   "class_lbl": "Class",
   "stu_no_lbl": "Student no",
   "fees_lbl": "Fees",

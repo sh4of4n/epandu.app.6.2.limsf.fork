@@ -136,7 +136,11 @@ class _ProfileState extends State<Profile> {
             ListTile(
               leading: Icon(Icons.email),
               title: Text(AppLocalizations.of(context).translate('email_lbl')),
-              subtitle: Text('$_email', style: _subtitleStyle),
+              subtitle: Text(
+                  _email.isNotEmpty
+                      ? '$_email'
+                      : AppLocalizations.of(context).translate('no_email'),
+                  style: _subtitleStyle),
             ),
           SizedBox(height: ScreenUtil().setHeight(20)),
           if (_state != 'null' && _country != 'null')
@@ -145,7 +149,9 @@ class _ProfileState extends State<Profile> {
               title:
                   Text(AppLocalizations.of(context).translate('location_lbl')),
               subtitle: Text(
-                  '${_state != "null" ? _state : ""}${_country != "null" ? ", $_country" : ""}',
+                  _state.isNotEmpty && _country.isNotEmpty
+                      ? '${_state != "null" ? _state : ""}${_country != "null" ? ", $_country" : ""}'
+                      : AppLocalizations.of(context).translate('no_location'),
                   style: _subtitleStyle),
             )
         ],

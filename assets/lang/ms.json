@@ -50,6 +50,8 @@
   "payment_title": "Bayaran",
   "attendance_title": "Kehadiran",
   "location_lbl": "Lokasi",
+  "no_email": "Tiada e-mel yang didaftarkan.",
+  "no_location": "Tiada lokasi yang didaftarkan.",
   "class_lbl": "Kelas",
   "stu_no_lbl": "Nombor pelajar",
   "fees_lbl": "Bayaran",
