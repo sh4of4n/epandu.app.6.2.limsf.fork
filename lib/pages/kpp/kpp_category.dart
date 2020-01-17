@@ -9,7 +9,6 @@ import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shimmer/shimmer.dart';
 
 import 'kpp_category_icon.dart';
 
@@ -57,23 +56,10 @@ class _KppCategoryState extends State<KppCategory> {
     }
   }
 
-  _shimmerContainer() {
+  _customContainer() {
     return Container(
-      padding: const EdgeInsets.all(20.0),
-      margin: const EdgeInsets.only(top: 15.0),
-      child: SizedBox(
-        width: ScreenUtil().setWidth(800),
-        height: ScreenUtil().setHeight(400),
-        child: Shimmer.fromColors(
-          baseColor: Colors.grey[400].withOpacity(0.5),
-          highlightColor: Colors.white10,
-          child: Container(
-            width: ScreenUtil().setWidth(800),
-            height: ScreenUtil().setHeight(400),
-            color: Colors.grey,
-          ),
-        ),
-      ),
+      width: 294,
+      height: 154,
     );
   }
 
@@ -108,8 +94,8 @@ class _KppCategoryState extends State<KppCategory> {
                         instituteLogo,
                         semanticLabel: 'ePandu',
                       )
-                    : _shimmerContainer(),
-                secondChild: _shimmerContainer(),
+                    : _customContainer(),
+                secondChild: _customContainer(),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),

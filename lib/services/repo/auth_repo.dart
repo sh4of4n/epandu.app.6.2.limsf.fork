@@ -77,8 +77,6 @@ class AuthRepo {
           getWsUrlResponse.loginAcctInfo.loginAcct.wsUrl
               .replaceAll('1_2', wsVer));
 
-      localStorage.saveWsUrl(getWsUrlResponse.loginAcctInfo.loginAcct.wsUrl
-          .replaceAll('1_2', wsVer));
       localStorage.saveCaUid(acctUid);
       localStorage.saveCaPwd(acctPwd);
       localStorage.saveCaPwdEncode(Uri.encodeQueryComponent(acctPwd));
@@ -200,6 +198,8 @@ class AuthRepo {
     );
 
     await localStorage.reset();
+    Hive.box('ws_url').clear();
+    Hive.box('emergencyContact').clear();
 
     /* await getWsUrl(
       context: context,

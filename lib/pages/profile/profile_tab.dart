@@ -82,16 +82,20 @@ class _ProfileTabState extends State<ProfileTab>
           await profileRepo.getStudentEnrollmentData(context: context);
 
       if (enrollmentResponse.isSuccess) {
-        setState(() {
-          enrollmentData = enrollmentResponse;
-          enrollmentMessage = '';
-        });
+        if (mounted) {
+          setState(() {
+            enrollmentData = enrollmentResponse;
+            enrollmentMessage = '';
+          });
+        }
       } else {
-        setState(() {
-          enrollmentData = null;
-          enrollmentMessage =
-              AppLocalizations.of(context).translate('no_enrollment_desc');
-        });
+        if (mounted) {
+          setState(() {
+            enrollmentData = null;
+            enrollmentMessage =
+                AppLocalizations.of(context).translate('no_enrollment_desc');
+          });
+        }
       }
     }
     // enrolledClassResponse = await profileRepo.getEnrolledClasses();
@@ -102,16 +106,20 @@ class _ProfileTabState extends State<ProfileTab>
       paymentResponse = await profileRepo.getStudentPayment(context: context);
 
       if (paymentResponse.isSuccess) {
-        setState(() {
-          paymentData = paymentResponse;
-          paymentMessage = '';
-        });
+        if (mounted) {
+          setState(() {
+            paymentData = paymentResponse;
+            paymentMessage = '';
+          });
+        }
       } else {
-        setState(() {
-          paymentData = null;
-          paymentMessage =
-              AppLocalizations.of(context).translate('no_payment_desc');
-        });
+        if (mounted) {
+          setState(() {
+            paymentData = null;
+            paymentMessage =
+                AppLocalizations.of(context).translate('no_payment_desc');
+          });
+        }
       }
     }
   }
@@ -122,16 +130,20 @@ class _ProfileTabState extends State<ProfileTab>
           await profileRepo.getStudentAttendance(context: context);
 
       if (attendanceResponse.isSuccess) {
-        setState(() {
-          attendanceData = attendanceResponse;
-          attendanceMessage = '';
-        });
+        if (mounted) {
+          setState(() {
+            attendanceData = attendanceResponse;
+            attendanceMessage = '';
+          });
+        }
       } else {
-        setState(() {
-          attendanceData = null;
-          attendanceMessage =
-              AppLocalizations.of(context).translate('no_attendance_desc');
-        });
+        if (mounted) {
+          setState(() {
+            attendanceData = null;
+            attendanceMessage =
+                AppLocalizations.of(context).translate('no_attendance_desc');
+          });
+        }
       }
     }
   }

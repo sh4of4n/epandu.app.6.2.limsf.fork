@@ -15,6 +15,7 @@ dependencies:
   geocoder: ^0.2.1
   url_launcher: ^5.4.1
   shimmer: ^1.0.1
+  map_launcher: ^0.4.1
 
   flutter_localizations:
     sdk: flutter

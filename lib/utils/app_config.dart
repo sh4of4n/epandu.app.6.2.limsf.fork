@@ -7,10 +7,10 @@ class AppConfig {
 
   String diCode = 'TBS';
 
-  Future<String> getBaseUrl() async {
-    String wsUrl = await localStorage.getWsUrl();
-    String url = '$wsUrl/webapi/';
+  // Future<String> getBaseUrl() async {
+  //   String wsUrl = await localStorage.getWsUrl();
+  //   String url = '$wsUrl/webapi/';
 
-    return url;
-  }
+  //   return url;
+  // }
 }

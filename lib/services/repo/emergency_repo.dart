@@ -4,6 +4,7 @@ import 'package:epandu/services/location.dart';
 import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 class EmergencyRepo {
@@ -38,6 +39,9 @@ class EmergencyRepo {
   // GetSosContact
   Future<Response> getEmergencyContact(
       {context, sosContactType, sosContactCode, areaCode}) async {
+    // Hive
+    final emergencyContactBox = Hive.box('emergencyContact');
+
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
@@ -69,6 +73,18 @@ class EmergencyRepo {
 
       var sortedResponse = await getSortedContacts(
           emergencyContacts: emergencyContactResponse.sosContact);
+
+      // Store sortedResponse in hive box
+      switch (sosContactType) {
+        case 'POLICE':
+          emergencyContactBox.put('policeContact', sortedResponse.data);
+          break;
+        case 'AMBULANCE':
+          emergencyContactBox.put('ambulanceContact', sortedResponse.data);
+          break;
+        case 'EMBASSY':
+          emergencyContactBox.put('embassyContact', sortedResponse.data);
+      }
 
       return sortedResponse;
     }

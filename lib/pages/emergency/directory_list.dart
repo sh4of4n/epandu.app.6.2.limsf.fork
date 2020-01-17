@@ -4,6 +4,7 @@ import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:hive/hive.dart';
 
 class DirectoryList extends StatefulWidget {
   final data;
@@ -18,21 +19,17 @@ class _DirectoryListState extends State<DirectoryList> {
   final emergencyRepo = EmergencyRepo();
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
+  final contactBox = Hive.box('emergencyContact');
 
   _getContacts() async {
-    // var emergencyContacts = await localStorage.getEmergencyDirContacts();
-
-    // if (emergencyContacts.isEmpty) {
-    var result = await emergencyRepo.getEmergencyContact(
-        context: context, sosContactType: widget.data);
-
-    if (result.isSuccess) {
-      return result.data;
+    switch (widget.data) {
+      case 'POLICE':
+        return contactBox.get('policeContact');
+      case 'AMBULANCE':
+        return contactBox.get('ambulanceContact');
+      case 'EMBASSY':
+        return contactBox.get('embassyContact');
     }
-    // }
-    // result = jsonDecode(emergencyContacts);
-
-    // return result.sosContact;
   }
 
   _listItem(snapshot, index) {
@@ -56,6 +53,17 @@ class _DirectoryListState extends State<DirectoryList> {
     );
   }
 
+  _getAppBarTitle() {
+    switch (widget.data) {
+      case 'POLICE':
+        return Text(AppLocalizations.of(context).translate('police_title'));
+      case 'AMBULANCE':
+        return Text(AppLocalizations.of(context).translate('ambulance_title'));
+      case 'EMBASSY':
+        return Text(AppLocalizations.of(context).translate('embassy_title'));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,7 +79,7 @@ class _DirectoryListState extends State<DirectoryList> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: Text(AppLocalizations.of(context).translate('directory_lbl')),
+          title: _getAppBarTitle(),
         ),
         body: FutureBuilder(
           future: _getContacts(),

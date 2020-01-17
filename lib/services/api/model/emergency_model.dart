@@ -1,3 +1,7 @@
+import 'package:hive/hive.dart';
+
+part 'emergency_model.g.dart';
+
 // Get Default SoS contact
 class DefaultEmergencyContactResponse {
   List<SosContactHelpDesk> sosContactHelpDesk;
@@ -146,31 +150,57 @@ class EmergencyContactResponse {
   }
 }
 
+@HiveType(typeId: 1, adapterName: 'EmergencyContactAdapter')
 class SosContact {
+  @HiveField(0)
   String iD;
+  @HiveField(1)
   String sosContactType;
+  @HiveField(2)
   String sosContactSubtype;
+  @HiveField(3)
   String sosContactCode;
+  @HiveField(4)
   String sosContactName;
+  @HiveField(5)
   String add;
+  @HiveField(6)
   String phone;
+  @HiveField(7)
   String latitude;
+  @HiveField(8)
   String longtitude;
+  @HiveField(9)
   String areaCode;
+  @HiveField(10)
   String skipCall;
+  @HiveField(11)
   String createUser;
+  @HiveField(12)
   String editUser;
+  @HiveField(13)
   String editDate;
+  @HiveField(14)
   dynamic compCode;
+  @HiveField(15)
   dynamic branchCode;
+  @HiveField(16)
   String rowKey;
+  @HiveField(17)
   dynamic lastupload;
+  @HiveField(18)
   String transtamp;
+  @HiveField(19)
   String deleted;
+  @HiveField(20)
   String lastEditedBy;
+  @HiveField(21)
   String createdBy;
+  @HiveField(22)
   String createDate;
+  @HiveField(23)
   String remark;
+  @HiveField(24)
   String distance;
 
   SosContact({
@@ -257,3 +287,153 @@ class SosContact {
     return data;
   }
 }
+
+/* @HiveType(typeId: 0)
+class PoliceContact {
+  @HiveField(0)
+  final String sosContactType;
+
+  @HiveField(1)
+  final String sosContactSubtype;
+
+  @HiveField(2)
+  final String sosContactCode;
+
+  @HiveField(3)
+  final String sosContactName;
+
+  @HiveField(4)
+  final String add;
+
+  @HiveField(5)
+  final String phone;
+
+  @HiveField(6)
+  final String latitude;
+
+  @HiveField(7)
+  final String longitude;
+
+  @HiveField(8)
+  final String areaCode;
+
+  @HiveField(9)
+  final String skipCall;
+
+  @HiveField(10)
+  final String distance;
+
+  PoliceContact({
+    this.sosContactType,
+    this.sosContactSubtype,
+    this.sosContactCode,
+    this.sosContactName,
+    this.add,
+    this.phone,
+    this.latitude,
+    this.longitude,
+    this.areaCode,
+    this.skipCall,
+    this.distance,
+  });
+}
+
+@HiveType(typeId: 0)
+class AmbulanceContact {
+  @HiveField(0)
+  final String sosContactType;
+
+  @HiveField(1)
+  final String sosContactSubtype;
+
+  @HiveField(2)
+  final String sosContactCode;
+
+  @HiveField(3)
+  final String sosContactName;
+
+  @HiveField(4)
+  final String add;
+
+  @HiveField(5)
+  final String phone;
+
+  @HiveField(6)
+  final String latitude;
+
+  @HiveField(7)
+  final String longitude;
+
+  @HiveField(8)
+  final String areaCode;
+
+  @HiveField(9)
+  final String skipCall;
+
+  @HiveField(10)
+  final String distance;
+
+  AmbulanceContact({
+    this.sosContactType,
+    this.sosContactSubtype,
+    this.sosContactCode,
+    this.sosContactName,
+    this.add,
+    this.phone,
+    this.latitude,
+    this.longitude,
+    this.areaCode,
+    this.skipCall,
+    this.distance,
+  });
+}
+
+@HiveType(typeId: 0)
+class EmbassyContact {
+  @HiveField(0)
+  final String sosContactType;
+
+  @HiveField(1)
+  final String sosContactSubtype;
+
+  @HiveField(2)
+  final String sosContactCode;
+
+  @HiveField(3)
+  final String sosContactName;
+
+  @HiveField(4)
+  final String add;
+
+  @HiveField(5)
+  final String phone;
+
+  @HiveField(6)
+  final String latitude;
+
+  @HiveField(7)
+  final String longitude;
+
+  @HiveField(8)
+  final String areaCode;
+
+  @HiveField(9)
+  final String skipCall;
+
+  @HiveField(10)
+  final String distance;
+
+  EmbassyContact({
+    this.sosContactType,
+    this.sosContactSubtype,
+    this.sosContactCode,
+    this.sosContactName,
+    this.add,
+    this.phone,
+    this.latitude,
+    this.longitude,
+    this.areaCode,
+    this.skipCall,
+    this.distance,
+  });
+} */

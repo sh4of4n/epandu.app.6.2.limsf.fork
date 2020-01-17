@@ -1,12 +1,15 @@
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/pages/emergency/authorities_button.dart';
 import 'package:epandu/services/location.dart';
+import 'package:epandu/services/repo/emergency_repo.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:hive/hive.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Emergency extends StatefulWidget {
   @override
@@ -14,17 +17,28 @@ class Emergency extends StatefulWidget {
 }
 
 class _EmergencyState extends State<Emergency> {
+  Box<dynamic> contactBox;
   final primaryColor = ColorConstant.primaryColor;
+  final emergencyRepo = EmergencyRepo();
   Location location = Location();
+  String policeNumber;
 
   @override
   void initState() {
     super.initState();
-
     _getCurrentLocation();
   }
 
   _getCurrentLocation() async {
+    await Hive.openBox('emergencyContact');
+
+    contactBox = Hive.box('emergencyContact');
+
+    if (contactBox.get('nearestPoliceContact') != null && mounted)
+      setState(() {
+        policeNumber = contactBox.get('nearestPoliceContact');
+      });
+
     await location.getCurrentLocation();
 
     GeolocationStatus geolocationStatus =
@@ -32,14 +46,35 @@ class _EmergencyState extends State<Emergency> {
 
     if (geolocationStatus == GeolocationStatus.granted) {
       print('distance: ${location.distanceInMeters.roundToDouble()}');
+
+      if (location.distanceInMeters.roundToDouble() > 100 ||
+          contactBox.get('nearestPoliceContact') == null) _getContacts();
+    }
+  }
+
+  _getContacts() async {
+    // if (emergencyContacts.isEmpty) {
+    await emergencyRepo.getEmergencyContact(
+        context: context, sosContactType: 'POLICE');
+
+    var policeContacts = contactBox.get('policeContact');
+
+    for (int i = 0; i < policeContacts.length; i += 1) {
+      if (policeContacts[i].sosContactSubtype == 'IPD') {
+        setState(() {
+          policeNumber = policeContacts[i].phone;
+        });
+        contactBox.put('nearestPoliceContact', policeContacts[i].phone);
+        break;
+      }
     }
   }
 
   _callPoliceNumber() async {
-    await launch('tel:045382222');
+    await launch('tel:$policeNumber');
   }
 
-  _callEmergencyNumber() async {
+  _callEmergencyNumber({@required String number}) async {
     await launch('tel:999');
   }
 
@@ -61,7 +96,7 @@ class _EmergencyState extends State<Emergency> {
           title: Text(AppLocalizations.of(context).translate('emergency_lbl')),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.collections_bookmark),
+              icon: Icon(Icons.view_list),
               onPressed: () =>
                   Navigator.pushNamed(context, EMERGENCY_DIRECTORY),
             )
@@ -99,17 +134,60 @@ class _EmergencyState extends State<Emergency> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  AuthoritiesButton(
-                    tileFirstColor: Color(0xff08457e),
-                    tileSecondColor: Color(0xff0499c7),
-                    label: AppLocalizations.of(context).translate('police_lbl'),
-                    onTap: _callPoliceNumber,
+                  AnimatedCrossFade(
+                    crossFadeState: policeNumber != null
+                        ? CrossFadeState.showFirst
+                        : CrossFadeState.showSecond,
+                    duration: const Duration(milliseconds: 1500),
+                    firstChild: AuthoritiesButton(
+                      tileFirstColor: Color(0xff08457e),
+                      tileSecondColor: Color(0xff0499c7),
+                      label:
+                          AppLocalizations.of(context).translate('police_lbl'),
+                      onTap: _callPoliceNumber,
+                    ),
+                    secondChild: SizedBox(
+                      width: ScreenUtil().setWidth(600),
+                      height: ScreenUtil().setHeight(450),
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.grey[300],
+                        highlightColor: Colors.grey[100],
+                        child: AuthoritiesButton(
+                          tileFirstColor: Color(0xff08457e),
+                          tileSecondColor: Color(0xff0499c7),
+                          label: AppLocalizations.of(context)
+                              .translate('police_lbl'),
+                          onTap: () {},
+                        ),
+                      ),
+                    ),
                   ),
-                  AuthoritiesButton(
-                    tileFirstColor: Color(0xffc90000),
-                    tileSecondColor: Color(0xffd43b3b),
-                    label: AppLocalizations.of(context).translate('999_lbl'),
-                    onTap: _callEmergencyNumber,
+                  AnimatedCrossFade(
+                    crossFadeState: policeNumber != null
+                        ? CrossFadeState.showFirst
+                        : CrossFadeState.showSecond,
+                    duration: const Duration(milliseconds: 1500),
+                    firstChild: AuthoritiesButton(
+                      tileFirstColor: Color(0xffc90000),
+                      tileSecondColor: Color(0xffd43b3b),
+                      label: AppLocalizations.of(context).translate('999_lbl'),
+                      onTap: _callEmergencyNumber,
+                    ),
+                    secondChild: SizedBox(
+                      width: ScreenUtil().setWidth(600),
+                      height: ScreenUtil().setHeight(450),
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.grey[300],
+                        highlightColor: Colors.grey[100],
+                        child: AuthoritiesButton(
+                          tileFirstColor: Color(0xffc90000),
+                          tileSecondColor: Color(0xffd43b3b),
+                          label:
+                              AppLocalizations.of(context).translate('999_lbl'),
+                          onTap: () {},
+                        ),
+                      ),
+                    ),
                   )
                 ],
               ),
