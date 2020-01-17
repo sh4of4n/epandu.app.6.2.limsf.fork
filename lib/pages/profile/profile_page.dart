@@ -16,13 +16,13 @@ class _ProfileState extends State<Profile> {
   String _name = '';
   String _email = '';
   String _phone = '';
-  String _nationality = '';
-  String _gender = '';
-  String _studentIc = '';
-  String _address = '';
+  // String _nationality = '';
+  // String _gender = '';
+  // String _studentIc = '';
+  // String _address = '';
   String _country = '';
   String _state = '';
-  String _postCode = '';
+  // String _postCode = '';
 
   TextStyle _titleStyle = TextStyle(
     fontSize: 26,
@@ -46,25 +46,25 @@ class _ProfileState extends State<Profile> {
     String _getName = await localStorage.getUsername();
     String _getEmail = await localStorage.getEmail();
     String _getPhone = await localStorage.getUserPhone();
-    String _getNationality = await localStorage.getNationality();
-    String _getGender = await localStorage.getGender();
-    String _getStudentIc = await localStorage.getStudentIc();
-    String _getAddress = await localStorage.getAddress();
+    // String _getNationality = await localStorage.getNationality();
+    // String _getGender = await localStorage.getGender();
+    // String _getStudentIc = await localStorage.getStudentIc();
+    // String _getAddress = await localStorage.getAddress();
     String _getCountry = await localStorage.getCountry();
     String _getState = await localStorage.getState();
-    String _getPostCode = await localStorage.getPostCode();
+    // String _getPostCode = await localStorage.getPostCode();
 
     setState(() {
       _name = _getName;
       _email = _getEmail;
       _phone = _getPhone.substring(2);
-      _nationality = _getNationality;
-      _gender = _getGender;
-      _studentIc = _getStudentIc;
-      _address = _getAddress;
+      // _nationality = _getNationality;
+      // _gender = _getGender;
+      // _studentIc = _getStudentIc;
+      // _address = _getAddress;
       _country = _getCountry;
       _state = _getState;
-      _postCode = _getPostCode;
+      // _postCode = _getPostCode;
     });
   }
 

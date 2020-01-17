@@ -94,6 +94,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
                     return AppLocalizations.of(context)
                         .translate('phone_required_msg');
                   }
+                  return null;
                 },
                 onSaved: (value) {
                   if (value != _phone) {

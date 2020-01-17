@@ -176,6 +176,7 @@ class _KppModuleState extends State<KppModule> {
                         return AppLocalizations.of(context)
                             .translate('pin_required_msg');
                       }
+                      return null;
                     },
                     onSaved: (value) {
                       if (value != _pin) {

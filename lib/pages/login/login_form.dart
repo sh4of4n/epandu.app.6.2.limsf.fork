@@ -33,7 +33,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
   String _loginMessage = '';
   bool _obscureText = true;
 
-  var _height = ScreenUtil.getInstance().setHeight(1300);
+  // var _height = ScreenUtil.getInstance().setHeight(1300);
 
   // var _height = ScreenUtil.screenHeight / 4.5;
 
@@ -101,6 +101,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                     return AppLocalizations.of(context)
                         .translate('phone_required_msg');
                   }
+                  return null;
                 },
                 onSaved: (value) {
                   if (value != _phone) {
@@ -146,6 +147,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                     return AppLocalizations.of(context)
                         .translate('password_required_msg');
                   }
+                  return null;
                 },
                 onSaved: (value) {
                   if (value != _password) {

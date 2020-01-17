@@ -122,6 +122,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                     return AppLocalizations.of(context)
                         .translate('client_acc_id_required');
                   }
+                  return null;
                 },
                 onSaved: (value) {
                   if (value != _caUid) {
@@ -167,6 +168,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                     return AppLocalizations.of(context)
                         .translate('password_required_msg');
                   }
+                  return null;
                 },
                 onSaved: (value) {
                   if (value != _caPwd) {

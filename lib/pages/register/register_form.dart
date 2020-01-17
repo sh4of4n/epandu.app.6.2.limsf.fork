@@ -29,8 +29,8 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   final FocusNode _idFocus = FocusNode();
   final FocusNode _diCodeFocus = FocusNode();
   final FocusNode _add1Focus = FocusNode();
-  final FocusNode _add2Focus = FocusNode();
-  final FocusNode _add3Focus = FocusNode();
+  // final FocusNode _add2Focus = FocusNode();
+  // final FocusNode _add3Focus = FocusNode();
   final FocusNode _postCodeFocus = FocusNode();
   final FocusNode _cityFocus = FocusNode();
   final FocusNode _stateFocus = FocusNode();
@@ -90,6 +90,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                 return AppLocalizations.of(context)
                     .translate('institute_code_msg');
               }
+              return null;
             },
             onSaved: (value) {
               if (value != _diCode) {
@@ -149,6 +150,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                     return AppLocalizations.of(context)
                         .translate('phone_required_msg');
                   }
+                  return null;
                 },
                 onSaved: (value) {
                   if (value != _phone) {
@@ -188,6 +190,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                     return AppLocalizations.of(context)
                         .translate('name_required_msg');
                   }
+                  return null;
                 },
                 onSaved: (value) {
                   if (value != _name) {
@@ -231,6 +234,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                     return AppLocalizations.of(context)
                         .translate('ic_required_msg');
                   }
+                  return null;
                 },
                 onSaved: (value) {
                   if (value != _icNo) {

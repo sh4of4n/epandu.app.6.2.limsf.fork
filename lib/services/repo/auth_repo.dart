@@ -26,24 +26,24 @@ class AuthRepo {
     callback,
     altWsUrl,
   }) async {
-    final String WSVER = '1.1';
-    final String WSURL0 =
+    final String wsVer = '1.1';
+    final String wsUrl0 =
         'https://tbs.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
-    final String WSURL1 =
-        'https://tbscaws.tbsdns.com:9001/ClientAcct.MainService/_wsver_/MainService.asmx';
-    final String WSURL2 =
-        'http://tbscaws2.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
-    final String WSURL3 =
-        'http://tbscaws3.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
+    // final String wsUrl1 =
+    //     'https://tbscaws.tbsdns.com:9001/ClientAcct.MainService/_wsver_/MainService.asmx';
+    // final String wsUrl2 =
+    //     'http://tbscaws2.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
+    // final String wsUrl3 =
+    //     'http://tbscaws3.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
 
     // bool async = false;
 
-    String wsUrl = WSURL0;
+    String wsUrl = wsUrl0;
     String wsCodeCrypt = 'TBSCLIENTACCTWS';
 
     if (altWsUrl != null) wsUrl = altWsUrl;
 
-    wsUrl = wsUrl.replaceAll("_wsver_", WSVER.replaceAll(".", "_"));
+    wsUrl = wsUrl.replaceAll("_wsver_", wsVer.replaceAll(".", "_"));
 
     var response = await Provider.of<GetBaseUrl>(context).getWsUrl(
       baseUrl: wsUrl,

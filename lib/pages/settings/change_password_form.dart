@@ -113,6 +113,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                     return AppLocalizations.of(context)
                         .translate('password_required_msg');
                   }
+                  return null;
                 },
                 onSaved: (value) {
                   if (value != _oldPassword) {
@@ -163,6 +164,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                     return AppLocalizations.of(context)
                         .translate('new_password_required');
                   }
+                  return null;
                 },
                 onSaved: (value) {
                   if (value != _newPassword) {
@@ -209,6 +211,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                     return AppLocalizations.of(context)
                         .translate('confirm_password_required');
                   }
+                  return null;
                 },
                 onSaved: (value) {
                   if (value != _confirmNewPassword) {
