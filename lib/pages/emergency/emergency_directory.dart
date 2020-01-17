@@ -26,10 +26,18 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
   void initState() {
     super.initState();
 
-    _getEmergencyContacts();
+    _getContacts();
   }
 
-  _getEmergencyContacts() async {
+  _getContacts() {
+    Future.wait([
+      getPoliceContact(),
+      getAmbulanceContact(),
+      getEmbassyContact(),
+    ]);
+  }
+
+  Future<void> getPoliceContact() async {
     if (contactBox.get('policeContact') != null) {
       if (mounted) {
         setState(() {
@@ -46,7 +54,9 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         });
       }
     }
+  }
 
+  Future<void> getAmbulanceContact() async {
     if (contactBox.get('ambulanceContact') != null) {
       if (mounted) {
         setState(() {
@@ -63,7 +73,9 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         });
       }
     }
+  }
 
+  Future<void> getEmbassyContact() async {
     if (contactBox.get('embassyContact') != null) {
       if (mounted) {
         setState(() {
