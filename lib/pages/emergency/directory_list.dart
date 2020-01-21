@@ -2,6 +2,7 @@ import 'package:epandu/app_localizations.dart';
 import 'package:epandu/services/repo/emergency_repo.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hive/hive.dart';
@@ -33,22 +34,28 @@ class _DirectoryListState extends State<DirectoryList> {
   }
 
   _listItem(snapshot, index) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(snapshot.data[index].sosContactSubtype ?? ''),
-          Text(snapshot.data[index].areaCode ?? ''),
-          Text(snapshot.data[index].sosContactName ?? ''),
-          Text(snapshot.data[index].phone ?? ''),
-          Text(snapshot.data[index].distance ?? ''),
-          SizedBox(height: 10.0),
-          Divider(
-            height: 1.0,
-            thickness: 1.0,
-          ),
-          SizedBox(height: 10.0),
-        ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, DIRECTORY_DETAIL,
+            arguments: snapshot.data[index]);
+      },
+      child: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(snapshot.data[index].sosContactSubtype ?? ''),
+            Text(snapshot.data[index].areaCode ?? ''),
+            Text(snapshot.data[index].sosContactName ?? ''),
+            Text(snapshot.data[index].phone ?? ''),
+            Text(snapshot.data[index].distance ?? ''),
+            SizedBox(height: 10.0),
+            Divider(
+              height: 1.0,
+              thickness: 1.0,
+            ),
+            SizedBox(height: 10.0),
+          ],
+        ),
       ),
     );
   }
