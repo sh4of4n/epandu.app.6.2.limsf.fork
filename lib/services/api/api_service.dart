@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:chopper/chopper.dart';
 import 'package:epandu/services/api/model/auth_model.dart';
 import 'package:hive/hive.dart';
 
 import 'model/kpp_model.dart';
+import 'package:http/io_client.dart' as http;
 
 part 'api_service.chopper.dart';
 
@@ -12,6 +15,9 @@ abstract class ApiService extends ChopperService {
     final wsUrlBox = Hive.box('ws_url');
 
     final client = ChopperClient(
+      client: http.IOClient(
+        HttpClient()..connectionTimeout = const Duration(seconds: 60),
+      ),
       // The first part of the URL is now here
       baseUrl: wsUrlBox.get('wsUrl'),
       services: [

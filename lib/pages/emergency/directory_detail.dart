@@ -178,108 +178,112 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
               height: ScreenUtil().setHeight(1000),
             ),
           ),
-          Container(
-            padding: EdgeInsets.all(15.0),
-            margin: EdgeInsets.symmetric(vertical: 30.0, horizontal: 15.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(15.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  offset: Offset(0, 8.0),
-                  blurRadius: 10.0,
-                )
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(AppLocalizations.of(context).translate('subtype_lbl'),
-                    style: _titleStyle),
-                Text(widget.snapshot.sosContactSubtype ?? '',
-                    style: _textStyle),
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(AppLocalizations.of(context).translate('area_code_lbl'),
-                    style: _titleStyle),
-                Text(widget.snapshot.areaCode ?? '', style: _textStyle),
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(AppLocalizations.of(context).translate('contact_name_lbl'),
-                    style: _titleStyle),
-                Text(widget.snapshot.sosContactName ?? '', style: _textStyle),
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(AppLocalizations.of(context).translate('address_lbl'),
-                    style: _titleStyle),
-                Text(widget.snapshot.add ?? '', style: _textStyle),
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(AppLocalizations.of(context).translate('phone_lbl'),
-                    style: _titleStyle),
-                Text(widget.snapshot.phone ?? '', style: _textStyle),
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(AppLocalizations.of(context).translate('distance_lbl'),
-                    style: _titleStyle),
-                Text(widget.snapshot.distance ?? '', style: _textStyle),
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(AppLocalizations.of(context).translate('to_lbl'),
-                    style: _titleStyle),
-                Text(
-                    '${widget.snapshot.latitude}, ${widget.snapshot.longtitude}' ??
-                        '',
-                    style: _textStyle),
-                SizedBox(
-                  height: 5.0,
-                ),
-                _remark(),
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(AppLocalizations.of(context).translate('from_lbl'),
-                    style: _titleStyle),
-                Text(address ?? '', style: _textStyle),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 5.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      RawMaterialButton(
-                        fillColor: Colors.green,
-                        shape: CircleBorder(),
-                        onPressed: _phone,
-                        child: Icon(Icons.phone, color: Colors.white),
-                        padding: const EdgeInsets.all(10.0),
-                      ),
-                      RawMaterialButton(
-                        fillColor: Colors.blue,
-                        shape: CircleBorder(),
-                        onPressed: () => _openDestination(context),
-                        child: Icon(Icons.navigation, color: Colors.white),
-                        padding: const EdgeInsets.all(10.0),
-                      ),
-                      RawMaterialButton(
-                        fillColor: Colors.red,
-                        shape: CircleBorder(),
-                        onPressed: _showMyLocation,
-                        child: Icon(Icons.location_on, color: Colors.white),
-                        padding: const EdgeInsets.all(10.0),
-                      ),
-                    ],
+          SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(15.0),
+              margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(0, 8.0),
+                    blurRadius: 10.0,
+                  )
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(AppLocalizations.of(context).translate('subtype_lbl'),
+                      style: _titleStyle),
+                  Text(widget.snapshot.sosContactSubtype ?? '',
+                      style: _textStyle),
+                  SizedBox(
+                    height: 5.0,
                   ),
-                ),
-              ],
+                  Text(AppLocalizations.of(context).translate('area_code_lbl'),
+                      style: _titleStyle),
+                  Text(widget.snapshot.areaCode ?? '', style: _textStyle),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Text(
+                      AppLocalizations.of(context)
+                          .translate('contact_name_lbl'),
+                      style: _titleStyle),
+                  Text(widget.snapshot.sosContactName ?? '', style: _textStyle),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Text(AppLocalizations.of(context).translate('address_lbl'),
+                      style: _titleStyle),
+                  Text(widget.snapshot.add ?? '', style: _textStyle),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Text(AppLocalizations.of(context).translate('phone_lbl'),
+                      style: _titleStyle),
+                  Text(widget.snapshot.phone ?? '', style: _textStyle),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Text(AppLocalizations.of(context).translate('distance_lbl'),
+                      style: _titleStyle),
+                  Text(widget.snapshot.distance ?? '', style: _textStyle),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Text(AppLocalizations.of(context).translate('to_lbl'),
+                      style: _titleStyle),
+                  Text(
+                      '${widget.snapshot.latitude}, ${widget.snapshot.longtitude}' ??
+                          '',
+                      style: _textStyle),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  _remark(),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Text(AppLocalizations.of(context).translate('from_lbl'),
+                      style: _titleStyle),
+                  Text(address ?? '', style: _textStyle),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 5.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        RawMaterialButton(
+                          fillColor: Colors.green,
+                          shape: CircleBorder(),
+                          onPressed: _phone,
+                          child: Icon(Icons.phone, color: Colors.white),
+                          padding: const EdgeInsets.all(10.0),
+                        ),
+                        RawMaterialButton(
+                          fillColor: Colors.blue,
+                          shape: CircleBorder(),
+                          onPressed: () => _openDestination(context),
+                          child: Icon(Icons.navigation, color: Colors.white),
+                          padding: const EdgeInsets.all(10.0),
+                        ),
+                        RawMaterialButton(
+                          fillColor: Colors.red,
+                          shape: CircleBorder(),
+                          onPressed: _showMyLocation,
+                          child: Icon(Icons.location_on, color: Colors.white),
+                          padding: const EdgeInsets.all(10.0),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

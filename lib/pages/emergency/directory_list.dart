@@ -40,6 +40,8 @@ class _DirectoryListState extends State<DirectoryList> {
             arguments: snapshot.data[index]);
       },
       child: Container(
+        width: double.infinity,
+        color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

@@ -817,9 +817,10 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   ),
                 ),
                 // Question
-                Padding(
+                Container(
                   padding:
                       EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+                  alignment: Alignment.centerLeft,
                   child: Text(
                     question,
                     style: _questionStyle,

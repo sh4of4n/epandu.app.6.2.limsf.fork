@@ -41,7 +41,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
   bool _obscureText = true;
   String _connectedCa = '';
 
-  var _height = ScreenUtil.getInstance().setHeight(1300);
+  // var _height = ScreenUtil.getInstance().setHeight(1300);
 
   // var _height = ScreenUtil.screenHeight / 4.5;
 
@@ -66,7 +66,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
       duration: Duration(milliseconds: 1500),
       curve: Curves.elasticOut,
       width: double.infinity,
-      height: _height,
+      // height: _height,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.0),
@@ -84,7 +84,8 @@ class _ClientAccountFormState extends State<ClientAccountForm>
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+        padding:
+            EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 20.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -274,7 +275,6 @@ class _ClientAccountFormState extends State<ClientAccountForm>
       FocusScope.of(context).requestFocus(new FocusNode());
 
       setState(() {
-        _height = ScreenUtil.getInstance().setHeight(1300);
         _message = '';
         _isLoading = true;
       });
@@ -299,10 +299,6 @@ class _ClientAccountFormState extends State<ClientAccountForm>
 
       setState(() {
         _isLoading = false;
-      });
-    } else {
-      setState(() {
-        _height = ScreenUtil.getInstance().setHeight(1500);
       });
     }
   }

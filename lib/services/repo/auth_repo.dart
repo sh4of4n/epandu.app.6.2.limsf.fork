@@ -72,19 +72,21 @@ class AuthRepo {
       String wsVer = '1_3';
       final wsUrlBox = Hive.box('ws_url');
 
-      wsUrlBox.put(
-          'wsUrl',
-          getWsUrlResponse.loginAcctInfo.loginAcct.wsUrl
-              .replaceAll('1_2', wsVer));
+      if (getWsUrlResponse.loginAcctInfo != null) {
+        wsUrlBox.put(
+            'wsUrl',
+            getWsUrlResponse.loginAcctInfo.loginAcct.wsUrl
+                .replaceAll('1_2', wsVer));
 
-      localStorage.saveCaUid(acctUid);
-      localStorage.saveCaPwd(acctPwd);
-      localStorage.saveCaPwdEncode(Uri.encodeQueryComponent(acctPwd));
+        localStorage.saveCaUid(acctUid);
+        localStorage.saveCaPwd(acctPwd);
+        localStorage.saveCaPwdEncode(Uri.encodeQueryComponent(acctPwd));
 
-      return Response(true,
-          data: getWsUrlResponse.loginAcctInfo.loginAcct.wsUrl
-              .replaceAll('1_2', wsVer),
-          message: '');
+        return Response(true,
+            data: getWsUrlResponse.loginAcctInfo.loginAcct.wsUrl
+                .replaceAll('1_2', wsVer),
+            message: '');
+      }
     }
 
     return Response(false, message: 'No URL found with this client account.');
