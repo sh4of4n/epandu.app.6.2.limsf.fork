@@ -233,4 +233,7 @@ abstract class ApiService extends ChopperService {
     @Path('areaCode') String areaCode,
   });
   // end emergency_repo
+
+  @Post(path: 'FPX_SendB2CAuthRequest')
+  Future<Response> payFpx(@Body() var body);
 }

@@ -7,10 +7,11 @@ class AppConfig {
 
   String diCode = 'TBS';
 
-  // Future<String> getBaseUrl() async {
-  //   String wsUrl = await localStorage.getWsUrl();
-  //   String url = '$wsUrl/webapi/';
+  String businessTypePass = 'visa2u';
 
-  //   return url;
-  // }
+  String eWalletUrl =
+      'https://tbsweb.tbsdns.com/eCarser.WebService/1_9/MemberService.asmx/';
+
+  String eWalletCaUid = 'tbsedu1_devp';
+  String eWalletCaPwd = 'DJNTjwSxXb8v43ar';
 }

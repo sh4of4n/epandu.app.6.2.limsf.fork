@@ -127,6 +127,11 @@ class RouteGenerator {
           settings: RouteSettings(name: PAYMENT),
           builder: (_) => PaymentPage(),
         );
+      case BILL_SELECTION:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: BILL_SELECTION),
+          builder: (_) => BillSelection(),
+        );
       default:
         return _errorRoute();
     }

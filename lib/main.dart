@@ -1,4 +1,5 @@
 import 'package:epandu/services/api/api_service.dart';
+import 'package:epandu/services/api/bill_service.dart';
 import 'package:epandu/services/api/model/language_model.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
@@ -41,7 +42,11 @@ void main() async {
         Provider(
           create: (context) => GetBaseUrl.create(),
           dispose: (context, GetBaseUrl service) => service.client.dispose(),
-        )
+        ),
+        Provider(
+          create: (context) => BillService.create(),
+          dispose: (context, BillService service) => service.client.dispose(),
+        ),
       ],
       child: MyApp(),
     ),

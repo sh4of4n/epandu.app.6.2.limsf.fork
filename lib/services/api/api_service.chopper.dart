@@ -213,4 +213,12 @@ class _$ApiService extends ApiService {
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
+
+  @override
+  Future<Response> payFpx(dynamic body) {
+    final $url = '/webapi/FPX_SendB2CAuthRequest';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
 }

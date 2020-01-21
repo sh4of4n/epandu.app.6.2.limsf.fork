@@ -19,3 +19,4 @@ const String CHANGE_PASSWORD = '/change_password';
 const String EMERGENCY_DIRECTORY = '/emergency_directory';
 const String DIRECTORY_LIST = '/directory_list';
 const String DIRECTORY_DETAIL = '/directory_detail';
+const String BILL_SELECTION = '/bill_selection';
