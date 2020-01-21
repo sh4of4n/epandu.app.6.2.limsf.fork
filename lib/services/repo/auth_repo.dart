@@ -201,7 +201,7 @@ class AuthRepo {
 
     await localStorage.reset();
     Hive.box('ws_url').clear();
-    Hive.box('emergencyContact').clear();
+    // Hive.box('emergencyContact').clear();
 
     /* await getWsUrl(
       context: context,

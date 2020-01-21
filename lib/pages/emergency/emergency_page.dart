@@ -60,7 +60,7 @@ class _EmergencyState extends State<Emergency> {
     var policeContacts = contactBox.get('policeContact');
 
     for (int i = 0; i < policeContacts.length; i += 1) {
-      if (policeContacts[i].sosContactSubtype == 'IPD') {
+      if (policeContacts[i].sosContactSubtype == 'IPD' && mounted) {
         setState(() {
           policeNumber = policeContacts[i].phone;
         });
