@@ -9,6 +9,7 @@ import 'package:epandu/pages/kpp/kpp_module.dart';
 import 'package:epandu/pages/kpp/kpp_exam.dart';
 import 'package:epandu/pages/kpp/kpp_result.dart';
 import 'package:epandu/pages/login/login.dart';
+import 'package:epandu/pages/payment/payment.dart';
 import 'package:epandu/pages/profile/profile.dart';
 import 'package:epandu/pages/register/register.dart';
 import 'package:epandu/pages/settings/settings.dart';
@@ -120,6 +121,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           settings: RouteSettings(name: SELECT_DI),
           builder: (_) => SelectDrivingInstitute(data),
+        );
+      case PAYMENT:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: PAYMENT),
+          builder: (_) => PaymentPage(),
         );
       default:
         return _errorRoute();

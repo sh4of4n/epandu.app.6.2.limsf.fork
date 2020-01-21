@@ -44,6 +44,7 @@ class HomeMenuTiles extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               IconTile(
+                // component: PAYMENT,
                 tileImage: image.iconProgramme,
                 title: AppLocalizations.of(context).translate('payment_lbl'),
                 tileFirstColor: Colors.deepPurple,
