@@ -1,10 +1,12 @@
 {
+  "country_code_lbl": "+60",
   "phone_lbl": "Phone",
   "phone_required_msg": "Phone is required.",
   "password_lbl": "Password",
   "password_required_msg": "Password is required.",
   "forgot_password_lbl": "Forgot Password?",
   "login_btn": "LOGIN",
+  "invalid_login": "Invalid phone and/or password.",
 
   "connected_ca": "Connected CA",
   "client_acc_id_lbl": "Client Account ID",
@@ -47,7 +49,6 @@
 
   "profile_title": "Profile",
   "class_title": "Classes",
-  "payment_title": "Payment",
   "attendance_title": "Attendance",
   "location_lbl": "Location",
   "no_email": "No email registered.",
@@ -59,6 +60,8 @@
   "no_payment_desc": "You have no payment history.",
   "no_attendance_desc": "You have no attendance history.",
   "receipt_no_lbl": "Receipt no",
+  "bill_lbl": "Bill",
+  "airtime_lbl": "Airtime",
 
   "having_emergency_lbl": "Are you having an emergency?",
   "having_emergency_desc": "Press the SOS button and help will reach you soon.",

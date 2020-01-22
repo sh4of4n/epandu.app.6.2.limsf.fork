@@ -23,7 +23,7 @@ class _$BillService extends BillService {
       String businessType,
       String userId}) {
     final $url =
-        '/MemberService.asmx/GetAllTelco?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&businessType=$businessType&userId=$userId';
+        'https://tbsweb.tbsdns.com/eCarser.WebService/1_9/MemberService.asmx/GetAllTelco?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&businessType=$businessType&userId=$userId';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
@@ -36,7 +36,7 @@ class _$BillService extends BillService {
       String businessType,
       String userId}) {
     final $url =
-        '/MemberService.asmx/GetAllService?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&businessType=$businessType&userId=$userId';
+        'https://tbsweb.tbsdns.com/eCarser.WebService/1_9/MemberService.asmx/GetAllService?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&businessType=$businessType&userId=$userId';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
@@ -45,14 +45,15 @@ class _$BillService extends BillService {
   Future<Response> getCharges(
       {String wsCodeCrypt, String caUid, String caPwd, String service}) {
     final $url =
-        '/MemberService.asmx/GetBillPaymentChargeByServiceXML?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&service=$service';
+        'https://tbsweb.tbsdns.com/eCarser.WebService/1_9/MemberService.asmx/GetBillPaymentChargeByServiceXML?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&service=$service';
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
 
   @override
   Future<Response> verifyTrx(dynamic body) {
-    final $url = '/MemberService.asmx/CheckAgentMobileTopUpPin';
+    final $url =
+        'https://tbsweb.tbsdns.com/eCarser.WebService/1_9/MemberService.asmx/CheckAgentMobileTopUpPin';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
@@ -60,7 +61,8 @@ class _$BillService extends BillService {
 
   @override
   Future<Response> checkDistributor(dynamic body) {
-    final $url = '/MemberService.asmx/IsDistributorAirtimeSufficient';
+    final $url =
+        'https://tbsweb.tbsdns.com/eCarser.WebService/1_9/MemberService.asmx/IsDistributorAirtimeSufficient';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
@@ -68,7 +70,8 @@ class _$BillService extends BillService {
 
   @override
   Future<Response> checkArmaster(dynamic body) {
-    final $url = '/MemberService.asmx/IsArmasterAirtimeSufficient';
+    final $url =
+        'https://tbsweb.tbsdns.com/eCarser.WebService/1_9/MemberService.asmx/IsArmasterAirtimeSufficient';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
@@ -76,7 +79,8 @@ class _$BillService extends BillService {
 
   @override
   Future<Response> topUp(dynamic body) {
-    final $url = '/MemberService.asmx/TopUpSubscriberAirtime';
+    final $url =
+        'https://tbsweb.tbsdns.com/eCarser.WebService/1_9/MemberService.asmx/TopUpSubscriberAirtime';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);

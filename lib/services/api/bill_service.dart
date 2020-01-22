@@ -4,7 +4,7 @@ import 'package:http/io_client.dart' as http;
 
 part 'bill_service.chopper.dart';
 
-@ChopperApi(baseUrl: '/MemberService.asmx/')
+@ChopperApi()
 abstract class BillService extends ChopperService {
   static BillService create() {
     final client = ChopperClient(
@@ -12,7 +12,6 @@ abstract class BillService extends ChopperService {
         HttpClient()..connectionTimeout = const Duration(seconds: 60),
       ),
       // The first part of the URL is now here
-      baseUrl: 'https://tbsweb.tbsdns.com/eCarser.WebService/1_9',
       services: [
         // The generated implementation
         _$BillService(),
@@ -46,7 +45,7 @@ abstract class BillService extends ChopperService {
 
   @Get(
       path:
-          'GetAllTelco?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&businessType={businessType}&userId={userId}')
+          'https://tbsweb.tbsdns.com/eCarser.WebService/1_9/MemberService.asmx/GetAllTelco?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&businessType={businessType}&userId={userId}')
   Future<Response> getTelco({
     @Path('wsCodeCrypt') String wsCodeCrypt,
     @Path('caUid') String caUid,
@@ -57,7 +56,7 @@ abstract class BillService extends ChopperService {
 
   @Get(
       path:
-          'GetAllService?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&businessType={businessType}&userId={userId}')
+          'https://tbsweb.tbsdns.com/eCarser.WebService/1_9/MemberService.asmx/GetAllService?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&businessType={businessType}&userId={userId}')
   Future<Response> getService({
     @Path('wsCodeCrypt') String wsCodeCrypt,
     @Path('caUid') String caUid,
@@ -68,7 +67,7 @@ abstract class BillService extends ChopperService {
 
   @Get(
       path:
-          'GetBillPaymentChargeByServiceXML?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&service={service}')
+          'https://tbsweb.tbsdns.com/eCarser.WebService/1_9/MemberService.asmx/GetBillPaymentChargeByServiceXML?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&service={service}')
   Future<Response> getCharges({
     @Path('wsCodeCrypt') String wsCodeCrypt,
     @Path('caUid') String caUid,
@@ -76,15 +75,23 @@ abstract class BillService extends ChopperService {
     @Path('service') String service,
   });
 
-  @Post(path: 'CheckAgentMobileTopUpPin')
+  @Post(
+      path:
+          'https://tbsweb.tbsdns.com/eCarser.WebService/1_9/MemberService.asmx/CheckAgentMobileTopUpPin')
   Future<Response> verifyTrx(@Body() var body);
 
-  @Post(path: 'IsDistributorAirtimeSufficient')
+  @Post(
+      path:
+          'https://tbsweb.tbsdns.com/eCarser.WebService/1_9/MemberService.asmx/IsDistributorAirtimeSufficient')
   Future<Response> checkDistributor(@Body() var body);
 
-  @Post(path: 'IsArmasterAirtimeSufficient')
+  @Post(
+      path:
+          'https://tbsweb.tbsdns.com/eCarser.WebService/1_9/MemberService.asmx/IsArmasterAirtimeSufficient')
   Future<Response> checkArmaster(@Body() var body);
 
-  @Post(path: 'TopUpSubscriberAirtime')
+  @Post(
+      path:
+          'https://tbsweb.tbsdns.com/eCarser.WebService/1_9/MemberService.asmx/TopUpSubscriberAirtime')
   Future<Response> topUp(@Body() var body);
 }

@@ -1,5 +1,3 @@
-import 'package:epandu/app_localizations.dart';
-import 'package:epandu/services/api/model/bill_model.dart';
 import 'package:epandu/services/repo/bill_repo.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/route_path.dart';
@@ -8,12 +6,14 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class BillSelection extends StatelessWidget {
+import '../../app_localizations.dart';
+
+class AirtimeSelection extends StatelessWidget {
   final primaryColor = ColorConstant.primaryColor;
   final billRepo = BillRepo();
 
-  Future<dynamic> _getService(context) async {
-    var result = await billRepo.getService(context: context);
+  Future<dynamic> _getTelco(context) async {
+    var result = await billRepo.getTelco(context: context);
 
     return result.data;
   }
@@ -22,7 +22,7 @@ class BillSelection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('bill_lbl')),
+        title: Text(AppLocalizations.of(context).translate('airtime_lbl')),
         elevation: 0,
         backgroundColor: primaryColor,
       ),
@@ -41,7 +41,7 @@ class BillSelection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               FutureBuilder(
-                future: _getService(context),
+                future: _getTelco(context),
                 builder:
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                   if (snapshot.hasData) {
@@ -55,7 +55,8 @@ class BillSelection extends StatelessWidget {
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
-                          onTap: () => Navigator.pushNamed(context, BILL_DETAIL,
+                          onTap: () => Navigator.pushNamed(
+                              context, AIRTIME_BILL_DETAIL,
                               arguments: snapshot.data[index]),
                           child: GridTile(
                             child: Image.network(

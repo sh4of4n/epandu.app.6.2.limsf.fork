@@ -9,6 +9,7 @@ import 'package:epandu/pages/kpp/kpp_module.dart';
 import 'package:epandu/pages/kpp/kpp_exam.dart';
 import 'package:epandu/pages/kpp/kpp_result.dart';
 import 'package:epandu/pages/login/login.dart';
+import 'package:epandu/pages/payment/airtime_transaction.dart';
 import 'package:epandu/pages/payment/payment.dart';
 import 'package:epandu/pages/profile/profile.dart';
 import 'package:epandu/pages/register/register.dart';
@@ -127,10 +128,35 @@ class RouteGenerator {
           settings: RouteSettings(name: PAYMENT),
           builder: (_) => PaymentPage(),
         );
+      case AIRTIME_SELECTION:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: AIRTIME_SELECTION),
+          builder: (_) => AirtimeSelection(),
+        );
+      case AIRTIME_BILL_DETAIL:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: AIRTIME_BILL_DETAIL),
+          builder: (_) => AirtimeBillDetail(data),
+        );
+      case AIRTIME_TRANSACTION:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: AIRTIME_TRANSACTION),
+          builder: (_) => AirtimeTransaction(),
+        );
       case BILL_SELECTION:
         return MaterialPageRoute(
           settings: RouteSettings(name: BILL_SELECTION),
           builder: (_) => BillSelection(),
+        );
+      case BILL_DETAIL:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: BILL_DETAIL),
+          builder: (_) => BillDetail(data),
+        );
+      case BILL_TRANSACTION:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: BILL_TRANSACTION),
+          builder: (_) => BillTransaction(),
         );
       default:
         return _errorRoute();

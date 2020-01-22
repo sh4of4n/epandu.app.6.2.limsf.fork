@@ -12,6 +12,6 @@ class AppConfig {
   String eWalletUrl =
       'https://tbsweb.tbsdns.com/eCarser.WebService/1_9/MemberService.asmx/';
 
-  String eWalletCaUid = 'tbsedu1_devp';
-  String eWalletCaPwd = 'DJNTjwSxXb8v43ar';
+  String eWalletCaUid = 'visa2u1';
+  String eWalletCaPwd = 'visa2u';
 }

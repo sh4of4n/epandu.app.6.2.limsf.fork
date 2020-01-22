@@ -107,7 +107,7 @@ class AuthRepo {
       ipAddress: '0.0.0.0',
     );
 
-    if (response.body != 'null') {
+    if (response.body != 'null' && response.statusCode == 200) {
       LoginResponse loginResponse = LoginResponse.fromJson(response.body);
       var responseData = loginResponse.table1[0];
 
@@ -133,7 +133,8 @@ class AuthRepo {
         return Response(false, message: responseData.msg);
       }
     }
-    return Response(false);
+
+    return Response(false, message: 'timeout');
   }
 
   Future<Response> checkDiList({context}) async {

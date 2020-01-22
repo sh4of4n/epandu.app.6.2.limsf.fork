@@ -9,6 +9,10 @@ import 'package:flutter/material.dart';
 import '../../app_localizations.dart';
 
 class ProfileTab extends StatefulWidget {
+  const ProfileTab({
+    Key key,
+  }) : super(key: key);
+
   @override
   _ProfileTabState createState() => _ProfileTabState();
 }
@@ -161,7 +165,7 @@ class _ProfileTabState extends State<ProfileTab>
       case 1:
         return Text(AppLocalizations.of(context).translate('class_title'));
       case 2:
-        return Text(AppLocalizations.of(context).translate('payment_title'));
+        return Text(AppLocalizations.of(context).translate('payment_lbl'));
       case 3:
         return Text(AppLocalizations.of(context).translate('attendance_title'));
     }
@@ -229,5 +233,11 @@ class _ProfileTabState extends State<ProfileTab>
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 }

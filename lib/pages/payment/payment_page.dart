@@ -1,55 +1,70 @@
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../app_localizations.dart';
 
 class PaymentPage extends StatelessWidget {
   final primaryColor = ColorConstant.primaryColor;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: RadialGradient(
-          colors: [Colors.amber.shade300, primaryColor],
-          stops: [0.5, 1],
-          radius: 0.9,
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context).translate('payment_lbl')),
+        elevation: 0,
+        backgroundColor: primaryColor,
       ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: Text('Payment'),
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-        ),
-        body: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 15,
-                  offset: Offset(0, 8),
-                  spreadRadius: 2,
-                  color: Colors.black26,
-                ),
-              ]),
-          margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-          child: ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              ListTile(
-                onTap: () => Navigator.pushNamed(context, BILL_SELECTION),
-                leading: Icon(Icons.attach_money),
-                title: Text('Bills'),
+      body: Stack(
+        children: <Widget>[
+          ClipPath(
+            clipper: WaveClipperTwo(),
+            child: Container(
+              decoration: BoxDecoration(
+                color: primaryColor,
               ),
-              // ListTile(
-              //   onTap: () {},
-              //   title: Text('Top-up'),
-              // ),
-            ],
+              height: ScreenUtil().setHeight(1000),
+            ),
           ),
-        ),
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 15,
+                    offset: Offset(0, 8),
+                    spreadRadius: 2,
+                    color: Colors.black26,
+                  ),
+                ]),
+            margin:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+            child: ListView(
+              shrinkWrap: true,
+              children: <Widget>[
+                ListTile(
+                  onTap: () => Navigator.pushNamed(context, AIRTIME_SELECTION),
+                  leading: Icon(Icons.attach_money),
+                  title: Text(
+                      AppLocalizations.of(context).translate('airtime_lbl')),
+                ),
+                ListTile(
+                  onTap: () => Navigator.pushNamed(context, BILL_SELECTION),
+                  leading: Icon(Icons.attach_money),
+                  title:
+                      Text(AppLocalizations.of(context).translate('bill_lbl')),
+                ),
+                // ListTile(
+                //   onTap: () {},
+                //   title: Text('Top-up'),
+                // ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
