@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'app_localizations_delegate.dart';
 import 'application.dart';
 import 'services/api/get_base_url.dart';
+import 'services/api/model/bill_model.dart';
 import 'services/api/model/emergency_model.dart';
 import 'services/api/model/kpp_model.dart';
 import 'package:logging/logging.dart';
@@ -23,9 +24,8 @@ void main() async {
   Hive.init(appDocumentDir.path);
   Hive.registerAdapter(KppExamDataAdapter());
   Hive.registerAdapter(EmergencyContactAdapter());
-  // Hive.registerAdapter(PoliceContactAdapter());
-  // Hive.registerAdapter(AmbulanceContactAdapter());
-  // Hive.registerAdapter(EmbassyContactAdapter());
+  Hive.registerAdapter(TelcoAdapter());
+  Hive.registerAdapter(BillAdapter());
   _setupLogging();
   await Hive.openBox('ws_url');
 

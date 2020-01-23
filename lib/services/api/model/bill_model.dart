@@ -1,3 +1,7 @@
+import 'package:hive/hive.dart';
+
+part 'bill_model.g.dart';
+
 class GetTelcoResponse {
   List<TelcoComm> telcoComm;
 
@@ -21,15 +25,25 @@ class GetTelcoResponse {
   }
 }
 
+@HiveType(typeId: 2, adapterName: 'TelcoAdapter')
 class TelcoComm {
+  @HiveField(0)
   String iD;
+  @HiveField(1)
   String telcoName;
+  @HiveField(2)
   String telcoImageUri;
+  @HiveField(3)
   String acctNo;
+  @HiveField(4)
   String prepaidAccessMenu;
+  @HiveField(5)
   String sponsorMarkupRate1;
+  @HiveField(6)
   String sponsorMarkupRateUom1;
+  @HiveField(7)
   String sponsorMarkupRate2;
+  @HiveField(8)
   String sponsorMarkupRateUom2;
 
   TelcoComm(
@@ -93,25 +107,45 @@ class GetServiceResponse {
   }
 }
 
+@HiveType(typeId: 3, adapterName: 'BillAdapter')
 class ServiceComm {
+  @HiveField(0)
   String iD;
+  @HiveField(1)
   String telcoName;
+  @HiveField(2)
   String telcoImageUri;
+  @HiveField(3)
   String acctNo;
+  @HiveField(4)
   String prepaidAccessMenu;
+  @HiveField(5)
   String markupRate;
+  @HiveField(6)
   String markupRateUom;
+  @HiveField(7)
   String sponsorMarkupRate1;
+  @HiveField(8)
   String sponsorMarkupRateUom1;
+  @HiveField(9)
   String sponsorMarkupRate2;
+  @HiveField(10)
   String sponsorMarkupRateUom2;
+  @HiveField(11)
   String memberDiscRate;
+  @HiveField(12)
   String memberDiscRateUom;
+  @HiveField(13)
   String incentiveRate;
+  @HiveField(14)
   String incentiveRateUom;
+  @HiveField(15)
   String servChrg;
+  @HiveField(16)
   String servChrgUom;
+  @HiveField(17)
   String servChrgEntitle;
+  @HiveField(18)
   String servChrgEntitleUom;
 
   ServiceComm(
@@ -180,4 +214,13 @@ class ServiceComm {
     data['serv_chrg_entitle_uom'] = this.servChrgEntitleUom;
     return data;
   }
+}
+
+class BillArgs {
+  String phone;
+  String amount;
+  TelcoComm telcoComm;
+  ServiceComm serviceComm;
+
+  BillArgs({this.phone, this.amount, this.telcoComm, this.serviceComm});
 }

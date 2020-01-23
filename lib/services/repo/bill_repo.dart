@@ -8,8 +8,6 @@ import 'package:epandu/services/api/model/bill_model.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
-import '../../app_localizations.dart';
-
 class BillRepo {
   final appConfig = AppConfig();
   final localStorage = LocalStorage();
@@ -17,11 +15,12 @@ class BillRepo {
   RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
 
   Future<Response> getTelco({context}) async {
-    final String userId = await localStorage.getUserId();
+    // final String userId = await localStorage.getUserId();
     final String caUid = appConfig.eWalletCaUid;
     final String caPwd = Uri.encodeQueryComponent(appConfig.eWalletCaPwd);
     final String businessType = appConfig.businessTypePass;
     var responseData;
+    Box<dynamic> telcoList = Hive.box('telcoList');
 
     var response = await Provider.of<BillService>(context).getTelco(
       wsCodeCrypt: 'CARSERWS',
@@ -40,6 +39,8 @@ class BillRepo {
       responseData = getTelcoResponse.telcoComm;
 
       if (responseData != null) {
+        telcoList.put('telcoList', responseData);
+
         return Response(true, data: responseData);
       }
     }
@@ -48,11 +49,12 @@ class BillRepo {
   }
 
   Future<Response> getService({context}) async {
-    final String userId = await localStorage.getUserId();
+    // final String userId = await localStorage.getUserId();
     final String caUid = appConfig.eWalletCaUid;
     final String caPwd = Uri.encodeQueryComponent(appConfig.eWalletCaPwd);
     final String businessType = appConfig.businessTypePass;
     var responseData;
+    Box<dynamic> serviceList = Hive.box('serviceList');
 
     var response = await Provider.of<BillService>(context).getService(
       wsCodeCrypt: 'CARSERWS',
@@ -73,6 +75,8 @@ class BillRepo {
       responseData = getServiceResponse.serviceComm;
 
       if (responseData != null) {
+        serviceList.put('serviceList', responseData);
+
         return Response(true, data: responseData);
       }
     }

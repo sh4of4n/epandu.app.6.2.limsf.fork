@@ -141,7 +141,7 @@ class RouteGenerator {
       case AIRTIME_TRANSACTION:
         return MaterialPageRoute(
           settings: RouteSettings(name: AIRTIME_TRANSACTION),
-          builder: (_) => AirtimeTransaction(),
+          builder: (_) => AirtimeTransaction(data),
         );
       case BILL_SELECTION:
         return MaterialPageRoute(
@@ -156,7 +156,7 @@ class RouteGenerator {
       case BILL_TRANSACTION:
         return MaterialPageRoute(
           settings: RouteSettings(name: BILL_TRANSACTION),
-          builder: (_) => BillTransaction(),
+          builder: (_) => BillTransaction(data),
         );
       default:
         return _errorRoute();

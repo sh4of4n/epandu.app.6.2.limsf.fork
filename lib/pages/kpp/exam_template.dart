@@ -458,7 +458,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   vertical: 15.0,
                 ),
                 child: Text(
-                  'PREV',
+                  AppLocalizations.of(context).translate('prev_btn'),
                   style: TextStyle(
                     fontSize: ScreenUtil.getInstance().setSp(56),
                   ),
@@ -529,7 +529,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   vertical: 15.0,
                 ),
                 child: Text(
-                  'NEXT',
+                  AppLocalizations.of(context).translate('next_btn'),
                   style: TextStyle(
                     fontSize: ScreenUtil.getInstance().setSp(56),
                   ),

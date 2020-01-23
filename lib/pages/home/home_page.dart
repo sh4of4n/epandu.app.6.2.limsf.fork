@@ -7,6 +7,7 @@ import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 
 import 'home_menu_tiles.dart';
 
@@ -28,7 +29,13 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
 
+    _openHiveBoxes();
     getStudentInfo();
+  }
+
+  _openHiveBoxes() async {
+    await Hive.openBox('telcoList');
+    await Hive.openBox('serviceList');
   }
 
   getStudentInfo() async {
