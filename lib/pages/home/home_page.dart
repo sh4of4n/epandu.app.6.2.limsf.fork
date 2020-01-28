@@ -105,7 +105,7 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-        drawer: DrawerMenu(),
+        // drawer: DrawerMenu(),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
