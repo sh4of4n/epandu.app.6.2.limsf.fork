@@ -69,7 +69,7 @@ class _AirtimeBillDetailState extends State<AirtimeBillDetail> {
       });
 
       BillArgs billArgs = BillArgs(
-        phone: _phone,
+        account: _phone,
         amount: _amount,
         telcoComm: widget.data,
       );

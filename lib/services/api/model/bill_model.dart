@@ -217,10 +217,10 @@ class ServiceComm {
 }
 
 class BillArgs {
-  String phone;
+  String account;
   String amount;
   TelcoComm telcoComm;
   ServiceComm serviceComm;
 
-  BillArgs({this.phone, this.amount, this.telcoComm, this.serviceComm});
+  BillArgs({this.account, this.amount, this.telcoComm, this.serviceComm});
 }

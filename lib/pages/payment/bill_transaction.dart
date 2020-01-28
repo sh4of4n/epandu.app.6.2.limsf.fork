@@ -80,7 +80,7 @@ class _BillTransactionState extends State<BillTransaction> {
                     Image.network(widget.data.serviceComm.telcoImageUri),
                     SizedBox(width: ScreenUtil().setWidth(80)),
                     Text(
-                      widget.data.phone,
+                      widget.data.account,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -155,8 +155,6 @@ class _BillTransactionState extends State<BillTransaction> {
   }
 
   _completeTransaction() {
-    print(_trxController.text);
-    print(_trx);
     if (_trxController.text.isEmpty || _trxController.text == null) {
       setState(() {
         _message = AppLocalizations.of(context).translate('trx_required');

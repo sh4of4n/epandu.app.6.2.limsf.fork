@@ -24,11 +24,11 @@ class _BillDetailState extends State<BillDetail> {
       TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600);
   TextStyle _labelStyle = TextStyle(fontSize: 18.0);
 
-  String _phone = '';
+  String _account = '';
   String _amount = '0.00';
   String _message = '';
 
-  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _accountController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
 
   final FocusNode _amountFocus = FocusNode();
@@ -37,15 +37,15 @@ class _BillDetailState extends State<BillDetail> {
   void initState() {
     super.initState();
 
-    _phoneController.addListener(_phoneValue);
+    _accountController.addListener(_accountValue);
     _amountController.addListener(_amountValue);
 
     _getValues();
   }
 
-  _phoneValue() {
+  _accountValue() {
     setState(() {
-      _phone = _phoneController.text;
+      _account = _accountController.text;
     });
   }
 
@@ -56,20 +56,20 @@ class _BillDetailState extends State<BillDetail> {
   }
 
   _getValues() async {
-    String kUserPhone = await localStorage.getUserPhone();
+    // String kUserPhone = await localStorage.getUserPhone();
 
-    _phoneController.text = kUserPhone;
+    // _accountController.text = kUserPhone;
     _amountController.text = _amount;
   }
 
   _submitDetails() {
-    if (_phone.isNotEmpty && double.tryParse(_amount) > 0.00) {
+    if (_account.isNotEmpty && double.tryParse(_amount) > 0.00) {
       setState(() {
         _message = '';
       });
 
       BillArgs billArgs = BillArgs(
-        phone: _phone,
+        account: _account,
         amount: _amount,
         serviceComm: widget.data,
       );
@@ -78,7 +78,7 @@ class _BillDetailState extends State<BillDetail> {
     } else {
       setState(() {
         _message =
-            AppLocalizations.of(context).translate('phone_amount_required');
+            AppLocalizations.of(context).translate('account_amount_required');
       });
     }
   }
@@ -122,7 +122,7 @@ class _BillDetailState extends State<BillDetail> {
                               fontSize: 18.0,
                             ),
                             keyboardType: TextInputType.phone,
-                            controller: _phoneController,
+                            controller: _accountController,
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10.0, horizontal: 20.0),
@@ -130,7 +130,7 @@ class _BillDetailState extends State<BillDetail> {
                                 color: primaryColor,
                               ),
                               labelText: AppLocalizations.of(context)
-                                  .translate('phone_lbl'),
+                                  .translate('account_lbl'),
                               fillColor: Colors.grey.withOpacity(.25),
                               filled: true,
                               enabledBorder: OutlineInputBorder(
@@ -337,7 +337,7 @@ class _BillDetailState extends State<BillDetail> {
 
   @override
   void dispose() {
-    _phoneController.dispose();
+    _accountController.dispose();
     _amountController.dispose();
     _amountFocus.dispose();
 
