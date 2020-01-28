@@ -68,6 +68,7 @@
   "pay_lbl": "Pay",
   "purchase_sum_lbl": "Purchase summary",
   "top_up_lbl": "Top-up",
+  "trx_required": "Trx is required.",
 
   "having_emergency_lbl": "Are you having an emergency?",
   "having_emergency_desc": "Press the SOS button and help will reach you soon.",

@@ -5,11 +5,34 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../app_localizations.dart';
 
-class BillTransaction extends StatelessWidget {
+class BillTransaction extends StatefulWidget {
   final data;
-  final primaryColor = ColorConstant.primaryColor;
 
   BillTransaction(this.data);
+
+  @override
+  _BillTransactionState createState() => _BillTransactionState();
+}
+
+class _BillTransactionState extends State<BillTransaction> {
+  final TextEditingController _trxController = TextEditingController();
+  final primaryColor = ColorConstant.primaryColor;
+
+  String _trx = '';
+  String _message = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    _trxController.addListener(_trxValue);
+  }
+
+  _trxValue() {
+    setState(() {
+      _trx = _trxController.text;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +77,10 @@ class BillTransaction extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Image.network(data.serviceComm.telcoImageUri),
+                    Image.network(widget.data.serviceComm.telcoImageUri),
                     SizedBox(width: ScreenUtil().setWidth(80)),
                     Text(
-                      data.phone,
+                      widget.data.phone,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -67,6 +90,7 @@ class BillTransaction extends StatelessWidget {
                     Container(
                       width: ScreenUtil().setWidth(1000),
                       child: TextField(
+                        controller: _trxController,
                         style: TextStyle(
                           fontSize: 18.0,
                         ),
@@ -91,12 +115,13 @@ class BillTransaction extends StatelessWidget {
                         ),
                       ),
                     ),
+                    _errorMessage(),
                     SizedBox(height: ScreenUtil().setHeight(100)),
                     ButtonTheme(
                       padding: EdgeInsets.all(0.0),
                       shape: StadiumBorder(),
                       child: RaisedButton(
-                        onPressed: () {},
+                        onPressed: _completeTransaction,
                         textColor: Colors.white,
                         padding: const EdgeInsets.all(0.0),
                         child: Container(
@@ -111,7 +136,7 @@ class BillTransaction extends StatelessWidget {
                             vertical: 15.0,
                           ),
                           child: Text(
-                            '${AppLocalizations.of(context).translate('pay_lbl')} RM${data.amount}',
+                            '${AppLocalizations.of(context).translate('pay_lbl')} RM${widget.data.amount}',
                             style: TextStyle(
                               fontSize: ScreenUtil.getInstance().setSp(56),
                             ),
@@ -127,5 +152,36 @@ class BillTransaction extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _completeTransaction() {
+    print(_trxController.text);
+    print(_trx);
+    if (_trxController.text.isEmpty || _trxController.text == null) {
+      setState(() {
+        _message = AppLocalizations.of(context).translate('trx_required');
+      });
+    } else {
+      setState(() {
+        _message = '';
+      });
+    }
+  }
+
+  _errorMessage() {
+    if (_message.isNotEmpty) {
+      return Column(
+        children: <Widget>[
+          SizedBox(height: ScreenUtil().setHeight(30)),
+          Text(_message, style: TextStyle(color: Colors.red)),
+        ],
+      );
+    }
+    return Container(height: 0, width: 0);
+  }
+
+  void dispose() {
+    _trxController.dispose();
+    super.dispose();
   }
 }
