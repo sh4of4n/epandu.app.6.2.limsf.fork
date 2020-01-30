@@ -1,3 +1,3 @@
 New:
 Bug fixes
-Add location permissions to ios
+Emergency module now requires user to enable location permission.

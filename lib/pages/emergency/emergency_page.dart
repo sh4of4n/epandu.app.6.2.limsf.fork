@@ -3,6 +3,7 @@ import 'package:epandu/pages/emergency/authorities_button.dart';
 import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repo/emergency_repo.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +11,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:hive/hive.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:app_settings/app_settings.dart';
 
 class Emergency extends StatefulWidget {
   @override
@@ -22,6 +24,7 @@ class _EmergencyState extends State<Emergency> {
   final emergencyRepo = EmergencyRepo();
   Location location = Location();
   String policeNumber;
+  final customDialog = CustomDialog();
 
   @override
   void initState() {
@@ -49,6 +52,32 @@ class _EmergencyState extends State<Emergency> {
 
       if (location.distanceInMeters.roundToDouble() > 100 ||
           contactBox.get('nearestPoliceContact') == null) _getContacts();
+    } else {
+      customDialog.show(
+        context: context,
+        barrierDismissable: false,
+        title: Text(
+            AppLocalizations.of(context).translate('loc_permission_title')),
+        content: AppLocalizations.of(context).translate('loc_permission_desc'),
+        customActions: <Widget>[
+          FlatButton(
+            child: Text(AppLocalizations.of(context).translate('yes_lbl')),
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              AppSettings.openLocationSettings();
+            },
+          ),
+          FlatButton(
+            child: Text(AppLocalizations.of(context).translate('no_lbl')),
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+          ),
+        ],
+        type: DialogType.GENERAL,
+      );
     }
   }
 

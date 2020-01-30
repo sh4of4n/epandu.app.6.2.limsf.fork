@@ -110,6 +110,8 @@
   "remark_lbl": "Remark",
   "from_lbl": "From",
   "to_lbl": "To",
+  "loc_permission_title": "Location Permission",
+  "loc_permission_desc": "Location permission is required to use SOS features. Enable location?",
 
   "language_lbl": "Language",
   "english_lbl": "Eng",
