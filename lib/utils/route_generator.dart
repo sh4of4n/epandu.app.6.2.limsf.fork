@@ -11,6 +11,7 @@ import 'package:epandu/pages/kpp/kpp_result.dart';
 import 'package:epandu/pages/login/login.dart';
 import 'package:epandu/pages/payment/airtime_transaction.dart';
 import 'package:epandu/pages/payment/payment.dart';
+import 'package:epandu/pages/profile/enroll.dart';
 import 'package:epandu/pages/profile/profile.dart';
 import 'package:epandu/pages/register/register.dart';
 import 'package:epandu/pages/settings/settings.dart';
@@ -157,6 +158,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           settings: RouteSettings(name: BILL_TRANSACTION),
           builder: (_) => BillTransaction(data),
+        );
+      case ENROLL:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: ENROLL),
+          builder: (_) => Enroll(),
         );
       default:
         return _errorRoute();

@@ -1,6 +1,7 @@
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -58,13 +59,8 @@ class _ProfileState extends State<Profile> {
       _name = _getName;
       _email = _getEmail;
       _phone = _getPhone.substring(2);
-      // _nationality = _getNationality;
-      // _gender = _getGender;
-      // _studentIc = _getStudentIc;
-      // _address = _getAddress;
       _country = _getCountry;
       _state = _getState;
-      // _postCode = _getPostCode;
     });
   }
 
@@ -153,7 +149,34 @@ class _ProfileState extends State<Profile> {
                       ? '${_state != "null" ? _state : ""}${_country != "null" ? ", $_country" : ""}'
                       : AppLocalizations.of(context).translate('no_location'),
                   style: _subtitleStyle),
-            )
+            ),
+          ButtonTheme(
+            padding: EdgeInsets.all(0.0),
+            shape: StadiumBorder(),
+            child: RaisedButton(
+              onPressed: () => Navigator.pushNamed(context, ENROLL),
+              textColor: Colors.white,
+              padding: const EdgeInsets.all(0.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25.0),
+                  gradient: LinearGradient(
+                    colors: [Colors.blueAccent.shade700, Colors.blue],
+                  ),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 40.0,
+                  vertical: 15.0,
+                ),
+                child: Text(
+                  AppLocalizations.of(context).translate('enroll_lbl'),
+                  style: TextStyle(
+                    fontSize: ScreenUtil.getInstance().setSp(56),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

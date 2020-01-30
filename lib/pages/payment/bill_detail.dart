@@ -5,6 +5,7 @@ import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -252,9 +253,12 @@ class _BillDetailState extends State<BillDetail> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Container(
-                                width: ScreenUtil().setWidth(200),
+                              LimitedBox(
+                                maxWidth: ScreenUtil().setWidth(400),
                                 child: TextField(
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(6),
+                                  ],
                                   style: TextStyle(
                                     fontSize: 22.0,
                                     fontWeight: FontWeight.w900,
@@ -283,6 +287,8 @@ class _BillDetailState extends State<BillDetail> {
                                     ),
                                     border: OutlineInputBorder(
                                       borderSide: BorderSide.none,
+                                      // borderSide:
+                                      //     BorderSide(color: Colors.transparent),
                                       // borderRadius: BorderRadius.circular(30),
                                     ),
                                   ),

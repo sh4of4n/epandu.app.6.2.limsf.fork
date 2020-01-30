@@ -107,7 +107,9 @@ class AuthRepo {
       ipAddress: '0.0.0.0',
     );
 
-    if (response.body != 'null' && response.statusCode == 200) {
+    if (response.body != 'null' &&
+        response.statusCode == 200 &&
+        response.body is Map<String, dynamic>) {
       LoginResponse loginResponse = LoginResponse.fromJson(response.body);
       var responseData = loginResponse.table1[0];
 

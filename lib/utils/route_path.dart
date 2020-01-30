@@ -25,3 +25,4 @@ const String AIRTIME_BILL_DETAIL = 'airtime_bill_detail';
 const String AIRTIME_TRANSACTION = 'airtime_transaction';
 const String BILL_DETAIL = 'bill_detail';
 const String BILL_TRANSACTION = 'bill_transaction';
+const String ENROLL = 'enroll';
