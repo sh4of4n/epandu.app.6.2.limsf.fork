@@ -206,7 +206,7 @@ class AuthRepo {
     Hive.box('ws_url').clear();
     Hive.box('telcoList').clear();
     Hive.box('serviceList').clear();
-    // Hive.box('emergencyContact').clear();
+    Hive.box('emergencyContact').clear();
 
     /* await getWsUrl(
       context: context,
