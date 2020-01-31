@@ -6,6 +6,8 @@
 		<string>This app needs access to location when in the background for SOS features.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 		<string>This app needs access to location when open and in the background for SOS features.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+		<string>This app needs access to location for SOS features.</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 			<string>comgooglemaps</string>
