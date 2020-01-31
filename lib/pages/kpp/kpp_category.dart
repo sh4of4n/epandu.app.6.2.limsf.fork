@@ -129,4 +129,8 @@ class _KppCategoryState extends State<KppCategory> {
       ),
     );
   }
+
+  void dispose() {
+    super.dispose();
+  }
 }

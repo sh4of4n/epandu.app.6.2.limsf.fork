@@ -48,6 +48,7 @@ class _EmergencyState extends State<Emergency> {
         await Geolocator().checkGeolocationPermissionStatus();
 
     if (geolocationStatus == GeolocationStatus.granted) {
+      await location.getCurrentLocation();
       print('distance: ${location.distanceInMeters.roundToDouble()}');
 
       if (location.distanceInMeters.roundToDouble() > 100 ||
