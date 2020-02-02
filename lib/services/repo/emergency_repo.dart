@@ -92,6 +92,8 @@ class EmergencyRepo {
     return Response(false);
   }
 
+  // Note: Some of the API return coordinates are invalid and
+  // will cause distance to become 0.0 leading to incorrect sorting
   Future<Response> getSortedContacts(
       {List<SosContact> emergencyContacts}) async {
     emergencyContacts.sort((a, b) =>
