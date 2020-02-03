@@ -67,21 +67,15 @@ class Location {
     double distance;
 
     if (Platform.isIOS) {
-      final coordinates = Coordinates(locLatitude, locLongitude);
+      distanceInMeters = await geolocator.distanceBetween(
+          _savedLatitude, _savedLongitude, locLatitude, locLongitude);
 
-      var addresses =
-          await Geocoder.local.findAddressesFromCoordinates(coordinates);
-      var first = addresses.first;
+      distance = distanceInMeters;
 
-      if (first.addressLine != null) {
-        distanceInMeters = await geolocator.distanceBetween(
-            _savedLatitude, _savedLongitude, locLatitude, locLongitude);
-
-        distance = distanceInMeters;
-
+      if (distance != 0.0) {
         return distance;
       }
-      return 10000.0;
+      return 1000000.0;
     }
 
     distanceInMeters = await geolocator.distanceBetween(
