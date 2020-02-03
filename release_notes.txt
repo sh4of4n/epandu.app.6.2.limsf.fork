@@ -1,3 +1,2 @@
 New:
-Bug fixes
-Emergency module now requires user to enable location permission.
+Better tracking for emergency
