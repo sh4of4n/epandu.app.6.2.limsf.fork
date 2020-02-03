@@ -53,7 +53,10 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
   }
 
   _phone() async {
-    await launch('tel:${widget.snapshot.phone}');
+    String trimNumber =
+        widget.snapshot.phone.replaceAll('-', '').replaceAll(' ', '');
+
+    await launch('tel:$trimNumber');
   }
 
   _openDestination(context) async {

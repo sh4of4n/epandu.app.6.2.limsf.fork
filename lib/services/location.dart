@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:io';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoder/geocoder.dart';
@@ -8,7 +8,7 @@ class Location {
   final geolocator = Geolocator();
   final locationOptions = LocationOptions(
     accuracy: LocationAccuracy.high,
-    distanceFilter: 200,
+    distanceFilter: 100,
   );
   double latitude;
   double longitude;
@@ -17,8 +17,6 @@ class Location {
   double distanceInMeters = 0;
 
   final localStorage = LocalStorage();
-
-  // StreamSubscription<Position> positionStream;
 
   Future<void> getCurrentLocation() async {
     double _savedLatitude =
@@ -49,26 +47,6 @@ class Location {
     }
   }
 
-  // remember to add positionStream.cancel()
-  /* Future<void> userTracking() async {
-    GeolocationStatus geolocationStatus =
-        await Geolocator().checkGeolocationPermissionStatus();
-
-    // print(geolocationStatus);
-
-    if (geolocationStatus == GeolocationStatus.granted) {
-      positionStream = geolocator
-          .getPositionStream(locationOptions)
-          .listen((Position position) async {
-
-        latitude = position.latitude;
-        longitude = position.longitude;
-
-        await getAddress(latitude, longitude);
-      });
-    }
-  } */
-
   Future<void> getAddress(double lat, double long) async {
     final coordinates = Coordinates(lat, long);
 
@@ -87,6 +65,24 @@ class Location {
         double.tryParse(await localStorage.getUserLongitude());
 
     double distance;
+
+    if (Platform.isIOS) {
+      final coordinates = Coordinates(locLatitude, locLongitude);
+
+      var addresses =
+          await Geocoder.local.findAddressesFromCoordinates(coordinates);
+      var first = addresses.first;
+
+      if (first.addressLine != null) {
+        distanceInMeters = await geolocator.distanceBetween(
+            _savedLatitude, _savedLongitude, locLatitude, locLongitude);
+
+        distance = distanceInMeters;
+
+        return distance;
+      }
+      return 10000.0;
+    }
 
     distanceInMeters = await geolocator.distanceBetween(
         _savedLatitude, _savedLongitude, locLatitude, locLongitude);

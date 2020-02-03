@@ -29,12 +29,10 @@ class _EmergencyState extends State<Emergency> {
   @override
   void initState() {
     super.initState();
-    _getCurrentLocation();
+    _checkLocationPermission();
   }
 
-  _getCurrentLocation() async {
-    await Hive.openBox('emergencyContact');
-
+  _checkLocationPermission() async {
     contactBox = Hive.box('emergencyContact');
 
     if (contactBox.get('nearestPoliceContact') != null && mounted)
@@ -42,14 +40,12 @@ class _EmergencyState extends State<Emergency> {
         policeNumber = contactBox.get('nearestPoliceContact');
       });
 
-    await location.getCurrentLocation();
-
     GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
 
     if (geolocationStatus == GeolocationStatus.granted) {
       // await location.getCurrentLocation();
-      print('distance: ${location.distanceInMeters.roundToDouble()}');
+      // print('distance: ${location.distanceInMeters.roundToDouble()}');
 
       if (location.distanceInMeters.roundToDouble() > 100 ||
           contactBox.get('nearestPoliceContact') == null) _getContacts();
@@ -101,7 +97,9 @@ class _EmergencyState extends State<Emergency> {
   }
 
   _callPoliceNumber() async {
-    await launch('tel:$policeNumber');
+    String trimNumber = policeNumber.replaceAll('-', '').replaceAll(' ', '');
+
+    await launch('tel:$trimNumber');
   }
 
   _callEmergencyNumber({@required String number}) async {

@@ -11,6 +11,10 @@ import 'package:provider/provider.dart';
 import '../../app_localizations.dart';
 
 class Settings extends StatefulWidget {
+  final data;
+
+  Settings(this.data);
+
   @override
   _SettingsState createState() => _SettingsState();
 }
@@ -146,6 +150,8 @@ class _SettingsState extends State<Settings> {
           FlatButton(
             child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () async {
+              if (widget.data != null) widget.data.cancel();
+
               Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
               await authRepo.logout(context: context);
             },

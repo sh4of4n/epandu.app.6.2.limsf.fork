@@ -112,7 +112,7 @@ class RouteGenerator {
       case SETTINGS:
         return MaterialPageRoute(
           settings: RouteSettings(name: SETTINGS),
-          builder: (_) => Settings(),
+          builder: (_) => Settings(data),
         );
       case CHANGE_PASSWORD:
         return MaterialPageRoute(

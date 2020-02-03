@@ -1,11 +1,14 @@
+import 'dart:async';
+
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/pages/home/feeds.dart';
+import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/drawer.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 
@@ -25,12 +28,49 @@ class _HomeState extends State<Home> {
   String _username = '';
   var studentEnrollmentData;
 
+  // get location
+  Location location = Location();
+  StreamSubscription<Position> positionStream;
+  final geolocator = Geolocator();
+  final locationOptions = LocationOptions(
+    accuracy: LocationAccuracy.high,
+    distanceFilter: 100,
+  );
+
   @override
   void initState() {
     super.initState();
 
     _openHiveBoxes();
     getStudentInfo();
+    _getCurrentLocation();
+  }
+
+  _getCurrentLocation() async {
+    await Hive.openBox('emergencyContact');
+
+    await location.getCurrentLocation();
+    userTracking();
+  }
+
+  // remember to add positionStream.cancel()
+  Future<void> userTracking() async {
+    GeolocationStatus geolocationStatus =
+        await Geolocator().checkGeolocationPermissionStatus();
+
+    // print(geolocationStatus);
+
+    if (geolocationStatus == GeolocationStatus.granted) {
+      positionStream = geolocator
+          .getPositionStream(locationOptions)
+          .listen((Position position) async {
+        // save latest latitude and longitude
+        localStorage.saveUserLatitude(position.latitude.toString());
+        localStorage.saveUserLongitude(position.longitude.toString());
+
+        // await getAddress(latitude, longitude);
+      });
+    }
   }
 
   _openHiveBoxes() async {
@@ -94,7 +134,8 @@ class _HomeState extends State<Home> {
           elevation: 0,
           leading: IconButton(
             icon: Icon(Icons.settings),
-            onPressed: () => Navigator.pushNamed(context, SETTINGS),
+            onPressed: () => Navigator.pushNamed(context, SETTINGS,
+                arguments: positionStream),
           ),
           actions: <Widget>[
             IconButton(

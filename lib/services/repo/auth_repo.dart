@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:xml2json/xml2json.dart';
 
 import '../../app_localizations.dart';
+import '../location.dart';
 
 class AuthRepo {
   final appConfig = AppConfig();
