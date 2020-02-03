@@ -109,8 +109,8 @@ class _DirectoryListState extends State<DirectoryList> {
                   ],
                 ),
                 child: ListView.builder(
-                  // itemCount: 10,
-                  itemCount: snapshot.data.length,
+                  itemCount: 10,
+                  // itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     if (widget.data == 'POLICE' &&
                         snapshot.data[index].sosContactSubtype == 'IPD') {

@@ -1,2 +1,2 @@
 New:
-Better tracking for emergency
+Filter emergency directory list
