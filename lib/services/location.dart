@@ -66,23 +66,17 @@ class Location {
 
     double distance;
 
-    if (Platform.isIOS) {
+    if (locLatitude > -90 &&
+        locLatitude < 90 &&
+        locLongitude > -180 &&
+        locLongitude < 180) {
       distanceInMeters = await geolocator.distanceBetween(
           _savedLatitude, _savedLongitude, locLatitude, locLongitude);
 
       distance = distanceInMeters;
 
-      if (distance != 0.0) {
-        return distance;
-      }
-      return 1000000.0;
+      return distance;
     }
-
-    distanceInMeters = await geolocator.distanceBetween(
-        _savedLatitude, _savedLongitude, locLatitude, locLongitude);
-
-    distance = distanceInMeters;
-
-    return distance;
+    return 100000000.0;
   }
 }
