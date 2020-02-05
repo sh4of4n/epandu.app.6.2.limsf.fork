@@ -1,2 +1,4 @@
 New:
 Filter emergency directory list
+Fix emergency directories not updating
+Fix incorrect error occurred message on login

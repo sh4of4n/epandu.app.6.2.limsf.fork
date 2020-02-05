@@ -73,7 +73,7 @@ class AuthRepo {
       final wsUrlBox = Hive.box('ws_url');
 
       if (getWsUrlResponse.loginAcctInfo != null) {
-        wsUrlBox.put(
+        await wsUrlBox.put(
             'wsUrl',
             getWsUrlResponse.loginAcctInfo.loginAcct.wsUrl
                 .replaceAll('1_2', wsVer));
