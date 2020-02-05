@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IconTile extends StatelessWidget {
   final component;
+  final arg;
   final title;
   final tileFirstColor;
   final tileSecondColor;
@@ -10,6 +11,7 @@ class IconTile extends StatelessWidget {
 
   IconTile({
     this.component,
+    this.arg,
     this.title,
     this.tileFirstColor,
     this.tileSecondColor,

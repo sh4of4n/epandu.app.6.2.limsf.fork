@@ -18,32 +18,11 @@ class Location {
   final localStorage = LocalStorage();
 
   Future<void> getCurrentLocation() async {
-    double _savedLatitude =
-        double.tryParse(await localStorage.getUserLatitude());
-    double _savedLongitude =
-        double.tryParse(await localStorage.getUserLongitude());
+    Position position = await geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
 
-    try {
-      Position position = await geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.medium);
-
-      latitude = position.latitude;
-      longitude = position.longitude;
-
-      // calculate distance between user's old position with current position
-      if (_savedLatitude != null && _savedLongitude != null) {
-        distanceInMeters = await geolocator.distanceBetween(
-            _savedLatitude, _savedLongitude, latitude, longitude);
-      }
-
-      // save latest latitude and longitude
-      localStorage.saveUserLatitude(latitude.toString());
-      localStorage.saveUserLongitude(longitude.toString());
-
-      // await getAddress(latitude, longitude);
-    } catch (e) {
-      print(e);
-    }
+    latitude = position.latitude;
+    longitude = position.longitude;
   }
 
   Future<void> getAddress(double lat, double long) async {

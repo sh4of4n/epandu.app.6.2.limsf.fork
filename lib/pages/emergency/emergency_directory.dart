@@ -41,7 +41,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
 
   Future<void> getPoliceContact() async {
     if (contactBox.get('policeContact') != null &&
-        location.distanceInMeters.roundToDouble() < 100) {
+        location.distanceInMeters < 100) {
       if (mounted) {
         setState(() {
           policeContacts = contactBox.get('policeContact');
@@ -61,7 +61,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
 
   Future<void> getAmbulanceContact() async {
     if (contactBox.get('ambulanceContact') != null &&
-        location.distanceInMeters.roundToDouble() < 100) {
+        location.distanceInMeters < 100) {
       if (mounted) {
         setState(() {
           ambulanceContacts = contactBox.get('ambulanceContact');
@@ -81,7 +81,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
 
   Future<void> getEmbassyContact() async {
     if (contactBox.get('embassyContact') != null &&
-        location.distanceInMeters.roundToDouble() < 100) {
+        location.distanceInMeters < 100) {
       if (mounted) {
         setState(() {
           embassyContacts = contactBox.get('embassyContact');

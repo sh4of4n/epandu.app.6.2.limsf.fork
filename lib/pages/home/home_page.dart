@@ -50,7 +50,21 @@ class _HomeState extends State<Home> {
     await Hive.openBox('emergencyContact');
 
     await location.getCurrentLocation();
+    await _checkSavedCoord();
     userTracking();
+  }
+
+  _checkSavedCoord() async {
+    double _savedLatitude =
+        double.tryParse(await localStorage.getUserLatitude());
+    double _savedLongitude =
+        double.tryParse(await localStorage.getUserLongitude());
+
+    if (_savedLatitude == null || _savedLongitude == null) {
+      // save latest latitude and longitude
+      localStorage.saveUserLatitude(location.latitude.toString());
+      localStorage.saveUserLongitude(location.longitude.toString());
+    }
   }
 
   // remember to add positionStream.cancel()
@@ -64,11 +78,17 @@ class _HomeState extends State<Home> {
       positionStream = geolocator
           .getPositionStream(locationOptions)
           .listen((Position position) async {
-        // save latest latitude and longitude
+        double distance = await location.getDistance(
+          locLatitude: position.latitude,
+          locLongitude: position.longitude,
+        );
+
+        location.distanceInMeters = distance;
+
+        print(location.distanceInMeters.toString());
+
         localStorage.saveUserLatitude(position.latitude.toString());
         localStorage.saveUserLongitude(position.longitude.toString());
-
-        // await getAddress(latitude, longitude);
       });
     }
   }

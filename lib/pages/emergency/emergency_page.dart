@@ -4,6 +4,7 @@ import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repo/emergency_repo.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
+import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,9 +23,15 @@ class _EmergencyState extends State<Emergency> {
   Box<dynamic> contactBox;
   final primaryColor = ColorConstant.primaryColor;
   final emergencyRepo = EmergencyRepo();
+  final localStorage = LocalStorage();
   Location location = Location();
   String policeNumber;
   final customDialog = CustomDialog();
+  final geolocator = Geolocator();
+  final locationOptions = LocationOptions(
+    accuracy: LocationAccuracy.high,
+    distanceFilter: 100,
+  );
 
   @override
   void initState() {
@@ -40,15 +47,30 @@ class _EmergencyState extends State<Emergency> {
         policeNumber = contactBox.get('nearestPoliceContact');
       });
 
+    // await location.getCurrentLocation();
+
     GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
 
     if (geolocationStatus == GeolocationStatus.granted) {
-      // await location.getCurrentLocation();
-      // print('distance: ${location.distanceInMeters.roundToDouble()}');
+      // print('distance: ${location.distanceInMeters}');
 
-      if (location.distanceInMeters.roundToDouble() > 100 ||
-          contactBox.get('nearestPoliceContact') == null) _getContacts();
+      if (location.distanceInMeters > 100 ||
+          contactBox.get('nearestPoliceContact') == null)
+        _getContacts();
+      else {
+        // if positionStream is not initiated
+        await location.getCurrentLocation();
+        double distance = await location.getDistance(
+            locLatitude: location.latitude, locLongitude: location.longitude);
+
+        if (distance > 100) _getContacts();
+
+        location.distanceInMeters = distance;
+
+        localStorage.saveUserLatitude(location.latitude.toString());
+        localStorage.saveUserLongitude(location.longitude.toString());
+      }
     } else {
       customDialog.show(
         context: context,
@@ -224,5 +246,9 @@ class _EmergencyState extends State<Emergency> {
         ),
       ),
     );
+  }
+
+  void dispose() {
+    super.dispose();
   }
 }

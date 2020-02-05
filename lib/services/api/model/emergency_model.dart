@@ -437,3 +437,15 @@ class EmbassyContact {
     this.distance,
   });
 } */
+
+class EmergencyArgs {
+  double latitude;
+  double longitude;
+  double distanceInMeters;
+
+  EmergencyArgs({
+    this.latitude,
+    this.longitude,
+    this.distanceInMeters,
+  });
+}

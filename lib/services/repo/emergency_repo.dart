@@ -68,7 +68,7 @@ class EmergencyRepo {
             .getDistance(locLatitude: locLatitude, locLongitude: locLongitude);
 
         emergencyContactResponse.sosContact[i].distance =
-            '${(locDistance / 1000).roundToDouble().toString()}km';
+            '${(locDistance / 1000).toStringAsFixed(2)}km';
       }
 
       var sortedResponse = await getSortedContacts(
