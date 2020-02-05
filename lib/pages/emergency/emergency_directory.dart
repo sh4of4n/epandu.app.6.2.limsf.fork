@@ -1,3 +1,4 @@
+import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repo/emergency_repo.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/route_path.dart';
@@ -18,6 +19,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
   final primaryColor = ColorConstant.primaryColor;
   final contactBox = Hive.box('emergencyContact');
   final emergencyRepo = EmergencyRepo();
+  Location location = Location();
   var policeContacts;
   var ambulanceContacts;
   var embassyContacts;
@@ -38,7 +40,8 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
   }
 
   Future<void> getPoliceContact() async {
-    if (contactBox.get('policeContact') != null) {
+    if (contactBox.get('policeContact') != null &&
+        location.distanceInMeters.roundToDouble() < 100) {
       if (mounted) {
         setState(() {
           policeContacts = contactBox.get('policeContact');
@@ -57,7 +60,8 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
   }
 
   Future<void> getAmbulanceContact() async {
-    if (contactBox.get('ambulanceContact') != null) {
+    if (contactBox.get('ambulanceContact') != null &&
+        location.distanceInMeters.roundToDouble() < 100) {
       if (mounted) {
         setState(() {
           ambulanceContacts = contactBox.get('ambulanceContact');
@@ -76,7 +80,8 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
   }
 
   Future<void> getEmbassyContact() async {
-    if (contactBox.get('embassyContact') != null) {
+    if (contactBox.get('embassyContact') != null &&
+        location.distanceInMeters.roundToDouble() < 100) {
       if (mounted) {
         setState(() {
           embassyContacts = contactBox.get('embassyContact');
@@ -210,5 +215,9 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         ),
       ),
     );
+  }
+
+  void dispose() {
+    super.dispose();
   }
 }
