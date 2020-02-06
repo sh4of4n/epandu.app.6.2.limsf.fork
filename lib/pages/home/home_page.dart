@@ -47,13 +47,12 @@ class _HomeState extends State<Home> {
   }
 
   _getCurrentLocation() async {
-    await Hive.openBox('emergencyContact');
-
     await location.getCurrentLocation();
     await _checkSavedCoord();
     userTracking();
   }
 
+  // Check if stored latitude and longitude is null
   _checkSavedCoord() async {
     double _savedLatitude =
         double.tryParse(await localStorage.getUserLatitude());
@@ -61,7 +60,6 @@ class _HomeState extends State<Home> {
         double.tryParse(await localStorage.getUserLongitude());
 
     if (_savedLatitude == null || _savedLongitude == null) {
-      // save latest latitude and longitude
       localStorage.saveUserLatitude(location.latitude.toString());
       localStorage.saveUserLongitude(location.longitude.toString());
     }
@@ -83,9 +81,9 @@ class _HomeState extends State<Home> {
           locLongitude: position.longitude,
         );
 
-        location.distanceInMeters = distance;
+        await Hive.box('emergencyContact').put('distanceInMeters', distance);
 
-        print(location.distanceInMeters.toString());
+        print(Hive.box('emergencyContact').get('distanceInMeters'));
 
         localStorage.saveUserLatitude(position.latitude.toString());
         localStorage.saveUserLongitude(position.longitude.toString());
@@ -96,6 +94,7 @@ class _HomeState extends State<Home> {
   _openHiveBoxes() async {
     await Hive.openBox('telcoList');
     await Hive.openBox('serviceList');
+    await Hive.openBox('emergencyContact');
   }
 
   getStudentInfo() async {

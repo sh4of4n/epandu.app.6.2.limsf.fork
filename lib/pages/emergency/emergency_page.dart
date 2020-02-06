@@ -42,11 +42,6 @@ class _EmergencyState extends State<Emergency> {
   _checkLocationPermission() async {
     contactBox = Hive.box('emergencyContact');
 
-    if (contactBox.get('nearestPoliceContact') != null && mounted)
-      setState(() {
-        policeNumber = contactBox.get('nearestPoliceContact');
-      });
-
     // await location.getCurrentLocation();
 
     GeolocationStatus geolocationStatus =
@@ -54,19 +49,39 @@ class _EmergencyState extends State<Emergency> {
 
     if (geolocationStatus == GeolocationStatus.granted) {
       // print('distance: ${location.distanceInMeters}');
+      location.distanceInMeters = await contactBox.get('distanceInMeters');
 
-      if (location.distanceInMeters > 100 ||
-          contactBox.get('nearestPoliceContact') == null)
+      // police number is not refreshed if distance < 100 meters
+      if (contactBox.get('nearestPoliceContact') != null &&
+          location.distanceInMeters < 100 &&
+          mounted) {
+        setState(() {
+          policeNumber = contactBox.get('nearestPoliceContact');
+        });
+      } else if (location.distanceInMeters > 100 ||
+          contactBox.get('nearestPoliceContact') == null) {
         _getContacts();
-      else {
-        // if positionStream is not initiated
+
+        // assign distanceInMeters to double variable
+        double distanceEmergencyContacts =
+            await contactBox.get('distanceInMeters');
+
+        // store distanceInMeters to db for directory use
+        await contactBox.put(
+            'distanceInMetersDirectory', distanceEmergencyContacts);
+
+        // distance in emergency page will be 0.0
+        // emergency page will not be refreshed unless user is at new location
+        contactBox.put('distanceInMeters', 0.0);
+      } else {
+        // if positionStream is not initiated current location will be requested
         await location.getCurrentLocation();
         double distance = await location.getDistance(
             locLatitude: location.latitude, locLongitude: location.longitude);
 
         if (distance > 100) _getContacts();
 
-        location.distanceInMeters = distance;
+        contactBox.put('distanceInMeters', distance);
 
         localStorage.saveUserLatitude(location.latitude.toString());
         localStorage.saveUserLongitude(location.longitude.toString());

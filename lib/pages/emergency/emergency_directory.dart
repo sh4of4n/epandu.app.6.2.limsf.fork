@@ -31,12 +31,19 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
     _getContacts();
   }
 
-  _getContacts() {
+  _getContacts() async {
+    location.distanceInMeters =
+        await contactBox.get('distanceInMetersDirectory');
+
     Future.wait([
       getPoliceContact(),
       getAmbulanceContact(),
       getEmbassyContact(),
     ]);
+
+    // distance in emergency directory will be 0.0
+    // emergency directory will not be refreshed unless user is at new location
+    contactBox.put('distanceInMetersDirectory', 0.0);
   }
 
   Future<void> getPoliceContact() async {
