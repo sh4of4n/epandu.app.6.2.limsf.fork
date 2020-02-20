@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:random_color/random_color.dart';
 
 import 'kpp_module_icon.dart';
@@ -211,6 +212,37 @@ class _KppModuleState extends State<KppModule> {
                                 )
                               : SizedBox.shrink(),
                           _submitButton(),
+                          SizedBox(height: ScreenUtil().setHeight(30)),
+                          InkWell(
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              KPP_EXAM,
+                              arguments: KppModuleArguments(
+                                groupId: widget.data,
+                                paperNo: 'DEMO',
+                              ),
+                            ),
+                            child: RichText(
+                              text: TextSpan(
+                                text: AppLocalizations.of(context)
+                                    .translate('demo_desc_1'),
+                                style: GoogleFonts.dosis(
+                                  fontWeight: FontWeight.w500,
+                                  textStyle: TextStyle(color: Colors.black),
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                      text: AppLocalizations.of(context)
+                                          .translate('demo_desc_2'),
+                                      style: TextStyle(
+                                          fontSize: ScreenUtil().setSp(55),
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic,
+                                          decoration: TextDecoration.underline))
+                                ],
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ],

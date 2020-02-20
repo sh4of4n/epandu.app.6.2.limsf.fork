@@ -157,6 +157,8 @@
   "warning_title": "Makluman",
   "confirm_exit_desc": "Adakah anda pasti? Kemajuan anda tidak akan disimpan.",
   "activate_pin_title": "Aktifkan pin",
+  "demo_desc_1": "Atau anda boleh mencuba ",
+  "demo_desc_2": "Demo.",
   "activate_pin": "Sila aktifkan nombor pin anda.",
   "pin_lbl": "Pin",
   "pin_required_msg": "Pin number is required.",
