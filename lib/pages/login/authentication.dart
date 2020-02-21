@@ -51,10 +51,10 @@ class _AuthenticationState extends State<Authentication> {
     String locale = await localStorage.getLocale();
 
     if (locale == 'en') {
-      Provider.of<LanguageModel>(context).selectedLanguage(
+      Provider.of<LanguageModel>(context, listen: false).selectedLanguage(
           AppLocalizations.of(context).translate('english_lbl'));
     } else {
-      Provider.of<LanguageModel>(context).selectedLanguage(
+      Provider.of<LanguageModel>(context, listen: false).selectedLanguage(
           AppLocalizations.of(context).translate('malay_lbl'));
     }
   }

@@ -18,7 +18,8 @@ class EmergencyRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
-    var response = await Provider.of<ApiService>(context).getDefaultSosContact(
+    var response = await Provider.of<ApiService>(context, listen: false)
+        .getDefaultSosContact(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -44,7 +45,8 @@ class EmergencyRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
-    var response = await Provider.of<ApiService>(context).getSosContact(
+    var response =
+        await Provider.of<ApiService>(context, listen: false).getSosContact(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,

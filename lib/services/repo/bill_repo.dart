@@ -22,7 +22,8 @@ class BillRepo {
     var responseData;
     Box<dynamic> telcoList = Hive.box('telcoList');
 
-    var response = await Provider.of<BillService>(context).getTelco(
+    var response =
+        await Provider.of<BillService>(context, listen: false).getTelco(
       wsCodeCrypt: 'CARSERWS',
       caUid: caUid,
       caPwd: caPwd,
@@ -56,7 +57,8 @@ class BillRepo {
     var responseData;
     Box<dynamic> serviceList = Hive.box('serviceList');
 
-    var response = await Provider.of<BillService>(context).getService(
+    var response =
+        await Provider.of<BillService>(context, listen: false).getService(
       wsCodeCrypt: 'CARSERWS',
       caUid: caUid,
       caPwd: caPwd,

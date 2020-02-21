@@ -58,7 +58,8 @@ class ProfileRepo {
     String groupId = '';
     String icNo = await localStorage.getStudentIc();
 
-    var response = await Provider.of<ApiService>(context).getEnrollByCode(
+    var response =
+        await Provider.of<ApiService>(context, listen: false).getEnrollByCode(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -159,8 +160,8 @@ class ProfileRepo {
     // String diCode = await localStorage.getDiCode();
     String icNo = await localStorage.getStudentIc();
 
-    var response =
-        await Provider.of<ApiService>(context).getCollectionByStudent(
+    var response = await Provider.of<ApiService>(context, listen: false)
+        .getCollectionByStudent(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -192,7 +193,8 @@ class ProfileRepo {
     String groupId = await localStorage.getEnrolledGroupId();
     String icNo = await localStorage.getStudentIc();
 
-    var response = await Provider.of<ApiService>(context).getDTestByCode(
+    var response =
+        await Provider.of<ApiService>(context, listen: false).getDTestByCode(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,

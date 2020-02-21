@@ -19,8 +19,9 @@ class LanguageOptions extends StatelessWidget {
             onTap: () {
               localStorage.saveLocale('en');
               application.onLocaleChanged(Locale('en'));
-              Provider.of<LanguageModel>(context).selectedLanguage(
-                  AppLocalizations.of(context).translate('english_lbl'));
+              Provider.of<LanguageModel>(context, listen: false)
+                  .selectedLanguage(
+                      AppLocalizations.of(context).translate('english_lbl'));
               Navigator.pop(context);
             },
           ),
@@ -29,8 +30,9 @@ class LanguageOptions extends StatelessWidget {
             onTap: () {
               localStorage.saveLocale('ms');
               application.onLocaleChanged(Locale('ms'));
-              Provider.of<LanguageModel>(context).selectedLanguage(
-                  AppLocalizations.of(context).translate('malay_lbl'));
+              Provider.of<LanguageModel>(context, listen: false)
+                  .selectedLanguage(
+                      AppLocalizations.of(context).translate('malay_lbl'));
               Navigator.pop(context);
             },
           ),

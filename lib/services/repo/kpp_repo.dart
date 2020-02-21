@@ -18,8 +18,8 @@ class KppRepo {
     String userId = await localStorage.getUserId();
     String diCode = await localStorage.getDiCode();
 
-    var response =
-        await Provider.of<ApiService>(context).getArmasterAppPhotoForCode(
+    var response = await Provider.of<ApiService>(context, listen: false)
+        .getArmasterAppPhotoForCode(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -56,7 +56,7 @@ class KppRepo {
     String userPhone = await localStorage.getUserPhone();
     String phone = userPhone.substring(2);
 
-    var response = await Provider.of<ApiService>(context)
+    var response = await Provider.of<ApiService>(context, listen: false)
         .getTheoryQuestionPaperNoWithCreditControl(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
@@ -95,8 +95,8 @@ class KppRepo {
     String courseCode = 'KPP1';
     String langCode = 'ms-MY';
 
-    var response =
-        await Provider.of<ApiService>(context).getTheoryQuestionByPaper(
+    var response = await Provider.of<ApiService>(context, listen: false)
+        .getTheoryQuestionByPaper(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -139,8 +139,8 @@ class KppRepo {
       courseCode: 'KPP1',
     );
 
-    var response =
-        await Provider.of<ApiService>(context).pinActivation(pinRequest);
+    var response = await Provider.of<ApiService>(context, listen: false)
+        .pinActivation(pinRequest);
 
     if (response.body != 'null' && response.statusCode == 200) {
       return Response(true);

@@ -45,7 +45,8 @@ class AuthRepo {
 
     wsUrl = wsUrl.replaceAll("_wsver_", wsVer.replaceAll(".", "_"));
 
-    var response = await Provider.of<GetBaseUrl>(context).getWsUrl(
+    var response =
+        await Provider.of<GetBaseUrl>(context, listen: false).getWsUrl(
       baseUrl: wsUrl,
       wsCodeCrypt: wsCodeCrypt,
       acctUid: acctUid,
@@ -97,7 +98,7 @@ class AuthRepo {
     // final String caPwd = await localStorage.getCaPwd();
     final String caPwdUrlEncode = await localStorage.getCaPwdEncode();
 
-    var response = await Provider.of<ApiService>(context).login(
+    var response = await Provider.of<ApiService>(context, listen: false).login(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwdUrlEncode,
@@ -146,7 +147,8 @@ class AuthRepo {
     String userId = await localStorage.getUserId();
     String diCode = await localStorage.getDiCode();
 
-    var response = await Provider.of<ApiService>(context).getUserRegisteredDI(
+    var response = await Provider.of<ApiService>(context, listen: false)
+        .getUserRegisteredDI(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -192,7 +194,7 @@ class AuthRepo {
     // String diCode = await localStorage.getDiCode();
     String sessionId = await localStorage.getSessionId();
 
-    await Provider.of<ApiService>(context).logout(
+    await Provider.of<ApiService>(context, listen: false).logout(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -255,7 +257,8 @@ class AuthRepo {
 
     if (userId.isEmpty) userId = 'TBS';
 
-    var response = await Provider.of<ApiService>(context).getUserByUserPhone(
+    var response = await Provider.of<ApiService>(context, listen: false)
+        .getUserByUserPhone(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -339,7 +342,8 @@ class AuthRepo {
       email: email ?? '',
     );
 
-    var response = await Provider.of<ApiService>(context).register(params);
+    var response =
+        await Provider.of<ApiService>(context, listen: false).register(params);
 
     var message = '';
 
@@ -368,7 +372,8 @@ class AuthRepo {
     String caPwd = await localStorage.getCaPwd();
     String userId = await localStorage.getUserId();
 
-    var response = await Provider.of<ApiService>(context).verifyOldPassword(
+    var response =
+        await Provider.of<ApiService>(context, listen: false).verifyOldPassword(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -399,7 +404,7 @@ class AuthRepo {
       password: password,
     );
 
-    var response = await Provider.of<ApiService>(context)
+    var response = await Provider.of<ApiService>(context, listen: false)
         .saveUserPassword(saveUserPasswordRequest);
 
     if (response.body == 'True') {
