@@ -102,7 +102,7 @@ class _HomeState extends State<Home> {
     String _firstName;
 
     if (_name.isEmpty) {
-      await authRepo.checkDiList(context: context);
+      await authRepo.getUserRegisteredDI(context: context);
 
       _name = await localStorage.getUsername();
       _firstName = _name.split(' ')[0];

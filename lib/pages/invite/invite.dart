@@ -273,7 +273,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
         _message = '';
       });
 
-      var result = await authRepo.checkExistingUser(
+      var result = await authRepo.getUserByUserPhone(
         context: context,
         type: 'INVITE',
         countryCode: _countryCode,

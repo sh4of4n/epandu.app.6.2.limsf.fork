@@ -10,14 +10,16 @@ class KppRepo {
   final appConfig = AppConfig();
   final localStorage = LocalStorage();
 
-  Future<Response> getInstituteLogo({context}) async {
+  // was getArmasterAppPhotoForCode
+  Future<Response> getArmasterAppPhotoForCode({context}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
     String userId = await localStorage.getUserId();
     String diCode = await localStorage.getDiCode();
 
-    var response = await Provider.of<ApiService>(context).getInstituteLogo(
+    var response =
+        await Provider.of<ApiService>(context).getArmasterAppPhotoForCode(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -40,7 +42,9 @@ class KppRepo {
     return Response(false);
   }
 
-  Future<Response> getExamNo({context, groupId}) async {
+  // was getTheoryQuestionPaperNoWithCreditControl
+  Future<Response> getTheoryQuestionPaperNoWithCreditControl(
+      {context, groupId}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
@@ -52,7 +56,8 @@ class KppRepo {
     String userPhone = await localStorage.getUserPhone();
     String phone = userPhone.substring(2);
 
-    var response = await Provider.of<ApiService>(context).getExamNo(
+    var response = await Provider.of<ApiService>(context)
+        .getTheoryQuestionPaperNoWithCreditControl(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -82,14 +87,16 @@ class KppRepo {
             .replaceAll('[BLException]', ''));
   }
 
-  Future<Response> getExamQuestions({context, groupId, paperNo}) async {
+  // was getTheoryQuestionByPaper
+  Future<Response> getTheoryQuestionByPaper({context, groupId, paperNo}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
     // String caPwdUrlEncode = await localStorage.getCaPwdEncode();
     String courseCode = 'KPP1';
     String langCode = 'ms-MY';
 
-    var response = await Provider.of<ApiService>(context).getExamQuestions(
+    var response =
+        await Provider.of<ApiService>(context).getTheoryQuestionByPaper(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -100,12 +107,13 @@ class KppRepo {
     );
 
     if (response.body != 'null' && response.statusCode == 200) {
-      GetExamQuestionsResponse getExamQuestionsResponse;
+      GetTheoryQuestionByPaperResponse getTheoryQuestionByPaperResponse;
 
-      getExamQuestionsResponse =
-          GetExamQuestionsResponse.fromJson(response.body);
+      getTheoryQuestionByPaperResponse =
+          GetTheoryQuestionByPaperResponse.fromJson(response.body);
 
-      return Response(true, data: getExamQuestionsResponse.theoryQuestion);
+      return Response(true,
+          data: getTheoryQuestionByPaperResponse.theoryQuestion);
     }
 
     return Response(false,

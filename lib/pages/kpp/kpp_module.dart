@@ -42,13 +42,14 @@ class _KppModuleState extends State<KppModule> {
   void initState() {
     super.initState();
 
-    _getExamNo();
+    _getTheoryQuestionPaperNoWithCreditControl();
   }
 
-  _getExamNo() async {
+  _getTheoryQuestionPaperNoWithCreditControl() async {
     String groupId = widget.data;
 
-    var result = await kppRepo.getExamNo(context: context, groupId: groupId);
+    var result = await kppRepo.getTheoryQuestionPaperNoWithCreditControl(
+        context: context, groupId: groupId);
 
     if (result.isSuccess) {
       _getRandomColors(result.data);
@@ -307,7 +308,7 @@ class _KppModuleState extends State<KppModule> {
           // snapshot = result.data['PaperNo'];
         });
 
-        _getExamNo();
+        _getTheoryQuestionPaperNoWithCreditControl();
       } else {
         setState(() {
           pinMessage = result.message;

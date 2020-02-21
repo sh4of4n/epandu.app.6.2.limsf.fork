@@ -453,12 +453,12 @@ class PaperNo {
   }
 }
 
-class GetExamQuestionsResponse {
+class GetTheoryQuestionByPaperResponse {
   List<TheoryQuestion> theoryQuestion;
 
-  GetExamQuestionsResponse({this.theoryQuestion});
+  GetTheoryQuestionByPaperResponse({this.theoryQuestion});
 
-  GetExamQuestionsResponse.fromJson(Map<String, dynamic> json) {
+  GetTheoryQuestionByPaperResponse.fromJson(Map<String, dynamic> json) {
     if (json['TheoryQuestion'] != null) {
       theoryQuestion = new List<TheoryQuestion>();
       json['TheoryQuestion'].forEach((v) {

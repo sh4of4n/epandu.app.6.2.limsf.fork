@@ -545,7 +545,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
         _message = '';
       });
 
-      var result = await authRepo.checkExistingUser(
+      var result = await authRepo.getUserByUserPhone(
         context: context,
         type: 'REGISTER',
         countryCode: '+60',

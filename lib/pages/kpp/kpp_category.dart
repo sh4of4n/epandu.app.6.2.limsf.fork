@@ -29,14 +29,15 @@ class _KppCategoryState extends State<KppCategory> {
   void initState() {
     super.initState();
 
-    _getInstituteLogo();
+    _getArmasterAppPhotoForCode();
   }
 
-  _getInstituteLogo() async {
-    String instituteLogoBase64 = await localStorage.getInstituteLogo();
+  _getArmasterAppPhotoForCode() async {
+    String instituteLogoBase64 =
+        await localStorage.getArmasterAppPhotoForCode();
 
     if (instituteLogoBase64.isEmpty) {
-      var result = await kppRepo.getInstituteLogo(context: context);
+      var result = await kppRepo.getArmasterAppPhotoForCode(context: context);
 
       if (result.data != null) {
         Uint8List decodedImage = base64Decode(result.data);

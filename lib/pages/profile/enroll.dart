@@ -539,7 +539,7 @@ class _EnrollState extends State<Enroll> with PageBaseClass {
         _message = '';
       });
 
-      var result = await authRepo.checkExistingUser(
+      var result = await authRepo.getUserByUserPhone(
         context: context,
         type: 'REGISTER',
         countryCode: '+60',

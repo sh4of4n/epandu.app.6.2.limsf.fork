@@ -799,17 +799,17 @@ class RegisterRequest {
   }
 }
 
-class UpdatePasswordRequest {
+class SaveUserPasswordRequest {
   String wsCodeCrypt;
   String caUid;
   String caPwd;
   String userId;
   String password;
 
-  UpdatePasswordRequest(
+  SaveUserPasswordRequest(
       {this.wsCodeCrypt, this.caUid, this.caPwd, this.userId, this.password});
 
-  UpdatePasswordRequest.fromJson(Map<String, dynamic> json) {
+  SaveUserPasswordRequest.fromJson(Map<String, dynamic> json) {
     wsCodeCrypt = json['wsCodeCrypt'];
     caUid = json['caUid'];
     caPwd = json['caPwd'];

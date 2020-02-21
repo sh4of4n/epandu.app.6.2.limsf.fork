@@ -82,8 +82,7 @@ class _ProfileTabState extends State<ProfileTab>
 
   _getEnrollmentData() async {
     if (enrollmentData == null) {
-      enrollmentResponse =
-          await profileRepo.getStudentEnrollmentData(context: context);
+      enrollmentResponse = await profileRepo.getEnrollByCode(context: context);
 
       if (enrollmentResponse.isSuccess) {
         if (mounted) {
@@ -107,7 +106,8 @@ class _ProfileTabState extends State<ProfileTab>
 
   _getPaymentData() async {
     if (paymentData == null) {
-      paymentResponse = await profileRepo.getStudentPayment(context: context);
+      paymentResponse =
+          await profileRepo.getCollectionByStudent(context: context);
 
       if (paymentResponse.isSuccess) {
         if (mounted) {
@@ -130,8 +130,7 @@ class _ProfileTabState extends State<ProfileTab>
 
   _getAttendanceData() async {
     if (attendanceData == null) {
-      attendanceResponse =
-          await profileRepo.getStudentAttendance(context: context);
+      attendanceResponse = await profileRepo.getDTestByCode(context: context);
 
       if (attendanceResponse.isSuccess) {
         if (mounted) {

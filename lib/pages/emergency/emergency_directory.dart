@@ -55,7 +55,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         });
       }
     } else {
-      await emergencyRepo.getEmergencyContact(
+      await emergencyRepo.getSosContact(
           context: context, sosContactType: 'POLICE');
 
       if (mounted) {
@@ -75,7 +75,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         });
       }
     } else {
-      await emergencyRepo.getEmergencyContact(
+      await emergencyRepo.getSosContact(
           context: context, sosContactType: 'AMBULANCE');
 
       if (mounted) {
@@ -95,7 +95,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         });
       }
     } else {
-      await emergencyRepo.getEmergencyContact(
+      await emergencyRepo.getSosContact(
           context: context, sosContactType: 'EMBASSY');
 
       if (mounted) {

@@ -11,15 +11,14 @@ class EmergencyRepo {
   final appConfig = AppConfig();
   final localStorage = LocalStorage();
 
-  // GetDefaultSosContact
-  Future<Response> getDefEmergencyContact({context}) async {
+  // was getDefaultSosContact
+  Future<Response> getDefaultSosContact({context}) async {
     assert(context != null);
 
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
-    var response =
-        await Provider.of<ApiService>(context).getDefEmergencyContact(
+    var response = await Provider.of<ApiService>(context).getDefaultSosContact(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -36,8 +35,8 @@ class EmergencyRepo {
     return Response(false);
   }
 
-  // GetSosContact
-  Future<Response> getEmergencyContact(
+  // was getSosContact
+  Future<Response> getSosContact(
       {context, sosContactType, sosContactCode, areaCode}) async {
     // Hive
     final emergencyContactBox = Hive.box('emergencyContact');
@@ -45,7 +44,7 @@ class EmergencyRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
-    var response = await Provider.of<ApiService>(context).getEmergencyContact(
+    var response = await Provider.of<ApiService>(context).getSosContact(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,

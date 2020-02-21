@@ -60,7 +60,7 @@ class _KppExamState extends State<KppExam> {
 
               Navigator.pop(context);
 
-              _getExamQuestions();
+              _getTheoryQuestionByPaper();
             },
           ),
           FlatButton(
@@ -73,7 +73,7 @@ class _KppExamState extends State<KppExam> {
 
               Navigator.pop(context);
 
-              _getExamQuestions();
+              _getTheoryQuestionByPaper();
             },
           ),
         ],
@@ -84,14 +84,14 @@ class _KppExamState extends State<KppExam> {
       groupId = widget.data.groupId;
       paperNo = widget.data.paperNo;
 
-      _getExamQuestions();
+      _getTheoryQuestionByPaper();
     }
 
-    // await _getExamQuestions();
+    // await _getTheoryQuestionByPaper();
   }
 
-  _getExamQuestions() async {
-    var result = await kppRepo.getExamQuestions(
+  _getTheoryQuestionByPaper() async {
+    var result = await kppRepo.getTheoryQuestionByPaper(
       context: context,
       groupId: groupId,
       paperNo: paperNo,

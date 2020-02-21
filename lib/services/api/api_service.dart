@@ -68,7 +68,7 @@ abstract class ApiService extends ChopperService {
   @Get(
       path:
           'GetUserRegisteredDI?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&diCode={diCode}&userId={userId}')
-  Future<Response> checkDiList({
+  Future<Response> getUserRegisteredDI({
     @Path('wsCodeCrypt') String wsCodeCrypt,
     @Path('caUid') String caUid,
     @Path('caPwd') String caPwd,
@@ -92,7 +92,7 @@ abstract class ApiService extends ChopperService {
   @Get(
       path:
           'GetUserByUserPhone?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&userPhone={userPhone}')
-  Future<Response> checkExistingUser({
+  Future<Response> getUserByUserPhone({
     @Path('wsCodeCrypt') String wsCodeCrypt,
     @Path('caUid') String caUid,
     @Path('caPwd') String caPwd,
@@ -115,14 +115,14 @@ abstract class ApiService extends ChopperService {
   });
 
   @Post(path: 'SaveUserPassword')
-  Future<Response> updatePassword(@Body() UpdatePasswordRequest body);
+  Future<Response> saveUserPassword(@Body() SaveUserPasswordRequest body);
   // end auth_repo
 
   // profile_repo
   @Get(
       path:
           'GetEnrollByCode?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&diCode={diCode}&icNo={icNo}&groupId={groupId}')
-  Future<Response> getStudentEnrollmentData({
+  Future<Response> getEnrollByCode({
     @Path('wsCodeCrypt') String wsCodeCrypt,
     @Path('caUid') String caUid,
     @Path('caPwd') String caPwd,
@@ -146,7 +146,7 @@ abstract class ApiService extends ChopperService {
   @Get(
       path:
           'GetCollectionByStudent?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&diCode={diCode}&icNo={icNo}')
-  Future<Response> getStudentPayment({
+  Future<Response> getCollectionByStudent({
     @Path('wsCodeCrypt') String wsCodeCrypt,
     @Path('caUid') String caUid,
     @Path('caPwd') String caPwd,
@@ -157,7 +157,7 @@ abstract class ApiService extends ChopperService {
   @Get(
       path:
           'GetDTestByCode?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&diCode={diCode}&icNo={icNo}&groupId={groupId}')
-  Future<Response> getStudentAttendance({
+  Future<Response> getDTestByCode({
     @Path('wsCodeCrypt') String wsCodeCrypt,
     @Path('caUid') String caUid,
     @Path('caPwd') String caPwd,
@@ -171,7 +171,7 @@ abstract class ApiService extends ChopperService {
   @Get(
       path:
           'GetArmasterAppPhotoForCode?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&diCode={diCode}&userId={userId}')
-  Future<Response> getInstituteLogo({
+  Future<Response> getArmasterAppPhotoForCode({
     @Path('wsCodeCrypt') String wsCodeCrypt,
     @Path('caUid') String caUid,
     @Path('caPwd') String caPwd,
@@ -182,7 +182,7 @@ abstract class ApiService extends ChopperService {
   @Get(
       path:
           'GetTheoryQuestionPaperNoWithCreditControl?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&diCode={diCode}&groupId={groupId}&courseCode={courseCode}&langCode={langCode}&phone={phone}&userId={userId}')
-  Future<Response> getExamNo({
+  Future<Response> getTheoryQuestionPaperNoWithCreditControl({
     @Path('wsCodeCrypt') String wsCodeCrypt,
     @Path('caUid') String caUid,
     @Path('caPwd') String caPwd,
@@ -197,7 +197,7 @@ abstract class ApiService extends ChopperService {
   @Get(
       path:
           'GetTheoryQuestionByPaper?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&groupId={groupId}&courseCode={courseCode}&langCode={langCode}&paperNo={paperNo}')
-  Future<Response> getExamQuestions({
+  Future<Response> getTheoryQuestionByPaper({
     @Path('wsCodeCrypt') String wsCodeCrypt,
     @Path('caUid') String caUid,
     @Path('caPwd') String caPwd,
@@ -215,7 +215,7 @@ abstract class ApiService extends ChopperService {
   @Get(
       path:
           'GetDefaultSosContact?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}')
-  Future<Response> getDefEmergencyContact({
+  Future<Response> getDefaultSosContact({
     @Path('wsCodeCrypt') String wsCodeCrypt,
     @Path('caUid') String caUid,
     @Path('caPwd') String caPwd,
@@ -224,7 +224,7 @@ abstract class ApiService extends ChopperService {
   @Get(
       path:
           'GetSosContact?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&sosContactType={sosContactType}&sosContactCode={sosContactCode}&areaCode={areaCode}')
-  Future<Response> getEmergencyContact({
+  Future<Response> getSosContact({
     @Path('wsCodeCrypt') String wsCodeCrypt,
     @Path('caUid') String caUid,
     @Path('caPwd') String caPwd,

@@ -31,7 +31,7 @@ class _$ApiService extends ApiService {
   }
 
   @override
-  Future<Response> checkDiList(
+  Future<Response> getUserRegisteredDI(
       {String wsCodeCrypt,
       String caUid,
       String caPwd,
@@ -59,7 +59,7 @@ class _$ApiService extends ApiService {
   }
 
   @override
-  Future<Response> checkExistingUser(
+  Future<Response> getUserByUserPhone(
       {String wsCodeCrypt, String caUid, String caPwd, String userPhone}) {
     final $url =
         '/webapi/GetUserByUserPhone?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&userPhone=$userPhone';
@@ -90,7 +90,7 @@ class _$ApiService extends ApiService {
   }
 
   @override
-  Future<Response> updatePassword(UpdatePasswordRequest body) {
+  Future<Response> saveUserPassword(dynamic body) {
     final $url = '/webapi/SaveUserPassword';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
@@ -98,7 +98,7 @@ class _$ApiService extends ApiService {
   }
 
   @override
-  Future<Response> getStudentEnrollmentData(
+  Future<Response> getEnrollByCode(
       {String wsCodeCrypt,
       String caUid,
       String caPwd,
@@ -112,7 +112,7 @@ class _$ApiService extends ApiService {
   }
 
   @override
-  Future<Response> getStudentPayment(
+  Future<Response> getCollectionByStudent(
       {String wsCodeCrypt,
       String caUid,
       String caPwd,
@@ -125,7 +125,7 @@ class _$ApiService extends ApiService {
   }
 
   @override
-  Future<Response> getStudentAttendance(
+  Future<Response> getDTestByCode(
       {String wsCodeCrypt,
       String caUid,
       String caPwd,
@@ -139,7 +139,7 @@ class _$ApiService extends ApiService {
   }
 
   @override
-  Future<Response> getInstituteLogo(
+  Future<Response> getArmasterAppPhotoForCode(
       {String wsCodeCrypt,
       String caUid,
       String caPwd,
@@ -152,7 +152,7 @@ class _$ApiService extends ApiService {
   }
 
   @override
-  Future<Response> getExamNo(
+  Future<Response> getTheoryQuestionPaperNoWithCreditControl(
       {String wsCodeCrypt,
       String caUid,
       String caPwd,
@@ -169,7 +169,7 @@ class _$ApiService extends ApiService {
   }
 
   @override
-  Future<Response> getExamQuestions(
+  Future<Response> getTheoryQuestionByPaper(
       {String wsCodeCrypt,
       String caUid,
       String caPwd,
@@ -192,7 +192,7 @@ class _$ApiService extends ApiService {
   }
 
   @override
-  Future<Response> getDefEmergencyContact(
+  Future<Response> getDefaultSosContact(
       {String wsCodeCrypt, String caUid, String caPwd}) {
     final $url =
         '/webapi/GetDefaultSosContact?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd';
@@ -201,7 +201,7 @@ class _$ApiService extends ApiService {
   }
 
   @override
-  Future<Response> getEmergencyContact(
+  Future<Response> getSosContact(
       {String wsCodeCrypt,
       String caUid,
       String caPwd,

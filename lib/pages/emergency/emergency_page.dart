@@ -117,7 +117,7 @@ class _EmergencyState extends State<Emergency> {
 
   _getContacts() async {
     // if (emergencyContacts.isEmpty) {
-    await emergencyRepo.getEmergencyContact(
+    await emergencyRepo.getSosContact(
         context: context, sosContactType: 'POLICE');
 
     var policeContacts = contactBox.get('policeContact');

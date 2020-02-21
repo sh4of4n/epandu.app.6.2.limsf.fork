@@ -46,7 +46,8 @@ class ProfileRepo {
     var responseData = response.data;
   } */
 
-  Future<Response> getStudentEnrollmentData({context}) async {
+  // was called getEnrollByCode
+  Future<Response> getEnrollByCode({context}) async {
     assert(context != null);
 
     String caUid = await localStorage.getCaUid();
@@ -57,8 +58,7 @@ class ProfileRepo {
     String groupId = '';
     String icNo = await localStorage.getStudentIc();
 
-    var response =
-        await Provider.of<ApiService>(context).getStudentEnrollmentData(
+    var response = await Provider.of<ApiService>(context).getEnrollByCode(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -147,7 +147,8 @@ class ProfileRepo {
     return Response(false);
   } */
 
-  Future<Response> getStudentPayment({context}) async {
+  // was called getCollectionByStudent
+  Future<Response> getCollectionByStudent({context}) async {
     assert(context != null);
 
     String caUid = await localStorage.getCaUid();
@@ -158,7 +159,8 @@ class ProfileRepo {
     // String diCode = await localStorage.getDiCode();
     String icNo = await localStorage.getStudentIc();
 
-    var response = await Provider.of<ApiService>(context).getStudentPayment(
+    var response =
+        await Provider.of<ApiService>(context).getCollectionByStudent(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -177,7 +179,8 @@ class ProfileRepo {
     return Response(false);
   }
 
-  Future<Response> getStudentAttendance({context}) async {
+  // was getDTestByCode
+  Future<Response> getDTestByCode({context}) async {
     assert(context != null);
 
     String caUid = await localStorage.getCaUid();
@@ -189,7 +192,7 @@ class ProfileRepo {
     String groupId = await localStorage.getEnrolledGroupId();
     String icNo = await localStorage.getStudentIc();
 
-    var response = await Provider.of<ApiService>(context).getStudentAttendance(
+    var response = await Provider.of<ApiService>(context).getDTestByCode(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,

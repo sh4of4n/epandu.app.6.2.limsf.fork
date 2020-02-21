@@ -120,7 +120,7 @@ class AuthRepo {
         localStorage.saveUserId(responseData.userId);
         localStorage.saveSessionId(responseData.sessionId);
 
-        var result = await checkDiList(context: context);
+        var result = await getUserRegisteredDI(context: context);
 
         return result;
       } else if (responseData.msg == 'Reset Password Success') {
@@ -139,14 +139,14 @@ class AuthRepo {
     return Response(false, message: 'timeout');
   }
 
-  Future<Response> checkDiList({context}) async {
+  Future<Response> getUserRegisteredDI({context}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
 
     String userId = await localStorage.getUserId();
     String diCode = await localStorage.getDiCode();
 
-    var response = await Provider.of<ApiService>(context).checkDiList(
+    var response = await Provider.of<ApiService>(context).getUserRegisteredDI(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -218,7 +218,8 @@ class AuthRepo {
 
   // Register
   // Also used for invite friends
-  Future<Response> checkExistingUser({
+  // method was called getUserByUserPhone
+  Future<Response> getUserByUserPhone({
     context,
     String type,
     String countryCode,
@@ -254,7 +255,7 @@ class AuthRepo {
 
     if (userId.isEmpty) userId = 'TBS';
 
-    var response = await Provider.of<ApiService>(context).checkExistingUser(
+    var response = await Provider.of<ApiService>(context).getUserByUserPhone(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -376,7 +377,7 @@ class AuthRepo {
     );
 
     if (response.body.contains('Valid user.')) {
-      var result = await updatePassword(
+      var result = await saveUserPassword(
           context: context, userId: userId, password: newPassword);
 
       return result;
@@ -385,11 +386,12 @@ class AuthRepo {
     return Response(false, message: response.error.toString());
   }
 
-  Future<Response> updatePassword({context, userId, password}) async {
+  // was called updatePassword
+  Future<Response> saveUserPassword({context, userId, password}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
-    UpdatePasswordRequest updatePasswordRequest = UpdatePasswordRequest(
+    SaveUserPasswordRequest saveUserPasswordRequest = SaveUserPasswordRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -398,7 +400,7 @@ class AuthRepo {
     );
 
     var response = await Provider.of<ApiService>(context)
-        .updatePassword(updatePasswordRequest);
+        .saveUserPassword(saveUserPasswordRequest);
 
     if (response.body == 'True') {
       return Response(true, message: 'password_updated');
