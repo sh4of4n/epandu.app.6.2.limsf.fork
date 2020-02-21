@@ -9,20 +9,24 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  provider: ^4.0.0
+
+  ## Online
+  xml2json: ^4.1.1
   chopper: ^3.0.1+1
+
+  ## Widgets
+  shimmer: ^1.0.1
+  flushbar: ^1.9.1
+  cupertino_icons: ^0.1.2
+  flutter_custom_clippers: ^1.1.0
+
+  ## Tools
+  provider: ^4.0.2
   geolocator: ^5.1.5
   geocoder: ^0.2.1
   url_launcher: ^5.4.1
-  shimmer: ^1.0.1
   map_launcher: ^0.4.1
   app_settings: ^3.0.0+1
-
-  flutter_localizations:
-    sdk: flutter
-
-  xml2json: ^4.1.1
-  cupertino_icons: ^0.1.2
   path_provider: ^1.5.1
   shared_preferences: ^0.5.6
   # device_info: ^0.4.1+4
@@ -31,11 +35,13 @@ dependencies:
   random_color: ^1.0.3
   hive: ^1.3.0
   hive_flutter: ^0.3.0+1
-  flutter_custom_clippers: ^1.1.0
   google_fonts: ^0.3.2
-  flushbar: ^1.9.1
   json_annotation: ^3.0.1
   package_info: ^0.4.0+13
+  html_unescape: ^1.0.1+3
+
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
