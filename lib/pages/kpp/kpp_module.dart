@@ -212,7 +212,7 @@ class _KppModuleState extends State<KppModule> {
                                 )
                               : SizedBox.shrink(),
                           _submitButton(),
-                          SizedBox(height: ScreenUtil().setHeight(30)),
+                          /* SizedBox(height: ScreenUtil().setHeight(30)),
                           InkWell(
                             onTap: () => Navigator.pushNamed(
                               context,
@@ -242,7 +242,7 @@ class _KppModuleState extends State<KppModule> {
                                 ],
                               ),
                             ),
-                          ),
+                          ), */
                         ],
                       ),
                     ],
