@@ -150,7 +150,7 @@ class _ProfileState extends State<Profile> {
                       : AppLocalizations.of(context).translate('no_location'),
                   style: _subtitleStyle),
             ),
-          ButtonTheme(
+          /* ButtonTheme(
             padding: EdgeInsets.all(0.0),
             shape: StadiumBorder(),
             child: RaisedButton(
@@ -176,7 +176,7 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
             ),
-          ),
+          ), */
         ],
       ),
     );
