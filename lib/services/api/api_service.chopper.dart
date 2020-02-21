@@ -90,7 +90,7 @@ class _$ApiService extends ApiService {
   }
 
   @override
-  Future<Response> saveUserPassword(dynamic body) {
+  Future<Response> saveUserPassword(SaveUserPasswordRequest body) {
     final $url = '/webapi/SaveUserPassword';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);

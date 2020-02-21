@@ -1,4 +1,5 @@
 import 'package:epandu/services/api/api_service.dart';
+import 'package:epandu/services/api/api_service_retrofit.dart';
 import 'package:epandu/services/api/bill_service.dart';
 import 'package:epandu/services/api/model/language_model.dart';
 import 'package:epandu/utils/constants.dart';
@@ -34,6 +35,10 @@ void main() async {
       providers: [
         ChangeNotifierProvider(
           create: (context) => LanguageModel(),
+        ),
+        Provider(
+          create: (context) => ApiServiceRetrofit.create(),
+          // dispose: (context, ApiServiceRetrofit service) => service.client.dispose(),
         ),
         Provider(
           create: (context) => ApiService.create(),
