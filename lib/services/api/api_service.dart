@@ -255,4 +255,7 @@ abstract class ApiService extends ChopperService {
     @Path('caPwd') String caPwd,
     @Path('diCode') String diCode,
   });
+
+  @Post(path: 'SaveEnrollment')
+  Future<Response> saveEnrollment(@Body() var body);
 }
