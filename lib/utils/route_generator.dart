@@ -5,10 +5,7 @@ import 'package:epandu/pages/emergency/emergency_directory.dart';
 import 'package:epandu/pages/enroll/enroll.dart';
 import 'package:epandu/pages/forgot_password/forgot_password.dart';
 import 'package:epandu/pages/invite/invite.dart';
-import 'package:epandu/pages/kpp/kpp_category.dart';
-import 'package:epandu/pages/kpp/kpp_module.dart';
-import 'package:epandu/pages/kpp/kpp_exam.dart';
-import 'package:epandu/pages/kpp/kpp_result.dart';
+import 'package:epandu/pages/kpp/kpp.dart';
 import 'package:epandu/pages/login/login.dart';
 import 'package:epandu/pages/payment/airtime_transaction.dart';
 import 'package:epandu/pages/payment/payment.dart';
@@ -98,6 +95,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           settings: RouteSettings(name: MODULE),
           builder: (_) => KppModule(data),
+        );
+      case PIN_ACTIVATION:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: PIN_ACTIVATION),
+          builder: (_) => PinActivation(data),
         );
       case KPP_EXAM:
         return MaterialPageRoute(

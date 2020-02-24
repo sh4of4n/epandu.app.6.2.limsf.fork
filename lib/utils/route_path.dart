@@ -12,6 +12,7 @@ const String INVITE = '/invite';
 const String KPP = '/kpp';
 const String EMERGENCY = '/emergency';
 const String MODULE = '/kpp_module';
+const String PIN_ACTIVATION = '/pin_activation';
 const String KPP_EXAM = '/kpp_exam';
 const String KPP_RESULT = 'kpp_result';
 const String SETTINGS = '/settings';

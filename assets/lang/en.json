@@ -162,6 +162,8 @@
   "demo_desc_2": "Demo.",
   "pin_lbl": "Pin",
   "pin_required_msg": "Pin number is required.",
+  "more_question_lbl": "Get more questions.",
+  "purchase_pin_lbl": "Purchase pin here.",
 
   "ok_btn": "Ok",
   "sign_up_btn": "SIGNUP",

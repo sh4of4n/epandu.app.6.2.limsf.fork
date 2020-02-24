@@ -9,6 +9,7 @@ class KppModuleIcon extends StatelessWidget {
   final component;
   final argument;
   final iconColor;
+  final String label;
 
   KppModuleIcon({
     this.snapshot,
@@ -17,6 +18,7 @@ class KppModuleIcon extends StatelessWidget {
     this.component,
     this.argument,
     this.iconColor,
+    this.label,
   });
 
   @override
@@ -52,7 +54,7 @@ class KppModuleIcon extends StatelessWidget {
             ),
             SizedBox(height: 15.0),
             Text(
-              '${snapshot[index].paperNo}',
+              snapshot != null ? '${snapshot[index].paperNo}' : label,
               style: TextStyle(
                 fontSize: ScreenUtil().setSp(60),
                 fontWeight: FontWeight.w500,

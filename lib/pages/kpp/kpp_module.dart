@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:random_color/random_color.dart';
 
 import 'kpp_module_icon.dart';
@@ -26,21 +25,17 @@ class _KppModuleState extends State<KppModule> {
   final kppRepo = KppRepo();
   final primaryColor = ColorConstant.primaryColor;
   RandomColor _randomColor = RandomColor();
-  final _formKey = GlobalKey<FormState>();
   final customDialog = CustomDialog();
   var snapshot;
   String message = '';
   String pinMessage = '';
-  String _pin;
-  var _height = ScreenUtil.getInstance().setHeight(900);
-  bool _isLoading = false;
   String appBarTitle = '';
 
   final List<Color> _iconColors = [];
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
     _getTheoryQuestionPaperNoWithCreditControl();
   }
@@ -120,139 +115,64 @@ class _KppModuleState extends State<KppModule> {
         },
       );
     } else if (snapshot == null && message.isNotEmpty) {
-      return Padding(
-        padding: const EdgeInsets.only(left: 40.0, right: 40.0, top: 90.0),
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 1500),
-          curve: Curves.elasticOut,
-          width: double.infinity,
-          height: _height,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                offset: Offset(0.0, 15.0),
-                blurRadius: 15.0,
+      return Column(
+        children: <Widget>[
+          GridView(
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              // childAspectRatio: MediaQuery.of(context).size.height / 530,
+            ),
+            physics: BouncingScrollPhysics(),
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 17.0),
+                child: KppModuleIcon(
+                  component: KPP_EXAM,
+                  argument: KppModuleArguments(
+                    groupId: widget.data,
+                    paperNo: 'COB 1',
+                  ),
+                  iconColor: Colors.green[600],
+                  label: 'COB-1',
+                  icon: Icon(Icons.color_lens,
+                      size: ScreenUtil().setSp(250), color: Colors.white),
+                ),
               ),
-              BoxShadow(
-                color: Colors.black12,
-                offset: Offset(0.0, -10.0),
-                blurRadius: 10.0,
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 17.0),
+                child: KppModuleIcon(
+                  component: KPP_EXAM,
+                  argument: KppModuleArguments(
+                    groupId: widget.data,
+                    paperNo: 'DEMO',
+                  ),
+                  iconColor: Colors.blue[600],
+                  label: 'DEMO',
+                  icon: Icon(Icons.library_books,
+                      size: ScreenUtil().setSp(250), color: Colors.white),
+                ),
               ),
             ],
           ),
-          child: Padding(
-            padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: ScreenUtil.getInstance().setHeight(35),
-                  ),
-                  TextFormField(
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 16.0),
-                      hintStyle: TextStyle(
-                        color: primaryColor,
-                      ),
-                      labelText:
-                          AppLocalizations.of(context).translate('pin_lbl'),
-                      fillColor: Colors.grey.withOpacity(.25),
-                      filled: true,
-                      prefixIcon: Icon(Icons.account_circle),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return AppLocalizations.of(context)
-                            .translate('pin_required_msg');
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      if (value != _pin) {
-                        _pin = value;
-                      }
-                    },
-                  ),
-                  SizedBox(
-                    height: ScreenUtil.getInstance().setHeight(60),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Wrap(
-                      children: <Widget>[
-                        Text(AppLocalizations.of(context)
-                            .translate('activate_pin')),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: ScreenUtil.getInstance().setHeight(40),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          pinMessage.isNotEmpty
-                              ? Text(
-                                  pinMessage,
-                                  style: TextStyle(color: Colors.red),
-                                )
-                              : SizedBox.shrink(),
-                          _submitButton(),
-                          SizedBox(height: ScreenUtil().setHeight(30)),
-                          /* InkWell(
-                            onTap: () => Navigator.pushNamed(
-                              context,
-                              KPP_EXAM,
-                              arguments: KppModuleArguments(
-                                groupId: widget.data,
-                                paperNo: 'DEMO',
-                              ),
-                            ),
-                            child: RichText(
-                              text: TextSpan(
-                                text: AppLocalizations.of(context)
-                                    .translate('demo_desc_1'),
-                                style: GoogleFonts.dosis(
-                                  fontWeight: FontWeight.w500,
-                                  textStyle: TextStyle(color: Colors.black),
-                                ),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                      text: AppLocalizations.of(context)
-                                          .translate('demo_desc_2'),
-                                      style: TextStyle(
-                                          fontSize: ScreenUtil().setSp(55),
-                                          fontWeight: FontWeight.bold,
-                                          fontStyle: FontStyle.italic,
-                                          decoration: TextDecoration.underline))
-                                ],
-                              ),
-                            ),
-                          ), */
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+          Container(
+            margin: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
+            child: InkWell(
+              onTap: () => Navigator.pushNamed(context, PIN_ACTIVATION,
+                  arguments: widget.data),
+              child: Text(
+                'Get more questions.',
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(70),
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue[900],
+                ),
               ),
             ),
           ),
-        ),
+        ],
       );
     }
 
@@ -261,68 +181,6 @@ class _KppModuleState extends State<KppModule> {
         color: primaryColor,
       ),
     );
-  }
-
-  _submitButton() {
-    return Container(
-      child: _isLoading
-          ? SpinKitFoldingCube(
-              color: primaryColor,
-            )
-          : ButtonTheme(
-              minWidth: ScreenUtil.getInstance().setWidth(420),
-              padding: EdgeInsets.symmetric(vertical: 11.0),
-              buttonColor: primaryColor,
-              shape: StadiumBorder(),
-              child: RaisedButton(
-                onPressed: _submit,
-                textColor: Colors.white,
-                child: Text(
-                  AppLocalizations.of(context).translate('submit_btn'),
-                  style: TextStyle(
-                    fontSize: ScreenUtil.getInstance().setSp(56),
-                  ),
-                ),
-              ),
-            ),
-    );
-  }
-
-  _submit() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-      FocusScope.of(context).requestFocus(new FocusNode());
-
-      setState(() {
-        _height = ScreenUtil.getInstance().setHeight(900);
-        _isLoading = true;
-      });
-
-      var result = await kppRepo.pinActivation(
-          context: context, pinNumber: _pin, groupId: widget.data);
-
-      if (result.isSuccess) {
-        setState(() {
-          pinMessage = '';
-          message = '';
-          // snapshot = result.data['PaperNo'];
-        });
-
-        _getTheoryQuestionPaperNoWithCreditControl();
-      } else {
-        setState(() {
-          pinMessage = result.message;
-        });
-      }
-    } else {
-      setState(() {
-        _height = ScreenUtil.getInstance().setHeight(1000);
-      });
-    }
-
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   @override
