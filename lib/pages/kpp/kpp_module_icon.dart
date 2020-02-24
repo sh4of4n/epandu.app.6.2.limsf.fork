@@ -54,7 +54,7 @@ class KppModuleIcon extends StatelessWidget {
             ),
             SizedBox(height: 15.0),
             Text(
-              snapshot != null ? '${snapshot[index].paperNo}' : label,
+              label != null ? label : '${snapshot[index].paperNo}',
               style: TextStyle(
                 fontSize: ScreenUtil().setSp(60),
                 fontWeight: FontWeight.w500,

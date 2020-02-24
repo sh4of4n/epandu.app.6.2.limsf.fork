@@ -1,18 +1,15 @@
-import 'package:epandu/pages/emergency/directory_detail.dart';
-import 'package:epandu/pages/emergency/directory_list.dart';
+import 'package:flutter/material.dart';
+
 import 'package:epandu/pages/emergency/emergency.dart';
-import 'package:epandu/pages/emergency/emergency_directory.dart';
 import 'package:epandu/pages/enroll/enroll.dart';
 import 'package:epandu/pages/forgot_password/forgot_password.dart';
 import 'package:epandu/pages/invite/invite.dart';
 import 'package:epandu/pages/kpp/kpp.dart';
 import 'package:epandu/pages/login/login.dart';
-import 'package:epandu/pages/payment/airtime_transaction.dart';
 import 'package:epandu/pages/payment/payment.dart';
 import 'package:epandu/pages/profile/profile.dart';
 import 'package:epandu/pages/register/register.dart';
 import 'package:epandu/pages/settings/settings.dart';
-import 'package:flutter/material.dart';
 import 'package:epandu/pages/home/home.dart';
 import 'package:epandu/utils/route_path.dart';
 
@@ -161,10 +158,25 @@ class RouteGenerator {
           settings: RouteSettings(name: BILL_TRANSACTION),
           builder: (_) => BillTransaction(data),
         );
-      case ENROLL:
+      case CHECK_ENROLLMENT:
         return MaterialPageRoute(
-          settings: RouteSettings(name: ENROLL),
-          builder: (_) => Enroll(),
+          settings: RouteSettings(name: CHECK_ENROLLMENT),
+          builder: (_) => CheckEnrollment(),
+        );
+      case SELECT_INSTITUTE:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: SELECT_INSTITUTE),
+          builder: (_) => SelectInstitute(),
+        );
+      case SELECT_CLASS:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: SELECT_CLASS),
+          builder: (_) => SelectClass(data),
+        );
+      case ENROLLMENT:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: ENROLLMENT),
+          builder: (_) => Enrollment(),
         );
       default:
         return _errorRoute();

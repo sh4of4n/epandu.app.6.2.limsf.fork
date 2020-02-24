@@ -15,7 +15,7 @@ class Feeds extends StatelessWidget {
           padding: const EdgeInsets.only(
             left: 15.0,
             right: 15.0,
-            top: 30.0,
+            top: 20.0,
             bottom: 10.0,
           ),
           child: Text(
@@ -27,8 +27,8 @@ class Feeds extends StatelessWidget {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(left: 7.0, right: 7.0),
-          height: ScreenUtil.getInstance().setHeight(900),
+          margin: EdgeInsets.only(left: 7.0, right: 7.0, bottom: 15.0),
+          height: ScreenUtil.getInstance().setHeight(700),
           child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,

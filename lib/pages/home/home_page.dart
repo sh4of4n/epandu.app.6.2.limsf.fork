@@ -1,9 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/pages/home/feeds.dart';
+import 'package:epandu/pages/home/home_menu_buttons.dart';
 import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repo/auth_repo.dart';
+import 'package:epandu/services/repo/kpp_repo.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
@@ -11,8 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
-
-import 'home_menu_tiles.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -23,6 +25,7 @@ class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   final authRepo = AuthRepo();
+  final kppRepo = KppRepo();
   final localStorage = LocalStorage();
   final primaryColor = ColorConstant.primaryColor;
   String _username = '';
@@ -36,6 +39,8 @@ class _HomeState extends State<Home> {
     accuracy: LocationAccuracy.high,
     distanceFilter: 100,
   );
+  Uint8List instituteLogo;
+  bool isLogoLoaded = false;
 
   @override
   void initState() {
@@ -44,6 +49,32 @@ class _HomeState extends State<Home> {
     _openHiveBoxes();
     getStudentInfo();
     _getCurrentLocation();
+    _getArmasterAppPhotoForCode();
+  }
+
+  _getArmasterAppPhotoForCode() async {
+    String instituteLogoBase64 =
+        await localStorage.getArmasterAppPhotoForCode();
+
+    if (instituteLogoBase64.isEmpty) {
+      var result = await kppRepo.getArmasterAppPhotoForCode(context: context);
+
+      if (result.data != null) {
+        Uint8List decodedImage = base64Decode(result.data);
+
+        setState(() {
+          instituteLogo = decodedImage;
+          isLogoLoaded = true;
+        });
+      }
+    } else {
+      Uint8List decodedImage = base64Decode(instituteLogoBase64);
+
+      setState(() {
+        instituteLogo = decodedImage;
+        isLogoLoaded = true;
+      });
+    }
   }
 
   _getCurrentLocation() async {
@@ -119,22 +150,16 @@ class _HomeState extends State<Home> {
     }
   }
 
+  _customContainer() {
+    return Container(
+      width: 294,
+      height: 154,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      /* decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.cyan.shade100,
-            // Color(0xffbac1ff),
-            // Colors.tealAccent.shade100,
-            Colors.lightBlueAccent
-          ],
-          // stops: [0.1, 0.3, 1],
-        ),
-      ), */
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -156,21 +181,13 @@ class _HomeState extends State<Home> {
             onPressed: () => Navigator.pushNamed(context, SETTINGS,
                 arguments: positionStream),
           ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.account_circle, size: 30),
-              onPressed: () {
-                Navigator.pushNamed(context, PROFILE);
-              },
-            ),
-          ],
         ),
         // drawer: DrawerMenu(),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Padding(
+              /* Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: 15.0,
                   vertical: 10.0,
@@ -194,13 +211,25 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-              ),
-              HomeMenuTiles(),
-              Feeds(),
-              /* RaisedButton(
-                child: Text('Sign out'),
-                onPressed: _logout,
               ), */
+              Center(
+                child: AnimatedCrossFade(
+                  crossFadeState: isLogoLoaded
+                      ? CrossFadeState.showFirst
+                      : CrossFadeState.showSecond,
+                  duration: const Duration(milliseconds: 1500),
+                  firstChild: instituteLogo != null
+                      ? Image.memory(
+                          instituteLogo,
+                          semanticLabel: 'ePandu',
+                        )
+                      : _customContainer(),
+                  secondChild: _customContainer(),
+                ),
+              ),
+              // HomeMenuTiles(),
+              HomeMenuButtons(),
+              Feeds(),
             ],
           ),
         ),

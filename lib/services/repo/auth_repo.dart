@@ -413,4 +413,52 @@ class AuthRepo {
 
     return Response(false, message: 'password_change_fail');
   }
+
+  // Enrollment
+  Future<Response> getDiList({context}) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+
+    var response =
+        await Provider.of<ApiService>(context, listen: false).getDiList(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+    );
+
+    if (response.body != 'null' && response.statusCode == 200) {
+      GetDiListResponse getDiListResponse =
+          GetDiListResponse.fromJson(response.body);
+      var responseData = getDiListResponse.armasterProfile;
+
+      return Response(true, data: responseData);
+    }
+
+    return Response(false, message: 'No records found.');
+  }
+
+  Future<Response> getGroupIdByDiCodeForOnline({context, diCode}) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+
+    var response = await Provider.of<ApiService>(context, listen: false)
+        .getGroupIdByDiCodeForOnline(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      diCode: diCode,
+    );
+
+    print(response.body);
+
+    if (response.body != 'null' && response.statusCode == 200) {
+      GetGroupIdByDiCodeForOnlineResponse getGroupIdByDiCodeForOnlineResponse =
+          GetGroupIdByDiCodeForOnlineResponse.fromJson(response.body);
+      var responseData = getGroupIdByDiCodeForOnlineResponse.dgroup;
+
+      return Response(true, data: responseData);
+    }
+
+    return Response(false, message: 'No records found.');
+  }
 }

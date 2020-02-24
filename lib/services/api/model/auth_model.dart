@@ -827,3 +827,287 @@ class SaveUserPasswordRequest {
     return data;
   }
 }
+
+// GetDiList
+
+class GetDiListResponse {
+  List<ArmasterProfile> armasterProfile;
+
+  GetDiListResponse({this.armasterProfile});
+
+  GetDiListResponse.fromJson(Map<String, dynamic> json) {
+    if (json['ArmasterProfile'] != null) {
+      armasterProfile = new List<ArmasterProfile>();
+      json['ArmasterProfile'].forEach((v) {
+        armasterProfile.add(new ArmasterProfile.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.armasterProfile != null) {
+      data['ArmasterProfile'] =
+          this.armasterProfile.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ArmasterProfile {
+  String diCode;
+  String distributor;
+  String masterAgent;
+  String sponsor;
+  String dbcode;
+  String userType;
+  String name;
+  String add;
+  String postcode;
+  String state;
+  String country;
+  String icNo;
+  String passportNo;
+  String nationality;
+  String gender;
+  String phone;
+  String phoneCountryCode;
+  String eMail;
+  String appBackgroundPhotoFilename;
+  String appBackgroundPhotoPath;
+  String diName;
+  String nickName;
+
+  ArmasterProfile(
+      {this.diCode,
+      this.distributor,
+      this.masterAgent,
+      this.sponsor,
+      this.dbcode,
+      this.userType,
+      this.name,
+      this.add,
+      this.postcode,
+      this.state,
+      this.country,
+      this.icNo,
+      this.passportNo,
+      this.nationality,
+      this.gender,
+      this.phone,
+      this.phoneCountryCode,
+      this.eMail,
+      this.appBackgroundPhotoFilename,
+      this.appBackgroundPhotoPath,
+      this.diName,
+      this.nickName});
+
+  ArmasterProfile.fromJson(Map<String, dynamic> json) {
+    diCode = json['di_code'];
+    distributor = json['distributor'];
+    masterAgent = json['master_agent'];
+    sponsor = json['sponsor'];
+    dbcode = json['dbcode'];
+    userType = json['user_type'];
+    name = json['name'];
+    add = json['add'];
+    postcode = json['postcode'];
+    state = json['state'];
+    country = json['country'];
+    icNo = json['ic_no'];
+    passportNo = json['passport_no'];
+    nationality = json['nationality'];
+    gender = json['gender'];
+    phone = json['phone'];
+    phoneCountryCode = json['phone_country_code'];
+    eMail = json['e_mail'];
+    appBackgroundPhotoFilename = json['app_background_photo_filename'];
+    appBackgroundPhotoPath = json['app_background_photo_path'];
+    diName = json['di_name'];
+    nickName = json['nick_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['di_code'] = this.diCode;
+    data['distributor'] = this.distributor;
+    data['master_agent'] = this.masterAgent;
+    data['sponsor'] = this.sponsor;
+    data['dbcode'] = this.dbcode;
+    data['user_type'] = this.userType;
+    data['name'] = this.name;
+    data['add'] = this.add;
+    data['postcode'] = this.postcode;
+    data['state'] = this.state;
+    data['country'] = this.country;
+    data['ic_no'] = this.icNo;
+    data['passport_no'] = this.passportNo;
+    data['nationality'] = this.nationality;
+    data['gender'] = this.gender;
+    data['phone'] = this.phone;
+    data['phone_country_code'] = this.phoneCountryCode;
+    data['e_mail'] = this.eMail;
+    data['app_background_photo_filename'] = this.appBackgroundPhotoFilename;
+    data['app_background_photo_path'] = this.appBackgroundPhotoPath;
+    data['di_name'] = this.diName;
+    data['nick_name'] = this.nickName;
+    return data;
+  }
+}
+
+// GetGroupIdByDiCodeForOnline
+
+class GetGroupIdByDiCodeForOnlineResponse {
+  List<Dgroup> dgroup;
+
+  GetGroupIdByDiCodeForOnlineResponse({this.dgroup});
+
+  GetGroupIdByDiCodeForOnlineResponse.fromJson(Map<String, dynamic> json) {
+    if (json['Dgroup'] != null) {
+      dgroup = new List<Dgroup>();
+      json['Dgroup'].forEach((v) {
+        dgroup.add(new Dgroup.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.dgroup != null) {
+      data['Dgroup'] = this.dgroup.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Dgroup {
+  String groupId;
+  String grpDesc;
+  String tranCateg;
+  String defaAmt;
+  String handChrg;
+  String servChrg;
+  String servTax;
+  String taxCode;
+  String priceIncludeGst;
+  String transtamp;
+  String totalTime;
+  String serialType;
+  String commAmt;
+  String agentCommAmt;
+  String cshSlsAcct;
+  String cshSlsDept;
+  String lesenType;
+  String onlineEnroll;
+  String productCode;
+  String productDesc1;
+  String productDesc2;
+  String fee;
+  String defaultPictureFilename;
+  String diCode;
+  String compCode;
+  String branchCode;
+  String lastupload;
+  String deleted;
+
+  Dgroup(
+      {this.groupId,
+      this.grpDesc,
+      this.tranCateg,
+      this.defaAmt,
+      this.handChrg,
+      this.servChrg,
+      this.servTax,
+      this.taxCode,
+      this.priceIncludeGst,
+      this.transtamp,
+      this.totalTime,
+      this.serialType,
+      this.commAmt,
+      this.agentCommAmt,
+      this.cshSlsAcct,
+      this.cshSlsDept,
+      this.lesenType,
+      this.onlineEnroll,
+      this.productCode,
+      this.productDesc1,
+      this.productDesc2,
+      this.fee,
+      this.defaultPictureFilename,
+      this.diCode,
+      this.compCode,
+      this.branchCode,
+      this.lastupload,
+      this.deleted});
+
+  Dgroup.fromJson(Map<String, dynamic> json) {
+    groupId = json['group_id'];
+    grpDesc = json['grp_desc'];
+    tranCateg = json['tran_categ'];
+    defaAmt = json['defa_amt'];
+    handChrg = json['hand_chrg'];
+    servChrg = json['serv_chrg'];
+    servTax = json['serv_tax'];
+    taxCode = json['tax_code'];
+    priceIncludeGst = json['price_include_gst'];
+    transtamp = json['transtamp'];
+    totalTime = json['total_time'];
+    serialType = json['serial_type'];
+    commAmt = json['comm_amt'];
+    agentCommAmt = json['agent_comm_amt'];
+    cshSlsAcct = json['csh_sls_acct'];
+    cshSlsDept = json['csh_sls_dept'];
+    lesenType = json['lesen_type'];
+    onlineEnroll = json['online_enroll'];
+    productCode = json['product_code'];
+    productDesc1 = json['product_desc1'];
+    productDesc2 = json['product_desc2'];
+    fee = json['fee'];
+    defaultPictureFilename = json['default_picture_filename'];
+    diCode = json['di_code'];
+    compCode = json['comp_code'];
+    branchCode = json['branch_code'];
+    lastupload = json['lastupload'];
+    deleted = json['deleted'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['group_id'] = this.groupId;
+    data['grp_desc'] = this.grpDesc;
+    data['tran_categ'] = this.tranCateg;
+    data['defa_amt'] = this.defaAmt;
+    data['hand_chrg'] = this.handChrg;
+    data['serv_chrg'] = this.servChrg;
+    data['serv_tax'] = this.servTax;
+    data['tax_code'] = this.taxCode;
+    data['price_include_gst'] = this.priceIncludeGst;
+    data['transtamp'] = this.transtamp;
+    data['total_time'] = this.totalTime;
+    data['serial_type'] = this.serialType;
+    data['comm_amt'] = this.commAmt;
+    data['agent_comm_amt'] = this.agentCommAmt;
+    data['csh_sls_acct'] = this.cshSlsAcct;
+    data['csh_sls_dept'] = this.cshSlsDept;
+    data['lesen_type'] = this.lesenType;
+    data['online_enroll'] = this.onlineEnroll;
+    data['product_code'] = this.productCode;
+    data['product_desc1'] = this.productDesc1;
+    data['product_desc2'] = this.productDesc2;
+    data['fee'] = this.fee;
+    data['default_picture_filename'] = this.defaultPictureFilename;
+    data['di_code'] = this.diCode;
+    data['comp_code'] = this.compCode;
+    data['branch_code'] = this.branchCode;
+    data['lastupload'] = this.lastupload;
+    data['deleted'] = this.deleted;
+    return data;
+  }
+}
+
+class EnrollmentArguments {
+  final String diCode;
+  final String groupId;
+
+  EnrollmentArguments({this.diCode, this.groupId});
+}

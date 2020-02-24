@@ -236,4 +236,23 @@ abstract class ApiService extends ChopperService {
 
   @Post(path: 'FPX_SendB2CAuthRequest')
   Future<Response> payFpx(@Body() var body);
+
+  // enrollment
+
+  @Get(path: 'GetDiList?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}')
+  Future<Response> getDiList({
+    @Path('wsCodeCrypt') String wsCodeCrypt,
+    @Path('caUid') String caUid,
+    @Path('caPwd') String caPwd,
+  });
+
+  @Get(
+      path:
+          'GetGroupIdByDiCodeForOnline?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&diCode={diCode}')
+  Future<Response> getGroupIdByDiCodeForOnline({
+    @Path('wsCodeCrypt') String wsCodeCrypt,
+    @Path('caUid') String caUid,
+    @Path('caPwd') String caPwd,
+    @Path('diCode') String diCode,
+  });
 }

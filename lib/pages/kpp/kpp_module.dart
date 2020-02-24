@@ -29,7 +29,6 @@ class _KppModuleState extends State<KppModule> {
   var snapshot;
   String message = '';
   String pinMessage = '';
-  String appBarTitle = '';
 
   final List<Color> _iconColors = [];
 
@@ -38,6 +37,11 @@ class _KppModuleState extends State<KppModule> {
     super.didChangeDependencies();
 
     _getTheoryQuestionPaperNoWithCreditControl();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   _getTheoryQuestionPaperNoWithCreditControl() async {
@@ -49,17 +53,16 @@ class _KppModuleState extends State<KppModule> {
     if (result.isSuccess) {
       _getRandomColors(result.data);
 
-      setState(() {
-        appBarTitle = AppLocalizations.of(context).translate('choose_module');
-        message = '';
-        snapshot = result.data;
-      });
+      if (mounted)
+        setState(() {
+          message = '';
+          snapshot = result.data;
+        });
     } else {
-      setState(() {
-        appBarTitle =
-            AppLocalizations.of(context).translate('activate_pin_title');
-        message = result.message;
-      });
+      if (mounted)
+        setState(() {
+          message = result.message;
+        });
     }
   }
 
@@ -107,7 +110,12 @@ class _KppModuleState extends State<KppModule> {
                               color: Colors.white)
                           : Icon(Icons.library_books,
                               size: ScreenUtil().setSp(250),
-                              color: Colors.white)),
+                              color: Colors.white),
+                      label: snapshot[index].paperNo.contains('COB')
+                          ? AppLocalizations.of(context)
+                                  .translate('color_blind_lbl') +
+                              ' ${index + 1}'
+                          : null),
                 ],
               ),
             ],
@@ -132,10 +140,11 @@ class _KppModuleState extends State<KppModule> {
                   component: KPP_EXAM,
                   argument: KppModuleArguments(
                     groupId: widget.data,
-                    paperNo: 'COB 1',
+                    paperNo: 'DEMO-BW',
                   ),
                   iconColor: Colors.green[600],
-                  label: 'COB-1',
+                  label:
+                      AppLocalizations.of(context).translate('color_blind_lbl'),
                   icon: Icon(Icons.color_lens,
                       size: ScreenUtil().setSp(250), color: Colors.white),
                 ),
@@ -147,7 +156,7 @@ class _KppModuleState extends State<KppModule> {
                   component: KPP_EXAM,
                   argument: KppModuleArguments(
                     groupId: widget.data,
-                    paperNo: 'DEMO',
+                    paperNo: 'DEMO-50',
                   ),
                   iconColor: Colors.blue[600],
                   label: 'DEMO',
@@ -158,16 +167,26 @@ class _KppModuleState extends State<KppModule> {
             ],
           ),
           Container(
-            margin: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
-            child: InkWell(
-              onTap: () => Navigator.pushNamed(context, PIN_ACTIVATION,
-                  arguments: widget.data),
-              child: Text(
-                'Get more questions.',
-                style: TextStyle(
-                  fontSize: ScreenUtil().setSp(70),
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue[900],
+            margin: EdgeInsets.only(top: ScreenUtil().setHeight(30)),
+            child: ButtonTheme(
+              padding: EdgeInsets.symmetric(
+                horizontal: 30.0,
+                vertical: 12.0,
+              ),
+              shape: StadiumBorder(),
+              buttonColor: Colors.amber[700],
+              child: RaisedButton(
+                onPressed: () => Navigator.pushNamed(
+                  context,
+                  PIN_ACTIVATION,
+                  arguments: widget.data,
+                ),
+                textColor: Colors.white,
+                child: Text(
+                  AppLocalizations.of(context).translate('more_question_lbl'),
+                  style: TextStyle(
+                    fontSize: ScreenUtil.getInstance().setSp(65),
+                  ),
                 ),
               ),
             ),
@@ -185,31 +204,26 @@ class _KppModuleState extends State<KppModule> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(FocusNode());
-      },
-      child: Scaffold(
-        backgroundColor: Colors.amber.shade50,
-        appBar: AppBar(
-          backgroundColor: primaryColor,
-          elevation: 0,
-          title: Text(appBarTitle),
-        ),
-        body: Stack(
-          children: <Widget>[
-            ClipPath(
-              clipper: WaveClipperTwo(),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                ),
-                height: ScreenUtil().setHeight(1000),
+    return Scaffold(
+      backgroundColor: Colors.amber.shade50,
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        elevation: 0,
+        title: Text(AppLocalizations.of(context).translate('choose_module')),
+      ),
+      body: Stack(
+        children: <Widget>[
+          ClipPath(
+            clipper: WaveClipperTwo(),
+            child: Container(
+              decoration: BoxDecoration(
+                color: primaryColor,
               ),
+              height: ScreenUtil().setHeight(1000),
             ),
-            _renderModule(),
-          ],
-        ),
+          ),
+          _renderModule(),
+        ],
       ),
     );
   }

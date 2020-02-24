@@ -221,4 +221,21 @@ class _$ApiService extends ApiService {
     final $request = Request('POST', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);
   }
+
+  @override
+  Future<Response> getDiList({String wsCodeCrypt, String caUid, String caPwd}) {
+    final $url =
+        '/webapi/GetDiList?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response> getGroupIdByDiCodeForOnline(
+      {String wsCodeCrypt, String caUid, String caPwd, String diCode}) {
+    final $url =
+        '/webapi/GetGroupIdByDiCodeForOnline?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&diCode=$diCode';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
 }

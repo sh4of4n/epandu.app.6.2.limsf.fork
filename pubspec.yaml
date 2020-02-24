@@ -23,6 +23,7 @@ dependencies:
   flutter_custom_clippers: ^1.1.0
 
   ## Tools
+  intl: ^0.16.0
   provider: ^4.0.4
   geolocator: ^5.1.5
   geocoder: ^0.2.1
