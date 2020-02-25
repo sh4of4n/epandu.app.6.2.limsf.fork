@@ -1,3 +1,4 @@
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/constants.dart';
@@ -6,12 +7,17 @@ import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 
 import '../../app_localizations.dart';
 
 enum Gender { male, female }
 
 class Enrollment extends StatefulWidget {
+  final data;
+
+  Enrollment(this.data);
+
   @override
   _EnrollmentState createState() => _EnrollmentState();
 }
@@ -19,6 +25,7 @@ class Enrollment extends StatefulWidget {
 class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   final authRepo = AuthRepo();
   final customSnackbar = CustomSnackbar();
+  final format = DateFormat("yyyy-MM-dd");
 
   final _formKey = GlobalKey<FormState>();
 
@@ -26,7 +33,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   final FocusNode _idNameFocus = FocusNode();
   final FocusNode _dobFocus = FocusNode();
   final FocusNode _genderFocus = FocusNode();
-  final FocusNode _nearbyDiFocus = FocusNode();
+  // final FocusNode _nearbyDiFocus = FocusNode();
   // final FocusNode _nationalityFocus = FocusNode();
 
   final primaryColor = ColorConstant.primaryColor;
@@ -38,8 +45,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   String _icNo;
   String _icName;
   String _dob;
-  String _nearbyDi;
-  String _nationality;
+  // String _nationality;
   String _message = '';
 
   Gender _gender = Gender.male;
@@ -131,18 +137,16 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   }
 
   _dobField() {
-    return TextFormField(
+    return DateTimeField(
       focusNode: _dobFocus,
-      textInputAction: TextInputAction.next,
+      format: format,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 16.0),
-        hintStyle: TextStyle(
-          color: primaryColor,
+        contentPadding: EdgeInsets.symmetric(
+          vertical: ScreenUtil().setHeight(50),
         ),
         labelText: AppLocalizations.of(context).translate('dob_required_lbl'),
         fillColor: Colors.grey.withOpacity(.25),
         filled: true,
-        prefixIcon: Icon(Icons.assignment_ind),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.transparent),
           borderRadius: BorderRadius.circular(30),
@@ -150,24 +154,20 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
         ),
+        prefixIcon: Icon(Icons.calendar_today),
       ),
-      onFieldSubmitted: (term) {
-        fieldFocusChange(
-          context,
-          _dobFocus,
-          _genderFocus,
-        );
-      },
       validator: (value) {
-        if (value.isEmpty) {
+        if (value == null) {
           return AppLocalizations.of(context).translate('dob_required_msg');
         }
         return null;
       },
-      onSaved: (value) {
-        if (value != _icNo) {
-          _dob = value;
-        }
+      onShowPicker: (context, currentValue) {
+        return showDatePicker(
+            context: context,
+            firstDate: DateTime(1900),
+            initialDate: currentValue ?? DateTime(2000),
+            lastDate: DateTime(2100));
       },
     );
   }
@@ -266,17 +266,6 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  // SizedBox(
-                  //   height: ScreenUtil.getInstance().setHeight(35),
-                  // ),
-                  // _phoneField(),
-                  // SizedBox(
-                  //   height: ScreenUtil.getInstance().setHeight(60),
-                  // ),
-                  // _nickNameField(),
-                  // SizedBox(
-                  //   height: ScreenUtil.getInstance().setHeight(60),
-                  // ),
                   _idField(),
                   SizedBox(
                     height: ScreenUtil.getInstance().setHeight(60),
@@ -290,13 +279,6 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                     height: ScreenUtil.getInstance().setHeight(60),
                   ),
                   _genderSelection(),
-                  // SizedBox(
-                  //   height: ScreenUtil.getInstance().setHeight(60),
-                  // ),
-                  // _nearbyDiField(),
-                  // SizedBox(
-                  //   height: ScreenUtil.getInstance().setHeight(60),
-                  // ),
                   // _nationalityField(),
                   SizedBox(
                     height: ScreenUtil.getInstance().setHeight(60),
@@ -335,7 +317,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
               padding: EdgeInsets.all(0.0),
               shape: StadiumBorder(),
               child: RaisedButton(
-                onPressed: () {},
+                onPressed: _submit,
                 textColor: Colors.white,
                 child: Container(
                   decoration: BoxDecoration(
@@ -360,7 +342,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     );
   }
 
-  /* _submit() async {
+  _submit() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       FocusScope.of(context).requestFocus(new FocusNode());
@@ -370,24 +352,11 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         _message = '';
       });
 
-      var result = await authRepo.getUserByUserPhone(
+      var result = await authRepo.saveEnrollment(
         context: context,
-        type: 'REGISTER',
-        countryCode: '+60',
-        phone: _phone,
-        userId: '',
-        diCode: _diCode,
-        name: _name,
+        diCode: widget.data.diCode,
         icNo: _icNo,
-        add1: _add1,
-        add2: _add2,
-        add3: _add3,
-        postcode: _postcode,
-        city: _city,
-        state: _state,
-        country: _country,
-        email: _email,
-        registerAs: widget.argument,
+        groupId: widget.data.groupId,
       );
 
       if (result.isSuccess) {
@@ -410,5 +379,5 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         _isLoading = false;
       });
     }
-  } */
+  }
 }

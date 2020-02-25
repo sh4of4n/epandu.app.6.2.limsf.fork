@@ -176,7 +176,7 @@ class RouteGenerator {
       case ENROLLMENT:
         return MaterialPageRoute(
           settings: RouteSettings(name: ENROLLMENT),
-          builder: (_) => Enrollment(),
+          builder: (_) => Enrollment(data),
         );
       default:
         return _errorRoute();

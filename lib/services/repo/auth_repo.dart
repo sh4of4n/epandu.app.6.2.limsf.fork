@@ -461,4 +461,32 @@ class AuthRepo {
 
     return Response(false, message: 'No records found.');
   }
+
+  Future<Response> saveEnrollment({context, diCode, icNo, groupId}) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+
+    String userId = await localStorage.getUserId();
+
+    SaveEnrollmentRequest saveEnrollmentRequest = SaveEnrollmentRequest(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      diCode: diCode,
+      icNo: icNo,
+      groupId: groupId,
+      userId: userId,
+    );
+
+    var response = await Provider.of<ApiService>(context, listen: false)
+        .saveEnrollment(saveEnrollmentRequest);
+
+    if (response.body == 'True') {
+      return Response(true,
+          message: AppLocalizations.of(context).translate('enroll_success'));
+    }
+
+    return Response(false,
+        message: AppLocalizations.of(context).translate('enroll_fail'));
+  }
 }

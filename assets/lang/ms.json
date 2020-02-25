@@ -172,6 +172,9 @@
   "purchase_pin_lbl": "Beli pin.",
   "color_blind_lbl": "BUTA WARNA",
 
+  "enroll_success": "Pendaftaran anda berjaya.",
+  "enroll_fail": "Pendaftaran anda tidak berjaya. Sila cuba sebentar lagi.",
+
   "ok_btn": "Ok",
   "sign_up_btn": "DAFTAR",
   "go_back_lbl": "KEMBALI",

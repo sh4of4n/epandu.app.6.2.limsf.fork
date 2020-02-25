@@ -1105,6 +1105,47 @@ class Dgroup {
   }
 }
 
+class SaveEnrollmentRequest {
+  String wsCodeCrypt;
+  String caUid;
+  String caPwd;
+  String diCode;
+  String icNo;
+  String groupId;
+  String userId;
+
+  SaveEnrollmentRequest(
+      {this.wsCodeCrypt,
+      this.caUid,
+      this.caPwd,
+      this.diCode,
+      this.icNo,
+      this.groupId,
+      this.userId});
+
+  SaveEnrollmentRequest.fromJson(Map<String, dynamic> json) {
+    wsCodeCrypt = json['wsCodeCrypt'];
+    caUid = json['caUid'];
+    caPwd = json['caPwd'];
+    diCode = json['diCode'];
+    icNo = json['icNo'];
+    groupId = json['groupId'];
+    userId = json['userId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['wsCodeCrypt'] = this.wsCodeCrypt;
+    data['caUid'] = this.caUid;
+    data['caPwd'] = this.caPwd;
+    data['diCode'] = this.diCode;
+    data['icNo'] = this.icNo;
+    data['groupId'] = this.groupId;
+    data['userId'] = this.userId;
+    return data;
+  }
+}
+
 class EnrollmentArguments {
   final String diCode;
   final String groupId;

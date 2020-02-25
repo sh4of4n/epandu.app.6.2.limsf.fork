@@ -21,6 +21,7 @@ dependencies:
   flushbar: ^1.9.1
   cupertino_icons: ^0.1.2
   flutter_custom_clippers: ^1.1.0
+  datetime_picker_formfield: ^1.0.0
 
   ## Tools
   intl: ^0.16.0

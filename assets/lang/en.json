@@ -172,6 +172,9 @@
   "purchase_pin_lbl": "Purchase pin here.",
   "color_blind_lbl": "COLOR BLIND",
 
+  "enroll_success": "Your enrollment is successful.",
+  "enroll_fail": "Your enrollment is unsuccessful. Please try again later.",
+
   "ok_btn": "Ok",
   "sign_up_btn": "SIGNUP",
   "go_back_lbl": "GO BACK",
