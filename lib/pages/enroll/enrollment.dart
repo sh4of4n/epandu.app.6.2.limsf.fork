@@ -347,7 +347,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       _formKey.currentState.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
-      setState(() {
+      /* setState(() {
         _isLoading = true;
         _message = '';
       });
@@ -377,7 +377,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
 
       setState(() {
         _isLoading = false;
-      });
+      }); */
     }
   }
 }
