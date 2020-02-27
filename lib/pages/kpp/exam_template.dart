@@ -59,8 +59,10 @@ class _ExamTemplateState extends State<ExamTemplate> {
   TextStyle _answerStyle =
       TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500);
 
-  double answerWidthText = ScreenUtil().width / (ScreenUtil().height / 5);
-  double answerWidthImg = ScreenUtil().width / (ScreenUtil().height / 2);
+  double answerWidthText =
+      ScreenUtil.screenWidthDp / (ScreenUtil.screenHeightDp / 5);
+  double answerWidthImg =
+      ScreenUtil.screenWidthDp / (ScreenUtil.screenHeightDp / 2);
 
   Timer _timer;
   int minute = 45;
@@ -460,7 +462,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 child: Text(
                   AppLocalizations.of(context).translate('prev_btn'),
                   style: TextStyle(
-                    fontSize: ScreenUtil.getInstance().setSp(56),
+                    fontSize: ScreenUtil().setSp(56),
                   ),
                 ),
               ),
@@ -531,7 +533,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 child: Text(
                   AppLocalizations.of(context).translate('next_btn'),
                   style: TextStyle(
-                    fontSize: ScreenUtil.getInstance().setSp(56),
+                    fontSize: ScreenUtil().setSp(56),
                   ),
                 ),
               ),

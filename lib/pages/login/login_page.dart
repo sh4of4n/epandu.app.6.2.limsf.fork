@@ -49,8 +49,8 @@ class _LoginState extends State<Login> {
                     padding: EdgeInsets.only(top: ScreenUtil().setHeight(200)),
                     child: Image.asset(
                       ImagesConstant().logo,
-                      width: ScreenUtil.getInstance().setWidth(1000),
-                      height: ScreenUtil.getInstance().setHeight(600),
+                      width: ScreenUtil().setWidth(1000),
+                      height: ScreenUtil().setHeight(600),
                     ),
                   ),
                   Padding(
@@ -58,7 +58,7 @@ class _LoginState extends State<Login> {
                     child: Column(
                       children: <Widget>[
                         SizedBox(
-                          height: ScreenUtil.getInstance().setHeight(120),
+                          height: ScreenUtil().setHeight(120),
                         ),
                         LoginForm(),
                       ],

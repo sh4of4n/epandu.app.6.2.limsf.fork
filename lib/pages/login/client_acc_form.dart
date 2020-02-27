@@ -41,7 +41,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
   bool _obscureText = true;
   String _connectedCa = '';
 
-  // var _height = ScreenUtil.getInstance().setHeight(1300);
+  // var _height = ScreenUtil().setHeight(1300);
 
   // var _height = ScreenUtil.screenHeight / 4.5;
 
@@ -92,7 +92,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(35),
+                height: ScreenUtil().setHeight(35),
               ),
               TextFormField(
                 focusNode: _caUidFocus,
@@ -132,7 +132,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(70),
+                height: ScreenUtil().setHeight(70),
               ),
               TextFormField(
                 focusNode: _caPwdFocus,
@@ -178,7 +178,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(60),
+                height: ScreenUtil().setHeight(60),
               ),
               _showConnectedCa(),
               Row(
@@ -198,7 +198,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                 ],
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(40),
+                height: ScreenUtil().setHeight(40),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -213,7 +213,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                     child: Text(
                       AppLocalizations.of(context).translate('go_back_lbl'),
                       style: TextStyle(
-                        fontSize: ScreenUtil.getInstance().setSp(56),
+                        fontSize: ScreenUtil().setSp(56),
                       ),
                     ),
                   ),
@@ -251,7 +251,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
               color: primaryColor,
             )
           : ButtonTheme(
-              minWidth: ScreenUtil.getInstance().setWidth(420),
+              minWidth: ScreenUtil().setWidth(420),
               padding: EdgeInsets.symmetric(vertical: 11.0),
               buttonColor: primaryColor,
               shape: StadiumBorder(),
@@ -261,7 +261,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                 child: Text(
                   AppLocalizations.of(context).translate('save_btn'),
                   style: TextStyle(
-                    fontSize: ScreenUtil.getInstance().setSp(56),
+                    fontSize: ScreenUtil().setSp(56),
                   ),
                 ),
               ),

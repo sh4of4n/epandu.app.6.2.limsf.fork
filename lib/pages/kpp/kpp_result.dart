@@ -101,7 +101,7 @@ class KppResult extends StatelessWidget {
                     child: Text(
                       'DONE',
                       style: TextStyle(
-                        fontSize: ScreenUtil.getInstance().setSp(56),
+                        fontSize: ScreenUtil().setSp(56),
                       ),
                     ),
                   ),

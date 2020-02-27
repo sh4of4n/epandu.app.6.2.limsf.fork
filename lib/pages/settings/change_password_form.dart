@@ -36,7 +36,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
   String _newPassword;
   String _confirmNewPassword;
 
-  var _height = ScreenUtil.getInstance().setHeight(1350);
+  var _height = ScreenUtil().setHeight(1350);
 
   // var _height = ScreenUtil.screenHeight / 4.5;
 
@@ -71,7 +71,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(35),
+                height: ScreenUtil().setHeight(35),
               ),
               TextFormField(
                 focusNode: _oldPasswordFocus,
@@ -122,7 +122,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(60),
+                height: ScreenUtil().setHeight(60),
               ),
               TextFormField(
                 focusNode: _newPasswordFocus,
@@ -173,7 +173,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(60),
+                height: ScreenUtil().setHeight(60),
               ),
               TextFormField(
                 focusNode: _confirmNewPasswordFocus,
@@ -220,7 +220,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(60),
+                height: ScreenUtil().setHeight(60),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -246,7 +246,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
               color: primaryColor,
             )
           : ButtonTheme(
-              minWidth: ScreenUtil.getInstance().setWidth(420),
+              minWidth: ScreenUtil().setWidth(420),
               padding: EdgeInsets.symmetric(vertical: 11.0),
               buttonColor: primaryColor,
               shape: StadiumBorder(),
@@ -256,7 +256,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                 child: Text(
                   AppLocalizations.of(context).translate('submit_btn'),
                   style: TextStyle(
-                    fontSize: ScreenUtil.getInstance().setSp(56),
+                    fontSize: ScreenUtil().setSp(56),
                   ),
                 ),
               ),
@@ -274,7 +274,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
         // check if new password is the same as old password
         if (_oldPassword != _newPassword) {
           setState(() {
-            _height = ScreenUtil.getInstance().setHeight(1350);
+            _height = ScreenUtil().setHeight(1350);
             _isLoading = true;
           });
 
@@ -321,11 +321,11 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
       }
 
       setState(() {
-        _height = ScreenUtil.getInstance().setHeight(1350);
+        _height = ScreenUtil().setHeight(1350);
       });
     } else {
       setState(() {
-        _height = ScreenUtil.getInstance().setHeight(1650);
+        _height = ScreenUtil().setHeight(1650);
       });
     }
   }

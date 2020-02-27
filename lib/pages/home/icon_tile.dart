@@ -27,8 +27,8 @@ class IconTile extends StatelessWidget {
             : SizedBox.shrink();
       },
       child: Container(
-        height: ScreenUtil.getInstance().setHeight(400),
-        width: ScreenUtil.getInstance().setWidth(650),
+        height: ScreenUtil().setHeight(400),
+        width: ScreenUtil().setWidth(650),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -51,7 +51,7 @@ class IconTile extends StatelessWidget {
                 child: tileImage != null
                     ? Image.asset(
                         tileImage,
-                        width: ScreenUtil.getInstance().setHeight(180),
+                        width: ScreenUtil().setHeight(180),
                       )
                     : SizedBox.shrink(),
               ),

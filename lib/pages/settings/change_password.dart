@@ -48,7 +48,7 @@ class ChangePassword extends StatelessWidget {
                     child: Column(
                       children: <Widget>[
                         SizedBox(
-                          height: ScreenUtil.getInstance().setHeight(200),
+                          height: ScreenUtil().setHeight(200),
                         ),
                         ChangePasswordForm(),
                       ],

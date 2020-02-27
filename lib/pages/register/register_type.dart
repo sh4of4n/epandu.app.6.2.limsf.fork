@@ -34,8 +34,8 @@ class RegisterType extends StatelessWidget {
               children: <Widget>[
                 Image.asset(
                   ImagesConstant().logo,
-                  width: ScreenUtil.getInstance().setWidth(1000),
-                  height: ScreenUtil.getInstance().setHeight(600),
+                  width: ScreenUtil().setWidth(1000),
+                  height: ScreenUtil().setHeight(600),
                 ),
               ],
             ),

@@ -54,8 +54,8 @@ class _RegisterState extends State<Register> {
                           padding: EdgeInsets.only(top: 50.0),
                           child: Image.asset(
                             ImagesConstant().logo,
-                            width: ScreenUtil.getInstance().setWidth(1000),
-                            height: ScreenUtil.getInstance().setHeight(600),
+                            width: ScreenUtil().setWidth(1000),
+                            height: ScreenUtil().setHeight(600),
                           ),
                         ),
                       ],

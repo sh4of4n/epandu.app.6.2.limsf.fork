@@ -56,7 +56,7 @@ class _LoginBottomCardState extends State<LoginBottomCard> {
                   return Text(
                     '${AppLocalizations.of(context).translate('language_lbl')} ${lang.language}',
                     style: TextStyle(
-                        fontSize: ScreenUtil.getInstance().setSp(56),
+                        fontSize: ScreenUtil().setSp(56),
                         fontWeight: FontWeight.w500),
                   );
                 },
@@ -90,13 +90,13 @@ class _LoginBottomCardState extends State<LoginBottomCard> {
                   Text(
                     AppLocalizations.of(context).translate('version_lbl'),
                     style: TextStyle(
-                      fontSize: ScreenUtil.getInstance().setSp(52),
+                      fontSize: ScreenUtil().setSp(52),
                     ),
                   ),
                   Text(
                     ': $appVersion',
                     style: TextStyle(
-                      fontSize: ScreenUtil.getInstance().setSp(52),
+                      fontSize: ScreenUtil().setSp(52),
                     ),
                   ),
                 ],

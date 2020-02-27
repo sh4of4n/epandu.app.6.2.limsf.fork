@@ -68,11 +68,11 @@ class _ProfileState extends State<Profile> {
     return Stack(
       children: <Widget>[
         /* Container(
-            height: ScreenUtil.getInstance().setHeight(300),
+            height: ScreenUtil().setHeight(300),
             width: ScreenUtil.screenWidth,
             color: Colors.blue), */
         Container(
-          height: ScreenUtil.getInstance().setHeight(1450),
+          height: ScreenUtil().setHeight(1450),
           width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.symmetric(
               vertical: ScreenUtil().setHeight(140.0),
@@ -102,8 +102,8 @@ class _ProfileState extends State<Profile> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                width: ScreenUtil.getInstance().setWidth(280),
-                height: ScreenUtil.getInstance().setWidth(280),
+                width: ScreenUtil().setWidth(280),
+                height: ScreenUtil().setWidth(280),
               ),
               SizedBox(height: ScreenUtil().setHeight(30)),
               _userInfo(),
@@ -170,7 +170,7 @@ class _ProfileState extends State<Profile> {
                 child: Text(
                   AppLocalizations.of(context).translate('enroll_lbl'),
                   style: TextStyle(
-                    fontSize: ScreenUtil.getInstance().setSp(56),
+                    fontSize: ScreenUtil().setSp(56),
                   ),
                 ),
               ),

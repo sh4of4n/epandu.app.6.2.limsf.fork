@@ -321,8 +321,7 @@ class _BillDetailState extends State<BillDetail> {
                                   AppLocalizations.of(context)
                                       .translate('next_btn'),
                                   style: TextStyle(
-                                    fontSize:
-                                        ScreenUtil.getInstance().setSp(56),
+                                    fontSize: ScreenUtil().setSp(56),
                                   ),
                                 ),
                               ),

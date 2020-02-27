@@ -64,7 +64,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                     ),
                   ),
                   width: MediaQuery.of(context).size.width,
-                  height: ScreenUtil.getInstance().setHeight(800),
+                  height: ScreenUtil().setHeight(800),
                 ),
               ),
             ),
@@ -72,7 +72,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
               height: ScreenUtil().setHeight(2000),
               bottom: 0.0,
               child: Container(
-                height: ScreenUtil.getInstance().setHeight(2000),
+                height: ScreenUtil().setHeight(2000),
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: Color(0xfff6f4fc),
@@ -97,7 +97,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
               height: ScreenUtil().setHeight(1600),
               bottom: 0.0,
               child: Container(
-                height: ScreenUtil.getInstance().setHeight(1600),
+                height: ScreenUtil().setHeight(1600),
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -115,7 +115,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         SizedBox(
-                          height: ScreenUtil.getInstance().setHeight(35),
+                          height: ScreenUtil().setHeight(35),
                         ),
                         TextFormField(
                           focusNode: _phoneFocus,
@@ -157,7 +157,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                           },
                         ),
                         SizedBox(
-                          height: ScreenUtil.getInstance().setHeight(70),
+                          height: ScreenUtil().setHeight(70),
                         ),
                         TextFormField(
                           focusNode: _nameFocus,
@@ -194,7 +194,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                           },
                         ),
                         SizedBox(
-                          height: ScreenUtil.getInstance().setHeight(40),
+                          height: ScreenUtil().setHeight(40),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -252,7 +252,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                   child: Text(
                     AppLocalizations.of(context).translate('invite_btn'),
                     style: TextStyle(
-                      fontSize: ScreenUtil.getInstance().setSp(56),
+                      fontSize: ScreenUtil().setSp(56),
                     ),
                   ),
                 ),

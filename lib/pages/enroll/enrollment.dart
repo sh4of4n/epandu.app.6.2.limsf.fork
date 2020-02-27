@@ -288,23 +288,23 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                 children: <Widget>[
                   _idField(),
                   SizedBox(
-                    height: ScreenUtil.getInstance().setHeight(60),
+                    height: ScreenUtil().setHeight(60),
                   ),
                   _idNameField(),
                   SizedBox(
-                    height: ScreenUtil.getInstance().setHeight(60),
+                    height: ScreenUtil().setHeight(60),
                   ),
                   _dobField(),
                   /* SizedBox(
-                    height: ScreenUtil.getInstance().setHeight(60),
+                    height: ScreenUtil().setHeight(60),
                   ),
                   _nationalityField(), */
                   SizedBox(
-                    height: ScreenUtil.getInstance().setHeight(60),
+                    height: ScreenUtil().setHeight(60),
                   ),
                   _genderSelection(),
                   SizedBox(
-                    height: ScreenUtil.getInstance().setHeight(60),
+                    height: ScreenUtil().setHeight(60),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -319,7 +319,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                     ],
                   ),
                   SizedBox(
-                    height: ScreenUtil.getInstance().setHeight(60),
+                    height: ScreenUtil().setHeight(60),
                   ),
                 ],
               ),
@@ -356,7 +356,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                   child: Text(
                     AppLocalizations.of(context).translate('submit_btn'),
                     style: TextStyle(
-                      fontSize: ScreenUtil.getInstance().setSp(56),
+                      fontSize: ScreenUtil().setSp(56),
                     ),
                   ),
                 ),

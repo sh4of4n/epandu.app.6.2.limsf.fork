@@ -30,7 +30,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
   String _phone;
   String _message = '';
 
-  // var _height = ScreenUtil.getInstance().setHeight(1200);
+  // var _height = ScreenUtil().setHeight(1200);
 
   // var _height = ScreenUtil.screenHeight / 4.5;
 
@@ -66,7 +66,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(35),
+                height: ScreenUtil().setHeight(35),
               ),
               TextFormField(
                 focusNode: _phoneFocus,
@@ -103,7 +103,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(60),
+                height: ScreenUtil().setHeight(60),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -115,7 +115,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
                 ),
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(40),
+                height: ScreenUtil().setHeight(40),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -134,7 +134,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
                 ],
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(40),
+                height: ScreenUtil().setHeight(40),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -146,7 +146,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
                     child: Text(
                       AppLocalizations.of(context).translate('go_back_lbl'),
                       style: TextStyle(
-                        fontSize: ScreenUtil.getInstance().setSp(56),
+                        fontSize: ScreenUtil().setSp(56),
                       ),
                     ),
                   ),
@@ -166,7 +166,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
               color: primaryColor,
             )
           : ButtonTheme(
-              minWidth: ScreenUtil.getInstance().setWidth(420),
+              minWidth: ScreenUtil().setWidth(420),
               padding: EdgeInsets.symmetric(vertical: 11.0),
               buttonColor: primaryColor,
               shape: StadiumBorder(),
@@ -176,7 +176,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
                 child: Text(
                   AppLocalizations.of(context).translate('submit_btn'),
                   style: TextStyle(
-                    fontSize: ScreenUtil.getInstance().setSp(56),
+                    fontSize: ScreenUtil().setSp(56),
                   ),
                 ),
               ),
@@ -190,7 +190,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
       FocusScope.of(context).requestFocus(new FocusNode());
 
       setState(() {
-        // _height = ScreenUtil.getInstance().setHeight(1200);
+        // _height = ScreenUtil().setHeight(1200);
         _isLoading = true;
       });
 
@@ -236,7 +236,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
       }
     } else {
       setState(() {
-        // _height = ScreenUtil.getInstance().setHeight(1300);
+        // _height = ScreenUtil().setHeight(1300);
       });
     }
   }

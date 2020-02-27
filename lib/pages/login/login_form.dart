@@ -33,7 +33,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
   String _loginMessage = '';
   bool _obscureText = true;
 
-  // var _height = ScreenUtil.getInstance().setHeight(1300);
+  // var _height = ScreenUtil().setHeight(1300);
 
   // var _height = ScreenUtil.screenHeight / 4.5;
 
@@ -69,7 +69,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(35),
+                height: ScreenUtil().setHeight(35),
               ),
               TextFormField(
                 focusNode: _phoneFocus,
@@ -110,7 +110,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(70),
+                height: ScreenUtil().setHeight(70),
               ),
               TextFormField(
                 focusNode: _passwordFocus,
@@ -156,7 +156,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(60),
+                height: ScreenUtil().setHeight(60),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -169,14 +169,14 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                       AppLocalizations.of(context)
                           .translate('forgot_password_lbl'),
                       style: TextStyle(
-                        fontSize: ScreenUtil.getInstance().setSp(56),
+                        fontSize: ScreenUtil().setSp(56),
                       ),
                     ),
                   ),
                 ],
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(40),
+                height: ScreenUtil().setHeight(40),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -185,7 +185,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                     children: <Widget>[
                       _loginMessage.isNotEmpty
                           ? Container(
-                              width: ScreenUtil.getInstance().setWidth(1000),
+                              width: ScreenUtil().setWidth(1000),
                               child: Text(
                                 _loginMessage,
                                 style: TextStyle(color: Colors.red),
@@ -199,7 +199,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 ],
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(40),
+                height: ScreenUtil().setHeight(40),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -211,7 +211,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                     child: Text(
                       AppLocalizations.of(context).translate('sign_up_btn'),
                       style: TextStyle(
-                        fontSize: ScreenUtil.getInstance().setSp(56),
+                        fontSize: ScreenUtil().setSp(56),
                       ),
                     ),
                   ),
@@ -231,7 +231,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
               color: primaryColor,
             )
           : ButtonTheme(
-              minWidth: ScreenUtil.getInstance().setWidth(420),
+              minWidth: ScreenUtil().setWidth(420),
               padding: EdgeInsets.symmetric(vertical: 11.0),
               buttonColor: primaryColor,
               shape: StadiumBorder(),
@@ -241,7 +241,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 child: Text(
                   AppLocalizations.of(context).translate('login_btn'),
                   style: TextStyle(
-                    fontSize: ScreenUtil.getInstance().setSp(56),
+                    fontSize: ScreenUtil().setSp(56),
                   ),
                 ),
               ),
@@ -255,7 +255,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
       FocusScope.of(context).requestFocus(new FocusNode());
 
       setState(() {
-        // _height = ScreenUtil.getInstance().setHeight(1300);
+        // _height = ScreenUtil().setHeight(1300);
         _isLoading = true;
         _loginMessage = '';
       });
@@ -296,7 +296,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
       }
     } else {
       setState(() {
-        // _height = ScreenUtil.getInstance().setHeight(1450);
+        // _height = ScreenUtil().setHeight(1450);
       });
     }
   }

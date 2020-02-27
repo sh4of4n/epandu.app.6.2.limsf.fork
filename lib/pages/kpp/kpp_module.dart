@@ -185,7 +185,7 @@ class _KppModuleState extends State<KppModule> {
                 child: Text(
                   AppLocalizations.of(context).translate('more_question_lbl'),
                   style: TextStyle(
-                    fontSize: ScreenUtil.getInstance().setSp(65),
+                    fontSize: ScreenUtil().setSp(65),
                   ),
                 ),
               ),

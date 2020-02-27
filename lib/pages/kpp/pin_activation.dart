@@ -28,7 +28,7 @@ class _PinActivationState extends State<PinActivation> {
   String _pin;
 
   bool _isLoading = false;
-  // var _height = ScreenUtil.getInstance().setHeight(900);
+  // var _height = ScreenUtil().setHeight(900);
 
   _submitButton() {
     return Container(
@@ -37,7 +37,7 @@ class _PinActivationState extends State<PinActivation> {
               color: primaryColor,
             )
           : ButtonTheme(
-              minWidth: ScreenUtil.getInstance().setWidth(420),
+              minWidth: ScreenUtil().setWidth(420),
               padding: EdgeInsets.symmetric(vertical: 11.0),
               buttonColor: primaryColor,
               shape: StadiumBorder(),
@@ -47,7 +47,7 @@ class _PinActivationState extends State<PinActivation> {
                 child: Text(
                   AppLocalizations.of(context).translate('submit_btn'),
                   style: TextStyle(
-                    fontSize: ScreenUtil.getInstance().setSp(56),
+                    fontSize: ScreenUtil().setSp(56),
                   ),
                 ),
               ),
@@ -61,7 +61,7 @@ class _PinActivationState extends State<PinActivation> {
       FocusScope.of(context).requestFocus(new FocusNode());
 
       setState(() {
-        // _height = ScreenUtil.getInstance().setHeight(900);
+        // _height = ScreenUtil().setHeight(900);
         _isLoading = true;
       });
 
@@ -145,7 +145,7 @@ class _PinActivationState extends State<PinActivation> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         SizedBox(
-                          height: ScreenUtil.getInstance().setHeight(35),
+                          height: ScreenUtil().setHeight(35),
                         ),
                         TextFormField(
                           keyboardType: TextInputType.phone,
@@ -182,7 +182,7 @@ class _PinActivationState extends State<PinActivation> {
                           },
                         ),
                         SizedBox(
-                          height: ScreenUtil.getInstance().setHeight(60),
+                          height: ScreenUtil().setHeight(60),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -194,7 +194,7 @@ class _PinActivationState extends State<PinActivation> {
                           ),
                         ),
                         SizedBox(
-                          height: ScreenUtil.getInstance().setHeight(40),
+                          height: ScreenUtil().setHeight(40),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,

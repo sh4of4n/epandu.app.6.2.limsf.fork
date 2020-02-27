@@ -138,7 +138,7 @@ class _AirtimeTransactionState extends State<AirtimeTransaction> {
                           child: Text(
                             '${AppLocalizations.of(context).translate('pay_lbl')} RM${widget.data.amount}',
                             style: TextStyle(
-                              fontSize: ScreenUtil.getInstance().setSp(56),
+                              fontSize: ScreenUtil().setSp(56),
                             ),
                           ),
                         ),

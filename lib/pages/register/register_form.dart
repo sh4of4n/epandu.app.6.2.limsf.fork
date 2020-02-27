@@ -99,7 +99,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
             },
           ),
           SizedBox(
-            height: ScreenUtil.getInstance().setHeight(70),
+            height: ScreenUtil().setHeight(70),
           ),
         ],
       );
@@ -118,7 +118,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(35),
+                height: ScreenUtil().setHeight(35),
               ),
               TextFormField(
                 focusNode: _phoneFocus,
@@ -159,7 +159,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(70),
+                height: ScreenUtil().setHeight(70),
               ),
               TextFormField(
                 focusNode: _nameFocus,
@@ -199,7 +199,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(70),
+                height: ScreenUtil().setHeight(70),
               ),
               TextFormField(
                 focusNode: _idFocus,
@@ -243,7 +243,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(70),
+                height: ScreenUtil().setHeight(70),
               ),
               _renderDiCodeField(),
               TextFormField(
@@ -282,7 +282,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(70),
+                height: ScreenUtil().setHeight(70),
               ),
               TextFormField(
                 focusNode: _postCodeFocus,
@@ -320,7 +320,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(70),
+                height: ScreenUtil().setHeight(70),
               ),
               TextFormField(
                 focusNode: _cityFocus,
@@ -357,7 +357,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(70),
+                height: ScreenUtil().setHeight(70),
               ),
               TextFormField(
                 focusNode: _stateFocus,
@@ -395,7 +395,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(70),
+                height: ScreenUtil().setHeight(70),
               ),
               TextFormField(
                 focusNode: _countryFocus,
@@ -433,7 +433,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(70),
+                height: ScreenUtil().setHeight(70),
               ),
               TextFormField(
                 focusNode: _emailFocus,
@@ -467,7 +467,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                 },
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(70),
+                height: ScreenUtil().setHeight(70),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -482,7 +482,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                 ],
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(40),
+                height: ScreenUtil().setHeight(40),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -494,14 +494,14 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                     child: Text(
                       "GO BACK",
                       style: TextStyle(
-                        fontSize: ScreenUtil.getInstance().setSp(56),
+                        fontSize: ScreenUtil().setSp(56),
                       ),
                     ),
                   ),
                 ],
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(70),
+                height: ScreenUtil().setHeight(70),
               ),
             ],
           ),
@@ -517,7 +517,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
               color: primaryColor,
             )
           : ButtonTheme(
-              minWidth: ScreenUtil.getInstance().setWidth(420),
+              minWidth: ScreenUtil().setWidth(420),
               padding: EdgeInsets.symmetric(vertical: 11.0),
               buttonColor: primaryColor,
               shape: StadiumBorder(),
@@ -527,7 +527,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                 child: Text(
                   'SIGNUP',
                   style: TextStyle(
-                    fontSize: ScreenUtil.getInstance().setSp(56),
+                    fontSize: ScreenUtil().setSp(56),
                   ),
                 ),
               ),
