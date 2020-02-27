@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:epandu/app_localizations.dart';
 import 'package:epandu/pages/home/feeds.dart';
 import 'package:epandu/pages/home/home_menu_buttons.dart';
 import 'package:epandu/services/location.dart';
@@ -13,7 +12,6 @@ import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 
 class Home extends StatefulWidget {
@@ -28,7 +26,7 @@ class _HomeState extends State<Home> {
   final kppRepo = KppRepo();
   final localStorage = LocalStorage();
   final primaryColor = ColorConstant.primaryColor;
-  String _username = '';
+  // String _username = '';
   var studentEnrollmentData;
 
   // get location
@@ -47,7 +45,7 @@ class _HomeState extends State<Home> {
     super.initState();
 
     _openHiveBoxes();
-    getStudentInfo();
+    // getStudentInfo();
     _getCurrentLocation();
     _getArmasterAppPhotoForCode();
   }
@@ -128,27 +126,27 @@ class _HomeState extends State<Home> {
     await Hive.openBox('emergencyContact');
   }
 
-  getStudentInfo() async {
-    String _name = await localStorage.getUsername();
-    String _firstName;
+  // getStudentInfo() async {
+  //   String _name = await localStorage.getUsername();
+  //   String _firstName;
 
-    if (_name.isEmpty) {
-      await authRepo.getUserRegisteredDI(context: context);
+  //   if (_name.isEmpty) {
+  //     await authRepo.getUserRegisteredDI(context: context);
 
-      _name = await localStorage.getUsername();
-      _firstName = _name.split(' ')[0];
+  //     _name = await localStorage.getUsername();
+  //     _firstName = _name.split(' ')[0];
 
-      setState(() {
-        _username = _firstName;
-      });
-    } else {
-      _firstName = _name.split(' ')[0];
+  //     setState(() {
+  //       _username = _firstName;
+  //     });
+  //   } else {
+  //     _firstName = _name.split(' ')[0];
 
-      setState(() {
-        _username = _firstName;
-      });
-    }
-  }
+  //     setState(() {
+  //       _username = _firstName;
+  //     });
+  //   }
+  // }
 
   _customContainer() {
     return Container(

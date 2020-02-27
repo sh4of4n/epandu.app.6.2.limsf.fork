@@ -8,9 +8,9 @@ part 'bill_service.chopper.dart';
 abstract class BillService extends ChopperService {
   static BillService create() {
     final client = ChopperClient(
-      client: http.IOClient(
-        HttpClient()..connectionTimeout = const Duration(seconds: 60),
-      ),
+      // client: http.IOClient(
+      //   HttpClient()..connectionTimeout = const Duration(seconds: 1),
+      // ),
       // The first part of the URL is now here
       services: [
         // The generated implementation

@@ -37,6 +37,8 @@
   "di_required_lbl": "Institut memandu*",
   "nationality_lbl": "Kewarganergaraan",
   "nationality_required_lbl": "Kewarganergaraan*",
+  "citizen_lbl": "Warganegara",
+  "foreigner_lbl": "Warga Asing",
   "ic_required_lbl": "IC/Pasport*",
   "ic_required_msg": "IC/Pasport diperlukan.",
   "ic_name_required_msg": "Nama IC/Pasport diperlukan.",
@@ -184,6 +186,8 @@
   "save_btn": "HANTAR",
   "invite_btn": "JEMPUT",
   "cancel_btn": "KEMBALI",
-  "timeout_exception": "Ralat berlaku, sila cuba sebentar lagi.",
-  "socket_exception": "Sila periksa internet anda."
+  "timeout_exception": "Data mengambil masa terlalu lama untuk dimuatkan, sila cuba lagi.",
+  "socket_exception": "Sila periksa internet anda.",
+  "http_exception": "Something went wrong, we apologize for any inconvenience.",
+  "format_exception": "Bad response format."
 }

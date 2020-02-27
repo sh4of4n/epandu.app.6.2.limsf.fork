@@ -35,10 +35,6 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => LanguageModel(),
         ),
-        // Provider(
-        //   create: (context) => ApiServiceRetrofit.create(),
-        //   // dispose: (context, ApiServiceRetrofit service) => service.client.dispose(),
-        // ),
         Provider(
           create: (context) => ApiService.create(),
           dispose: (context, ApiService service) => service.client.dispose(),

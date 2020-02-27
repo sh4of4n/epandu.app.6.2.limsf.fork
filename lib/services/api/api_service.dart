@@ -15,9 +15,9 @@ abstract class ApiService extends ChopperService {
     final wsUrlBox = Hive.box('ws_url');
 
     final client = ChopperClient(
-      client: http.IOClient(
-        HttpClient()..connectionTimeout = const Duration(seconds: 60),
-      ),
+      // client: http.IOClient(
+      //   HttpClient()..connectionTimeout = const Duration(seconds: 1),
+      // ),
       // The first part of the URL is now here
       baseUrl: wsUrlBox.get('wsUrl'),
       services: [
@@ -40,7 +40,8 @@ abstract class ApiService extends ChopperService {
         },
         (Response response) async {
           if (response.statusCode != 200) {
-            chopperLogger.severe('${response.statusCode}');
+            chopperLogger
+                .severe('log: ${response.statusCode} ${response.error}');
           }
           return response;
         },
@@ -79,7 +80,7 @@ abstract class ApiService extends ChopperService {
   @Get(
       path:
           'IsSessionActive?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&diCode={diCode}&userId={userId}&sessionId={sessionId}&isLogout={isLogout}')
-  Future<void> logout({
+  Future<Response> logout({
     @Path('wsCodeCrypt') String wsCodeCrypt,
     @Path('caUid') String caUid,
     @Path('caPwd') String caPwd,
@@ -256,6 +257,6 @@ abstract class ApiService extends ChopperService {
     @Path('diCode') String diCode,
   });
 
-  @Post(path: 'SaveEnrollment')
-  Future<Response> saveEnrollment(@Body() var body);
+  @Post(path: 'SaveEnrollmentWithParticular')
+  Future<Response> saveEnrollmentWithParticular(@Body() var body);
 }

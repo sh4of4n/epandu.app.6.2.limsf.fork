@@ -44,7 +44,7 @@ class _$ApiService extends ApiService {
   }
 
   @override
-  Future<void> logout(
+  Future<Response> logout(
       {String wsCodeCrypt,
       String caUid,
       String caPwd,
@@ -55,7 +55,7 @@ class _$ApiService extends ApiService {
     final $url =
         '/webapi/IsSessionActive?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&userId=$userId&sessionId=$sessionId&isLogout=$isLogout';
     final $request = Request('GET', $url, client.baseUrl);
-    return client.send($request);
+    return client.send<dynamic, dynamic>($request);
   }
 
   @override
@@ -240,8 +240,8 @@ class _$ApiService extends ApiService {
   }
 
   @override
-  Future<Response> saveEnrollment(dynamic body) {
-    final $url = '/webapi/SaveEnrollment';
+  Future<Response> saveEnrollmentWithParticular(dynamic body) {
+    final $url = '/webapi/SaveEnrollmentWithParticular';
     final $body = body;
     final $request = Request('POST', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);

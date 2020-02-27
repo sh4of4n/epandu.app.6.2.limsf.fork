@@ -1105,32 +1105,72 @@ class Dgroup {
   }
 }
 
+// Save enrollment
 class SaveEnrollmentRequest {
   String wsCodeCrypt;
   String caUid;
   String caPwd;
   String diCode;
-  String icNo;
   String groupId;
+  String icNo;
+  String name;
+  String nationality;
+  String dateOfBirthString;
+  String gender;
   String userId;
+  String race;
+  String add1;
+  String add2;
+  String add3;
+  String postcode;
+  String city;
+  String state;
+  String country;
+  String email;
 
   SaveEnrollmentRequest(
       {this.wsCodeCrypt,
       this.caUid,
       this.caPwd,
       this.diCode,
-      this.icNo,
       this.groupId,
-      this.userId});
+      this.icNo,
+      this.name,
+      this.nationality,
+      this.dateOfBirthString,
+      this.gender,
+      this.userId,
+      this.race,
+      this.add1,
+      this.add2,
+      this.add3,
+      this.postcode,
+      this.city,
+      this.state,
+      this.country,
+      this.email});
 
   SaveEnrollmentRequest.fromJson(Map<String, dynamic> json) {
     wsCodeCrypt = json['wsCodeCrypt'];
     caUid = json['caUid'];
     caPwd = json['caPwd'];
     diCode = json['diCode'];
-    icNo = json['icNo'];
     groupId = json['groupId'];
+    icNo = json['icNo'];
+    name = json['name'];
+    nationality = json['nationality'];
+    dateOfBirthString = json['dateOfBirthString'];
+    gender = json['gender'];
     userId = json['userId'];
+    race = json['race'];
+    add1 = json['add1'];
+    add2 = json['add2'];
+    add3 = json['add3'];
+    postcode = json['postcode'];
+    city = json['city'];
+    state = json['state'];
+    country = json['country'];
+    email = json['email'];
   }
 
   Map<String, dynamic> toJson() {
@@ -1139,9 +1179,22 @@ class SaveEnrollmentRequest {
     data['caUid'] = this.caUid;
     data['caPwd'] = this.caPwd;
     data['diCode'] = this.diCode;
-    data['icNo'] = this.icNo;
     data['groupId'] = this.groupId;
+    data['icNo'] = this.icNo;
+    data['name'] = this.name;
+    data['nationality'] = this.nationality;
+    data['dateOfBirthString'] = this.dateOfBirthString;
+    data['gender'] = this.gender;
     data['userId'] = this.userId;
+    data['race'] = this.race;
+    data['add1'] = this.add1;
+    data['add2'] = this.add2;
+    data['add3'] = this.add3;
+    data['postcode'] = this.postcode;
+    data['city'] = this.city;
+    data['state'] = this.state;
+    data['country'] = this.country;
+    data['email'] = this.email;
     return data;
   }
 }

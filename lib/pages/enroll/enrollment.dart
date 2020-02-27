@@ -2,8 +2,10 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/repo/auth_repo.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/custom_snackbar.dart';
 import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -24,6 +26,7 @@ class Enrollment extends StatefulWidget {
 
 class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   final authRepo = AuthRepo();
+  final customDialog = CustomDialog();
   final customSnackbar = CustomSnackbar();
   final format = DateFormat("yyyy-MM-dd");
 
@@ -32,7 +35,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   final FocusNode _idFocus = FocusNode();
   final FocusNode _idNameFocus = FocusNode();
   final FocusNode _dobFocus = FocusNode();
-  final FocusNode _genderFocus = FocusNode();
+  // final FocusNode _genderFocus = FocusNode();
   // final FocusNode _nearbyDiFocus = FocusNode();
   // final FocusNode _nationalityFocus = FocusNode();
 
@@ -45,11 +48,12 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   String _icNo;
   String _icName;
   String _dob;
-  // String _nationality;
+  // String _nationality = '';
   String _message = '';
 
   Gender _gender = Gender.male;
-  String genderInt = '1';
+  String _genderValue = 'MALE';
+  // String genderInt = '1';
 
   _idField() {
     return TextFormField(
@@ -63,7 +67,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         labelText: AppLocalizations.of(context).translate('ic_required_lbl'),
         fillColor: Colors.grey.withOpacity(.25),
         filled: true,
-        prefixIcon: Icon(Icons.assignment_ind),
+        prefixIcon: Icon(Icons.featured_video),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.transparent),
           borderRadius: BorderRadius.circular(30),
@@ -85,10 +89,10 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         }
         return null;
       },
-      onSaved: (value) {
-        if (value != _icNo) {
+      onChanged: (value) {
+        setState(() {
           _icNo = value;
-        }
+        });
       },
     );
   }
@@ -128,10 +132,10 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         }
         return null;
       },
-      onSaved: (value) {
-        if (value != _icNo) {
+      onChanged: (value) {
+        setState(() {
           _icName = value;
-        }
+        });
       },
     );
   }
@@ -162,6 +166,11 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         }
         return null;
       },
+      onChanged: (value) {
+        setState(() {
+          _dob = DateFormat('yyyy/MM/dd').format(value);
+        });
+      },
       onShowPicker: (context, currentValue) {
         return showDatePicker(
             context: context,
@@ -184,7 +193,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           onChanged: (Gender value) {
             setState(() {
               _gender = value;
-              genderInt = '1';
+              _genderValue = 'MALE';
+              // genderInt = '1';
             });
           },
         ),
@@ -197,7 +207,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           onChanged: (Gender value) {
             setState(() {
               _gender = value;
-              genderInt = '0';
+              _genderValue = 'FEMALE';
+              // genderInt = '0';
             });
           },
         ),
@@ -209,18 +220,14 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   }
 
   /* _nationalityField() {
-    return TextFormField(
-      focusNode: _nationalityFocus,
+    return DropdownButtonFormField<String>(
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 16.0),
-        hintStyle: TextStyle(
-          color: primaryColor,
+        contentPadding: EdgeInsets.symmetric(
+          vertical: ScreenUtil().setHeight(10),
         ),
-        labelText:
-            AppLocalizations.of(context).translate('nationality_required_lbl'),
+        labelText: AppLocalizations.of(context).translate('nationality_lbl'),
         fillColor: Colors.grey.withOpacity(.25),
         filled: true,
-        prefixIcon: Icon(Icons.assignment_ind),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.transparent),
           borderRadius: BorderRadius.circular(30),
@@ -228,18 +235,31 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
         ),
+        prefixIcon: Icon(Icons.flag),
       ),
+      value: _nationality.isNotEmpty
+          ? _nationality
+          : AppLocalizations.of(context).translate('citizen_lbl'),
+      onChanged: (value) {
+        setState(() {
+          _nationality = value;
+        });
+      },
+      items: <String>[
+        AppLocalizations.of(context).translate('citizen_lbl'),
+        AppLocalizations.of(context).translate('foreigner_lbl')
+      ].map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
       validator: (value) {
-        if (value.isEmpty) {
+        if (value == null) {
           return AppLocalizations.of(context)
               .translate('nationality_required_msg');
         }
         return null;
-      },
-      onSaved: (value) {
-        if (value != _icNo) {
-          _gender = value;
-        }
       },
     );
   } */
@@ -275,11 +295,14 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                     height: ScreenUtil.getInstance().setHeight(60),
                   ),
                   _dobField(),
+                  /* SizedBox(
+                    height: ScreenUtil.getInstance().setHeight(60),
+                  ),
+                  _nationalityField(), */
                   SizedBox(
                     height: ScreenUtil.getInstance().setHeight(60),
                   ),
                   _genderSelection(),
-                  // _nationalityField(),
                   SizedBox(
                     height: ScreenUtil.getInstance().setHeight(60),
                   ),
@@ -347,26 +370,29 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       _formKey.currentState.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
-      /* setState(() {
+      setState(() {
         _isLoading = true;
         _message = '';
       });
 
-      var result = await authRepo.saveEnrollment(
+      var result = await authRepo.saveEnrollmentWithParticular(
         context: context,
         diCode: widget.data.diCode,
-        icNo: _icNo,
+        icNo: _icNo.replaceAll('-', ''),
+        name: _icName,
         groupId: widget.data.groupId,
+        gender: _genderValue,
+        dateOfBirthString: _dob,
+        nationality: 'WARGANEGARA',
       );
 
       if (result.isSuccess) {
-        customSnackbar.show(
-          context,
-          message: result.message.toString(),
-          type: MessageType.SUCCESS,
-          duration: 3000,
+        customDialog.show(
+          context: context,
+          content: AppLocalizations.of(context).translate('enroll_success'),
+          type: DialogType.SUCCESS,
         );
-        Navigator.pop(context);
+        Navigator.pushNamedAndRemoveUntil(context, HOME, (r) => false);
       } else {
         customSnackbar.show(
           context,
@@ -377,7 +403,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
 
       setState(() {
         _isLoading = false;
-      }); */
+      });
     }
   }
 }

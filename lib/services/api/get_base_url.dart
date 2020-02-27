@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:http/io_client.dart' as http;
 import 'package:chopper/chopper.dart';
 
 part 'get_base_url.chopper.dart';
@@ -6,6 +8,9 @@ part 'get_base_url.chopper.dart';
 abstract class GetBaseUrl extends ChopperService {
   static GetBaseUrl create() {
     final client = ChopperClient(
+      // client: http.IOClient(
+      //   HttpClient()..connectionTimeout = const Duration(seconds: 1),
+      // ),
       services: [
         _$GetBaseUrl(),
       ],

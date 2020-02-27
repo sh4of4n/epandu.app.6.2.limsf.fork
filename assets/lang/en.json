@@ -37,6 +37,8 @@
   "di_required_lbl": "Driving institute*",
   "nationality_lbl": "Nationality",
   "nationality_required_lbl": "Nationality*",
+  "citizen_lbl": "Citizen",
+  "foreigner_lbl": "Foreigner",
   "ic_required_lbl": "IC/Passport*",
   "ic_required_msg": "IC/Passport is required.",
   "ic_name_required_msg": "IC/Passport name is required.",
@@ -184,6 +186,8 @@
   "save_btn": "SAVE",
   "invite_btn": "INVITE",
   "cancel_btn": "CANCEL",
-  "timeout_exception": "An error occurred, please try again later.",
-  "socket_exception": "Please check your internet connection."
+  "timeout_exception": "Data took too long to load, please try again.",
+  "socket_exception": "Please check your internet connection.",
+  "http_exception": "Something went wrong, we apologize for any inconvenience.",
+  "format_exception": "Bad response format."
 }

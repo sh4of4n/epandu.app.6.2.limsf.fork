@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:epandu/services/api/api_service.dart';
 import 'package:epandu/services/api/get_base_url.dart';
@@ -126,16 +128,20 @@ class AuthRepo {
         return result;
       } else if (responseData.msg == 'Reset Password Success') {
         return Response(true, message: responseData.msg);
-      } else if (responseData.msg != null &&
-          responseData.msg.contains('TimeoutException')) {
-        return Response(false, message: 'timeout');
-      } else if (responseData.msg != null &&
-          responseData.msg.contains('SocketException')) {
-        return Response(false, message: 'socket');
-      } else if (responseData.msg != null) {
-        return Response(false, message: responseData.msg);
       }
+      return Response(false, message: responseData.msg);
     }
+    /* on TimeoutException {
+      return Response(false, message: 'timeout');
+    } on SocketException {
+      return Response(false, message: 'socket');
+    } on HttpException {
+      throw Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } on FormatException {
+      throw Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
+    } */
 
     return Response(false, message: 'timeout');
   }
@@ -462,7 +468,16 @@ class AuthRepo {
     return Response(false, message: 'No records found.');
   }
 
-  Future<Response> saveEnrollment({context, diCode, icNo, groupId}) async {
+  Future<Response> saveEnrollmentWithParticular({
+    context,
+    diCode,
+    icNo,
+    groupId,
+    name,
+    nationality,
+    dateOfBirthString,
+    gender,
+  }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
@@ -473,13 +488,26 @@ class AuthRepo {
       caUid: caUid,
       caPwd: caPwd,
       diCode: diCode,
-      icNo: icNo,
       groupId: groupId,
+      icNo: icNo,
+      name: name,
+      nationality: nationality,
+      dateOfBirthString: dateOfBirthString,
+      gender: gender,
       userId: userId,
+      race: '',
+      add1: '',
+      add2: '',
+      add3: '',
+      postcode: '',
+      city: '',
+      state: '',
+      country: '',
+      email: '',
     );
 
     var response = await Provider.of<ApiService>(context, listen: false)
-        .saveEnrollment(saveEnrollmentRequest);
+        .saveEnrollmentWithParticular(saveEnrollmentRequest);
 
     if (response.body == 'True') {
       return Response(true,
@@ -487,6 +515,10 @@ class AuthRepo {
     }
 
     return Response(false,
-        message: AppLocalizations.of(context).translate('enroll_fail'));
+        message: response.error
+            .toString()
+            .replaceAll('[BLException]', '')
+            .replaceAll(r'\u000d\u000a', '')
+            .replaceAll(r'"', ''));
   }
 }

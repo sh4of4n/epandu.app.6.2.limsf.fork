@@ -277,7 +277,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
           Navigator.pushReplacementNamed(context, SELECT_DI,
               arguments: result.data);
         } else {
-          localStorage.saveDiCode(result.data['di_code']);
+          localStorage.saveDiCode(result.data[0].diCode);
 
           Navigator.pushReplacementNamed(context, HOME);
         }
