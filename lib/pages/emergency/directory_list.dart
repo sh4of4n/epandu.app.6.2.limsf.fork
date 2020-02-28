@@ -40,7 +40,10 @@ class _DirectoryListState extends State<DirectoryList> {
             Text(snapshot.data[index].areaCode ?? ''),
             Text(snapshot.data[index].sosContactName ?? ''),
             Text(snapshot.data[index].phone ?? ''),
-            Text(snapshot.data[index].distance ?? ''),
+            Text(double.tryParse(snapshot.data[index].distance)
+                        .toStringAsFixed(2) +
+                    'km' ??
+                'No distance data'),
             SizedBox(height: 10.0),
             Divider(
               height: 1.0,

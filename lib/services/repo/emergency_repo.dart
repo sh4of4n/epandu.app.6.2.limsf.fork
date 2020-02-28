@@ -1,10 +1,8 @@
 import 'package:epandu/services/api/api_service.dart';
 import 'package:epandu/services/api/model/emergency_model.dart';
-import 'package:epandu/services/location.dart';
 import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 class EmergencyRepo {
@@ -127,7 +125,7 @@ class EmergencyRepo {
       areaCode: areaCode ?? '',
       latitude: latitude,
       longitude: longitude,
-      maxRadius: '20',
+      maxRadius: '30',
     );
 
     if (response.body != 'null' && response.statusCode == 200) {
