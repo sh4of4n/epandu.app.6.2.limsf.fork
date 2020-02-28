@@ -14,7 +14,6 @@ import 'app_localizations_delegate.dart';
 import 'application.dart';
 import 'services/api/get_base_url.dart';
 import 'services/api/model/bill_model.dart';
-import 'services/api/model/emergency_model.dart';
 import 'services/api/model/kpp_model.dart';
 import 'package:logging/logging.dart';
 
@@ -23,7 +22,7 @@ void main() async {
   final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
   Hive.registerAdapter(KppExamDataAdapter());
-  Hive.registerAdapter(EmergencyContactAdapter());
+  // Hive.registerAdapter(EmergencyContactAdapter());
   Hive.registerAdapter(TelcoAdapter());
   Hive.registerAdapter(BillAdapter());
   _setupLogging();
@@ -121,7 +120,7 @@ class _MyAppState extends State<MyApp> {
   void dispose() {
     Hive.box('exam_data').compact();
     Hive.box('ws_url').compact();
-    Hive.box('emergencyContact').compact();
+    // Hive.box('emergencyContact').compact();
     Hive.close();
     super.dispose();
   }

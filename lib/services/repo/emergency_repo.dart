@@ -37,61 +37,61 @@ class EmergencyRepo {
   }
 
   // was getSosContact
-  Future<Response> getSosContact(
-      {context, sosContactType, sosContactCode, areaCode}) async {
-    // Hive
-    final emergencyContactBox = Hive.box('emergencyContact');
+  // Future<Response> getSosContact(
+  //     {context, sosContactType, sosContactCode, areaCode}) async {
+  //   // Hive
+  //   final emergencyContactBox = Hive.box('emergencyContact');
 
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
+  //   String caUid = await localStorage.getCaUid();
+  //   String caPwd = await localStorage.getCaPwd();
 
-    var response =
-        await Provider.of<ApiService>(context, listen: false).getSosContact(
-      wsCodeCrypt: appConfig.wsCodeCrypt,
-      caUid: caUid,
-      caPwd: caPwd,
-      sosContactType: sosContactType ?? '',
-      sosContactCode: sosContactCode ?? '',
-      areaCode: areaCode ?? '',
-    );
+  //   var response =
+  //       await Provider.of<ApiService>(context, listen: false).getSosContact(
+  //     wsCodeCrypt: appConfig.wsCodeCrypt,
+  //     caUid: caUid,
+  //     caPwd: caPwd,
+  //     sosContactType: sosContactType ?? '',
+  //     sosContactCode: sosContactCode ?? '',
+  //     areaCode: areaCode ?? '',
+  //   );
 
-    if (response.body != 'null' && response.statusCode == 200) {
-      EmergencyContactResponse emergencyContactResponse =
-          EmergencyContactResponse.fromJson(response.body);
+  //   if (response.body != 'null' && response.statusCode == 200) {
+  //     EmergencyContactResponse emergencyContactResponse =
+  //         EmergencyContactResponse.fromJson(response.body);
 
-      for (int i = 0; i < emergencyContactResponse.sosContact.length; i += 1) {
-        double locLatitude =
-            double.tryParse(emergencyContactResponse.sosContact[i].latitude);
-        double locLongitude =
-            double.tryParse(emergencyContactResponse.sosContact[i].longtitude);
+  //     for (int i = 0; i < emergencyContactResponse.sosContact.length; i += 1) {
+  //       double locLatitude =
+  //           double.tryParse(emergencyContactResponse.sosContact[i].latitude);
+  //       double locLongitude =
+  //           double.tryParse(emergencyContactResponse.sosContact[i].longtitude);
 
-        double locDistance = await Location()
-            .getDistance(locLatitude: locLatitude, locLongitude: locLongitude);
+  //       double locDistance = await Location()
+  //           .getDistance(locLatitude: locLatitude, locLongitude: locLongitude);
 
-        emergencyContactResponse.sosContact[i].distance =
-            '${(locDistance / 1000).toStringAsFixed(2)}km';
-      }
+  //       emergencyContactResponse.sosContact[i].distance =
+  //           '${(locDistance / 1000).toStringAsFixed(2)}km';
+  //     }
 
-      var sortedResponse = await getSortedContacts(
-          emergencyContacts: emergencyContactResponse.sosContact);
+  //     var sortedResponse = await getSortedContacts(
+  //         emergencyContacts: emergencyContactResponse.sosContact);
 
-      // Store sortedResponse in hive box
-      switch (sosContactType) {
-        case 'POLICE':
-          emergencyContactBox.put('policeContact', sortedResponse.data);
-          break;
-        case 'AMBULANCE':
-          emergencyContactBox.put('ambulanceContact', sortedResponse.data);
-          break;
-        case 'EMBASSY':
-          emergencyContactBox.put('embassyContact', sortedResponse.data);
-      }
+  //     // Store sortedResponse in hive box
+  //     switch (sosContactType) {
+  //       case 'POLICE':
+  //         emergencyContactBox.put('policeContact', sortedResponse.data);
+  //         break;
+  //       case 'AMBULANCE':
+  //         emergencyContactBox.put('ambulanceContact', sortedResponse.data);
+  //         break;
+  //       case 'EMBASSY':
+  //         emergencyContactBox.put('embassyContact', sortedResponse.data);
+  //     }
 
-      return sortedResponse;
-    }
+  //     return sortedResponse;
+  //   }
 
-    return Response(false);
-  }
+  //   return Response(false);
+  // }
 
   // Note: Some of the API return coordinates are invalid and
   // will cause distance to become 0.0 leading to incorrect sorting
@@ -102,6 +102,43 @@ class EmergencyRepo {
             .compareTo(double.tryParse(b.distance.replaceAll('km', ''))));
 
     return Response(true, data: emergencyContacts);
+  }
+
+  // GetSosContactNearest
+
+  Future<Response> getSosContactSortByNearest({
+    context,
+    sosContactType,
+    sosContactCode,
+    areaCode,
+  }) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+    String latitude = await localStorage.getUserLatitude();
+    String longitude = await localStorage.getUserLongitude();
+
+    var response = await Provider.of<ApiService>(context, listen: false)
+        .getSosContactSortByNearest(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      sosContactType: sosContactType ?? '',
+      sosContactCode: sosContactCode ?? '',
+      areaCode: areaCode ?? '',
+      latitude: latitude,
+      longitude: longitude,
+      maxRadius: '20',
+    );
+
+    if (response.body != 'null' && response.statusCode == 200) {
+      GetSosContactSortByNearestResponse getSosContactSortByNearestResponse =
+          GetSosContactSortByNearestResponse.fromJson(response.body);
+
+      return Response(true,
+          data: getSosContactSortByNearestResponse.sosContact);
+    }
+
+    return Response(false);
   }
 
   // SendGpsSos

@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:hive/hive.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:app_settings/app_settings.dart';
 
@@ -20,7 +19,7 @@ class Emergency extends StatefulWidget {
 }
 
 class _EmergencyState extends State<Emergency> {
-  Box<dynamic> contactBox;
+  // Box<dynamic> contactBox;
   final primaryColor = ColorConstant.primaryColor;
   final emergencyRepo = EmergencyRepo();
   final localStorage = LocalStorage();
@@ -40,7 +39,7 @@ class _EmergencyState extends State<Emergency> {
   }
 
   _checkLocationPermission() async {
-    contactBox = Hive.box('emergencyContact');
+    // contactBox = Hive.box('emergencyContact');
 
     // await location.getCurrentLocation();
 
@@ -48,43 +47,20 @@ class _EmergencyState extends State<Emergency> {
         await Geolocator().checkGeolocationPermissionStatus();
 
     if (geolocationStatus == GeolocationStatus.granted) {
-      // print('distance: ${location.distanceInMeters}');
-      location.distanceInMeters = await contactBox.get('distanceInMeters');
+      var response = await emergencyRepo.getSosContactSortByNearest(
+          context: context, sosContactType: 'POLICE');
 
-      // police number is not refreshed if distance < 100 meters
-      if (contactBox.get('nearestPoliceContact') != null &&
-          location.distanceInMeters < 100 &&
-          mounted) {
-        setState(() {
-          policeNumber = contactBox.get('nearestPoliceContact');
-        });
-      } else if (location.distanceInMeters > 100 ||
-          contactBox.get('nearestPoliceContact') == null) {
-        _getContacts();
+      if (response.isSuccess) {
+        var policeContacts = response.data;
 
-        // assign distanceInMeters to double variable
-        double distanceEmergencyContacts =
-            await contactBox.get('distanceInMeters');
-
-        // store distanceInMeters to db for directory use
-        await contactBox.put(
-            'distanceInMetersDirectory', distanceEmergencyContacts);
-
-        // distance in emergency page will be 0.0
-        // emergency page will not be refreshed unless user is at new location
-        contactBox.put('distanceInMeters', 0.0);
-      } else {
-        // if positionStream is not initiated current location will be requested
-        await location.getCurrentLocation();
-        double distance = await location.getDistance(
-            locLatitude: location.latitude, locLongitude: location.longitude);
-
-        if (distance > 100) _getContacts();
-
-        contactBox.put('distanceInMeters', distance);
-
-        localStorage.saveUserLatitude(location.latitude.toString());
-        localStorage.saveUserLongitude(location.longitude.toString());
+        for (int i = 0; i < policeContacts.length; i += 1) {
+          if (policeContacts[i].sosContactSubtype == 'IPD' && mounted) {
+            setState(() {
+              policeNumber = policeContacts[i].phone;
+            });
+            break;
+          }
+        }
       }
     } else {
       customDialog.show(
@@ -112,24 +88,6 @@ class _EmergencyState extends State<Emergency> {
         ],
         type: DialogType.GENERAL,
       );
-    }
-  }
-
-  _getContacts() async {
-    // if (emergencyContacts.isEmpty) {
-    await emergencyRepo.getSosContact(
-        context: context, sosContactType: 'POLICE');
-
-    var policeContacts = contactBox.get('policeContact');
-
-    for (int i = 0; i < policeContacts.length; i += 1) {
-      if (policeContacts[i].sosContactSubtype == 'IPD' && mounted) {
-        setState(() {
-          policeNumber = policeContacts[i].phone;
-        });
-        contactBox.put('nearestPoliceContact', policeContacts[i].phone);
-        break;
-      }
     }
   }
 

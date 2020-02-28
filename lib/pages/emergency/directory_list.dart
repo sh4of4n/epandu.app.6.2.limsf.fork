@@ -5,7 +5,6 @@ import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:hive/hive.dart';
 
 class DirectoryList extends StatefulWidget {
   final data;
@@ -20,17 +19,9 @@ class _DirectoryListState extends State<DirectoryList> {
   final emergencyRepo = EmergencyRepo();
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
-  final contactBox = Hive.box('emergencyContact');
 
   _getContacts() async {
-    switch (widget.data) {
-      case 'POLICE':
-        return contactBox.get('policeContact');
-      case 'AMBULANCE':
-        return contactBox.get('ambulanceContact');
-      case 'EMBASSY':
-        return contactBox.get('embassyContact');
-    }
+    return widget.data;
   }
 
   _listItem(snapshot, index) {
@@ -109,14 +100,14 @@ class _DirectoryListState extends State<DirectoryList> {
                   ],
                 ),
                 child: ListView.builder(
-                  itemCount: 10,
-                  // itemCount: snapshot.data.length,
+                  // itemCount: 10,
+                  itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
-                    if (widget.data == 'POLICE' &&
+                    if (snapshot.data[0].sosContactType == 'POLICE' &&
                         snapshot.data[index].sosContactSubtype == 'IPD') {
                       return _listItem(snapshot, index);
-                    } else if (widget.data == 'AMBULANCE' ||
-                        widget.data == 'EMBASSY') {
+                    } else if (snapshot.data[0].sosContactType == 'AMBULANCE' ||
+                        snapshot.data[0].sosContactType == 'EMBASSY') {
                       return _listItem(snapshot, index);
                     }
                     return Container(height: 0, width: 0);

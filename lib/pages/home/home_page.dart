@@ -105,14 +105,14 @@ class _HomeState extends State<Home> {
       positionStream = geolocator
           .getPositionStream(locationOptions)
           .listen((Position position) async {
-        double distance = await location.getDistance(
-          locLatitude: position.latitude,
-          locLongitude: position.longitude,
-        );
+        // double distance = await location.getDistance(
+        //   locLatitude: position.latitude,
+        //   locLongitude: position.longitude,
+        // );
 
-        await Hive.box('emergencyContact').put('distanceInMeters', distance);
+        // await Hive.box('emergencyContact').put('distanceInMeters', distance);
 
-        print(Hive.box('emergencyContact').get('distanceInMeters'));
+        // print(Hive.box('emergencyContact').get('distanceInMeters'));
 
         localStorage.saveUserLatitude(position.latitude.toString());
         localStorage.saveUserLongitude(position.longitude.toString());
@@ -123,7 +123,7 @@ class _HomeState extends State<Home> {
   _openHiveBoxes() async {
     await Hive.openBox('telcoList');
     await Hive.openBox('serviceList');
-    await Hive.openBox('emergencyContact');
+    // await Hive.openBox('emergencyContact');
   }
 
   // getStudentInfo() async {

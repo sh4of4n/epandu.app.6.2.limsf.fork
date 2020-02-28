@@ -215,6 +215,23 @@ class _$ApiService extends ApiService {
   }
 
   @override
+  Future<Response> getSosContactSortByNearest(
+      {String wsCodeCrypt,
+      String caUid,
+      String caPwd,
+      String sosContactType,
+      String sosContactCode,
+      String areaCode,
+      String latitude,
+      String longitude,
+      String maxRadius}) {
+    final $url =
+        '/webapi/GetSosContactSortByNearest?wsCodeCrypt=$wsCodeCrypt&caUid=$caUid&caPwd=$caPwd&sosContactType=$sosContactType&sosContactCode=$sosContactCode&areaCode=$areaCode&latitude=$latitude&longitude=$longitude&maxRadius=$maxRadius';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response> payFpx(dynamic body) {
     final $url = '/webapi/FPX_SendB2CAuthRequest';
     final $body = body;

@@ -4,7 +4,6 @@ import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_localizations.dart';
@@ -17,7 +16,7 @@ class EmergencyDirectory extends StatefulWidget {
 
 class _EmergencyDirectoryState extends State<EmergencyDirectory> {
   final primaryColor = ColorConstant.primaryColor;
-  final contactBox = Hive.box('emergencyContact');
+  // final contactBox = Hive.box('emergencyContact');
   final emergencyRepo = EmergencyRepo();
   Location location = Location();
   var policeContacts;
@@ -31,9 +30,14 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
     _getContacts();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   _getContacts() async {
-    location.distanceInMeters =
-        await contactBox.get('distanceInMetersDirectory');
+    // location.distanceInMeters =
+    //     await contactBox.get('distanceInMetersDirectory');
 
     Future.wait([
       getPoliceContact(),
@@ -43,66 +47,39 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
 
     // distance in emergency directory will be 0.0
     // emergency directory will not be refreshed unless user is at new location
-    contactBox.put('distanceInMetersDirectory', 0.0);
+    // contactBox.put('distanceInMetersDirectory', 0.0);
   }
 
   Future<void> getPoliceContact() async {
-    if (contactBox.get('policeContact') != null &&
-        location.distanceInMeters < 100) {
-      if (mounted) {
-        setState(() {
-          policeContacts = contactBox.get('policeContact');
-        });
-      }
-    } else {
-      await emergencyRepo.getSosContact(
-          context: context, sosContactType: 'POLICE');
+    var response = await emergencyRepo.getSosContactSortByNearest(
+        context: context, sosContactType: 'POLICE');
 
-      if (mounted) {
-        setState(() {
-          policeContacts = contactBox.get('policeContact');
-        });
-      }
+    if (mounted && response.isSuccess) {
+      setState(() {
+        policeContacts = response.data;
+      });
     }
   }
 
   Future<void> getAmbulanceContact() async {
-    if (contactBox.get('ambulanceContact') != null &&
-        location.distanceInMeters < 100) {
-      if (mounted) {
-        setState(() {
-          ambulanceContacts = contactBox.get('ambulanceContact');
-        });
-      }
-    } else {
-      await emergencyRepo.getSosContact(
-          context: context, sosContactType: 'AMBULANCE');
+    var response = await emergencyRepo.getSosContactSortByNearest(
+        context: context, sosContactType: 'AMBULANCE');
 
-      if (mounted) {
-        setState(() {
-          ambulanceContacts = contactBox.get('ambulanceContact');
-        });
-      }
+    if (mounted && response.isSuccess) {
+      setState(() {
+        ambulanceContacts = response.data;
+      });
     }
   }
 
   Future<void> getEmbassyContact() async {
-    if (contactBox.get('embassyContact') != null &&
-        location.distanceInMeters < 100) {
-      if (mounted) {
-        setState(() {
-          embassyContacts = contactBox.get('embassyContact');
-        });
-      }
-    } else {
-      await emergencyRepo.getSosContact(
-          context: context, sosContactType: 'EMBASSY');
+    var response = await emergencyRepo.getSosContactSortByNearest(
+        context: context, sosContactType: 'EMBASSY');
 
-      if (mounted) {
-        setState(() {
-          embassyContacts = contactBox.get('embassyContact');
-        });
-      }
+    if (mounted && response.isSuccess) {
+      setState(() {
+        embassyContacts = response.data;
+      });
     }
   }
 
@@ -140,7 +117,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                     tileSecondColor: Color(0xff0499c7),
                     label: AppLocalizations.of(context).translate('police_lbl'),
                     onTap: () => Navigator.pushNamed(context, DIRECTORY_LIST,
-                        arguments: 'POLICE'),
+                        arguments: policeContacts),
                   ),
                   secondChild: SizedBox(
                     width: ScreenUtil().setWidth(600),
@@ -169,7 +146,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                     label:
                         AppLocalizations.of(context).translate('ambulance_lbl'),
                     onTap: () => Navigator.pushNamed(context, DIRECTORY_LIST,
-                        arguments: 'AMBULANCE'),
+                        arguments: ambulanceContacts),
                   ),
                   secondChild: SizedBox(
                     width: ScreenUtil().setWidth(600),
@@ -198,7 +175,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                     label:
                         AppLocalizations.of(context).translate('embassy_lbl'),
                     onTap: () => Navigator.pushNamed(context, DIRECTORY_LIST,
-                        arguments: 'EMBASSY'),
+                        arguments: embassyContacts),
                   ),
                   secondChild: SizedBox(
                     width: ScreenUtil().setWidth(600),
@@ -222,9 +199,5 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         ),
       ),
     );
-  }
-
-  void dispose() {
-    super.dispose();
   }
 }

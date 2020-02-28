@@ -233,6 +233,21 @@ abstract class ApiService extends ChopperService {
     @Path('sosContactCode') String sosContactCode,
     @Path('areaCode') String areaCode,
   });
+
+  @Get(
+      path:
+          'GetSosContactSortByNearest?wsCodeCrypt={wsCodeCrypt}&caUid={caUid}&caPwd={caPwd}&sosContactType={sosContactType}&sosContactCode={sosContactCode}&areaCode={areaCode}&latitude={latitude}&longitude={longitude}&maxRadius={maxRadius}')
+  Future<Response> getSosContactSortByNearest({
+    @Path('wsCodeCrypt') String wsCodeCrypt,
+    @Path('caUid') String caUid,
+    @Path('caPwd') String caPwd,
+    @Path('sosContactType') String sosContactType,
+    @Path('sosContactCode') String sosContactCode,
+    @Path('areaCode') String areaCode,
+    @Path('latitude') String latitude,
+    @Path('longitude') String longitude,
+    @Path('maxRadius') String maxRadius,
+  });
   // end emergency_repo
 
   @Post(path: 'FPX_SendB2CAuthRequest')
