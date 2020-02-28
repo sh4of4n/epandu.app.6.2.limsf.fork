@@ -1,4 +1,4 @@
-import 'package:epandu/services/repo/kpp_repo.dart';
+import 'package:epandu/services/repository/kpp_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';

@@ -1,5 +1,5 @@
 import 'package:epandu/app_localizations.dart';
-import 'package:epandu/services/repo/emergency_repo.dart';
+import 'package:epandu/services/repository/emergency_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';

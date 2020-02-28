@@ -2,7 +2,7 @@ import 'package:epandu/pages/profile/attendance_record.dart';
 import 'package:epandu/pages/profile/payment_history.dart';
 import 'package:epandu/pages/profile/profile_page.dart';
 import 'package:epandu/pages/profile/registered_course.dart';
-import 'package:epandu/services/repo/profile_repo.dart';
+import 'package:epandu/services/repository/profile_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';

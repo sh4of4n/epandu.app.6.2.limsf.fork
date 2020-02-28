@@ -1,5 +1,5 @@
 import 'package:epandu/app_localizations.dart';
-import 'package:epandu/services/repo/auth_repo.dart';
+import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';

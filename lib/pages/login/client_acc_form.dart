@@ -1,5 +1,5 @@
 import 'package:epandu/base/page_base_class.dart';
-import 'package:epandu/services/repo/auth_repo.dart';
+import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
