@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:epandu/services/api/api_service.dart';
 import 'package:epandu/services/api/get_base_url.dart';
+import 'package:epandu/services/api/networking.dart';
 import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
@@ -99,38 +101,38 @@ class AuthRepo {
     // final String caPwd = await localStorage.getCaPwd();
     final String caPwdUrlEncode = await localStorage.getCaPwdEncode();
 
-    var response = await Provider.of<ApiService>(context, listen: false).login(
-      wsCodeCrypt: appConfig.wsCodeCrypt,
-      caUid: caUid,
-      caPwd: caPwdUrlEncode,
-      diCode: appConfig.diCode,
-      userPhone: phone,
-      userPwd: password,
-      ipAddress: '0.0.0.0',
-    );
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0';
 
-    if (response.body != 'null' &&
-        response.statusCode == 200 &&
-        response.body is Map<String, dynamic>) {
-      LoginResponse loginResponse = LoginResponse.fromJson(response.body);
-      var responseData = loginResponse.table1[0];
+    try {
+      var response =
+          await Provider.of<Networking>(context, listen: false).getData(
+        path: 'GetUserByUserPhonePwd?$path',
+      );
 
-      if (responseData.userId != null && responseData.msg == null) {
-        print(responseData.userId);
-        print(responseData.sessionId);
+      if (response.data.body != 'null' &&
+          response.data.statusCode == 200 &&
+          response.data.body is Map<String, dynamic>) {
+        LoginResponse loginResponse =
+            LoginResponse.fromJson(response.data.body);
+        var responseData = loginResponse.table1[0];
 
-        localStorage.saveUserId(responseData.userId);
-        localStorage.saveSessionId(responseData.sessionId);
+        if (responseData.userId != null && responseData.msg == null) {
+          print(responseData.userId);
+          print(responseData.sessionId);
 
-        var result = await getUserRegisteredDI(context: context);
+          localStorage.saveUserId(responseData.userId);
+          localStorage.saveSessionId(responseData.sessionId);
 
-        return result;
-      } else if (responseData.msg == 'Reset Password Success') {
-        return Response(true, message: responseData.msg);
+          var result = await getUserRegisteredDI(context: context);
+
+          return result;
+        } else if (responseData.msg == 'Reset Password Success') {
+          return Response(true, message: responseData.msg);
+        }
+        return Response(false, message: responseData.msg);
       }
-      return Response(false, message: responseData.msg);
-    }
-    /* on TimeoutException {
+    } on TimeoutException {
       return Response(false, message: 'timeout');
     } on SocketException {
       return Response(false, message: 'socket');
@@ -140,7 +142,7 @@ class AuthRepo {
     } on FormatException {
       throw Response(false,
           message: AppLocalizations.of(context).translate('format_exception'));
-    } */
+    }
 
     return Response(false, message: 'timeout');
   }

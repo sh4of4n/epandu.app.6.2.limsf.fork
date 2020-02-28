@@ -30,20 +30,14 @@ class Networking {
 
   Networking({this.customUrl});
 
-  Future<Response> getData({method, param, headers}) async {
+  Future<Response> getData({path, query, headers}) async {
     if (customUrl != null) {
       url = customUrl;
     } else {
       url = await wsUrlBox.get('wsUrl');
     }
 
-    String parsedUrl;
-
-    if (url.contains('https')) {
-      parsedUrl = url.replaceAll('https://', '');
-    } else if (url.contains('http')) {
-      parsedUrl = url.replaceAll('http://', '');
-    }
+    String parsedUrl = url.replaceAll('https://', '').replaceAll('http://', '');
 
     List<String> authority = parsedUrl.split('/');
 
@@ -54,9 +48,9 @@ class Networking {
     }
 
     String unencodedpath =
-        '/${authority[1]}/${authority[2]}/${authority[3]}/$extraUri1$method';
+        '/${authority[1]}/${authority[2]}/${authority[3]}/$extraUri1$path';
 
-    Uri uri = Uri.http(authority[0], unencodedpath, param);
+    Uri uri = Uri.https(authority[0], unencodedpath, query);
 
     try {
       http.Response response = await http
@@ -66,18 +60,7 @@ class Networking {
       print(uri);
 
       if (response.statusCode == 200) {
-        var convertResponse = response.body
-            .replaceAll('&lt;', '<')
-            .replaceAll('&gt;', '>')
-            .replaceAll('&#xD;', '')
-            .replaceAll(r"\'", "'");
-
-        xml2json.parse(convertResponse);
-        var jsonData = xml2json.toParker();
-        var data = jsonDecode(jsonData);
-
-        print(data);
-        return Response(true, data: data);
+        return Response(true, data: response);
       } else {
         String message = response.body;
         String trimmedMessage = removeAllHtmlTags(message);
