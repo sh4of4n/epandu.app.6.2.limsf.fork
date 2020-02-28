@@ -12,10 +12,10 @@ class Feeds extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(
+          padding: EdgeInsets.only(
             left: 15.0,
             right: 15.0,
-            top: 20.0,
+            top: ScreenUtil().setHeight(10),
             bottom: 10.0,
           ),
           child: Text(
@@ -28,7 +28,7 @@ class Feeds extends StatelessWidget {
         ),
         Container(
           margin: EdgeInsets.only(left: 7.0, right: 7.0, bottom: 15.0),
-          height: ScreenUtil().setHeight(700),
+          height: ScreenUtil().setHeight(800),
           child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,

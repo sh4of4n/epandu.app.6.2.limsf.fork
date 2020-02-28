@@ -33,7 +33,7 @@ class HomeMenuButtons extends StatelessWidget {
                     children: <Widget>[
                       Image.asset(
                         image.iconEmergency,
-                        width: ScreenUtil().setWidth(250),
+                        width: ScreenUtil().setWidth(200),
                       ),
                       Text(
                           AppLocalizations.of(context)
@@ -51,7 +51,7 @@ class HomeMenuButtons extends StatelessWidget {
                     children: <Widget>[
                       Image.asset(
                         image.iconCampus,
-                        width: ScreenUtil().setWidth(250),
+                        width: ScreenUtil().setWidth(200),
                       ),
                       Text(AppLocalizations.of(context).translate('kpp_lbl'),
                           style: textStyle),
@@ -67,7 +67,7 @@ class HomeMenuButtons extends StatelessWidget {
                     children: <Widget>[
                       Image.asset(
                         image.iconProgramme,
-                        width: ScreenUtil().setWidth(250),
+                        width: ScreenUtil().setWidth(200),
                       ),
                       Text(
                           AppLocalizations.of(context).translate('payment_lbl'),
@@ -90,7 +90,7 @@ class HomeMenuButtons extends StatelessWidget {
                     children: <Widget>[
                       Image.asset(
                         image.iconProgramme,
-                        width: ScreenUtil().setWidth(250),
+                        width: ScreenUtil().setWidth(200),
                       ),
                       Text(
                           AppLocalizations.of(context)
@@ -108,7 +108,7 @@ class HomeMenuButtons extends StatelessWidget {
                     children: <Widget>[
                       Image.asset(
                         image.iconAbout,
-                        width: ScreenUtil().setWidth(250),
+                        width: ScreenUtil().setWidth(200),
                       ),
                       Text(AppLocalizations.of(context).translate('enroll_lbl'),
                           style: textStyle),
@@ -124,7 +124,7 @@ class HomeMenuButtons extends StatelessWidget {
                     children: <Widget>[
                       Image.asset(
                         image.iconAbout,
-                        width: ScreenUtil().setWidth(250),
+                        width: ScreenUtil().setWidth(200),
                       ),
                       Text(
                           AppLocalizations.of(context)
