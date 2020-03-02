@@ -1,17 +1,20 @@
 import 'dart:convert';
 
-import 'package:epandu/services/api/bill_service.dart';
+import 'package:epandu/services/api/networking.dart';
 import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/services/api/model/bill_model.dart';
 import 'package:hive/hive.dart';
-import 'package:provider/provider.dart';
+
+import '../../app_localizations.dart';
 
 class BillRepo {
   final appConfig = AppConfig();
+  final networking = Networking();
   final localStorage = LocalStorage();
-  final postApiService = BillService;
+  final url =
+      'https://tbsweb.tbsdns.com/eCarser.WebService/1_9/MemberService.asmx/';
   RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
 
   Future<Response> getTelco({context}) async {
@@ -22,18 +25,16 @@ class BillRepo {
     var responseData;
     Box<dynamic> telcoList = Hive.box('telcoList');
 
-    var response =
-        await Provider.of<BillService>(context, listen: false).getTelco(
-      wsCodeCrypt: 'CARSERWS',
-      caUid: caUid,
-      caPwd: caPwd,
-      businessType: businessType,
-      userId: '8435615081',
+    String path =
+        'wsCodeCrypt=CARSERWS&caUid=$caUid&caPwd=$caPwd&businessType=$businessType&userId=8435615081';
+
+    var response = await Networking(customUrl: '$url').getData(
+      path: 'GetAllTelco?$path',
     );
 
-    if (response.body != 'null' && response.statusCode == 200) {
+    if (response.isSuccess && response.data != 'null') {
       Map<String, dynamic> mapData =
-          jsonDecode(response.body.replaceAll(exp, ''));
+          jsonDecode(response.data.replaceAll(exp, ''));
 
       GetTelcoResponse getTelcoResponse = GetTelcoResponse.fromJson(mapData);
 
@@ -44,9 +45,21 @@ class BillRepo {
 
         return Response(true, data: responseData);
       }
+    } else if (response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
     }
 
-    return Response(false, data: response.error.toString());
+    return Response(false, data: response.message);
   }
 
   Future<Response> getService({context}) async {
@@ -57,17 +70,15 @@ class BillRepo {
     var responseData;
     Box<dynamic> serviceList = Hive.box('serviceList');
 
-    var response =
-        await Provider.of<BillService>(context, listen: false).getService(
-      wsCodeCrypt: 'CARSERWS',
-      caUid: caUid,
-      caPwd: caPwd,
-      businessType: businessType,
-      userId: '8435615081',
+    String path =
+        'wsCodeCrypt=CARSERWS&caUid=$caUid&caPwd=$caPwd&businessType=$businessType&userId=8435615081';
+
+    var response = await Networking(customUrl: '$url').getData(
+      path: 'GetAllService?$path',
     );
 
-    if (response.body != 'null' && response.statusCode == 200) {
-      Map<String, dynamic> mapData = jsonDecode(response.body
+    if (response.isSuccess && response.data != null) {
+      Map<String, dynamic> mapData = jsonDecode(response.data
           .replaceAll(exp, '')
           .replaceAll('TelcoComm', 'ServiceComm'));
 
@@ -81,8 +92,20 @@ class BillRepo {
 
         return Response(true, data: responseData);
       }
+    } else if (response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
     }
 
-    return Response(false, data: response.error.toString());
+    return Response(false, data: response.message);
   }
 }

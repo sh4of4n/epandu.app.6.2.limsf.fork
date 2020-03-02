@@ -284,14 +284,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
       } else {
         setState(() {
           _isLoading = false;
-          if (result.message.contains('timeout'))
-            _loginMessage =
-                AppLocalizations.of(context).translate('timeout_exception');
-          else if (result.message.contains('socket'))
-            _loginMessage =
-                AppLocalizations.of(context).translate('socket_exception');
-          else
-            _loginMessage = result.message;
+          _loginMessage = result.message;
         });
       }
     } else {

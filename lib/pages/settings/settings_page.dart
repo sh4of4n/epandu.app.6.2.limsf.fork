@@ -112,7 +112,7 @@ class _SettingsState extends State<Settings> {
                 title:
                     Text(AppLocalizations.of(context).translate('version_lbl')),
                 subtitle: Text('V.$appVersion'),
-                onTap: () async {
+                /* onTap: () async {
                   count += 1;
 
                   if (count == 4) {
@@ -132,7 +132,7 @@ class _SettingsState extends State<Settings> {
                       },
                     );
                   }
-                },
+                }, */
               ),
             ],
           ),
