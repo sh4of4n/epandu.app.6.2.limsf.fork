@@ -189,5 +189,6 @@
   "timeout_exception": "Data took too long to load, please try again.",
   "socket_exception": "Please check your internet connection.",
   "http_exception": "Server error, we apologize for any inconvenience.",
-  "format_exception": "Please verify your client account."
+  "format_exception": "Please verify your client account.",
+  "no_url_found": "No URL found with this client account."
 }

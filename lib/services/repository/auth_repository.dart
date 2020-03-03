@@ -28,14 +28,12 @@ class AuthRepo {
     final String wsVer = '1.1';
     final String wsUrl0 =
         'https://tbs.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
-    // final String wsUrl1 =
-    //     'https://tbscaws.tbsdns.com:9001/ClientAcct.MainService/_wsver_/MainService.asmx';
-    // final String wsUrl2 =
-    //     'http://tbscaws2.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
-    // final String wsUrl3 =
-    //     'http://tbscaws3.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
-
-    // bool async = false;
+    final String wsUrl1 =
+        'https://tbscaws.tbsdns.com:9001/ClientAcct.MainService/_wsver_/MainService.asmx';
+    final String wsUrl2 =
+        'http://tbscaws2.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
+    final String wsUrl3 =
+        'http://tbscaws3.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
 
     String wsUrl = wsUrl0;
     String wsCodeCrypt = 'TBSCLIENTACCTWS';
@@ -86,8 +84,26 @@ class AuthRepo {
       return Response(false,
           message: AppLocalizations.of(context).translate('timeout_exception'));
     } else if (response.message.contains('socket')) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('socket_exception'));
+      // Changes the web service URL based on exception and current altWsUrl.
+      if (altWsUrl == null)
+        altWsUrl = wsUrl1;
+      else if (altWsUrl == wsUrl1)
+        altWsUrl = wsUrl2;
+      else if (altWsUrl == wsUrl2)
+        altWsUrl = wsUrl3;
+      else
+        return Response(false,
+            message:
+                AppLocalizations.of(context).translate('socket_exception'));
+
+      // Call this function again with the altWsUrl.
+      getWsUrl(
+        context: context,
+        acctUid: acctUid,
+        acctPwd: acctPwd,
+        loginType: appConfig.wsCodeCrypt,
+        altWsUrl: altWsUrl,
+      );
     } else if (response.message.contains('http')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('http_exception'));
@@ -96,7 +112,8 @@ class AuthRepo {
           message: AppLocalizations.of(context).translate('format_exception'));
     }
 
-    return Response(false, message: 'No URL found with this client account.');
+    return Response(false,
+        message: AppLocalizations.of(context).translate('no_url_found'));
   }
 
   Future<Response> login({context, String phone, String password}) async {

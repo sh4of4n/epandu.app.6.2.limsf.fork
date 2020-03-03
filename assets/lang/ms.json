@@ -189,5 +189,6 @@
   "timeout_exception": "Data mengambil masa terlalu lama untuk dimuatkan, sila cuba lagi.",
   "socket_exception": "Sila periksa internet anda.",
   "http_exception": "Kesalahan sistem, sila cuba sebentar lagi.",
-  "format_exception": "Sila sahkan akaun ID anda."
+  "format_exception": "Sila sahkan akaun ID anda.",
+  "no_url_found": "Tiada URL yang dijumpai dengan akaun klien ini."
 }
