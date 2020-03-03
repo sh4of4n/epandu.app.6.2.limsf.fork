@@ -588,6 +588,8 @@ class AuthRepo {
         await networking.postData(api: api, body: body, headers: headers);
 
     if (response.data == 'True') {
+      localStorage.saveDiCode(diCode);
+
       return Response(true,
           message: AppLocalizations.of(context).translate('enroll_success'));
     }
