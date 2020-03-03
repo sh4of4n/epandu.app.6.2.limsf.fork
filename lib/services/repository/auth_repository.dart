@@ -149,6 +149,9 @@ class AuthRepo {
     } else if (response.message.contains('timeout')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
     } else if (response.message.contains('http')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('http_exception'));
@@ -158,7 +161,7 @@ class AuthRepo {
     }
 
     return Response(false,
-        message: AppLocalizations.of(context).translate('socket_exception'));
+        message: AppLocalizations.of(context).translate('invalid_login'));
   }
 
   Future<Response> getUserRegisteredDI({context}) async {
