@@ -20,7 +20,157 @@ class HomeMenuButtons extends StatelessWidget {
         vertical: ScreenUtil().setHeight(40),
       ),
       width: double.infinity,
-      child: Column(
+      child: Table(children: [
+        TableRow(
+          children: [
+            Container(
+              child: InkWell(
+                onTap: () => Navigator.pushNamed(context, EMERGENCY),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    children: <Widget>[
+                      Image.asset(
+                        image.iconEmergency,
+                        width: ScreenUtil().setWidth(200),
+                      ),
+                      Container(
+                        width: ScreenUtil().setWidth(300),
+                        child: Text(
+                          AppLocalizations.of(context)
+                              .translate('emergency_lbl'),
+                          style: textStyle,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () => Navigator.pushNamed(context, KPP),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: <Widget>[
+                    Image.asset(
+                      image.iconCampus,
+                      width: ScreenUtil().setWidth(200),
+                    ),
+                    Container(
+                      width: ScreenUtil().setWidth(300),
+                      child: Text(
+                        AppLocalizations.of(context).translate('kpp_lbl'),
+                        style: textStyle,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () => Navigator.pushNamed(context, PAYMENT),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: <Widget>[
+                    Image.asset(
+                      image.iconProgramme,
+                      width: ScreenUtil().setWidth(200),
+                    ),
+                    Container(
+                      width: ScreenUtil().setWidth(300),
+                      child: Text(
+                        AppLocalizations.of(context).translate('payment_lbl'),
+                        style: textStyle,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        TableRow(
+          children: [
+            InkWell(
+              onTap: () => Navigator.pushNamed(context, INVITE),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: <Widget>[
+                    Image.asset(
+                      image.iconProgramme,
+                      width: ScreenUtil().setWidth(200),
+                    ),
+                    Container(
+                      width: ScreenUtil().setWidth(300),
+                      child: Text(
+                        AppLocalizations.of(context)
+                            .translate('invite_friends_lbl'),
+                        style: textStyle,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () => Navigator.pushNamed(context, SELECT_INSTITUTE),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: <Widget>[
+                    Image.asset(
+                      image.iconAbout,
+                      width: ScreenUtil().setWidth(200),
+                    ),
+                    Container(
+                      width: ScreenUtil().setWidth(300),
+                      child: Text(
+                        AppLocalizations.of(context).translate('enroll_lbl'),
+                        style: textStyle,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: () => Navigator.pushNamed(context, PROFILE),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: <Widget>[
+                    Image.asset(
+                      image.iconAbout,
+                      width: ScreenUtil().setWidth(200),
+                    ),
+                    Container(
+                      width: ScreenUtil().setWidth(300),
+                      child: Text(
+                        AppLocalizations.of(context).translate('profile_title'),
+                        style: textStyle,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ]),
+    );
+  }
+}
+
+/* Column(
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -137,7 +287,4 @@ class HomeMenuButtons extends StatelessWidget {
             ],
           ),
         ],
-      ),
-    );
-  }
-}
+      ), */
