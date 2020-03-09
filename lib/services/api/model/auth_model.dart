@@ -1205,3 +1205,116 @@ class EnrollmentArguments {
 
   EnrollmentArguments({this.diCode, this.groupId});
 }
+
+// GetActiveFeedResponse
+class GetActiveFeedResponse {
+  List<Feed> feed;
+
+  GetActiveFeedResponse({this.feed});
+
+  GetActiveFeedResponse.fromJson(Map<String, dynamic> json) {
+    if (json['Feed'] != null) {
+      feed = new List<Feed>();
+      json['Feed'].forEach((v) {
+        feed.add(new Feed.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.feed != null) {
+      data['Feed'] = this.feed.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Feed {
+  String iD;
+  String docDoc;
+  String docRef;
+  String feedDoc;
+  String feedRef;
+  String feedDesc;
+  String bgDate;
+  String durationDay;
+  String active;
+  String rowKey;
+  String feedText;
+  String feedMediaFilename;
+  String feedUrl;
+  String merchantNo;
+  String localFeed;
+  String createUser;
+  String editUser;
+  String deleted;
+  String transtamp;
+
+  Feed(
+      {this.iD,
+      this.docDoc,
+      this.docRef,
+      this.feedDoc,
+      this.feedRef,
+      this.feedDesc,
+      this.bgDate,
+      this.durationDay,
+      this.active,
+      this.rowKey,
+      this.feedText,
+      this.feedMediaFilename,
+      this.feedUrl,
+      this.merchantNo,
+      this.localFeed,
+      this.createUser,
+      this.editUser,
+      this.deleted,
+      this.transtamp});
+
+  Feed.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    docDoc = json['doc_doc'];
+    docRef = json['doc_ref'];
+    feedDoc = json['feed_doc'];
+    feedRef = json['feed_ref'];
+    feedDesc = json['feed_desc'];
+    bgDate = json['bg_date'];
+    durationDay = json['duration_day'];
+    active = json['active'];
+    rowKey = json['row_key'];
+    feedText = json['feed_text'];
+    feedMediaFilename = json['feed_media_filename'];
+    feedUrl = json['feed_url'];
+    merchantNo = json['merchant_no'];
+    localFeed = json['local_feed'];
+    createUser = json['create_user'];
+    editUser = json['edit_user'];
+    deleted = json['deleted'];
+    transtamp = json['transtamp'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['doc_doc'] = this.docDoc;
+    data['doc_ref'] = this.docRef;
+    data['feed_doc'] = this.feedDoc;
+    data['feed_ref'] = this.feedRef;
+    data['feed_desc'] = this.feedDesc;
+    data['bg_date'] = this.bgDate;
+    data['duration_day'] = this.durationDay;
+    data['active'] = this.active;
+    data['row_key'] = this.rowKey;
+    data['feed_text'] = this.feedText;
+    data['feed_media_filename'] = this.feedMediaFilename;
+    data['feed_url'] = this.feedUrl;
+    data['merchant_no'] = this.merchantNo;
+    data['local_feed'] = this.localFeed;
+    data['create_user'] = this.createUser;
+    data['edit_user'] = this.editUser;
+    data['deleted'] = this.deleted;
+    data['transtamp'] = this.transtamp;
+    return data;
+  }
+}

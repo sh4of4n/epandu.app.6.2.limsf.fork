@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 // import 'package:device_info/device_info.dart';
 // import 'package:flutter/painting.dart';
 
 class ColorConstant {
-  static final primaryColor = Colors.amber.shade600;
+  static final primaryColor = Color(0xffffcd0e);
   static const green = Colors.green;
   static const red = Colors.red;
   static const amberAccent = Colors.amberAccent;
@@ -28,19 +28,20 @@ final ColorScheme colorScheme = ColorScheme.light(
 
 class FontTheme {
   TextTheme primaryFont = TextTheme(
-    display4: TextStyle(fontSize: 98),
-    display3: TextStyle(fontSize: 61),
-    display2: TextStyle(fontSize: 49),
-    display1: TextStyle(fontSize: 35),
-    headline: TextStyle(fontSize: 24),
-    title: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-    subhead: TextStyle(fontSize: 16),
-    body2: TextStyle(fontSize: 17),
-    body1: TextStyle(fontSize: 15),
-    caption: TextStyle(fontSize: 13),
-    button: TextStyle(fontSize: 15),
-    subtitle: TextStyle(fontSize: 14),
-    overline: TextStyle(fontSize: 11),
+    display4: TextStyle(fontSize: 98, color: Color(0xff666666)),
+    display3: TextStyle(fontSize: 61, color: Color(0xff666666)),
+    display2: TextStyle(fontSize: 49, color: Color(0xff666666)),
+    display1: TextStyle(fontSize: 35, color: Color(0xff666666)),
+    headline: TextStyle(fontSize: 24, color: Color(0xff666666)),
+    title: TextStyle(
+        fontSize: 20, fontWeight: FontWeight.w600, color: Color(0xff666666)),
+    subhead: TextStyle(fontSize: 16, color: Color(0xff666666)),
+    body2: TextStyle(fontSize: 17, color: Color(0xff666666)),
+    body1: TextStyle(fontSize: 15, color: Color(0xff666666)),
+    caption: TextStyle(fontSize: 13, color: Color(0xff666666)),
+    button: TextStyle(fontSize: 15, color: Color(0xff666666)),
+    subtitle: TextStyle(fontSize: 14, color: Color(0xff666666)),
+    overline: TextStyle(fontSize: 11, color: Color(0xff666666)),
   );
 
   /* TextStyle appBarTextStyle = TextStyle(

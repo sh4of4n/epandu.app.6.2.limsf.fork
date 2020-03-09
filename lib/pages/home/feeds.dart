@@ -29,15 +29,19 @@ class Feeds extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(left: 7.0, right: 7.0, bottom: 15.0),
           height: ScreenUtil().setHeight(800),
-          child: ListView.builder(
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 1,
+            ),
             shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
+            scrollDirection: Axis.vertical,
             itemCount: 2,
             itemBuilder: (BuildContext context, index) {
-              return InkWell(
-                onTap: () {},
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: InkWell(
+                  onTap: () {},
+                  borderRadius: BorderRadius.circular(20.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
                     child: index % 2 == 0

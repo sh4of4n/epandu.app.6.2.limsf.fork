@@ -644,4 +644,26 @@ class AuthRepo {
             .replaceAll(r'\u000d\u000a', '')
             .replaceAll(r'"', ''));
   }
+
+  Future<Response> getActiveFeed({context}) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd';
+
+    var response = await networking.getData(
+      path: 'GetActiveFeed?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetActiveFeedResponse getActiveFeedResponse =
+          GetActiveFeedResponse.fromJson(response.data);
+      var responseData = getActiveFeedResponse.feed;
+
+      return Response(true, data: responseData);
+    }
+
+    return Response(false);
+  }
 }
