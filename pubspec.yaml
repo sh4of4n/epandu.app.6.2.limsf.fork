@@ -65,3 +65,10 @@ flutter:
     - assets/images/
     - assets/lang/en.json
     - assets/lang/ms.json
+
+  fonts:
+    - family: Myriad
+      fonts:
+        - asset: assets/fonts/MYRIADPRO-REGULAR.otf
+        - asset: assets/fonts/MYRIADPRO-BOLD.otf
+          weight: 700

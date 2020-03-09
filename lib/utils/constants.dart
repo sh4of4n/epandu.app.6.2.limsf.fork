@@ -28,20 +28,19 @@ final ColorScheme colorScheme = ColorScheme.light(
 
 class FontTheme {
   TextTheme primaryFont = TextTheme(
-    display4: GoogleFonts.dosis(fontSize: 98),
-    display3: GoogleFonts.dosis(fontSize: 61),
-    display2: GoogleFonts.dosis(fontSize: 49),
-    display1: GoogleFonts.dosis(fontSize: 35),
-    headline: GoogleFonts.dosis(fontSize: 24),
-    title: GoogleFonts.dosis(
-        fontSize: 20, textStyle: TextStyle(fontWeight: FontWeight.w600)),
-    subhead: GoogleFonts.dosis(fontSize: 16),
-    body2: GoogleFonts.dosis(fontSize: 17),
-    body1: GoogleFonts.dosis(fontSize: 15),
-    caption: GoogleFonts.dosis(fontSize: 13),
-    button: GoogleFonts.dosis(fontSize: 15),
-    subtitle: GoogleFonts.dosis(fontSize: 14),
-    overline: GoogleFonts.dosis(fontSize: 11),
+    display4: TextStyle(fontSize: 98),
+    display3: TextStyle(fontSize: 61),
+    display2: TextStyle(fontSize: 49),
+    display1: TextStyle(fontSize: 35),
+    headline: TextStyle(fontSize: 24),
+    title: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+    subhead: TextStyle(fontSize: 16),
+    body2: TextStyle(fontSize: 17),
+    body1: TextStyle(fontSize: 15),
+    caption: TextStyle(fontSize: 13),
+    button: TextStyle(fontSize: 15),
+    subtitle: TextStyle(fontSize: 14),
+    overline: TextStyle(fontSize: 11),
   );
 
   /* TextStyle appBarTextStyle = TextStyle(

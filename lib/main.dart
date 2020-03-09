@@ -12,7 +12,7 @@ import 'app_localizations_delegate.dart';
 import 'application.dart';
 import 'services/api/model/bill_model.dart';
 import 'services/api/model/kpp_model.dart';
-import 'package:logging/logging.dart';
+// import 'package:logging/logging.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +22,7 @@ void main() async {
   // Hive.registerAdapter(EmergencyContactAdapter());
   Hive.registerAdapter(TelcoAdapter());
   Hive.registerAdapter(BillAdapter());
-  _setupLogging();
+  // _setupLogging();
   await Hive.openBox('ws_url');
 
   runApp(
@@ -41,12 +41,12 @@ void main() async {
   );
 }
 
-void _setupLogging() {
-  Logger.root.level = Level.ALL;
-  Logger.root.onRecord.listen((rec) {
-    print('${rec.level.name}: ${rec.time}: ${rec.message}');
-  });
-}
+// void _setupLogging() {
+//   Logger.root.level = Level.ALL;
+//   Logger.root.onRecord.listen((rec) {
+//     print('${rec.level.name}: ${rec.time}: ${rec.message}');
+//   });
+// }
 
 class MyApp extends StatefulWidget {
   @override
@@ -84,6 +84,7 @@ class _MyAppState extends State<MyApp> {
       title: 'ePandu',
       theme: ThemeData(
         primaryColor: ColorConstant.primaryColor,
+        fontFamily: 'Myriad',
         textTheme: FontTheme().primaryFont,
         primaryTextTheme: FontTheme().primaryFont,
         accentTextTheme: FontTheme().primaryFont,

@@ -35,7 +35,7 @@ class HomeMenuButtons extends StatelessWidget {
                         width: ScreenUtil().setWidth(200),
                       ),
                       Container(
-                        width: ScreenUtil().setWidth(300),
+                        width: ScreenUtil().setWidth(350),
                         child: Text(
                           AppLocalizations.of(context)
                               .translate('emergency_lbl'),
@@ -59,7 +59,7 @@ class HomeMenuButtons extends StatelessWidget {
                       width: ScreenUtil().setWidth(200),
                     ),
                     Container(
-                      width: ScreenUtil().setWidth(300),
+                      width: ScreenUtil().setWidth(350),
                       child: Text(
                         AppLocalizations.of(context).translate('kpp_lbl'),
                         style: textStyle,
@@ -81,7 +81,7 @@ class HomeMenuButtons extends StatelessWidget {
                       width: ScreenUtil().setWidth(200),
                     ),
                     Container(
-                      width: ScreenUtil().setWidth(300),
+                      width: ScreenUtil().setWidth(350),
                       child: Text(
                         AppLocalizations.of(context).translate('payment_lbl'),
                         style: textStyle,
@@ -107,7 +107,7 @@ class HomeMenuButtons extends StatelessWidget {
                       width: ScreenUtil().setWidth(200),
                     ),
                     Container(
-                      width: ScreenUtil().setWidth(300),
+                      width: ScreenUtil().setWidth(350),
                       child: Text(
                         AppLocalizations.of(context)
                             .translate('invite_friends_lbl'),
@@ -130,7 +130,7 @@ class HomeMenuButtons extends StatelessWidget {
                       width: ScreenUtil().setWidth(200),
                     ),
                     Container(
-                      width: ScreenUtil().setWidth(300),
+                      width: ScreenUtil().setWidth(350),
                       child: Text(
                         AppLocalizations.of(context).translate('enroll_lbl'),
                         style: textStyle,
@@ -152,7 +152,7 @@ class HomeMenuButtons extends StatelessWidget {
                       width: ScreenUtil().setWidth(200),
                     ),
                     Container(
-                      width: ScreenUtil().setWidth(300),
+                      width: ScreenUtil().setWidth(350),
                       child: Text(
                         AppLocalizations.of(context).translate('profile_title'),
                         style: textStyle,
