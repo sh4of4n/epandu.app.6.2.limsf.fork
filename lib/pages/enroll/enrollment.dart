@@ -109,7 +109,12 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           _icNo = value;
 
           if (value.replaceAll('-', '').replaceAll(' ', '').length == 12) {
-            if (int.tryParse(value.substring(13)) % 2 == 0)
+            if (int.tryParse(value
+                        .replaceAll('-', '')
+                        .replaceAll(' ', '')
+                        .substring(11)) %
+                    2 ==
+                0)
               _gender = Gender.female;
             else
               _gender = Gender.male;
