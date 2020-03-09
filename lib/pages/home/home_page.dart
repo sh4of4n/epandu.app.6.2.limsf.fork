@@ -55,7 +55,7 @@ class _HomeState extends State<Home> {
         await localStorage.getArmasterAppPhotoForCode();
 
     if (instituteLogoBase64.isEmpty) {
-      var result = await kppRepo.getArmasterAppPhotoForCode(context: context);
+      var result = await authRepo.getDiProfile(context: context);
 
       if (result.data != null) {
         Uint8List decodedImage = base64Decode(result.data);

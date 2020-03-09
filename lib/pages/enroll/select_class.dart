@@ -9,18 +9,33 @@ import 'package:intl/intl.dart';
 
 import '../../app_localizations.dart';
 
-class SelectClass extends StatelessWidget {
+class SelectClass extends StatefulWidget {
   final diCode;
 
   SelectClass(this.diCode);
 
+  @override
+  _SelectClassState createState() => _SelectClassState();
+}
+
+class _SelectClassState extends State<SelectClass> {
   final authRepo = AuthRepo();
+
   final primaryColor = ColorConstant.primaryColor;
 
-  Future<dynamic> _getGroupIdByDiCodeForOnline(context) async {
+  Future _getClasses;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _getClasses = _getGroupIdByDiCodeForOnline();
+  }
+
+  Future<dynamic> _getGroupIdByDiCodeForOnline() async {
     var result = await authRepo.getGroupIdByDiCodeForOnline(
       context: context,
-      diCode: diCode,
+      diCode: widget.diCode,
     );
 
     if (result.isSuccess) {
@@ -37,7 +52,7 @@ class SelectClass extends StatelessWidget {
           title:
               Text(AppLocalizations.of(context).translate('select_class_lbl'))),
       body: FutureBuilder(
-        future: _getGroupIdByDiCodeForOnline(context),
+        future: _getClasses,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
@@ -55,7 +70,7 @@ class SelectClass extends StatelessWidget {
                       context,
                       ENROLLMENT,
                       arguments: EnrollmentArguments(
-                        diCode: diCode,
+                        diCode: widget.diCode,
                         groupId: snapshot.data[index].groupId,
                       ),
                     ),

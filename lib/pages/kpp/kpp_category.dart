@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:epandu/app_localizations.dart';
+import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/services/repository/kpp_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
@@ -18,6 +19,7 @@ class KppCategory extends StatefulWidget {
 }
 
 class _KppCategoryState extends State<KppCategory> {
+  final authRepo = AuthRepo();
   final kppRepo = KppRepo();
   final image = ImagesConstant();
   final localStorage = LocalStorage();
@@ -37,7 +39,7 @@ class _KppCategoryState extends State<KppCategory> {
         await localStorage.getArmasterAppPhotoForCode();
 
     if (instituteLogoBase64.isEmpty) {
-      var result = await kppRepo.getArmasterAppPhotoForCode(context: context);
+      var result = await authRepo.getDiProfile(context: context);
 
       if (result.data != null) {
         Uint8List decodedImage = base64Decode(result.data);

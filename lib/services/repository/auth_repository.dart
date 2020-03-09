@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:epandu/services/api/model/kpp_model.dart';
 import 'package:epandu/services/api/networking.dart';
 import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
@@ -216,6 +217,45 @@ class AuthRepo {
 
     localStorage.saveDiCode('TBS');
     return Response(true, data: 'empty');
+  }
+
+  Future<Response> getDiProfile({context}) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+    String diCode = await localStorage.getDiCode();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode';
+
+    var response = await networking.getData(
+      path: 'GetDiProfile?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      InstituteLogoResponse instituteLogoResponse;
+
+      instituteLogoResponse = InstituteLogoResponse.fromJson(response.data);
+
+      localStorage.saveInstituteLogo(
+          instituteLogoResponse.armaster[0].appBackgroundPhoto);
+
+      return Response(true,
+          data: instituteLogoResponse.armaster[0].appBackgroundPhoto);
+    } else if (response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
+    }
+
+    return Response(false);
   }
 
   //logout

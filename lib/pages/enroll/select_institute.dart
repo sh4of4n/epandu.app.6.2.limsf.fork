@@ -6,11 +6,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class SelectInstitute extends StatelessWidget {
-  final authRepo = AuthRepo();
-  final primaryColor = ColorConstant.primaryColor;
+class SelectInstitute extends StatefulWidget {
+  @override
+  _SelectInstituteState createState() => _SelectInstituteState();
+}
 
-  Future<dynamic> _getDiList(context) async {
+class _SelectInstituteState extends State<SelectInstitute> {
+  final authRepo = AuthRepo();
+
+  final primaryColor = ColorConstant.primaryColor;
+  Future _getInstitutes;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _getInstitutes = _getDiList();
+  }
+
+  Future<dynamic> _getDiList() async {
     var result = await authRepo.getDiList(
       context: context,
     );
@@ -29,7 +43,7 @@ class SelectInstitute extends StatelessWidget {
           title: Text(
               AppLocalizations.of(context).translate('select_institute_lbl'))),
       body: FutureBuilder(
-        future: _getDiList(context),
+        future: _getInstitutes,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:

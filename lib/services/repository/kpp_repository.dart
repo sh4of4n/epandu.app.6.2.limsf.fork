@@ -12,48 +12,6 @@ class KppRepo {
   final localStorage = LocalStorage();
   final networking = Networking();
 
-  // was getArmasterAppPhotoForCode
-  Future<Response> getArmasterAppPhotoForCode({context}) async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
-
-    String userId = await localStorage.getUserId();
-    String diCode = await localStorage.getDiCode();
-
-    String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&userId=$userId';
-
-    var response = await networking.getData(
-      path: 'GetArmasterAppPhotoForCode?$path',
-    );
-
-    if (response.isSuccess && response.data != null) {
-      InstituteLogoResponse instituteLogoResponse;
-
-      instituteLogoResponse = InstituteLogoResponse.fromJson(response.data);
-
-      localStorage.saveInstituteLogo(
-          instituteLogoResponse.armaster[0].appBackgroundPhoto);
-
-      return Response(true,
-          data: instituteLogoResponse.armaster[0].appBackgroundPhoto);
-    } else if (response.message.contains('timeout')) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('timeout_exception'));
-    } else if (response.message.contains('socket')) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('socket_exception'));
-    } else if (response.message.contains('http')) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('http_exception'));
-    } else if (response.message.contains('format')) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('format_exception'));
-    }
-
-    return Response(false);
-  }
-
   // was getExamNo
   Future<Response> getTheoryQuestionPaperNoWithCreditControl(
       {context, groupId}) async {

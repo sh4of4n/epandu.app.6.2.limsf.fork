@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
@@ -6,6 +8,7 @@ import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/custom_snackbar.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -39,12 +42,11 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   // final FocusNode _nearbyDiFocus = FocusNode();
   // final FocusNode _nationalityFocus = FocusNode();
 
+  final _dobController = TextEditingController();
+
   final primaryColor = ColorConstant.primaryColor;
-
   final localStorage = LocalStorage();
-
   bool _isLoading = false;
-
   String _icNo;
   String _icName;
   String _dob;
@@ -54,6 +56,19 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   Gender _gender = Gender.male;
   String _genderValue = 'MALE';
   // String genderInt = '1';
+
+  @override
+  void initState() {
+    super.initState();
+
+    _dobController.addListener(_dobValue);
+  }
+
+  _dobValue() {
+    setState(() {
+      _dob = _dobController.text;
+    });
+  }
 
   _idField() {
     return TextFormField(
@@ -92,6 +107,13 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       onChanged: (value) {
         setState(() {
           _icNo = value;
+
+          if (value.replaceAll('-', '').replaceAll(' ', '').length == 12) {
+            if (int.tryParse(value.substring(13)) % 2 == 0)
+              _gender = Gender.female;
+            else
+              _gender = Gender.male;
+          }
         });
       },
     );
@@ -144,6 +166,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     return DateTimeField(
       focusNode: _dobFocus,
       format: format,
+      controller: _dobController,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
           vertical: ScreenUtil().setHeight(50),
@@ -166,17 +189,40 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         }
         return null;
       },
-      onChanged: (value) {
-        setState(() {
-          _dob = DateFormat('yyyy/MM/dd').format(value);
-        });
-      },
-      onShowPicker: (context, currentValue) {
-        return showDatePicker(
+      onShowPicker: (context, currentValue) async {
+        if (Platform.isIOS) {
+          if (_dobController.text.isEmpty) {
+            setState(() {
+              _dobController.text = DateFormat('yyyy/MM/dd').format(
+                DateTime(2000, 1, 1),
+              );
+            });
+          }
+
+          await showModalBottomSheet(
             context: context,
-            firstDate: DateTime(1900),
-            initialDate: currentValue ?? DateTime(2000),
-            lastDate: DateTime(2100));
+            builder: (context) {
+              return CupertinoDatePicker(
+                initialDateTime: DateTime(2000),
+                onDateTimeChanged: (DateTime date) {
+                  setState(() {
+                    _dobController.text = DateFormat('yyyy/MM/dd').format(date);
+                  });
+                },
+                minimumYear: 1920,
+                maximumYear: 2020,
+                mode: CupertinoDatePickerMode.date,
+              );
+            },
+          );
+        } else {
+          return showDatePicker(
+              context: context,
+              firstDate: DateTime(1920),
+              initialDate: currentValue ?? DateTime(2000),
+              lastDate: DateTime(2020));
+        }
+        return null;
       },
     );
   }
