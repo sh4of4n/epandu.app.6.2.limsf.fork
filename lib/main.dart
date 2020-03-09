@@ -1,5 +1,3 @@
-import 'package:epandu/services/api/api_service.dart';
-import 'package:epandu/services/api/bill_service.dart';
 import 'package:epandu/services/api/model/language_model.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
@@ -12,7 +10,6 @@ import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'app_localizations_delegate.dart';
 import 'application.dart';
-import 'services/api/get_base_url.dart';
 import 'services/api/model/bill_model.dart';
 import 'services/api/model/kpp_model.dart';
 import 'package:logging/logging.dart';
@@ -29,26 +26,18 @@ void main() async {
   await Hive.openBox('ws_url');
 
   runApp(
-    MultiProvider(
+    ChangeNotifierProvider(
+      create: (context) => LanguageModel(),
+      child: MyApp(),
+    ),
+    /* MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (context) => LanguageModel(),
         ),
-        Provider(
-          create: (context) => ApiService.create(),
-          dispose: (context, ApiService service) => service.client.dispose(),
-        ),
-        Provider(
-          create: (context) => GetBaseUrl.create(),
-          dispose: (context, GetBaseUrl service) => service.client.dispose(),
-        ),
-        Provider(
-          create: (context) => BillService.create(),
-          dispose: (context, BillService service) => service.client.dispose(),
-        ),
       ],
       child: MyApp(),
-    ),
+    ), */
   );
 }
 

@@ -1,34 +1,45 @@
-import 'package:epandu/services/api/api_service.dart';
 import 'package:epandu/services/api/model/emergency_model.dart';
+import 'package:epandu/services/api/networking.dart';
 import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:provider/provider.dart';
+
+import '../../app_localizations.dart';
 
 class EmergencyRepo {
   final appConfig = AppConfig();
   final localStorage = LocalStorage();
+  final networking = Networking();
 
   // was getDefaultSosContact
   Future<Response> getDefaultSosContact({context}) async {
     assert(context != null);
 
     String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
+    String caPwd = await localStorage.getCaPwdEncode();
 
-    var response = await Provider.of<ApiService>(context, listen: false)
-        .getDefaultSosContact(
-      wsCodeCrypt: appConfig.wsCodeCrypt,
-      caUid: caUid,
-      caPwd: caPwd,
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd';
+
+    var response = await networking.getData(
+      path: 'GetDefaultSosContact?$path',
     );
 
-    if (response.body != 'null' && response.statusCode == 200) {
+    if (response.isSuccess && response.data != null) {
       DefaultEmergencyContactResponse defEmergencyContactResponse =
-          DefaultEmergencyContactResponse.fromJson(response.body);
+          DefaultEmergencyContactResponse.fromJson(response.data);
 
       return Response(true,
           data: defEmergencyContactResponse.sosContactHelpDesk);
+    } else if (response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
     }
 
     return Response(false);
@@ -115,25 +126,28 @@ class EmergencyRepo {
     String latitude = await localStorage.getUserLatitude();
     String longitude = await localStorage.getUserLongitude();
 
-    var response = await Provider.of<ApiService>(context, listen: false)
-        .getSosContactSortByNearest(
-      wsCodeCrypt: appConfig.wsCodeCrypt,
-      caUid: caUid,
-      caPwd: caPwd,
-      sosContactType: sosContactType ?? '',
-      sosContactCode: sosContactCode ?? '',
-      areaCode: areaCode ?? '',
-      latitude: latitude,
-      longitude: longitude,
-      maxRadius: '30',
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&sosContactType=${sosContactType ?? ''}&sosContactCode=${sosContactCode ?? ''}&areaCode=${areaCode ?? ''}&latitude=$latitude&longitude=$longitude&maxRadius=30';
+
+    var response = await networking.getData(
+      path: 'GetSosContactSortByNearest?$path',
     );
 
-    if (response.body != 'null' && response.statusCode == 200) {
+    if (response.isSuccess && response.data != null) {
       GetSosContactSortByNearestResponse getSosContactSortByNearestResponse =
-          GetSosContactSortByNearestResponse.fromJson(response.body);
+          GetSosContactSortByNearestResponse.fromJson(response.data);
 
       return Response(true,
           data: getSosContactSortByNearestResponse.sosContact);
+    } else if (response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
     }
 
     return Response(false);

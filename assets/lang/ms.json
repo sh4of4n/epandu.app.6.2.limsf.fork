@@ -188,6 +188,7 @@
   "cancel_btn": "KEMBALI",
   "timeout_exception": "Data mengambil masa terlalu lama untuk dimuatkan, sila cuba lagi.",
   "socket_exception": "Sila periksa internet anda.",
-  "http_exception": "Something went wrong, we apologize for any inconvenience.",
-  "format_exception": "Bad response format."
+  "http_exception": "Kesalahan sistem, sila cuba sebentar lagi.",
+  "format_exception": "Sila sahkan akaun ID anda.",
+  "no_url_found": "Tiada URL yang dijumpai dengan akaun klien ini."
 }

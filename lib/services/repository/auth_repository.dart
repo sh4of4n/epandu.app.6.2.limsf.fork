@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:epandu/services/api/api_service.dart';
-import 'package:epandu/services/api/get_base_url.dart';
+import 'package:epandu/services/api/networking.dart';
 import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/services/api/model/auth_model.dart';
 import 'package:hive/hive.dart';
-import 'package:provider/provider.dart';
 import 'package:xml2json/xml2json.dart';
 
 import '../../app_localizations.dart';
@@ -16,8 +14,8 @@ import '../../app_localizations.dart';
 class AuthRepo {
   final appConfig = AppConfig();
   final localStorage = LocalStorage();
-  final postApiService = ApiService;
   final xml2json = Xml2Json();
+  final networking = Networking();
 
   Future<Response> getWsUrl({
     context,
@@ -30,14 +28,12 @@ class AuthRepo {
     final String wsVer = '1.1';
     final String wsUrl0 =
         'https://tbs.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
-    // final String wsUrl1 =
-    //     'https://tbscaws.tbsdns.com:9001/ClientAcct.MainService/_wsver_/MainService.asmx';
-    // final String wsUrl2 =
-    //     'http://tbscaws2.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
-    // final String wsUrl3 =
-    //     'http://tbscaws3.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
-
-    // bool async = false;
+    final String wsUrl1 =
+        'https://tbscaws.tbsdns.com:9001/ClientAcct.MainService/_wsver_/MainService.asmx';
+    final String wsUrl2 =
+        'http://tbscaws2.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
+    final String wsUrl3 =
+        'http://tbscaws3.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
 
     String wsUrl = wsUrl0;
     String wsCodeCrypt = 'TBSCLIENTACCTWS';
@@ -46,19 +42,14 @@ class AuthRepo {
 
     wsUrl = wsUrl.replaceAll("_wsver_", wsVer.replaceAll(".", "_"));
 
-    var response =
-        await Provider.of<GetBaseUrl>(context, listen: false).getWsUrl(
-      baseUrl: wsUrl,
-      wsCodeCrypt: wsCodeCrypt,
-      acctUid: acctUid,
-      acctPwd: acctPwd,
-      loginType: loginType,
-      misc: '',
-    );
+    String params =
+        'LoginPub?wsCodeCrypt=$wsCodeCrypt&acctUid=$acctUid&acctPwd=${Uri.encodeQueryComponent(acctPwd)}&loginType=$loginType&misc=';
 
-    if (response.body != 'null' && response.statusCode == 200) {
+    var response = await Networking(customUrl: '$wsUrl').getData(path: params);
+
+    if (response.isSuccess && response.data != null) {
       RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
-      var trimTags = response.body.replaceAll(exp, '');
+      var trimTags = response.data.replaceAll(exp, '');
 
       var convertResponse = trimTags
           .replaceAll('&lt;', '<')
@@ -89,9 +80,40 @@ class AuthRepo {
                 .replaceAll('1_2', wsVer),
             message: '');
       }
+    } else if (response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message.contains('socket')) {
+      // Changes the web service URL based on exception and current altWsUrl.
+      if (altWsUrl == null)
+        altWsUrl = wsUrl1;
+      else if (altWsUrl == wsUrl1)
+        altWsUrl = wsUrl2;
+      else if (altWsUrl == wsUrl2)
+        altWsUrl = wsUrl3;
+      else
+        return Response(false,
+            message:
+                AppLocalizations.of(context).translate('socket_exception'));
+
+      // Call this function again with the altWsUrl.
+      getWsUrl(
+        context: context,
+        acctUid: acctUid,
+        acctPwd: acctPwd,
+        loginType: appConfig.wsCodeCrypt,
+        altWsUrl: altWsUrl,
+      );
+    } else if (response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
     }
 
-    return Response(false, message: 'No URL found with this client account.');
+    return Response(false,
+        message: AppLocalizations.of(context).translate('no_url_found'));
   }
 
   Future<Response> login({context, String phone, String password}) async {
@@ -99,20 +121,15 @@ class AuthRepo {
     // final String caPwd = await localStorage.getCaPwd();
     final String caPwdUrlEncode = await localStorage.getCaPwdEncode();
 
-    var response = await Provider.of<ApiService>(context, listen: false).login(
-      wsCodeCrypt: appConfig.wsCodeCrypt,
-      caUid: caUid,
-      caPwd: caPwdUrlEncode,
-      diCode: appConfig.diCode,
-      userPhone: phone,
-      userPwd: password,
-      ipAddress: '0.0.0.0',
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0';
+
+    var response = await networking.getData(
+      path: 'GetUserByUserPhonePwd?$path',
     );
 
-    if (response.body != 'null' &&
-        response.statusCode == 200 &&
-        response.body is Map<String, dynamic>) {
-      LoginResponse loginResponse = LoginResponse.fromJson(response.body);
+    if (response.isSuccess && response.data != null) {
+      LoginResponse loginResponse = LoginResponse.fromJson(response.data);
       var responseData = loginResponse.table1[0];
 
       if (responseData.userId != null && responseData.msg == null) {
@@ -129,20 +146,22 @@ class AuthRepo {
         return Response(true, message: responseData.msg);
       }
       return Response(false, message: responseData.msg);
-    }
-    /* on TimeoutException {
-      return Response(false, message: 'timeout');
-    } on SocketException {
-      return Response(false, message: 'socket');
-    } on HttpException {
-      throw Response(false,
+    } else if (response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message.contains('http')) {
+      return Response(false,
           message: AppLocalizations.of(context).translate('http_exception'));
-    } on FormatException {
-      throw Response(false,
+    } else if (response.message.contains('format')) {
+      return Response(false,
           message: AppLocalizations.of(context).translate('format_exception'));
-    } */
+    }
 
-    return Response(false, message: 'timeout');
+    return Response(false,
+        message: AppLocalizations.of(context).translate('invalid_login'));
   }
 
   Future<Response> getUserRegisteredDI({context}) async {
@@ -152,18 +171,16 @@ class AuthRepo {
     String userId = await localStorage.getUserId();
     String diCode = await localStorage.getDiCode();
 
-    var response = await Provider.of<ApiService>(context, listen: false)
-        .getUserRegisteredDI(
-      wsCodeCrypt: appConfig.wsCodeCrypt,
-      caUid: caUid,
-      caPwd: caPwd,
-      diCode: diCode,
-      userId: userId,
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&userId=$userId';
+
+    var response = await networking.getData(
+      path: 'GetUserRegisteredDI?$path',
     );
 
-    if (response.body != 'null') {
+    if (response.isSuccess && response.data != null) {
       UserRegisteredDiResponse userRegisteredDiResponse =
-          UserRegisteredDiResponse.fromJson(response.body);
+          UserRegisteredDiResponse.fromJson(response.data);
       var responseData = userRegisteredDiResponse.armaster;
 
       localStorage.saveUsername(responseData[0].name);
@@ -183,6 +200,18 @@ class AuthRepo {
       localStorage.savePostCode(responseData[0].postcode);
 
       return Response(true, data: responseData);
+    } else if (response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
     }
 
     localStorage.saveDiCode('TBS');
@@ -199,18 +228,15 @@ class AuthRepo {
     // String diCode = await localStorage.getDiCode();
     String sessionId = await localStorage.getSessionId();
 
-    await Provider.of<ApiService>(context, listen: false).logout(
-      wsCodeCrypt: appConfig.wsCodeCrypt,
-      caUid: caUid,
-      caPwd: caPwd,
-      diCode: diCode,
-      userId: userId,
-      sessionId: sessionId,
-      isLogout: 'true',
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&userId=$userId&sessionId=$sessionId&isLogout=true';
+
+    await networking.getData(
+      path: 'IsSessionActive?$path',
     );
 
     await localStorage.reset();
-    Hive.box('ws_url').clear();
+    // Hive.box('ws_url').clear();
     Hive.box('telcoList').clear();
     Hive.box('serviceList').clear();
     // Hive.box('emergencyContact').clear();
@@ -225,7 +251,7 @@ class AuthRepo {
 
   // Register
   // Also used for invite friends
-  // method was called getUserByUserPhone
+  // method was called checkExistingUser
   Future<Response> getUserByUserPhone({
     context,
     String type,
@@ -262,17 +288,28 @@ class AuthRepo {
 
     if (userId.isEmpty) userId = 'TBS';
 
-    var response = await Provider.of<ApiService>(context, listen: false)
-        .getUserByUserPhone(
-      wsCodeCrypt: appConfig.wsCodeCrypt,
-      caUid: caUid,
-      caPwd: caPwd,
-      userPhone: userPhone,
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&userPhone=$userPhone';
+
+    var response = await networking.getData(
+      path: 'GetUserByUserPhone?$path',
     );
 
-    if (response.body != 'null') {
+    if (response.isSuccess && response.data != null) {
       return Response(false,
           message: AppLocalizations.of(context).translate('registered_lbl'));
+    } else if (response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
     }
     // Number not registered
     var result = await register(
@@ -347,19 +384,35 @@ class AuthRepo {
       email: email ?? '',
     );
 
+    String body = jsonEncode(params);
+    String api = 'CreateAppAccount';
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+
     var response =
-        await Provider.of<ApiService>(context, listen: false).register(params);
+        await networking.postData(api: api, body: body, headers: headers);
 
     var message = '';
 
     // Success
-    if (response.body != 'null') {
+    if (response.isSuccess && response.data != null) {
       if (type == 'INVITE')
         message = AppLocalizations.of(context).translate('invite_sent');
       else
         message = AppLocalizations.of(context).translate('register_success');
 
       return Response(true, message: message);
+    } else if (response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
     }
 
     // Fail
@@ -377,23 +430,33 @@ class AuthRepo {
     String caPwd = await localStorage.getCaPwd();
     String userId = await localStorage.getUserId();
 
-    var response =
-        await Provider.of<ApiService>(context, listen: false).verifyOldPassword(
-      wsCodeCrypt: appConfig.wsCodeCrypt,
-      caUid: caUid,
-      caPwd: caPwd,
-      userId: userId,
-      userPwd: currentPassword,
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&userId=$userId&userPwd=$currentPassword';
+
+    var response = await networking.getData(
+      path: 'GetUserByUserIdPwd?$path',
     );
 
-    if (response.body.contains('Valid user.')) {
+    if (response.isSuccess && response.data.contains('Valid user.')) {
       var result = await saveUserPassword(
           context: context, userId: userId, password: newPassword);
 
       return result;
+    } else if (response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
     }
 
-    return Response(false, message: response.error.toString());
+    return Response(false, message: response.message);
   }
 
   // was called updatePassword
@@ -409,11 +472,27 @@ class AuthRepo {
       password: password,
     );
 
-    var response = await Provider.of<ApiService>(context, listen: false)
-        .saveUserPassword(saveUserPasswordRequest);
+    String body = jsonEncode(saveUserPasswordRequest);
+    String api = 'SaveUserPassword';
+    Map<String, String> headers = {'Content-Type': 'application/json'};
 
-    if (response.body == 'True') {
+    var response =
+        await networking.postData(api: api, body: body, headers: headers);
+
+    if (response.isSuccess && response.data == 'True') {
       return Response(true, message: 'password_updated');
+    } else if (response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
     }
 
     return Response(false, message: 'password_change_fail');
@@ -424,16 +503,16 @@ class AuthRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
 
-    var response =
-        await Provider.of<ApiService>(context, listen: false).getDiList(
-      wsCodeCrypt: appConfig.wsCodeCrypt,
-      caUid: caUid,
-      caPwd: caPwd,
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd';
+
+    var response = await networking.getData(
+      path: 'GetDiList?$path',
     );
 
-    if (response.body != 'null' && response.statusCode == 200) {
+    if (response.isSuccess && response.data != null) {
       GetDiListResponse getDiListResponse =
-          GetDiListResponse.fromJson(response.body);
+          GetDiListResponse.fromJson(response.data);
       var responseData = getDiListResponse.armasterProfile;
 
       return Response(true, data: responseData);
@@ -446,19 +525,18 @@ class AuthRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
 
-    var response = await Provider.of<ApiService>(context, listen: false)
-        .getGroupIdByDiCodeForOnline(
-      wsCodeCrypt: appConfig.wsCodeCrypt,
-      caUid: caUid,
-      caPwd: caPwd,
-      diCode: diCode,
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode';
+
+    var response = await networking.getData(
+      path: 'GetGroupIdByDiCodeForOnline?$path',
     );
 
-    print(response.body);
+    print(response.data);
 
-    if (response.body != 'null' && response.statusCode == 200) {
+    if (response.isSuccess && response.data != null) {
       GetGroupIdByDiCodeForOnlineResponse getGroupIdByDiCodeForOnlineResponse =
-          GetGroupIdByDiCodeForOnlineResponse.fromJson(response.body);
+          GetGroupIdByDiCodeForOnlineResponse.fromJson(response.data);
       var responseData = getGroupIdByDiCodeForOnlineResponse.dgroup;
 
       return Response(true, data: responseData);
@@ -505,16 +583,22 @@ class AuthRepo {
       email: '',
     );
 
-    var response = await Provider.of<ApiService>(context, listen: false)
-        .saveEnrollmentWithParticular(saveEnrollmentRequest);
+    String body = jsonEncode(saveEnrollmentRequest);
+    String api = 'SaveEnrollmentWithParticular';
+    Map<String, String> headers = {'Content-Type': 'application/json'};
 
-    if (response.body == 'True') {
+    var response =
+        await networking.postData(api: api, body: body, headers: headers);
+
+    if (response.data == 'True') {
+      localStorage.saveDiCode(diCode);
+
       return Response(true,
           message: AppLocalizations.of(context).translate('enroll_success'));
     }
 
     return Response(false,
-        message: response.error
+        message: response.message
             .toString()
             .replaceAll('[BLException]', '')
             .replaceAll(r'\u000d\u000a', '')

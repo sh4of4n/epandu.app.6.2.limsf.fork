@@ -1,5 +1,5 @@
 import 'package:epandu/base/page_base_class.dart';
-import 'package:epandu/services/repo/auth_repo.dart';
+import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
@@ -284,14 +284,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
       } else {
         setState(() {
           _isLoading = false;
-          if (result.message.contains('timeout'))
-            _loginMessage =
-                AppLocalizations.of(context).translate('timeout_exception');
-          else if (result.message.contains('socket'))
-            _loginMessage =
-                AppLocalizations.of(context).translate('socket_exception');
-          else
-            _loginMessage = result.message;
+          _loginMessage = result.message;
         });
       }
     } else {

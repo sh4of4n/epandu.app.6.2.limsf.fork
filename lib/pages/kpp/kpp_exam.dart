@@ -1,7 +1,7 @@
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/pages/kpp/exam_template.dart';
 import 'package:epandu/services/api/model/kpp_model.dart';
-import 'package:epandu/services/repo/kpp_repo.dart';
+import 'package:epandu/services/repository/kpp_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:flutter/material.dart';

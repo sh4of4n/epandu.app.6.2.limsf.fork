@@ -228,6 +228,12 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
                   SizedBox(
                     height: 5.0,
                   ),
+                  Text(AppLocalizations.of(context).translate('from_lbl'),
+                      style: _titleStyle),
+                  Text(address ?? '', style: _textStyle),
+                  SizedBox(
+                    height: 5.0,
+                  ),
                   Text(AppLocalizations.of(context).translate('phone_lbl'),
                       style: _titleStyle),
                   Text(widget.snapshot.phone ?? '', style: _textStyle),
@@ -236,26 +242,28 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
                   ),
                   Text(AppLocalizations.of(context).translate('distance_lbl'),
                       style: _titleStyle),
-                  Text(widget.snapshot.distance ?? '', style: _textStyle),
-                  SizedBox(
-                    height: 5.0,
-                  ),
-                  Text(AppLocalizations.of(context).translate('to_lbl'),
-                      style: _titleStyle),
                   Text(
-                      '${widget.snapshot.latitude}, ${widget.snapshot.longtitude}' ??
+                      double.tryParse(widget.snapshot.distance)
+                                  .toStringAsFixed(2) +
+                              'km' ??
                           '',
                       style: _textStyle),
                   SizedBox(
                     height: 5.0,
                   ),
+                  // Text(AppLocalizations.of(context).translate('to_lbl'),
+                  //     style: _titleStyle),
+                  // Text(
+                  //     '${widget.snapshot.latitude}, ${widget.snapshot.longtitude}' ??
+                  //         '',
+                  //     style: _textStyle),
+                  // SizedBox(
+                  //   height: 5.0,
+                  // ),
                   _remark(),
                   SizedBox(
                     height: 5.0,
                   ),
-                  Text(AppLocalizations.of(context).translate('from_lbl'),
-                      style: _titleStyle),
-                  Text(address ?? '', style: _textStyle),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 15.0, 0, 5.0),
                     child: Row(
