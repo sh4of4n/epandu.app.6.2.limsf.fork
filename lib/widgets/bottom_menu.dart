@@ -15,7 +15,7 @@ class BottomMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(400),
+      height: ScreenUtil().setHeight(450),
       color: Colors.transparent,
       child: Stack(
         children: <Widget>[

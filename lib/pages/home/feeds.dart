@@ -1,56 +1,134 @@
-import 'package:epandu/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:epandu/utils/constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Feeds extends StatelessWidget {
-  final image = ImagesConstant();
+  final feed;
+
+  Feeds({this.feed});
+
+  final adText = TextStyle(
+    fontSize: ScreenUtil().setSp(70),
+    fontWeight: FontWeight.bold,
+  );
+
+  final RegExp removeBracket =
+      RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(
-            left: 15.0,
-            right: 15.0,
-            top: ScreenUtil().setHeight(10),
-            bottom: 10.0,
-          ),
-          child: Text(
-            AppLocalizations.of(context).translate('feeds_lbl'),
-            style: TextStyle(
-              fontSize: 26.0,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
         Container(
-          margin: EdgeInsets.only(left: 7.0, right: 7.0, bottom: 15.0),
-          height: ScreenUtil().setHeight(800),
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1,
-            ),
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            itemCount: 2,
-            itemBuilder: (BuildContext context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: InkWell(
-                  onTap: () {},
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: index % 2 == 0
-                        ? Image.asset(image.feedSample)
-                        : Image.asset(image.feedSample2),
+          height: ScreenUtil().setHeight(750),
+          width: ScreenUtil().setWidth(1300),
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black38,
+                offset: Offset(0, 3),
+                blurRadius: 4.0,
+                spreadRadius: 3.0,
+              ),
+            ],
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                  child: Image.network(
+                    feed[0]
+                        .feedMediaFilename
+                        .replaceAll(removeBracket, '')
+                        .split('\r\n')[0],
+                    fit: BoxFit.contain,
                   ),
                 ),
-              );
-            },
+              ),
+              Container(
+                height: ScreenUtil().setHeight(180),
+                padding: EdgeInsets.symmetric(
+                  horizontal: ScreenUtil().setWidth(70),
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(feed[0].feedDesc, style: adText),
+                    Icon(
+                      Icons.chevron_right,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: ScreenUtil().setHeight(80)),
+        Container(
+          height: ScreenUtil().setHeight(750),
+          width: ScreenUtil().setWidth(1300),
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black38,
+                offset: Offset(0, 3),
+                blurRadius: 4.0,
+                spreadRadius: 3.0,
+              ),
+            ],
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                  child: Image.network(
+                    feed[1]
+                        .feedMediaFilename
+                        .replaceAll(removeBracket, '')
+                        .split('\r\n')[0],
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              Container(
+                height: ScreenUtil().setHeight(180),
+                padding: EdgeInsets.symmetric(
+                  horizontal: ScreenUtil().setWidth(70),
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(feed[1].feedDesc, style: adText),
+                    Icon(
+                      Icons.chevron_right,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ],

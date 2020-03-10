@@ -14,6 +14,7 @@ import 'package:hive/hive.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../widgets/bottom_menu.dart';
+import 'feeds.dart';
 import 'home_page_header.dart';
 import 'home_top_menu.dart';
 
@@ -43,14 +44,6 @@ class _HomeState extends State<Home> {
   );
   Uint8List instituteLogo;
   bool isLogoLoaded = false;
-
-  final RegExp removeBracket =
-      RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
-
-  final adText = TextStyle(
-    fontSize: ScreenUtil().setSp(70),
-    fontWeight: FontWeight.bold,
-  );
 
   final _iconText = TextStyle(
     fontSize: ScreenUtil().setSp(56),
@@ -164,16 +157,6 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         key: _scaffoldKey,
         backgroundColor: Colors.transparent,
-        /* appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () => Navigator.pushNamed(context, SETTINGS,
-                arguments: positionStream),
-          ),
-        ), */
-        // drawer: DrawerMenu(),
         bottomNavigationBar: BottomMenu(iconText: _iconText),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -190,131 +173,7 @@ class _HomeState extends State<Home> {
                   ),
                   HomeTopMenu(iconText: _iconText),
                   SizedBox(height: ScreenUtil().setHeight(30)),
-                  feed != null
-                      ? Column(
-                          children: <Widget>[
-                            Container(
-                              height: ScreenUtil().setHeight(750),
-                              width: ScreenUtil().setWidth(1300),
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black38,
-                                    offset: Offset(0, 3),
-                                    blurRadius: 4.0,
-                                    spreadRadius: 3.0,
-                                  ),
-                                ],
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Column(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(20),
-                                        topRight: Radius.circular(20),
-                                      ),
-                                      child: Image.network(
-                                        feed[0]
-                                            .feedMediaFilename
-                                            .replaceAll(removeBracket, '')
-                                            .split('\r\n')[0],
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: ScreenUtil().setHeight(180),
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: ScreenUtil().setWidth(70),
-                                    ),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(20),
-                                        bottomRight: Radius.circular(20),
-                                      ),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text(feed[0].feedDesc, style: adText),
-                                        Icon(
-                                          Icons.chevron_right,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: ScreenUtil().setHeight(80)),
-                            Container(
-                              height: ScreenUtil().setHeight(750),
-                              width: ScreenUtil().setWidth(1300),
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black38,
-                                    offset: Offset(0, 3),
-                                    blurRadius: 4.0,
-                                    spreadRadius: 3.0,
-                                  ),
-                                ],
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Column(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(20),
-                                        topRight: Radius.circular(20),
-                                      ),
-                                      child: Image.network(
-                                        feed[1]
-                                            .feedMediaFilename
-                                            .replaceAll(removeBracket, '')
-                                            .split('\r\n')[0],
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: ScreenUtil().setHeight(180),
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: ScreenUtil().setWidth(70),
-                                    ),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(20),
-                                        bottomRight: Radius.circular(20),
-                                      ),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text(feed[1].feedDesc, style: adText),
-                                        Icon(
-                                          Icons.chevron_right,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )
-                      : _loadingShimmer(),
-                  // Expanded(child: BottomMenu(iconText: _iconText)),
-                  // Feeds(),
-                  // HomeMenuTiles(),
-                  // HomeMenuButtons(),
+                  feed != null ? Feeds(feed: feed) : _loadingShimmer(),
                 ],
               ),
             ),
