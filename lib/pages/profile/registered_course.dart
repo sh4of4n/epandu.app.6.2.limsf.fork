@@ -69,9 +69,7 @@ class RegisteredCourse extends StatelessWidget {
               children: <Widget>[
                 RichText(
                   text: TextSpan(
-                    style: GoogleFonts.dosis(
-                      textStyle: TextStyle(color: Colors.black),
-                    ),
+                    style: TextStyle(color: Colors.black),
                     children: <TextSpan>[
                       TextSpan(
                         text:
@@ -103,9 +101,7 @@ class RegisteredCourse extends StatelessWidget {
                 ), */
                 RichText(
                   text: TextSpan(
-                    style: GoogleFonts.dosis(
-                      textStyle: TextStyle(color: Colors.black),
-                    ),
+                    style: TextStyle(color: Colors.black),
                     children: <TextSpan>[
                       TextSpan(
                           text:

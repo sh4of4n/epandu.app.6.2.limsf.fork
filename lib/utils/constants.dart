@@ -62,6 +62,7 @@ class ImagesConstant {
   String friend = 'assets/images/friend.png';
   String car = 'assets/images/car.png';
   String motor = 'assets/images/motor.png';
+  String sos = 'assets/images/sos-icon.png';
   // String avatar = 'images/avatar.jpg';
   // String loginBackground = 'assets/images/login_background.jpg';
 }

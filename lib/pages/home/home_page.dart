@@ -4,7 +4,6 @@ import 'dart:typed_data';
 
 import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
 import 'package:epandu/pages/home/feeds.dart';
-import 'package:epandu/pages/home/home_menu_buttons.dart';
 import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/services/repository/kpp_repository.dart';
@@ -15,7 +14,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
-import 'package:transparent_image/transparent_image.dart';
+
+import 'home_bottom_menu.dart';
+import 'home_page_header.dart';
+import 'home_top_menu.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -44,7 +46,7 @@ class _HomeState extends State<Home> {
   bool isLogoLoaded = false;
 
   final _iconText = TextStyle(
-    fontSize: ScreenUtil().setSp(58),
+    fontSize: ScreenUtil().setSp(56),
     fontWeight: FontWeight.w700,
   );
 
@@ -164,177 +166,18 @@ class _HomeState extends State<Home> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Container(
-              margin:
-                  EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(40)),
+              // margin:
+              //     EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(40)),
+              height: ScreenUtil.screenHeightDp - ScreenUtil().setHeight(100),
               child: Column(
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: ScreenUtil().setWidth(40)),
-                    child: Table(
-                      columnWidths: {1: FractionColumnWidth(.45)},
-                      defaultVerticalAlignment: TableCellVerticalAlignment.top,
-                      border: TableBorder.all(),
-                      children: [
-                        TableRow(
-                          children: [
-                            FadeInImage(
-                              alignment: Alignment.centerLeft,
-                              height: ScreenUtil().setHeight(450),
-                              placeholder: MemoryImage(kTransparentImage),
-                              image: MemoryImage(
-                                  instituteLogo ?? kTransparentImage),
-                            ),
-                            Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  Text(
-                                    'eWallet balance',
-                                    style: TextStyle(
-                                        fontSize: ScreenUtil().setSp(56),
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  Text(
-                                    'RM10,000.00',
-                                    style: TextStyle(
-                                        fontSize: ScreenUtil().setSp(80),
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                    width: ScreenUtil().setWidth(520),
-                                    height: ScreenUtil().setHeight(100),
-                                    child: OutlineButton(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      shape: StadiumBorder(),
-                                      onPressed: () {},
-                                      child: Text('+Reload eWallet',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold)),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              alignment: Alignment.topRight,
-                              child: IconButton(
-                                iconSize: 45,
-                                icon: Icon(
-                                  MyCustomIcons.account_circle_outline,
-                                  color: Color(0xff666666),
-                                ),
-                                onPressed: () =>
-                                    Navigator.pushNamed(context, PROFILE),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                    child: HomePageHeader(instituteLogo: instituteLogo),
                   ),
-                  Table(
-                    children: [
-                      TableRow(
-                        children: [
-                          InkWell(
-                            onTap: () {},
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Column(
-                                children: <Widget>[
-                                  Icon(
-                                    MyCustomIcons.gift_outline,
-                                    size: 40,
-                                    color: Color(0xff666666),
-                                  ),
-                                  SizedBox(height: ScreenUtil().setHeight(20)),
-                                  Text('Rewards', style: _iconText),
-                                ],
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Column(
-                                children: <Widget>[
-                                  Icon(
-                                    MyCustomIcons.label_percent_outline,
-                                    size: 40,
-                                    color: Color(0xff666666),
-                                  ),
-                                  SizedBox(height: ScreenUtil().setHeight(20)),
-                                  Text('Promo', style: _iconText),
-                                ],
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Column(
-                                children: <Widget>[
-                                  Icon(
-                                    MyCustomIcons.scan_helper,
-                                    size: 40,
-                                    color: Color(0xff666666),
-                                  ),
-                                  SizedBox(height: ScreenUtil().setHeight(20)),
-                                  Text('Scan', style: _iconText),
-                                ],
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Column(
-                                children: <Widget>[
-                                  Icon(
-                                    MyCustomIcons.face_recognition,
-                                    size: 40,
-                                    color: Color(0xff666666),
-                                  ),
-                                  SizedBox(height: ScreenUtil().setHeight(20)),
-                                  Text('ID', style: _iconText),
-                                ],
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Column(
-                                children: <Widget>[
-                                  Icon(
-                                    MyCustomIcons.chat_processing_outline,
-                                    size: 40,
-                                    color: Color(0xff666666),
-                                  ),
-                                  SizedBox(height: ScreenUtil().setHeight(20)),
-                                  Text('Inbox', style: _iconText),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-
+                  HomeTopMenu(iconText: _iconText),
+                  Expanded(child: HomeBottomMenu(iconText: _iconText)),
                   // Feeds(),
                   // HomeMenuTiles(),
                   // HomeMenuButtons(),
