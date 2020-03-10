@@ -1,3 +1,4 @@
+import 'package:epandu/pages/menu/menu.dart';
 import 'package:flutter/material.dart';
 
 import 'package:epandu/pages/emergency/emergency.dart';
@@ -48,10 +49,20 @@ class RouteGenerator {
           settings: RouteSettings(name: SIGN_UP_TYPE),
           builder: (_) => RegisterType(),
         );
+      case HOME_TAB:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: HOME_TAB),
+          builder: (_) => HomeTab(),
+        );
       case HOME:
         return MaterialPageRoute(
           settings: RouteSettings(name: HOME),
           builder: (_) => Home(),
+        );
+      case MENU:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: MENU),
+          builder: (_) => Menu(),
         );
       case PROFILE:
         return MaterialPageRoute(

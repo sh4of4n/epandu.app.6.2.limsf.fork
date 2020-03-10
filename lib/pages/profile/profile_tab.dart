@@ -50,9 +50,9 @@ class _ProfileTabState extends State<ProfileTab>
   final profileRepo = ProfileRepo();
   final localStorage = LocalStorage();
   final primaryColor = ColorConstant.primaryColor;
-  var tagResult;
-  var quoteResult;
-  int count = 0;
+  // var tagResult;
+  // var quoteResult;
+  // int count = 0;
 
   var enrollmentResponse;
   var enrollmentData;

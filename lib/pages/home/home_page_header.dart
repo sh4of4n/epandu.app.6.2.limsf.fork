@@ -38,11 +38,17 @@ class HomePageHeader extends StatelessWidget {
                         fontSize: ScreenUtil().setSp(56),
                         fontWeight: FontWeight.w600),
                   ),
+                  SizedBox(
+                    height: ScreenUtil().setHeight(10),
+                  ),
                   Text(
-                    'RM10,000.00',
+                    'RM0.00',
                     style: TextStyle(
                         fontSize: ScreenUtil().setSp(80),
                         fontWeight: FontWeight.w900),
+                  ),
+                  SizedBox(
+                    height: ScreenUtil().setHeight(10),
                   ),
                   SizedBox(
                     width: ScreenUtil().setWidth(520),
