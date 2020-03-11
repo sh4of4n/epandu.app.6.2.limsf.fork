@@ -252,8 +252,8 @@ class _AirtimeBillDetailState extends State<AirtimeBillDetail> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Container(
-                                width: ScreenUtil().setWidth(200),
+                              LimitedBox(
+                                maxWidth: ScreenUtil().setWidth(400),
                                 child: TextField(
                                   style: TextStyle(
                                     fontSize: 22.0,

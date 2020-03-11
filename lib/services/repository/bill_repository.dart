@@ -45,16 +45,19 @@ class BillRepo {
 
         return Response(true, data: responseData);
       }
-    } else if (response.message.contains('timeout')) {
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('timeout_exception'));
-    } else if (response.message.contains('socket')) {
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('socket_exception'));
-    } else if (response.message.contains('http')) {
+    } else if (response.message != null && response.message.contains('http')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('http_exception'));
-    } else if (response.message.contains('format')) {
+    } else if (response.message != null &&
+        response.message.contains('format')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('format_exception'));
     }
@@ -92,16 +95,19 @@ class BillRepo {
 
         return Response(true, data: responseData);
       }
-    } else if (response.message.contains('timeout')) {
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('timeout_exception'));
-    } else if (response.message.contains('socket')) {
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('socket_exception'));
-    } else if (response.message.contains('http')) {
+    } else if (response.message != null && response.message.contains('http')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('http_exception'));
-    } else if (response.message.contains('format')) {
+    } else if (response.message != null &&
+        response.message.contains('format')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('format_exception'));
     }

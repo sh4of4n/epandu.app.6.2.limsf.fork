@@ -28,20 +28,20 @@ final ColorScheme colorScheme = ColorScheme.light(
 
 class FontTheme {
   TextTheme primaryFont = TextTheme(
-    display4: TextStyle(fontSize: 98, color: Color(0xff666666)),
-    display3: TextStyle(fontSize: 61, color: Color(0xff666666)),
-    display2: TextStyle(fontSize: 49, color: Color(0xff666666)),
-    display1: TextStyle(fontSize: 35, color: Color(0xff666666)),
-    headline: TextStyle(fontSize: 24, color: Color(0xff666666)),
+    display4: TextStyle(fontSize: 98, color: Color(0xff808080)),
+    display3: TextStyle(fontSize: 61, color: Color(0xff808080)),
+    display2: TextStyle(fontSize: 49, color: Color(0xff808080)),
+    display1: TextStyle(fontSize: 35, color: Color(0xff808080)),
+    headline: TextStyle(fontSize: 24, color: Color(0xff808080)),
     title: TextStyle(
-        fontSize: 20, fontWeight: FontWeight.w600, color: Color(0xff666666)),
-    subhead: TextStyle(fontSize: 16, color: Color(0xff666666)),
-    body2: TextStyle(fontSize: 17, color: Color(0xff666666)),
-    body1: TextStyle(fontSize: 15, color: Color(0xff666666)),
-    caption: TextStyle(fontSize: 13, color: Color(0xff666666)),
-    button: TextStyle(fontSize: 15, color: Color(0xff666666)),
-    subtitle: TextStyle(fontSize: 14, color: Color(0xff666666)),
-    overline: TextStyle(fontSize: 11, color: Color(0xff666666)),
+        fontSize: 20, fontWeight: FontWeight.w600, color: Color(0xff808080)),
+    subhead: TextStyle(fontSize: 16, color: Color(0xff808080)),
+    body2: TextStyle(fontSize: 17, color: Color(0xff808080)),
+    body1: TextStyle(fontSize: 15, color: Color(0xff808080)),
+    caption: TextStyle(fontSize: 13, color: Color(0xff808080)),
+    button: TextStyle(fontSize: 15, color: Color(0xff808080)),
+    subtitle: TextStyle(fontSize: 14, color: Color(0xff808080)),
+    overline: TextStyle(fontSize: 11, color: Color(0xff808080)),
   );
 
   /* TextStyle appBarTextStyle = TextStyle(
@@ -52,17 +52,14 @@ class FontTheme {
 
 class ImagesConstant {
   String logo = 'assets/images/ePandu-logo.png';
-  String iconAbout = 'assets/images/icon-about.png';
-  String iconCampus = 'assets/images/icon-campus.png';
-  String iconEmergency = 'assets/images/icon-emergency.png';
-  String iconProfile = 'assets/images/icon-profile.png';
-  String iconProgramme = 'assets/images/icon-programme.png';
   String feedSample = 'assets/images/feed-sample.jpg';
   String feedSample2 = 'assets/images/feed-sample.png';
   String friend = 'assets/images/friend.png';
   String car = 'assets/images/car.png';
   String motor = 'assets/images/motor.png';
   String sos = 'assets/images/sos-icon.png';
+  String vClub = 'assets/images/v-club-icon.png';
+  String menu = 'assets/images/menu-icon.png';
   // String avatar = 'images/avatar.jpg';
   // String loginBackground = 'assets/images/login_background.jpg';
 }

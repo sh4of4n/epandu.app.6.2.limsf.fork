@@ -1,7 +1,7 @@
 import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
 import 'package:epandu/pages/home/home.dart';
 import 'package:epandu/pages/invite/invite.dart';
-import 'package:epandu/pages/menu/menu.dart';
+// import 'package:epandu/pages/menu/menu.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,30 +22,30 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
       icon: new Icon(
         MyCustomIcons.home_icon,
         size: 30,
-        color: Color(0xff666666),
+        color: Color(0xff808080),
       ),
     ),
     Tab(
       icon: new Icon(
         MyCustomIcons.v_club_icon,
         size: 30,
-        color: Color(0xff666666),
+        color: Color(0xff808080),
       ),
     ),
     Tab(
       icon: new Icon(
         MyCustomIcons.invite_icon,
         size: 30,
-        color: Color(0xff666666),
+        color: Color(0xff808080),
       ),
     ),
-    Tab(
+    /* Tab(
       icon: new Icon(
         MyCustomIcons.menu_icon,
         size: 30,
-        color: Color(0xff666666),
+        color: Color(0xff808080),
       ),
-    ),
+    ), */
   ];
 
   TabController _tabController;
@@ -96,7 +96,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                         icon: Icon(
                           MyCustomIcons.home_icon,
                           size: 30,
-                          color: Color(0xff666666),
+                          color: Color(0xff808080),
                         ),
                         text:
                             AppLocalizations.of(context).translate('home_lbl'),
@@ -105,7 +105,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                         icon: Icon(
                           MyCustomIcons.v_club_icon,
                           size: 30,
-                          color: Color(0xff666666),
+                          color: Color(0xff808080),
                         ),
                         text: AppLocalizations.of(context)
                             .translate('v_club_lbl'),
@@ -116,20 +116,20 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                         icon: Icon(
                           MyCustomIcons.invite_icon,
                           size: 30,
-                          color: Color(0xff666666),
+                          color: Color(0xff808080),
                         ),
                         text: AppLocalizations.of(context)
                             .translate('invite_lbl'),
                       ),
-                      Tab(
+                      /* Tab(
                         icon: Icon(
                           MyCustomIcons.menu_icon,
                           size: 30,
-                          color: Color(0xff666666),
+                          color: Color(0xff808080),
                         ),
                         text:
                             AppLocalizations.of(context).translate('menu_lbl'),
-                      ),
+                      ), */
                     ],
                   ),
                 ),
@@ -141,7 +141,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
             children: [
               Home(),
               Invite(),
-              Menu(),
+              // Menu(),
             ],
           ),
         ),

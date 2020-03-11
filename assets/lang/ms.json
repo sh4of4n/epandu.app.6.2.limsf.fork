@@ -76,6 +76,8 @@
   "home_lbl": "Rumah",
   "v_club_lbl": "V Kelab",
   "menu_lbl": "Menu",
+  "reload_lbl": "+Tambah nilai",
+  "promotions_lbl": "Promosi",
 
   "profile_title": "Profil",
   "class_title": "Kelas",
@@ -199,5 +201,6 @@
   "socket_exception": "Sila periksa internet anda.",
   "http_exception": "Kesalahan sistem, sila cuba sebentar lagi.",
   "format_exception": "Sila sahkan akaun ID anda.",
-  "no_url_found": "Tiada URL yang dijumpai dengan akaun klien ini."
+  "no_url_found": "Tiada URL yang dijumpai dengan akaun klien ini.",
+  "no_records_found": "Tiada rekod yang ditemui."
 }

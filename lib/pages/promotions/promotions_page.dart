@@ -1,3 +1,4 @@
+import 'package:epandu/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class Promotions extends StatelessWidget {
@@ -8,7 +9,11 @@ class Promotions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(
+          AppLocalizations.of(context).translate('promotions_lbl'),
+        ),
+      ),
       body: Container(),
     );
   }

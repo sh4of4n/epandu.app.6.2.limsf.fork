@@ -1,3 +1,4 @@
+import 'package:epandu/app_localizations.dart';
 import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,11 +23,12 @@ class HomeTopMenu extends StatelessWidget {
                   children: <Widget>[
                     Icon(
                       MyCustomIcons.gift_icon,
-                      size: 35,
-                      color: Color(0xff666666),
+                      size: 28,
+                      color: Color(0xff808080),
                     ),
                     SizedBox(height: ScreenUtil().setHeight(20)),
-                    Text('Rewards', style: iconText),
+                    Text(AppLocalizations.of(context).translate('rewards_lbl'),
+                        style: iconText),
                   ],
                 ),
               ),
@@ -40,11 +42,12 @@ class HomeTopMenu extends StatelessWidget {
                   children: <Widget>[
                     Icon(
                       MyCustomIcons.promo_icon,
-                      size: 35,
-                      color: Color(0xff666666),
+                      size: 28,
+                      color: Color(0xff808080),
                     ),
                     SizedBox(height: ScreenUtil().setHeight(20)),
-                    Text('Promo', style: iconText),
+                    Text(AppLocalizations.of(context).translate('promo_lbl'),
+                        style: iconText),
                   ],
                 ),
               ),
@@ -58,11 +61,12 @@ class HomeTopMenu extends StatelessWidget {
                   children: <Widget>[
                     Icon(
                       MyCustomIcons.scan_icon,
-                      size: 35,
-                      color: Color(0xff666666),
+                      size: 28,
+                      color: Color(0xff808080),
                     ),
                     SizedBox(height: ScreenUtil().setHeight(20)),
-                    Text('Scan', style: iconText),
+                    Text(AppLocalizations.of(context).translate('scan_lbl'),
+                        style: iconText),
                   ],
                 ),
               ),
@@ -76,11 +80,12 @@ class HomeTopMenu extends StatelessWidget {
                   children: <Widget>[
                     Icon(
                       MyCustomIcons.id_icon,
-                      size: 35,
-                      color: Color(0xff666666),
+                      size: 28,
+                      color: Color(0xff808080),
                     ),
                     SizedBox(height: ScreenUtil().setHeight(20)),
-                    Text('ID', style: iconText),
+                    Text(AppLocalizations.of(context).translate('id_lbl'),
+                        style: iconText),
                   ],
                 ),
               ),
@@ -94,11 +99,12 @@ class HomeTopMenu extends StatelessWidget {
                   children: <Widget>[
                     Icon(
                       MyCustomIcons.inbox_icon,
-                      size: 35,
-                      color: Color(0xff666666),
+                      size: 28,
+                      color: Color(0xff808080),
                     ),
                     SizedBox(height: ScreenUtil().setHeight(20)),
-                    Text('Inbox', style: iconText),
+                    Text(AppLocalizations.of(context).translate('inbox_lbl'),
+                        style: iconText),
                   ],
                 ),
               ),

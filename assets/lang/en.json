@@ -76,6 +76,8 @@
   "home_lbl": "Home",
   "v_club_lbl": "V Club",
   "menu_lbl": "Menu",
+  "reload_lbl": "+Reload eWallet",
+  "promotions_lbl": "Promotions",
 
   "profile_title": "Profile",
   "class_title": "Classes",
@@ -199,5 +201,6 @@
   "socket_exception": "Please check your internet connection.",
   "http_exception": "Server error, we apologize for any inconvenience.",
   "format_exception": "Please verify your client account.",
-  "no_url_found": "No URL found with this client account."
+  "no_url_found": "No URL found with this client account.",
+  "no_records_found": "No records found."
 }

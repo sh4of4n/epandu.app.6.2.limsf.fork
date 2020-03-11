@@ -1,4 +1,5 @@
 import 'package:epandu/pages/menu/menu.dart';
+import 'package:epandu/pages/promotions/promotions.dart';
 import 'package:flutter/material.dart';
 
 import 'package:epandu/pages/emergency/emergency.dart';
@@ -59,10 +60,15 @@ class RouteGenerator {
           settings: RouteSettings(name: HOME),
           builder: (_) => Home(),
         );
+      case PROMOTIONS:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: PROMOTIONS),
+          builder: (_) => Promotions(),
+        );
       case MENU:
         return MaterialPageRoute(
           settings: RouteSettings(name: MENU),
-          builder: (_) => Menu(),
+          builder: (_) => Menu(data),
         );
       case PROFILE:
         return MaterialPageRoute(

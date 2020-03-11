@@ -5,17 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+import '../app_localizations.dart';
+
 class BottomMenu extends StatelessWidget {
   final iconText;
+  final positionStream;
 
-  BottomMenu({this.iconText});
+  BottomMenu({this.iconText, this.positionStream});
 
   final myImage = ImagesConstant();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(450),
+      height: ScreenUtil().setHeight(420),
       color: Colors.transparent,
       child: Stack(
         children: <Widget>[
@@ -40,11 +43,14 @@ class BottomMenu extends StatelessWidget {
                             children: <Widget>[
                               Icon(
                                 MyCustomIcons.home_icon,
-                                size: 25,
-                                color: Color(0xff666666),
+                                size: 20,
+                                color: Color(0xff808080),
                               ),
                               SizedBox(height: ScreenUtil().setHeight(20)),
-                              Text('Home', style: iconText),
+                              Text(
+                                  AppLocalizations.of(context)
+                                      .translate('home_lbl'),
+                                  style: iconText),
                             ],
                           ),
                         ),
@@ -61,11 +67,18 @@ class BottomMenu extends StatelessWidget {
                             children: <Widget>[
                               Icon(
                                 MyCustomIcons.v_club_icon,
-                                size: 25,
-                                color: Color(0xff666666),
+                                size: 20,
+                                color: Color(0xff808080),
                               ),
+                              /* Image.asset(
+                                myImage.vClub,
+                                height: 20,
+                              ), */
                               SizedBox(height: ScreenUtil().setHeight(20)),
-                              Text('V Club', style: iconText),
+                              Text(
+                                  AppLocalizations.of(context)
+                                      .translate('v_club_lbl'),
+                                  style: iconText),
                             ],
                           ),
                         ),
@@ -94,17 +107,21 @@ class BottomMenu extends StatelessWidget {
                             children: <Widget>[
                               Icon(
                                 MyCustomIcons.invite_icon,
-                                size: 25,
-                                color: Color(0xff666666),
+                                size: 20,
+                                color: Color(0xff808080),
                               ),
                               SizedBox(height: ScreenUtil().setHeight(20)),
-                              Text('Invite', style: iconText),
+                              Text(
+                                  AppLocalizations.of(context)
+                                      .translate('invite_lbl'),
+                                  style: iconText),
                             ],
                           ),
                         ),
                       ),
                       InkWell(
-                        onTap: () => Navigator.pushNamed(context, MENU),
+                        onTap: () => Navigator.pushNamed(context, MENU,
+                            arguments: positionStream),
                         borderRadius: BorderRadius.circular(10.0),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
@@ -113,13 +130,20 @@ class BottomMenu extends StatelessWidget {
                           ),
                           child: Column(
                             children: <Widget>[
-                              Icon(
+                              /* Icon(
                                 MyCustomIcons.menu_icon,
-                                size: 25,
-                                color: Color(0xff666666),
+                                size: 20,
+                                color: Color(0xff808080),
+                              ), */
+                              Image.asset(
+                                myImage.menu,
+                                height: 20,
                               ),
                               SizedBox(height: ScreenUtil().setHeight(20)),
-                              Text('Menu', style: iconText),
+                              Text(
+                                  AppLocalizations.of(context)
+                                      .translate('menu_lbl'),
+                                  style: iconText),
                             ],
                           ),
                         ),

@@ -18,6 +18,9 @@ class AuthRepo {
   final xml2json = Xml2Json();
   final networking = Networking();
 
+  final RegExp removeBracket =
+      RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
+
   Future<Response> getWsUrl({
     context,
     acctUid,
@@ -81,10 +84,12 @@ class AuthRepo {
                 .replaceAll('1_2', wsVer),
             message: '');
       }
-    } else if (response.message.contains('timeout')) {
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('timeout_exception'));
-    } else if (response.message.contains('socket')) {
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
       // Changes the web service URL based on exception and current altWsUrl.
       if (altWsUrl == null)
         altWsUrl = wsUrl1;
@@ -105,10 +110,11 @@ class AuthRepo {
         loginType: appConfig.wsCodeCrypt,
         altWsUrl: altWsUrl,
       );
-    } else if (response.message.contains('http')) {
+    } else if (response.message != null && response.message.contains('http')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('http_exception'));
-    } else if (response.message.contains('format')) {
+    } else if (response.message != null &&
+        response.message.contains('format')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('format_exception'));
     }
@@ -147,16 +153,19 @@ class AuthRepo {
         return Response(true, message: responseData.msg);
       }
       return Response(false, message: responseData.msg);
-    } else if (response.message.contains('timeout')) {
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('timeout_exception'));
-    } else if (response.message.contains('socket')) {
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('socket_exception'));
-    } else if (response.message.contains('http')) {
+    } else if (response.message != null && response.message.contains('http')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('http_exception'));
-    } else if (response.message.contains('format')) {
+    } else if (response.message != null &&
+        response.message.contains('format')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('format_exception'));
     }
@@ -201,16 +210,19 @@ class AuthRepo {
       localStorage.savePostCode(responseData[0].postcode);
 
       return Response(true, data: responseData);
-    } else if (response.message.contains('timeout')) {
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('timeout_exception'));
-    } else if (response.message.contains('socket')) {
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('socket_exception'));
-    } else if (response.message.contains('http')) {
+    } else if (response.message != null && response.message.contains('http')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('http_exception'));
-    } else if (response.message.contains('format')) {
+    } else if (response.message != null &&
+        response.message.contains('format')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('format_exception'));
     }
@@ -236,21 +248,28 @@ class AuthRepo {
 
       instituteLogoResponse = InstituteLogoResponse.fromJson(response.data);
 
-      localStorage.saveInstituteLogo(
-          instituteLogoResponse.armaster[0].appBackgroundPhoto);
+      localStorage.saveInstituteLogo(instituteLogoResponse
+          .armaster[0].appBackgroundPhotoPath
+          .replaceAll(removeBracket, '')
+          .split('\r\n')[0]);
 
       return Response(true,
-          data: instituteLogoResponse.armaster[0].appBackgroundPhoto);
-    } else if (response.message.contains('timeout')) {
+          data: instituteLogoResponse.armaster[0].appBackgroundPhotoPath
+              .replaceAll(removeBracket, '')
+              .split('\r\n')[0]);
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('timeout_exception'));
-    } else if (response.message.contains('socket')) {
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('socket_exception'));
-    } else if (response.message.contains('http')) {
+    } else if (response.message != null && response.message.contains('http')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('http_exception'));
-    } else if (response.message.contains('format')) {
+    } else if (response.message != null &&
+        response.message.contains('format')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('format_exception'));
     }
@@ -338,16 +357,19 @@ class AuthRepo {
     if (response.isSuccess && response.data != null) {
       return Response(false,
           message: AppLocalizations.of(context).translate('registered_lbl'));
-    } else if (response.message.contains('timeout')) {
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('timeout_exception'));
-    } else if (response.message.contains('socket')) {
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('socket_exception'));
-    } else if (response.message.contains('http')) {
+    } else if (response.message != null && response.message.contains('http')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('http_exception'));
-    } else if (response.message.contains('format')) {
+    } else if (response.message != null &&
+        response.message.contains('format')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('format_exception'));
     }
@@ -441,16 +463,19 @@ class AuthRepo {
         message = AppLocalizations.of(context).translate('register_success');
 
       return Response(true, message: message);
-    } else if (response.message.contains('timeout')) {
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('timeout_exception'));
-    } else if (response.message.contains('socket')) {
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('socket_exception'));
-    } else if (response.message.contains('http')) {
+    } else if (response.message != null && response.message.contains('http')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('http_exception'));
-    } else if (response.message.contains('format')) {
+    } else if (response.message != null &&
+        response.message.contains('format')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('format_exception'));
     }
@@ -482,16 +507,19 @@ class AuthRepo {
           context: context, userId: userId, password: newPassword);
 
       return result;
-    } else if (response.message.contains('timeout')) {
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('timeout_exception'));
-    } else if (response.message.contains('socket')) {
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('socket_exception'));
-    } else if (response.message.contains('http')) {
+    } else if (response.message != null && response.message.contains('http')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('http_exception'));
-    } else if (response.message.contains('format')) {
+    } else if (response.message != null &&
+        response.message.contains('format')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('format_exception'));
     }
@@ -521,16 +549,19 @@ class AuthRepo {
 
     if (response.isSuccess && response.data == 'True') {
       return Response(true, message: 'password_updated');
-    } else if (response.message.contains('timeout')) {
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('timeout_exception'));
-    } else if (response.message.contains('socket')) {
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('socket_exception'));
-    } else if (response.message.contains('http')) {
+    } else if (response.message != null && response.message.contains('http')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('http_exception'));
-    } else if (response.message.contains('format')) {
+    } else if (response.message != null &&
+        response.message.contains('format')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('format_exception'));
     }

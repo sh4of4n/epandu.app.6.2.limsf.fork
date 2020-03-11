@@ -1,13 +1,17 @@
+import 'package:epandu/app_localizations.dart';
 import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class HomePageHeader extends StatelessWidget {
-  final instituteLogo;
+  final String instituteLogo;
 
   HomePageHeader({this.instituteLogo});
+
+  final formatter = NumberFormat('#,##0.00');
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +24,23 @@ class HomePageHeader extends StatelessWidget {
           children: [
             FadeInImage(
               alignment: Alignment.centerLeft,
-              height: ScreenUtil().setHeight(450),
+              height: ScreenUtil().setHeight(400),
               placeholder: MemoryImage(kTransparentImage),
-              image: MemoryImage(instituteLogo ?? kTransparentImage),
+              image: instituteLogo != null
+                  ? NetworkImage(instituteLogo)
+                  : MemoryImage(kTransparentImage),
             ),
+            /* Opacity(
+                  opacity: 0.5,
+                  child: Icon(
+                    MyCustomIcons.touch_me_icon,
+                    color: Color(0xff808080),
+                    size: 30,
+                  ),
+                ), */
             Container(
               height: ScreenUtil().setHeight(420),
-              alignment: Alignment.center,
+              alignment: Alignment.centerRight,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,31 +48,37 @@ class HomePageHeader extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     'eWallet balance',
-                    style: TextStyle(
-                        fontSize: ScreenUtil().setSp(56),
-                        fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: ScreenUtil().setSp(55)),
                   ),
                   SizedBox(
                     height: ScreenUtil().setHeight(10),
                   ),
                   Text(
-                    'RM0.00',
+                    'RM' + formatter.format(0),
                     style: TextStyle(
+                        letterSpacing: 0.5,
                         fontSize: ScreenUtil().setSp(80),
-                        fontWeight: FontWeight.w900),
+                        fontWeight: FontWeight.w800),
                   ),
                   SizedBox(
                     height: ScreenUtil().setHeight(10),
                   ),
-                  SizedBox(
-                    width: ScreenUtil().setWidth(520),
-                    height: ScreenUtil().setHeight(100),
+                  LimitedBox(
+                    maxWidth: ScreenUtil().setWidth(500),
+                    maxHeight: ScreenUtil().setHeight(100),
                     child: OutlineButton(
-                      borderSide: BorderSide(color: Colors.black),
+                      borderSide: BorderSide(color: Color(0xff808080)),
                       shape: StadiumBorder(),
                       onPressed: () {},
-                      child: Text('+Reload eWallet',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: Text(
+                        AppLocalizations.of(context).translate('reload_lbl'),
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(55),
+                          letterSpacing: -0.3,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xff808080),
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -67,10 +87,10 @@ class HomePageHeader extends StatelessWidget {
             Container(
               alignment: Alignment.topRight,
               child: IconButton(
-                iconSize: 45,
+                iconSize: 40,
                 icon: Icon(
                   MyCustomIcons.account_icon,
-                  color: Color(0xff666666),
+                  color: Color(0xffb3b3b3),
                 ),
                 onPressed: () => Navigator.pushNamed(context, PROFILE),
               ),

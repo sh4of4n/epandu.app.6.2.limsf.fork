@@ -31,13 +31,15 @@ class EmergencyRepo {
 
       return Response(true,
           data: defEmergencyContactResponse.sosContactHelpDesk);
-    } else if (response.message.contains('timeout')) {
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('timeout_exception'));
-    } else if (response.message.contains('http')) {
+    } else if (response.message != null && response.message.contains('http')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('http_exception'));
-    } else if (response.message.contains('format')) {
+    } else if (response.message != null &&
+        response.message.contains('format')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('format_exception'));
     }
@@ -139,18 +141,21 @@ class EmergencyRepo {
 
       return Response(true,
           data: getSosContactSortByNearestResponse.sosContact);
-    } else if (response.message.contains('timeout')) {
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('timeout_exception'));
-    } else if (response.message.contains('http')) {
+    } else if (response.message != null && response.message.contains('http')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('http_exception'));
-    } else if (response.message.contains('format')) {
+    } else if (response.message != null &&
+        response.message.contains('format')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('format_exception'));
     }
 
-    return Response(false);
+    return Response(false,
+        message: AppLocalizations.of(context).translate('no_records_found'));
   }
 
   // SendGpsSos

@@ -7,6 +7,7 @@ const String SIGN_UP_TYPE = 'sign_up_type';
 const String SELECT_DI = 'select_driving_institute';
 const String HOME_TAB = 'home_tab';
 const String HOME = '/home';
+const String PROMOTIONS = '/promotions';
 const String MENU = '/menu';
 const String PAYMENT = '/payment';
 const String PROFILE = '/profile';

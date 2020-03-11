@@ -26,13 +26,13 @@ class MyCustomIcons {
   static const IconData scan_helper = IconData(0xe803, fontFamily: _kFontFam);
   static const IconData chat_processing_outline = IconData(0xe804, fontFamily: _kFontFam);
   static const IconData account_circle_outline = IconData(0xe805, fontFamily: _kFontFam);
+  static const IconData touch_me_icon = IconData(0xe806, fontFamily: _kFontFam);
+  static const IconData inbox_icon = IconData(0xe807, fontFamily: _kFontFam);
   static const IconData account_icon = IconData(0xe810, fontFamily: _kFontFam);
   static const IconData gift_icon = IconData(0xe811, fontFamily: _kFontFam);
   static const IconData home_icon = IconData(0xe812, fontFamily: _kFontFam);
   static const IconData id_icon = IconData(0xe813, fontFamily: _kFontFam);
-  static const IconData inbox_icon = IconData(0xe814, fontFamily: _kFontFam);
   static const IconData invite_icon = IconData(0xe815, fontFamily: _kFontFam);
-  static const IconData menu_icon = IconData(0xe816, fontFamily: _kFontFam);
   static const IconData promo_icon = IconData(0xe817, fontFamily: _kFontFam);
   static const IconData scan_icon = IconData(0xe818, fontFamily: _kFontFam);
   static const IconData v_club_icon = IconData(0xe819, fontFamily: _kFontFam);

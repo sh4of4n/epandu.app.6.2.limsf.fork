@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
@@ -11,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../widgets/bottom_menu.dart';
 import 'feeds.dart';
@@ -42,12 +39,12 @@ class _HomeState extends State<Home> {
     accuracy: LocationAccuracy.high,
     distanceFilter: 100,
   );
-  Uint8List instituteLogo;
+  String instituteLogo;
   bool isLogoLoaded = false;
 
   final _iconText = TextStyle(
-    fontSize: ScreenUtil().setSp(56),
-    fontWeight: FontWeight.w700,
+    fontSize: ScreenUtil().setSp(55),
+    fontWeight: FontWeight.w500,
   );
 
   @override
@@ -57,30 +54,30 @@ class _HomeState extends State<Home> {
     _openHiveBoxes();
     // getStudentInfo();
     _getCurrentLocation();
-    _getArmasterAppPhotoForCode();
+    _getDiProfile();
     _getActiveFeed();
   }
 
-  _getArmasterAppPhotoForCode() async {
-    String instituteLogoBase64 =
-        await localStorage.getArmasterAppPhotoForCode();
+  _getDiProfile() async {
+    String instituteLogoPath = await localStorage.getArmasterAppPhotoForCode();
 
-    if (instituteLogoBase64.isEmpty) {
+    if (instituteLogoPath.isEmpty) {
       var result = await authRepo.getDiProfile(context: context);
 
-      if (result.data != null) {
-        Uint8List decodedImage = base64Decode(result.data);
+      if (result.isSuccess && result.data != null) {
+        // Uint8List decodedImage = base64Decode(
+        //     result.data);
 
         setState(() {
-          instituteLogo = decodedImage;
+          instituteLogo = result.data;
           isLogoLoaded = true;
         });
       }
     } else {
-      Uint8List decodedImage = base64Decode(instituteLogoBase64);
+      // Uint8List decodedImage = base64Decode(instituteLogoPath);
 
       setState(() {
-        instituteLogo = decodedImage;
+        instituteLogo = instituteLogoPath;
         isLogoLoaded = true;
       });
     }
@@ -157,12 +154,13 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         key: _scaffoldKey,
         backgroundColor: Colors.transparent,
-        bottomNavigationBar: BottomMenu(iconText: _iconText),
+        bottomNavigationBar:
+            BottomMenu(iconText: _iconText, positionStream: positionStream),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Container(
               margin:
-                  EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(40)),
+                  EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(30)),
               // height: ScreenUtil.screenHeightDp - ScreenUtil().setHeight(100),
               child: Column(
                 children: <Widget>[
@@ -172,61 +170,14 @@ class _HomeState extends State<Home> {
                     child: HomePageHeader(instituteLogo: instituteLogo),
                   ),
                   HomeTopMenu(iconText: _iconText),
-                  SizedBox(height: ScreenUtil().setHeight(30)),
-                  feed != null ? Feeds(feed: feed) : _loadingShimmer(),
+                  LimitedBox(maxHeight: ScreenUtil().setHeight(30)),
+                  Feeds(feed: feed),
                 ],
               ),
             ),
           ),
         ),
       ),
-    );
-  }
-
-  _loadingShimmer() {
-    return Column(
-      children: <Widget>[
-        Container(
-          alignment: Alignment.topCenter,
-          padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0),
-          child: Column(
-            children: <Widget>[
-              Shimmer.fromColors(
-                baseColor: Colors.grey[200],
-                highlightColor: Colors.white,
-                child: Container(
-                  width: ScreenUtil().setWidth(1300),
-                  height: ScreenUtil().setHeight(750),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    color: Colors.grey[200],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          alignment: Alignment.topCenter,
-          padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0),
-          child: Column(
-            children: <Widget>[
-              Shimmer.fromColors(
-                baseColor: Colors.grey[200],
-                highlightColor: Colors.white,
-                child: Container(
-                  width: ScreenUtil().setWidth(1300),
-                  height: ScreenUtil().setHeight(750),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    color: Colors.grey[200],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }
