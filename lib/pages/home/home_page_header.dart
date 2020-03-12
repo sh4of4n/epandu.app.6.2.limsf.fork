@@ -23,8 +23,8 @@ class HomePageHeader extends StatelessWidget {
         TableRow(
           children: [
             FadeInImage(
-              alignment: Alignment.centerLeft,
-              height: ScreenUtil().setHeight(400),
+              alignment: Alignment.center,
+              height: ScreenUtil().setHeight(380),
               placeholder: MemoryImage(kTransparentImage),
               image: instituteLogo != null
                   ? NetworkImage(instituteLogo)
@@ -39,8 +39,8 @@ class HomePageHeader extends StatelessWidget {
                   ),
                 ), */
             Container(
-              height: ScreenUtil().setHeight(420),
-              alignment: Alignment.centerRight,
+                // height: ScreenUtil().setHeight(400),
+                /* alignment: Alignment.centerRight,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,10 +87,11 @@ class HomePageHeader extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-            ),
+              ), */
+                ),
             Container(
               alignment: Alignment.topRight,
+              margin: EdgeInsets.only(top: ScreenUtil().setHeight(30)),
               child: IconButton(
                 iconSize: 36,
                 icon: Icon(

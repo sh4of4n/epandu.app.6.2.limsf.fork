@@ -18,7 +18,7 @@ class BottomMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(400),
+      height: ScreenUtil().setHeight(300),
       color: Colors.transparent,
       child: Stack(
         children: <Widget>[
@@ -155,13 +155,13 @@ class BottomMenu extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: Alignment.bottomCenter,
+            alignment: Alignment.center,
             child: InkWell(
-              onTap: () => Navigator.pushNamed(context, EMERGENCY),
+              onTap: () => Navigator.pushNamed(context, KPP),
               borderRadius: BorderRadius.circular(10.0),
               child: Image.asset(
-                myImage.sos,
-                // height: ScreenUtil().setHeight(400),
+                myImage.logo,
+                width: ScreenUtil().setWidth(300),
               ),
             ),
           ),
