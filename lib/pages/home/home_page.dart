@@ -58,6 +58,12 @@ class _HomeState extends State<Home> {
     _getActiveFeed();
   }
 
+  @override
+  void dispose() {
+    positionStream.cancel();
+    super.dispose();
+  }
+
   _getDiProfile() async {
     String instituteLogoPath = await localStorage.getArmasterAppPhotoForCode();
 

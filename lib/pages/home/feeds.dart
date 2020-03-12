@@ -1,3 +1,4 @@
+import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
@@ -21,7 +22,7 @@ class Feeds extends StatelessWidget {
     if (feed != null)
       return Column(
         children: <Widget>[
-          Container(
+          Ink(
             height: ScreenUtil().setHeight(780),
             width: ScreenUtil().setWidth(1300),
             decoration: BoxDecoration(
@@ -36,49 +37,52 @@ class Feeds extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
-                    ),
-                    child: Image.network(
-                      feed[0]
-                          .feedMediaFilename
-                          .replaceAll(removeBracket, '')
-                          .split('\r\n')[0],
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
-                Container(
-                  height: ScreenUtil().setHeight(180),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: ScreenUtil().setWidth(70),
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(12),
-                      bottomRight: Radius.circular(12),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(feed[0].feedText, style: adText),
-                      Icon(
-                        Icons.chevron_right,
+            child: InkWell(
+              onTap: () => Navigator.pushNamed(context, PROMOTIONS),
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
                       ),
-                    ],
+                      child: Image.network(
+                        feed[0]
+                            .feedMediaFilename
+                            .replaceAll(removeBracket, '')
+                            .split('\r\n')[0],
+                        fit: BoxFit.contain,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                  Container(
+                    height: ScreenUtil().setHeight(180),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: ScreenUtil().setWidth(70),
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(12),
+                        bottomRight: Radius.circular(12),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(feed[0].feedText, style: adText),
+                        Icon(
+                          Icons.chevron_right,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           SizedBox(height: ScreenUtil().setHeight(50)),
-          Container(
+          Ink(
             height: ScreenUtil().setHeight(780),
             width: ScreenUtil().setWidth(1300),
             decoration: BoxDecoration(
@@ -93,45 +97,48 @@ class Feeds extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
-                    ),
-                    child: Image.network(
-                      feed[1]
-                          .feedMediaFilename
-                          .replaceAll(removeBracket, '')
-                          .split('\r\n')[0],
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
-                Container(
-                  height: ScreenUtil().setHeight(180),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: ScreenUtil().setWidth(70),
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(12),
-                      bottomRight: Radius.circular(12),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(feed[1].feedText, style: adText),
-                      Icon(
-                        Icons.chevron_right,
+            child: InkWell(
+              onTap: () => Navigator.pushNamed(context, PROMOTIONS),
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
                       ),
-                    ],
+                      child: Image.network(
+                        feed[1]
+                            .feedMediaFilename
+                            .replaceAll(removeBracket, '')
+                            .split('\r\n')[0],
+                        fit: BoxFit.contain,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                  Container(
+                    height: ScreenUtil().setHeight(180),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: ScreenUtil().setWidth(70),
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(12),
+                        bottomRight: Radius.circular(12),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(feed[1].feedText, style: adText),
+                        Icon(
+                          Icons.chevron_right,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

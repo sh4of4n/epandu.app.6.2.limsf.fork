@@ -79,6 +79,7 @@
   "wallet_balance": "eWallet balance",
   "reload_lbl": "+Reload eWallet",
   "promotions_lbl": "Promotions",
+  "no_feeds_message": "There are no feeds.",
 
   "profile_title": "Profile",
   "class_title": "Classes",
