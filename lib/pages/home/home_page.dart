@@ -160,13 +160,13 @@ class _HomeState extends State<Home> {
           child: SingleChildScrollView(
             child: Container(
               margin:
-                  EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(30)),
+                  EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(40)),
               // height: ScreenUtil.screenHeightDp - ScreenUtil().setHeight(100),
               child: Column(
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: ScreenUtil().setWidth(40)),
+                        horizontal: ScreenUtil().setWidth(60)),
                     child: HomePageHeader(instituteLogo: instituteLogo),
                   ),
                   HomeTopMenu(iconText: _iconText),

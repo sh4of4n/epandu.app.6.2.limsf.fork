@@ -23,7 +23,7 @@ class HomeTopMenu extends StatelessWidget {
                   children: <Widget>[
                     Icon(
                       MyCustomIcons.gift_icon,
-                      size: 28,
+                      size: 26,
                       color: Color(0xff808080),
                     ),
                     SizedBox(height: ScreenUtil().setHeight(20)),
@@ -42,7 +42,7 @@ class HomeTopMenu extends StatelessWidget {
                   children: <Widget>[
                     Icon(
                       MyCustomIcons.promo_icon,
-                      size: 28,
+                      size: 26,
                       color: Color(0xff808080),
                     ),
                     SizedBox(height: ScreenUtil().setHeight(20)),
@@ -61,7 +61,7 @@ class HomeTopMenu extends StatelessWidget {
                   children: <Widget>[
                     Icon(
                       MyCustomIcons.scan_icon,
-                      size: 28,
+                      size: 26,
                       color: Color(0xff808080),
                     ),
                     SizedBox(height: ScreenUtil().setHeight(20)),
@@ -80,7 +80,7 @@ class HomeTopMenu extends StatelessWidget {
                   children: <Widget>[
                     Icon(
                       MyCustomIcons.id_icon,
-                      size: 28,
+                      size: 26,
                       color: Color(0xff808080),
                     ),
                     SizedBox(height: ScreenUtil().setHeight(20)),
@@ -99,7 +99,7 @@ class HomeTopMenu extends StatelessWidget {
                   children: <Widget>[
                     Icon(
                       MyCustomIcons.inbox_icon,
-                      size: 28,
+                      size: 26,
                       color: Color(0xff808080),
                     ),
                     SizedBox(height: ScreenUtil().setHeight(20)),

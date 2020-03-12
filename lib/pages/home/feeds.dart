@@ -10,6 +10,7 @@ class Feeds extends StatelessWidget {
   final adText = TextStyle(
     fontSize: ScreenUtil().setSp(70),
     fontWeight: FontWeight.bold,
+    color: Color(0xff231f20),
   );
 
   final RegExp removeBracket =
@@ -26,22 +27,22 @@ class Feeds extends StatelessWidget {
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black38,
-                  offset: Offset(0, 0),
-                  blurRadius: 1.0,
-                  spreadRadius: 1.2,
+                  color: Colors.black26,
+                  offset: Offset(0, 0.4),
+                  blurRadius: 0.3,
+                  spreadRadius: 0.5,
                 ),
               ],
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
               children: <Widget>[
                 Expanded(
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
                     ),
                     child: Image.network(
                       feed[0]
@@ -59,14 +60,14 @@ class Feeds extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
+                      bottomLeft: Radius.circular(12),
+                      bottomRight: Radius.circular(12),
                     ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(feed[0].feedDesc, style: adText),
+                      Text(feed[0].feedText, style: adText),
                       Icon(
                         Icons.chevron_right,
                       ),
@@ -76,29 +77,29 @@ class Feeds extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: ScreenUtil().setHeight(60)),
+          SizedBox(height: ScreenUtil().setHeight(50)),
           Container(
             height: ScreenUtil().setHeight(780),
             width: ScreenUtil().setWidth(1300),
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black38,
-                  offset: Offset(0, 0),
-                  blurRadius: 1.0,
-                  spreadRadius: 1.2,
+                  color: Colors.black26,
+                  offset: Offset(0, 0.4),
+                  blurRadius: 0.3,
+                  spreadRadius: 0.5,
                 ),
               ],
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
               children: <Widget>[
                 Expanded(
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
                     ),
                     child: Image.network(
                       feed[1]
@@ -116,14 +117,14 @@ class Feeds extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
+                      bottomLeft: Radius.circular(12),
+                      bottomRight: Radius.circular(12),
                     ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(feed[1].feedDesc, style: adText),
+                      Text(feed[1].feedText, style: adText),
                       Icon(
                         Icons.chevron_right,
                       ),

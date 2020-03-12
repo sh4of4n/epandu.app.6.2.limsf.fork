@@ -16,7 +16,7 @@ class HomePageHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Table(
-      columnWidths: {1: FractionColumnWidth(.45)},
+      columnWidths: {1: FractionColumnWidth(.43)},
       defaultVerticalAlignment: TableCellVerticalAlignment.top,
       // border: TableBorder.all(),
       children: [
@@ -47,7 +47,7 @@ class HomePageHeader extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Text(
-                    'eWallet balance',
+                    AppLocalizations.of(context).translate('wallet_balance'),
                     style: TextStyle(fontSize: ScreenUtil().setSp(55)),
                   ),
                   SizedBox(
@@ -57,26 +57,31 @@ class HomePageHeader extends StatelessWidget {
                     'RM' + formatter.format(0),
                     style: TextStyle(
                         letterSpacing: 0.5,
-                        fontSize: ScreenUtil().setSp(80),
+                        fontSize: ScreenUtil().setSp(76),
                         fontWeight: FontWeight.w800),
                   ),
                   SizedBox(
                     height: ScreenUtil().setHeight(10),
                   ),
-                  LimitedBox(
-                    maxWidth: ScreenUtil().setWidth(500),
-                    maxHeight: ScreenUtil().setHeight(100),
-                    child: OutlineButton(
-                      borderSide: BorderSide(color: Color(0xff808080)),
-                      shape: StadiumBorder(),
-                      onPressed: () {},
+                  InkWell(
+                    borderRadius: BorderRadius.circular(13),
+                    onTap: () {},
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: ScreenUtil().setWidth(25),
+                        vertical: ScreenUtil().setHeight(14),
+                      ),
+                      decoration: BoxDecoration(
+                        border:
+                            Border.all(color: Color(0xff231f20), width: 1.2),
+                        borderRadius: BorderRadius.circular(13),
+                      ),
                       child: Text(
                         AppLocalizations.of(context).translate('reload_lbl'),
                         style: TextStyle(
-                          fontSize: ScreenUtil().setSp(55),
-                          letterSpacing: -0.3,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xff808080),
+                          fontSize: ScreenUtil().setSp(48),
+                          letterSpacing: -0.6,
+                          color: Color(0xff231f20),
                         ),
                       ),
                     ),
@@ -87,7 +92,7 @@ class HomePageHeader extends StatelessWidget {
             Container(
               alignment: Alignment.topRight,
               child: IconButton(
-                iconSize: 40,
+                iconSize: 36,
                 icon: Icon(
                   MyCustomIcons.account_icon,
                   color: Color(0xffb3b3b3),

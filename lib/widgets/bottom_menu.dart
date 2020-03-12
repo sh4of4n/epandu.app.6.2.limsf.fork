@@ -18,7 +18,7 @@ class BottomMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(420),
+      height: ScreenUtil().setHeight(400),
       color: Colors.transparent,
       child: Stack(
         children: <Widget>[
@@ -43,7 +43,7 @@ class BottomMenu extends StatelessWidget {
                             children: <Widget>[
                               Icon(
                                 MyCustomIcons.home_icon,
-                                size: 20,
+                                size: 18,
                                 color: Color(0xff808080),
                               ),
                               SizedBox(height: ScreenUtil().setHeight(20)),
@@ -67,7 +67,7 @@ class BottomMenu extends StatelessWidget {
                             children: <Widget>[
                               Icon(
                                 MyCustomIcons.v_club_icon,
-                                size: 20,
+                                size: 18,
                                 color: Color(0xff808080),
                               ),
                               /* Image.asset(
@@ -107,7 +107,7 @@ class BottomMenu extends StatelessWidget {
                             children: <Widget>[
                               Icon(
                                 MyCustomIcons.invite_icon,
-                                size: 20,
+                                size: 18,
                                 color: Color(0xff808080),
                               ),
                               SizedBox(height: ScreenUtil().setHeight(20)),
@@ -132,12 +132,12 @@ class BottomMenu extends StatelessWidget {
                             children: <Widget>[
                               /* Icon(
                                 MyCustomIcons.menu_icon,
-                                size: 20,
+                                size: 18,
                                 color: Color(0xff808080),
                               ), */
                               Image.asset(
                                 myImage.menu,
-                                height: 20,
+                                height: 18,
                               ),
                               SizedBox(height: ScreenUtil().setHeight(20)),
                               Text(
