@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../app_localizations.dart';
+import '../../app_localizations.dart';
 
 class BottomMenu extends StatelessWidget {
   final iconText;
@@ -18,7 +18,7 @@ class BottomMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(300),
+      height: ScreenUtil().setHeight(400),
       color: Colors.transparent,
       child: Stack(
         children: <Widget>[
@@ -36,7 +36,6 @@ class BottomMenu extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10.0),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 10.0,
                             vertical: 12.0,
                           ),
                           child: Column(
@@ -60,7 +59,6 @@ class BottomMenu extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10.0),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 10.0,
                             vertical: 12.0,
                           ),
                           child: Column(
@@ -83,24 +81,17 @@ class BottomMenu extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10.0,
-                          vertical: 12.0,
-                        ),
-                        child: Column(
-                          children: <Widget>[
-                            Image.memory(kTransparentImage,
-                                width: ScreenUtil().setWidth(150)),
-                          ],
-                        ),
+                      Column(
+                        children: <Widget>[
+                          Image.memory(kTransparentImage,
+                              width: ScreenUtil().setWidth(150)),
+                        ],
                       ),
                       InkWell(
                         onTap: () => Navigator.pushNamed(context, INVITE),
                         borderRadius: BorderRadius.circular(10.0),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 10.0,
                             vertical: 12.0,
                           ),
                           child: Column(
@@ -112,9 +103,10 @@ class BottomMenu extends StatelessWidget {
                               ),
                               SizedBox(height: ScreenUtil().setHeight(20)),
                               Text(
-                                  AppLocalizations.of(context)
-                                      .translate('invite_lbl'),
-                                  style: iconText),
+                                AppLocalizations.of(context)
+                                    .translate('invite_lbl'),
+                                style: iconText,
+                              ),
                             ],
                           ),
                         ),
@@ -125,7 +117,6 @@ class BottomMenu extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10.0),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 10.0,
                             vertical: 12.0,
                           ),
                           child: Column(
@@ -157,11 +148,11 @@ class BottomMenu extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: InkWell(
-              onTap: () => Navigator.pushNamed(context, KPP),
+              onTap: () => Navigator.pushNamed(context, EMERGENCY),
               borderRadius: BorderRadius.circular(10.0),
               child: Image.asset(
-                myImage.logo,
-                width: ScreenUtil().setWidth(300),
+                myImage.sos,
+                // width: ScreenUtil().setWidth(300),
               ),
             ),
           ),

@@ -38,10 +38,13 @@ class Feeds extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: InkWell(
+              borderRadius: BorderRadius.circular(12),
               onTap: () => Navigator.pushNamed(context, PROMOTIONS),
               child: Column(
                 children: <Widget>[
-                  Expanded(
+                  Container(
+                    width: double.infinity,
+                    height: ScreenUtil().setHeight(600),
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(12),
@@ -52,7 +55,7 @@ class Feeds extends StatelessWidget {
                             .feedMediaFilename
                             .replaceAll(removeBracket, '')
                             .split('\r\n')[0],
-                        fit: BoxFit.contain,
+                        fit: BoxFit.fill,
                       ),
                     ),
                   ),
@@ -98,10 +101,19 @@ class Feeds extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: InkWell(
+              borderRadius: BorderRadius.circular(12),
               onTap: () => Navigator.pushNamed(context, PROMOTIONS),
               child: Column(
                 children: <Widget>[
-                  Expanded(
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(12),
+                        topLeft: Radius.circular(12),
+                      ),
+                    ),
+                    width: double.infinity,
+                    height: ScreenUtil().setHeight(600),
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(12),
@@ -112,7 +124,7 @@ class Feeds extends StatelessWidget {
                             .feedMediaFilename
                             .replaceAll(removeBracket, '')
                             .split('\r\n')[0],
-                        fit: BoxFit.contain,
+                        fit: BoxFit.fill,
                       ),
                     ),
                   ),

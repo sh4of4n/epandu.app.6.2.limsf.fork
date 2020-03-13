@@ -52,6 +52,7 @@ class FontTheme {
 
 class ImagesConstant {
   String logo = 'assets/images/ePandu-logo.png';
+  String logo2 = 'assets/images/ePandu-logo-2.png';
   String feedSample = 'assets/images/feed-sample.jpg';
   String feedSample2 = 'assets/images/feed-sample.png';
   String friend = 'assets/images/friend.png';

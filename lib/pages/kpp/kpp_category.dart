@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/services/repository/kpp_repository.dart';
@@ -10,6 +7,7 @@ import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import 'kpp_category_icon.dart';
 
@@ -23,7 +21,7 @@ class _KppCategoryState extends State<KppCategory> {
   final kppRepo = KppRepo();
   final image = ImagesConstant();
   final localStorage = LocalStorage();
-  Uint8List instituteLogo;
+  String instituteLogo = '';
   bool isLogoLoaded = false;
   final primaryColor = ColorConstant.primaryColor;
 
@@ -31,39 +29,32 @@ class _KppCategoryState extends State<KppCategory> {
   void initState() {
     super.initState();
 
-    _getArmasterAppPhotoForCode();
+    _getDiProfile();
   }
 
-  _getArmasterAppPhotoForCode() async {
-    String instituteLogoBase64 =
-        await localStorage.getArmasterAppPhotoForCode();
+  _getDiProfile() async {
+    String instituteLogoPath = await localStorage.getArmasterAppPhotoForCode();
 
-    if (instituteLogoBase64.isEmpty) {
+    if (instituteLogoPath.isEmpty) {
       var result = await authRepo.getDiProfile(context: context);
 
-      if (result.data != null) {
-        Uint8List decodedImage = base64Decode(result.data);
+      if (result.isSuccess && result.data != null) {
+        // Uint8List decodedImage = base64Decode(
+        //     result.data);
 
         setState(() {
-          instituteLogo = decodedImage;
+          instituteLogo = result.data;
           isLogoLoaded = true;
         });
       }
     } else {
-      Uint8List decodedImage = base64Decode(instituteLogoBase64);
+      // Uint8List decodedImage = base64Decode(instituteLogoPath);
 
       setState(() {
-        instituteLogo = decodedImage;
+        instituteLogo = instituteLogoPath;
         isLogoLoaded = true;
       });
     }
-  }
-
-  _customContainer() {
-    return Container(
-      width: 294,
-      height: 154,
-    );
   }
 
   @override
@@ -87,18 +78,15 @@ class _KppCategoryState extends State<KppCategory> {
           ),
           Column(
             children: <Widget>[
-              AnimatedCrossFade(
-                crossFadeState: isLogoLoaded
-                    ? CrossFadeState.showFirst
-                    : CrossFadeState.showSecond,
-                duration: const Duration(milliseconds: 1500),
-                firstChild: instituteLogo != null
-                    ? Image.memory(
-                        instituteLogo,
-                        semanticLabel: 'ePandu',
-                      )
-                    : _customContainer(),
-                secondChild: _customContainer(),
+              FadeInImage(
+                alignment: Alignment.center,
+                placeholder: MemoryImage(kTransparentImage),
+                image: instituteLogo.isNotEmpty
+                    ? NetworkImage(instituteLogo)
+                    : MemoryImage(kTransparentImage),
+              ),
+              SizedBox(
+                height: ScreenUtil().setHeight(80),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),

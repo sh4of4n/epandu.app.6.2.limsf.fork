@@ -10,7 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
 
-import '../../widgets/bottom_menu.dart';
+import 'bottom_menu.dart';
 import 'feeds.dart';
 import 'home_page_header.dart';
 import 'home_top_menu.dart';
@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
     accuracy: LocationAccuracy.high,
     distanceFilter: 100,
   );
-  String instituteLogo;
+  String instituteLogo = '';
   bool isLogoLoaded = false;
 
   final _iconText = TextStyle(

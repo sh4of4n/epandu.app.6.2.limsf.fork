@@ -1,3 +1,4 @@
+import 'package:epandu/pages/epandu/epandu.dart';
 import 'package:epandu/pages/menu/menu.dart';
 import 'package:epandu/pages/promotions/promotions.dart';
 import 'package:flutter/material.dart';
@@ -194,6 +195,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           settings: RouteSettings(name: ENROLLMENT),
           builder: (_) => Enrollment(data),
+        );
+      case EPANDU:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: EPANDU),
+          builder: (_) => EpanduCategory(),
         );
       default:
         return _errorRoute();

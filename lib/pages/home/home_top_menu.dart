@@ -16,12 +16,13 @@ class HomeTopMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(400),
+      height: ScreenUtil().setHeight(350),
       child: Stack(
         children: <Widget>[
           Align(
             alignment: Alignment.center,
             child: Table(
+              // border: TableBorder.all(),
               children: [
                 TableRow(
                   children: [
@@ -126,11 +127,21 @@ class HomeTopMenu extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: InkWell(
-              onTap: () => Navigator.pushNamed(context, EMERGENCY),
+              onTap: () => Navigator.pushNamed(context, EPANDU),
               borderRadius: BorderRadius.circular(10.0),
-              child: Image.asset(
-                myImage.sos,
-                // height: ScreenUtil().setHeight(400),
+              child: Container(
+                padding: EdgeInsets.only(
+                  top: ScreenUtil().setHeight(60),
+                ),
+                margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(80)),
+                child: FadeInImage(
+                  alignment: Alignment.center,
+                  placeholder: MemoryImage(kTransparentImage),
+                  height: ScreenUtil().setHeight(100),
+                  image: AssetImage(
+                    myImage.logo2,
+                  ),
+                ),
               ),
             ),
           ),

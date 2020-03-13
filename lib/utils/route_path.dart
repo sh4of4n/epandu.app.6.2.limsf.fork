@@ -33,3 +33,4 @@ const String CHECK_ENROLLMENT = 'check_enrollment';
 const String SELECT_INSTITUTE = 'select_institute';
 const String SELECT_CLASS = 'select_class';
 const String ENROLLMENT = 'enrollment';
+const String EPANDU = '/epandu';

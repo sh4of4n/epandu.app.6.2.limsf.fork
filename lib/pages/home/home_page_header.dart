@@ -1,4 +1,3 @@
-import 'package:epandu/app_localizations.dart';
 import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
@@ -22,13 +21,18 @@ class HomePageHeader extends StatelessWidget {
       children: [
         TableRow(
           children: [
-            FadeInImage(
-              alignment: Alignment.center,
-              height: ScreenUtil().setHeight(380),
-              placeholder: MemoryImage(kTransparentImage),
-              image: instituteLogo != null
-                  ? NetworkImage(instituteLogo)
-                  : MemoryImage(kTransparentImage),
+            Container(
+              margin: EdgeInsets.only(
+                top: ScreenUtil().setHeight(20),
+              ),
+              child: FadeInImage(
+                alignment: Alignment.center,
+                height: ScreenUtil().setHeight(350),
+                placeholder: MemoryImage(kTransparentImage),
+                image: instituteLogo.isNotEmpty
+                    ? NetworkImage(instituteLogo)
+                    : MemoryImage(kTransparentImage),
+              ),
             ),
             /* Opacity(
                   opacity: 0.5,
@@ -91,7 +95,7 @@ class HomePageHeader extends StatelessWidget {
                 ),
             Container(
               alignment: Alignment.topRight,
-              margin: EdgeInsets.only(top: ScreenUtil().setHeight(30)),
+              // margin: EdgeInsets.only(top: ScreenUtil().setHeight(30)),
               child: IconButton(
                 iconSize: 36,
                 icon: Icon(
