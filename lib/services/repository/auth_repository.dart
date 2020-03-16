@@ -71,9 +71,11 @@ class AuthRepo {
 
       if (getWsUrlResponse.loginAcctInfo != null) {
         await wsUrlBox.put(
-            'wsUrl',
-            getWsUrlResponse.loginAcctInfo.loginAcct.wsUrl
-                .replaceAll('1_2', wsVer));
+          'wsUrl',
+          getWsUrlResponse.loginAcctInfo.loginAcct.wsUrl
+              .replaceAll('1_2', wsVer)
+              .replaceAll('_wsver_', wsVer),
+        );
 
         localStorage.saveCaUid(acctUid);
         localStorage.saveCaPwd(acctPwd);
