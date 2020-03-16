@@ -19,9 +19,23 @@ class _DirectoryListState extends State<DirectoryList> {
   final emergencyRepo = EmergencyRepo();
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
+  Future _getDirectoryContacts;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _getDirectoryContacts = _getContacts();
+  }
 
   _getContacts() async {
-    return widget.data;
+    var response = await emergencyRepo.getSosContactSortByNearest(
+        context: context, sosContactType: widget.data);
+
+    if (mounted && response.isSuccess) {
+      return response.data;
+    }
+    return response.message;
   }
 
   _listItem(snapshot, index) {
@@ -85,60 +99,79 @@ class _DirectoryListState extends State<DirectoryList> {
           title: _getAppBarTitle(),
         ),
         body: FutureBuilder(
-          future: _getContacts(),
+          future: _getDirectoryContacts,
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (snapshot.hasData) {
-              return Container(
-                padding: EdgeInsets.all(15.0),
-                margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      offset: Offset(0, 8.0),
-                      blurRadius: 10.0,
-                    )
-                  ],
-                ),
-                child: ListView.builder(
-                  // itemCount: 10,
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    if (snapshot.data[0].sosContactType == 'POLICE' &&
-                        snapshot.data[index].sosContactSubtype == 'IPD') {
-                      return _listItem(snapshot, index);
-                    } else if (snapshot.data[0].sosContactType == 'AMBULANCE' ||
-                        snapshot.data[0].sosContactType == 'EMBASSY') {
-                      return _listItem(snapshot, index);
-                    }
-                    return Container(height: 0, width: 0);
-                  },
-                ),
-              );
-            }
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return Container(
+                  padding: EdgeInsets.all(15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        offset: Offset(0, 8.0),
+                        blurRadius: 10.0,
+                      )
+                    ],
+                  ),
+                  child: Center(
+                    child: SpinKitFoldingCube(
+                      color: primaryColor,
+                    ),
+                  ),
+                );
+              case ConnectionState.done:
+                if (snapshot.data is String) {
+                  return Expanded(
+                    child: Center(
+                      child: Text(snapshot.data),
+                    ),
+                  );
+                }
 
-            return Container(
-              padding: EdgeInsets.all(15.0),
-              margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    offset: Offset(0, 8.0),
-                    blurRadius: 10.0,
-                  )
-                ],
-              ),
-              child: Center(
-                child: SpinKitFoldingCube(
-                  color: primaryColor,
-                ),
-              ),
-            );
+                return Container(
+                  padding: EdgeInsets.all(15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        offset: Offset(0, 8.0),
+                        blurRadius: 10.0,
+                      )
+                    ],
+                  ),
+                  child: ListView.builder(
+                    // itemCount: 10,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (snapshot.data[0].sosContactType == 'POLICE' &&
+                          snapshot.data[index].sosContactSubtype == 'IPD') {
+                        return _listItem(snapshot, index);
+                      } else if (snapshot.data[0].sosContactType ==
+                              'AMBULANCE' ||
+                          snapshot.data[0].sosContactType == 'EMBASSY') {
+                        return _listItem(snapshot, index);
+                      }
+                      return Container(height: 0, width: 0);
+                    },
+                  ),
+                );
+              default:
+                return Expanded(
+                  child: Center(
+                    child: Text(
+                      AppLocalizations.of(context)
+                          .translate('get_contacts_fail'),
+                    ),
+                  ),
+                );
+            }
           },
         ),
       ),

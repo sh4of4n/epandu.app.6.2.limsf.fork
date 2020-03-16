@@ -148,7 +148,7 @@ class BottomMenu extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: InkWell(
-              onTap: () => Navigator.pushNamed(context, EMERGENCY),
+              onTap: () => Navigator.pushNamed(context, EMERGENCY_DIRECTORY),
               borderRadius: BorderRadius.circular(10.0),
               child: Image.asset(
                 myImage.sos,
