@@ -14,6 +14,7 @@ class EpanduCategory extends StatelessWidget {
   final primaryColor = ColorConstant.primaryColor;
   final iconText = TextStyle(
     fontSize: ScreenUtil().setSp(60),
+    color: Colors.black,
   );
   final myImage = ImagesConstant();
 
@@ -24,9 +25,9 @@ class EpanduCategory extends StatelessWidget {
         gradient: LinearGradient(
           colors: [
             Colors.white,
-            primaryColor,
+            Color(0xffffd225),
           ],
-          stops: [0.45, 0.65],
+          stops: [0.85, 1.2],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -42,180 +43,184 @@ class EpanduCategory extends StatelessWidget {
           children: <Widget>[
             FadeInImage(
               alignment: Alignment.center,
+              height: ScreenUtil().setHeight(190),
               placeholder: MemoryImage(kTransparentImage),
               image: AssetImage(
                 myImage.logo2,
               ),
             ),
             SizedBox(
+              height: ScreenUtil().setHeight(40),
+            ),
+            FadeInImage(
+              alignment: Alignment.center,
+              placeholder: MemoryImage(kTransparentImage),
+              image: AssetImage(
+                myImage.tyreShop,
+              ),
+            ),
+            SizedBox(
               height: ScreenUtil().setHeight(80),
             ),
-            Table(
-              // defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-              // border: TableBorder.all(),
-              children: [
-                TableRow(
-                  children: [
-                    InkWell(
-                      onTap: () => Navigator.pushNamed(context, ENROLLMENT),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            width: ScreenUtil().setWidth(300),
-                            height: ScreenUtil().setWidth(300),
-                            margin: EdgeInsets.all(10),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.blue, width: 3),
-                              shape: BoxShape.circle,
+            Padding(
+              padding:
+                  EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(60)),
+              child: Table(
+                // defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                // border: TableBorder.all(),
+                children: [
+                  TableRow(
+                    children: [
+                      InkWell(
+                        onTap: () => Navigator.pushNamed(context, ENROLLMENT),
+                        child: Column(
+                          children: <Widget>[
+                            FadeInImage(
+                              alignment: Alignment.center,
+                              height: ScreenUtil().setHeight(350),
+                              placeholder: MemoryImage(kTransparentImage),
+                              image: AssetImage(
+                                myImage.enrollIcon,
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: ScreenUtil().setHeight(20),
-                          ),
-                          Text(
-                            AppLocalizations.of(context)
-                                .translate('enroll_lbl'),
-                            style: iconText,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            width: ScreenUtil().setWidth(300),
-                            height: ScreenUtil().setWidth(300),
-                            margin: EdgeInsets.all(10),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.blue, width: 3),
-                              shape: BoxShape.circle,
+                            SizedBox(
+                              height: ScreenUtil().setHeight(20),
                             ),
-                          ),
-                          SizedBox(
-                            height: ScreenUtil().setHeight(20),
-                          ),
-                          Text(
-                            AppLocalizations.of(context)
-                                .translate('important_info_lbl'),
-                            style: iconText,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () => Navigator.pushNamed(context, KPP),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            width: ScreenUtil().setWidth(300),
-                            height: ScreenUtil().setWidth(300),
-                            margin: EdgeInsets.all(10),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.blue, width: 3),
-                              shape: BoxShape.circle,
+                            Text(
+                              AppLocalizations.of(context)
+                                  .translate('enroll_lbl'),
+                              style: iconText,
+                              textAlign: TextAlign.center,
                             ),
-                          ),
-                          SizedBox(
-                            height: ScreenUtil().setHeight(20),
-                          ),
-                          Text(
-                            AppLocalizations.of(context).translate('kpp01_lbl'),
-                            style: iconText,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    InkWell(
-                      onTap: () {},
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            width: ScreenUtil().setWidth(300),
-                            height: ScreenUtil().setWidth(300),
-                            margin: EdgeInsets.all(10),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.blue, width: 3),
-                              shape: BoxShape.circle,
+                      InkWell(
+                        onTap: () {},
+                        child: Column(
+                          children: <Widget>[
+                            FadeInImage(
+                              alignment: Alignment.center,
+                              height: ScreenUtil().setHeight(350),
+                              placeholder: MemoryImage(kTransparentImage),
+                              image: AssetImage(
+                                myImage.importantInfoIcon,
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: ScreenUtil().setHeight(20),
-                          ),
-                          Text(
-                            AppLocalizations.of(context)
-                                .translate('booking_lbl'),
-                            style: iconText,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            width: ScreenUtil().setWidth(300),
-                            height: ScreenUtil().setWidth(300),
-                            margin: EdgeInsets.all(10),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.blue, width: 3),
-                              shape: BoxShape.circle,
+                            SizedBox(
+                              height: ScreenUtil().setHeight(20),
                             ),
-                          ),
-                          SizedBox(
-                            height: ScreenUtil().setHeight(20),
-                          ),
-                          Text(
-                            AppLocalizations.of(context).translate('faq_lbl'),
-                            style: iconText,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            width: ScreenUtil().setWidth(300),
-                            height: ScreenUtil().setWidth(300),
-                            margin: EdgeInsets.all(10),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.blue, width: 3),
-                              shape: BoxShape.circle,
+                            Text(
+                              AppLocalizations.of(context)
+                                  .translate('important_info_lbl'),
+                              style: iconText,
+                              textAlign: TextAlign.center,
                             ),
-                          ),
-                          SizedBox(
-                            height: ScreenUtil().setHeight(20),
-                          ),
-                          Text(
-                            AppLocalizations.of(context).translate('job_lbl'),
-                            style: iconText,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      InkWell(
+                        onTap: () => Navigator.pushNamed(context, KPP),
+                        child: Column(
+                          children: <Widget>[
+                            FadeInImage(
+                              alignment: Alignment.center,
+                              height: ScreenUtil().setHeight(350),
+                              placeholder: MemoryImage(kTransparentImage),
+                              image: AssetImage(
+                                myImage.kppIcon,
+                              ),
+                            ),
+                            SizedBox(
+                              height: ScreenUtil().setHeight(20),
+                            ),
+                            Text(
+                              AppLocalizations.of(context)
+                                  .translate('kpp01_lbl'),
+                              style: iconText,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  TableRow(
+                    children: [
+                      InkWell(
+                        onTap: () {},
+                        child: Column(
+                          children: <Widget>[
+                            FadeInImage(
+                              alignment: Alignment.center,
+                              height: ScreenUtil().setHeight(350),
+                              placeholder: MemoryImage(kTransparentImage),
+                              image: AssetImage(
+                                myImage.jobIcon,
+                              ),
+                            ),
+                            SizedBox(
+                              height: ScreenUtil().setHeight(20),
+                            ),
+                            Text(
+                              AppLocalizations.of(context).translate('job_lbl'),
+                              style: iconText,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        child: Column(
+                          children: <Widget>[
+                            FadeInImage(
+                              alignment: Alignment.center,
+                              height: ScreenUtil().setHeight(350),
+                              placeholder: MemoryImage(kTransparentImage),
+                              image: AssetImage(
+                                myImage.bookingIcon,
+                              ),
+                            ),
+                            SizedBox(
+                              height: ScreenUtil().setHeight(20),
+                            ),
+                            Text(
+                              AppLocalizations.of(context)
+                                  .translate('booking_lbl'),
+                              style: iconText,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        child: Column(
+                          children: <Widget>[
+                            FadeInImage(
+                              alignment: Alignment.center,
+                              height: ScreenUtil().setHeight(350),
+                              placeholder: MemoryImage(kTransparentImage),
+                              image: AssetImage(
+                                myImage.faqIcon,
+                              ),
+                            ),
+                            SizedBox(
+                              height: ScreenUtil().setHeight(20),
+                            ),
+                            Text(
+                              AppLocalizations.of(context).translate('faq_lbl'),
+                              style: iconText,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),

@@ -61,6 +61,14 @@ class ImagesConstant {
   String sos = 'assets/images/sos-icon.png';
   String vClub = 'assets/images/v-club-icon.png';
   String menu = 'assets/images/menu-icon.png';
+  String tyreShop = 'assets/images/tyre-shop-image.png';
+  String vClubLogo = 'assets/images/v-club-logo.png';
+  String jobIcon = 'assets/images/job.png';
+  String enrollIcon = 'assets/images/enroll.png';
+  String importantInfoIcon = 'assets/images/important-info.png';
+  String kppIcon = 'assets/images/kpp01.png';
+  String bookingIcon = 'assets/images/booking.png';
+  String faqIcon = 'assets/images/faq.png';
   // String avatar = 'images/avatar.jpg';
   // String loginBackground = 'assets/images/login_background.jpg';
 }
