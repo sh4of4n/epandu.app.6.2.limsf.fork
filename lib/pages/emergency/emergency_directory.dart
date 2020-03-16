@@ -14,7 +14,6 @@ class EmergencyDirectory extends StatelessWidget {
   final myImage = ImagesConstant();
   final iconText = TextStyle(
     fontSize: ScreenUtil().setSp(60),
-    color: Colors.black,
   );
 
   @override
@@ -50,134 +49,151 @@ class EmergencyDirectory extends StatelessWidget {
                 height: ScreenUtil().setHeight(80),
               ),
               Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(60)),
-                child: Table(children: [
-                  TableRow(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                            vertical: ScreenUtil().setHeight(40)),
-                        child: InkWell(
-                          onTap: () => Navigator.pushNamed(
-                              context, DIRECTORY_LIST,
-                              arguments: 'POLICE'),
-                          child: Column(
-                            children: <Widget>[
-                              FadeInImage(
-                                alignment: Alignment.center,
-                                height: ScreenUtil().setHeight(350),
-                                placeholder: MemoryImage(kTransparentImage),
-                                image: AssetImage(
-                                  myImage.policeIcon,
+                padding: EdgeInsets.symmetric(
+                    horizontal: ScreenUtil().setWidth(120)),
+                child: Table(
+                  children: [
+                    TableRow(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                              vertical: ScreenUtil().setHeight(40)),
+                          child: InkWell(
+                            onTap: () => Navigator.pushNamed(
+                                context, DIRECTORY_LIST,
+                                arguments: 'POLICE'),
+                            child: Column(
+                              children: <Widget>[
+                                FadeInImage(
+                                  alignment: Alignment.center,
+                                  height: ScreenUtil().setHeight(500),
+                                  placeholder: MemoryImage(kTransparentImage),
+                                  image: AssetImage(
+                                    myImage.policeIcon,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: ScreenUtil().setHeight(20),
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('police_lbl'),
-                                style: iconText,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                                SizedBox(
+                                  height: ScreenUtil().setHeight(20),
+                                ),
+                                Text(
+                                  AppLocalizations.of(context)
+                                      .translate('police_title'),
+                                  style: iconText,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                            vertical: ScreenUtil().setHeight(40)),
-                        child: InkWell(
-                          onTap: () => Navigator.pushNamed(
-                              context, DIRECTORY_LIST,
-                              arguments: 'AMBULANCE'),
-                          child: Column(
-                            children: <Widget>[
-                              FadeInImage(
-                                alignment: Alignment.center,
-                                height: ScreenUtil().setHeight(350),
-                                placeholder: MemoryImage(kTransparentImage),
-                                image: AssetImage(
-                                  myImage.ambulanceIcon,
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                              vertical: ScreenUtil().setHeight(40)),
+                          child: InkWell(
+                            onTap: () => Navigator.pushNamed(
+                                context, DIRECTORY_LIST,
+                                arguments: 'AMBULANCE'),
+                            child: Column(
+                              children: <Widget>[
+                                FadeInImage(
+                                  alignment: Alignment.center,
+                                  height: ScreenUtil().setHeight(500),
+                                  placeholder: MemoryImage(kTransparentImage),
+                                  image: AssetImage(
+                                    myImage.ambulanceIcon,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: ScreenUtil().setHeight(20),
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('ambulance_lbl'),
-                                style: iconText,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                                SizedBox(
+                                  height: ScreenUtil().setHeight(20),
+                                ),
+                                Text(
+                                  AppLocalizations.of(context)
+                                      .translate('ambulance_title'),
+                                  style: iconText,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                              vertical: ScreenUtil().setHeight(40)),
+                          child: InkWell(
+                            onTap: () {},
+                            child: Column(
+                              children: <Widget>[
+                                FadeInImage(
+                                  alignment: Alignment.center,
+                                  height: ScreenUtil().setHeight(500),
+                                  placeholder: MemoryImage(kTransparentImage),
+                                  image: AssetImage(
+                                    myImage.bombaIcon,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: ScreenUtil().setHeight(20),
+                                ),
+                                Text(
+                                  AppLocalizations.of(context)
+                                      .translate('bomba_title'),
+                                  style: iconText,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                              vertical: ScreenUtil().setHeight(40)),
+                          child: InkWell(
+                            onTap: () {},
+                            child: Column(
+                              children: <Widget>[
+                                FadeInImage(
+                                  alignment: Alignment.center,
+                                  height: ScreenUtil().setHeight(500),
+                                  placeholder: MemoryImage(kTransparentImage),
+                                  image: AssetImage(
+                                    myImage.workshopIcon,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: ScreenUtil().setHeight(20),
+                                ),
+                                Text(
+                                  AppLocalizations.of(context)
+                                      .translate('workshop_title'),
+                                  style: iconText,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: ScreenUtil().setHeight(70),
+              ),
+              InkWell(
+                onTap: () {},
+                child: Text(
+                  AppLocalizations.of(context).translate('upgrade_sos_lbl'),
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(72),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
+                    decoration: TextDecoration.underline,
                   ),
-                  TableRow(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                            vertical: ScreenUtil().setHeight(40)),
-                        child: InkWell(
-                          onTap: () {},
-                          child: Column(
-                            children: <Widget>[
-                              FadeInImage(
-                                alignment: Alignment.center,
-                                height: ScreenUtil().setHeight(350),
-                                placeholder: MemoryImage(kTransparentImage),
-                                image: AssetImage(
-                                  myImage.bombaIcon,
-                                ),
-                              ),
-                              SizedBox(
-                                height: ScreenUtil().setHeight(20),
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('bomba_lbl'),
-                                style: iconText,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                            vertical: ScreenUtil().setHeight(40)),
-                        child: InkWell(
-                          onTap: () {},
-                          child: Column(
-                            children: <Widget>[
-                              FadeInImage(
-                                alignment: Alignment.center,
-                                height: ScreenUtil().setHeight(350),
-                                placeholder: MemoryImage(kTransparentImage),
-                                image: AssetImage(
-                                  myImage.workshopIcon,
-                                ),
-                              ),
-                              SizedBox(
-                                height: ScreenUtil().setHeight(20),
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('workshop_lbl'),
-                                style: iconText,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ]),
+                ),
               ),
             ],
           ),

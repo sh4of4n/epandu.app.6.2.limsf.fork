@@ -141,6 +141,7 @@
   "remark_lbl": "Remark",
   "from_lbl": "From",
   "to_lbl": "To",
+  "upgrade_sos_lbl": "Upgrade to premium",
   "loc_permission_title": "Location Permission",
   "loc_permission_desc": "Location permission is required to use SOS features. Enable location?",
   "get_contacts_fail": "Failed to get contacts. Please try again later.",

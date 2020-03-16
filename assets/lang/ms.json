@@ -141,6 +141,7 @@
   "remark_lbl": "Kenyataan",
   "from_lbl": "Dari",
   "to_lbl": "Kepada",
+  "upgrade_sos_lbl": "Naik taraf ke premium",
   "loc_permission_title": "Permintaan lokasi",
   "loc_permission_desc": "Permintaan lokasi diperlukan untuk menggunakan ciri SOS. Aktifkan lokasi?",
   "get_contacts_fail": "Gagal mendapatkan kenalan. Sila cuba sebentar lagi.",
