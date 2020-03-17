@@ -125,10 +125,8 @@ class _DirectoryListState extends State<DirectoryList> {
                 );
               case ConnectionState.done:
                 if (snapshot.data is String) {
-                  return Expanded(
-                    child: Center(
-                      child: Text(snapshot.data),
-                    ),
+                  return Center(
+                    child: Text(snapshot.data),
                   );
                 }
 
@@ -163,12 +161,9 @@ class _DirectoryListState extends State<DirectoryList> {
                   ),
                 );
               default:
-                return Expanded(
-                  child: Center(
-                    child: Text(
-                      AppLocalizations.of(context)
-                          .translate('get_contacts_fail'),
-                    ),
+                return Center(
+                  child: Text(
+                    AppLocalizations.of(context).translate('get_contacts_fail'),
                   ),
                 );
             }

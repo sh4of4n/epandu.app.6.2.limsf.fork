@@ -14,17 +14,27 @@ class BottomMenu extends StatelessWidget {
   BottomMenu({this.iconText, this.positionStream});
 
   final myImage = ImagesConstant();
+  final primaryColor = ColorConstant.primaryColor;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: ScreenUtil().setHeight(400),
       color: Colors.transparent,
+      // color: primaryColor,
       child: Stack(
         children: <Widget>[
           Align(
             alignment: Alignment.bottomCenter,
-            child: Ink(
+            child: Container(
+              width: double.infinity,
+              height: ScreenUtil().setHeight(500),
+              color: primaryColor,
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
               color: Colors.white,
               child: Table(
                 children: [

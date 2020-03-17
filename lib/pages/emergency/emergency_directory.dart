@@ -35,7 +35,8 @@ class EmergencyDirectory extends StatelessWidget {
           title: Text(AppLocalizations.of(context).translate('sos_lbl')),
         ),
         body: Container(
-          margin: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(50)),
+          // margin: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(50)),
+          height: ScreenUtil.screenHeightDp,
           child: Column(
             children: <Widget>[
               FadeInImage(
@@ -45,9 +46,9 @@ class EmergencyDirectory extends StatelessWidget {
                   myImage.emergencyImage,
                 ),
               ),
-              SizedBox(
-                height: ScreenUtil().setHeight(80),
-              ),
+              // SizedBox(
+              //   height: ScreenUtil().setHeight(50),
+              // ),
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: ScreenUtil().setWidth(120)),
@@ -66,7 +67,7 @@ class EmergencyDirectory extends StatelessWidget {
                               children: <Widget>[
                                 FadeInImage(
                                   alignment: Alignment.center,
-                                  height: ScreenUtil().setHeight(500),
+                                  height: ScreenUtil().setHeight(450),
                                   placeholder: MemoryImage(kTransparentImage),
                                   image: AssetImage(
                                     myImage.policeIcon,
@@ -96,7 +97,7 @@ class EmergencyDirectory extends StatelessWidget {
                               children: <Widget>[
                                 FadeInImage(
                                   alignment: Alignment.center,
-                                  height: ScreenUtil().setHeight(500),
+                                  height: ScreenUtil().setHeight(450),
                                   placeholder: MemoryImage(kTransparentImage),
                                   image: AssetImage(
                                     myImage.ambulanceIcon,
@@ -128,7 +129,7 @@ class EmergencyDirectory extends StatelessWidget {
                               children: <Widget>[
                                 FadeInImage(
                                   alignment: Alignment.center,
-                                  height: ScreenUtil().setHeight(500),
+                                  height: ScreenUtil().setHeight(450),
                                   placeholder: MemoryImage(kTransparentImage),
                                   image: AssetImage(
                                     myImage.bombaIcon,
@@ -156,7 +157,7 @@ class EmergencyDirectory extends StatelessWidget {
                               children: <Widget>[
                                 FadeInImage(
                                   alignment: Alignment.center,
-                                  height: ScreenUtil().setHeight(500),
+                                  height: ScreenUtil().setHeight(450),
                                   placeholder: MemoryImage(kTransparentImage),
                                   image: AssetImage(
                                     myImage.workshopIcon,

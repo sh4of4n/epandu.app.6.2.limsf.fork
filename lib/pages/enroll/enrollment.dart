@@ -79,8 +79,11 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         hintStyle: TextStyle(
           color: primaryColor,
         ),
+        labelStyle: TextStyle(
+          color: Color(0xff808080),
+        ),
         labelText: AppLocalizations.of(context).translate('ic_required_lbl'),
-        fillColor: Colors.grey.withOpacity(.25),
+        fillColor: Colors.white,
         filled: true,
         prefixIcon: Icon(Icons.featured_video),
         enabledBorder: OutlineInputBorder(
@@ -133,9 +136,12 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         hintStyle: TextStyle(
           color: primaryColor,
         ),
+        labelStyle: TextStyle(
+          color: Color(0xff808080),
+        ),
         labelText:
             AppLocalizations.of(context).translate('ic_name_required_lbl'),
-        fillColor: Colors.grey.withOpacity(.25),
+        fillColor: Colors.white,
         filled: true,
         prefixIcon: Icon(Icons.assignment_ind),
         enabledBorder: OutlineInputBorder(
@@ -176,8 +182,11 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         contentPadding: EdgeInsets.symmetric(
           vertical: ScreenUtil().setHeight(50),
         ),
+        labelStyle: TextStyle(
+          color: Color(0xff808080),
+        ),
         labelText: AppLocalizations.of(context).translate('dob_required_lbl'),
-        fillColor: Colors.grey.withOpacity(.25),
+        fillColor: Colors.white,
         filled: true,
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.transparent),
@@ -237,6 +246,9 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       children: <Widget>[
         Text(
           AppLocalizations.of(context).translate('gender_lbl'),
+          style: TextStyle(
+            color: Colors.black,
+          ),
         ),
         Radio(
           value: Gender.male,
@@ -251,6 +263,9 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         ),
         Text(
           AppLocalizations.of(context).translate('gender_male'),
+          style: TextStyle(
+            color: Colors.black,
+          ),
         ),
         Radio(
           value: Gender.female,
@@ -265,6 +280,9 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         ),
         Text(
           AppLocalizations.of(context).translate('gender_female'),
+          style: TextStyle(
+            color: Colors.black,
+          ),
         ),
       ],
     );
@@ -322,8 +340,10 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
+        backgroundColor: Colors.amberAccent,
         appBar: AppBar(
           elevation: 0,
+          backgroundColor: Colors.transparent,
           title: Text(
             AppLocalizations.of(context).translate('enroll_lbl'),
           ),
@@ -392,17 +412,15 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
               shape: StadiumBorder(),
               child: RaisedButton(
                 onPressed: _submit,
+                color: Colors.red,
                 textColor: Colors.white,
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25.0),
-                    gradient: LinearGradient(
-                      colors: [Colors.blueAccent.shade700, Colors.blue],
-                    ),
+                    borderRadius: BorderRadius.circular(18.0),
                   ),
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 40.0,
-                    vertical: 15.0,
+                    horizontal: 30.0,
+                    vertical: 10.0,
                   ),
                   child: Text(
                     AppLocalizations.of(context).translate('submit_btn'),
