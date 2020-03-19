@@ -1251,11 +1251,12 @@ class Feed {
   String rowKey;
   String feedText;
   String feedMediaFilename;
-  String feedUrl;
+  String feedNavigate;
   String merchantNo;
   String localFeed;
   String createUser;
   String editUser;
+  String editDate;
   String deleted;
   String transtamp;
 
@@ -1272,11 +1273,12 @@ class Feed {
       this.rowKey,
       this.feedText,
       this.feedMediaFilename,
-      this.feedUrl,
+      this.feedNavigate,
       this.merchantNo,
       this.localFeed,
       this.createUser,
       this.editUser,
+      this.editDate,
       this.deleted,
       this.transtamp});
 
@@ -1293,11 +1295,12 @@ class Feed {
     rowKey = json['row_key'];
     feedText = json['feed_text'];
     feedMediaFilename = json['feed_media_filename'];
-    feedUrl = json['feed_url'];
+    feedNavigate = json['feed_navigate'];
     merchantNo = json['merchant_no'];
     localFeed = json['local_feed'];
     createUser = json['create_user'];
     editUser = json['edit_user'];
+    editDate = json['edit_date'];
     deleted = json['deleted'];
     transtamp = json['transtamp'];
   }
@@ -1316,11 +1319,12 @@ class Feed {
     data['row_key'] = this.rowKey;
     data['feed_text'] = this.feedText;
     data['feed_media_filename'] = this.feedMediaFilename;
-    data['feed_url'] = this.feedUrl;
+    data['feed_navigate'] = this.feedNavigate;
     data['merchant_no'] = this.merchantNo;
     data['local_feed'] = this.localFeed;
     data['create_user'] = this.createUser;
     data['edit_user'] = this.editUser;
+    data['edit_date'] = this.editDate;
     data['deleted'] = this.deleted;
     data['transtamp'] = this.transtamp;
     return data;

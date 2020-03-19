@@ -2,6 +2,7 @@ import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Feeds extends StatelessWidget {
   final feed;
@@ -46,7 +47,32 @@ class Feeds extends StatelessWidget {
                   ),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(12),
-                    onTap: () => Navigator.pushNamed(context, PROMOTIONS),
+                    onTap: () {
+                      var feedValue = feed[index].feedNavigate;
+
+                      if (feedValue != null) {
+                        bool isUrl = Uri.parse(feedValue).isAbsolute;
+
+                        // Navigation
+                        if (!isUrl) {
+                          switch (feedValue) {
+                            case 'ENROLLMENT':
+                              Navigator.pushNamed(context, SELECT_INSTITUTE);
+                              break;
+                            case 'KPP':
+                              Navigator.pushNamed(context, KPP);
+                              break;
+                            case 'VCLUB':
+                              Navigator.pushNamed(context, PAYMENT);
+                              break;
+                          }
+                        } else {
+                          launch(feedValue);
+                        }
+                      } else {
+                        Navigator.pushNamed(context, PROMOTIONS);
+                      }
+                    },
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -95,76 +121,6 @@ class Feeds extends StatelessWidget {
               ],
             );
           },
-          /* children: <Widget>[
-            Ink(
-              height: ScreenUtil().setHeight(780),
-              width: ScreenUtil().setWidth(1300),
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    offset: Offset(0, 0.4),
-                    blurRadius: 0.3,
-                    spreadRadius: 0.5,
-                  ),
-                ],
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(12),
-                onTap: () => Navigator.pushNamed(context, PROMOTIONS),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(12),
-                          topLeft: Radius.circular(12),
-                        ),
-                      ),
-                      width: double.infinity,
-                      height: ScreenUtil().setHeight(600),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                        ),
-                        child: Image.network(
-                          feed[1]
-                              .feedMediaFilename
-                              .replaceAll(removeBracket, '')
-                              .split('\r\n')[0],
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: ScreenUtil().setHeight(180),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: ScreenUtil().setWidth(70),
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(12),
-                          bottomRight: Radius.circular(12),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(feed[1].feedText, style: adText),
-                          Icon(
-                            Icons.chevron_right,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ], */
         ),
       );
     return _loadingShimmer();
