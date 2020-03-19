@@ -35,6 +35,8 @@ class _ProfileState extends State<Profile> {
     color: Colors.grey.shade700,
   );
 
+  final primaryColor = ColorConstant.primaryColor;
+
   @override
   void initState() {
     super.initState();
@@ -65,52 +67,68 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        /* Container(
-            height: ScreenUtil().setHeight(300),
-            width: ScreenUtil.screenWidth,
-            color: Colors.blue), */
-        Container(
-          height: ScreenUtil().setHeight(1450),
-          width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.symmetric(
-              vertical: ScreenUtil().setHeight(140.0),
-              horizontal: ScreenUtil().setWidth(35.0)),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(30.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                offset: Offset(0, 8.0),
-                blurRadius: 10.0,
-              )
-            ],
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: RadialGradient(
+          colors: [Colors.amber.shade300, primaryColor],
+          stops: [0.5, 1],
+          radius: 0.9,
         ),
-        Container(
-          width: ScreenUtil.screenWidth,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  image: DecorationImage(
-                    image: AssetImage(image.feedSample),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                width: ScreenUtil().setWidth(280),
-                height: ScreenUtil().setWidth(280),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text(AppLocalizations.of(context).translate('profile_title')),
+        ),
+        body: Stack(
+          children: <Widget>[
+            /* Container(
+                height: ScreenUtil().setHeight(300),
+                width: ScreenUtil.screenWidth,
+                color: Colors.blue), */
+            Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(
+                  vertical: ScreenUtil().setHeight(140.0),
+                  horizontal: ScreenUtil().setWidth(35.0)),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(0, 8.0),
+                    blurRadius: 10.0,
+                  )
+                ],
               ),
-              SizedBox(height: ScreenUtil().setHeight(30)),
-              _userInfo(),
-            ],
-          ),
+            ),
+            Container(
+              width: ScreenUtil.screenWidth,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                      image: DecorationImage(
+                        image: AssetImage(image.feedSample),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    width: ScreenUtil().setWidth(280),
+                    height: ScreenUtil().setWidth(280),
+                  ),
+                  SizedBox(height: ScreenUtil().setHeight(30)),
+                  _userInfo(),
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 

@@ -1,4 +1,4 @@
-import 'package:epandu/pages/profile/attendance_record.dart';
+/* import 'package:epandu/pages/profile/attendance_record.dart';
 import 'package:epandu/pages/profile/payment_history.dart';
 import 'package:epandu/pages/profile/profile_page.dart';
 import 'package:epandu/pages/profile/registered_course.dart';
@@ -240,3 +240,4 @@ class _ProfileTabState extends State<ProfileTab>
     super.dispose();
   }
 }
+ */

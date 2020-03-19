@@ -74,7 +74,7 @@ class RouteGenerator {
       case PROFILE:
         return MaterialPageRoute(
           settings: RouteSettings(name: PROFILE),
-          builder: (_) => ProfileTab(),
+          builder: (_) => Profile(),
         );
       case INVITE:
         return MaterialPageRoute(
@@ -200,6 +200,21 @@ class RouteGenerator {
         return MaterialPageRoute(
           settings: RouteSettings(name: EPANDU),
           builder: (_) => EpanduCategory(),
+        );
+      case ATTENDANCE_RECORD:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: ATTENDANCE_RECORD),
+          builder: (_) => AttendanceRecord(),
+        );
+      case PAYMENT_HISTORY:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: PAYMENT_HISTORY),
+          builder: (_) => PaymentHistory(),
+        );
+      case REGISTERED_COURSE:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: REGISTERED_COURSE),
+          builder: (_) => RegisteredCourse(),
         );
       default:
         return _errorRoute();

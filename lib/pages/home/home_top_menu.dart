@@ -16,7 +16,6 @@ class HomeTopMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
       height: ScreenUtil().setHeight(350),
       child: Stack(
         children: <Widget>[

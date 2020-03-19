@@ -34,3 +34,6 @@ const String SELECT_INSTITUTE = 'select_institute';
 const String SELECT_CLASS = 'select_class';
 const String ENROLLMENT = 'enrollment';
 const String EPANDU = '/epandu';
+const String PAYMENT_HISTORY = '/payment_history';
+const String ATTENDANCE_RECORD = '/attendance_record';
+const String REGISTERED_COURSE = '/registered_course';

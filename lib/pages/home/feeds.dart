@@ -21,9 +21,10 @@ class Feeds extends StatelessWidget {
   Widget build(BuildContext context) {
     if (feed != null)
       return Container(
-        height: ScreenUtil().setHeight(1700),
+        // height: ScreenUtil().setHeight(1700),
         child: ListView.builder(
           shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
           itemCount: feed.length,
           itemBuilder: (BuildContext context, int index) {
             return Column(

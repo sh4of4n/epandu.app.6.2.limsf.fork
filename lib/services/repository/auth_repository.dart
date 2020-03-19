@@ -620,6 +620,8 @@ class AuthRepo {
 
   Future<Response> saveEnrollmentWithParticular({
     context,
+    phoneCountryCode,
+    phone,
     diCode,
     icNo,
     groupId,
@@ -632,6 +634,7 @@ class AuthRepo {
     String caPwd = await localStorage.getCaPwd();
 
     String userId = await localStorage.getUserId();
+    String phone = await localStorage.getUserPhone();
 
     SaveEnrollmentRequest saveEnrollmentRequest = SaveEnrollmentRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
@@ -642,9 +645,10 @@ class AuthRepo {
       icNo: icNo,
       name: name,
       nationality: nationality,
+      phoneCountryCode: phoneCountryCode,
+      phone: phone.replaceAll('+60', ''),
       dateOfBirthString: dateOfBirthString,
-      gender: gender,
-      userId: userId,
+      gender: gender,      
       race: '',
       add1: '',
       add2: '',
@@ -654,6 +658,7 @@ class AuthRepo {
       state: '',
       country: '',
       email: '',
+      userId: userId,
     );
 
     String body = jsonEncode(saveEnrollmentRequest);

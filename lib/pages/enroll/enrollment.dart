@@ -37,6 +37,9 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
 
   final FocusNode _idFocus = FocusNode();
   final FocusNode _idNameFocus = FocusNode();
+  final FocusNode _emailFocus = FocusNode();
+  final FocusNode _addressFocus = FocusNode();
+  final FocusNode _postcodeFocus = FocusNode();
   final FocusNode _dobFocus = FocusNode();
   // final FocusNode _genderFocus = FocusNode();
   // final FocusNode _nearbyDiFocus = FocusNode();
@@ -49,12 +52,17 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   bool _isLoading = false;
   String _icNo;
   String _icName;
+  String _email;
+  String _address;
+  String _postcode;
   String _dob;
   // String _nationality = '';
   String _message = '';
 
   Gender _gender = Gender.male;
   String _genderValue = 'MALE';
+  String _countryCode = '+60';
+  String _potentialDob = '';
   // String genderInt = '1';
 
   @override
@@ -112,6 +120,30 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           _icNo = value;
 
           if (value.replaceAll('-', '').replaceAll(' ', '').length == 12) {
+            setState(() {
+              _potentialDob = value.substring(0, 7);
+
+              String _year = _potentialDob.substring(0, 2);
+              int _currentYear = DateTime.now().year;
+              int _birthYear = 0;
+              int _birthMonth = int.tryParse(_potentialDob.substring(2, 4));
+              int _birthDay = int.tryParse(_potentialDob.substring(4, 6));
+
+              if (_currentYear - int.tryParse('19' + _year) < 70) {
+                _birthYear = int.tryParse('19$_year');
+                _message = '';
+              } else if (_currentYear - int.tryParse('20' + _year) < 16) {
+                _birthYear = int.tryParse('20$_year');
+
+                _message =
+                    AppLocalizations.of(context).translate('enroll_underage');
+              }
+
+              _dobController.text = DateFormat('yyyy/MM/dd').format(
+                DateTime(_birthYear, _birthMonth, _birthDay),
+              );
+            });
+
             if (int.tryParse(value
                         .replaceAll('-', '')
                         .replaceAll(' ', '')
@@ -173,6 +205,144 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     );
   }
 
+  _emailField() {
+    return TextFormField(
+      focusNode: _emailFocus,
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+        hintStyle: TextStyle(
+          color: primaryColor,
+        ),
+        labelStyle: TextStyle(
+          color: Color(0xff808080),
+        ),
+        labelText: AppLocalizations.of(context).translate('email_required_lbl'),
+        fillColor: Colors.white,
+        filled: true,
+        prefixIcon: Icon(Icons.mail),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.transparent),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+      ),
+      onFieldSubmitted: (term) {
+        fieldFocusChange(
+          context,
+          _emailFocus,
+          _addressFocus,
+        );
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          return AppLocalizations.of(context).translate('email_required_msg');
+        }
+        return null;
+      },
+      onChanged: (value) {
+        setState(() {
+          _email = value;
+        });
+      },
+    );
+  }
+
+  _addressField() {
+    return TextFormField(
+      focusNode: _addressFocus,
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+        hintStyle: TextStyle(
+          color: primaryColor,
+        ),
+        labelStyle: TextStyle(
+          color: Color(0xff808080),
+        ),
+        labelText:
+            AppLocalizations.of(context).translate('address_required_lbl'),
+        fillColor: Colors.white,
+        filled: true,
+        prefixIcon: Icon(Icons.home),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.transparent),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+      ),
+      onFieldSubmitted: (term) {
+        fieldFocusChange(
+          context,
+          _addressFocus,
+          _postcodeFocus,
+        );
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          return AppLocalizations.of(context).translate('address_required_msg');
+        }
+        return null;
+      },
+      onChanged: (value) {
+        setState(() {
+          _address = value;
+        });
+      },
+    );
+  }
+
+  _postcodeField() {
+    return TextFormField(
+      focusNode: _postcodeFocus,
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+        hintStyle: TextStyle(
+          color: primaryColor,
+        ),
+        labelStyle: TextStyle(
+          color: Color(0xff808080),
+        ),
+        labelText:
+            AppLocalizations.of(context).translate('postcode_required_lbl'),
+        fillColor: Colors.white,
+        filled: true,
+        prefixIcon: Icon(Icons.location_city),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.transparent),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+      ),
+      onFieldSubmitted: (term) {
+        fieldFocusChange(
+          context,
+          _postcodeFocus,
+          _dobFocus,
+        );
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          return AppLocalizations.of(context)
+              .translate('postcode_required_msg');
+        }
+        return null;
+      },
+      onChanged: (value) {
+        setState(() {
+          _postcode = value;
+        });
+      },
+    );
+  }
+
   _dobField() {
     return DateTimeField(
       focusNode: _dobFocus,
@@ -198,7 +368,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         prefixIcon: Icon(Icons.calendar_today),
       ),
       validator: (value) {
-        if (value == null) {
+        if (_dobController.text.isEmpty) {
           return AppLocalizations.of(context).translate('dob_required_msg');
         }
         return null;
@@ -365,6 +535,18 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                   SizedBox(
                     height: ScreenUtil().setHeight(60),
                   ),
+                  _emailField(),
+                  SizedBox(
+                    height: ScreenUtil().setHeight(60),
+                  ),
+                  _addressField(),
+                  SizedBox(
+                    height: ScreenUtil().setHeight(60),
+                  ),
+                  _postcodeField(),
+                  SizedBox(
+                    height: ScreenUtil().setHeight(60),
+                  ),
                   _dobField(),
                   /* SizedBox(
                     height: ScreenUtil().setHeight(60),
@@ -380,13 +562,17 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      _message.isNotEmpty
-                          ? Text(
-                              _message,
-                              style: TextStyle(color: Colors.red),
-                            )
-                          : SizedBox.shrink(),
-                      _enrollButton(),
+                      Column(
+                        children: <Widget>[
+                          _message.isNotEmpty
+                              ? Text(
+                                  _message,
+                                  style: TextStyle(color: Colors.red),
+                                )
+                              : SizedBox.shrink(),
+                          _enrollButton(),
+                        ],
+                      ),
                     ],
                   ),
                   SizedBox(
@@ -405,7 +591,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     return Container(
       child: _isLoading
           ? SpinKitFoldingCube(
-              color: primaryColor,
+              color: Colors.greenAccent,
             )
           : ButtonTheme(
               padding: EdgeInsets.all(0.0),
@@ -439,40 +625,49 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       _formKey.currentState.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
-      setState(() {
-        _isLoading = true;
-        _message = '';
-      });
+      if (_message !=
+          AppLocalizations.of(context).translate('enroll_underage')) {
+        setState(() {
+          _isLoading = true;
+          _message = '';
+        });
 
-      var result = await authRepo.saveEnrollmentWithParticular(
-        context: context,
-        diCode: widget.data.diCode,
-        icNo: _icNo.replaceAll('-', ''),
-        name: _icName,
-        groupId: widget.data.groupId,
-        gender: _genderValue,
-        dateOfBirthString: _dob,
-        nationality: 'WARGANEGARA',
-      );
-
-      if (result.isSuccess) {
-        customDialog.show(
+        var result = await authRepo.saveEnrollmentWithParticular(
           context: context,
-          content: AppLocalizations.of(context).translate('enroll_success'),
-          type: DialogType.SUCCESS,
+          phoneCountryCode: _countryCode,
+          diCode: widget.data.diCode,
+          icNo: _icNo.replaceAll('-', ''),
+          name: _icName,
+          groupId: widget.data.groupId,
+          gender: _genderValue,
+          dateOfBirthString: _dob,
+          nationality: 'WARGANEGARA',
         );
-        Navigator.pushNamedAndRemoveUntil(context, HOME, (r) => false);
-      } else {
-        customSnackbar.show(
-          context,
-          message: result.message.toString(),
-          type: MessageType.ERROR,
-        );
-      }
 
-      setState(() {
-        _isLoading = false;
-      });
+        if (result.isSuccess) {
+          customDialog.show(
+            context: context,
+            barrierDismissable: false,
+            content: AppLocalizations.of(context).translate('enroll_success'),
+            type: DialogType.GENERAL,
+            customActions: <Widget>[
+              FlatButton(
+                child: Text(AppLocalizations.of(context).translate('ok_btn')),
+                onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                    context, HOME, (r) => false),
+              ),
+            ],
+          );
+        } else {
+          setState(() {
+            _message = result.message.toString();
+          });
+        }
+
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 }

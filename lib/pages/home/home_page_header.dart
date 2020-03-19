@@ -15,7 +15,6 @@ class HomePageHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
       child: Table(
         columnWidths: {1: FractionColumnWidth(.43)},
         defaultVerticalAlignment: TableCellVerticalAlignment.top,

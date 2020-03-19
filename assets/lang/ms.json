@@ -8,18 +8,14 @@
   "login_btn": "LOG MASUK",
   "invalid_login": "Telefon dan / atau kata laluan tidak sah.",
   "epandu_title": "ePandu",
-
   "connected_ca": "Akaun ID kini",
   "client_acc_id_lbl": "Akaun ID",
   "client_acc_id_required": "Akaun ID diperlukan.",
   "client_acc_pwd_lbl": "Kata Laluan Akaun",
-
   "forgot_password_msg": "Anda akan menerima SMS notifikasi untuk kata laluan yang baru.",
-
   "register_as_lbl": "Daftar sebagai",
   "normal_user_btn": "Pengguna biasa",
   "intitute_student_btn": "Murid institut",
-
   "phone_required_lbl": "Nombor Telefon*",
   "nick_name_lbl": "Nama samaran",
   "nick_name_required_lbl": "Nama samaran*",
@@ -50,17 +46,21 @@
   "di_required_msg": "Institut memandu diperlukan.",
   "nationality_required_msg": "Kewarganergaraan diperlukan.",
   "address_lbl": "Alamat",
+  "address_required_lbl": "Alamat*",
+  "address_required_msg": "Alamat diperlukan.",
   "postcode_lbl": "Poskod",
+  "postcode_required_lbl": "Poskod*",
+  "postcode_required_msg": "Poskod diperlukan.",
   "city_lbl": "Bandar",
   "state_lbl": "Negeri",
   "country_lbl": "Negara",
   "email_lbl": "Emel",
+  "email_required_lbl": "Emel*",
+  "email_required_msg": "Emel diperlukan.",
   "registered_lbl": "Nombor telah didaftarkan.",
   "register_success": "Anda kini didaftar, anda akan menerima SMS notifikasi.",
   "register_error": "Pendaftaran anda gagal, sila cuba sebentar lagi.",
-
   "select_di_desc": "Pilih institut memandu anda",
-
   "hello_lbl": "Apa khabar,",
   "feeds_lbl": "Harian",
   "payment_lbl": "Bayaran",
@@ -81,7 +81,6 @@
   "reload_lbl": "+Tambah nilai",
   "promotions_lbl": "Promosi",
   "no_feeds_message": "Tiada iklan.",
-
   "profile_title": "Profil",
   "class_title": "Kelas",
   "attendance_title": "Kehadiran",
@@ -116,7 +115,7 @@
   "get_class_list_fail": "Gagal mendapatkan senarai kelas. Sila cuba sebentar lagi.",
   "select_institute_lbl": "Pilih Institut",
   "select_class_lbl": "Pilih Kelas",
-
+  "enroll_underage": "Anda terlalu muda untuk mendaftar.",
   "having_emergency_lbl": "Dalam kecemasan?",
   "having_emergency_desc": "Tekan butang SOS dan bantuan akan sampai secepat mungkin.",
   "authorities_lbl": "Nak menghubungi pihak berkuasa?",
@@ -145,7 +144,6 @@
   "loc_permission_title": "Permintaan lokasi",
   "loc_permission_desc": "Permintaan lokasi diperlukan untuk menggunakan ciri SOS. Aktifkan lokasi?",
   "get_contacts_fail": "Gagal mendapatkan kenalan. Sila cuba sebentar lagi.",
-
   "language_lbl": "Bahasa",
   "english_lbl": "Eng",
   "malay_lbl": "BM",
@@ -163,7 +161,6 @@
   "confirm_log_out": "Adakah andi pasti untuk log keluar?",
   "yes_lbl": "Ya",
   "no_lbl": "Tidak",
-
   "change_password_title": "Tukar kata laluan",
   "new_password_lbl": "Kata Laluan Baru",
   "new_password_required": "Kata laluan baru diperlukan.",
@@ -173,12 +170,10 @@
   "password_not_match_msg": "Kata laluan baru tidak sepadan.",
   "password_updated": "Kata laluan berjaya ditukar.",
   "password_change_fail": "Gagal menukar kata laluan. Sila cuba sebentar lagi.",
-
   "invite_your_friends_lbl": "Jemput kawan anda",
   "invite_friends_desc": "Ada kemajuan? Jemput kawan-kawan anda! Anda boleh menikmati manfaat ini bersama kawan-kawan anda!",
   "invite_sent": "Jemputan anda sudah dihantar. Syabas!",
   "invite_fail": "Jemputan gagal, sila cuba sebentar lagi.",
-
   "choose_category": "Pilih kategori anda",
   "choose_module": "Pilih modul anda",
   "existing_session": "Anda ada sesi dalam ",
@@ -198,10 +193,8 @@
   "more_question_lbl": "Dapat soalan lebih",
   "purchase_pin_lbl": "Beli pin.",
   "color_blind_lbl": "BUTA WARNA",
-
   "enroll_success": "Pendaftaran anda berjaya.",
   "enroll_fail": "Pendaftaran anda tidak berjaya. Sila cuba sebentar lagi.",
-
   "ok_btn": "Ok",
   "sign_up_btn": "DAFTAR",
   "go_back_lbl": "KEMBALI",
@@ -216,5 +209,6 @@
   "http_exception": "Kesalahan sistem, sila cuba sebentar lagi.",
   "format_exception": "Sila sahkan akaun ID anda.",
   "no_url_found": "Tiada URL yang dijumpai dengan akaun klien ini.",
-  "no_records_found": "Tiada rekod yang ditemui."
+  "no_records_found": "Tiada rekod yang ditemui.",
+  "no_facility_nearby": "Tiada kemudahan berdekatan."
 }

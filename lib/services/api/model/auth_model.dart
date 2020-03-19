@@ -1115,9 +1115,10 @@ class SaveEnrollmentRequest {
   String icNo;
   String name;
   String nationality;
+  String phoneCountryCode;
+  String phone;
   String dateOfBirthString;
   String gender;
-  String userId;
   String race;
   String add1;
   String add2;
@@ -1127,6 +1128,7 @@ class SaveEnrollmentRequest {
   String state;
   String country;
   String email;
+  String userId;
 
   SaveEnrollmentRequest(
       {this.wsCodeCrypt,
@@ -1137,9 +1139,10 @@ class SaveEnrollmentRequest {
       this.icNo,
       this.name,
       this.nationality,
+      this.phoneCountryCode,
+      this.phone,
       this.dateOfBirthString,
       this.gender,
-      this.userId,
       this.race,
       this.add1,
       this.add2,
@@ -1148,7 +1151,8 @@ class SaveEnrollmentRequest {
       this.city,
       this.state,
       this.country,
-      this.email});
+      this.email,
+      this.userId});
 
   SaveEnrollmentRequest.fromJson(Map<String, dynamic> json) {
     wsCodeCrypt = json['wsCodeCrypt'];
@@ -1159,9 +1163,10 @@ class SaveEnrollmentRequest {
     icNo = json['icNo'];
     name = json['name'];
     nationality = json['nationality'];
+    phoneCountryCode = json['phoneCountryCode'];
+    phone = json['phone'];
     dateOfBirthString = json['dateOfBirthString'];
     gender = json['gender'];
-    userId = json['userId'];
     race = json['race'];
     add1 = json['add1'];
     add2 = json['add2'];
@@ -1171,6 +1176,7 @@ class SaveEnrollmentRequest {
     state = json['state'];
     country = json['country'];
     email = json['email'];
+    userId = json['userId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -1183,9 +1189,10 @@ class SaveEnrollmentRequest {
     data['icNo'] = this.icNo;
     data['name'] = this.name;
     data['nationality'] = this.nationality;
+    data['phoneCountryCode'] = this.phoneCountryCode;
+    data['phone'] = this.phone;
     data['dateOfBirthString'] = this.dateOfBirthString;
     data['gender'] = this.gender;
-    data['userId'] = this.userId;
     data['race'] = this.race;
     data['add1'] = this.add1;
     data['add2'] = this.add2;
@@ -1195,6 +1202,7 @@ class SaveEnrollmentRequest {
     data['state'] = this.state;
     data['country'] = this.country;
     data['email'] = this.email;
+    data['userId'] = this.userId;
     return data;
   }
 }

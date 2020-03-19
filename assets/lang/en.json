@@ -8,18 +8,14 @@
   "login_btn": "LOGIN",
   "invalid_login": "Invalid phone and/or password.",
   "epandu_title": "ePandu",
-
   "connected_ca": "Connected CA",
   "client_acc_id_lbl": "Client Account ID",
   "client_acc_id_required": "Client account is required.",
   "client_acc_pwd_lbl": "Client Account Password",
-
   "forgot_password_msg": "You will receive an SMS notification with your new password.",
-
   "register_as_lbl": "Register as",
   "normal_user_btn": "Normal user",
   "intitute_student_btn": "Institute student",
-
   "phone_required_lbl": "Phone*",
   "nick_name_lbl": "Nick name",
   "nick_name_required_lbl": "Nick name*",
@@ -50,17 +46,21 @@
   "di_required_msg": "Driving institute is required.",
   "nationality_required_msg": "Nationality is required.",
   "address_lbl": "Address",
+  "address_required_lbl": "Address*",
+  "address_required_msg": "Address is required.",
   "postcode_lbl": "Postcode",
+  "postcode_required_lbl": "Postcode*",
+  "postcode_required_msg": "Postcode is required.",
   "city_lbl": "City",
   "state_lbl": "State",
   "country_lbl": "Country",
   "email_lbl": "Email",
+  "email_required_lbl": "Email*",
+  "email_required_msg": "Email is required.",
   "registered_lbl": "Number is already registered.",
   "register_success": "You are now registered, you will receive a SMS notification.",
   "register_error": "Registration failed, please try again later.",
-
   "select_di_desc": "Select your driving institute",
-
   "hello_lbl": "Hello,",
   "feeds_lbl": "Feeds",
   "payment_lbl": "Payment",
@@ -81,7 +81,6 @@
   "reload_lbl": "+Reload eWallet",
   "promotions_lbl": "Promotions",
   "no_feeds_message": "There are no feeds.",
-
   "profile_title": "Profile",
   "class_title": "Classes",
   "attendance_title": "Attendance",
@@ -116,7 +115,7 @@
   "get_class_list_fail": "Failed to get class list. Please try again later.",
   "select_institute_lbl": "Select Institute",
   "select_class_lbl": "Select Class",
-
+  "enroll_underage": "You are too young to enroll.",
   "having_emergency_lbl": "Are you having an emergency?",
   "having_emergency_desc": "Press the SOS button and help will reach you soon.",
   "authorities_lbl": "Need to contact authorities?",
@@ -145,7 +144,6 @@
   "loc_permission_title": "Location Permission",
   "loc_permission_desc": "Location permission is required to use SOS features. Enable location?",
   "get_contacts_fail": "Failed to get contacts. Please try again later.",
-
   "language_lbl": "Language",
   "english_lbl": "Eng",
   "malay_lbl": "BM",
@@ -163,7 +161,6 @@
   "confirm_log_out": "Are you sure you want to log out?",
   "yes_lbl": "Yes",
   "no_lbl": "No",
-
   "change_password_title": "Change your password",
   "new_password_lbl": "New Password",
   "new_password_required": "New password is required.",
@@ -173,12 +170,10 @@
   "password_not_match_msg": "Passwords do not match.",
   "password_updated": "Password successfully updated.",
   "password_change_fail": "Failed to change password. Please try again later.",
-
   "invite_your_friends_lbl": "Invite your friends",
   "invite_friends_desc": "Having fun? Getting better? Invite your friends too! You don't have to be the only one. After all, the more the merrier!",
   "invite_sent": "Your invitation has been sent. Yay!",
   "invite_fail": "Invitation failed, please try again later.",
-
   "choose_category": "Choose your category",
   "choose_module": "Choose your module",
   "existing_session": "You have an existing session at ",
@@ -198,10 +193,8 @@
   "more_question_lbl": "Get more questions",
   "purchase_pin_lbl": "Purchase pin here.",
   "color_blind_lbl": "COLOR BLIND",
-
   "enroll_success": "Your enrollment is successful.",
   "enroll_fail": "Your enrollment is unsuccessful. Please try again later.",
-
   "ok_btn": "Ok",
   "sign_up_btn": "SIGNUP",
   "go_back_lbl": "GO BACK",
@@ -216,5 +209,6 @@
   "http_exception": "Server error, we apologize for any inconvenience.",
   "format_exception": "Please verify your client account.",
   "no_url_found": "No URL found with this client account.",
-  "no_records_found": "No records found."
+  "no_records_found": "No records found.",
+  "no_facility_nearby": "No facilities nearby."
 }

@@ -155,7 +155,7 @@ class EmergencyRepo {
     }
 
     return Response(false,
-        message: AppLocalizations.of(context).translate('no_records_found'));
+        message: AppLocalizations.of(context).translate('no_facility_nearby'));
   }
 
   // SendGpsSos
