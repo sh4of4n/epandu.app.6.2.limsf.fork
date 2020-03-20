@@ -237,12 +237,12 @@ class EpanduCategory extends StatelessWidget {
                               Navigator.pushNamed(context, REGISTERED_COURSE),
                           child: Column(
                             children: <Widget>[
-                              Container(
-                                height: ScreenUtil().setHeight(350),
+                              FadeInImage(
                                 alignment: Alignment.center,
-                                decoration: ShapeDecoration(
-                                  color: Colors.blue,
-                                  shape: CircleBorder(),
+                                height: ScreenUtil().setHeight(350),
+                                placeholder: MemoryImage(kTransparentImage),
+                                image: AssetImage(
+                                  myImage.classIcon,
                                 ),
                               ),
                               SizedBox(
@@ -262,12 +262,12 @@ class EpanduCategory extends StatelessWidget {
                               Navigator.pushNamed(context, PAYMENT_HISTORY),
                           child: Column(
                             children: <Widget>[
-                              Container(
-                                height: ScreenUtil().setHeight(350),
+                              FadeInImage(
                                 alignment: Alignment.center,
-                                decoration: ShapeDecoration(
-                                  color: Colors.blue,
-                                  shape: CircleBorder(),
+                                height: ScreenUtil().setHeight(350),
+                                placeholder: MemoryImage(kTransparentImage),
+                                image: AssetImage(
+                                  myImage.paymentIcon,
                                 ),
                               ),
                               SizedBox(
@@ -287,12 +287,12 @@ class EpanduCategory extends StatelessWidget {
                               Navigator.pushNamed(context, ATTENDANCE_RECORD),
                           child: Column(
                             children: <Widget>[
-                              Container(
-                                height: ScreenUtil().setHeight(350),
+                              FadeInImage(
                                 alignment: Alignment.center,
-                                decoration: ShapeDecoration(
-                                  color: Colors.blue,
-                                  shape: CircleBorder(),
+                                height: ScreenUtil().setHeight(350),
+                                placeholder: MemoryImage(kTransparentImage),
+                                image: AssetImage(
+                                  myImage.attendanceIcon,
                                 ),
                               ),
                               SizedBox(

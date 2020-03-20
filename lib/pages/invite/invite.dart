@@ -6,6 +6,7 @@ import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class Invite extends StatefulWidget with PageBaseClass {
   @override
@@ -36,7 +37,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
       },
       child: Scaffold(
         // resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: Color(0xfffdc013),
         appBar: AppBar(
           title: Text(
             AppLocalizations.of(context).translate('invite_your_friends_lbl'),
@@ -49,20 +50,19 @@ class _InviteState extends State<Invite> with PageBaseClass {
             children: <Widget>[
               Opacity(
                 opacity: 0.9,
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(image.friend),
-                      fit: BoxFit.cover,
-                    ),
+                child: FadeInImage(
+                  height: 1100.h,
+                  width: ScreenUtil.screenWidthDp,
+                  fit: BoxFit.cover,
+                  alignment: Alignment.center,
+                  placeholder: MemoryImage(kTransparentImage),
+                  image: AssetImage(
+                    image.friend,
                   ),
-                  width: MediaQuery.of(context).size.width,
-                  height: ScreenUtil().setHeight(800),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 20.0, horizontal: 25.0),
+                padding: EdgeInsets.fromLTRB(100.w, 250.h, 100.w, 0),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -71,108 +71,129 @@ class _InviteState extends State<Invite> with PageBaseClass {
                       SizedBox(
                         height: ScreenUtil().setHeight(35),
                       ),
-                      TextFormField(
-                        focusNode: _phoneFocus,
-                        keyboardType: TextInputType.phone,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: 16.0),
-                          // hintStyle: TextStyle(
-                          //   color: primaryColor,
-                          // ),
-                          labelStyle: TextStyle(
-                            color: Color(0xff808080),
+                      SizedBox(
+                        height: ScreenUtil().setHeight(130),
+                        child: TextFormField(
+                          focusNode: _phoneFocus,
+                          keyboardType: TextInputType.phone,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            // contentPadding: EdgeInsets.symmetric(
+                            //     vertical: -8.0, horizontal: 10.0),
+                            // hintStyle: TextStyle(
+                            //   color: primaryColor,
+                            // ),
+                            labelStyle: TextStyle(
+                              color: Color(0xff808080),
+                            ),
+                            labelText: AppLocalizations.of(context)
+                                .translate('phone_lbl'),
+                            fillColor: Colors.white,
+                            filled: true,
+                            // prefixIcon: Icon(Icons.phone_android),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent),
+                              borderRadius: BorderRadius.circular(0),
+                            ),
+                            /* border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.blue),
+                              // borderRadius: BorderRadius.circular(30),
+                            ), */
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1.3),
+                              borderRadius: BorderRadius.circular(0),
+                              // borderRadius: BorderRadius.circular(30),
+                            ),
                           ),
-                          labelText: AppLocalizations.of(context)
-                              .translate('phone_lbl'),
-                          fillColor: Colors.white,
-                          filled: true,
-                          prefixIcon: Icon(Icons.phone_android),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+                          onFieldSubmitted: (term) {
+                            fieldFocusChange(context, _phoneFocus, _nameFocus);
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return AppLocalizations.of(context)
+                                  .translate('phone_required_msg');
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            if (value != _phone) {
+                              _phone = value;
+                            }
+                          },
                         ),
-                        onFieldSubmitted: (term) {
-                          fieldFocusChange(context, _phoneFocus, _nameFocus);
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return AppLocalizations.of(context)
-                                .translate('phone_required_msg');
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          if (value != _phone) {
-                            _phone = value;
-                          }
-                        },
                       ),
                       SizedBox(
-                        height: ScreenUtil().setHeight(70),
-                      ),
-                      TextFormField(
-                        focusNode: _nameFocus,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: 16.0),
-                          // hintStyle: TextStyle(
-                          //   color: primaryColor,
-                          // ),
-                          labelStyle: TextStyle(
-                            color: Color(0xff808080),
-                          ),
-                          labelText: AppLocalizations.of(context)
-                              .translate('name_lbl'),
-                          fillColor: Colors.white,
-                          filled: true,
-                          prefixIcon: Icon(Icons.account_circle),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return AppLocalizations.of(context)
-                                .translate('name_required_msg');
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          if (value != _name) {
-                            _name = value;
-                          }
-                        },
+                        height: 150.h,
                       ),
                       SizedBox(
-                        height: ScreenUtil().setHeight(80),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              _message.isNotEmpty
-                                  ? Text(
-                                      _message,
-                                      style: _messageStyle,
-                                    )
-                                  : SizedBox.shrink(),
-                              _inviteButton(),
-                            ],
+                        height: ScreenUtil().setHeight(130),
+                        child: TextFormField(
+                          focusNode: _nameFocus,
+                          decoration: InputDecoration(
+                            // contentPadding: EdgeInsets.symmetric(vertical: 12.0),
+                            // hintStyle: TextStyle(
+                            //   color: primaryColor,
+                            // ),
+                            labelStyle: TextStyle(
+                              color: Color(0xff808080),
+                            ),
+                            labelText: AppLocalizations.of(context)
+                                .translate('name_lbl'),
+                            fillColor: Colors.white,
+                            filled: true,
+                            // prefixIcon: Icon(Icons.account_circle),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent),
+                              borderRadius: BorderRadius.circular(0),
+                              // borderRadius: BorderRadius.circular(30),
+                            ),
+                            /* border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ), */
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1.3),
+                              borderRadius: BorderRadius.circular(0),
+                              // borderRadius: BorderRadius.circular(30),
+                            ),
                           ),
-                        ],
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return AppLocalizations.of(context)
+                                  .translate('name_required_msg');
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            if (value != _name) {
+                              _name = value;
+                            }
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 140.h,
                       ),
                     ],
                   ),
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      _message.isNotEmpty
+                          ? Text(
+                              _message,
+                              style: _messageStyle,
+                            )
+                          : SizedBox.shrink(),
+                      _inviteButton(),
+                    ],
+                  ),
+                ],
               ),
             ],
           ),
@@ -188,25 +209,27 @@ class _InviteState extends State<Invite> with PageBaseClass {
               color: primaryColor,
             )
           : ButtonTheme(
-              padding: EdgeInsets.all(0.0),
-              shape: StadiumBorder(),
+              padding: EdgeInsets.all(0),
+              height: 120.h,
+              minWidth: 1250.w,
+              // shape: StadiumBorder(),
+              shape: BeveledRectangleBorder(),
               child: RaisedButton(
-                color: Colors.red,
+                color: Color(0xffdd0e0e),
                 onPressed: _submit,
                 textColor: Colors.white,
-                padding: const EdgeInsets.all(0.0),
                 child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18.0),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 30.0,
-                    vertical: 10.0,
-                  ),
+                  /* decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(0),
+                  ), */
+                  // padding: EdgeInsets.symmetric(
+                  //   horizontal: 100.w,
+                  // ),
                   child: Text(
                     AppLocalizations.of(context).translate('invite_btn'),
                     style: TextStyle(
-                      fontSize: ScreenUtil().setSp(56),
+                      fontSize: ScreenUtil().setSp(60),
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),

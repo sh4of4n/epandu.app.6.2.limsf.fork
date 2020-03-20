@@ -626,6 +626,7 @@ class AuthRepo {
     icNo,
     groupId,
     name,
+    email,
     nationality,
     dateOfBirthString,
     gender,
@@ -648,7 +649,7 @@ class AuthRepo {
       phoneCountryCode: phoneCountryCode,
       phone: phone.replaceAll('+60', ''),
       dateOfBirthString: dateOfBirthString,
-      gender: gender,      
+      gender: gender,
       race: '',
       add1: '',
       add2: '',
@@ -657,7 +658,7 @@ class AuthRepo {
       city: '',
       state: '',
       country: '',
-      email: '',
+      email: email,
       userId: userId,
     );
 
