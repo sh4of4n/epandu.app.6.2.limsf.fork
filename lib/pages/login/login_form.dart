@@ -268,7 +268,17 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
 
       if (result.isSuccess) {
         if (result.data == 'empty') {
-          Navigator.pushReplacementNamed(context, HOME);
+          var getRegisteredDi =
+              await authRepo.getUserRegisteredDI(context: context);
+
+          if (getRegisteredDi.isSuccess) {
+            Navigator.pushReplacementNamed(context, HOME);
+          } else {
+            setState(() {
+              _isLoading = false;
+              _loginMessage = result.message;
+            });
+          }
         } else if (result.data.length > 1) {
           // Navigate to DI selection page
           // Temporary navigate to home

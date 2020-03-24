@@ -216,6 +216,11 @@ class RouteGenerator {
           settings: RouteSettings(name: REGISTERED_COURSE),
           builder: (_) => RegisteredCourse(),
         );
+      case UPDATE_PROFILE:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: UPDATE_PROFILE),
+          builder: (_) => UpdateProfile(),
+        );
       default:
         return _errorRoute();
     }

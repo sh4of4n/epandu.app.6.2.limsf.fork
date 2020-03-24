@@ -630,6 +630,7 @@ class AuthRepo {
     nationality,
     dateOfBirthString,
     gender,
+    race,
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
@@ -650,7 +651,7 @@ class AuthRepo {
       phone: phone.replaceAll('+60', ''),
       dateOfBirthString: dateOfBirthString,
       gender: gender,
-      race: '',
+      race: race,
       add1: '',
       add2: '',
       add3: '',

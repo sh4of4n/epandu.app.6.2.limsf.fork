@@ -62,7 +62,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(100.w, 250.h, 100.w, 0),
+                padding: EdgeInsets.fromLTRB(100.w, 35.h, 100.w, 0),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -71,109 +71,100 @@ class _InviteState extends State<Invite> with PageBaseClass {
                       SizedBox(
                         height: ScreenUtil().setHeight(35),
                       ),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(130),
-                        child: TextFormField(
-                          focusNode: _phoneFocus,
-                          keyboardType: TextInputType.phone,
-                          textInputAction: TextInputAction.next,
-                          decoration: InputDecoration(
-                            // contentPadding: EdgeInsets.symmetric(
-                            //     vertical: -8.0, horizontal: 10.0),
-                            // hintStyle: TextStyle(
-                            //   color: primaryColor,
-                            // ),
-                            labelStyle: TextStyle(
-                              color: Color(0xff808080),
-                            ),
-                            labelText: AppLocalizations.of(context)
-                                .translate('phone_lbl'),
-                            fillColor: Colors.white,
-                            filled: true,
-                            // prefixIcon: Icon(Icons.phone_android),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.transparent),
-                              borderRadius: BorderRadius.circular(0),
-                            ),
-                            /* border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blue),
-                              // borderRadius: BorderRadius.circular(30),
-                            ), */
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.blue, width: 1.3),
-                              borderRadius: BorderRadius.circular(0),
-                              // borderRadius: BorderRadius.circular(30),
-                            ),
+                      TextFormField(
+                        focusNode: _phoneFocus,
+                        keyboardType: TextInputType.phone,
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(vertical: 12.0),
+                          // hintStyle: TextStyle(
+                          //   color: primaryColor,
+                          // ),
+                          labelStyle: TextStyle(
+                            color: Color(0xff808080),
                           ),
-                          onFieldSubmitted: (term) {
-                            fieldFocusChange(context, _phoneFocus, _nameFocus);
-                          },
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return AppLocalizations.of(context)
-                                  .translate('phone_required_msg');
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            if (value != _phone) {
-                              _phone = value;
-                            }
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 150.h,
-                      ),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(130),
-                        child: TextFormField(
-                          focusNode: _nameFocus,
-                          decoration: InputDecoration(
-                            // contentPadding: EdgeInsets.symmetric(vertical: 12.0),
-                            // hintStyle: TextStyle(
-                            //   color: primaryColor,
-                            // ),
-                            labelStyle: TextStyle(
-                              color: Color(0xff808080),
-                            ),
-                            labelText: AppLocalizations.of(context)
-                                .translate('name_lbl'),
-                            fillColor: Colors.white,
-                            filled: true,
-                            // prefixIcon: Icon(Icons.account_circle),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.transparent),
-                              borderRadius: BorderRadius.circular(0),
-                              // borderRadius: BorderRadius.circular(30),
-                            ),
-                            /* border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ), */
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.blue, width: 1.3),
-                              borderRadius: BorderRadius.circular(0),
-                              // borderRadius: BorderRadius.circular(30),
-                            ),
+                          labelText: AppLocalizations.of(context)
+                              .translate('phone_lbl'),
+                          fillColor: Colors.white,
+                          filled: true,
+                          prefixIcon: Icon(Icons.phone_android),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                            borderRadius: BorderRadius.circular(30),
                           ),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return AppLocalizations.of(context)
-                                  .translate('name_required_msg');
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            if (value != _name) {
-                              _name = value;
-                            }
-                          },
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.blue, width: 1.3),
+                            borderRadius: BorderRadius.circular(30),
+                            // borderRadius: BorderRadius.circular(30),
+                          ),
                         ),
+                        onFieldSubmitted: (term) {
+                          fieldFocusChange(context, _phoneFocus, _nameFocus);
+                        },
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return AppLocalizations.of(context)
+                                .translate('phone_required_msg');
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          if (value != _phone) {
+                            _phone = value;
+                          }
+                        },
                       ),
                       SizedBox(
-                        height: 140.h,
+                        height: 70.h,
+                      ),
+                      TextFormField(
+                        focusNode: _nameFocus,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(vertical: 12.0),
+                          // hintStyle: TextStyle(
+                          //   color: primaryColor,
+                          // ),
+                          labelStyle: TextStyle(
+                            color: Color(0xff808080),
+                          ),
+                          labelText: AppLocalizations.of(context)
+                              .translate('nick_name_lbl'),
+                          fillColor: Colors.white,
+                          filled: true,
+                          prefixIcon: Icon(Icons.account_circle),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.blue, width: 1.3),
+                            borderRadius: BorderRadius.circular(30),
+                            // borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return AppLocalizations.of(context)
+                                .translate('name_required_msg');
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          if (value != _name) {
+                            _name = value;
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        height: 40.h,
                       ),
                     ],
                   ),
@@ -206,14 +197,11 @@ class _InviteState extends State<Invite> with PageBaseClass {
     return Container(
       child: _isLoading
           ? SpinKitFoldingCube(
-              color: primaryColor,
+              color: Colors.blue,
             )
           : ButtonTheme(
-              padding: EdgeInsets.all(0),
-              height: 120.h,
-              minWidth: 1250.w,
-              // shape: StadiumBorder(),
-              shape: BeveledRectangleBorder(),
+              padding: EdgeInsets.all(0.0),
+              shape: StadiumBorder(),
               child: RaisedButton(
                 color: Color(0xffdd0e0e),
                 onPressed: _submit,

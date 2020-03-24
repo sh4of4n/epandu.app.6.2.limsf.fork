@@ -114,8 +114,10 @@ class Networking {
 
         if (response.body == 'True' || response.body == 'False')
           return Response(true, data: response.body);
-
-        return Response(true, data: jsonDecode(response.body));
+        else if (response.body.startsWith('{'))
+          return Response(true, data: jsonDecode(response.body));
+        else
+          return Response(true, data: response.body);
       } else {
         String message = response.body
             .replaceAll('[BLException]', '')

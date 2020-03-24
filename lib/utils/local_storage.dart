@@ -173,7 +173,7 @@ class LocalStorage {
     return Preference.setString(kInstituteLogo, instituteLogo);
   }
 
-  Future<String> getArmasterAppPhotoForCode() async {
+  Future<String> getInstituteLogo() async {
     return Preference.getString(kInstituteLogo, def: '');
   }
 

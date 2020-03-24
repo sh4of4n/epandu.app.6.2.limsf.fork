@@ -1,5 +1,5 @@
 import 'package:epandu/pages/profile/profile_loading.dart';
-import 'package:epandu/services/repository/profile_repository.dart';
+import 'package:epandu/services/repository/epandu_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,40 +27,24 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
     color: Colors.grey.shade700,
   );
 
-  final profileRepo = ProfileRepo();
-  var response;
-  var data;
-  String _message = '';
+  final epanduRepo = EpanduRepo();
+  Future _getData;
 
   @override
   void initState() {
     super.initState();
 
-    _getdata();
+    _getData = _getdata();
   }
 
   _getdata() async {
-    if (data == null) {
-      response = await profileRepo.getEnrollByCode(context: context);
+    var response = await epanduRepo.getEnrollByCode(context: context);
 
-      if (response.isSuccess) {
-        if (mounted) {
-          setState(() {
-            data = response;
-            _message = '';
-          });
-        }
-      } else {
-        if (mounted) {
-          setState(() {
-            data = null;
-            _message =
-                AppLocalizations.of(context).translate('no_enrollment_desc');
-          });
-        }
-      }
+    if (response.isSuccess) {
+      return response.data;
+    } else {
+      return response.message;
     }
-    // enrolledClassResponse = await profileRepo.getEnrolledClasses();
   }
 
   @override
@@ -97,48 +81,47 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
               )
             ],
           ),
-          child: _renderEnrolledClass(),
-        ),
-      ),
-    );
-  }
-
-  _renderEnrolledClass() {
-    if (response == null && _message.isEmpty) {
-      return SpinKitFoldingCube(
-        color: primaryColor,
-      );
-    } else if (response == null && _message.isNotEmpty) {
-      return ProfileLoading(_message);
-    }
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: response.data.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                RichText(
-                  text: TextSpan(
-                    style: TextStyle(color: Colors.black),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text:
-                            '${AppLocalizations.of(context).translate('class_lbl')}  ',
-                        style: _titleStyle,
-                      ),
-                      TextSpan(
-                        text: response.data[index].groupId,
-                        style: _subtitleStyle,
-                      ),
-                    ],
-                  ),
-                ),
-                /* RichText(
+          child: FutureBuilder(
+            future: _getData,
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return SpinKitFoldingCube(
+                    color: primaryColor,
+                  );
+                case ConnectionState.done:
+                  if (snapshot.data is String) {
+                    return ProfileLoading(snapshot.data);
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 15.w, vertical: 20.h),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              RichText(
+                                text: TextSpan(
+                                  style: TextStyle(color: Colors.black),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text:
+                                          '${AppLocalizations.of(context).translate('class_lbl')}  ',
+                                      style: _titleStyle,
+                                    ),
+                                    TextSpan(
+                                      text: snapshot.data[index].groupId,
+                                      style: _subtitleStyle,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              /* RichText(
                   text: TextSpan(
                     style: GoogleFonts.dosis(
                       textStyle: TextStyle(color: Colors.black),
@@ -154,24 +137,34 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                     ],
                   ),
                 ), */
-                RichText(
-                  text: TextSpan(
-                    style: TextStyle(color: Colors.black),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text:
-                              '${AppLocalizations.of(context).translate('fees_lbl')}  ',
-                          style: _titleStyle),
-                      TextSpan(
-                          text: response.data[index].feesAgree,
-                          style: _subtitleStyle),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
+                              RichText(
+                                text: TextSpan(
+                                  style: TextStyle(color: Colors.black),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text:
+                                            '${AppLocalizations.of(context).translate('fees_lbl')}  ',
+                                        style: _titleStyle),
+                                    TextSpan(
+                                        text: snapshot.data[index].feesAgree,
+                                        style: _subtitleStyle),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                default:
+                  return Center(
+                    child: Text(snapshot.data),
+                  );
+              }
+            },
+          ),
+        ),
       ),
     );
   }

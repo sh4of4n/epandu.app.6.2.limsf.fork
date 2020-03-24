@@ -146,6 +146,11 @@ class _SelectClassState extends State<SelectClass> {
                         ),
                       );
                     case ConnectionState.done:
+                      if (snapshot.data is String) {
+                        return Center(
+                            child: Text(AppLocalizations.of(context)
+                                .translate('no_classes_desc')));
+                      }
                       return ListView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),

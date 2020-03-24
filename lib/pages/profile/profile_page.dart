@@ -1,6 +1,7 @@
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -59,7 +60,7 @@ class _ProfileState extends State<Profile> {
     setState(() {
       _name = _getName;
       _email = _getEmail;
-      _phone = _getPhone.substring(2);
+      _phone = _getPhone.isNotEmpty ? _getPhone.substring(2) : '';
       _country = _getCountry;
       _state = _getState;
     });
@@ -81,6 +82,21 @@ class _ProfileState extends State<Profile> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(AppLocalizations.of(context).translate('profile_title')),
+          actions: <Widget>[
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 70.h),
+              margin: EdgeInsets.only(right: 15.w),
+              child: OutlineButton(
+                borderSide: BorderSide(
+                  color: Colors.blue,
+                  width: 1.5,
+                ),
+                shape: StadiumBorder(),
+                onPressed: () => Navigator.pushNamed(context, UPDATE_PROFILE),
+                child: Text('Edit profile'),
+              ),
+            ),
+          ],
         ),
         body: Stack(
           children: <Widget>[

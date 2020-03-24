@@ -37,3 +37,4 @@ const String EPANDU = '/epandu';
 const String PAYMENT_HISTORY = '/payment_history';
 const String ATTENDANCE_RECORD = '/attendance_record';
 const String REGISTERED_COURSE = '/registered_course';
+const String UPDATE_PROFILE = '/update_profile';

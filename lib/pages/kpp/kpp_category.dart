@@ -33,7 +33,7 @@ class _KppCategoryState extends State<KppCategory> {
   }
 
   _getDiProfile() async {
-    String instituteLogoPath = await localStorage.getArmasterAppPhotoForCode();
+    String instituteLogoPath = await localStorage.getInstituteLogo();
 
     if (instituteLogoPath.isEmpty) {
       var result = await authRepo.getDiProfile(context: context);

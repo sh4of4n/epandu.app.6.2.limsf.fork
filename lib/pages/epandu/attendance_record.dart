@@ -1,9 +1,10 @@
 import 'package:epandu/pages/profile/profile_loading.dart';
-import 'package:epandu/services/repository/profile_repository.dart';
+import 'package:epandu/services/repository/epandu_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 
 import '../../app_localizations.dart';
 
@@ -14,6 +15,7 @@ class AttendanceRecord extends StatefulWidget {
 
 class _AttendanceRecordState extends State<AttendanceRecord> {
   final primaryColor = ColorConstant.primaryColor;
+  final format = DateFormat("yyyy-MM-dd");
 
   final TextStyle _titleStyle = TextStyle(
     fontSize: 18,
@@ -27,38 +29,23 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
     color: Colors.grey.shade600,
   );
 
-  final profileRepo = ProfileRepo();
-  var response;
-  var data;
-  String _message = '';
+  final epanduRepo = EpanduRepo();
+  Future _getData;
 
   @override
   void initState() {
     super.initState();
 
-    _getdata();
+    _getData = _getdata();
   }
 
   _getdata() async {
-    if (data == null) {
-      response = await profileRepo.getDTestByCode(context: context);
+    var response = await epanduRepo.getDTestByCode(context: context);
 
-      if (response.isSuccess) {
-        if (mounted) {
-          setState(() {
-            data = response;
-            _message = '';
-          });
-        }
-      } else {
-        if (mounted) {
-          setState(() {
-            data = null;
-            _message =
-                AppLocalizations.of(context).translate('no_attendance_desc');
-          });
-        }
-      }
+    if (response.isSuccess) {
+      return response.data;
+    } else {
+      return response.message;
     }
   }
 
@@ -97,37 +84,44 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
               )
             ],
           ),
-          child: _renderAttendanceList(),
+          child: FutureBuilder(
+              future: _getData,
+              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return SpinKitFoldingCube(
+                      color: primaryColor,
+                    );
+                  case ConnectionState.done:
+                    if (snapshot.data is String) {
+                      return ProfileLoading(snapshot.data);
+                    }
+                    return Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListTile(
+                            title: Text(
+                              'Date ${snapshot.data[index].testDate.substring(0, 10)}',
+                              style: _titleStyle,
+                            ),
+                            subtitle: Text(
+                              'Type ${snapshot.data[index].testType}',
+                              style: _subtitleStyle,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  default:
+                    return Center(
+                      child: Text(snapshot.data),
+                    );
+                }
+              }),
         ),
-      ),
-    );
-  }
-
-  _renderAttendanceList() {
-    if (response == null && _message.isEmpty) {
-      return SpinKitFoldingCube(
-        color: primaryColor,
-      );
-    } else if (response == null && _message.isNotEmpty) {
-      return ProfileLoading(_message);
-    }
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: response.data.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(
-              'Date ${response.data[index].testDate.substring(0, 10)}',
-              style: _titleStyle,
-            ),
-            subtitle: Text(
-              'Type ${response.data[index].testType}',
-              style: _subtitleStyle,
-            ),
-          );
-        },
       ),
     );
   }

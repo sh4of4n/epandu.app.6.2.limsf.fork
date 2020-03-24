@@ -58,6 +58,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   // String _postcode = '';
   String _dob = '';
   String _nationality = '';
+  String _race = '';
   String _message = '';
 
   Gender _gender = Gender.male;
@@ -491,6 +492,59 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     );
   }
 
+  _raceField() {
+    return DropdownButtonFormField<String>(
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(
+          vertical: 0.h,
+        ),
+        labelText: AppLocalizations.of(context).translate('race_lbl'),
+        fillColor: Colors.white,
+        filled: true,
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue[700], width: 1.6),
+          // borderRadius: BorderRadius.circular(0),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        prefixIcon: Icon(Icons.people),
+      ),
+      disabledHint: Text(AppLocalizations.of(context).translate('race_lbl')),
+      value: _race.isEmpty ? null : _race,
+      /* _nationality.isNotEmpty
+          ? _nationality
+          : AppLocalizations.of(context).translate('citizen_lbl'), */
+      onChanged: (value) {
+        setState(() {
+          _race = value;
+        });
+      },
+      items: <String>[
+        AppLocalizations.of(context).translate('malay_race_lbl'),
+        AppLocalizations.of(context).translate('chinese_lbl'),
+        AppLocalizations.of(context).translate('indian_lbl'),
+        AppLocalizations.of(context).translate('others_lbl'),
+      ].map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      validator: (value) {
+        if (value == null) {
+          return AppLocalizations.of(context).translate('race_required_msg');
+        }
+        return null;
+      },
+    );
+  }
+
   _genderSelection() {
     return Row(
       children: <Widget>[
@@ -603,6 +657,10 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                       SizedBox(
                         height: ScreenUtil().setHeight(60),
                       ),
+                      _raceField(),
+                      SizedBox(
+                        height: ScreenUtil().setHeight(60),
+                      ),
                       _nationalityField(),
                       SizedBox(
                         height: ScreenUtil().setHeight(20),
@@ -694,12 +752,20 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           gender: _genderValue,
           dateOfBirthString: _dob,
           nationality: 'WARGANEGARA',
+          race: _race,
         );
 
         if (result.isSuccess) {
           customDialog.show(
             context: context,
             barrierDismissable: false,
+            title: Center(
+              child: Icon(
+                Icons.check_circle_outline,
+                size: 120,
+                color: Colors.green,
+              ),
+            ),
             content: AppLocalizations.of(context).translate('enroll_success'),
             type: DialogType.GENERAL,
             customActions: <Widget>[

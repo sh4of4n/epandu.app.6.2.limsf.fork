@@ -65,9 +65,21 @@ class _HomeState extends State<Home> {
   }
 
   _getDiProfile() async {
-    String instituteLogoPath = await localStorage.getArmasterAppPhotoForCode();
+    String instituteLogoPath = await localStorage.getInstituteLogo();
 
-    if (instituteLogoPath.isEmpty) {
+    var result = await authRepo.getDiProfile(context: context);
+
+    if (result.isSuccess && result.data != null) {
+      // Uint8List decodedImage = base64Decode(
+      //     result.data);
+
+      setState(() {
+        instituteLogo = result.data;
+        isLogoLoaded = true;
+      });
+    }
+
+    /* if (instituteLogoPath.isEmpty) {
       var result = await authRepo.getDiProfile(context: context);
 
       if (result.isSuccess && result.data != null) {
@@ -86,7 +98,7 @@ class _HomeState extends State<Home> {
         instituteLogo = instituteLogoPath;
         isLogoLoaded = true;
       });
-    }
+    } */
   }
 
   _getActiveFeed() async {

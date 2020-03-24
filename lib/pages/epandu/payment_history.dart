@@ -1,9 +1,10 @@
 import 'package:epandu/pages/profile/profile_loading.dart';
-import 'package:epandu/services/repository/profile_repository.dart';
+import 'package:epandu/services/repository/epandu_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 
 import '../../app_localizations.dart';
 
@@ -14,6 +15,7 @@ class PaymentHistory extends StatefulWidget {
 
 class _PaymentHistoryState extends State<PaymentHistory> {
   final primaryColor = ColorConstant.primaryColor;
+  final format = DateFormat("yyyy-MM-dd");
 
   final TextStyle _titleStyle = TextStyle(
     fontSize: 18,
@@ -27,38 +29,24 @@ class _PaymentHistoryState extends State<PaymentHistory> {
     color: Colors.grey.shade600,
   );
 
-  final profileRepo = ProfileRepo();
-  var response;
-  var data;
-  String _message = '';
+  final epanduRepo = EpanduRepo();
+
+  Future _getData;
 
   @override
   void initState() {
     super.initState();
 
-    _getdata();
+    _getData = _getdata();
   }
 
   _getdata() async {
-    if (data == null) {
-      response = await profileRepo.getCollectionByStudent(context: context);
+    var response = await epanduRepo.getCollectionByStudent(context: context);
 
-      if (response.isSuccess) {
-        if (mounted) {
-          setState(() {
-            data = response;
-            _message = '';
-          });
-        }
-      } else {
-        if (mounted) {
-          setState(() {
-            data = null;
-            _message =
-                AppLocalizations.of(context).translate('no_payment_desc');
-          });
-        }
-      }
+    if (response.isSuccess) {
+      return response.data;
+    } else {
+      return response.message;
     }
   }
 
@@ -96,36 +84,56 @@ class _PaymentHistoryState extends State<PaymentHistory> {
               )
             ],
           ),
-          child: _renderPaymentList(),
+          child: FutureBuilder(
+            future: _getData,
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return SpinKitFoldingCube(
+                    color: primaryColor,
+                  );
+                case ConnectionState.done:
+                  if (snapshot.data is String) {
+                    return ProfileLoading(snapshot.data);
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 15.w, vertical: 20.h),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                '${AppLocalizations.of(context).translate('receipt_no_lbl')} ${snapshot.data[index].recpNo}',
+                                style: _titleStyle,
+                              ),
+                              Text(
+                                'Date ${format.format(DateTime.parse(snapshot.data[index].trandate))}',
+                                style: _subtitleStyle,
+                              ),
+                              Text(
+                                'Date ${snapshot.data[index].payAmount}',
+                                style: _subtitleStyle,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                default:
+                  return Center(
+                    child: Text(snapshot.data),
+                  );
+              }
+            },
+          ),
         ),
-      ),
-    );
-  }
-
-  _renderPaymentList() {
-    if (response == null && _message.isEmpty) {
-      return SpinKitFoldingCube(
-        color: primaryColor,
-      );
-    } else if (response == null && _message.isNotEmpty) {
-      return ProfileLoading(_message);
-    }
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: response.data.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(
-              '${AppLocalizations.of(context).translate('receipt_no_lbl')} ${response.data[index].recpNo}',
-              style: _titleStyle,
-            ),
-            subtitle: Text(
-                'Date ${response.data[index].trandate.substring(0, 10)}',
-                style: _subtitleStyle),
-          );
-        },
       ),
     );
   }
