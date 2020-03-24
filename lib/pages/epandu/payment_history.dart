@@ -18,13 +18,13 @@ class _PaymentHistoryState extends State<PaymentHistory> {
   final format = DateFormat("yyyy-MM-dd");
 
   final TextStyle _titleStyle = TextStyle(
-    fontSize: 18,
+    fontSize: 65.sp,
     fontWeight: FontWeight.w600,
     color: Colors.grey.shade700,
   );
 
   final TextStyle _subtitleStyle = TextStyle(
-    fontSize: 18,
+    fontSize: 56.sp,
     fontWeight: FontWeight.w400,
     color: Colors.grey.shade600,
   );
@@ -116,8 +116,30 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                                 'Date ${format.format(DateTime.parse(snapshot.data[index].trandate))}',
                                 style: _subtitleStyle,
                               ),
+                              snapshot.data[index].trnCode != null
+                                  ? Text(
+                                      'Detail ${snapshot.data[index].trnCode}',
+                                      style: _subtitleStyle,
+                                    )
+                                  : Text(
+                                      AppLocalizations.of(context)
+                                          .translate('no_item_payment_det'),
+                                      style: _subtitleStyle,
+                                    ),
+                              snapshot.data[index].trnDesc != null
+                                  ? Text(
+                                      'Desc ${snapshot.data[index].trnDesc}',
+                                      style: _subtitleStyle,
+                                    )
+                                  : Text(
+                                      AppLocalizations.of(context)
+                                          .translate('no_item_payment_desc'),
+                                      style: _subtitleStyle,
+                                    ),
                               Text(
-                                'Date ${snapshot.data[index].payAmount}',
+                                  'Item amount ${snapshot.data[index].tdefaAmt}'),
+                              Text(
+                                'Total amount RM${snapshot.data[index].payAmount}',
                                 style: _subtitleStyle,
                               ),
                             ],

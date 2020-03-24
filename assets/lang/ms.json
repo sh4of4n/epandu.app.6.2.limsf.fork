@@ -112,6 +112,8 @@
   "no_classes_desc": "Tiada kelas untuk mendaftar.",
   "no_enrollment_desc": "Anda tidak adak daftaran kelas.",
   "no_payment_desc": "Anda tidak adak sejarah bayaran.",
+  "no_item_payment_det": "Tiada terperinci pembayaran",
+  "no_item_payment_desc": "Tiada penerangan pembayaran",
   "no_attendance_desc": "Anda tidak adak sejarah kehadiran.",
   "receipt_no_lbl": "Nombor resit",
   "bill_lbl": "Bil",

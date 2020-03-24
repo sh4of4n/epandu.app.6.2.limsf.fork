@@ -112,6 +112,8 @@
   "no_classes_desc": "There are no classes to enroll.",
   "no_enrollment_desc": "You have no class enrolled.",
   "no_payment_desc": "You have no payment history.",
+  "no_item_payment_det": "No payment detail",
+  "no_item_payment_desc": "No payment description",
   "no_attendance_desc": "You have no attendance history.",
   "receipt_no_lbl": "Receipt no",
   "bill_lbl": "Bill",

@@ -75,7 +75,7 @@ class EpanduRepo {
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo';
 
     var response = await networking.getData(
-      path: 'GetCollectionByStudent?$path',
+      path: 'GetCollectionHeaderDetailByStudent?$path',
     );
 
     if (response.isSuccess && response.data != null) {

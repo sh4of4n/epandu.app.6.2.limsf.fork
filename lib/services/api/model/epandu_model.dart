@@ -565,7 +565,6 @@ class CollectTrn {
   String trantime;
   String vehNo;
   String icNo;
-  String sName;
   String dsCode;
   String tdefaAmt;
   String thandChrg;
@@ -576,9 +575,6 @@ class CollectTrn {
   String tranUser;
   String payAmount;
   String payMode;
-  String cashAmount;
-  String chqAmount;
-  String ccAmount;
   String crdType;
   String payRefno;
   String balAmount;
@@ -586,8 +582,11 @@ class CollectTrn {
   String cancelUser;
   String cancelOn;
   String cancel;
-  String batchNo;
   String transtamp;
+  String batchNo;
+  String cashAmount;
+  String chqAmount;
+  String ccAmount;
   String packageCode;
   String commAmount;
   String oriRecpno;
@@ -599,6 +598,46 @@ class CollectTrn {
   String lastupload;
   String deleted;
   String diCode;
+  String id;
+  String ctrlNo;
+  String jobNo1;
+  String recpNo1;
+  String bookNo;
+  String trandate1;
+  String trantime1;
+  String vehNo1;
+  String icNo1;
+  String groupId;
+  String grpDesc;
+  String tranCateg;
+  String packageCode1;
+  String itemQty;
+  String itemPrice;
+  String taxCode;
+  String taxRate;
+  String taxAmt;
+  String priceIncludeGst;
+  String defaAmt;
+  String unitHandChrg;
+  String handChrg;
+  String unitServChrg;
+  String servChrg;
+  String unitServTax;
+  String servTax;
+  String tranTotal1;
+  String nettAmt;
+  String unitCommAmt;
+  String transtamp1;
+  String commAmt;
+  String unitAgentComm;
+  String agentCommAmt;
+  String trnCode;
+  String trnDesc;
+  String compCode1;
+  String branchCode1;
+  String lastupload1;
+  String deleted1;
+  String diCode1;
 
   CollectTrn(
       {this.jobNo,
@@ -608,7 +647,6 @@ class CollectTrn {
       this.trantime,
       this.vehNo,
       this.icNo,
-      this.sName,
       this.dsCode,
       this.tdefaAmt,
       this.thandChrg,
@@ -619,9 +657,6 @@ class CollectTrn {
       this.tranUser,
       this.payAmount,
       this.payMode,
-      this.cashAmount,
-      this.chqAmount,
-      this.ccAmount,
       this.crdType,
       this.payRefno,
       this.balAmount,
@@ -629,8 +664,11 @@ class CollectTrn {
       this.cancelUser,
       this.cancelOn,
       this.cancel,
-      this.batchNo,
       this.transtamp,
+      this.batchNo,
+      this.cashAmount,
+      this.chqAmount,
+      this.ccAmount,
       this.packageCode,
       this.commAmount,
       this.oriRecpno,
@@ -641,7 +679,47 @@ class CollectTrn {
       this.branchCode,
       this.lastupload,
       this.deleted,
-      this.diCode});
+      this.diCode,
+      this.id,
+      this.ctrlNo,
+      this.jobNo1,
+      this.recpNo1,
+      this.bookNo,
+      this.trandate1,
+      this.trantime1,
+      this.vehNo1,
+      this.icNo1,
+      this.groupId,
+      this.grpDesc,
+      this.tranCateg,
+      this.packageCode1,
+      this.itemQty,
+      this.itemPrice,
+      this.taxCode,
+      this.taxRate,
+      this.taxAmt,
+      this.priceIncludeGst,
+      this.defaAmt,
+      this.unitHandChrg,
+      this.handChrg,
+      this.unitServChrg,
+      this.servChrg,
+      this.unitServTax,
+      this.servTax,
+      this.tranTotal1,
+      this.nettAmt,
+      this.unitCommAmt,
+      this.transtamp1,
+      this.commAmt,
+      this.unitAgentComm,
+      this.agentCommAmt,
+      this.trnCode,
+      this.trnDesc,
+      this.compCode1,
+      this.branchCode1,
+      this.lastupload1,
+      this.deleted1,
+      this.diCode1});
 
   CollectTrn.fromJson(Map<String, dynamic> json) {
     jobNo = json['job_no'];
@@ -651,7 +729,6 @@ class CollectTrn {
     trantime = json['trantime'];
     vehNo = json['veh_no'];
     icNo = json['ic_no'];
-    sName = json['__name'];
     dsCode = json['ds_code'];
     tdefaAmt = json['tdefa_amt'];
     thandChrg = json['thand_chrg'];
@@ -662,9 +739,6 @@ class CollectTrn {
     tranUser = json['tran_user'];
     payAmount = json['pay_amount'];
     payMode = json['pay_mode'];
-    cashAmount = json['cash_amount'];
-    chqAmount = json['chq_amount'];
-    ccAmount = json['cc_amount'];
     crdType = json['crd_type'];
     payRefno = json['pay_refno'];
     balAmount = json['bal_amount'];
@@ -672,8 +746,11 @@ class CollectTrn {
     cancelUser = json['cancel_user'];
     cancelOn = json['cancel_on'];
     cancel = json['cancel'];
-    batchNo = json['batch_no'];
     transtamp = json['transtamp'];
+    batchNo = json['batch_no'];
+    cashAmount = json['cash_amount'];
+    chqAmount = json['chq_amount'];
+    ccAmount = json['cc_amount'];
     packageCode = json['package_code'];
     commAmount = json['comm_amount'];
     oriRecpno = json['ori_recpno'];
@@ -685,6 +762,46 @@ class CollectTrn {
     lastupload = json['lastupload'];
     deleted = json['deleted'];
     diCode = json['di_code'];
+    id = json['id'];
+    ctrlNo = json['ctrl_no'];
+    jobNo1 = json['job_no1'];
+    recpNo1 = json['recp_no1'];
+    bookNo = json['book_no'];
+    trandate1 = json['trandate1'];
+    trantime1 = json['trantime1'];
+    vehNo1 = json['veh_no1'];
+    icNo1 = json['ic_no1'];
+    groupId = json['group_id'];
+    grpDesc = json['grp_desc'];
+    tranCateg = json['tran_categ'];
+    packageCode1 = json['package_code1'];
+    itemQty = json['item_qty'];
+    itemPrice = json['item_price'];
+    taxCode = json['tax_code'];
+    taxRate = json['tax_rate'];
+    taxAmt = json['tax_amt'];
+    priceIncludeGst = json['price_include_gst'];
+    defaAmt = json['defa_amt'];
+    unitHandChrg = json['unit_hand_chrg'];
+    handChrg = json['hand_chrg'];
+    unitServChrg = json['unit_serv_chrg'];
+    servChrg = json['serv_chrg'];
+    unitServTax = json['unit_serv_tax'];
+    servTax = json['serv_tax'];
+    tranTotal1 = json['tran_total1'];
+    nettAmt = json['nett_amt'];
+    unitCommAmt = json['unit_comm_amt'];
+    transtamp1 = json['transtamp1'];
+    commAmt = json['comm_amt'];
+    unitAgentComm = json['unit_agent_comm'];
+    agentCommAmt = json['agent_comm_amt'];
+    trnCode = json['trn_code'];
+    trnDesc = json['trn_desc'];
+    compCode1 = json['comp_code1'];
+    branchCode1 = json['branch_code1'];
+    lastupload1 = json['lastupload1'];
+    deleted1 = json['deleted1'];
+    diCode1 = json['di_code1'];
   }
 
   Map<String, dynamic> toJson() {
@@ -696,7 +813,6 @@ class CollectTrn {
     data['trantime'] = this.trantime;
     data['veh_no'] = this.vehNo;
     data['ic_no'] = this.icNo;
-    data['__name'] = this.sName;
     data['ds_code'] = this.dsCode;
     data['tdefa_amt'] = this.tdefaAmt;
     data['thand_chrg'] = this.thandChrg;
@@ -707,9 +823,6 @@ class CollectTrn {
     data['tran_user'] = this.tranUser;
     data['pay_amount'] = this.payAmount;
     data['pay_mode'] = this.payMode;
-    data['cash_amount'] = this.cashAmount;
-    data['chq_amount'] = this.chqAmount;
-    data['cc_amount'] = this.ccAmount;
     data['crd_type'] = this.crdType;
     data['pay_refno'] = this.payRefno;
     data['bal_amount'] = this.balAmount;
@@ -717,8 +830,11 @@ class CollectTrn {
     data['cancel_user'] = this.cancelUser;
     data['cancel_on'] = this.cancelOn;
     data['cancel'] = this.cancel;
-    data['batch_no'] = this.batchNo;
     data['transtamp'] = this.transtamp;
+    data['batch_no'] = this.batchNo;
+    data['cash_amount'] = this.cashAmount;
+    data['chq_amount'] = this.chqAmount;
+    data['cc_amount'] = this.ccAmount;
     data['package_code'] = this.packageCode;
     data['comm_amount'] = this.commAmount;
     data['ori_recpno'] = this.oriRecpno;
@@ -730,6 +846,46 @@ class CollectTrn {
     data['lastupload'] = this.lastupload;
     data['deleted'] = this.deleted;
     data['di_code'] = this.diCode;
+    data['id'] = this.id;
+    data['ctrl_no'] = this.ctrlNo;
+    data['job_no1'] = this.jobNo1;
+    data['recp_no1'] = this.recpNo1;
+    data['book_no'] = this.bookNo;
+    data['trandate1'] = this.trandate1;
+    data['trantime1'] = this.trantime1;
+    data['veh_no1'] = this.vehNo1;
+    data['ic_no1'] = this.icNo1;
+    data['group_id'] = this.groupId;
+    data['grp_desc'] = this.grpDesc;
+    data['tran_categ'] = this.tranCateg;
+    data['package_code1'] = this.packageCode1;
+    data['item_qty'] = this.itemQty;
+    data['item_price'] = this.itemPrice;
+    data['tax_code'] = this.taxCode;
+    data['tax_rate'] = this.taxRate;
+    data['tax_amt'] = this.taxAmt;
+    data['price_include_gst'] = this.priceIncludeGst;
+    data['defa_amt'] = this.defaAmt;
+    data['unit_hand_chrg'] = this.unitHandChrg;
+    data['hand_chrg'] = this.handChrg;
+    data['unit_serv_chrg'] = this.unitServChrg;
+    data['serv_chrg'] = this.servChrg;
+    data['unit_serv_tax'] = this.unitServTax;
+    data['serv_tax'] = this.servTax;
+    data['tran_total1'] = this.tranTotal1;
+    data['nett_amt'] = this.nettAmt;
+    data['unit_comm_amt'] = this.unitCommAmt;
+    data['transtamp1'] = this.transtamp1;
+    data['comm_amt'] = this.commAmt;
+    data['unit_agent_comm'] = this.unitAgentComm;
+    data['agent_comm_amt'] = this.agentCommAmt;
+    data['trn_code'] = this.trnCode;
+    data['trn_desc'] = this.trnDesc;
+    data['comp_code1'] = this.compCode1;
+    data['branch_code1'] = this.branchCode1;
+    data['lastupload1'] = this.lastupload1;
+    data['deleted1'] = this.deleted1;
+    data['di_code1'] = this.diCode1;
     return data;
   }
 }
