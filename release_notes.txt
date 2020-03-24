@@ -1,5 +1,3 @@
 New:
-Home UI updates
-Enrollment form
-KPP module UI for demo
-Emergency module has been updated with improved performance
+UI updates and enhancements
+Bug fixes
