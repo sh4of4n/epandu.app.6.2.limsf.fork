@@ -105,6 +105,50 @@ class EpanduRepo {
         message: AppLocalizations.of(context).translate('no_payment_desc'));
   }
 
+  Future<Response> getCollectionDetailByRecpNo({context, recpNo}) async {
+    assert(context != null);
+
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+
+    //  Temporarily use TBS as diCode
+    String diCode = 'TBS';
+    // String diCode = await localStorage.getDiCode();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&recpNo=$recpNo';
+
+    var response = await networking.getData(
+      path: 'GetCollectionDetailByRecpNo?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      StudentPaymentResponse studentPaymentResponse;
+
+      studentPaymentResponse = StudentPaymentResponse.fromJson(response.data);
+
+      return Response(true, data: studentPaymentResponse.collectTrn);
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message != null && response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message != null &&
+        response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
+    }
+
+    return Response(false,
+        message: AppLocalizations.of(context).translate('no_records_found'));
+  }
+
   Future<Response> getDTestByCode({context}) async {
     assert(context != null);
 

@@ -1,6 +1,7 @@
 import 'package:epandu/pages/profile/profile_loading.dart';
 import 'package:epandu/services/repository/epandu_repository.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -17,11 +18,11 @@ class _PaymentHistoryState extends State<PaymentHistory> {
   final primaryColor = ColorConstant.primaryColor;
   final format = DateFormat("yyyy-MM-dd");
 
-  final TextStyle _titleStyle = TextStyle(
+  /* final TextStyle _titleStyle = TextStyle(
     fontSize: 65.sp,
     fontWeight: FontWeight.w600,
     color: Colors.grey.shade700,
-  );
+  ); */
 
   final TextStyle _subtitleStyle = TextStyle(
     fontSize: 56.sp,
@@ -67,94 +68,139 @@ class _PaymentHistoryState extends State<PaymentHistory> {
           backgroundColor: Colors.transparent,
           title: Text(AppLocalizations.of(context).translate('payment_lbl')),
         ),
-        body: Container(
-          height: ScreenUtil().setHeight(1800),
-          width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.symmetric(
-              vertical: ScreenUtil().setHeight(100.0),
-              horizontal: ScreenUtil().setWidth(35.0)),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(30.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                offset: Offset(0, 8.0),
-                blurRadius: 10.0,
-              )
-            ],
-          ),
-          child: FutureBuilder(
-            future: _getData,
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                  return SpinKitFoldingCube(
-                    color: primaryColor,
-                  );
-                case ConnectionState.done:
-                  if (snapshot.data is String) {
-                    return ProfileLoading(snapshot.data);
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 15.w, vertical: 20.h),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                '${AppLocalizations.of(context).translate('receipt_no_lbl')} ${snapshot.data[index].recpNo}',
-                                style: _titleStyle,
-                              ),
-                              Text(
-                                'Date ${format.format(DateTime.parse(snapshot.data[index].trandate))}',
-                                style: _subtitleStyle,
-                              ),
-                              snapshot.data[index].trnCode != null
-                                  ? Text(
-                                      'Detail ${snapshot.data[index].trnCode}',
-                                      style: _subtitleStyle,
-                                    )
-                                  : Text(
-                                      AppLocalizations.of(context)
-                                          .translate('no_item_payment_det'),
-                                      style: _subtitleStyle,
-                                    ),
-                              snapshot.data[index].trnDesc != null
-                                  ? Text(
-                                      'Desc ${snapshot.data[index].trnDesc}',
-                                      style: _subtitleStyle,
-                                    )
-                                  : Text(
-                                      AppLocalizations.of(context)
-                                          .translate('no_item_payment_desc'),
-                                      style: _subtitleStyle,
-                                    ),
-                              Text(
-                                  'Item amount ${snapshot.data[index].tdefaAmt}'),
-                              Text(
-                                'Total amount RM${snapshot.data[index].payAmount}',
-                                style: _subtitleStyle,
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                default:
-                  return Center(
-                    child: Text(snapshot.data),
-                  );
-              }
-            },
-          ),
+        body: Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 50.w),
+              child: Ink(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(0, 8.0),
+                      blurRadius: 10.0,
+                    )
+                  ],
+                ),
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 50.h, horizontal: 55.w),
+                  child: FutureBuilder(
+                    future: _getData,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<dynamic> snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                          return Container(
+                            height: 1700.h,
+                            child: SpinKitFoldingCube(
+                              color: primaryColor,
+                            ),
+                          );
+                        case ConnectionState.done:
+                          if (snapshot.data is String) {
+                            return ProfileLoading(snapshot.data);
+                          }
+
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return InkWell(
+                                onTap: () => Navigator.pushNamed(
+                                  context,
+                                  PAYMENT_HISTORY_DETAIL,
+                                  arguments: snapshot.data[index],
+                                ),
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.fromLTRB(15.w, 50.h, 15.w, 0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Table(
+                                        children: [
+                                          TableRow(
+                                            children: [
+                                              Text(
+                                                '${format.format(DateTime.parse(snapshot.data[index].trandate))}',
+                                                style: _subtitleStyle,
+                                              ),
+                                              Text(
+                                                'REC ${snapshot.data[index].recpNo}',
+                                                style: _subtitleStyle,
+                                                textAlign: TextAlign.right,
+                                              ),
+                                            ],
+                                          ),
+                                          TableRow(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 10.h),
+                                                child: snapshot.data[index]
+                                                            .trnDesc !=
+                                                        null
+                                                    ? Text(
+                                                        '${snapshot.data[index].trnDesc}',
+                                                        style: _subtitleStyle,
+                                                      )
+                                                    : Text(
+                                                        AppLocalizations.of(
+                                                                context)
+                                                            .translate(
+                                                                'no_description'),
+                                                        style: _subtitleStyle,
+                                                      ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 10.h),
+                                                child: Text(
+                                                  'RM${NumberFormat('#,###0.00').format(double.tryParse(snapshot.data[index].payAmount))}',
+                                                  style: _subtitleStyle,
+                                                  textAlign: TextAlign.right,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      index + 1 != snapshot.data.length
+                                          ? Padding(
+                                              padding:
+                                                  EdgeInsets.only(top: 50.h),
+                                              child: Divider(
+                                                color: Colors.grey[300],
+                                                height: 1.0,
+                                                thickness: 1.0,
+                                              ),
+                                            )
+                                          : Padding(
+                                              padding:
+                                                  EdgeInsets.only(top: 50.h),
+                                            ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        default:
+                          return Center(
+                            child: Text(snapshot.data),
+                          );
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

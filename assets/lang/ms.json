@@ -60,6 +60,7 @@
   "city_lbl": "Bandar",
   "state_lbl": "Negeri",
   "country_lbl": "Negara",
+  "login_id": "Login ID",
   "email_lbl": "Emel",
   "email_required_lbl": "Emel*",
   "email_required_msg": "Emel diperlukan.",
@@ -227,5 +228,8 @@
   "format_exception": "Sila sahkan akaun ID anda.",
   "no_url_found": "Tiada URL yang dijumpai dengan akaun klien ini.",
   "no_records_found": "Tiada rekod yang ditemui.",
-  "no_facility_nearby": "Tiada kemudahan berdekatan."
+  "no_facility_nearby": "Tiada kemudahan berdekatan.",
+  "no_description": "No description",
+  "no_package_code": "Tiada kod pakej",
+  "no_package_desc": "Tiada penerangan pakej"
 }

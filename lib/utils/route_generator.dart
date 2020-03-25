@@ -211,6 +211,11 @@ class RouteGenerator {
           settings: RouteSettings(name: PAYMENT_HISTORY),
           builder: (_) => PaymentHistory(),
         );
+      case PAYMENT_HISTORY_DETAIL:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: PAYMENT_HISTORY_DETAIL),
+          builder: (_) => PaymentHistoryDetail(data),
+        );
       case REGISTERED_COURSE:
         return MaterialPageRoute(
           settings: RouteSettings(name: REGISTERED_COURSE),

@@ -157,7 +157,7 @@ class _ProfileState extends State<Profile> {
           if (_phone != 'null')
             ListTile(
               leading: Icon(Icons.phone),
-              title: Text(AppLocalizations.of(context).translate('phone_lbl')),
+              title: Text(AppLocalizations.of(context).translate('login_id')),
               subtitle: Text('$_phone', style: _subtitleStyle),
             ),
           SizedBox(height: ScreenUtil().setHeight(20)),

@@ -462,8 +462,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         ),
         prefixIcon: Icon(Icons.flag),
       ),
-      disabledHint: Text(AppLocalizations.of(context).translate('citizen_lbl')),
-      value: AppLocalizations.of(context).translate('citizen_lbl'),
+      disabledHint: Text('WARGANEGARA'),
+      value: 'WARGANEGARA',
       /* _nationality.isNotEmpty
           ? _nationality
           : AppLocalizations.of(context).translate('citizen_lbl'), */
@@ -474,7 +474,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         });
       }, */
       items: <String>[
-        AppLocalizations.of(context).translate('citizen_lbl'),
+        'WARGANEGARA',
         AppLocalizations.of(context).translate('foreigner_lbl')
       ].map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(

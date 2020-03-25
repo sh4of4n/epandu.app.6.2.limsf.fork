@@ -60,6 +60,7 @@
   "city_lbl": "City",
   "state_lbl": "State",
   "country_lbl": "Country",
+  "login_id": "Login ID",
   "email_lbl": "Email",
   "email_required_lbl": "Email*",
   "email_required_msg": "Email is required.",
@@ -227,5 +228,8 @@
   "format_exception": "Please verify your client account.",
   "no_url_found": "No URL found with this client account.",
   "no_records_found": "No records found.",
-  "no_facility_nearby": "No facilities nearby."
+  "no_facility_nearby": "No facilities nearby.",
+  "no_description": "No description",
+  "no_package_code": "No package code",
+  "no_package_desc": "No package description"
 }
