@@ -89,6 +89,7 @@
   "promotions_lbl": "Promosi",
   "no_feeds_message": "Tiada iklan.",
   "profile_title": "Profil",
+  "edompet_title": "eDompet",
   "update_profile": "Kemaskini profil anda",
   "profile_updated": "Profil berjaya dikemas kini.",
   "profile_update_fail": "Profil gagal dikemas kini. Sila cuba sebentar lagi.",
@@ -120,6 +121,7 @@
   "bill_lbl": "Bil",
   "airtime_lbl": "Airtime",
   "account_lbl": "Account no.",
+  "tax_lbl": "Cukai",
   "total_lbl": "Jumlah",
   "phone_amount_required": " Nombor telefon dan jumlah diperlukan.",
   "account_amount_required": "Nombor akaun dan jumlah diperlukan.",
@@ -229,7 +231,10 @@
   "no_url_found": "Tiada URL yang dijumpai dengan akaun klien ini.",
   "no_records_found": "Tiada rekod yang ditemui.",
   "no_facility_nearby": "Tiada kemudahan berdekatan.",
+  "description": "Deskripsi",
+  "subtotal": "Jumlah Kecil",
   "no_description": "No description",
   "no_package_code": "Tiada kod pakej",
-  "no_package_desc": "Tiada penerangan pakej"
+  "no_package_desc": "Tiada deskripsi pakej",
+  "no_item_desc": "Tiada perihalan item"
 }

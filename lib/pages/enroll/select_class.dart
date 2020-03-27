@@ -206,7 +206,7 @@ class _SelectClassState extends State<SelectClass> {
                                   ),
                                   Text(
                                     'RM' +
-                                            NumberFormat('#,###0.00').format(
+                                            NumberFormat('#,##0.00').format(
                                                 double.tryParse(snapshot
                                                     .data[index].fee)) ??
                                         '0.00',

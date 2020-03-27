@@ -1191,3 +1191,205 @@ class DTest {
     return data;
   }
 }
+
+// GetCollectionDetailByRecNoResponse
+class GetCollectionDetailByRecpNoResponse {
+  List<CollectDetail> collectDetail;
+
+  GetCollectionDetailByRecpNoResponse({this.collectDetail});
+
+  GetCollectionDetailByRecpNoResponse.fromJson(Map<String, dynamic> json) {
+    if (json['CollectDetail'] != null) {
+      collectDetail = new List<CollectDetail>();
+      json['CollectDetail'].forEach((v) {
+        collectDetail.add(new CollectDetail.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.collectDetail != null) {
+      data['CollectDetail'] =
+          this.collectDetail.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class CollectDetail {
+  String id;
+  String ctrlNo;
+  String jobNo;
+  String recpNo;
+  String bookNo;
+  String trandate;
+  String trantime;
+  String vehNo;
+  String icNo;
+  String groupId;
+  String grpDesc;
+  String tranCateg;
+  String packageCode;
+  String packageDesc;
+  String itemQty;
+  String itemPrice;
+  String taxCode;
+  String taxRate;
+  String taxAmt;
+  String priceIncludeGst;
+  String defaAmt;
+  String unitHandChrg;
+  String handChrg;
+  String unitServChrg;
+  String servChrg;
+  String unitServTax;
+  String servTax;
+  String tranTotal;
+  String nettAmt;
+  String unitCommAmt;
+  String transtamp;
+  String commAmt;
+  String unitAgentComm;
+  String agentCommAmt;
+  String trnCode;
+  String trnDesc;
+  String compCode;
+  String branchCode;
+  String lastupload;
+  String deleted;
+  String diCode;
+
+  CollectDetail(
+      {this.id,
+      this.ctrlNo,
+      this.jobNo,
+      this.recpNo,
+      this.bookNo,
+      this.trandate,
+      this.trantime,
+      this.vehNo,
+      this.icNo,
+      this.groupId,
+      this.grpDesc,
+      this.tranCateg,
+      this.packageCode,
+      this.packageDesc,
+      this.itemQty,
+      this.itemPrice,
+      this.taxCode,
+      this.taxRate,
+      this.taxAmt,
+      this.priceIncludeGst,
+      this.defaAmt,
+      this.unitHandChrg,
+      this.handChrg,
+      this.unitServChrg,
+      this.servChrg,
+      this.unitServTax,
+      this.servTax,
+      this.tranTotal,
+      this.nettAmt,
+      this.unitCommAmt,
+      this.transtamp,
+      this.commAmt,
+      this.unitAgentComm,
+      this.agentCommAmt,
+      this.trnCode,
+      this.trnDesc,
+      this.compCode,
+      this.branchCode,
+      this.lastupload,
+      this.deleted,
+      this.diCode});
+
+  CollectDetail.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    ctrlNo = json['ctrl_no'];
+    jobNo = json['job_no'];
+    recpNo = json['recp_no'];
+    bookNo = json['book_no'];
+    trandate = json['trandate'];
+    trantime = json['trantime'];
+    vehNo = json['veh_no'];
+    icNo = json['ic_no'];
+    groupId = json['group_id'];
+    grpDesc = json['grp_desc'];
+    tranCateg = json['tran_categ'];
+    packageCode = json['package_code'];
+    packageDesc = json['package_desc'];
+    itemQty = json['item_qty'];
+    itemPrice = json['item_price'];
+    taxCode = json['tax_code'];
+    taxRate = json['tax_rate'];
+    taxAmt = json['tax_amt'];
+    priceIncludeGst = json['price_include_gst'];
+    defaAmt = json['defa_amt'];
+    unitHandChrg = json['unit_hand_chrg'];
+    handChrg = json['hand_chrg'];
+    unitServChrg = json['unit_serv_chrg'];
+    servChrg = json['serv_chrg'];
+    unitServTax = json['unit_serv_tax'];
+    servTax = json['serv_tax'];
+    tranTotal = json['tran_total'];
+    nettAmt = json['nett_amt'];
+    unitCommAmt = json['unit_comm_amt'];
+    transtamp = json['transtamp'];
+    commAmt = json['comm_amt'];
+    unitAgentComm = json['unit_agent_comm'];
+    agentCommAmt = json['agent_comm_amt'];
+    trnCode = json['trn_code'];
+    trnDesc = json['trn_desc'];
+    compCode = json['comp_code'];
+    branchCode = json['branch_code'];
+    lastupload = json['lastupload'];
+    deleted = json['deleted'];
+    diCode = json['di_code'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['ctrl_no'] = this.ctrlNo;
+    data['job_no'] = this.jobNo;
+    data['recp_no'] = this.recpNo;
+    data['book_no'] = this.bookNo;
+    data['trandate'] = this.trandate;
+    data['trantime'] = this.trantime;
+    data['veh_no'] = this.vehNo;
+    data['ic_no'] = this.icNo;
+    data['group_id'] = this.groupId;
+    data['grp_desc'] = this.grpDesc;
+    data['tran_categ'] = this.tranCateg;
+    data['package_code'] = this.packageCode;
+    data['package_desc'] = this.packageDesc;
+    data['item_qty'] = this.itemQty;
+    data['item_price'] = this.itemPrice;
+    data['tax_code'] = this.taxCode;
+    data['tax_rate'] = this.taxRate;
+    data['tax_amt'] = this.taxAmt;
+    data['price_include_gst'] = this.priceIncludeGst;
+    data['defa_amt'] = this.defaAmt;
+    data['unit_hand_chrg'] = this.unitHandChrg;
+    data['hand_chrg'] = this.handChrg;
+    data['unit_serv_chrg'] = this.unitServChrg;
+    data['serv_chrg'] = this.servChrg;
+    data['unit_serv_tax'] = this.unitServTax;
+    data['serv_tax'] = this.servTax;
+    data['tran_total'] = this.tranTotal;
+    data['nett_amt'] = this.nettAmt;
+    data['unit_comm_amt'] = this.unitCommAmt;
+    data['transtamp'] = this.transtamp;
+    data['comm_amt'] = this.commAmt;
+    data['unit_agent_comm'] = this.unitAgentComm;
+    data['agent_comm_amt'] = this.agentCommAmt;
+    data['trn_code'] = this.trnCode;
+    data['trn_desc'] = this.trnDesc;
+    data['comp_code'] = this.compCode;
+    data['branch_code'] = this.branchCode;
+    data['lastupload'] = this.lastupload;
+    data['deleted'] = this.deleted;
+    data['di_code'] = this.diCode;
+    return data;
+  }
+}

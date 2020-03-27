@@ -83,13 +83,15 @@ class Feeds extends StatelessWidget {
                               topLeft: Radius.circular(12),
                               topRight: Radius.circular(12),
                             ),
-                            child: Image.network(
-                              feed[index]
-                                  .feedMediaFilename
-                                  .replaceAll(removeBracket, '')
-                                  .split('\r\n')[0],
-                              fit: BoxFit.fill,
-                            ),
+                            child: feed[index].feedMediaFilename != null
+                                ? Image.network(
+                                    feed[index]
+                                        .feedMediaFilename
+                                        .replaceAll(removeBracket, '')
+                                        .split('\r\n')[0],
+                                    fit: BoxFit.fill,
+                                  )
+                                : Container(),
                           ),
                         ),
                         Container(

@@ -47,72 +47,55 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.amber.shade300, primaryColor],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
+        borderRadius: BorderRadius.circular(10.0),
+        color: Colors.white,
       ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          elevation: 0,
-          title: Text(AppLocalizations.of(context).translate('settings_lbl')),
-          backgroundColor: Colors.transparent,
-        ),
-        body: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: Colors.white,
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+      margin: EdgeInsets.all(12.0),
+      child: ListView(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        children: <Widget>[
+          ListTile(
+            leading: Icon(Icons.language, size: _defIconSize),
+            title: Consumer<LanguageModel>(
+              builder: (context, lang, child) {
+                return Text(
+                  '${AppLocalizations.of(context).translate('language_lbl')} ${lang.language}',
+                );
+              },
+            ),
+            onTap: () {
+              // Navigator.pop(context);
+              return showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return LanguageOptions();
+                },
+              );
+            },
           ),
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-          margin: EdgeInsets.all(12.0),
-          child: ListView(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            children: <Widget>[
-              ListTile(
-                leading: Icon(Icons.language, size: _defIconSize),
-                title: Consumer<LanguageModel>(
-                  builder: (context, lang, child) {
-                    return Text(
-                      '${AppLocalizations.of(context).translate('language_lbl')} ${lang.language}',
-                    );
-                  },
-                ),
-                onTap: () {
-                  // Navigator.pop(context);
-                  return showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return LanguageOptions();
-                    },
-                  );
-                },
-              ),
-              Divider(),
-              ListTile(
-                leading: Icon(Icons.lock, size: _defIconSize),
-                title: Text(AppLocalizations.of(context)
-                    .translate('change_password_lbl')),
-                onTap: () {
-                  Navigator.pushNamed(context, CHANGE_PASSWORD);
-                },
-              ),
-              Divider(),
-              ListTile(
-                leading: Icon(Icons.exit_to_app, size: _defIconSize),
-                title:
-                    Text(AppLocalizations.of(context).translate('logout_lbl')),
-                onTap: _logout,
-              ),
-              Divider(),
-              ListTile(
-                leading: Icon(Icons.apps, size: _defIconSize),
-                title:
-                    Text(AppLocalizations.of(context).translate('version_lbl')),
-                subtitle: Text('V.$appVersion'),
-                /* onTap: () async {
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.lock, size: _defIconSize),
+            title: Text(
+                AppLocalizations.of(context).translate('change_password_lbl')),
+            onTap: () {
+              Navigator.pushNamed(context, CHANGE_PASSWORD);
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.exit_to_app, size: _defIconSize),
+            title: Text(AppLocalizations.of(context).translate('logout_lbl')),
+            onTap: _logout,
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.apps, size: _defIconSize),
+            title: Text(AppLocalizations.of(context).translate('version_lbl')),
+            subtitle: Text('V.$appVersion'),
+            /* onTap: () async {
                   count += 1;
 
                   if (count == 4) {
@@ -133,10 +116,8 @@ class _SettingsState extends State<Settings> {
                     );
                   }
                 }, */
-              ),
-            ],
           ),
-        ),
+        ],
       ),
     );
   }

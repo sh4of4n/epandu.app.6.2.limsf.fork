@@ -3,7 +3,6 @@ import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Promotions extends StatefulWidget {
@@ -40,6 +39,7 @@ class _PromotionsState extends State<Promotions> {
   Future<dynamic> getActiveFeed() async {
     var result = await authRepo.getActiveFeed(
       context: context,
+      feedType: 'PROMOTION',
     );
 
     if (result.isSuccess) {

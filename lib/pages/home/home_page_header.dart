@@ -7,8 +7,9 @@ import 'package:transparent_image/transparent_image.dart';
 
 class HomePageHeader extends StatelessWidget {
   final String instituteLogo;
+  final positionStream;
 
-  HomePageHeader({this.instituteLogo});
+  HomePageHeader({this.instituteLogo, this.positionStream});
 
   final formatter = NumberFormat('#,##0.00');
 
@@ -103,7 +104,8 @@ class HomePageHeader extends StatelessWidget {
                     MyCustomIcons.account_icon,
                     color: Color(0xffb3b3b3),
                   ),
-                  onPressed: () => Navigator.pushNamed(context, PROFILE),
+                  onPressed: () => Navigator.pushNamed(context, PROFILE_TAB,
+                      arguments: positionStream),
                 ),
               ),
             ],

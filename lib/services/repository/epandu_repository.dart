@@ -60,7 +60,7 @@ class EpanduRepo {
         message: AppLocalizations.of(context).translate('no_enrollment_desc'));
   }
 
-  Future<Response> getCollectionByStudent({context}) async {
+  Future<Response> getCollectionByStudent({context, startIndex}) async {
     assert(context != null);
 
     String caUid = await localStorage.getCaUid();
@@ -72,10 +72,10 @@ class EpanduRepo {
     String icNo = await localStorage.getStudentIc();
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo&startIndex=$startIndex&noOfRecords=10';
 
     var response = await networking.getData(
-      path: 'GetCollectionHeaderDetailByStudent?$path',
+      path: 'GetCollectionByStudentV2?$path',
     );
 
     if (response.isSuccess && response.data != null) {
@@ -123,11 +123,13 @@ class EpanduRepo {
     );
 
     if (response.isSuccess && response.data != null) {
-      StudentPaymentResponse studentPaymentResponse;
+      GetCollectionDetailByRecpNoResponse getCollectionDetailByRecpNoResponse;
 
-      studentPaymentResponse = StudentPaymentResponse.fromJson(response.data);
+      getCollectionDetailByRecpNoResponse =
+          GetCollectionDetailByRecpNoResponse.fromJson(response.data);
 
-      return Response(true, data: studentPaymentResponse.collectTrn);
+      return Response(true,
+          data: getCollectionDetailByRecpNoResponse.collectDetail);
     } else if (response.message != null &&
         response.message.contains('timeout')) {
       return Response(false,

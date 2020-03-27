@@ -39,3 +39,4 @@ const String ATTENDANCE_RECORD = '/attendance_record';
 const String REGISTERED_COURSE = '/registered_course';
 const String UPDATE_PROFILE = '/update_profile';
 const String PAYMENT_HISTORY_DETAIL = '/payment_history_detail';
+const String PROFILE_TAB = '/profile_tab';

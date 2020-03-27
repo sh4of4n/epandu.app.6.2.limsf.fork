@@ -618,6 +618,32 @@ class AuthRepo {
     return Response(false, message: 'No records found.');
   }
 
+  Future<Response> getEnrollHistory({context}) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+    String diCode = await localStorage.getDiCode();
+    String icNo = await localStorage.getStudentIc();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo';
+
+    var response = await networking.getData(
+      path: 'GetEnrollHistory?$path',
+    );
+
+    print(response.data);
+
+    if (response.isSuccess && response.data != null) {
+      GetGroupIdByDiCodeForOnlineResponse getGroupIdByDiCodeForOnlineResponse =
+          GetGroupIdByDiCodeForOnlineResponse.fromJson(response.data);
+      var responseData = getGroupIdByDiCodeForOnlineResponse.dgroup;
+
+      return Response(true, data: responseData);
+    }
+
+    return Response(false, message: 'No records found.');
+  }
+
   Future<Response> saveEnrollmentWithParticular({
     context,
     phoneCountryCode,
@@ -672,6 +698,7 @@ class AuthRepo {
 
     if (response.data == 'True') {
       localStorage.saveDiCode(diCode);
+      localStorage.saveStudentIc(icNo);
 
       return Response(true,
           message: AppLocalizations.of(context).translate('enroll_success'));
@@ -685,15 +712,15 @@ class AuthRepo {
             .replaceAll(r'"', ''));
   }
 
-  Future<Response> getActiveFeed({context}) async {
+  Future<Response> getActiveFeed({context, feedType}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&feedType=${feedType ?? ''}&startIndex=0&noOfRecords=10';
 
     var response = await networking.getData(
-      path: 'GetActiveFeed?$path',
+      path: 'GetActiveFeedByType?$path',
     );
 
     if (response.isSuccess && response.data != null) {

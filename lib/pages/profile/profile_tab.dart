@@ -1,17 +1,18 @@
-/* import 'package:epandu/pages/profile/attendance_record.dart';
-import 'package:epandu/pages/profile/payment_history.dart';
+import 'package:epandu/pages/edompet/edompet.dart';
 import 'package:epandu/pages/profile/profile_page.dart';
-import 'package:epandu/pages/profile/registered_course.dart';
+import 'package:epandu/pages/settings/settings.dart';
 import 'package:epandu/services/repository/profile_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../app_localizations.dart';
 
 class ProfileTab extends StatefulWidget {
-  const ProfileTab({
-    Key key,
-  }) : super(key: key);
+  final positionStream;
+
+  ProfileTab(this.positionStream);
 
   @override
   _ProfileTabState createState() => _ProfileTabState();
@@ -28,19 +29,13 @@ class _ProfileTabState extends State<ProfileTab>
     ),
     Tab(
       icon: new Icon(
-        Icons.library_books,
-        size: 28.0,
-      ),
-    ),
-    Tab(
-      icon: new Icon(
         Icons.account_balance_wallet,
         size: 28.0,
       ),
     ),
     Tab(
       icon: new Icon(
-        Icons.check_circle,
+        Icons.settings,
         size: 28.0,
       ),
     ),
@@ -75,12 +70,12 @@ class _ProfileTabState extends State<ProfileTab>
     _tabController = TabController(vsync: this, length: myTabs.length);
     _tabController.addListener(_getTabSelection);
 
-    _getEnrollmentData();
-    _getPaymentData();
-    _getAttendanceData();
+    // _getEnrollmentData();
+    // _getPaymentData();
+    // _getAttendanceData();
   }
 
-  _getEnrollmentData() async {
+  /* _getEnrollmentData() async {
     if (enrollmentData == null) {
       enrollmentResponse = await profileRepo.getEnrollByCode(context: context);
 
@@ -102,9 +97,9 @@ class _ProfileTabState extends State<ProfileTab>
       }
     }
     // enrolledClassResponse = await profileRepo.getEnrolledClasses();
-  }
+  } */
 
-  _getPaymentData() async {
+  /* _getPaymentData() async {
     if (paymentData == null) {
       paymentResponse =
           await profileRepo.getCollectionByStudent(context: context);
@@ -126,9 +121,9 @@ class _ProfileTabState extends State<ProfileTab>
         }
       }
     }
-  }
+  } */
 
-  _getAttendanceData() async {
+  /*  _getAttendanceData() async {
     if (attendanceData == null) {
       attendanceResponse = await profileRepo.getDTestByCode(context: context);
 
@@ -149,7 +144,7 @@ class _ProfileTabState extends State<ProfileTab>
         }
       }
     }
-  }
+  } */
 
   _getTabSelection() {
     setState(() {
@@ -162,11 +157,30 @@ class _ProfileTabState extends State<ProfileTab>
       case 0:
         return Text(AppLocalizations.of(context).translate('profile_title'));
       case 1:
-        return Text(AppLocalizations.of(context).translate('class_title'));
+        return Text(AppLocalizations.of(context).translate('edompet_title'));
       case 2:
-        return Text(AppLocalizations.of(context).translate('payment_lbl'));
-      case 3:
-        return Text(AppLocalizations.of(context).translate('attendance_title'));
+        return Text(AppLocalizations.of(context).translate('settings_lbl'));
+    }
+  }
+
+  _getActions() {
+    switch (_tabIndex) {
+      case 0:
+        return <Widget>[
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 70.h),
+            margin: EdgeInsets.only(right: 15.w),
+            child: OutlineButton(
+              borderSide: BorderSide(
+                color: Colors.blue,
+                width: 1.5,
+              ),
+              shape: StadiumBorder(),
+              onPressed: () => Navigator.pushNamed(context, UPDATE_PROFILE),
+              child: Text('Edit profile'),
+            ),
+          ),
+        ];
     }
   }
 
@@ -187,22 +201,13 @@ class _ProfileTabState extends State<ProfileTab>
             backgroundColor: Colors.transparent,
             elevation: 0,
             title: _getTitle(),
+            actions: _getActions(),
           ),
           backgroundColor: Colors.transparent,
           body: TabBarView(controller: _tabController, children: [
             Profile(),
-            RegisteredCourse(
-              response: enrollmentData,
-              message: enrollmentMessage,
-            ),
-            PaymentHistory(
-              response: paymentData,
-              message: paymentMessage,
-            ),
-            AttendanceRecord(
-              response: attendanceData,
-              message: attendanceMessage,
-            )
+            Edompet(),
+            Settings(widget.positionStream),
           ]),
           bottomNavigationBar: Container(
             decoration: BoxDecoration(
@@ -240,4 +245,3 @@ class _ProfileTabState extends State<ProfileTab>
     super.dispose();
   }
 }
- */

@@ -1,7 +1,6 @@
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -38,9 +37,16 @@ class _ProfileState extends State<Profile> {
 
   final primaryColor = ColorConstant.primaryColor;
 
-  @override
+  /* @override
   void initState() {
     super.initState();
+
+    _getUserInfo();
+  } */
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
     _getUserInfo();
   }
@@ -68,83 +74,51 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: RadialGradient(
-          colors: [Colors.amber.shade300, primaryColor],
-          stops: [0.5, 1],
-          radius: 0.9,
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Text(AppLocalizations.of(context).translate('profile_title')),
-          actions: <Widget>[
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 70.h),
-              margin: EdgeInsets.only(right: 15.w),
-              child: OutlineButton(
-                borderSide: BorderSide(
-                  color: Colors.blue,
-                  width: 1.5,
-                ),
-                shape: StadiumBorder(),
-                onPressed: () => Navigator.pushNamed(context, UPDATE_PROFILE),
-                child: Text('Edit profile'),
-              ),
-            ),
-          ],
-        ),
-        body: Stack(
-          children: <Widget>[
-            /* Container(
+    return Stack(
+      children: <Widget>[
+        /* Container(
                 height: ScreenUtil().setHeight(300),
                 width: ScreenUtil.screenWidth,
                 color: Colors.blue), */
-            Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.symmetric(
-                  vertical: ScreenUtil().setHeight(140.0),
-                  horizontal: ScreenUtil().setWidth(35.0)),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    offset: Offset(0, 8.0),
-                    blurRadius: 10.0,
-                  )
-                ],
-              ),
-            ),
-            Container(
-              width: ScreenUtil.screenWidth,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                      image: DecorationImage(
-                        image: AssetImage(image.feedSample),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    width: ScreenUtil().setWidth(280),
-                    height: ScreenUtil().setWidth(280),
-                  ),
-                  SizedBox(height: ScreenUtil().setHeight(30)),
-                  _userInfo(),
-                ],
-              ),
-            ),
-          ],
+        Container(
+          width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.symmetric(
+              vertical: ScreenUtil().setHeight(140.0),
+              horizontal: ScreenUtil().setWidth(35.0)),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(30.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                offset: Offset(0, 8.0),
+                blurRadius: 10.0,
+              )
+            ],
+          ),
         ),
-      ),
+        Container(
+          width: ScreenUtil.screenWidth,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  image: DecorationImage(
+                    image: AssetImage(image.feedSample),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                width: ScreenUtil().setWidth(280),
+                height: ScreenUtil().setWidth(280),
+              ),
+              SizedBox(height: ScreenUtil().setHeight(30)),
+              _userInfo(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 

@@ -35,10 +35,15 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   bool _isLoading = false;
 
   TextStyle _messageStyle = TextStyle(color: Colors.red);
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+
+    _nameController.addListener(_nameValue);
+    _emailController.addListener(_emailValue);
 
     _getUserInfo();
   }
@@ -46,6 +51,18 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   _getUserInfo() async {
     _getName = await localStorage.getUsername();
     _getEmail = await localStorage.getEmail();
+  }
+
+  _nameValue() {
+    setState(() {
+      _name = _nameController.text;
+    });
+  }
+
+  _emailValue() {
+    setState(() {
+      _email = _emailController.text;
+    });
   }
 
   @override
@@ -72,6 +89,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
               child: Column(
                 children: <Widget>[
                   TextFormField(
+                    controller: _nameController,
                     focusNode: _nameFocus,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
@@ -82,11 +100,17 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       labelStyle: TextStyle(
                         color: Color(0xff808080),
                       ),
-                      labelText:
-                          AppLocalizations.of(context).translate('name_lbl'),
+                      labelText: AppLocalizations.of(context)
+                          .translate('nick_name_lbl'),
                       fillColor: Colors.white,
                       filled: true,
                       prefixIcon: Icon(Icons.assignment_ind),
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.cancel),
+                        onPressed: () {
+                          _nameController.text = '';
+                        },
+                      ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.blue, width: 1.3),
                         borderRadius: BorderRadius.circular(30),
@@ -116,16 +140,17 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       }
                       return null;
                     }, */
-                    onChanged: (value) {
+                    /* onChanged: (value) {
                       setState(() {
                         _name = value;
                       });
-                    },
+                    }, */
                   ),
                   SizedBox(
                     height: 60.h,
                   ),
                   TextFormField(
+                    controller: _emailController,
                     focusNode: _emailFocus,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 10.0),
@@ -140,6 +165,12 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       fillColor: Colors.white,
                       filled: true,
                       prefixIcon: Icon(Icons.mail),
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.cancel),
+                        onPressed: () {
+                          _emailController.text = '';
+                        },
+                      ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.blue, width: 1.3),
                         borderRadius: BorderRadius.circular(30),
@@ -162,11 +193,11 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       }
                       return null;
                     }, */
-                    onChanged: (value) {
+                    /* onChanged: (value) {
                       setState(() {
                         _email = value;
                       });
-                    },
+                    }, */
                   ),
                   SizedBox(height: 40.h),
                   Row(
@@ -249,7 +280,9 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
           _messageStyle = TextStyle(color: Colors.green);
         });
 
-        authRepo.getUserRegisteredDI(context: context);
+        await authRepo.getUserRegisteredDI(context: context);
+
+        Navigator.pop(context);
       } else {
         setState(() {
           _message = result.message;

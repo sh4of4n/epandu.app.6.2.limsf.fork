@@ -104,6 +104,7 @@ class _HomeState extends State<Home> {
   _getActiveFeed() async {
     var result = await authRepo.getActiveFeed(
       context: context,
+      feedType: 'MAIN',
     );
 
     if (result.isSuccess) {
@@ -185,7 +186,9 @@ class _HomeState extends State<Home> {
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: ScreenUtil().setWidth(60)),
-                    child: HomePageHeader(instituteLogo: instituteLogo),
+                    child: HomePageHeader(
+                        instituteLogo: instituteLogo,
+                        positionStream: positionStream),
                   ),
                   HomeTopMenu(iconText: _iconText),
                   LimitedBox(maxHeight: ScreenUtil().setHeight(30)),

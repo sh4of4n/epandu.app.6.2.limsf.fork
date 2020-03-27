@@ -226,6 +226,11 @@ class RouteGenerator {
           settings: RouteSettings(name: UPDATE_PROFILE),
           builder: (_) => UpdateProfile(),
         );
+      case PROFILE_TAB:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: PROFILE_TAB),
+          builder: (_) => ProfileTab(data),
+        );
       default:
         return _errorRoute();
     }
