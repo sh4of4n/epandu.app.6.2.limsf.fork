@@ -11,7 +11,7 @@ class EpanduRepo {
   final localStorage = LocalStorage();
   final networking = Networking();
 
-  Future<Response> getEnrollByCode({context}) async {
+  Future<Response> getEnrollByCode({context, groupId}) async {
     assert(context != null);
 
     String caUid = await localStorage.getCaUid();
@@ -19,7 +19,7 @@ class EpanduRepo {
     //  Temporarily use TBS as diCode
     String diCode = 'TBS';
     // String diCode = await localStorage.getDiCode();
-    String groupId = '';
+    // String groupId = '';
     String icNo = await localStorage.getStudentIc();
 
     String path =
@@ -160,11 +160,11 @@ class EpanduRepo {
     //  Temporarily use TBS as diCode
     String diCode = 'TBS';
     // String diCode = await localStorage.getDiCode();
-    String groupId = await localStorage.getEnrolledGroupId();
+    // String groupId = await localStorage.getEnrolledGroupId();
     String icNo = await localStorage.getStudentIc();
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo&groupId=$groupId';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo&groupId=';
 
     var response = await networking.getData(
       path: 'GetDTestByCode?$path',

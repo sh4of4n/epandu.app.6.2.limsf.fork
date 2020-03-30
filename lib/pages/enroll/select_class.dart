@@ -25,12 +25,27 @@ class _SelectClassState extends State<SelectClass> {
   final myImage = ImagesConstant();
 
   Future _getClasses;
+  var status;
 
   @override
   void initState() {
     super.initState();
 
     _getClasses = _getGroupIdByDiCodeForOnline();
+  }
+
+  Future<dynamic> _getEnrollHistory(groupId) async {
+    // return _memoizer.runOnce(() async {
+    var result = await authRepo.getEnrollHistory(
+      context: context,
+      groupId: groupId,
+    );
+
+    if (result.isSuccess) {
+      return result.data[0].status;
+    }
+    return null;
+    // });
   }
 
   Future<dynamic> _getGroupIdByDiCodeForOnline() async {
@@ -169,66 +184,107 @@ class _SelectClassState extends State<SelectClass> {
                               width: double.infinity,
                               padding: EdgeInsets.fromLTRB(50.w, 30.w, 50.w, 0),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  RichText(
-                                    text: TextSpan(
-                                      style: TextStyle(
-                                        fontSize: 80.sp,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Myriad',
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: AppLocalizations.of(context)
-                                                  .translate('class_lbl') +
-                                              ' ',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(
-                                              0xff666666,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          RichText(
+                                            text: TextSpan(
+                                              style: TextStyle(
+                                                fontSize: 80.sp,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'Myriad',
+                                              ),
+                                              children: [
+                                                TextSpan(
+                                                  text: AppLocalizations.of(
+                                                              context)
+                                                          .translate(
+                                                              'class_lbl') +
+                                                      ' ',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Color(
+                                                      0xff666666,
+                                                    ),
+                                                    decoration: TextDecoration
+                                                        .underline,
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text: snapshot.data[index]
+                                                          .groupId ??
+                                                      '',
+                                                  style: TextStyle(
+                                                    color: Color(0xffdd0e0e),
+                                                    decoration: TextDecoration
+                                                        .underline,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            decoration:
-                                                TextDecoration.underline,
                                           ),
-                                        ),
-                                        TextSpan(
-                                          text: snapshot.data[index].groupId ??
-                                              '',
-                                          style: TextStyle(
-                                            color: Color(0xffdd0e0e),
-                                            decoration:
-                                                TextDecoration.underline,
+                                          Text(
+                                            'RM' +
+                                                    NumberFormat('#,##0.00')
+                                                        .format(double.tryParse(
+                                                            snapshot.data[index]
+                                                                .fee)) ??
+                                                '0.00',
+                                            style: TextStyle(
+                                              color: Color(
+                                                0xff666666,
+                                              ),
+                                            ),
                                           ),
+                                          Text(
+                                            snapshot.data[index].totalTime !=
+                                                    null
+                                                ? AppLocalizations.of(context)
+                                                        .translate(
+                                                            'total_time') +
+                                                    ' ' +
+                                                    snapshot
+                                                        .data[index].totalTime
+                                                : /* AppLocalizations.of(context)
+                                                    .translate('no_total_time') */
+                                                'Total time 00:00',
+                                            style: TextStyle(
+                                              color: Color(
+                                                0xff666666,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 100.w),
+                                        child: FutureBuilder(
+                                          future: _getEnrollHistory(
+                                              snapshot.data[index].groupId),
+                                          builder: (BuildContext context,
+                                              AsyncSnapshot<dynamic> status) {
+                                            switch (status.connectionState) {
+                                              case ConnectionState.done:
+                                                if (status.data != null) {
+                                                  return Text(status.data);
+                                                }
+                                                return Container(
+                                                    width: 0, height: 0);
+                                              default:
+                                                return Container(
+                                                    width: 0, height: 0);
+                                            }
+                                          },
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                  Text(
-                                    'RM' +
-                                            NumberFormat('#,##0.00').format(
-                                                double.tryParse(snapshot
-                                                    .data[index].fee)) ??
-                                        '0.00',
-                                    style: TextStyle(
-                                      color: Color(
-                                        0xff666666,
                                       ),
-                                    ),
-                                  ),
-                                  Text(
-                                    snapshot.data[index].totalTime != null
-                                        ? AppLocalizations.of(context)
-                                                .translate('total_time') +
-                                            ' ' +
-                                            snapshot.data[index].totalTime
-                                        : AppLocalizations.of(context)
-                                            .translate('no_total_time'),
-                                    style: TextStyle(
-                                      color: Color(
-                                        0xff666666,
-                                      ),
-                                    ),
+                                    ],
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(

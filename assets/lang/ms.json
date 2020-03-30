@@ -236,5 +236,8 @@
   "no_description": "No description",
   "no_package_code": "Tiada kod pakej",
   "no_package_desc": "Tiada deskripsi pakej",
-  "no_item_desc": "Tiada perihalan item"
+  "no_item_desc": "Tiada perihalan item",
+  "status_lbl": "Status",
+  "registered_class_lbl": "Kelas Berdaftar",
+  "you_have_enrolled_desc": "Anda telah mendaftar ke kelas ini."
 }

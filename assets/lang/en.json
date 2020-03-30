@@ -236,5 +236,8 @@
   "no_description": "No description",
   "no_package_code": "No package code",
   "no_package_desc": "No package description",
-  "no_item_desc": "No item description"
+  "no_item_desc": "No item description",
+  "status_lbl": "Status",
+  "registered_class_lbl": "Registered Classes",
+  "you_have_enrolled_desc": "You have enrolled to this class."
 }

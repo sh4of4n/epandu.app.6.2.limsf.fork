@@ -618,25 +618,25 @@ class AuthRepo {
     return Response(false, message: 'No records found.');
   }
 
-  Future<Response> getEnrollHistory({context}) async {
+  Future<Response> getEnrollHistory({context, groupId}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
     String diCode = await localStorage.getDiCode();
     String icNo = await localStorage.getStudentIc();
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo&groupId=${groupId ?? ''}';
 
     var response = await networking.getData(
-      path: 'GetEnrollHistory?$path',
+      path: 'GetEnrollHistoryV2?$path',
     );
 
     print(response.data);
 
     if (response.isSuccess && response.data != null) {
-      GetGroupIdByDiCodeForOnlineResponse getGroupIdByDiCodeForOnlineResponse =
-          GetGroupIdByDiCodeForOnlineResponse.fromJson(response.data);
-      var responseData = getGroupIdByDiCodeForOnlineResponse.dgroup;
+      GetEnrollHistoryResponse getEnrollHistoryResponse =
+          GetEnrollHistoryResponse.fromJson(response.data);
+      var responseData = getEnrollHistoryResponse.enroll;
 
       return Response(true, data: responseData);
     }

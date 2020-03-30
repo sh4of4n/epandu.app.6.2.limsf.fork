@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
+import 'package:epandu/services/repository/epandu_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/custom_snackbar.dart';
@@ -30,6 +31,7 @@ class Enrollment extends StatefulWidget {
 
 class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   final authRepo = AuthRepo();
+  final epanduRepo = EpanduRepo();
   final customDialog = CustomDialog();
   final customSnackbar = CustomSnackbar();
   final format = DateFormat("yyyy-MM-dd");
@@ -60,12 +62,14 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   String _nationality = '';
   String _race = '';
   String _message = '';
+  String _status = '';
 
   Gender _gender = Gender.male;
   String _genderValue = 'MALE';
   String _countryCode = '+60';
   String _potentialDob = '';
   final myImage = ImagesConstant();
+  var _enrollHistoryData;
   // String genderInt = '1';
 
   @override
@@ -73,6 +77,23 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     super.initState();
 
     _dobController.addListener(_dobValue);
+    _getEnrollHistory();
+  }
+
+  Future<dynamic> _getEnrollHistory() async {
+    // return _memoizer.runOnce(() async {
+    var result = await authRepo.getEnrollHistory(
+      context: context,
+      groupId: widget.data.groupId,
+    );
+
+    if (result.isSuccess) {
+      setState(() {
+        _enrollHistoryData = result.data;
+        _status = result.data[0].status;
+      });
+    }
+    // });
   }
 
   _dobValue() {
@@ -594,6 +615,157 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     );
   }
 
+  _checkEnrollmentStatus() {
+    if (_status.isEmpty) {
+      return SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            ClipRect(
+              child: Align(
+                alignment: Alignment.center,
+                heightFactor: 0.6,
+                child: FadeInImage(
+                  alignment: Alignment.center,
+                  placeholder: MemoryImage(kTransparentImage),
+                  image: AssetImage(
+                    myImage.tyreShop,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 15.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    _idField(),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(60),
+                    ),
+                    _idNameField(),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(60),
+                    ),
+                    /* _emailField(),
+                      SizedBox(
+                        height: ScreenUtil().setHeight(60),
+                      ), */
+                    /* _addressField(),
+                      SizedBox(
+                        height: ScreenUtil().setHeight(60),
+                      ),
+                      _postcodeField(),
+                      SizedBox(
+                        height: ScreenUtil().setHeight(60),
+                      ), */
+                    _dobField(),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(60),
+                    ),
+                    _raceField(),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(60),
+                    ),
+                    _nationalityField(),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(20),
+                    ),
+                    _genderSelection(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Column(
+                          children: <Widget>[
+                            _message.isNotEmpty
+                                ? Text(
+                                    _message,
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                : SizedBox.shrink(),
+                            _enrollButton(),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(60),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    return _showEnrollmentData();
+  }
+
+  _showEnrollmentData() {
+    if (_enrollHistoryData == null)
+      return Column(
+        children: <Widget>[
+          Expanded(
+            child: SpinKitFoldingCube(
+              color: Colors.blue,
+            ),
+          ),
+        ],
+      );
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: _enrollHistoryData.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+          width: ScreenUtil.screenWidthDp,
+          padding: EdgeInsets.symmetric(horizontal: 80.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                AppLocalizations.of(context)
+                    .translate('you_have_enrolled_desc'),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 80.sp,
+                ),
+              ),
+              Text(_enrollHistoryData[0].icNo != null
+                  ? 'IC: ' + _enrollHistoryData[0].icNo
+                  : ''),
+              Text(_enrollHistoryData[0].groupId != null
+                  ? 'Class ' + _enrollHistoryData[0].groupId
+                  : ''),
+              Text(_enrollHistoryData[0].stuNo != null
+                  ? 'Student no: ' + _enrollHistoryData[0].stuNo
+                  : ''),
+              Text(_enrollHistoryData[0].tlHrsTak != null
+                  ? 'Hours taken: ' + _enrollHistoryData[0].tlHrsTak
+                  : '0'),
+              Text(_enrollHistoryData[0].status != null
+                  ? 'Status: ' + _enrollHistoryData[0].status
+                  : ''),
+              Text(_enrollHistoryData[0].totalPaid != null
+                  ? 'Total paid: RM' +
+                      NumberFormat('#,##0.00').format(
+                          double.tryParse(_enrollHistoryData[0].totalPaid))
+                  : '0.00'),
+              Text(_enrollHistoryData[0].fee != null
+                  ? 'Fee: RM' +
+                      NumberFormat('#,##0.00')
+                          .format(double.tryParse(_enrollHistoryData[0].fee))
+                  : '0.00'),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -609,89 +781,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
             AppLocalizations.of(context).translate('enroll_lbl'),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              ClipRect(
-                child: Align(
-                  alignment: Alignment.center,
-                  heightFactor: 0.6,
-                  child: FadeInImage(
-                    alignment: Alignment.center,
-                    placeholder: MemoryImage(kTransparentImage),
-                    image: AssetImage(
-                      myImage.tyreShop,
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 15.0),
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      _idField(),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(60),
-                      ),
-                      _idNameField(),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(60),
-                      ),
-                      /* _emailField(),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(60),
-                      ), */
-                      /* _addressField(),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(60),
-                      ),
-                      _postcodeField(),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(60),
-                      ), */
-                      _dobField(),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(60),
-                      ),
-                      _raceField(),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(60),
-                      ),
-                      _nationalityField(),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(20),
-                      ),
-                      _genderSelection(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              _message.isNotEmpty
-                                  ? Text(
-                                      _message,
-                                      style: TextStyle(color: Colors.red),
-                                    )
-                                  : SizedBox.shrink(),
-                              _enrollButton(),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(60),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+        body: _checkEnrollmentStatus(),
       ),
     );
   }

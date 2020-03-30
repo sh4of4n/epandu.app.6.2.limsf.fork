@@ -1633,3 +1633,240 @@ class Feed {
     return data;
   }
 }
+
+// GetEnrollHistoryResponse
+class GetEnrollHistoryResponse {
+  List<Enroll> enroll;
+
+  GetEnrollHistoryResponse({this.enroll});
+
+  GetEnrollHistoryResponse.fromJson(Map<String, dynamic> json) {
+    if (json['Enroll'] != null) {
+      enroll = new List<Enroll>();
+      json['Enroll'].forEach((v) {
+        enroll.add(new Enroll.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.enroll != null) {
+      data['Enroll'] = this.enroll.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Enroll {
+  String id;
+  String icNo;
+  String trandate;
+  String groupId;
+  String kppGroupId;
+  String kppGroupId2;
+  String kppGroupId3;
+  String blacklisted;
+  String stuNo;
+  String dsCode;
+  String employeNo;
+  String introBy;
+  String commType;
+  String feesAgree;
+  String hrsAgree;
+  String addhrChrg;
+  String promptTes;
+  String totalPaid;
+  String retest;
+  String certNo;
+  String remark;
+  String tlHrsTak;
+  String exclIncml;
+  String sm4No;
+  String pickupPoint;
+  String transtamp;
+  String epretCode;
+  String epretReqid;
+  String ekppCode;
+  String ekppReqid;
+  String ej2bStat;
+  String eserRemark;
+  String ej2aTick;
+  String ej2bTick;
+  String addClass;
+  String userId;
+  String kpp02CertNo;
+  String kpp02CertPath;
+  String l2aPrnCount;
+  String l2bPrnCount;
+  String sm4PrnCount;
+  String deleted;
+  String productCode;
+  String diCode;
+  String compCode;
+  String branchCode;
+  String lastupload;
+  String status;
+  String fee;
+  String totalTime;
+
+  Enroll(
+      {this.id,
+      this.icNo,
+      this.trandate,
+      this.groupId,
+      this.kppGroupId,
+      this.kppGroupId2,
+      this.kppGroupId3,
+      this.blacklisted,
+      this.stuNo,
+      this.dsCode,
+      this.employeNo,
+      this.introBy,
+      this.commType,
+      this.feesAgree,
+      this.hrsAgree,
+      this.addhrChrg,
+      this.promptTes,
+      this.totalPaid,
+      this.retest,
+      this.certNo,
+      this.remark,
+      this.tlHrsTak,
+      this.exclIncml,
+      this.sm4No,
+      this.pickupPoint,
+      this.transtamp,
+      this.epretCode,
+      this.epretReqid,
+      this.ekppCode,
+      this.ekppReqid,
+      this.ej2bStat,
+      this.eserRemark,
+      this.ej2aTick,
+      this.ej2bTick,
+      this.addClass,
+      this.userId,
+      this.kpp02CertNo,
+      this.kpp02CertPath,
+      this.l2aPrnCount,
+      this.l2bPrnCount,
+      this.sm4PrnCount,
+      this.deleted,
+      this.productCode,
+      this.diCode,
+      this.compCode,
+      this.branchCode,
+      this.lastupload,
+      this.status,
+      this.fee,
+      this.totalTime});
+
+  Enroll.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    icNo = json['ic_no'];
+    trandate = json['trandate'];
+    groupId = json['group_id'];
+    kppGroupId = json['kpp_group_id'];
+    kppGroupId2 = json['kpp_group_id_2'];
+    kppGroupId3 = json['kpp_group_id_3'];
+    blacklisted = json['blacklisted'];
+    stuNo = json['stu_no'];
+    dsCode = json['ds_code'];
+    employeNo = json['employe_no'];
+    introBy = json['intro_by'];
+    commType = json['comm_type'];
+    feesAgree = json['fees_agree'];
+    hrsAgree = json['hrs_agree'];
+    addhrChrg = json['addhr_chrg'];
+    promptTes = json['prompt_tes'];
+    totalPaid = json['total_paid'];
+    retest = json['retest'];
+    certNo = json['cert_no'];
+    remark = json['remark'];
+    tlHrsTak = json['tl_hrs_tak'];
+    exclIncml = json['excl_incml'];
+    sm4No = json['sm4_no'];
+    pickupPoint = json['pickup_point'];
+    transtamp = json['transtamp'];
+    epretCode = json['epret_code'];
+    epretReqid = json['epret_reqid'];
+    ekppCode = json['ekpp_code'];
+    ekppReqid = json['ekpp_reqid'];
+    ej2bStat = json['ej2b_stat'];
+    eserRemark = json['eser_remark'];
+    ej2aTick = json['ej2a_tick'];
+    ej2bTick = json['ej2b_tick'];
+    addClass = json['add_class'];
+    userId = json['user_id'];
+    kpp02CertNo = json['kpp02_cert_no'];
+    kpp02CertPath = json['kpp02_cert_path'];
+    l2aPrnCount = json['l2a_prn_count'];
+    l2bPrnCount = json['l2b_prn_count'];
+    sm4PrnCount = json['sm4_prn_count'];
+    deleted = json['deleted'];
+    productCode = json['product_code'];
+    diCode = json['di_code'];
+    compCode = json['comp_code'];
+    branchCode = json['branch_code'];
+    lastupload = json['lastupload'];
+    status = json['status'];
+    fee = json['fee'];
+    totalTime = json['total_time'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['ic_no'] = this.icNo;
+    data['trandate'] = this.trandate;
+    data['group_id'] = this.groupId;
+    data['kpp_group_id'] = this.kppGroupId;
+    data['kpp_group_id_2'] = this.kppGroupId2;
+    data['kpp_group_id_3'] = this.kppGroupId3;
+    data['blacklisted'] = this.blacklisted;
+    data['stu_no'] = this.stuNo;
+    data['ds_code'] = this.dsCode;
+    data['employe_no'] = this.employeNo;
+    data['intro_by'] = this.introBy;
+    data['comm_type'] = this.commType;
+    data['fees_agree'] = this.feesAgree;
+    data['hrs_agree'] = this.hrsAgree;
+    data['addhr_chrg'] = this.addhrChrg;
+    data['prompt_tes'] = this.promptTes;
+    data['total_paid'] = this.totalPaid;
+    data['retest'] = this.retest;
+    data['cert_no'] = this.certNo;
+    data['remark'] = this.remark;
+    data['tl_hrs_tak'] = this.tlHrsTak;
+    data['excl_incml'] = this.exclIncml;
+    data['sm4_no'] = this.sm4No;
+    data['pickup_point'] = this.pickupPoint;
+    data['transtamp'] = this.transtamp;
+    data['epret_code'] = this.epretCode;
+    data['epret_reqid'] = this.epretReqid;
+    data['ekpp_code'] = this.ekppCode;
+    data['ekpp_reqid'] = this.ekppReqid;
+    data['ej2b_stat'] = this.ej2bStat;
+    data['eser_remark'] = this.eserRemark;
+    data['ej2a_tick'] = this.ej2aTick;
+    data['ej2b_tick'] = this.ej2bTick;
+    data['add_class'] = this.addClass;
+    data['user_id'] = this.userId;
+    data['kpp02_cert_no'] = this.kpp02CertNo;
+    data['kpp02_cert_path'] = this.kpp02CertPath;
+    data['l2a_prn_count'] = this.l2aPrnCount;
+    data['l2b_prn_count'] = this.l2bPrnCount;
+    data['sm4_prn_count'] = this.sm4PrnCount;
+    data['deleted'] = this.deleted;
+    data['product_code'] = this.productCode;
+    data['di_code'] = this.diCode;
+    data['comp_code'] = this.compCode;
+    data['branch_code'] = this.branchCode;
+    data['lastupload'] = this.lastupload;
+    data['status'] = this.status;
+    data['fee'] = this.fee;
+    data['total_time'] = this.totalTime;
+    return data;
+  }
+}

@@ -24,9 +24,11 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
   );
 
   final TextStyle _subtitleStyle = TextStyle(
-    fontSize: 18,
+    fontSize: 56.sp,
     fontWeight: FontWeight.w400,
-    color: Colors.grey.shade600,
+    color: Color(
+      0xff666666,
+    ),
   );
 
   final epanduRepo = EpanduRepo();
@@ -53,10 +55,14 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        gradient: RadialGradient(
-          colors: [Colors.amber.shade300, primaryColor],
-          stops: [0.5, 1],
-          radius: 0.9,
+        gradient: LinearGradient(
+          colors: [
+            Colors.white,
+            primaryColor,
+          ],
+          stops: [0.45, 0.95],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
         ),
       ),
       child: Scaffold(
@@ -68,22 +74,6 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
               Text(AppLocalizations.of(context).translate('attendance_title')),
         ),
         body: Container(
-          height: ScreenUtil().setHeight(1800),
-          width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.symmetric(
-              vertical: ScreenUtil().setHeight(100.0),
-              horizontal: ScreenUtil().setWidth(35.0)),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(30.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                offset: Offset(0, 8.0),
-                blurRadius: 10.0,
-              )
-            ],
-          ),
           child: FutureBuilder(
               future: _getData,
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -97,20 +87,71 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
                       return ProfileLoading(snapshot.data);
                     }
                     return Padding(
-                      padding: const EdgeInsets.all(15.0),
+                      padding: EdgeInsets.symmetric(horizontal: 40.w),
                       child: ListView.builder(
                         shrinkWrap: true,
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            title: Text(
-                              'Date ${snapshot.data[index].testDate.substring(0, 10)}',
-                              style: _titleStyle,
-                            ),
-                            subtitle: Text(
-                              'Type ${snapshot.data[index].testType}',
-                              style: _subtitleStyle,
-                            ),
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Table(
+                                children: [
+                                  TableRow(
+                                    children: [
+                                      Text(
+                                        '${snapshot.data[index].testDate.substring(0, 10)}',
+                                        style: _subtitleStyle,
+                                      ),
+                                      Text(
+                                        'Test type: ${snapshot.data[index].testType ?? ''}',
+                                        style: _subtitleStyle,
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ],
+                                  ),
+                                  TableRow(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 10.h),
+                                        child: Text(
+                                          '${snapshot.data[index].bookNo ?? ''}',
+                                          style: _subtitleStyle,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 10.h),
+                                        child: Text(
+                                          'Status: ${snapshot.data[index].apprvBooking ?? ''}',
+                                          style: _subtitleStyle,
+                                          textAlign: TextAlign.right,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  TableRow(
+                                    children: [
+                                      Container(),
+                                      Text(
+                                        'Time: ${snapshot.data[index].time ?? '00:00'}',
+                                        style: _subtitleStyle,
+                                        textAlign: TextAlign.right,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 40.h),
+                                child: Divider(
+                                  height: 1.0,
+                                  thickness: 1.0,
+                                  color: Colors.grey[300],
+                                ),
+                              ),
+                            ],
                           );
                         },
                       ),
