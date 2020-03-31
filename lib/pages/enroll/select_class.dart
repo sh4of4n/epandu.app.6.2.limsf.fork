@@ -273,7 +273,15 @@ class _SelectClassState extends State<SelectClass> {
                                             switch (status.connectionState) {
                                               case ConnectionState.done:
                                                 if (status.data != null) {
-                                                  return Text(status.data);
+                                                  return Text(
+                                                    status.data,
+                                                    style: TextStyle(
+                                                      fontSize: 70.sp,
+                                                      color: Color(
+                                                        0xff666666,
+                                                      ),
+                                                    ),
+                                                  );
                                                 }
                                                 return Container(
                                                     width: 0, height: 0);

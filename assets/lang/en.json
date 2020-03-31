@@ -224,6 +224,7 @@
   "save_btn": "SAVE",
   "invite_btn": "INVITE",
   "cancel_btn": "CANCEL",
+  "back_btn": "BACK",
   "timeout_exception": "Data took too long to load, please try again.",
   "socket_exception": "Please check your internet connection.",
   "http_exception": "Server error, we apologize for any inconvenience.",

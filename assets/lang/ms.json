@@ -224,6 +224,7 @@
   "save_btn": "HANTAR",
   "invite_btn": "JEMPUT",
   "cancel_btn": "KEMBALI",
+  "back_btn": "KEMBALI",
   "timeout_exception": "Data mengambil masa terlalu lama untuk dimuatkan, sila cuba lagi.",
   "socket_exception": "Sila periksa internet anda.",
   "http_exception": "Kesalahan sistem, sila cuba sebentar lagi.",

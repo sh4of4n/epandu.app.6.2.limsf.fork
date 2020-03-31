@@ -63,6 +63,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   String _race = '';
   String _message = '';
   String _status = '';
+  bool _obtainingStatus = true;
 
   Gender _gender = Gender.male;
   String _genderValue = 'MALE';
@@ -91,6 +92,11 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       setState(() {
         _enrollHistoryData = result.data;
         _status = result.data[0].status;
+        _obtainingStatus = false;
+      });
+    } else {
+      setState(() {
+        _obtainingStatus = false;
       });
     }
     // });
@@ -616,7 +622,18 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   }
 
   _checkEnrollmentStatus() {
-    if (_status.isEmpty) {
+    if (_status.isEmpty && _obtainingStatus) {
+      return Column(
+        children: <Widget>[
+          Expanded(
+            child: SpinKitFoldingCube(
+              color: Colors.blue,
+            ),
+          ),
+        ],
+      );
+    }
+    if (_status.isEmpty && _obtainingStatus == false) {
       return SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -725,6 +742,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              SizedBox(height: 100.h),
               Text(
                 AppLocalizations.of(context)
                     .translate('you_have_enrolled_desc'),
@@ -734,31 +752,149 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                   fontSize: 80.sp,
                 ),
               ),
-              Text(_enrollHistoryData[0].icNo != null
-                  ? 'IC: ' + _enrollHistoryData[0].icNo
-                  : ''),
-              Text(_enrollHistoryData[0].groupId != null
-                  ? 'Class ' + _enrollHistoryData[0].groupId
-                  : ''),
-              Text(_enrollHistoryData[0].stuNo != null
-                  ? 'Student no: ' + _enrollHistoryData[0].stuNo
-                  : ''),
-              Text(_enrollHistoryData[0].tlHrsTak != null
-                  ? 'Hours taken: ' + _enrollHistoryData[0].tlHrsTak
-                  : '0'),
-              Text(_enrollHistoryData[0].status != null
-                  ? 'Status: ' + _enrollHistoryData[0].status
-                  : ''),
-              Text(_enrollHistoryData[0].totalPaid != null
-                  ? 'Total paid: RM' +
-                      NumberFormat('#,##0.00').format(
-                          double.tryParse(_enrollHistoryData[0].totalPaid))
-                  : '0.00'),
-              Text(_enrollHistoryData[0].fee != null
-                  ? 'Fee: RM' +
-                      NumberFormat('#,##0.00')
-                          .format(double.tryParse(_enrollHistoryData[0].fee))
-                  : '0.00'),
+              SizedBox(height: 100.h),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 20.h, 40.w, 20.h),
+                child: Table(
+                  children: [
+                    TableRow(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                            _enrollHistoryData[0].icNo != null
+                                ? 'IC: ' + _enrollHistoryData[0].icNo
+                                : '',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                            _enrollHistoryData[0].groupId != null
+                                ? 'Class ' + _enrollHistoryData[0].groupId
+                                : '',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                            _enrollHistoryData[0].stuNo != null
+                                ? 'Student no: ' + _enrollHistoryData[0].stuNo
+                                : '',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                            _enrollHistoryData[0].status != null
+                                ? 'Status: ' + _enrollHistoryData[0].status
+                                : '',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                            _enrollHistoryData[0].tlHrsTak != null
+                                ? 'Hours taken: ' +
+                                    _enrollHistoryData[0].tlHrsTak
+                                : '0',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                            _enrollHistoryData[0].totalTime != null
+                                ? 'Total time: ' +
+                                    _enrollHistoryData[0].totalTime
+                                : '00:00',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                            _enrollHistoryData[0].totalPaid != null
+                                ? 'Total paid: RM' +
+                                    NumberFormat('#,##0.00').format(
+                                        double.tryParse(
+                                            _enrollHistoryData[0].totalPaid))
+                                : '0.00',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                            _enrollHistoryData[0].fee != null
+                                ? 'Fee: RM' +
+                                    NumberFormat('#,##0.00').format(
+                                        double.tryParse(
+                                            _enrollHistoryData[0].fee))
+                                : '0.00',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                            textAlign: TextAlign.right,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 50.h),
+              Center(
+                child: ButtonTheme(
+                  padding: EdgeInsets.all(0.0),
+                  shape: StadiumBorder(),
+                  child: RaisedButton(
+                    color: Color(0xffdd0e0e),
+                    textColor: Colors.white,
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(
+                      AppLocalizations.of(context).translate('back_btn'),
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(60),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         );
