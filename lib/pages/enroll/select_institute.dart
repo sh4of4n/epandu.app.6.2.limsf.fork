@@ -1,4 +1,5 @@
 import 'package:epandu/app_localizations.dart';
+import 'package:epandu/services/api/model/auth_model.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/route_path.dart';
@@ -8,6 +9,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class SelectInstitute extends StatefulWidget {
+  final data;
+
+  SelectInstitute(this.data);
+
   @override
   _SelectInstituteState createState() => _SelectInstituteState();
 }
@@ -90,8 +95,22 @@ class _SelectInstituteState extends State<SelectInstitute> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
-                      onTap: () => Navigator.pushNamed(context, SELECT_CLASS,
-                          arguments: snapshot.data[index].diCode),
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        SELECT_CLASS,
+                        arguments: EnrollmentData(
+                          phoneCountryCode: widget.data.phoneCountryCode,
+                          icNo: widget.data.icNo,
+                          name: widget.data.name,
+                          email: widget.data.email,
+                          // groupId: widget.data.groupId,
+                          gender: widget.data.gender,
+                          dateOfBirthString: widget.data.dateOfBirthString,
+                          nationality: widget.data.nationality,
+                          race: widget.data.race,
+                          diCode: snapshot.data[index].diCode,
+                        ),
+                      ),
                       child: Container(
                         width: double.infinity,
                         padding: EdgeInsets.fromLTRB(

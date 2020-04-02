@@ -65,7 +65,7 @@ class BottomMenu extends StatelessWidget {
                         ),
                       ),
                       InkWell(
-                        onTap: () => Navigator.pushNamed(context, PAYMENT),
+                        onTap: () => Navigator.pushNamed(context, VALUE_CLUB),
                         borderRadius: BorderRadius.circular(10.0),
                         child: Padding(
                           padding: EdgeInsets.symmetric(

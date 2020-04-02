@@ -1,6 +1,7 @@
 import 'package:epandu/pages/epandu/epandu.dart';
 import 'package:epandu/pages/menu/menu.dart';
 import 'package:epandu/pages/promotions/promotions.dart';
+import 'package:epandu/pages/vclub/value_club_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:epandu/pages/emergency/emergency.dart';
@@ -184,7 +185,7 @@ class RouteGenerator {
       case SELECT_INSTITUTE:
         return MaterialPageRoute(
           settings: RouteSettings(name: SELECT_INSTITUTE),
-          builder: (_) => SelectInstitute(),
+          builder: (_) => SelectInstitute(data),
         );
       case SELECT_CLASS:
         return MaterialPageRoute(
@@ -194,7 +195,7 @@ class RouteGenerator {
       case ENROLLMENT:
         return MaterialPageRoute(
           settings: RouteSettings(name: ENROLLMENT),
-          builder: (_) => Enrollment(data),
+          builder: (_) => Enrollment(),
         );
       case EPANDU:
         return MaterialPageRoute(
@@ -221,6 +222,11 @@ class RouteGenerator {
           settings: RouteSettings(name: REGISTERED_COURSE),
           builder: (_) => RegisteredCourse(),
         );
+      case REGISTERED_COURSE_DETAIL:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: REGISTERED_COURSE_DETAIL),
+          builder: (_) => RegisteredCourseDetail(data),
+        );
       case UPDATE_PROFILE:
         return MaterialPageRoute(
           settings: RouteSettings(name: UPDATE_PROFILE),
@@ -230,6 +236,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           settings: RouteSettings(name: PROFILE_TAB),
           builder: (_) => ProfileTab(data),
+        );
+      case VALUE_CLUB:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: VALUE_CLUB),
+          builder: (_) => ValueClub(),
         );
       default:
         return _errorRoute();

@@ -41,6 +41,7 @@
   "others_lbl": "Lain-lain",
   "citizen_lbl": "Warganegara",
   "foreigner_lbl": "Warga Asing",
+  "ic_lbl": "IC/Pasport",
   "ic_required_lbl": "IC/Pasport*",
   "ic_required_msg": "IC/Pasport diperlukan.",
   "ic_name_required_msg": "Nama IC/Pasport diperlukan.",
@@ -240,5 +241,8 @@
   "no_item_desc": "Tiada perihalan item",
   "status_lbl": "Status",
   "registered_class_lbl": "Kelas Berdaftar",
-  "you_have_enrolled_desc": "Anda telah mendaftar ke kelas ini."
+  "you_have_enrolled_desc": "Anda telah mendaftar ke kelas ini.",
+  "you_have_enrolled_before": "Anda telah mendaftar sebelum ini",
+  "previous_credentials": "Kami akan menggunakan kelayakan anda untuk mendaftar.",
+  "value_club": "Value Club"
 }

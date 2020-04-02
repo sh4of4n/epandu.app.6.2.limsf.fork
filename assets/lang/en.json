@@ -41,6 +41,7 @@
   "others_lbl": "Others",
   "citizen_lbl": "Citizen",
   "foreigner_lbl": "Foreigner",
+  "ic_lbl": "IC/Passport",
   "ic_required_lbl": "IC/Passport*",
   "ic_required_msg": "IC/Passport is required.",
   "ic_name_required_msg": "IC/Passport name is required.",
@@ -240,5 +241,8 @@
   "no_item_desc": "No item description",
   "status_lbl": "Status",
   "registered_class_lbl": "Registered Classes",
-  "you_have_enrolled_desc": "You have enrolled to this class."
+  "you_have_enrolled_desc": "You have enrolled to this class.",
+  "you_have_enrolled_before": "You have enrolled before",
+  "previous_credentials": "We will use your credentials to enroll.",
+  "value_club": "Value Club"
 }

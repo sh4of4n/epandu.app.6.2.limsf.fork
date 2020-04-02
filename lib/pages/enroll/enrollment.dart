@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:epandu/base/page_base_class.dart';
+import 'package:epandu/services/api/model/auth_model.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/services/repository/epandu_repository.dart';
 import 'package:epandu/utils/constants.dart';
@@ -21,10 +22,6 @@ import '../../app_localizations.dart';
 enum Gender { male, female }
 
 class Enrollment extends StatefulWidget {
-  final data;
-
-  Enrollment(this.data);
-
   @override
   _EnrollmentState createState() => _EnrollmentState();
 }
@@ -61,8 +58,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   String _dob = '';
   String _nationality = '';
   String _race = '';
+  String _raceParam = '';
   String _message = '';
-  String _status = '';
   bool _obtainingStatus = true;
 
   Gender _gender = Gender.male;
@@ -72,6 +69,16 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   final myImage = ImagesConstant();
   var _enrollHistoryData;
   // String genderInt = '1';
+
+  final hintStyle = TextStyle(
+    color: Colors.black,
+  );
+
+  final textStyle = TextStyle(
+    color: Colors.black,
+    fontWeight: FontWeight.bold,
+    fontSize: 62.sp,
+  );
 
   @override
   void initState() {
@@ -85,13 +92,11 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     // return _memoizer.runOnce(() async {
     var result = await authRepo.getEnrollHistory(
       context: context,
-      groupId: widget.data.groupId,
     );
 
     if (result.isSuccess) {
       setState(() {
         _enrollHistoryData = result.data;
-        _status = result.data[0].status;
         _obtainingStatus = false;
       });
     } else {
@@ -248,149 +253,6 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       },
     );
   }
-
-  /* _emailField() {
-    return TextFormField(
-      focusNode: _emailFocus,
-      textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 16.0),
-        hintStyle: TextStyle(
-          color: primaryColor,
-        ),
-        labelStyle: TextStyle(
-          color: Color(0xff808080),
-        ),
-        labelText: AppLocalizations.of(context).translate('email_required_lbl'),
-        fillColor: Colors.white,
-        filled: true,
-        prefixIcon: Icon(Icons.mail),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 1.3),
-          borderRadius: BorderRadius.circular(30),
-        ),
-        /* border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-        ), */
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue[700], width: 1.6),
-          // borderRadius: BorderRadius.circular(0),
-          borderRadius: BorderRadius.circular(30),
-        ),
-      ),
-      onFieldSubmitted: (term) {
-        fieldFocusChange(
-          context,
-          _emailFocus,
-          _dobFocus,
-        );
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          return AppLocalizations.of(context).translate('email_required_msg');
-        }
-        return null;
-      },
-      onChanged: (value) {
-        setState(() {
-          _email = value;
-        });
-      },
-    );
-  } */
-
-  /* _addressField() {
-    return TextFormField(
-      focusNode: _addressFocus,
-      textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 16.0),
-        hintStyle: TextStyle(
-          color: primaryColor,
-        ),
-        labelStyle: TextStyle(
-          color: Color(0xff808080),
-        ),
-        labelText:
-            AppLocalizations.of(context).translate('address_required_lbl'),
-        fillColor: Colors.white,
-        filled: true,
-        prefixIcon: Icon(Icons.home),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.transparent),
-          borderRadius: BorderRadius.circular(30),
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-      ),
-      onFieldSubmitted: (term) {
-        fieldFocusChange(
-          context,
-          _addressFocus,
-          _postcodeFocus,
-        );
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          return AppLocalizations.of(context).translate('address_required_msg');
-        }
-        return null;
-      },
-      onChanged: (value) {
-        setState(() {
-          _address = value;
-        });
-      },
-    );
-  } */
-
-  /* _postcodeField() {
-    return TextFormField(
-      focusNode: _postcodeFocus,
-      textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 16.0),
-        hintStyle: TextStyle(
-          color: primaryColor,
-        ),
-        labelStyle: TextStyle(
-          color: Color(0xff808080),
-        ),
-        labelText:
-            AppLocalizations.of(context).translate('postcode_required_lbl'),
-        fillColor: Colors.white,
-        filled: true,
-        prefixIcon: Icon(Icons.location_city),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.transparent),
-          borderRadius: BorderRadius.circular(30),
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-      ),
-      onFieldSubmitted: (term) {
-        fieldFocusChange(
-          context,
-          _postcodeFocus,
-          _dobFocus,
-        );
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          return AppLocalizations.of(context)
-              .translate('postcode_required_msg');
-        }
-        return null;
-      },
-      onChanged: (value) {
-        setState(() {
-          _postcode = value;
-        });
-      },
-    );
-  } */
 
   _dobField() {
     return DateTimeField(
@@ -550,6 +412,16 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       onChanged: (value) {
         setState(() {
           _race = value;
+          if (value == AppLocalizations.of(context).translate('malay_race_lbl'))
+            _raceParam = 'M';
+          else if (value ==
+              AppLocalizations.of(context).translate('chinese_lbl'))
+            _raceParam = 'C';
+          else if (value ==
+              AppLocalizations.of(context).translate('indian_lbl'))
+            _raceParam = 'I';
+          else
+            _raceParam = 'O';
         });
       },
       items: <String>[
@@ -621,8 +493,21 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     );
   }
 
+  _getRaceValue(race) {
+    if (race == 'M')
+      return AppLocalizations.of(context).translate('malay_race_lbl');
+    else if (race == 'C')
+      return AppLocalizations.of(context).translate('chinese_lbl');
+    else if (race == 'I')
+      return AppLocalizations.of(context).translate('indian_lbl');
+    else if (race == 'O')
+      return AppLocalizations.of(context).translate('others_lbl');
+    else
+      return '';
+  }
+
   _checkEnrollmentStatus() {
-    if (_status.isEmpty && _obtainingStatus) {
+    if (_obtainingStatus) {
       return Column(
         children: <Widget>[
           Expanded(
@@ -633,7 +518,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         ],
       );
     }
-    if (_status.isEmpty && _obtainingStatus == false) {
+    if (_enrollHistoryData == null && _obtainingStatus == false) {
       return SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -722,183 +607,161 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   }
 
   _showEnrollmentData() {
-    if (_enrollHistoryData == null)
-      return Column(
+    setState(() {
+      _icNo = _enrollHistoryData[0].icNo;
+      _icName = _enrollHistoryData[0].name;
+      _dob = DateFormat('yyyy/MM/dd')
+          .format(DateTime.parse(_enrollHistoryData[0].birthDt));
+      _race = _enrollHistoryData[0].race;
+      // _nationality = _enrollHistoryData[0].citizenship;
+      if (_enrollHistoryData[0].sex == 'L') {
+        _genderValue = 'MALE';
+      } else {
+        _genderValue = 'FEMALE';
+      }
+    });
+
+    return SingleChildScrollView(
+      child: Column(
         children: <Widget>[
-          Expanded(
-            child: SpinKitFoldingCube(
-              color: Colors.blue,
+          ClipRect(
+            child: Align(
+              alignment: Alignment.center,
+              heightFactor: 0.6,
+              child: FadeInImage(
+                alignment: Alignment.center,
+                placeholder: MemoryImage(kTransparentImage),
+                image: AssetImage(
+                  myImage.tyreShop,
+                ),
+              ),
             ),
           ),
-        ],
-      );
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: _enrollHistoryData.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-          width: ScreenUtil.screenWidthDp,
-          padding: EdgeInsets.symmetric(horizontal: 80.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(height: 100.h),
-              Text(
-                AppLocalizations.of(context)
-                    .translate('you_have_enrolled_desc'),
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 80.sp,
-                ),
+          SizedBox(height: 50.h),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 80.w),
+            alignment: Alignment.centerLeft,
+            child: Text(
+              AppLocalizations.of(context)
+                  .translate('you_have_enrolled_before'),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 80.sp,
               ),
-              SizedBox(height: 100.h),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 20.h, 40.w, 20.h),
-                child: Table(
-                  children: [
-                    TableRow(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.h),
-                          child: Text(
-                            _enrollHistoryData[0].icNo != null
-                                ? 'IC: ' + _enrollHistoryData[0].icNo
-                                : '',
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.h),
-                          child: Text(
-                            _enrollHistoryData[0].groupId != null
-                                ? 'Class ' + _enrollHistoryData[0].groupId
-                                : '',
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                        ),
-                      ],
-                    ),
-                    TableRow(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.h),
-                          child: Text(
-                            _enrollHistoryData[0].stuNo != null
-                                ? 'Student no: ' + _enrollHistoryData[0].stuNo
-                                : '',
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.h),
-                          child: Text(
-                            _enrollHistoryData[0].status != null
-                                ? 'Status: ' + _enrollHistoryData[0].status
-                                : '',
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                        ),
-                      ],
-                    ),
-                    TableRow(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.h),
-                          child: Text(
-                            _enrollHistoryData[0].tlHrsTak != null
-                                ? 'Hours taken: ' +
-                                    _enrollHistoryData[0].tlHrsTak
-                                : '0',
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.h),
-                          child: Text(
-                            _enrollHistoryData[0].totalTime != null
-                                ? 'Total time: ' +
-                                    _enrollHistoryData[0].totalTime
-                                : '00:00',
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                        ),
-                      ],
-                    ),
-                    TableRow(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.h),
-                          child: Text(
-                            _enrollHistoryData[0].totalPaid != null
-                                ? 'Total paid: RM' +
-                                    NumberFormat('#,##0.00').format(
-                                        double.tryParse(
-                                            _enrollHistoryData[0].totalPaid))
-                                : '0.00',
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.h),
-                          child: Text(
-                            _enrollHistoryData[0].fee != null
-                                ? 'Fee: RM' +
-                                    NumberFormat('#,##0.00').format(
-                                        double.tryParse(
-                                            _enrollHistoryData[0].fee))
-                                : '0.00',
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+            ),
+          ),
+          SizedBox(height: 5.h),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 80.w),
+            alignment: Alignment.centerLeft,
+            child: Text(
+              AppLocalizations.of(context).translate('previous_credentials'),
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 65.sp,
               ),
-              SizedBox(height: 50.h),
-              Center(
-                child: ButtonTheme(
-                  padding: EdgeInsets.all(0.0),
-                  shape: StadiumBorder(),
-                  child: RaisedButton(
-                    color: Color(0xffdd0e0e),
-                    textColor: Colors.white,
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(
-                      AppLocalizations.of(context).translate('back_btn'),
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(60),
-                        fontWeight: FontWeight.w600,
+            ),
+          ),
+          Container(
+            width: ScreenUtil.screenWidthDp,
+            padding: EdgeInsets.symmetric(horizontal: 80.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(height: 40.h),
+                Text(
+                  AppLocalizations.of(context).translate('ic_lbl'),
+                  style: hintStyle,
+                ),
+                Text(
+                  _enrollHistoryData[0].icNo != null
+                      ? _enrollHistoryData[0].icNo
+                      : '',
+                  style: textStyle,
+                ),
+                SizedBox(height: 40.h),
+                Text(
+                  AppLocalizations.of(context).translate('ic_name_lbl'),
+                  style: hintStyle,
+                ),
+                Text(
+                  _enrollHistoryData[0].name != null
+                      ? _enrollHistoryData[0].name
+                      : '',
+                  style: textStyle,
+                ),
+                SizedBox(height: 40.h),
+                Text(
+                  AppLocalizations.of(context).translate('dob_lbl'),
+                  style: hintStyle,
+                ),
+                Text(
+                  _enrollHistoryData[0].birthDt != null
+                      ? DateFormat('yyyy/MM/dd')
+                          .format(DateTime.parse(_enrollHistoryData[0].birthDt))
+                      : '',
+                  style: textStyle,
+                ),
+                SizedBox(height: 40.h),
+                Text(
+                  AppLocalizations.of(context).translate('race_lbl'),
+                  style: hintStyle,
+                ),
+                Text(
+                  _getRaceValue(_enrollHistoryData[0].race),
+                  style: textStyle,
+                ),
+                SizedBox(height: 40.h),
+                Text(
+                  AppLocalizations.of(context).translate('nationality_lbl'),
+                  style: hintStyle,
+                ),
+                Text(
+                  _enrollHistoryData[0].citizenship != null
+                      ? _enrollHistoryData[0].citizenship
+                      : '',
+                  style: textStyle,
+                ),
+                SizedBox(height: 40.h),
+                Text(
+                  AppLocalizations.of(context).translate('gender_lbl'),
+                  style: hintStyle,
+                ),
+                Text(
+                  _enrollHistoryData[0].sex != null
+                      ? _enrollHistoryData[0].sex == 'L'
+                          ? AppLocalizations.of(context)
+                              .translate('gender_male')
+                          : AppLocalizations.of(context)
+                              .translate('gender_female')
+                      : '',
+                  style: textStyle,
+                ),
+                SizedBox(height: 40.h),
+                Center(
+                  child: ButtonTheme(
+                    padding: EdgeInsets.all(0.0),
+                    shape: StadiumBorder(),
+                    child: RaisedButton(
+                      color: Color(0xffdd0e0e),
+                      textColor: Colors.white,
+                      onPressed: _next,
+                      child: Text(
+                        AppLocalizations.of(context).translate('next_btn'),
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(60),
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 
@@ -932,7 +795,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
               padding: EdgeInsets.all(0.0),
               shape: StadiumBorder(),
               child: RaisedButton(
-                onPressed: _submit,
+                onPressed: _next,
                 color: Color(0xffdd0e0e),
                 textColor: Colors.white,
                 child: Container(
@@ -944,7 +807,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                     vertical: 10.0,
                   ),
                   child: Text(
-                    AppLocalizations.of(context).translate('submit_btn'),
+                    AppLocalizations.of(context).translate('next_btn'),
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(56),
                     ),
@@ -955,19 +818,31 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     );
   }
 
-  _submit() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-      FocusScope.of(context).requestFocus(new FocusNode());
-
-      if (_message !=
-          AppLocalizations.of(context).translate('enroll_underage')) {
-        setState(() {
+  _next() async {
+    if (_enrollHistoryData == null) {
+      if (_formKey.currentState.validate()) {
+        _formKey.currentState.save();
+        FocusScope.of(context).requestFocus(new FocusNode());
+        if (_message !=
+            AppLocalizations.of(context).translate('enroll_underage')) {
+          /* setState(() {
           _isLoading = true;
           _message = '';
-        });
+        }); */
 
-        var result = await authRepo.saveEnrollmentWithParticular(
+          Navigator.pushNamed(context, SELECT_INSTITUTE,
+              arguments: EnrollmentData(
+                phoneCountryCode: _countryCode,
+                icNo: _icNo.replaceAll('-', ''),
+                name: _icName,
+                email: _email,
+                gender: _genderValue,
+                dateOfBirthString: _dob,
+                nationality: 'WARGANEGARA',
+                race: _raceParam,
+              ));
+
+          /* var result = await authRepo.saveEnrollmentWithParticular(
           context: context,
           phoneCountryCode: _countryCode,
           diCode: widget.data.diCode,
@@ -1006,12 +881,25 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           setState(() {
             _message = result.message.toString();
           });
-        }
+        } */
 
-        setState(() {
+          /* setState(() {
           _isLoading = false;
-        });
+        }); */
+        }
       }
+    } else {
+      Navigator.pushNamed(context, SELECT_INSTITUTE,
+          arguments: EnrollmentData(
+            phoneCountryCode: _countryCode,
+            icNo: _icNo.replaceAll('-', ''),
+            name: _icName,
+            email: _email,
+            gender: _genderValue,
+            dateOfBirthString: _dob,
+            nationality: 'WARGANEGARA',
+            race: _raceParam,
+          ));
     }
   }
 }

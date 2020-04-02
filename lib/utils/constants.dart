@@ -54,15 +54,12 @@ class ImagesConstant {
   String logo = 'assets/images/ePandu-logo.png';
   String logo2 = 'assets/images/ePandu-logo-2.png';
   String feedSample = 'assets/images/feed-sample.jpg';
-  String feedSample2 = 'assets/images/feed-sample.png';
   String friend = 'assets/images/friend.png';
   String car = 'assets/images/car.png';
   String motor = 'assets/images/motor.png';
   String sos = 'assets/images/sos-icon.png';
-  String vClub = 'assets/images/v-club-icon.png';
   String menu = 'assets/images/menu-icon.png';
   String tyreShop = 'assets/images/tyre-shop-image.png';
-  String vClubLogo = 'assets/images/v-club-logo.png';
   String jobIcon = 'assets/images/job.png';
   String enrollIcon = 'assets/images/enroll.png';
   String importantInfoIcon = 'assets/images/important-info.png';
@@ -83,6 +80,22 @@ class ImagesConstant {
   String emergencyImage = 'assets/images/emergency-image.jpg';
   // String avatar = 'images/avatar.jpg';
   // String loginBackground = 'assets/images/login_background.jpg';
+
+  // value club
+  String vClub = 'assets/images/v-club-icon.png';
+  String vClubLogo = 'assets/images/v-club-logo.png';
+  // String vClubBanner = 'assets/images/value-club-banner.png';
+  String vClubBanner = 'assets/images/value-club-banner.jpeg';
+  String airtime = 'assets/images/airtime.png';
+  String billPayment = 'assets/images/bill-payment.png';
+  String drivingSchools = 'assets/images/driving-schools.png';
+  String higherEducation = 'assets/images/higher-education.png';
+  String hochiak = 'assets/images/hochiak.png';
+  String jobs = 'assets/images/jobs.png';
+  String rideSharing = 'assets/images/ride-sharing.png';
+  String tourism = 'assets/images/tourism.png';
+  String workshops = 'assets/images/workshops.png';
+  String promotionsIcon = 'assets/images/promotions.png';
 }
 
 /* class Common {

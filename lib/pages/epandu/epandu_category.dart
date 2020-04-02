@@ -80,8 +80,7 @@ class EpanduCategory extends StatelessWidget {
                     TableRow(
                       children: [
                         InkWell(
-                          onTap: () =>
-                              Navigator.pushNamed(context, SELECT_INSTITUTE),
+                          onTap: () => Navigator.pushNamed(context, ENROLLMENT),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(

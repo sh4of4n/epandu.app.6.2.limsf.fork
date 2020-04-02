@@ -1709,6 +1709,11 @@ class Enroll {
   String status;
   String fee;
   String totalTime;
+  String name;
+  String sex;
+  String race;
+  String birthDt;
+  String citizenship;
 
   Enroll(
       {this.id,
@@ -1760,7 +1765,12 @@ class Enroll {
       this.lastupload,
       this.status,
       this.fee,
-      this.totalTime});
+      this.totalTime,
+      this.name,
+      this.sex,
+      this.race,
+      this.birthDt,
+      this.citizenship});
 
   Enroll.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -1813,6 +1823,11 @@ class Enroll {
     status = json['status'];
     fee = json['fee'];
     totalTime = json['total_time'];
+    name = json['name'];
+    sex = json['sex'];
+    race = json['race'];
+    birthDt = json['birth_dt'];
+    citizenship = json['citizenship'];
   }
 
   Map<String, dynamic> toJson() {
@@ -1867,6 +1882,38 @@ class Enroll {
     data['status'] = this.status;
     data['fee'] = this.fee;
     data['total_time'] = this.totalTime;
+    data['name'] = this.name;
+    data['sex'] = this.sex;
+    data['race'] = this.race;
+    data['birth_dt'] = this.birthDt;
+    data['citizenship'] = this.citizenship;
     return data;
   }
+}
+
+// Arguments
+class EnrollmentData {
+  String phoneCountryCode;
+  String diCode;
+  String icNo;
+  String name;
+  String email;
+  String groupId;
+  String gender;
+  String dateOfBirthString;
+  String nationality;
+  String race;
+
+  EnrollmentData({
+    this.phoneCountryCode,
+    this.diCode,
+    this.icNo,
+    this.name,
+    this.email,
+    this.groupId,
+    this.gender,
+    this.dateOfBirthString,
+    this.nationality,
+    this.race,
+  });
 }

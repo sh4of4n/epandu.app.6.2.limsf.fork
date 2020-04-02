@@ -1,6 +1,7 @@
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/services/repository/epandu_repository.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -161,112 +162,120 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            width: double.infinity,
-                            padding: EdgeInsets.fromLTRB(50.w, 30.w, 50.w, 0),
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        RichText(
-                                          text: TextSpan(
-                                            style: TextStyle(
-                                              fontSize: 80.sp,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Myriad',
-                                            ),
-                                            children: [
-                                              TextSpan(
-                                                text:
-                                                    AppLocalizations.of(context)
-                                                            .translate(
-                                                                'class_lbl') +
-                                                        ' ',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color(
-                                                    0xff666666,
+                          return InkWell(
+                            onTap: () => Navigator.pushNamed(
+                                context, REGISTERED_COURSE_DETAIL,
+                                arguments: snapshot.data[index].groupId),
+                            child: Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.fromLTRB(50.w, 30.w, 50.w, 0),
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          RichText(
+                                            text: TextSpan(
+                                              style: TextStyle(
+                                                fontSize: 80.sp,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'Myriad',
+                                              ),
+                                              children: [
+                                                TextSpan(
+                                                  text: AppLocalizations.of(
+                                                              context)
+                                                          .translate(
+                                                              'class_lbl') +
+                                                      ' ',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Color(
+                                                      0xff666666,
+                                                    ),
+                                                    decoration: TextDecoration
+                                                        .underline,
                                                   ),
-                                                  decoration:
-                                                      TextDecoration.underline,
                                                 ),
-                                              ),
-                                              TextSpan(
-                                                text: snapshot
-                                                        .data[index].groupId ??
-                                                    '',
-                                                style: TextStyle(
-                                                  color: Color(0xffdd0e0e),
-                                                  decoration:
-                                                      TextDecoration.underline,
+                                                TextSpan(
+                                                  text: snapshot.data[index]
+                                                          .groupId ??
+                                                      '',
+                                                  style: TextStyle(
+                                                    color: Color(0xffdd0e0e),
+                                                    decoration: TextDecoration
+                                                        .underline,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        Text(
-                                          'RM' +
-                                                  NumberFormat('#,##0.00')
-                                                      .format(double.tryParse(
-                                                          snapshot.data[index]
-                                                              .fee)) ??
-                                              '0.00',
+                                          Text(
+                                            'RM' +
+                                                    NumberFormat('#,##0.00')
+                                                        .format(double.tryParse(
+                                                            snapshot.data[index]
+                                                                .fee)) ??
+                                                '0.00',
+                                            style: TextStyle(
+                                              color: Color(
+                                                0xff666666,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            snapshot.data[index].totalTime !=
+                                                    null
+                                                ? AppLocalizations.of(context)
+                                                        .translate(
+                                                            'total_time') +
+                                                    ' ' +
+                                                    snapshot
+                                                        .data[index].totalTime
+                                                : /* AppLocalizations.of(context)
+                                                    .translate('no_total_time') */
+                                                'Total time 00:00',
+                                            style: TextStyle(
+                                              color: Color(
+                                                0xff666666,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 100.w),
+                                        child: Text(
+                                          snapshot.data[index].status != null
+                                              ? snapshot.data[index].status
+                                              : '',
                                           style: TextStyle(
+                                            fontSize: 70.sp,
                                             color: Color(
                                               0xff666666,
                                             ),
-                                          ),
-                                        ),
-                                        Text(
-                                          snapshot.data[index].totalTime != null
-                                              ? AppLocalizations.of(context)
-                                                      .translate('total_time') +
-                                                  ' ' +
-                                                  snapshot.data[index].totalTime
-                                              : /* AppLocalizations.of(context)
-                                                  .translate('no_total_time') */
-                                              'Total time 00:00',
-                                          style: TextStyle(
-                                            color: Color(
-                                              0xff666666,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 100.w),
-                                      child: Text(
-                                        snapshot.data[index].status != null
-                                            ? snapshot.data[index].status
-                                            : '',
-                                        style: TextStyle(
-                                          fontSize: 70.sp,
-                                          color: Color(
-                                            0xff666666,
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: ScreenUtil().setHeight(30)),
-                                  child: Divider(
-                                    height: 1.0,
-                                    color: Colors.white,
-                                    thickness: 1.0,
+                                    ],
                                   ),
-                                ),
-                              ],
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top: ScreenUtil().setHeight(30)),
+                                    child: Divider(
+                                      height: 1.0,
+                                      color: Colors.white,
+                                      thickness: 1.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },
