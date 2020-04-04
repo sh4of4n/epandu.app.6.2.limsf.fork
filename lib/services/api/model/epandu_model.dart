@@ -1393,3 +1393,241 @@ class CollectDetail {
     return data;
   }
 }
+
+// GetCourseSectionList
+class GetCourseSectionListResponse {
+  List<CourseSection> courseSection;
+
+  GetCourseSectionListResponse({this.courseSection});
+
+  GetCourseSectionListResponse.fromJson(Map<String, dynamic> json) {
+    if (json['CourseSection'] != null) {
+      courseSection = new List<CourseSection>();
+      json['CourseSection'].forEach((v) {
+        courseSection.add(new CourseSection.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.courseSection != null) {
+      data['CourseSection'] =
+          this.courseSection.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class CourseSection {
+  String iD;
+  String groupId;
+  String courseCode;
+  String section;
+  String sectionDesc;
+  String createUser;
+  String editUser;
+  String transtamp;
+  String deleted;
+  String lastEditedBy;
+  String createdBy;
+
+  CourseSection(
+      {this.iD,
+      this.groupId,
+      this.courseCode,
+      this.section,
+      this.sectionDesc,
+      this.createUser,
+      this.editUser,
+      this.transtamp,
+      this.deleted,
+      this.lastEditedBy,
+      this.createdBy});
+
+  CourseSection.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    groupId = json['group_id'];
+    courseCode = json['course_code'];
+    section = json['section'];
+    sectionDesc = json['section_desc'];
+    createUser = json['create_user'];
+    editUser = json['edit_user'];
+    transtamp = json['transtamp'];
+    deleted = json['deleted'];
+    lastEditedBy = json['last_edited_by'];
+    createdBy = json['created_by'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['group_id'] = this.groupId;
+    data['course_code'] = this.courseCode;
+    data['section'] = this.section;
+    data['section_desc'] = this.sectionDesc;
+    data['create_user'] = this.createUser;
+    data['edit_user'] = this.editUser;
+    data['transtamp'] = this.transtamp;
+    data['deleted'] = this.deleted;
+    data['last_edited_by'] = this.lastEditedBy;
+    data['created_by'] = this.createdBy;
+    return data;
+  }
+}
+
+// GetTestListResponse
+class GetTestListResponse {
+  List<Test> test;
+
+  GetTestListResponse({this.test});
+
+  GetTestListResponse.fromJson(Map<String, dynamic> json) {
+    if (json['Test'] != null) {
+      test = new List<Test>();
+      json['Test'].forEach((v) {
+        test.add(new Test.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.test != null) {
+      data['Test'] = this.test.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Test {
+  String iD;
+  String diCode;
+  String groupId;
+  String testType;
+  String testDate;
+  String testTime;
+  String tlQuota;
+  String onlineQuota;
+  String createUser;
+  String createDate;
+  String editUser;
+  String editDate;
+  String transtamp;
+  String deleted;
+  String lastEditedBy;
+  String createdBy;
+
+  Test(
+      {this.iD,
+      this.diCode,
+      this.groupId,
+      this.testType,
+      this.testDate,
+      this.testTime,
+      this.tlQuota,
+      this.onlineQuota,
+      this.createUser,
+      this.createDate,
+      this.editUser,
+      this.editDate,
+      this.transtamp,
+      this.deleted,
+      this.lastEditedBy,
+      this.createdBy});
+
+  Test.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    diCode = json['di_code'];
+    groupId = json['group_id'];
+    testType = json['test_type'];
+    testDate = json['test_date'];
+    testTime = json['test_time'];
+    tlQuota = json['tl_quota'];
+    onlineQuota = json['online_quota'];
+    createUser = json['create_user'];
+    createDate = json['create_date'];
+    editUser = json['edit_user'];
+    editDate = json['edit_date'];
+    transtamp = json['transtamp'];
+    deleted = json['deleted'];
+    lastEditedBy = json['last_edited_by'];
+    createdBy = json['created_by'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['di_code'] = this.diCode;
+    data['group_id'] = this.groupId;
+    data['test_type'] = this.testType;
+    data['test_date'] = this.testDate;
+    data['test_time'] = this.testTime;
+    data['tl_quota'] = this.tlQuota;
+    data['online_quota'] = this.onlineQuota;
+    data['create_user'] = this.createUser;
+    data['create_date'] = this.createDate;
+    data['edit_user'] = this.editUser;
+    data['edit_date'] = this.editDate;
+    data['transtamp'] = this.transtamp;
+    data['deleted'] = this.deleted;
+    data['last_edited_by'] = this.lastEditedBy;
+    data['created_by'] = this.createdBy;
+    return data;
+  }
+}
+
+// SaveBookingTest
+
+class SaveBookingTestRequest {
+  String wsCodeCrypt;
+  String caUid;
+  String caPwd;
+  String diCode;
+  String groupId;
+  String testType;
+  String testDate;
+  String courseSection;
+  String icNo;
+  String userId;
+
+  SaveBookingTestRequest(
+      {this.wsCodeCrypt,
+      this.caUid,
+      this.caPwd,
+      this.diCode,
+      this.groupId,
+      this.testType,
+      this.testDate,
+      this.courseSection,
+      this.icNo,
+      this.userId});
+
+  SaveBookingTestRequest.fromJson(Map<String, dynamic> json) {
+    wsCodeCrypt = json['wsCodeCrypt'];
+    caUid = json['caUid'];
+    caPwd = json['caPwd'];
+    diCode = json['diCode'];
+    groupId = json['groupId'];
+    testType = json['testType'];
+    testDate = json['testDate'];
+    courseSection = json['courseSection'];
+    icNo = json['icNo'];
+    userId = json['userId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['wsCodeCrypt'] = this.wsCodeCrypt;
+    data['caUid'] = this.caUid;
+    data['caPwd'] = this.caPwd;
+    data['diCode'] = this.diCode;
+    data['groupId'] = this.groupId;
+    data['testType'] = this.testType;
+    data['testDate'] = this.testDate;
+    data['courseSection'] = this.courseSection;
+    data['icNo'] = this.icNo;
+    data['userId'] = this.userId;
+    return data;
+  }
+}

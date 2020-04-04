@@ -34,14 +34,14 @@ class HomeTopMenu extends StatelessWidget {
                         child: Column(
                           children: <Widget>[
                             Icon(
-                              MyCustomIcons.gift_icon,
+                              MyCustomIcons.scan_icon,
                               size: 26,
                               color: Color(0xff808080),
                             ),
                             SizedBox(height: ScreenUtil().setHeight(20)),
                             Text(
                                 AppLocalizations.of(context)
-                                    .translate('rewards_lbl'),
+                                    .translate('scan_lbl'),
                                 style: iconText),
                           ],
                         ),
@@ -55,14 +55,14 @@ class HomeTopMenu extends StatelessWidget {
                         child: Column(
                           children: <Widget>[
                             Icon(
-                              MyCustomIcons.promo_icon,
+                              MyCustomIcons.scan_helper,
                               size: 26,
                               color: Color(0xff808080),
                             ),
                             SizedBox(height: ScreenUtil().setHeight(20)),
                             Text(
                                 AppLocalizations.of(context)
-                                    .translate('promo_lbl'),
+                                    .translate('pay_lbl'),
                                 style: iconText),
                           ],
                         ),

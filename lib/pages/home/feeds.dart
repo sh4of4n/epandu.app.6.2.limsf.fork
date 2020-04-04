@@ -57,13 +57,13 @@ class Feeds extends StatelessWidget {
                         if (!isUrl) {
                           switch (feedValue) {
                             case 'ENROLLMENT':
-                              Navigator.pushNamed(context, SELECT_INSTITUTE);
+                              Navigator.pushNamed(context, ENROLLMENT);
                               break;
                             case 'KPP':
                               Navigator.pushNamed(context, KPP);
                               break;
                             case 'VCLUB':
-                              Navigator.pushNamed(context, PAYMENT);
+                              Navigator.pushNamed(context, VALUE_CLUB);
                               break;
                           }
                         } else {

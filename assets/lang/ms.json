@@ -244,5 +244,15 @@
   "you_have_enrolled_desc": "Anda telah mendaftar ke kelas ini.",
   "you_have_enrolled_before": "Anda telah mendaftar sebelum ini",
   "previous_credentials": "Kami akan menggunakan kelayakan anda untuk mendaftar.",
-  "value_club": "Value Club"
+  "value_club": "Value Club",
+  "booking": "Tempahan",
+  "group_id": "Kumpulan ID",
+  "group_id_required": "Group ID is required.",
+  "type": "Jenis",
+  "type_required": "Jenis diperlukan.",
+  "section": "Seksyen",
+  "section_required": "Seksyen diperlukan.",
+  "date": "Tarikh",
+  "date_required": "Tarikh diperlukan.",
+  "booking_success": "Tempahan berjaya."
 }

@@ -22,6 +22,7 @@ dependencies:
   flutter_custom_clippers: ^1.1.0
   datetime_picker_formfield: ^1.0.0
   transparent_image: ^1.0.0
+  flutter_rating_bar: ^3.0.1+1
 
   ## Tools
   intl: ^0.16.0

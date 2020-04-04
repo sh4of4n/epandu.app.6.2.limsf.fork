@@ -180,7 +180,7 @@ class EpanduCategory extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () => Navigator.pushNamed(context, BOOKING),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(

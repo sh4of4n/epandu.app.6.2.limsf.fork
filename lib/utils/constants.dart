@@ -96,6 +96,11 @@ class ImagesConstant {
   String tourism = 'assets/images/tourism.png';
   String workshops = 'assets/images/workshops.png';
   String promotionsIcon = 'assets/images/promotions.png';
+  String selectInstituteBanner = 'assets/images/select-institute-banner.png';
+  String locationIcon = 'assets/images/location-icon.png';
+  String profileIcon = 'assets/images/profile-icon.png';
+  String productsIcon = 'assets/images/products-icon.png';
+  String reviewIcon = 'assets/images/review-icon.png';
 }
 
 /* class Common {

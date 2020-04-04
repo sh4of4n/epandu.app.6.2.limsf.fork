@@ -244,5 +244,15 @@
   "you_have_enrolled_desc": "You have enrolled to this class.",
   "you_have_enrolled_before": "You have enrolled before",
   "previous_credentials": "We will use your credentials to enroll.",
-  "value_club": "Value Club"
+  "value_club": "Value Club",
+  "booking": "Booking",
+  "group_id": "Group ID",
+  "group_id_required": "Group ID is required.",
+  "type": "Type",
+  "type_required": "Type is required.",
+  "section": "Section",
+  "section_required": "Section is required.",
+  "date": "Date",
+  "date_required": "Date is required.",
+  "booking_success": "Booking successful."
 }
