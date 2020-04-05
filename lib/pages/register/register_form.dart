@@ -26,7 +26,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
 
   final FocusNode _phoneFocus = FocusNode();
   final FocusNode _nameFocus = FocusNode();
-  final FocusNode _idFocus = FocusNode();
+  // final FocusNode _idFocus = FocusNode();
   final FocusNode _diCodeFocus = FocusNode();
   final FocusNode _add1Focus = FocusNode();
   // final FocusNode _add2Focus = FocusNode();
@@ -183,7 +183,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                   ),
                 ),
                 onFieldSubmitted: (term) {
-                  fieldFocusChange(context, _nameFocus, _idFocus);
+                  fieldFocusChange(context, _nameFocus, _add1Focus);
                 },
                 validator: (value) {
                   if (value.isEmpty) {
@@ -198,7 +198,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                   }
                 },
               ),
-              SizedBox(
+              /* SizedBox(
                 height: ScreenUtil().setHeight(70),
               ),
               TextFormField(
@@ -241,7 +241,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                     _icNo = value;
                   }
                 },
-              ),
+              ), */
               SizedBox(
                 height: ScreenUtil().setHeight(70),
               ),
@@ -553,7 +553,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
         userId: '',
         diCode: _diCode,
         name: _name,
-        icNo: _icNo,
+        icNo: '',
         add1: _add1,
         add2: _add2,
         add3: _add3,
