@@ -146,7 +146,7 @@ class _ProfileState extends State<Profile> {
                   style: _subtitleStyle),
             ),
           SizedBox(height: ScreenUtil().setHeight(20)),
-          if (_state != 'null' && _country != 'null')
+          /* if (_state != 'null' && _country != 'null')
             ListTile(
               leading: Icon(Icons.location_on),
               title:
@@ -156,7 +156,7 @@ class _ProfileState extends State<Profile> {
                       ? '${_state != "null" ? _state : ""}${_country != "null" ? ", $_country" : ""}'
                       : AppLocalizations.of(context).translate('no_location'),
                   style: _subtitleStyle),
-            ),
+            ), */
           /* ButtonTheme(
             padding: EdgeInsets.all(0.0),
             shape: StadiumBorder(),

@@ -51,6 +51,9 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   _getUserInfo() async {
     _getName = await localStorage.getUsername();
     _getEmail = await localStorage.getEmail();
+
+    _nameController.text = _getName;
+    _emailController.text = _getEmail;
   }
 
   _nameValue() {
