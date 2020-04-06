@@ -4,6 +4,7 @@ const String LOGIN = '/login';
 const String FORGOT_PASSWORD = '/forgot_password';
 const String SIGN_UP = 'sign_up';
 const String SIGN_UP_TYPE = 'sign_up_type';
+const String SIGN_UP_VERIFICATION = '/sign_up_verification';
 const String SELECT_DI = 'select_driving_institute';
 const String HOME_TAB = 'home_tab';
 const String HOME = '/home';

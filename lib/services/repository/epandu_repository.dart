@@ -251,6 +251,99 @@ class EpanduRepo {
         message: AppLocalizations.of(context).translate('no_records_found'));
   } */
 
+  Future<Response> getTestListGroupId({
+    context,
+  }) async {
+    assert(context != null);
+
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+
+    String diCode = await localStorage.getDiCode();
+    // String groupId = await localStorage.getEnrolledGroupId();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode';
+
+    var response = await networking.getData(
+      path: 'GetTestListGroupId?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetTestListGroupIdResponse getTestListGroupIdResponse;
+
+      getTestListGroupIdResponse =
+          GetTestListGroupIdResponse.fromJson(response.data);
+
+      return Response(true, data: getTestListGroupIdResponse.test);
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message != null && response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message != null &&
+        response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
+    }
+
+    return Response(false,
+        message: AppLocalizations.of(context).translate('no_records_found'));
+  }
+
+  Future<Response> getTestListTestType({
+    context,
+    groupId,
+  }) async {
+    assert(context != null);
+
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+
+    String diCode = await localStorage.getDiCode();
+    // String groupId = await localStorage.getEnrolledGroupId();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&groupId=$groupId';
+
+    var response = await networking.getData(
+      path: 'GetTestListTestType?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetTestListTestTypeResponse getTestListTestTypeResponse;
+
+      getTestListTestTypeResponse =
+          GetTestListTestTypeResponse.fromJson(response.data);
+
+      return Response(true, data: getTestListTestTypeResponse.test);
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message != null && response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message != null &&
+        response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
+    }
+
+    return Response(false,
+        message: AppLocalizations.of(context).translate('no_records_found'));
+  }
+
   Future<Response> getTestList({
     context,
     groupId,

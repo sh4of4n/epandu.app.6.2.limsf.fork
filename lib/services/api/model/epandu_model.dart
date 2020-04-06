@@ -1476,6 +1476,192 @@ class CourseSection {
   }
 }
 
+// GetTestListGroupIdResponse
+class GetTestListGroupIdResponse {
+  List<GroupIdTest> test;
+
+  GetTestListGroupIdResponse({this.test});
+
+  GetTestListGroupIdResponse.fromJson(Map<String, dynamic> json) {
+    if (json['Test'] != null) {
+      test = new List<GroupIdTest>();
+      json['Test'].forEach((v) {
+        test.add(new GroupIdTest.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.test != null) {
+      data['Test'] = this.test.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class GroupIdTest {
+  String iD;
+  String diCode;
+  String groupId;
+  String testType;
+  String testDate;
+  String testTime;
+  String tlQuota;
+  String onlineQuota;
+  String createUser;
+  String createDate;
+  String editUser;
+  String editDate;
+  String transtamp;
+  String deleted;
+
+  GroupIdTest(
+      {this.iD,
+      this.diCode,
+      this.groupId,
+      this.testType,
+      this.testDate,
+      this.testTime,
+      this.tlQuota,
+      this.onlineQuota,
+      this.createUser,
+      this.createDate,
+      this.editUser,
+      this.editDate,
+      this.transtamp,
+      this.deleted});
+
+  GroupIdTest.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    diCode = json['di_code'];
+    groupId = json['group_id'];
+    testType = json['test_type'];
+    testDate = json['test_date'];
+    testTime = json['test_time'];
+    tlQuota = json['tl_quota'];
+    onlineQuota = json['online_quota'];
+    createUser = json['create_user'];
+    createDate = json['create_date'];
+    editUser = json['edit_user'];
+    editDate = json['edit_date'];
+    transtamp = json['transtamp'];
+    deleted = json['deleted'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['di_code'] = this.diCode;
+    data['group_id'] = this.groupId;
+    data['test_type'] = this.testType;
+    data['test_date'] = this.testDate;
+    data['test_time'] = this.testTime;
+    data['tl_quota'] = this.tlQuota;
+    data['online_quota'] = this.onlineQuota;
+    data['create_user'] = this.createUser;
+    data['create_date'] = this.createDate;
+    data['edit_user'] = this.editUser;
+    data['edit_date'] = this.editDate;
+    data['transtamp'] = this.transtamp;
+    data['deleted'] = this.deleted;
+    return data;
+  }
+}
+
+// GetTestListTestTypeResponse
+class GetTestListTestTypeResponse {
+  List<TestTypeTest> test;
+
+  GetTestListTestTypeResponse({this.test});
+
+  GetTestListTestTypeResponse.fromJson(Map<String, dynamic> json) {
+    if (json['Test'] != null) {
+      test = new List<TestTypeTest>();
+      json['Test'].forEach((v) {
+        test.add(new TestTypeTest.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.test != null) {
+      data['Test'] = this.test.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class TestTypeTest {
+  String iD;
+  String diCode;
+  String groupId;
+  String testType;
+  String testDate;
+  String testTime;
+  String tlQuota;
+  String onlineQuota;
+  String createUser;
+  String createDate;
+  String editUser;
+  String editDate;
+  String transtamp;
+  String deleted;
+
+  TestTypeTest(
+      {this.iD,
+      this.diCode,
+      this.groupId,
+      this.testType,
+      this.testDate,
+      this.testTime,
+      this.tlQuota,
+      this.onlineQuota,
+      this.createUser,
+      this.createDate,
+      this.editUser,
+      this.editDate,
+      this.transtamp,
+      this.deleted});
+
+  TestTypeTest.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    diCode = json['di_code'];
+    groupId = json['group_id'];
+    testType = json['test_type'];
+    testDate = json['test_date'];
+    testTime = json['test_time'];
+    tlQuota = json['tl_quota'];
+    onlineQuota = json['online_quota'];
+    createUser = json['create_user'];
+    createDate = json['create_date'];
+    editUser = json['edit_user'];
+    editDate = json['edit_date'];
+    transtamp = json['transtamp'];
+    deleted = json['deleted'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['di_code'] = this.diCode;
+    data['group_id'] = this.groupId;
+    data['test_type'] = this.testType;
+    data['test_date'] = this.testDate;
+    data['test_time'] = this.testTime;
+    data['tl_quota'] = this.tlQuota;
+    data['online_quota'] = this.onlineQuota;
+    data['create_user'] = this.createUser;
+    data['create_date'] = this.createDate;
+    data['edit_user'] = this.editUser;
+    data['edit_date'] = this.editDate;
+    data['transtamp'] = this.transtamp;
+    data['deleted'] = this.deleted;
+    return data;
+  }
+}
+
 // GetTestListResponse
 class GetTestListResponse {
   List<Test> test;

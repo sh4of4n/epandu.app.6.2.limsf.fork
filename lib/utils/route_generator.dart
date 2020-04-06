@@ -47,12 +47,17 @@ class RouteGenerator {
       case SIGN_UP:
         return MaterialPageRoute(
           settings: RouteSettings(name: SIGN_UP),
-          builder: (_) => Register(data),
+          builder: (_) => RegisterMobile(),
         );
       case SIGN_UP_TYPE:
         return MaterialPageRoute(
           settings: RouteSettings(name: SIGN_UP_TYPE),
           builder: (_) => RegisterType(),
+        );
+      case SIGN_UP_VERIFICATION:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: SIGN_UP_VERIFICATION),
+          builder: (_) => RegisterVerification(data),
         );
       case HOME_TAB:
         return MaterialPageRoute(

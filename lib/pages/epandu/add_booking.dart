@@ -22,6 +22,8 @@ class _AddBookingState extends State<AddBooking> {
   final image = ImagesConstant();
   final customDialog = CustomDialog();
 
+  var testListGroupId;
+  var testListTestType;
   var testList;
   var courseSectionlist;
 
@@ -30,7 +32,7 @@ class _AddBookingState extends State<AddBooking> {
   String section = '';
   String testDate = '';
 
-  final dateFormat = DateFormat("yyyy-MM-dd");
+  final dateFormat = DateFormat('yyyy-MM-dd', 'en_MY');
 
   bool _isLoading = false;
 
@@ -38,23 +40,36 @@ class _AddBookingState extends State<AddBooking> {
   void initState() {
     super.initState();
 
-    _getTestList();
+    _getTestListGroupId();
   }
 
-  _getTestList() async {
-    var response = await ePanduRepo.getTestList(
+  _getTestListGroupId() async {
+    var response = await ePanduRepo.getTestListGroupId(
       context: context,
     );
 
     if (response.isSuccess)
       setState(() {
-        testList = response.data;
+        testListGroupId = response.data;
       });
     else
       return response.message;
   }
 
-  _getCourseSectionList(groupId) async {
+  _getTestListTestType() async {
+    var response = await ePanduRepo.getTestListTestType(
+      context: context,
+      groupId: groupId,
+    );
+
+    if (response.isSuccess) {
+      setState(() {
+        testListTestType = response.data;
+      });
+    }
+  }
+
+  _getCourseSectionList() async {
     var response = await ePanduRepo.getCourseSectionList(
       context: context,
       groupId: groupId,
@@ -63,6 +78,21 @@ class _AddBookingState extends State<AddBooking> {
     if (response.isSuccess)
       setState(() {
         courseSectionlist = response.data;
+      });
+    else
+      return response.message;
+  }
+
+  _getTestList() async {
+    var response = await ePanduRepo.getTestList(
+      context: context,
+      groupId: groupId,
+      testType: testType,
+    );
+
+    if (response.isSuccess)
+      setState(() {
+        testList = response.data;
       });
     else
       return response.message;
@@ -126,13 +156,22 @@ class _AddBookingState extends State<AddBooking> {
                       onChanged: (value) {
                         setState(() {
                           groupId = value;
+                          testType = '';
+                          testDate = '';
+                          testListTestType = null;
+                          testList = null;
 
-                          _getCourseSectionList(groupId);
+                          _getTestListTestType();
+                          _getCourseSectionList();
+
+                          if (groupId.isNotEmpty && testType.isNotEmpty) {
+                            _getTestList();
+                          }
                         });
                       },
-                      items: testList == null
+                      items: testListGroupId == null
                           ? null
-                          : testList
+                          : testListGroupId
                               .map<DropdownMenuItem<String>>((dynamic value) {
                               return DropdownMenuItem<String>(
                                 value: value.groupId,
@@ -176,12 +215,19 @@ class _AddBookingState extends State<AddBooking> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      disabledHint:
-                          Text(AppLocalizations.of(context).translate('type')),
+                      disabledHint: Text(
+                          AppLocalizations.of(context).translate('type'),
+                          style: TextStyle(color: Color(0xff808080))),
                       value: testType.isEmpty ? null : testType,
                       onChanged: (value) {
                         setState(() {
                           testType = value;
+
+                          if (groupId.isNotEmpty && testType.isNotEmpty) {
+                            testDate = '';
+                            testList = null;
+                            _getTestList();
+                          }
                         });
                       },
                       items:
@@ -193,9 +239,9 @@ class _AddBookingState extends State<AddBooking> {
                                 child: Text(value.testType),
                               );
                             }).toList(), */
-                          groupId.isEmpty
+                          testListTestType == null
                               ? null
-                              : testList
+                              : testListTestType
                                   .map<DropdownMenuItem<dynamic>>((value) {
                                   return DropdownMenuItem<dynamic>(
                                     value: value.testType,
@@ -294,8 +340,12 @@ class _AddBookingState extends State<AddBooking> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      disabledHint:
-                          Text(AppLocalizations.of(context).translate('date')),
+                      disabledHint: Text(
+                        AppLocalizations.of(context).translate('date'),
+                        style: TextStyle(
+                          color: Color(0xff808080),
+                        ),
+                      ),
                       value: testDate.isEmpty ? null : testDate,
                       onChanged: (value) {
                         setState(() {
@@ -306,9 +356,8 @@ class _AddBookingState extends State<AddBooking> {
                           ? null
                           : testList.map<DropdownMenuItem<String>>((value) {
                               return DropdownMenuItem<String>(
-                                value: value.testDate,
-                                child: Text(dateFormat
-                                    .format(DateTime.parse(value.testDate))),
+                                value: value.testDate.substring(0, 10),
+                                child: Text(value.testDate.substring(0, 10)),
                               );
                             }).toList(),
                       validator: (value) {
@@ -379,7 +428,7 @@ class _AddBookingState extends State<AddBooking> {
         context: context,
         groupId: groupId,
         testType: testType,
-        testDate: dateFormat.format(DateTime.parse(testDate)),
+        testDate: testDate,
         courseSection: section,
         userId: _userId,
       );

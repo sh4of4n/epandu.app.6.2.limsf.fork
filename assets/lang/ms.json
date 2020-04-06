@@ -259,5 +259,7 @@
   "delete_account": "Padamkan akaun",
   "confirm_delete_account": "Adakah anda pasti mahu mengalih keluar akaun anda?",
   "account_deleted": "Akaun anda telah dipadamkan.",
-  "account_delete_fail": "Gagal memadamkan akaun. Sila cuba sebentar lagi."
+  "account_delete_fail": "Gagal memadamkan akaun. Sila cuba sebentar lagi.",
+  "mobile_number": "Nombor telefon",
+  "enter_your_mobile_no": "Mula dengan memasukkan nombor telefon bimbit anda."
 }
