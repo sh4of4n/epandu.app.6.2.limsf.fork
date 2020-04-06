@@ -74,11 +74,11 @@ class VclubRepo {
     );
 
     if (response.isSuccess && response.data != null) {
-      GetMerchantTypeResponse getMerchantTypeResponse;
+      GetMerchantResponse getMerchantResponse;
 
-      getMerchantTypeResponse = GetMerchantTypeResponse.fromJson(response.data);
+      getMerchantResponse = GetMerchantResponse.fromJson(response.data);
 
-      return Response(true, data: getMerchantTypeResponse.merchantType);
+      return Response(true, data: getMerchantResponse.merchant);
     } else if (response.message != null &&
         response.message.contains('timeout')) {
       return Response(false,

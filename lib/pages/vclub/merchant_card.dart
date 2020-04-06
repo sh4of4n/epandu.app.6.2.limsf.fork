@@ -3,7 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SelectCard extends StatelessWidget {
+class MerchantCard extends StatelessWidget {
+  final String name;
+  final String desc;
+  final String imageLink;
+
+  MerchantCard({
+    this.name,
+    this.desc,
+    this.imageLink,
+  });
+
   final image = ImagesConstant();
   final headerStyle = TextStyle(
     fontWeight: FontWeight.w700,
@@ -37,7 +47,11 @@ class SelectCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Container(
-              width: 200.w, child: Image.asset(image.logo2, width: 200.w)),
+            width: 200.w,
+            child: imageLink.isEmpty
+                ? Image.asset(image.logo2, width: 200.w)
+                : Image.network(imageLink, width: 200.w),
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -89,7 +103,7 @@ class SelectCard extends StatelessWidget {
                   vertical: 15.h,
                 ),
                 width: 1180.w,
-                child: Text('Metro Driving Academy', style: titleStyle),
+                child: Text(name, style: titleStyle),
               ),
               Container(
                 decoration: BoxDecoration(
@@ -110,9 +124,7 @@ class SelectCard extends StatelessWidget {
                   vertical: 5.h,
                 ),
                 width: 1180.w,
-                child: Text(
-                    'Provide driving test consultancy and learning materials',
-                    style: subtitleStyle),
+                child: Text(desc, style: subtitleStyle),
               ),
               Container(
                 decoration: BoxDecoration(
@@ -172,40 +184,52 @@ class SelectCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text('Profile', style: bottomStyle),
-                        Image.asset(image.profileIcon, height: 22),
-                      ],
+                    InkWell(
+                      onTap: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text('Profile', style: bottomStyle),
+                          Image.asset(image.profileIcon, height: 22),
+                        ],
+                      ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text('Products', style: bottomStyle),
-                        Image.asset(image.productsIcon, height: 22),
-                      ],
+                    InkWell(
+                      onTap: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text('Products', style: bottomStyle),
+                          Image.asset(image.productsIcon, height: 22),
+                        ],
+                      ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Container(
-                          width: 250.w,
-                          child: Text(
-                            'Location Map',
-                            style: bottomStyle,
-                            textAlign: TextAlign.center,
+                    InkWell(
+                      onTap: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Container(
+                            width: 250.w,
+                            child: Text(
+                              'Location Map',
+                              style: bottomStyle,
+                              textAlign: TextAlign.center,
+                            ),
                           ),
-                        ),
-                        Image.asset(image.locationIcon, height: 22),
-                      ],
+                          Image.asset(image.locationIcon, height: 22),
+                        ],
+                      ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text('Review', style: bottomStyle),
-                        Image.asset(image.reviewIcon, height: 22),
-                      ],
+                    InkWell(
+                      onTap: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text('Review', style: bottomStyle),
+                          Image.asset(image.reviewIcon, height: 22),
+                        ],
+                      ),
                     ),
                   ],
                 ),

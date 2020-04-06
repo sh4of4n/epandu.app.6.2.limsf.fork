@@ -89,7 +89,7 @@ class ValueClub extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => Navigator.pushNamed(context, TOURISM,
+                      onTap: () => Navigator.pushNamed(context, MERCHANT_LIST,
                           arguments: 'TOUR'),
                       child: FadeInImage(
                         alignment: Alignment.center,
@@ -105,7 +105,7 @@ class ValueClub extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => Navigator.pushNamed(context, HOCHIAK,
+                      onTap: () => Navigator.pushNamed(context, MERCHANT_LIST,
                           arguments: 'HOCHIAK'),
                       child: FadeInImage(
                         alignment: Alignment.center,
@@ -121,7 +121,7 @@ class ValueClub extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => Navigator.pushNamed(context, HIGHER_EDU,
+                      onTap: () => Navigator.pushNamed(context, MERCHANT_LIST,
                           arguments: 'HIGHEDU'),
                       child: FadeInImage(
                         alignment: Alignment.center,
@@ -137,8 +137,8 @@ class ValueClub extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () =>
-                          Navigator.pushNamed(context, JOBS, arguments: 'JOB'),
+                      onTap: () => Navigator.pushNamed(context, MERCHANT_LIST,
+                          arguments: 'JOB'),
                       child: FadeInImage(
                         alignment: Alignment.center,
                         placeholder: MemoryImage(kTransparentImage),
@@ -153,7 +153,7 @@ class ValueClub extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => Navigator.pushNamed(context, RIDE_SHARING,
+                      onTap: () => Navigator.pushNamed(context, MERCHANT_LIST,
                           arguments: 'RIDE'),
                       child: FadeInImage(
                         alignment: Alignment.center,
@@ -169,7 +169,7 @@ class ValueClub extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => Navigator.pushNamed(context, DRIVING_SCHOOLS,
+                      onTap: () => Navigator.pushNamed(context, MERCHANT_LIST,
                           arguments: 'DI'),
                       child: FadeInImage(
                         alignment: Alignment.center,
@@ -185,7 +185,7 @@ class ValueClub extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => Navigator.pushNamed(context, WORKSHOPS,
+                      onTap: () => Navigator.pushNamed(context, MERCHANT_LIST,
                           arguments: 'WORKSHOP'),
                       child: FadeInImage(
                         alignment: Alignment.center,

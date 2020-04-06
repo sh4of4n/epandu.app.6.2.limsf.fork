@@ -254,5 +254,6 @@
   "section_required": "Section is required.",
   "date": "Date",
   "date_required": "Date is required.",
-  "booking_success": "Booking successful."
+  "booking_success": "Booking successful.",
+  "get_merchant_list_fail": "Failed to load merchant list. Please try again later."
 }

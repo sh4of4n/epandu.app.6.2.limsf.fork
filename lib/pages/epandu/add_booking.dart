@@ -33,8 +33,6 @@ class _AddBookingState extends State<AddBooking> {
   final dateFormat = DateFormat("yyyy-MM-dd");
 
   bool _isLoading = false;
-  String _message = '';
-  TextStyle _messageStyle = TextStyle(color: Colors.red);
 
   @override
   void initState() {
@@ -132,8 +130,7 @@ class _AddBookingState extends State<AddBooking> {
                           _getCourseSectionList(groupId);
                         });
                       },
-                      items:
-                          /* testList == null
+                      items: testList == null
                           ? null
                           : testList
                               .map<DropdownMenuItem<String>>((dynamic value) {
@@ -141,14 +138,7 @@ class _AddBookingState extends State<AddBooking> {
                                 value: value.groupId,
                                 child: Text(value.groupId),
                               );
-                            }).toList(), */
-                          <String>['D']
-                              .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
+                            }).toList(),
                       validator: (value) {
                         if (value == null) {
                           return AppLocalizations.of(context)
@@ -194,14 +184,24 @@ class _AddBookingState extends State<AddBooking> {
                           testType = value;
                         });
                       },
-                      items: testList == null
+                      items:
+                          /* testList == null
                           ? null
                           : testList.map<DropdownMenuItem<dynamic>>((value) {
                               return DropdownMenuItem<dynamic>(
                                 value: value.testType,
                                 child: Text(value.testType),
                               );
-                            }).toList(),
+                            }).toList(), */
+                          groupId.isEmpty
+                              ? null
+                              : testList
+                                  .map<DropdownMenuItem<dynamic>>((value) {
+                                  return DropdownMenuItem<dynamic>(
+                                    value: value.testType,
+                                    child: Text(value.testType),
+                                  );
+                                }).toList(),
                       validator: (value) {
                         if (value == null) {
                           return AppLocalizations.of(context)
@@ -372,7 +372,7 @@ class _AddBookingState extends State<AddBooking> {
 
       setState(() {
         _isLoading = true;
-        _message = '';
+        // _message = '';
       });
 
       var result = await ePanduRepo.saveBookingTest(

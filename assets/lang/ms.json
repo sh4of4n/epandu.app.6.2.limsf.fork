@@ -254,5 +254,6 @@
   "section_required": "Seksyen diperlukan.",
   "date": "Tarikh",
   "date_required": "Tarikh diperlukan.",
-  "booking_success": "Tempahan berjaya."
+  "booking_success": "Tempahan berjaya.",
+  "get_merchant_list_fail": "Gagal memuatkan senarai pedagang. Sila cuba sebentar lagi."
 }

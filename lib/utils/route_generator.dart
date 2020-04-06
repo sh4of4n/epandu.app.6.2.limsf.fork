@@ -1,15 +1,9 @@
-import 'package:epandu/pages/driving_school/driving_school.dart';
-import 'package:epandu/pages/education/education.dart';
 import 'package:epandu/pages/epandu/add_booking.dart';
 import 'package:epandu/pages/epandu/epandu.dart';
-import 'package:epandu/pages/hochiak/hochiak.dart';
-import 'package:epandu/pages/jobs/jobs.dart';
 import 'package:epandu/pages/menu/menu.dart';
 import 'package:epandu/pages/promotions/promotions.dart';
-import 'package:epandu/pages/ride/ride.dart';
-import 'package:epandu/pages/tourism/tourism.dart';
+import 'package:epandu/pages/vclub/value_club.dart';
 import 'package:epandu/pages/vclub/value_club_page.dart';
-import 'package:epandu/pages/workshops/workshops.dart';
 import 'package:flutter/material.dart';
 
 import 'package:epandu/pages/emergency/emergency.dart';
@@ -250,40 +244,10 @@ class RouteGenerator {
           settings: RouteSettings(name: VALUE_CLUB),
           builder: (_) => ValueClub(),
         );
-      case TOURISM:
+      case MERCHANT_LIST:
         return MaterialPageRoute(
-          settings: RouteSettings(name: TOURISM),
-          builder: (_) => Tourism(data),
-        );
-      case HOCHIAK:
-        return MaterialPageRoute(
-          settings: RouteSettings(name: HOCHIAK),
-          builder: (_) => Hochiak(data),
-        );
-      case HIGHER_EDU:
-        return MaterialPageRoute(
-          settings: RouteSettings(name: HIGHER_EDU),
-          builder: (_) => HigherEducation(data),
-        );
-      case JOBS:
-        return MaterialPageRoute(
-          settings: RouteSettings(name: JOBS),
-          builder: (_) => Jobs(data),
-        );
-      case RIDE_SHARING:
-        return MaterialPageRoute(
-          settings: RouteSettings(name: RIDE_SHARING),
-          builder: (_) => RideSharing(data),
-        );
-      case DRIVING_SCHOOLS:
-        return MaterialPageRoute(
-          settings: RouteSettings(name: DRIVING_SCHOOLS),
-          builder: (_) => DrivingSchools(data),
-        );
-      case WORKSHOPS:
-        return MaterialPageRoute(
-          settings: RouteSettings(name: WORKSHOPS),
-          builder: (_) => Workshops(data),
+          settings: RouteSettings(name: MERCHANT_LIST),
+          builder: (_) => MerchantList(data),
         );
       case BOOKING:
         return MaterialPageRoute(
