@@ -122,8 +122,9 @@ class BottomMenu extends StatelessWidget {
                         ),
                       ),
                       InkWell(
-                        onTap: () => Navigator.pushNamed(context, MENU,
-                            arguments: positionStream),
+                        // onTap: () => Navigator.pushNamed(context, MENU,
+                        //     arguments: positionStream),
+                        onTap: () {},
                         borderRadius: BorderRadius.circular(10.0),
                         child: Padding(
                           padding: EdgeInsets.symmetric(

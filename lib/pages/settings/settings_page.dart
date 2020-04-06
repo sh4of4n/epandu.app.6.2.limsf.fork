@@ -92,6 +92,37 @@ class _SettingsState extends State<Settings> {
           ),
           Divider(),
           ListTile(
+            onTap: () async {
+              count += 1;
+
+              if (count == 4) {
+                customDialog.show(
+                  context: context,
+                  title: Text(
+                      AppLocalizations.of(context).translate('delete_account')),
+                  content: AppLocalizations.of(context)
+                      .translate('confirm_delete_account'),
+                  customActions: <Widget>[
+                    FlatButton(
+                      child: Text(
+                          AppLocalizations.of(context).translate('yes_lbl')),
+                      onPressed: () async => await authRepo
+                          .deleteAppMemberAccount(context: context),
+                    ),
+                    FlatButton(
+                      child: Text(
+                          AppLocalizations.of(context).translate('no_lbl')),
+                      onPressed: () {
+                        count = 0;
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                  type: DialogType.GENERAL,
+                  barrierDismissable: true,
+                );
+              }
+            },
             leading: Icon(Icons.apps, size: _defIconSize),
             title: Text(AppLocalizations.of(context).translate('version_lbl')),
             subtitle: Text('V.$appVersion'),

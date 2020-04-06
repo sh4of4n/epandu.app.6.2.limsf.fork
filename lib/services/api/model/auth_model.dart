@@ -1917,3 +1917,31 @@ class EnrollmentData {
     this.race,
   });
 }
+
+// Delete member account
+
+class DeleteAppMemberAccountRequest {
+  String wsCodeCrypt;
+  String caUid;
+  String caPwd;
+  String userId;
+
+  DeleteAppMemberAccountRequest(
+      {this.wsCodeCrypt, this.caUid, this.caPwd, this.userId});
+
+  DeleteAppMemberAccountRequest.fromJson(Map<String, dynamic> json) {
+    wsCodeCrypt = json['wsCodeCrypt'];
+    caUid = json['caUid'];
+    caPwd = json['caPwd'];
+    userId = json['userId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['wsCodeCrypt'] = this.wsCodeCrypt;
+    data['caUid'] = this.caUid;
+    data['caPwd'] = this.caPwd;
+    data['userId'] = this.userId;
+    return data;
+  }
+}

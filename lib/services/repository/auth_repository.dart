@@ -733,4 +733,34 @@ class AuthRepo {
 
     return Response(false);
   }
+
+  Future<Response> deleteAppMemberAccount({context}) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+
+    String userId = await localStorage.getUserId();
+
+    DeleteAppMemberAccountRequest deleteAppMemberAccountRequest =
+        DeleteAppMemberAccountRequest(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      userId: userId,
+    );
+
+    String body = jsonEncode(deleteAppMemberAccountRequest);
+    String api = 'DeleteAppMemberAccount';
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+
+    var response =
+        await networking.postData(api: api, body: body, headers: headers);
+
+    if (response.data == 'True') {
+      return Response(true,
+          message: AppLocalizations.of(context).translate('account_deleted'));
+    }
+
+    return Response(false,
+        message: AppLocalizations.of(context).translate('account_delete_fail'));
+  }
 }

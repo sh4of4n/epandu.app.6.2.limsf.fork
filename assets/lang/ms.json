@@ -255,5 +255,9 @@
   "date": "Tarikh",
   "date_required": "Tarikh diperlukan.",
   "booking_success": "Tempahan berjaya.",
-  "get_merchant_list_fail": "Gagal memuatkan senarai pedagang. Sila cuba sebentar lagi."
+  "get_merchant_list_fail": "Gagal memuatkan senarai pedagang. Sila cuba sebentar lagi.",
+  "delete_account": "Padamkan akaun",
+  "confirm_delete_account": "Adakah anda pasti mahu mengalih keluar akaun anda?",
+  "account_deleted": "Akaun anda telah dipadamkan.",
+  "account_delete_fail": "Gagal memadamkan akaun. Sila cuba sebentar lagi."
 }

@@ -255,5 +255,9 @@
   "date": "Date",
   "date_required": "Date is required.",
   "booking_success": "Booking successful.",
-  "get_merchant_list_fail": "Failed to load merchant list. Please try again later."
+  "get_merchant_list_fail": "Failed to load merchant list. Please try again later.",
+  "delete_account": "Delete account",
+  "confirm_delete_account": "Are you sure you want to remove your account?",
+  "account_deleted": "Your account has been deleted.",
+  "account_delete_fail": "Failed to delete account. Please try again later."
 }
