@@ -66,7 +66,7 @@ class AuthRepo {
       var data = jsonDecode(jsonData);
 
       GetWsUrlResponse getWsUrlResponse = GetWsUrlResponse.fromJson(data);
-      String wsVer = '1_3';
+      String wsVer = '1_4';
       final wsUrlBox = Hive.box('ws_url');
 
       if (getWsUrlResponse.loginAcctInfo != null) {
@@ -330,7 +330,6 @@ class AuthRepo {
     String country,
     String email,
     String icNo,
-    String registerAs,
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
@@ -376,7 +375,7 @@ class AuthRepo {
           message: AppLocalizations.of(context).translate('format_exception'));
     }
     // Number not registered
-    var result = await register(
+    var result = await createAppAccount(
       context,
       type,
       countryCode,
@@ -393,13 +392,12 @@ class AuthRepo {
       country,
       email,
       icNo,
-      registerAs,
     );
 
     return result;
   }
 
-  Future<Response> register(
+  Future<Response> createAppAccount(
     context,
     String type,
     String countryCode,
@@ -416,13 +414,12 @@ class AuthRepo {
     String country,
     String email,
     String icNo,
-    String registerAs,
   ) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
     String trimIc = icNo?.replaceAll('-', '');
 
-    RegisterRequest params = RegisterRequest(
+    CreateAppAccount params = CreateAppAccount(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
@@ -756,11 +753,147 @@ class AuthRepo {
         await networking.postData(api: api, body: body, headers: headers);
 
     if (response.data == 'True') {
+      await localStorage.reset();
+      // Hive.box('ws_url').clear();
+      Hive.box('telcoList').clear();
+      Hive.box('serviceList').clear();
+
       return Response(true,
           message: AppLocalizations.of(context).translate('account_deleted'));
     }
 
     return Response(false,
         message: AppLocalizations.of(context).translate('account_delete_fail'));
+  }
+
+  Future<Response> requestVerificationCode(
+      {context, phoneCountryCode, phone}) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&phoneCountryCode=$phoneCountryCode&phone=$phone';
+
+    var response = await networking.getData(
+      path: 'RequestVerificationCode?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      return Response(true,
+          message: AppLocalizations.of(context).translate('verification_sent'),
+          data: response.data);
+    }
+
+    return Response(false,
+        message:
+            AppLocalizations.of(context).translate('verification_send_fail'));
+  }
+
+  Future<Response> register({
+    context,
+    String countryCode,
+    String phone,
+    String userId,
+    String name,
+    String add1,
+    String add2,
+    String add3,
+    String postCode,
+    String city,
+    String state,
+    String country,
+    String email,
+    String icNo,
+    String signUpPwd,
+    String latitude,
+    String longitude,
+  }) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+    String deviceId = await localStorage.getDeviceId();
+    String appVersion = await localStorage.getAppVersion();
+
+    RegisterRequest params = RegisterRequest(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      diCode: appConfig.diCode,
+      userId: userId,
+      name: name,
+      icNo: '',
+      passportNo: '',
+      phoneCountryCode: countryCode,
+      phone: phone,
+      nationality: '',
+      dateOfBirthString: '',
+      gender: '',
+      race: '',
+      add1: add1 ?? '',
+      add2: add2 ?? '',
+      add3: add3 ?? '',
+      postcode: postCode ?? '',
+      city: city ?? '',
+      state: state ?? '',
+      country: country ?? '',
+      email: email ?? '',
+      signUpPwd: signUpPwd,
+      latitude: latitude ?? '',
+      longitude: longitude ?? '',
+      appCode: 'EPANDU',
+      appId: 'ePandu.App',
+      deviceId: '',
+      appVersion: appVersion,
+      deviceRemark: '',
+      phDeviceId: deviceId,
+      phLine1Number: '',
+      phNetOpName: '',
+      phPhoneType: '',
+      phSimSerialNo: '',
+      bdBoard: '',
+      bdBrand: '',
+      bdDevice: '',
+      bdDisplay: '',
+      bdManufacturer: '',
+      bdModel: '',
+      bdProduct: '',
+      pfDeviceId: '',
+      regId: '',
+    );
+
+    String body = jsonEncode(params);
+    String api = 'CreateAppAccountWithPwd';
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+
+    var response =
+        await networking.postData(api: api, body: body, headers: headers);
+
+    var message = '';
+
+    // Success
+    if (response.isSuccess && response.data != null) {
+      message = AppLocalizations.of(context).translate('register_success');
+
+      return Response(true, message: message);
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message != null && response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message != null &&
+        response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
+    }
+
+    // Fail
+    message = AppLocalizations.of(context).translate('register_error');
+
+    return Response(false, message: message);
   }
 }

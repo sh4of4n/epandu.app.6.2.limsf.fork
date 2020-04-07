@@ -185,8 +185,10 @@
   "change_password_title": "Tukar kata laluan",
   "new_password_lbl": "Kata Laluan Baru",
   "new_password_required": "Kata laluan baru diperlukan.",
-  "confirm_password_lbl": "Sahkan Kata Laluan Baru",
-  "confirm_password_required": "Sahkan kata laluan Baru diperlukan.",
+  "confirm_password": "Sahkan kata laluan",
+  "confirm_password_required": "Sahkan kata laluan diperlukan.",
+  "confirm_new_password_lbl": "Sahkan kata laluan baru",
+  "confirm_new_password_required": "Sahkan kata laluan baru diperlukan.",
   "password_same_msg": "Kata laluan baru tak boleh sama dengan kata laluan semasa.",
   "password_not_match_msg": "Kata laluan baru tidak sepadan.",
   "password_updated": "Kata laluan berjaya ditukar.",
@@ -261,5 +263,10 @@
   "account_deleted": "Akaun anda telah dipadamkan.",
   "account_delete_fail": "Gagal memadamkan akaun. Sila cuba sebentar lagi.",
   "mobile_number": "Nombor telefon",
-  "enter_your_mobile_no": "Mula dengan memasukkan nombor telefon bimbit anda."
+  "enter_your_mobile_no": "Mula dengan memasukkan nombor telefon bimbit anda.",
+  "enter_verification": "SMS telah dihantar ke telefon anda. Sila masukkan kod pengesahan anda.",
+  "verification_required": "Kod pengesahan diperlukan.",
+  "verification_sent": "Kod pengesahan telah dihantar.",
+  "verification_send_fail": "Gagal menghantar kod pengesahan. Sila cuba sebentar lagi.",
+  "incorrect_verification_code": "Kod pengesahan tidak betul."
 }

@@ -1,6 +1,7 @@
 import 'package:epandu/services/api/model/language_model.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/language_options.dart';
+import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,6 +17,7 @@ class LoginBottomCard extends StatefulWidget {
 
 class _LoginBottomCardState extends State<LoginBottomCard> {
   final customDialog = CustomDialog();
+  final localStorage = LocalStorage();
   int count = 0;
   String appVersion = '';
 
@@ -32,6 +34,8 @@ class _LoginBottomCardState extends State<LoginBottomCard> {
     setState(() {
       appVersion = packageInfo.version;
     });
+
+    localStorage.saveAppVersion(appVersion);
   }
 
   @override

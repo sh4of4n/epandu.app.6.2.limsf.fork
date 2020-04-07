@@ -181,7 +181,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                   contentPadding: EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(color: primaryColor),
                   labelText: AppLocalizations.of(context)
-                      .translate('confirm_password_lbl'),
+                      .translate('confirm_new_password_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.lock),
@@ -209,7 +209,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                 validator: (value) {
                   if (value.isEmpty) {
                     return AppLocalizations.of(context)
-                        .translate('confirm_password_required');
+                        .translate('confirm_new_password_required');
                   }
                   return null;
                 },

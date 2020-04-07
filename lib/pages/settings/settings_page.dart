@@ -106,8 +106,7 @@ class _SettingsState extends State<Settings> {
                     FlatButton(
                       child: Text(
                           AppLocalizations.of(context).translate('yes_lbl')),
-                      onPressed: () async => await authRepo
-                          .deleteAppMemberAccount(context: context),
+                      onPressed: _deleteAccount,
                     ),
                     FlatButton(
                       child: Text(
@@ -176,5 +175,22 @@ class _SettingsState extends State<Settings> {
           ),
         ],
         type: DialogType.GENERAL);
+  }
+
+  _deleteAccount() async {
+    var result = await authRepo.deleteAppMemberAccount(context: context);
+
+    if (result.isSuccess) {
+      Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
+    } else {
+      Navigator.pop(context);
+
+      customDialog.show(
+        context: context,
+        type: DialogType.ERROR,
+        content: result.message.toString(),
+        onPressed: () => Navigator.pop(context),
+      );
+    }
   }
 }

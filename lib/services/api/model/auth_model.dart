@@ -693,8 +693,8 @@ class Armaster {
 
 // End UserRegisteredDiResponse
 
-// Register
-class RegisterRequest {
+// Invite Friends
+class CreateAppAccount {
   String wsCodeCrypt;
   String caUid;
   String caPwd;
@@ -719,7 +719,7 @@ class RegisterRequest {
   String country;
   String email;
 
-  RegisterRequest(
+  CreateAppAccount(
       {this.wsCodeCrypt,
       this.caUid,
       this.caPwd,
@@ -744,7 +744,7 @@ class RegisterRequest {
       this.country,
       this.email});
 
-  RegisterRequest.fromJson(Map<String, dynamic> json) {
+  CreateAppAccount.fromJson(Map<String, dynamic> json) {
     wsCodeCrypt = json['wsCodeCrypt'];
     caUid = json['caUid'];
     caPwd = json['caPwd'];
@@ -1944,4 +1944,202 @@ class DeleteAppMemberAccountRequest {
     data['userId'] = this.userId;
     return data;
   }
+}
+
+// New sign up
+class RegisterRequest {
+  String wsCodeCrypt;
+  String caUid;
+  String caPwd;
+  String diCode;
+  String userId;
+  String name;
+  String icNo;
+  String passportNo;
+  String phoneCountryCode;
+  String phone;
+  String nationality;
+  String dateOfBirthString;
+  String gender;
+  String race;
+  String add1;
+  String add2;
+  String add3;
+  String postcode;
+  String city;
+  String state;
+  String country;
+  String email;
+  String signUpPwd;
+  String latitude;
+  String longitude;
+  String appCode;
+  String appId;
+  String deviceId;
+  String appVersion;
+  String deviceRemark;
+  String phDeviceId;
+  String phLine1Number;
+  String phNetOpName;
+  String phPhoneType;
+  String phSimSerialNo;
+  String bdBoard;
+  String bdBrand;
+  String bdDevice;
+  String bdDisplay;
+  String bdManufacturer;
+  String bdModel;
+  String bdProduct;
+  String pfDeviceId;
+  String regId;
+
+  RegisterRequest(
+      {this.wsCodeCrypt,
+      this.caUid,
+      this.caPwd,
+      this.diCode,
+      this.userId,
+      this.name,
+      this.icNo,
+      this.passportNo,
+      this.phoneCountryCode,
+      this.phone,
+      this.nationality,
+      this.dateOfBirthString,
+      this.gender,
+      this.race,
+      this.add1,
+      this.add2,
+      this.add3,
+      this.postcode,
+      this.city,
+      this.state,
+      this.country,
+      this.email,
+      this.signUpPwd,
+      this.latitude,
+      this.longitude,
+      this.appCode,
+      this.appId,
+      this.deviceId,
+      this.appVersion,
+      this.deviceRemark,
+      this.phDeviceId,
+      this.phLine1Number,
+      this.phNetOpName,
+      this.phPhoneType,
+      this.phSimSerialNo,
+      this.bdBoard,
+      this.bdBrand,
+      this.bdDevice,
+      this.bdDisplay,
+      this.bdManufacturer,
+      this.bdModel,
+      this.bdProduct,
+      this.pfDeviceId,
+      this.regId});
+
+  RegisterRequest.fromJson(Map<String, dynamic> json) {
+    wsCodeCrypt = json['wsCodeCrypt'];
+    caUid = json['caUid'];
+    caPwd = json['caPwd'];
+    diCode = json['diCode'];
+    userId = json['userId'];
+    name = json['name'];
+    icNo = json['icNo'];
+    passportNo = json['passportNo'];
+    phoneCountryCode = json['phoneCountryCode'];
+    phone = json['phone'];
+    nationality = json['nationality'];
+    dateOfBirthString = json['dateOfBirthString'];
+    gender = json['gender'];
+    race = json['race'];
+    add1 = json['add1'];
+    add2 = json['add2'];
+    add3 = json['add3'];
+    postcode = json['postcode'];
+    city = json['city'];
+    state = json['state'];
+    country = json['country'];
+    email = json['email'];
+    signUpPwd = json['signUpPwd'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+    appCode = json['appCode'];
+    appId = json['appId'];
+    deviceId = json['deviceId'];
+    appVersion = json['appVersion'];
+    deviceRemark = json['deviceRemark'];
+    phDeviceId = json['phDeviceId'];
+    phLine1Number = json['phLine1Number'];
+    phNetOpName = json['phNetOpName'];
+    phPhoneType = json['phPhoneType'];
+    phSimSerialNo = json['phSimSerialNo'];
+    bdBoard = json['bdBoard'];
+    bdBrand = json['bdBrand'];
+    bdDevice = json['bdDevice'];
+    bdDisplay = json['bdDisplay'];
+    bdManufacturer = json['bdManufacturer'];
+    bdModel = json['bdModel'];
+    bdProduct = json['bdProduct'];
+    pfDeviceId = json['pfDeviceId'];
+    regId = json['regId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['wsCodeCrypt'] = this.wsCodeCrypt;
+    data['caUid'] = this.caUid;
+    data['caPwd'] = this.caPwd;
+    data['diCode'] = this.diCode;
+    data['userId'] = this.userId;
+    data['name'] = this.name;
+    data['icNo'] = this.icNo;
+    data['passportNo'] = this.passportNo;
+    data['phoneCountryCode'] = this.phoneCountryCode;
+    data['phone'] = this.phone;
+    data['nationality'] = this.nationality;
+    data['dateOfBirthString'] = this.dateOfBirthString;
+    data['gender'] = this.gender;
+    data['race'] = this.race;
+    data['add1'] = this.add1;
+    data['add2'] = this.add2;
+    data['add3'] = this.add3;
+    data['postcode'] = this.postcode;
+    data['city'] = this.city;
+    data['state'] = this.state;
+    data['country'] = this.country;
+    data['email'] = this.email;
+    data['signUpPwd'] = this.signUpPwd;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
+    data['appCode'] = this.appCode;
+    data['appId'] = this.appId;
+    data['deviceId'] = this.deviceId;
+    data['appVersion'] = this.appVersion;
+    data['deviceRemark'] = this.deviceRemark;
+    data['phDeviceId'] = this.phDeviceId;
+    data['phLine1Number'] = this.phLine1Number;
+    data['phNetOpName'] = this.phNetOpName;
+    data['phPhoneType'] = this.phPhoneType;
+    data['phSimSerialNo'] = this.phSimSerialNo;
+    data['bdBoard'] = this.bdBoard;
+    data['bdBrand'] = this.bdBrand;
+    data['bdDevice'] = this.bdDevice;
+    data['bdDisplay'] = this.bdDisplay;
+    data['bdManufacturer'] = this.bdManufacturer;
+    data['bdModel'] = this.bdModel;
+    data['bdProduct'] = this.bdProduct;
+    data['pfDeviceId'] = this.pfDeviceId;
+    data['regId'] = this.regId;
+    return data;
+  }
+}
+
+class SignUpArguments {
+  String phoneCountryCode;
+  String phone;
+  String verificationCode;
+
+  SignUpArguments({this.phoneCountryCode, this.phone, this.verificationCode});
 }

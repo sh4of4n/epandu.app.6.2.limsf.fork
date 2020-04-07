@@ -185,8 +185,10 @@
   "change_password_title": "Change your password",
   "new_password_lbl": "New Password",
   "new_password_required": "New password is required.",
-  "confirm_password_lbl": "Confirm New Password",
-  "confirm_password_required": "Confirm new password is required.",
+  "confirm_password": "Confirm password",
+  "confirm_password_required": "Confirm password is required.",
+  "confirm_new_password_lbl": "Confirm new password",
+  "confirm_new_password_required": "Confirm new password is required.",
   "password_same_msg": "New password is the same as current password.",
   "password_not_match_msg": "Passwords do not match.",
   "password_updated": "Password successfully updated.",
@@ -217,7 +219,7 @@
   "enroll_success": "Your enrollment is successful.",
   "enroll_fail": "Your enrollment is unsuccessful. Please try again later.",
   "ok_btn": "Ok",
-  "sign_up_btn": "SIGNUP",
+  "sign_up_btn": "SIGN UP",
   "go_back_lbl": "GO BACK",
   "next_btn": "NEXT",
   "prev_btn": "PREV",
@@ -261,5 +263,10 @@
   "account_deleted": "Your account has been deleted.",
   "account_delete_fail": "Failed to delete account. Please try again later.",
   "mobile_number": "Mobile number",
-  "enter_your_mobile_no": "Lets get started by entering your mobile number."
+  "enter_your_mobile_no": "Lets get started by entering your mobile number.",
+  "enter_verification": "SMS has been sent to your phone. Please enter your verification code.",
+  "verification_required": "Verification code is required.",
+  "verification_sent": "Verification code sent.",
+  "verification_send_fail": "Failed to send verification code. Please try again later.",
+  "incorrect_verification_code": "Verification code is incorrect."
 }

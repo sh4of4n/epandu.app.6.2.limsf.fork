@@ -2,6 +2,7 @@ import 'package:epandu/app_localizations.dart';
 import 'package:epandu/services/api/model/language_model.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/app_config.dart';
+import 'package:epandu/utils/device_info.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,11 @@ class _AuthenticationState extends State<Authentication> {
   final AppConfig appConfig = AppConfig();
   final LocalStorage localStorage = LocalStorage();
 
+  DeviceInfo deviceInfo = DeviceInfo();
+  // String deviceModel = '';
+  // String deviceVersion = '';
+  String deviceId = '';
+
   @override
   void initState() {
     super.initState();
@@ -26,6 +32,7 @@ class _AuthenticationState extends State<Authentication> {
     _getWsUrl();
     _setLocale();
     _checkExistingLogin();
+    _getDeviceInfo();
   }
 
   _getWsUrl() async {
@@ -67,6 +74,19 @@ class _AuthenticationState extends State<Authentication> {
     } else {
       Navigator.pushReplacementNamed(context, LOGIN);
     }
+  }
+
+  _getDeviceInfo() async {
+    // get device info
+    await deviceInfo.getDeviceInfo();
+
+    // deviceModel = deviceInfo.model;
+    // deviceVersion = deviceInfo.version;
+    deviceId = deviceInfo.id;
+
+    localStorage.saveDeviceId(deviceId);
+
+    // print('deviceId: ' + deviceId);
   }
 
   @override

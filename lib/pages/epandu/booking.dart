@@ -105,7 +105,7 @@ class _BookingState extends State<Booking> {
                         height: 1000.h,
                         child: Center(
                           child: SpinKitFoldingCube(
-                            color: primaryColor,
+                            color: Colors.blue,
                           ),
                         ),
                       );
