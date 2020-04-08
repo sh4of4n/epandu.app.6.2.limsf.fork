@@ -1,4 +1,6 @@
 New:
 - UI updates and enhancements
-- enrollment, classes, payment, attendance module improvements
+- New sign up module
+- Booking module updates
+- Merchant list UI/UX enhancements
 - Bug fixes
