@@ -1,4 +1,5 @@
 import 'package:epandu/services/api/model/language_model.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +57,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   AppLocalizationsDelegate _newLocaleDelegate;
   final localStorage = LocalStorage();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   void initState() {
@@ -64,6 +66,7 @@ class _MyAppState extends State<MyApp> {
     _newLocaleDelegate = AppLocalizationsDelegate(newLocale: null);
     application.onLocaleChanged = onLocaleChange;
     _loadSavedLocale();
+    _firebaseMessaging.requestNotificationPermissions();
   }
 
   void _loadSavedLocale() async {
