@@ -31,7 +31,6 @@ class _AuthenticationState extends State<Authentication> {
 
     _getWsUrl();
     _setLocale();
-    _checkExistingLogin();
     _getDeviceInfo();
   }
 
@@ -44,14 +43,16 @@ class _AuthenticationState extends State<Authentication> {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 
-    if (wsUrl == null) {
-      await authRepo.getWsUrl(
-        context: context,
-        acctUid: caUid,
-        acctPwd: caPwd,
-        loginType: appConfig.wsCodeCrypt,
-      );
-    }
+    // if (wsUrl == null) {
+    await authRepo.getWsUrl(
+      context: context,
+      acctUid: caUid,
+      acctPwd: caPwd,
+      loginType: appConfig.wsCodeCrypt,
+    );
+    // }
+
+    _checkExistingLogin();
   }
 
   _setLocale() async {

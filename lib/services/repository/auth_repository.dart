@@ -772,7 +772,7 @@ class AuthRepo {
     String caPwd = await localStorage.getCaPwdEncode();
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&phoneCountryCode=$phoneCountryCode&phone=$phone';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&phoneCountryCode=${Uri.encodeQueryComponent(phoneCountryCode)}&phone=$phone';
 
     var response = await networking.getData(
       path: 'RequestVerificationCode?$path',
@@ -785,8 +785,9 @@ class AuthRepo {
     }
 
     return Response(false,
-        message:
-            AppLocalizations.of(context).translate('verification_send_fail'));
+        message: response.message.toString().isNotEmpty
+            ? response.message
+            : AppLocalizations.of(context).translate('verification_send_fail'));
   }
 
   Future<Response> register({
