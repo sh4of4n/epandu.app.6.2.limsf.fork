@@ -4,7 +4,6 @@ import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart';
 import 'package:quiver/async.dart';
 
 import '../../app_localizations.dart';
@@ -31,8 +30,8 @@ class _RegisterVerificationState extends State<RegisterVerification> {
   bool _isLoading = false;
   bool _resend = false;
 
-  int _time = 10;
-  int _current = 10;
+  int _time = 60;
+  int _current = 60;
   String convertedCountdown = '';
   var timer;
 
@@ -55,6 +54,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
 
       if (result.isSuccess) {
         setState(() {
+          _correctVerificationCode = result.data.toString();
           _resend = true;
           _message = result.message;
           _messageStyle = TextStyle(color: Colors.green);
@@ -86,8 +86,8 @@ class _RegisterVerificationState extends State<RegisterVerification> {
     timer.onDone(() {
       setState(() {
         _resend = false;
-        _time = 10;
-        _current = 10;
+        _time = 60;
+        _current = 60;
       });
 
       timer.cancel();

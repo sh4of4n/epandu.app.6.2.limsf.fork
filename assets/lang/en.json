@@ -66,7 +66,7 @@
   "email_required_lbl": "Email*",
   "email_required_msg": "Email is required.",
   "registered_lbl": "Number is already registered.",
-  "register_success": "You are now registered, you will receive a SMS notification.",
+  "register_success": "You are now registered.",
   "register_error": "Registration failed, please try again later.",
   "select_di_desc": "Select your driving institute",
   "hello_lbl": "Hello,",

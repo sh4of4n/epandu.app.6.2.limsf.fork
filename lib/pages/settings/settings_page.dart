@@ -178,13 +178,13 @@ class _SettingsState extends State<Settings> {
   }
 
   _deleteAccount() async {
+    Navigator.pop(context);
+
     var result = await authRepo.deleteAppMemberAccount(context: context);
 
     if (result.isSuccess) {
       Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
     } else {
-      Navigator.pop(context);
-
       customDialog.show(
         context: context,
         type: DialogType.ERROR,

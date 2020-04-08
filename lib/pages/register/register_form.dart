@@ -1,7 +1,9 @@
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/base/page_base_class.dart';
+import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/custom_snackbar.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
@@ -20,7 +22,7 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   final authRepo = AuthRepo();
-  final customSnackbar = CustomSnackbar();
+  final customDialog = CustomDialog();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -33,16 +35,19 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   final primaryColor = ColorConstant.primaryColor;
 
   final localStorage = LocalStorage();
+  Location location = Location();
 
   bool _isLoading = false;
   final image = ImagesConstant();
 
-  String _phone;
-  String _name;
-  String _email;
-  String _password;
-  String _confirmPassword;
+  String _phone = '';
+  String _name = '';
+  String _email = '';
+  String _password = '';
+  String _confirmPassword = '';
   String _message = '';
+  String _latitude = '';
+  String _longitude = '';
 
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
@@ -54,6 +59,19 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
     setState(() {
       _phone = widget.data.phoneCountryCode + widget.data.phone;
     });
+
+    _getCurrentLocation();
+  }
+
+  _getCurrentLocation() async {
+    await location.getCurrentLocation();
+
+    setState(() {
+      _latitude = location.latitude.toString();
+      _longitude = location.longitude.toString();
+    });
+
+    // print('$_latitude, $_longitude');
   }
 
   @override
@@ -347,25 +365,33 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
           context: context,
           countryCode: widget.data.phoneCountryCode,
           phone: widget.data.phone,
-          userId: 'TBS',
           name: _name,
           signUpPwd: _password,
           email: _email,
+          latitude: _latitude,
+          longitude: _longitude,
         );
 
         if (result.isSuccess) {
-          Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
-          customSnackbar.show(
-            context,
-            message: result.message.toString(),
-            type: MessageType.SUCCESS,
-            duration: 3000,
+          customDialog.show(
+            context: context,
+            content: result.message.toString(),
+            barrierDismissable: false,
+            customActions: <Widget>[
+              FlatButton(
+                child: Text(AppLocalizations.of(context).translate('ok_btn')),
+                onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                    context, LOGIN, (r) => false),
+              ),
+            ],
+            type: DialogType.GENERAL,
           );
         } else {
-          customSnackbar.show(
-            context,
-            message: result.message.toString(),
-            type: MessageType.ERROR,
+          customDialog.show(
+            context: context,
+            content: result.message.toString(),
+            onPressed: () => Navigator.pop(context),
+            type: DialogType.ERROR,
           );
         }
 
