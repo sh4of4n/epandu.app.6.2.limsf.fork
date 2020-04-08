@@ -182,6 +182,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                       ),
                       TextFormField(
                         focusNode: _emailFocus,
+                        textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(vertical: -10.h),
                           hintStyle: TextStyle(
@@ -211,6 +212,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                       ),
                       TextFormField(
                         focusNode: _passwordFocus,
+                        textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(vertical: -10.h),
                           hintStyle: TextStyle(color: primaryColor),
@@ -375,6 +377,13 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
         if (result.isSuccess) {
           customDialog.show(
             context: context,
+            title: Center(
+              child: Icon(
+                Icons.check_circle_outline,
+                color: Colors.green,
+                size: 120,
+              ),
+            ),
             content: result.message.toString(),
             barrierDismissable: false,
             customActions: <Widget>[

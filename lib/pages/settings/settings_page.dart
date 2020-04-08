@@ -6,6 +6,8 @@ import 'package:epandu/utils/language_options.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import '../../app_localizations.dart';
@@ -28,6 +30,8 @@ class _SettingsState extends State<Settings> {
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
 
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -45,110 +49,132 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        color: Colors.white,
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-      margin: EdgeInsets.all(12.0),
-      child: ListView(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        children: <Widget>[
-          ListTile(
-            leading: Icon(Icons.language, size: _defIconSize),
-            title: Consumer<LanguageModel>(
-              builder: (context, lang, child) {
-                return Text(
-                  '${AppLocalizations.of(context).translate('language_lbl')} ${lang.language}',
-                );
-              },
-            ),
-            onTap: () {
-              // Navigator.pop(context);
-              return showModalBottomSheet(
-                context: context,
-                builder: (BuildContext context) {
-                  return LanguageOptions();
+    return Stack(
+      children: <Widget>[
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            color: Colors.white,
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+          margin: EdgeInsets.all(12.0),
+          child: ListView(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.language, size: _defIconSize),
+                title: Consumer<LanguageModel>(
+                  builder: (context, lang, child) {
+                    return Text(
+                      '${AppLocalizations.of(context).translate('language_lbl')} ${lang.language}',
+                    );
+                  },
+                ),
+                onTap: () {
+                  // Navigator.pop(context);
+                  return showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return LanguageOptions();
+                    },
+                  );
                 },
-              );
-            },
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.lock, size: _defIconSize),
-            title: Text(
-                AppLocalizations.of(context).translate('change_password_lbl')),
-            onTap: () {
-              Navigator.pushNamed(context, CHANGE_PASSWORD);
-            },
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.exit_to_app, size: _defIconSize),
-            title: Text(AppLocalizations.of(context).translate('logout_lbl')),
-            onTap: _logout,
-          ),
-          Divider(),
-          ListTile(
-            onTap: () async {
-              count += 1;
-
-              if (count == 4) {
-                customDialog.show(
-                  context: context,
-                  title: Text(
-                      AppLocalizations.of(context).translate('delete_account')),
-                  content: AppLocalizations.of(context)
-                      .translate('confirm_delete_account'),
-                  customActions: <Widget>[
-                    FlatButton(
-                      child: Text(
-                          AppLocalizations.of(context).translate('yes_lbl')),
-                      onPressed: _deleteAccount,
-                    ),
-                    FlatButton(
-                      child: Text(
-                          AppLocalizations.of(context).translate('no_lbl')),
-                      onPressed: () {
-                        count = 0;
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                  type: DialogType.GENERAL,
-                  barrierDismissable: true,
-                );
-              }
-            },
-            leading: Icon(Icons.apps, size: _defIconSize),
-            title: Text(AppLocalizations.of(context).translate('version_lbl')),
-            subtitle: Text('V.$appVersion'),
-            /* onTap: () async {
+              ),
+              Divider(),
+              ListTile(
+                leading: Icon(Icons.lock, size: _defIconSize),
+                title: Text(AppLocalizations.of(context)
+                    .translate('change_password_lbl')),
+                onTap: () {
+                  Navigator.pushNamed(context, CHANGE_PASSWORD);
+                },
+              ),
+              Divider(),
+              ListTile(
+                leading: Icon(Icons.exit_to_app, size: _defIconSize),
+                title:
+                    Text(AppLocalizations.of(context).translate('logout_lbl')),
+                onTap: _logout,
+              ),
+              Divider(),
+              ListTile(
+                onTap: () async {
                   count += 1;
 
                   if (count == 4) {
                     customDialog.show(
-                      barrierDismissable: false,
                       context: context,
-                      title: AppLocalizations.of(context)
-                          .translate('client_acc_title'),
+                      title: Text(AppLocalizations.of(context)
+                          .translate('delete_account')),
                       content: AppLocalizations.of(context)
-                          .translate('client_acc_desc'),
-                      type: DialogType.SUCCESS,
-                      onPressed: () async {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, CLIENT_ACC, (r) => false,
-                            arguments: 'SETTINGS');
-                        await authRepo.logout();
-                      },
+                          .translate('confirm_delete_account'),
+                      customActions: <Widget>[
+                        FlatButton(
+                          child: Text(AppLocalizations.of(context)
+                              .translate('yes_lbl')),
+                          onPressed: _deleteAccount,
+                        ),
+                        FlatButton(
+                          child: Text(
+                              AppLocalizations.of(context).translate('no_lbl')),
+                          onPressed: () {
+                            count = 0;
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                      type: DialogType.GENERAL,
+                      barrierDismissable: true,
                     );
                   }
-                }, */
+                },
+                leading: Icon(Icons.apps, size: _defIconSize),
+                title:
+                    Text(AppLocalizations.of(context).translate('version_lbl')),
+                subtitle: Text('V.$appVersion'),
+                /* onTap: () async {
+                    count += 1;
+
+                    if (count == 4) {
+                      customDialog.show(
+                        barrierDismissable: false,
+                        context: context,
+                        title: AppLocalizations.of(context)
+                            .translate('client_acc_title'),
+                        content: AppLocalizations.of(context)
+                            .translate('client_acc_desc'),
+                        type: DialogType.SUCCESS,
+                        onPressed: () async {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, CLIENT_ACC, (r) => false,
+                              arguments: 'SETTINGS');
+                          await authRepo.logout();
+                        },
+                      );
+                    }
+                  }, */
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+        Visibility(
+          visible: _isLoading,
+          child: Opacity(
+            opacity: 0.7,
+            child: Container(
+              color: Colors.grey[900],
+              width: ScreenUtil.screenWidthDp,
+              height: ScreenUtil.screenHeightDp,
+              child: Center(
+                child: SpinKitFoldingCube(
+                  color: primaryColor,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -179,6 +205,10 @@ class _SettingsState extends State<Settings> {
 
   _deleteAccount() async {
     Navigator.pop(context);
+
+    setState(() {
+      _isLoading = true;
+    });
 
     var result = await authRepo.deleteAppMemberAccount(context: context);
 
