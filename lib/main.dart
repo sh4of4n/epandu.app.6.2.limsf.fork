@@ -92,6 +92,7 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         _homeScreenText = "Push Messaging token: $token";
       });
+      // Hive.box('ws_url').put('push_token', token);
       print(_homeScreenText);
     });
 
