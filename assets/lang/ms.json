@@ -268,5 +268,9 @@
   "verification_required": "Kod pengesahan diperlukan.",
   "verification_sent": "Kod pengesahan telah dihantar.",
   "verification_send_fail": "Gagal menghantar kod pengesahan. Sila cuba sebentar lagi.",
-  "incorrect_verification_code": "Kod pengesahan tidak betul."
+  "incorrect_verification_code": "Kod pengesahan tidak betul.",
+  "no_booking": "Anda tidak ada tempahan.",
+  "products": "Produk",
+  "location_map": "Peta Lokasi",
+  "review": "Tinjauan"
 }

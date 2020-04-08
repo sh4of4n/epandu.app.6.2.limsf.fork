@@ -62,12 +62,15 @@ class VclubRepo {
     keywordSearch,
     startIndex,
     noOfRecords,
+    latitude,
+    longitude,
+    maxRadius,
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantType=$merchantType&keywordSearch=$keywordSearch&startIndex=$startIndex&noOfRecords=$noOfRecords';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantType=$merchantType&keywordSearch=$keywordSearch&startIndex=$startIndex&noOfRecords=$noOfRecords&latitude=$latitude&longitude=$longitude&maxRadius=$maxRadius';
 
     var response = await networking.getData(
       path: 'GetMerchant?$path',

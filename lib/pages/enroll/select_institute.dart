@@ -99,7 +99,6 @@ class _SelectInstituteState extends State<SelectInstitute> {
                         context,
                         SELECT_CLASS,
                         arguments: EnrollmentData(
-                          phoneCountryCode: widget.data.phoneCountryCode,
                           icNo: widget.data.icNo,
                           name: widget.data.name,
                           email: widget.data.email,

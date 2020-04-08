@@ -54,7 +54,8 @@ class _ProfileState extends State<Profile> {
   _getUserInfo() async {
     String _getName = await localStorage.getUsername();
     String _getEmail = await localStorage.getEmail();
-    String _getPhone = await localStorage.getUserPhone();
+    String _getPhone =
+        await localStorage.getCountryCode() + await localStorage.getUserPhone();
     // String _getNationality = await localStorage.getNationality();
     // String _getGender = await localStorage.getGender();
     // String _getStudentIc = await localStorage.getStudentIc();

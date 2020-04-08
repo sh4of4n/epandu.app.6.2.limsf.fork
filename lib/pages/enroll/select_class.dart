@@ -362,7 +362,6 @@ class _SelectClassState extends State<SelectClass> {
 
     var result = await authRepo.saveEnrollmentWithParticular(
       context: context,
-      phoneCountryCode: widget.data.phoneCountryCode,
       diCode: widget.data.diCode,
       icNo: widget.data.icNo,
       name: widget.data.name,

@@ -111,7 +111,12 @@ class _BookingState extends State<Booking> {
                       );
                     case ConnectionState.done:
                       if (snapshot.data is String) {
-                        return Text(snapshot.data);
+                        return Container(
+                          height: 1000.h,
+                          child: Center(
+                            child: Text(snapshot.data),
+                          ),
+                        );
                       }
                       return Column(
                         children: <Widget>[

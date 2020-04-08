@@ -57,7 +57,7 @@ class _BillDetailState extends State<BillDetail> {
   }
 
   _getValues() async {
-    // String kUserPhone = await localStorage.getUserPhone();
+    // String kUserPhone = await localStorage.getCountryCode() + await localStorage.getUserPhone();
 
     // _accountController.text = kUserPhone;
     _amountController.text = _amount;

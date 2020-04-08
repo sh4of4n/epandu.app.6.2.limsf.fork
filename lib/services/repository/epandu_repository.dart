@@ -162,7 +162,7 @@ class EpanduRepo {
     String caPwd = await localStorage.getCaPwdEncode();
 
     //  Temporarily use TBS as diCode
-    String diCode = 'TBS';
+    String diCode = await localStorage.getDiCode();
     // String diCode = await localStorage.getDiCode();
     // String groupId = await localStorage.getEnrolledGroupId();
     String icNo = await localStorage.getStudentIc();
@@ -199,7 +199,7 @@ class EpanduRepo {
     }
 
     return Response(false,
-        message: AppLocalizations.of(context).translate('no_attendance_desc'));
+        message: AppLocalizations.of(context).translate('no_booking'));
   }
 
   // booking

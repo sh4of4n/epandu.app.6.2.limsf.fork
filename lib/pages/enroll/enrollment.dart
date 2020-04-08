@@ -832,7 +832,6 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
 
           Navigator.pushNamed(context, SELECT_INSTITUTE,
               arguments: EnrollmentData(
-                phoneCountryCode: _countryCode,
                 icNo: _icNo.replaceAll('-', ''),
                 name: _icName,
                 email: _email,
@@ -891,7 +890,6 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     } else {
       Navigator.pushNamed(context, SELECT_INSTITUTE,
           arguments: EnrollmentData(
-            phoneCountryCode: _countryCode,
             icNo: _icNo.replaceAll('-', ''),
             name: _icName,
             email: _email,

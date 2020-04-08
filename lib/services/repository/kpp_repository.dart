@@ -23,7 +23,8 @@ class KppRepo {
 
     String userId = await localStorage.getUserId();
     String diCode = await localStorage.getDiCode();
-    String userPhone = await localStorage.getUserPhone();
+    String userPhone =
+        await localStorage.getCountryCode() + await localStorage.getUserPhone();
     String phone = userPhone.substring(2);
 
     String path =
@@ -115,7 +116,8 @@ class KppRepo {
     String caPwd = await localStorage.getCaPwd();
     String userId = await localStorage.getUserId();
     String diCode = await localStorage.getDiCode();
-    String userPhone = await localStorage.getUserPhone();
+    String userPhone =
+        await localStorage.getCountryCode() + await localStorage.getUserPhone();
 
     PinRequest pinRequest = PinRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,

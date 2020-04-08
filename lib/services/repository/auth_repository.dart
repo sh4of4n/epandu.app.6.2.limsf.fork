@@ -196,8 +196,8 @@ class AuthRepo {
       var responseData = userRegisteredDiResponse.armaster;
 
       localStorage.saveUsername(responseData[0].name);
-      localStorage.saveUserPhone(
-          responseData[0].phoneCountryCode + responseData[0].phone);
+      localStorage.saveCountryCode(responseData[0].phoneCountryCode);
+      localStorage.saveUserPhone(responseData[0].phone);
       localStorage.saveEmail(responseData[0].eMail);
       localStorage.saveNationality(responseData[0].nationality);
       localStorage.saveGender(responseData[0].gender);
@@ -659,6 +659,7 @@ class AuthRepo {
     String caPwd = await localStorage.getCaPwd();
 
     String userId = await localStorage.getUserId();
+    String phoneCountryCode = await localStorage.getCountryCode();
     String phone = await localStorage.getUserPhone();
 
     SaveEnrollmentRequest saveEnrollmentRequest = SaveEnrollmentRequest(
@@ -671,7 +672,7 @@ class AuthRepo {
       name: name,
       nationality: nationality,
       phoneCountryCode: phoneCountryCode,
-      phone: phone.replaceAll('+60', ''),
+      phone: phone,
       dateOfBirthString: dateOfBirthString,
       gender: gender,
       race: race,

@@ -83,7 +83,6 @@ class MerchantType {
 }
 
 // GetMerchantResponse
-
 class GetMerchantResponse {
   List<Merchant> merchant;
 
@@ -117,7 +116,9 @@ class Merchant {
   String name;
   String shortName;
   String category;
+  String merchantIcon;
   String merchantIconFilename;
+  String merchantProfilePhoto;
   String merchantProfilePhotoFilename;
   String coMap;
   String webSite;
@@ -147,8 +148,13 @@ class Merchant {
   String indCode;
   String merchantApplicationStatus;
   String merchantStatus;
+  String joinDate;
+  String expiryDate;
   String dbcode;
   String coIntro;
+  String businessHour;
+  String businessDay;
+  String agentCode;
   String homeBanner;
   String coOverview;
   String businessInfo;
@@ -158,9 +164,13 @@ class Merchant {
   String editUser;
   String editDate;
   String deleted;
+  String rowKey;
   String transtamp;
+  String cityName;
   String lastEditedBy;
   String createdBy;
+  String distance;
+  String isEmpty;
 
   Merchant(
       {this.iD,
@@ -172,7 +182,9 @@ class Merchant {
       this.name,
       this.shortName,
       this.category,
+      this.merchantIcon,
       this.merchantIconFilename,
+      this.merchantProfilePhoto,
       this.merchantProfilePhotoFilename,
       this.coMap,
       this.webSite,
@@ -202,8 +214,13 @@ class Merchant {
       this.indCode,
       this.merchantApplicationStatus,
       this.merchantStatus,
+      this.joinDate,
+      this.expiryDate,
       this.dbcode,
       this.coIntro,
+      this.businessHour,
+      this.businessDay,
+      this.agentCode,
       this.homeBanner,
       this.coOverview,
       this.businessInfo,
@@ -213,9 +230,13 @@ class Merchant {
       this.editUser,
       this.editDate,
       this.deleted,
+      this.rowKey,
       this.transtamp,
+      this.cityName,
       this.lastEditedBy,
-      this.createdBy});
+      this.createdBy,
+      this.distance,
+      this.isEmpty});
 
   Merchant.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
@@ -227,7 +248,9 @@ class Merchant {
     name = json['name'];
     shortName = json['short_name'];
     category = json['category'];
+    merchantIcon = json['merchant_icon'];
     merchantIconFilename = json['merchant_icon_filename'];
+    merchantProfilePhoto = json['merchant_profile_photo'];
     merchantProfilePhotoFilename = json['merchant_profile_photo_filename'];
     coMap = json['co_map'];
     webSite = json['web_site'];
@@ -257,8 +280,13 @@ class Merchant {
     indCode = json['ind_code'];
     merchantApplicationStatus = json['merchant_application_status'];
     merchantStatus = json['merchant_status'];
+    joinDate = json['join_date'];
+    expiryDate = json['expiry_date'];
     dbcode = json['dbcode'];
     coIntro = json['co_intro'];
+    businessHour = json['business_hour'];
+    businessDay = json['business_day'];
+    agentCode = json['agent_code'];
     homeBanner = json['home_banner'];
     coOverview = json['co_overview'];
     businessInfo = json['business_Info'];
@@ -268,9 +296,13 @@ class Merchant {
     editUser = json['edit_user'];
     editDate = json['edit_date'];
     deleted = json['deleted'];
+    rowKey = json['row_key'];
     transtamp = json['transtamp'];
+    cityName = json['city_name'];
     lastEditedBy = json['last_edited_by'];
     createdBy = json['created_by'];
+    distance = json['distance'];
+    isEmpty = json['isEmpty'];
   }
 
   Map<String, dynamic> toJson() {
@@ -284,7 +316,9 @@ class Merchant {
     data['name'] = this.name;
     data['short_name'] = this.shortName;
     data['category'] = this.category;
+    data['merchant_icon'] = this.merchantIcon;
     data['merchant_icon_filename'] = this.merchantIconFilename;
+    data['merchant_profile_photo'] = this.merchantProfilePhoto;
     data['merchant_profile_photo_filename'] = this.merchantProfilePhotoFilename;
     data['co_map'] = this.coMap;
     data['web_site'] = this.webSite;
@@ -314,8 +348,13 @@ class Merchant {
     data['ind_code'] = this.indCode;
     data['merchant_application_status'] = this.merchantApplicationStatus;
     data['merchant_status'] = this.merchantStatus;
+    data['join_date'] = this.joinDate;
+    data['expiry_date'] = this.expiryDate;
     data['dbcode'] = this.dbcode;
     data['co_intro'] = this.coIntro;
+    data['business_hour'] = this.businessHour;
+    data['business_day'] = this.businessDay;
+    data['agent_code'] = this.agentCode;
     data['home_banner'] = this.homeBanner;
     data['co_overview'] = this.coOverview;
     data['business_Info'] = this.businessInfo;
@@ -325,9 +364,13 @@ class Merchant {
     data['edit_user'] = this.editUser;
     data['edit_date'] = this.editDate;
     data['deleted'] = this.deleted;
+    data['row_key'] = this.rowKey;
     data['transtamp'] = this.transtamp;
+    data['city_name'] = this.cityName;
     data['last_edited_by'] = this.lastEditedBy;
     data['created_by'] = this.createdBy;
+    data['distance'] = this.distance;
+    data['isEmpty'] = this.isEmpty;
     return data;
   }
 }

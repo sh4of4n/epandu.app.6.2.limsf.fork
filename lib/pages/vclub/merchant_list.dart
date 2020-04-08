@@ -1,6 +1,8 @@
+import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repository/vclub_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../app_localizations.dart';
 import 'merchant_card.dart';
 import 'package:flutter/material.dart';
@@ -19,16 +21,40 @@ class MerchantList extends StatefulWidget {
 class _MerchantListState extends State<MerchantList> {
   final primaryColor = ColorConstant.primaryColor;
   final vClubRepo = VclubRepo();
+  Location location = Location();
 
   final image = ImagesConstant();
 
-  Future _getMerchantList;
+  String _message = '';
+  bool _isLoading = true;
+  int _startIndex = 0;
+  List<dynamic> items = [];
+
+  ScrollController _scrollController = new ScrollController();
 
   @override
   void initState() {
     super.initState();
 
-    _getMerchantList = _getMerchant();
+    _getCurrentLocation();
+
+    _scrollController
+      ..addListener(() {
+        if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+          setState(() {
+            _startIndex += 10;
+          });
+
+          if (_message.isEmpty) _getMerchant();
+        }
+      });
+  }
+
+  _getCurrentLocation() async {
+    await location.getCurrentLocation();
+
+    _getMerchant();
   }
 
   _getMerchant() async {
@@ -36,14 +62,40 @@ class _MerchantListState extends State<MerchantList> {
       context: context,
       keywordSearch: '',
       merchantType: widget.merchantType,
-      startIndex: -1,
-      noOfRecords: -1,
+      startIndex: _startIndex,
+      noOfRecords: 10,
+      latitude:
+          location.latitude != null ? location.latitude.toString() : '999',
+      longitude:
+          location.longitude != null ? location.longitude.toString() : '999',
+      maxRadius: 30,
     );
 
     if (result.isSuccess) {
-      return result.data;
+      if (result.data.length > 0) if (mounted)
+        setState(() {
+          for (int i = 0; i < result.data.length; i += 1) {
+            items.add(result.data[i]);
+          }
+        });
+      else if (mounted)
+        setState(() {
+          _isLoading = false;
+        });
+    } else {
+      if (mounted)
+        setState(() {
+          _message = result.message;
+          _isLoading = false;
+        });
     }
-    return result.message;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _scrollController.dispose();
   }
 
   @override
@@ -80,49 +132,81 @@ class _MerchantListState extends State<MerchantList> {
                   ),
                 ),
               ),
-              FutureBuilder(
-                  future: _getMerchantList,
-                  builder:
-                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.waiting:
-                        return Expanded(
-                          child: SpinKitFoldingCube(
-                            color: Colors.blue,
-                          ),
-                        );
-                      case ConnectionState.done:
-                        if (snapshot.data is String)
-                          return Expanded(
-                              child: Center(child: Text(snapshot.data)));
-                        return Expanded(
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return MerchantCard(
-                                name: snapshot.data[index].name ?? '',
-                                desc: snapshot.data[index].merchantDesc ?? '',
-                                imageLink:
-                                    snapshot.data[index].merchantIconFilename ??
-                                        '',
-                              );
-                            },
-                          ),
-                        );
-                      default:
-                        return Expanded(
-                          child: Center(
-                            child: Text(
-                              AppLocalizations.of(context)
-                                  .translate('get_merchant_list_fail'),
-                            ),
-                          ),
-                        );
-                    }
-                  }),
+              _merchantList(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  _merchantList() {
+    if (items.length == 0 && _message.isNotEmpty) {
+      return Expanded(
+        child: Center(
+          child: Text(_message),
+        ),
+      );
+    } else if (items.length > 0) {
+      return Expanded(
+        child: ListView(
+          shrinkWrap: true,
+          controller: _scrollController,
+          children: <Widget>[
+            for (var item in items)
+              MerchantCard(
+                name: item.name ?? '',
+                desc: item.merchantDesc ?? '',
+                imageLink: item.merchantIconFilename ?? '',
+                cityName: item.cityName ?? '',
+                distance: item.distance != null
+                    ? double.tryParse(item.distance).toStringAsFixed(2)
+                    : '',
+                businessHours: item.businessHour ?? '',
+                businessDay: item.businessDay ?? '',
+              ),
+            if (_isLoading)
+              Shimmer.fromColors(
+                baseColor: Colors.grey[300],
+                highlightColor: Colors.white,
+                child: Container(
+                  width: ScreenUtil().setWidth(1400),
+                  height: ScreenUtil().setHeight(600),
+                  color: Colors.grey[300],
+                ),
+              ),
+          ],
+        ),
+      );
+    }
+    return _loadingShimmer();
+  }
+
+  _loadingShimmer({int length}) {
+    return Expanded(
+      child: Container(
+        alignment: Alignment.topCenter,
+        child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: length ?? 4,
+          itemBuilder: (BuildContext context, int index) {
+            return Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(bottom: 20.h),
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey[300],
+                    highlightColor: Colors.white,
+                    child: Container(
+                      width: ScreenUtil().setWidth(1400),
+                      height: ScreenUtil().setHeight(600),
+                      color: Colors.grey[300],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

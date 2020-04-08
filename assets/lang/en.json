@@ -268,5 +268,9 @@
   "verification_required": "Verification code is required.",
   "verification_sent": "Verification code sent.",
   "verification_send_fail": "Failed to send verification code. Please try again later.",
-  "incorrect_verification_code": "Verification code is incorrect."
+  "incorrect_verification_code": "Verification code is incorrect.",
+  "no_booking": "You have no booking.",
+  "products": "Products",
+  "location_map": "Location Map",
+  "review": "Review"
 }

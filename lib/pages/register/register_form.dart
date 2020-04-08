@@ -67,8 +67,10 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
     await location.getCurrentLocation();
 
     setState(() {
-      _latitude = location.latitude.toString();
-      _longitude = location.longitude.toString();
+      _latitude =
+          location.latitude != null ? location.latitude.toString() : '999';
+      _longitude =
+          location.longitude != null ? location.longitude.toString() : '999';
     });
 
     // print('$_latitude, $_longitude');
@@ -182,6 +184,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                       ),
                       TextFormField(
                         focusNode: _emailFocus,
+                        keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(vertical: -10.h),

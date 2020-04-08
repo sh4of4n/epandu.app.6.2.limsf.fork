@@ -56,7 +56,8 @@ class _AirtimeBillDetailState extends State<AirtimeBillDetail> {
   }
 
   _getValues() async {
-    String kUserPhone = await localStorage.getUserPhone();
+    String kUserPhone =
+        await localStorage.getCountryCode() + await localStorage.getUserPhone();
 
     _phoneController.text = kUserPhone;
     _amountController.text = _amount;

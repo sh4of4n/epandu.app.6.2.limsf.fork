@@ -8,6 +8,7 @@ class LocalStorage {
   static const String kCaPwdEncode = 'CAPWD_ENCODE';
   static const String kUserId = 'USER_ID';
   static const String kUsername = 'USERNAME';
+  static const String kCountryCode = 'COUNTRY_CODE';
   static const String kUserPhone = 'USER_PHONE';
   static const String kEmail = 'EMAIL';
   static const String kDiCode = 'DI_CODE';
@@ -81,6 +82,14 @@ class LocalStorage {
 
   Future<String> getUsername() async {
     return Preference.getString(kUsername, def: '');
+  }
+
+  Future<void> saveCountryCode(String countryCode) {
+    return Preference.setString(kCountryCode, countryCode);
+  }
+
+  Future<String> getCountryCode() async {
+    return Preference.getString(kCountryCode, def: '');
   }
 
   Future<void> saveUserPhone(String userPhone) {
@@ -236,6 +245,7 @@ class LocalStorage {
     // await Preference.remove(kServerType);
     await Preference.remove(kUserId);
     await Preference.remove(kUsername);
+    await Preference.remove(kCountryCode);
     await Preference.remove(kUserPhone);
     await Preference.remove(kEmail);
     await Preference.remove(kDiCode);

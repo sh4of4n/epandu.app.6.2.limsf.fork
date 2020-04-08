@@ -21,6 +21,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
   final primaryColor = ColorConstant.primaryColor;
   final image = ImagesConstant();
 
+  // hardcode +60 for now
   String _countryCode = '+60';
   String _phone = '';
   String _name = '';
