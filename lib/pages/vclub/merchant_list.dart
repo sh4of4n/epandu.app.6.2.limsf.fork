@@ -1,9 +1,7 @@
 import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repository/vclub_repository.dart';
 import 'package:epandu/utils/constants.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../app_localizations.dart';
 import 'merchant_card.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -118,8 +116,8 @@ class _MerchantListState extends State<MerchantList> {
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
-        body: Container(
-          height: ScreenUtil.screenHeightDp,
+        body: SingleChildScrollView(
+          controller: _scrollController,
           child: Column(
             children: <Widget>[
               Padding(
@@ -142,72 +140,66 @@ class _MerchantListState extends State<MerchantList> {
 
   _merchantList() {
     if (items.length == 0 && _message.isNotEmpty) {
-      return Expanded(
-        child: Center(
-          child: Text(_message),
-        ),
+      return Center(
+        child: Text(_message),
       );
     } else if (items.length > 0) {
-      return Expanded(
-        child: ListView(
-          shrinkWrap: true,
-          controller: _scrollController,
-          children: <Widget>[
-            for (var item in items)
-              MerchantCard(
-                name: item.name ?? '',
-                desc: item.merchantDesc ?? '',
-                imageLink: item.merchantIconFilename ?? '',
-                cityName: item.cityName ?? '',
-                distance: item.distance != null
-                    ? double.tryParse(item.distance).toStringAsFixed(2)
-                    : '',
-                businessHours: item.businessHour ?? '',
-                businessDay: item.businessDay ?? '',
+      return ListView(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        children: <Widget>[
+          for (var item in items)
+            MerchantCard(
+              name: item.name ?? '',
+              desc: item.merchantDesc ?? '',
+              imageLink: item.merchantIconFilename ?? '',
+              cityName: item.cityName ?? '',
+              distance: item.distance != null
+                  ? double.tryParse(item.distance).toStringAsFixed(2)
+                  : '',
+              businessHours: item.businessHour ?? '',
+              businessDay: item.businessDay ?? '',
+            ),
+          if (_isLoading)
+            Shimmer.fromColors(
+              baseColor: Colors.grey[300],
+              highlightColor: Colors.white,
+              child: Container(
+                width: ScreenUtil().setWidth(1400),
+                height: ScreenUtil().setHeight(600),
+                color: Colors.grey[300],
               ),
-            if (_isLoading)
-              Shimmer.fromColors(
-                baseColor: Colors.grey[300],
-                highlightColor: Colors.white,
-                child: Container(
-                  width: ScreenUtil().setWidth(1400),
-                  height: ScreenUtil().setHeight(600),
-                  color: Colors.grey[300],
-                ),
-              ),
-          ],
-        ),
+            ),
+        ],
       );
     }
     return _loadingShimmer();
   }
 
   _loadingShimmer({int length}) {
-    return Expanded(
-      child: Container(
-        alignment: Alignment.topCenter,
-        child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: length ?? 4,
-          itemBuilder: (BuildContext context, int index) {
-            return Column(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(bottom: 20.h),
-                  child: Shimmer.fromColors(
-                    baseColor: Colors.grey[300],
-                    highlightColor: Colors.white,
-                    child: Container(
-                      width: ScreenUtil().setWidth(1400),
-                      height: ScreenUtil().setHeight(600),
-                      color: Colors.grey[300],
-                    ),
+    return Container(
+      alignment: Alignment.topCenter,
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: length ?? 4,
+        itemBuilder: (BuildContext context, int index) {
+          return Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(bottom: 20.h),
+                child: Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.white,
+                  child: Container(
+                    width: ScreenUtil().setWidth(1400),
+                    height: ScreenUtil().setHeight(600),
+                    color: Colors.grey[300],
                   ),
                 ),
-              ],
-            );
-          },
-        ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

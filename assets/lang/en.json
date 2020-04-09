@@ -66,8 +66,8 @@
   "email_required_lbl": "Email*",
   "email_required_msg": "Email is required.",
   "registered_lbl": "Number is already registered.",
-  "register_success": "You are now registered.",
-  "register_error": "Registration failed, please try again later.",
+  "register_success": "You are now signed up.",
+  "register_error": "Sign up failed, please try again later.",
   "select_di_desc": "Select your driving institute",
   "hello_lbl": "Hello,",
   "feeds_lbl": "Feeds",
@@ -272,5 +272,6 @@
   "no_booking": "You have no booking.",
   "products": "Products",
   "location_map": "Location Map",
-  "review": "Review"
+  "review": "Review",
+  "merchant_detail_fail": "Failed to load merchant detail. Please try again later."
 }

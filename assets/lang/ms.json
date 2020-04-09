@@ -272,5 +272,6 @@
   "no_booking": "Anda tidak ada tempahan.",
   "products": "Produk",
   "location_map": "Peta Lokasi",
-  "review": "Tinjauan"
+  "review": "Tinjauan",
+  "merchant_detail_fail": "Gagal memuat butiran pedagang. Sila cuba sebentar lagi."
 }
