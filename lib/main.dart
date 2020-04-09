@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:epandu/push_dialog.dart';
 import 'package:epandu/services/api/model/language_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:epandu/utils/constants.dart';
@@ -67,16 +70,18 @@ class _MyAppState extends State<MyApp> {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-        // _showItemDialog(message);
+        _showItemDialog(message);
       },
-      onBackgroundMessage: myBackgroundMessageHandler,
+      onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
         // _navigateToItemDetail(message);
+        _showItemDialog(message);
       },
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
         // _navigateToItemDetail(message);
+        _showItemDialog(message);
       },
     );
 
@@ -102,6 +107,10 @@ class _MyAppState extends State<MyApp> {
     _firebaseMessaging.requestNotificationPermissions();
   }
 
+  _showItemDialog(message) {
+    return PushDialog(message: message);
+  }
+
   void _loadSavedLocale() async {
     String storedLocale = await localStorage.getLocale();
 
@@ -114,7 +123,8 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
+  static Future<dynamic> myBackgroundMessageHandler(
+      Map<String, dynamic> message) {
     if (message.containsKey('data')) {
       // Handle data message
       final dynamic data = message['data'];

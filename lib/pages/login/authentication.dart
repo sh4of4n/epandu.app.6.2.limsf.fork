@@ -21,8 +21,8 @@ class _AuthenticationState extends State<Authentication> {
   final LocalStorage localStorage = LocalStorage();
 
   DeviceInfo deviceInfo = DeviceInfo();
-  // String deviceModel = '';
-  // String deviceVersion = '';
+  String deviceModel = '';
+  String deviceVersion = '';
   String deviceId = '';
 
   @override
@@ -32,7 +32,6 @@ class _AuthenticationState extends State<Authentication> {
     _getWsUrl();
     _setLocale();
     _checkExistingLogin();
-    _getDeviceInfo();
   }
 
   _getWsUrl() async {
@@ -74,19 +73,6 @@ class _AuthenticationState extends State<Authentication> {
     } else {
       Navigator.pushReplacementNamed(context, LOGIN);
     }
-  }
-
-  _getDeviceInfo() async {
-    // get device info
-    await deviceInfo.getDeviceInfo();
-
-    // deviceModel = deviceInfo.model;
-    // deviceVersion = deviceInfo.version;
-    deviceId = deviceInfo.id;
-
-    localStorage.saveDeviceId(deviceId);
-
-    // print('deviceId: ' + deviceId);
   }
 
   @override

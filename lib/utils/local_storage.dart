@@ -24,7 +24,6 @@ class LocalStorage {
   static const String kBlacklisted = 'BLACKLISTED';
   static const String kUserLatitude = 'LATITUDE';
   static const String kUserLongitude = 'LONGITUDE';
-  static const String kDeviceId = 'DEVICE_ID';
   static const String kAppVersion = 'APP_VERSION';
 
   Future<void> saveLocale(String locale) {
@@ -209,14 +208,6 @@ class LocalStorage {
 
   Future<String> getUserLongitude() async {
     return Preference.getString(kUserLongitude, def: '');
-  }
-
-  Future<String> getDeviceId() async {
-    return Preference.getString(kDeviceId, def: '');
-  }
-
-  Future<void> saveDeviceId(String deviceId) async {
-    return Preference.setString(kDeviceId, deviceId);
   }
 
   Future<String> getAppVersion() async {

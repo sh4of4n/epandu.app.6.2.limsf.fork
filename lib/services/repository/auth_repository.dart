@@ -798,10 +798,12 @@ class AuthRepo {
     String signUpPwd,
     String latitude,
     String longitude,
+    String deviceId,
+    String deviceModel,
+    String deviceVersion,
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
-    String deviceId = await localStorage.getDeviceId();
     String appVersion = await localStorage.getAppVersion();
 
     RegisterRequest params = RegisterRequest(
