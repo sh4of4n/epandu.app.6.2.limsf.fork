@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:epandu/push_dialog.dart';
 import 'package:epandu/services/api/model/language_model.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
@@ -56,14 +60,55 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   AppLocalizationsDelegate _newLocaleDelegate;
   final localStorage = LocalStorage();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  String _homeScreenText = "Waiting for token...";
 
   @override
   void initState() {
     super.initState();
 
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        _showItemDialog(message);
+      },
+      onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+        // _navigateToItemDetail(message);
+        _showItemDialog(message);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+        // _navigateToItemDetail(message);
+        _showItemDialog(message);
+      },
+    );
+
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(
+            sound: true, badge: true, alert: true, provisional: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+    _firebaseMessaging.getToken().then((String token) {
+      assert(token != null);
+      setState(() {
+        _homeScreenText = "Push Messaging token: $token";
+      });
+      Hive.box('ws_url').put('push_token', token);
+      print(_homeScreenText);
+    });
+
     _newLocaleDelegate = AppLocalizationsDelegate(newLocale: null);
     application.onLocaleChanged = onLocaleChange;
     _loadSavedLocale();
+    _firebaseMessaging.requestNotificationPermissions();
+  }
+
+  _showItemDialog(message) {
+    return PushDialog(message: message);
   }
 
   void _loadSavedLocale() async {
@@ -76,6 +121,25 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _newLocaleDelegate = AppLocalizationsDelegate(newLocale: locale);
     });
+  }
+
+  static Future<dynamic> myBackgroundMessageHandler(
+      Map<String, dynamic> message) {
+    if (message.containsKey('data')) {
+      // Handle data message
+      final dynamic data = message['data'];
+
+      print('Data: ' + data);
+    }
+
+    if (message.containsKey('notification')) {
+      // Handle notification message
+      final dynamic notification = message['notification'];
+
+      print('Notification: ' + notification);
+    }
+
+    // Or do other work.
   }
 
   @override

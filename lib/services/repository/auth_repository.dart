@@ -800,11 +800,14 @@ class AuthRepo {
     String signUpPwd,
     String latitude,
     String longitude,
+    String deviceId,
+    String deviceModel,
+    String deviceVersion,
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
-    String deviceId = await localStorage.getDeviceId();
     String appVersion = await localStorage.getAppVersion();
+    String pushToken = await Hive.box('ws_url').get('push_token');
 
     RegisterRequest params = RegisterRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
@@ -836,7 +839,7 @@ class AuthRepo {
       appId: 'ePandu.App',
       deviceId: '',
       appVersion: appVersion,
-      deviceRemark: '',
+      deviceRemark: deviceVersion,
       phDeviceId: deviceId,
       phLine1Number: '',
       phNetOpName: '',
@@ -847,10 +850,10 @@ class AuthRepo {
       bdDevice: '',
       bdDisplay: '',
       bdManufacturer: '',
-      bdModel: '',
+      bdModel: deviceModel,
       bdProduct: '',
       pfDeviceId: '',
-      regId: '',
+      regId: pushToken,
     );
 
     String body = jsonEncode(params);

@@ -4,7 +4,7 @@ import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
-import 'package:epandu/utils/custom_snackbar.dart';
+import 'package:epandu/utils/device_info.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +52,12 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
+  DeviceInfo deviceInfo = DeviceInfo();
+  String _deviceModel = '';
+  String _deviceVersion = '';
+  String _deviceId = '';
+  String _deviceOs = '';
+
   @override
   void initState() {
     super.initState();
@@ -61,6 +67,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
     });
 
     _getCurrentLocation();
+    _getDeviceInfo();
   }
 
   _getCurrentLocation() async {
@@ -74,6 +81,18 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
     });
 
     // print('$_latitude, $_longitude');
+  }
+
+  _getDeviceInfo() async {
+    // get device info
+    await deviceInfo.getDeviceInfo();
+
+    _deviceModel = deviceInfo.model;
+    _deviceVersion = deviceInfo.version;
+    _deviceId = deviceInfo.id;
+    _deviceOs = deviceInfo.os;
+
+    // print('deviceId: ' + deviceId);
   }
 
   @override
@@ -375,6 +394,9 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
           email: _email,
           latitude: _latitude,
           longitude: _longitude,
+          deviceId: _deviceId,
+          deviceModel: _deviceModel,
+          deviceVersion: '$_deviceOs $_deviceVersion',
         );
 
         if (result.isSuccess) {

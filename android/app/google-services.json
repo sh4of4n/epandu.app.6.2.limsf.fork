@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "839131053360",
+    "firebase_url": "https://tbsmsgr-fcm.firebaseio.com",
+    "project_id": "tbsmsgr-fcm",
+    "storage_bucket": "tbsmsgr-fcm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839131053360:android:a2d9c6aa4d7384333a9cf5",
+        "android_client_info": {
+          "package_name": "my.com.tbs.epandu.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839131053360-86g2pe8a1b642o6oki4sfr9tpl7pqnhp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhilWeDzKSXgfMEJPAhuKKbIXnbCqMb7M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839131053360-86g2pe8a1b642o6oki4sfr9tpl7pqnhp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
