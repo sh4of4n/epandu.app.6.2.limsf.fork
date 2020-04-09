@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
         print("onMessage: $message");
         _showItemDialog(message);
       },
-      onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
+      // onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
         // _navigateToItemDetail(message);
@@ -123,7 +123,7 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  static Future<dynamic> myBackgroundMessageHandler(
+  /* static Future<dynamic> myBackgroundMessageHandler(
       Map<String, dynamic> message) {
     if (message.containsKey('data')) {
       // Handle data message
@@ -140,7 +140,7 @@ class _MyAppState extends State<MyApp> {
     }
 
     // Or do other work.
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
