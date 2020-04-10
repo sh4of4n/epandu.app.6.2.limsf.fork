@@ -1,17 +1,43 @@
+import 'package:badges/badges.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-class HomeTopMenu extends StatelessWidget {
+class HomeTopMenu extends StatefulWidget {
   final iconText;
 
   HomeTopMenu({this.iconText});
 
+  @override
+  _HomeTopMenuState createState() => _HomeTopMenuState();
+}
+
+class _HomeTopMenuState extends State<HomeTopMenu> {
   final myImage = ImagesConstant();
+
+  bool _showBadge = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _getBadge();
+  }
+
+  _getBadge() async {
+    var badgeValue = await Hive.box('ws_url').get('show_badge');
+
+    if (badgeValue != null) {
+      setState(() {
+        _showBadge = badgeValue;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +68,7 @@ class HomeTopMenu extends StatelessWidget {
                             Text(
                                 AppLocalizations.of(context)
                                     .translate('scan_lbl'),
-                                style: iconText),
+                                style: widget.iconText),
                           ],
                         ),
                       ),
@@ -63,7 +89,7 @@ class HomeTopMenu extends StatelessWidget {
                             Text(
                                 AppLocalizations.of(context)
                                     .translate('pay_lbl'),
-                                style: iconText),
+                                style: widget.iconText),
                           ],
                         ),
                       ),
@@ -93,28 +119,31 @@ class HomeTopMenu extends StatelessWidget {
                             Text(
                                 AppLocalizations.of(context)
                                     .translate('id_lbl'),
-                                style: iconText),
+                                style: widget.iconText),
                           ],
                         ),
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () => Navigator.pushNamed(context, INBOX),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Column(
                           children: <Widget>[
-                            Icon(
-                              MyCustomIcons.inbox_icon,
-                              size: 26,
-                              color: Color(0xff808080),
+                            Badge(
+                              showBadge: _showBadge,
+                              child: Icon(
+                                MyCustomIcons.inbox_icon,
+                                size: 26,
+                                color: Color(0xff808080),
+                              ),
                             ),
                             SizedBox(height: ScreenUtil().setHeight(20)),
                             Text(
                                 AppLocalizations.of(context)
                                     .translate('inbox_lbl'),
-                                style: iconText),
+                                style: widget.iconText),
                           ],
                         ),
                       ),

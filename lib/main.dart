@@ -121,19 +121,22 @@ class _MyAppState extends State<MyApp> {
       // app is in foreground
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-        _showItemDialog(message);
+        await Hive.box('ws_url').put('show_badge', true);
+        // _showItemDialog(message);
       },
       // onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
       // app is terminated
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
+        await Hive.box('ws_url').put('show_badge', true);
         _navigateToItemDetail(message);
         // _showItemDialog(message);
       },
       // app is in background
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
-        // _navigateToItemDetail(message);
+        await Hive.box('ws_url').put('show_badge', true);
+        _navigateToItemDetail(message);
         // _showItemDialog(message);
       },
     );

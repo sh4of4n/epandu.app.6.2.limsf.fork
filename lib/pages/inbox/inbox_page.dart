@@ -1,6 +1,8 @@
+import 'package:epandu/services/repository/inbox_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:hive/hive.dart';
 
 import '../../app_localizations.dart';
 
@@ -12,15 +14,22 @@ class Inbox extends StatefulWidget {
 class _InboxState extends State<Inbox> {
   Future _getInboxList;
   final primaryColor = ColorConstant.primaryColor;
+  final inboxRepo = InboxRepo();
 
   @override
   void initState() {
     super.initState();
 
+    Hive.box('ws_url').put('show_badge', false);
     _getInboxList = _getNotificationListByUserId();
   }
 
-  _getNotificationListByUserId() async {}
+  _getNotificationListByUserId() async {
+    var result = await inboxRepo.getNotificationListByUserId(context: context);
+
+    if (result.isSuccess) return result.data;
+    return result.message;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +51,13 @@ class _InboxState extends State<Inbox> {
                     child: Text(AppLocalizations.of(context)
                         .translate('no_classes_desc')));
               }
-              return ListView.builder(
+              return ListView.separated(
                 itemCount: snapshot.data.length,
+                separatorBuilder: (BuildContext context, int index) =>
+                    Divider(),
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
+                    leading: Icon(Icons.mail, color: Color(0xff808080)),
                     title: snapshot.data[index].sendMsg,
                   );
                 },
