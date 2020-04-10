@@ -34,7 +34,12 @@ class _InboxState extends State<Inbox> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: Color(0xfffdc013),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context).translate('notifications')),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
       body: FutureBuilder(
         future: _getInboxList,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -42,7 +47,7 @@ class _InboxState extends State<Inbox> {
             case ConnectionState.waiting:
               return Center(
                 child: SpinKitFoldingCube(
-                  color: primaryColor,
+                  color: Colors.blue,
                 ),
               );
             case ConnectionState.done:
@@ -58,7 +63,7 @@ class _InboxState extends State<Inbox> {
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
                     leading: Icon(Icons.mail, color: Color(0xff808080)),
-                    title: snapshot.data[index].sendMsg,
+                    title: Text(snapshot.data[index].sendMsg),
                   );
                 },
               );

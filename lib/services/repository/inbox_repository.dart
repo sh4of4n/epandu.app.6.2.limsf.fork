@@ -24,12 +24,13 @@ class InboxRepo {
     );
 
     if (response.isSuccess && response.data != null) {
-      /* GetNotificationListByUserIdResponse getNotificationListByUserIdResponse;
+      GetNotificationListByUserIdResponse getNotificationListByUserIdResponse;
 
-      getNotificationListByUserIdResponse = GetNotificationListByUserIdResponse.fromJson(response.data);
+      getNotificationListByUserIdResponse =
+          GetNotificationListByUserIdResponse.fromJson(response.data);
 
-      return Response(true, data: getNotificationListByUserIdResponse.msgOutBox); */
-      return Response(true);
+      return Response(true,
+          data: getNotificationListByUserIdResponse.msgOutbox);
     }
 
     return Response(false,
