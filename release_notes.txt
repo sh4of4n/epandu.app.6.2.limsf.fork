@@ -1,6 +1,4 @@
 New:
-- UI updates and enhancements
-- New sign up module
-- Booking module updates
-- Merchant list UI/UX enhancements
-- Bug fixes
+- Inbox module
+- Sign up improvements
+- Push notifications
