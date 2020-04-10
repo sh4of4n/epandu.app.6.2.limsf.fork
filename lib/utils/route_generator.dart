@@ -1,5 +1,6 @@
 import 'package:epandu/pages/epandu/add_booking.dart';
 import 'package:epandu/pages/epandu/epandu.dart';
+import 'package:epandu/pages/inbox/inbox.dart';
 import 'package:epandu/pages/menu/menu.dart';
 import 'package:epandu/pages/promotions/promotions.dart';
 import 'package:epandu/pages/vclub/value_club.dart';
@@ -268,6 +269,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           settings: RouteSettings(name: ADD_BOOKING),
           builder: (_) => AddBooking(),
+        );
+      case INBOX:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: INBOX),
+          builder: (_) => Inbox(),
         );
       default:
         return _errorRoute();

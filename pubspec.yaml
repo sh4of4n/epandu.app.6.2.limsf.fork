@@ -24,6 +24,7 @@ dependencies:
   transparent_image: ^1.0.0
   flutter_rating_bar: ^3.0.1+1
   country_code_picker: ^1.3.9
+  badges: ^1.1.1
 
   ## Tools
   intl: ^0.16.0

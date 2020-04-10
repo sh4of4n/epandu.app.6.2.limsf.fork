@@ -273,5 +273,6 @@
   "products": "Products",
   "location_map": "Location Map",
   "review": "Review",
-  "merchant_detail_fail": "Failed to load merchant detail. Please try again later."
+  "merchant_detail_fail": "Failed to load merchant detail. Please try again later.",
+  "inbox_list_fail": "Failed to load inbox list. Please try again later."
 }

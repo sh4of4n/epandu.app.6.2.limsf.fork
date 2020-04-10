@@ -47,3 +47,4 @@ const String VALUE_CLUB = '/value_club';
 const String BOOKING = '/booking';
 const String ADD_BOOKING = '/add_booking';
 const String MERCHANT_LIST = '/merchant_list';
+const String INBOX = '/inbox';
