@@ -7,6 +7,7 @@ import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/device_info.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
+import 'package:epandu/widgets/loading_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -38,6 +39,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   Location location = Location();
 
   bool _isLoading = false;
+  bool _loginLoading = false;
   final image = ImagesConstant();
 
   String _phone = '';
@@ -124,217 +126,228 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
             elevation: 0,
             backgroundColor: Colors.transparent,
           ),
-          body: SingleChildScrollView(
-            child: Container(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 130.w),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        height: ScreenUtil().setHeight(35),
-                      ),
-                      TextFormField(
-                        focusNode: _phoneFocus,
-                        keyboardType: TextInputType.phone,
-                        textInputAction: TextInputAction.next,
-                        enabled: false,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: -10.h),
-                          hintStyle: TextStyle(
-                            color: primaryColor,
-                          ),
-                          labelText: AppLocalizations.of(context)
-                              .translate('login_id'),
-                          prefixIcon: Icon(Icons.phone_android),
+          body: Stack(
+            children: <Widget>[
+              SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 130.w),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(
+                          height: ScreenUtil().setHeight(35),
                         ),
-                        onFieldSubmitted: (term) {
-                          fieldFocusChange(context, _phoneFocus, _nameFocus);
-                        },
-                        initialValue: _phone,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return AppLocalizations.of(context)
-                                .translate('phone_required_msg');
-                          }
-                          return null;
-                        },
-                        onChanged: (value) {
-                          if (value != _phone) {
-                            _phone = value;
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(70),
-                      ),
-                      TextFormField(
-                        focusNode: _nameFocus,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: -10.h),
-                          hintStyle: TextStyle(
-                            color: primaryColor,
+                        TextFormField(
+                          focusNode: _phoneFocus,
+                          keyboardType: TextInputType.phone,
+                          textInputAction: TextInputAction.next,
+                          enabled: false,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: -10.h),
+                            hintStyle: TextStyle(
+                              color: primaryColor,
+                            ),
+                            labelText: AppLocalizations.of(context)
+                                .translate('login_id'),
+                            prefixIcon: Icon(Icons.phone_android),
                           ),
-                          labelText: AppLocalizations.of(context)
-                              .translate('nick_name_lbl'),
-                          prefixIcon: Icon(Icons.account_circle),
+                          onFieldSubmitted: (term) {
+                            fieldFocusChange(context, _phoneFocus, _nameFocus);
+                          },
+                          initialValue: _phone,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return AppLocalizations.of(context)
+                                  .translate('phone_required_msg');
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            if (value != _phone) {
+                              _phone = value;
+                            }
+                          },
                         ),
-                        onFieldSubmitted: (term) {
-                          fieldFocusChange(context, _nameFocus, _emailFocus);
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return AppLocalizations.of(context)
-                                .translate('name_required_msg');
-                          }
-                          return null;
-                        },
-                        onChanged: (value) {
-                          if (value != _name) {
-                            _name = value;
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(70),
-                      ),
-                      TextFormField(
-                        focusNode: _emailFocus,
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: -10.h),
-                          hintStyle: TextStyle(
-                            color: primaryColor,
+                        SizedBox(
+                          height: ScreenUtil().setHeight(70),
+                        ),
+                        TextFormField(
+                          focusNode: _nameFocus,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: -10.h),
+                            hintStyle: TextStyle(
+                              color: primaryColor,
+                            ),
+                            labelText: AppLocalizations.of(context)
+                                .translate('nick_name_lbl'),
+                            prefixIcon: Icon(Icons.account_circle),
                           ),
-                          labelText: AppLocalizations.of(context)
-                              .translate('email_lbl'),
-                          prefixIcon: Icon(Icons.mail),
+                          onFieldSubmitted: (term) {
+                            fieldFocusChange(context, _nameFocus, _emailFocus);
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return AppLocalizations.of(context)
+                                  .translate('name_required_msg');
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            if (value != _name) {
+                              _name = value;
+                            }
+                          },
                         ),
-                        onFieldSubmitted: (term) {
-                          fieldFocusChange(
-                              context, _emailFocus, _passwordFocus);
-                        },
-                        /* validator: (value) {
+                        SizedBox(
+                          height: ScreenUtil().setHeight(70),
+                        ),
+                        TextFormField(
+                          focusNode: _emailFocus,
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: -10.h),
+                            hintStyle: TextStyle(
+                              color: primaryColor,
+                            ),
+                            labelText: AppLocalizations.of(context)
+                                .translate('email_lbl'),
+                            prefixIcon: Icon(Icons.mail),
+                          ),
+                          onFieldSubmitted: (term) {
+                            fieldFocusChange(
+                                context, _emailFocus, _passwordFocus);
+                          },
+                          /* validator: (value) {
                           if (value.isEmpty) {
                             return 'Email is required.';
                           }
                         }, */
-                        onChanged: (value) {
-                          if (value != _email) {
-                            _email = value;
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(70),
-                      ),
-                      TextFormField(
-                        focusNode: _passwordFocus,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: -10.h),
-                          hintStyle: TextStyle(color: primaryColor),
-                          labelText: AppLocalizations.of(context)
-                              .translate('password_lbl'),
-                          prefixIcon: Icon(Icons.lock),
-                          suffixIcon: IconButton(
-                            icon: Icon(_obscurePassword
-                                ? Icons.visibility_off
-                                : Icons.visibility),
-                            onPressed: () {
-                              setState(
-                                () {
-                                  _obscurePassword = !_obscurePassword;
-                                },
-                              );
-                            },
-                          ),
+                          onChanged: (value) {
+                            if (value != _email) {
+                              _email = value;
+                            }
+                          },
                         ),
-                        obscureText: _obscurePassword,
-                        onFieldSubmitted: (term) {
-                          fieldFocusChange(
-                              context, _passwordFocus, _confirmPasswordFocus);
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return AppLocalizations.of(context)
-                                .translate('password_required_msg');
-                          }
-                          return null;
-                        },
-                        onChanged: (value) {
-                          if (value != _password) {
-                            _password = value;
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(70),
-                      ),
-                      TextFormField(
-                        focusNode: _confirmPasswordFocus,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: -10.h),
-                          hintStyle: TextStyle(color: primaryColor),
-                          labelText: AppLocalizations.of(context)
-                              .translate('confirm_password'),
-                          prefixIcon: Icon(Icons.lock),
-                          suffixIcon: IconButton(
-                            icon: Icon(_obscureConfirmPassword
-                                ? Icons.visibility_off
-                                : Icons.visibility),
-                            onPressed: () {
-                              setState(
-                                () {
-                                  _obscureConfirmPassword =
-                                      !_obscureConfirmPassword;
-                                },
-                              );
-                            },
-                          ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(70),
                         ),
-                        obscureText: _obscureConfirmPassword,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return AppLocalizations.of(context)
-                                .translate('confirm_password_required');
-                          }
-                          return null;
-                        },
-                        onChanged: (value) {
-                          if (value != _confirmPassword) {
-                            _confirmPassword = value;
-                          }
-                        },
-                      ),
-                      SizedBox(height: 40.h),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          _message.isNotEmpty
-                              ? Text(
-                                  _message,
-                                  style: TextStyle(color: Colors.red),
-                                )
-                              : SizedBox.shrink(),
-                          _signUpButton(),
-                        ],
-                      ),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(40),
-                      ),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(70),
-                      ),
-                    ],
+                        TextFormField(
+                          focusNode: _passwordFocus,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: -10.h),
+                            hintStyle: TextStyle(color: primaryColor),
+                            labelText: AppLocalizations.of(context)
+                                .translate('password_lbl'),
+                            prefixIcon: Icon(Icons.lock),
+                            suffixIcon: IconButton(
+                              icon: Icon(_obscurePassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility),
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    _obscurePassword = !_obscurePassword;
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                          obscureText: _obscurePassword,
+                          onFieldSubmitted: (term) {
+                            fieldFocusChange(
+                                context, _passwordFocus, _confirmPasswordFocus);
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return AppLocalizations.of(context)
+                                  .translate('password_required_msg');
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            if (value != _password) {
+                              _password = value;
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(70),
+                        ),
+                        TextFormField(
+                          focusNode: _confirmPasswordFocus,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: -10.h),
+                            hintStyle: TextStyle(color: primaryColor),
+                            labelText: AppLocalizations.of(context)
+                                .translate('confirm_password'),
+                            prefixIcon: Icon(Icons.lock),
+                            suffixIcon: IconButton(
+                              icon: Icon(_obscureConfirmPassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility),
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    _obscureConfirmPassword =
+                                        !_obscureConfirmPassword;
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                          obscureText: _obscureConfirmPassword,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return AppLocalizations.of(context)
+                                  .translate('confirm_password_required');
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            if (value != _confirmPassword) {
+                              _confirmPassword = value;
+                            }
+                          },
+                        ),
+                        SizedBox(height: 40.h),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            _message.isNotEmpty
+                                ? Text(
+                                    _message,
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                : SizedBox.shrink(),
+                            _signUpButton(),
+                          ],
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(40),
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(70),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
+              LoadingModal(
+                isVisible: _loginLoading,
+                color: primaryColor,
+              ),
+            ],
           ),
         ),
       ),
@@ -412,11 +425,15 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
             content: result.message.toString(),
             barrierDismissable: false,
             customActions: <Widget>[
-              FlatButton(
-                child: Text(AppLocalizations.of(context).translate('ok_btn')),
-                onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                    context, LOGIN, (r) => false),
-              ),
+              _loginLoading == false
+                  ? FlatButton(
+                      child: Text(
+                          AppLocalizations.of(context).translate('ok_btn')),
+                      onPressed: _login,
+                    )
+                  : SpinKitFoldingCube(
+                      color: primaryColor,
+                    ),
             ],
             type: DialogType.GENERAL,
           );
@@ -440,5 +457,36 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
         });
       }
     }
+  }
+
+  _login() async {
+    Navigator.pop(context);
+
+    setState(() {
+      _loginLoading = true;
+    });
+
+    var result = await authRepo.login(
+      context: context,
+      phone: _phone.substring(2),
+      password: _password,
+    );
+
+    if (result.isSuccess) {
+      var getRegisteredDi =
+          await authRepo.getUserRegisteredDI(context: context);
+
+      if (getRegisteredDi.isSuccess) {
+        Navigator.pushNamedAndRemoveUntil(context, HOME, (r) => false);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
+      }
+    } else {
+      Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
+    }
+
+    setState(() {
+      _loginLoading = false;
+    });
   }
 }

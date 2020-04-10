@@ -5,6 +5,7 @@ import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/language_options.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
+import 'package:epandu/widgets/loading_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -158,22 +159,7 @@ class _SettingsState extends State<Settings> {
             ],
           ),
         ),
-        Visibility(
-          visible: _isLoading,
-          child: Opacity(
-            opacity: 0.7,
-            child: Container(
-              color: Colors.grey[900],
-              width: ScreenUtil.screenWidthDp,
-              height: ScreenUtil.screenHeightDp,
-              child: Center(
-                child: SpinKitFoldingCube(
-                  color: primaryColor,
-                ),
-              ),
-            ),
-          ),
-        ),
+        LoadingModal(isVisible: _isLoading, color: primaryColor),
       ],
     );
   }
