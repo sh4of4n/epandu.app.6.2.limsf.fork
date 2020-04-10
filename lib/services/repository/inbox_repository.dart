@@ -34,8 +34,6 @@ class InboxRepo {
     }
 
     return Response(false,
-        message: response.message.toString().isNotEmpty
-            ? response.message
-            : AppLocalizations.of(context).translate('no_records_found'));
+        message: AppLocalizations.of(context).translate('no_records_found'));
   }
 }

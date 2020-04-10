@@ -52,9 +52,7 @@ class _InboxState extends State<Inbox> {
               );
             case ConnectionState.done:
               if (snapshot.data is String) {
-                return Center(
-                    child: Text(AppLocalizations.of(context)
-                        .translate('no_classes_desc')));
+                return Center(child: Text(snapshot.data));
               }
               return ListView.separated(
                 itemCount: snapshot.data.length,
