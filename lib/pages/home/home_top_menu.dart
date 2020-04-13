@@ -1,12 +1,13 @@
 import 'package:badges/badges.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
+import 'package:epandu/services/api/model/notification_model.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:provider/provider.dart';
 
 class HomeTopMenu extends StatefulWidget {
   final iconText;
@@ -20,9 +21,7 @@ class HomeTopMenu extends StatefulWidget {
 class _HomeTopMenuState extends State<HomeTopMenu> {
   final myImage = ImagesConstant();
 
-  bool _showBadge = false;
-
-  @override
+  /* @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
@@ -36,8 +35,8 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
       setState(() {
         _showBadge = badgeValue;
       });
-    }
-  }
+    }    
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +131,9 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                         child: Column(
                           children: <Widget>[
                             Badge(
-                              showBadge: _showBadge,
+                              showBadge: Provider.of<NotificationModel>(context,
+                                      listen: false)
+                                  .notification,
                               child: Icon(
                                 MyCustomIcons.inbox_icon,
                                 size: 26,

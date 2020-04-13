@@ -1,5 +1,6 @@
 // import 'dart:io';
 import 'package:epandu/services/api/model/language_model.dart';
+import 'package:epandu/services/api/model/notification_model.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
@@ -78,18 +79,21 @@ void main() async {
   await Hive.openBox('ws_url');
 
   runApp(
-    ChangeNotifierProvider(
+    /* ChangeNotifierProvider(
       create: (context) => LanguageModel(),
       child: MyApp(),
-    ),
-    /* MultiProvider(
+    ), */
+    MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (context) => LanguageModel(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => NotificationModel(),
+        ),
       ],
       child: MyApp(),
-    ), */
+    ),
   );
 }
 
@@ -121,21 +125,27 @@ class _MyAppState extends State<MyApp> {
       // app is in foreground
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-        await Hive.box('ws_url').put('show_badge', true);
+        // await Hive.box('ws_url').put('show_badge', true);
+        Provider.of<NotificationModel>(context, listen: false)
+            .setNotification(true);
         // _showItemDialog(message);
       },
       // onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
       // app is terminated
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
-        await Hive.box('ws_url').put('show_badge', true);
+        // await Hive.box('ws_url').put('show_badge', true);
+        Provider.of<NotificationModel>(context, listen: false)
+            .setNotification(true);
         _navigateToItemDetail(message);
         // _showItemDialog(message);
       },
       // app is in background
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
-        await Hive.box('ws_url').put('show_badge', true);
+        // await Hive.box('ws_url').put('show_badge', true);
+        Provider.of<NotificationModel>(context, listen: false)
+            .setNotification(true);
         _navigateToItemDetail(message);
         // _showItemDialog(message);
       },
