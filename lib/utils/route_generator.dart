@@ -275,6 +275,11 @@ class RouteGenerator {
           settings: RouteSettings(name: INBOX),
           builder: (_) => Inbox(),
         );
+      case IDENTITY_BARCODE:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: IDENTITY_BARCODE),
+          builder: (_) => IdentityBarcode(),
+        );
       default:
         return _errorRoute();
     }

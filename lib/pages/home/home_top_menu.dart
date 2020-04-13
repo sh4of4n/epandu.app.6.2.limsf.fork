@@ -5,6 +5,7 @@ import 'package:epandu/services/api/model/notification_model.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +39,14 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
     }    
   } */
 
+  _scanBarcode() async {
+    String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+        '#ff6666',
+        AppLocalizations.of(context).translate('cancel_btn'),
+        false,
+        ScanMode.DEFAULT);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,7 +61,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                 TableRow(
                   children: [
                     InkWell(
-                      onTap: () {},
+                      onTap: () => _scanBarcode(),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
@@ -73,7 +82,8 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () =>
+                          Navigator.pushNamed(context, IDENTITY_BARCODE),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
@@ -103,7 +113,8 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () =>
+                          Navigator.pushNamed(context, IDENTITY_BARCODE),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),

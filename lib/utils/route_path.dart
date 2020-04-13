@@ -48,3 +48,4 @@ const String BOOKING = '/booking';
 const String ADD_BOOKING = '/add_booking';
 const String MERCHANT_LIST = '/merchant_list';
 const String INBOX = '/inbox';
+const String IDENTITY_BARCODE = '/identity_barcode';

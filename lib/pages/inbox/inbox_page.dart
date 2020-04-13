@@ -23,15 +23,17 @@ class _InboxState extends State<Inbox> {
     super.initState();
 
     // Hive.box('ws_url').put('show_badge', false);
-    Provider.of<NotificationModel>(context, listen: false)
-        .setNotification(false);
     _getInboxList = _getNotificationListByUserId();
   }
 
   _getNotificationListByUserId() async {
     var result = await inboxRepo.getNotificationListByUserId(context: context);
 
-    if (result.isSuccess) return result.data;
+    if (result.isSuccess) {
+      Provider.of<NotificationModel>(context, listen: false)
+          .setNotification(false);
+      return result.data;
+    }
     return result.message;
   }
 
