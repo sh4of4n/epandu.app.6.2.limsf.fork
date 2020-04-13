@@ -7,6 +7,7 @@ import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:provider/provider.dart';
 
@@ -21,8 +22,9 @@ class HomeTopMenu extends StatefulWidget {
 
 class _HomeTopMenuState extends State<HomeTopMenu> {
   final myImage = ImagesConstant();
+  bool _showBadge = false;
 
-  /* @override
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
@@ -36,8 +38,8 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
       setState(() {
         _showBadge = badgeValue;
       });
-    }    
-  } */
+    }
+  }
 
   _scanBarcode() async {
     String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
@@ -142,9 +144,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                         child: Column(
                           children: <Widget>[
                             Badge(
-                              showBadge: Provider.of<NotificationModel>(context,
-                                      listen: false)
-                                  .notification,
+                              showBadge: _showBadge,
                               child: Icon(
                                 MyCustomIcons.inbox_icon,
                                 size: 26,

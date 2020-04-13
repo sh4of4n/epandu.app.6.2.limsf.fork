@@ -1,10 +1,9 @@
-import 'package:epandu/services/api/model/notification_model.dart';
 import 'package:epandu/services/repository/inbox_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:hive/hive.dart';
 // import 'package:hive/hive.dart';
-import 'package:provider/provider.dart';
 
 import '../../app_localizations.dart';
 
@@ -30,8 +29,9 @@ class _InboxState extends State<Inbox> {
     var result = await inboxRepo.getNotificationListByUserId(context: context);
 
     if (result.isSuccess) {
-      Provider.of<NotificationModel>(context, listen: false)
-          .setNotification(false);
+      setState(() {
+        Hive.box('ws_url').put('show_badge', false);
+      });
       return result.data;
     }
     return result.message;
