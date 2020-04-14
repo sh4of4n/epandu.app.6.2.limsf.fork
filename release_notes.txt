@@ -1,4 +1,5 @@
 New:
-- Inbox module
-- Sign up improvements
-- Push notifications
+- Push notifications enhancements and fixes
+- Login enhancement
+- Barcode scanner
+- QR id 
