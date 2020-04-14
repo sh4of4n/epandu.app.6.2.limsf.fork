@@ -191,7 +191,7 @@ class AuthRepo {
     String pushToken = await Hive.box('ws_url').get('push_token');
     String appVersion = await localStorage.getAppVersion();
     String appCode = 'EPANDU';
-    String appId = 'appId';
+    String appId = 'ePandu.App';
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0&latitude=$latitude&longitude=$longitude&appCode=$appCode&appId=$appId&deviceId=&appVersion=$appVersion&deviceRemark=${Uri.encodeComponent(deviceRemark)}&phDeviceId=$phDeviceId&phLine1Number=&phNetOpName=&phPhoneType=&phSimSerialNo=&bdBoard=&bdBrand=&bdDevice=&bdDisplay=&bdManufacturer=&bdModel=&bdProduct=&pfDeviceId=&regId=$pushToken';
