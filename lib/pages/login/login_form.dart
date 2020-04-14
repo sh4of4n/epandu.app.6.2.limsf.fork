@@ -1,6 +1,8 @@
 import 'package:epandu/base/page_base_class.dart';
+import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/device_info.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +38,49 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
   // var _height = ScreenUtil().setHeight(1300);
 
   // var _height = ScreenUtil.screenHeight / 4.5;
+
+  Location location = Location();
+  String _latitude = '';
+  String _longitude = '';
+
+  DeviceInfo deviceInfo = DeviceInfo();
+  String _deviceModel = '';
+  String _deviceVersion = '';
+  String _deviceId = '';
+  String _deviceOs = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    _getCurrentLocation();
+    _getDeviceInfo();
+  }
+
+  _getDeviceInfo() async {
+    // get device info
+    await deviceInfo.getDeviceInfo();
+
+    _deviceModel = deviceInfo.model;
+    _deviceVersion = deviceInfo.version;
+    _deviceId = deviceInfo.id;
+    _deviceOs = deviceInfo.os;
+
+    // print('deviceId: ' + deviceId);
+  }
+
+  _getCurrentLocation() async {
+    await location.getCurrentLocation();
+
+    setState(() {
+      _latitude =
+          location.latitude != null ? location.latitude.toString() : '999';
+      _longitude =
+          location.longitude != null ? location.longitude.toString() : '999';
+    });
+
+    // print('$_latitude, $_longitude');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -260,10 +305,20 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
         _loginMessage = '';
       });
 
+      /* var result = await authRepo.login(
+        context: context,
+        phone: _phone,
+        password: _password,
+      ); */
+
       var result = await authRepo.login(
         context: context,
         phone: _phone,
         password: _password,
+        latitude: _latitude,
+        longitude: _longitude,
+        deviceRemark: '$_deviceOs $_deviceVersion',
+        phDeviceId: _deviceId,
       );
 
       if (result.isSuccess) {
