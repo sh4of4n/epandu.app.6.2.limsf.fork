@@ -1,15 +1,14 @@
 import 'package:badges/badges.dart';
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
-import 'package:epandu/services/api/model/notification_model.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 class HomeTopMenu extends StatefulWidget {
   final iconText;
@@ -23,6 +22,7 @@ class HomeTopMenu extends StatefulWidget {
 class _HomeTopMenuState extends State<HomeTopMenu> {
   final myImage = ImagesConstant();
   bool _showBadge = false;
+  String barcode = "";
 
   @override
   void didChangeDependencies() {
@@ -41,12 +41,24 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
     }
   }
 
-  _scanBarcode() async {
-    String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-        '#ff6666',
-        AppLocalizations.of(context).translate('cancel_btn'),
-        false,
-        ScanMode.DEFAULT);
+  Future _scan() async {
+    try {
+      String barcode = await BarcodeScanner.scan();
+      setState(() => this.barcode = barcode);
+    } on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.CameraAccessDenied) {
+        setState(() {
+          this.barcode = 'The user did not grant the camera permission!';
+        });
+      } else {
+        setState(() => this.barcode = 'Unknown error: $e');
+      }
+    } on FormatException {
+      setState(() => this.barcode =
+          'null (User returned using the "back"-button before scanning anything. Result)');
+    } catch (e) {
+      setState(() => this.barcode = 'Unknown error: $e');
+    }
   }
 
   @override
@@ -63,7 +75,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                 TableRow(
                   children: [
                     InkWell(
-                      onTap: () => _scanBarcode(),
+                      onTap: _scan,
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),

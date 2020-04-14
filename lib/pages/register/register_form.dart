@@ -470,6 +470,10 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
       context: context,
       phone: _phone.substring(2),
       password: _password,
+      latitude: _latitude,
+      longitude: _longitude,
+      deviceRemark: '$_deviceOs $_deviceVersion',
+      phDeviceId: _deviceId,
     );
 
     if (result.isSuccess) {

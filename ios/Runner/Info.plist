@@ -2,25 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSCameraUsageDescription</key>
-		<string>Camera permission is required for barcode scanning.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-		<string>This app needs access to location when in the background for SOS features.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-		<string>This app needs access to location when open and in the background for SOS features.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-		<string>This app needs access to location for SOS features.</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-			<string>comgooglemaps</string>
-			<string>baidumap</string>
-			<string>iosamap</string>
-			<string>waze</string>
-			<string>yandexmaps</string>
-			<string>yandexnavi</string>
-	</array>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -39,8 +20,32 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>comgooglemaps</string>
+		<string>baidumap</string>
+		<string>iosamap</string>
+		<string>waze</string>
+		<string>yandexmaps</string>
+		<string>yandexnavi</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera permission is required for barcode scanning.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app needs access to location when open and in the background for SOS features.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to location when in the background for SOS features.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to location for SOS features.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
