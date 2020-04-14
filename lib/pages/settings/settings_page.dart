@@ -175,8 +175,16 @@ class _SettingsState extends State<Settings> {
             onPressed: () async {
               if (widget.data != null) widget.data.cancel();
 
-              Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
+              setState(() {
+                _isLoading = true;
+              });
+
               await authRepo.logout(context: context);
+              Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
+
+              setState(() {
+                _isLoading = false;
+              });
             },
           ),
           FlatButton(
@@ -208,5 +216,9 @@ class _SettingsState extends State<Settings> {
         onPressed: () => Navigator.pop(context),
       );
     }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 }
