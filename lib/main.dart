@@ -1,6 +1,5 @@
 // import 'dart:io';
 import 'package:epandu/services/api/model/language_model.dart';
-import 'package:epandu/services/api/model/notification_model.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,6 @@ import 'package:epandu/utils/route_path.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-import 'app_localizations.dart';
 import 'app_localizations_delegate.dart';
 import 'application.dart';
 import 'services/api/model/bill_model.dart';
@@ -234,7 +232,7 @@ class _MyAppState extends State<MyApp> {
     );
   } */
 
-  void _showItemDialog(Map<String, dynamic> message) {
+  /* void _showItemDialog(Map<String, dynamic> message) {
     customDialog.show(
       context: context,
       title: message['notification']['title'],
@@ -256,7 +254,7 @@ class _MyAppState extends State<MyApp> {
         _navigateToItemDetail(message);
       }
     }); */
-  }
+  } */
 
   void _navigateToItemDetail(Map<String, dynamic> message) {
     var notificationData = message['data'];

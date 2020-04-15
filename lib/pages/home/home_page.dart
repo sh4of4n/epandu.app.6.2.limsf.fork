@@ -65,7 +65,7 @@ class _HomeState extends State<Home> {
   }
 
   _getDiProfile() async {
-    String instituteLogoPath = await localStorage.getInstituteLogo();
+    // String instituteLogoPath = await localStorage.getInstituteLogo();
 
     var result = await authRepo.getDiProfile(context: context);
 

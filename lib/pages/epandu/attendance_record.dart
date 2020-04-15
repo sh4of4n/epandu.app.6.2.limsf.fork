@@ -17,11 +17,11 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
   final primaryColor = ColorConstant.primaryColor;
   final format = DateFormat("yyyy-MM-dd");
 
-  final TextStyle _titleStyle = TextStyle(
+  /* final TextStyle _titleStyle = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w600,
     color: Colors.grey.shade700,
-  );
+  ); */
 
   final TextStyle _subtitleStyle = TextStyle(
     fontSize: 56.sp,

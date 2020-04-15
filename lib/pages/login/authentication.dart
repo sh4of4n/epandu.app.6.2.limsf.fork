@@ -9,7 +9,6 @@ import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:hive/hive.dart';
 
 class Authentication extends StatefulWidget {
   @override
@@ -35,11 +34,11 @@ class _AuthenticationState extends State<Authentication> {
   }
 
   _getWsUrl() async {
-    final wsUrlBox = Hive.box('ws_url');
+    // final wsUrlBox = Hive.box('ws_url');
 
     // localStorage.reset();
 
-    String wsUrl = wsUrlBox.get('wsUrl');
+    // String wsUrl = wsUrlBox.get('wsUrl');
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
 

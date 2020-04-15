@@ -44,7 +44,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
   String _longitude = '';
 
   DeviceInfo deviceInfo = DeviceInfo();
-  String _deviceModel = '';
+  // String _deviceModel = '';
   String _deviceVersion = '';
   String _deviceId = '';
   String _deviceOs = '';
@@ -61,7 +61,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
     // get device info
     await deviceInfo.getDeviceInfo();
 
-    _deviceModel = deviceInfo.model;
+    // _deviceModel = deviceInfo.model;
     _deviceVersion = deviceInfo.version;
     _deviceId = deviceInfo.id;
     _deviceOs = deviceInfo.os;

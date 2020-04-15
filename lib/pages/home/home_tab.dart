@@ -49,21 +49,21 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
   ];
 
   TabController _tabController;
-  int _tabIndex = 0;
+  // int _tabIndex = 0;
 
   @override
   void initState() {
     super.initState();
 
     _tabController = TabController(vsync: this, length: myTabs.length);
-    _tabController.addListener(_getTabSelection);
+    // _tabController.addListener(_getTabSelection);
   }
 
-  _getTabSelection() {
+  /* _getTabSelection() {
     setState(() {
       _tabIndex = _tabController.index;
     });
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {

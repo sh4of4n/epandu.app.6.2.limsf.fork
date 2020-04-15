@@ -19,7 +19,7 @@ class RegisteredCourse extends StatefulWidget {
 class _RegisteredCourseState extends State<RegisteredCourse> {
   final primaryColor = ColorConstant.primaryColor;
 
-  final TextStyle _titleStyle = TextStyle(
+  /* final TextStyle _titleStyle = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w500,
   );
@@ -28,7 +28,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
     fontSize: 18,
     fontWeight: FontWeight.w600,
     color: Colors.grey.shade700,
-  );
+  ); */
 
   final epanduRepo = EpanduRepo();
   final authRepo = AuthRepo();

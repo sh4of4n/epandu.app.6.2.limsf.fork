@@ -37,13 +37,13 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
 
   final FocusNode _idFocus = FocusNode();
   final FocusNode _idNameFocus = FocusNode();
-  final FocusNode _emailFocus = FocusNode();
-  final FocusNode _addressFocus = FocusNode();
-  final FocusNode _postcodeFocus = FocusNode();
+  // final FocusNode _emailFocus = FocusNode();
+  // final FocusNode _addressFocus = FocusNode();
+  // final FocusNode _postcodeFocus = FocusNode();
   final FocusNode _dobFocus = FocusNode();
   // final FocusNode _genderFocus = FocusNode();
   // final FocusNode _nearbyDiFocus = FocusNode();
-  final FocusNode _nationalityFocus = FocusNode();
+  // final FocusNode _nationalityFocus = FocusNode();
 
   final _dobController = TextEditingController();
 
@@ -56,7 +56,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   // String _address = '';
   // String _postcode = '';
   String _dob = '';
-  String _nationality = '';
+  // String _nationality = '';
   String _race = '';
   String _raceParam = '';
   String _message = '';
@@ -64,7 +64,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
 
   Gender _gender = Gender.male;
   String _genderValue = 'MALE';
-  String _countryCode = '+60';
+  // String _countryCode = '+60';
   String _potentialDob = '';
   final myImage = ImagesConstant();
   var _enrollHistoryData;

@@ -1,4 +1,3 @@
-import 'package:epandu/services/api/model/auth_model.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
