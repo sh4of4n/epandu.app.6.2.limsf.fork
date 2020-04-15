@@ -72,6 +72,7 @@ class ImagesConstant {
   String attendanceIcon = 'assets/images/attendance.png';
   String visaImage = 'assets/images/visa.png';
   String banksImage = 'assets/images/banks.png';
+  String comingSoon = 'assets/images/coming-soon.png';
 
   // emergency
   String ambulanceIcon = 'assets/images/ambulance.png';

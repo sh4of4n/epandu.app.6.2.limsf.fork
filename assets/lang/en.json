@@ -275,5 +275,6 @@
   "review": "Review",
   "merchant_detail_fail": "Failed to load merchant detail. Please try again later.",
   "inbox_list_fail": "Failed to load inbox list. Please try again later.",
-  "notifications": "Notifications"
+  "notifications": "Notifications",
+  "coming_soon_msg": "This feature will be available soon. Stay tuned!"
 }

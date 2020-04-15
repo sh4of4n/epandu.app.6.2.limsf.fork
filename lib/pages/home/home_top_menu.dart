@@ -96,8 +96,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                       ),
                     ),
                     InkWell(
-                      onTap: () =>
-                          Navigator.pushNamed(context, IDENTITY_BARCODE),
+                      onTap: () => Navigator.pushNamed(context, PAY),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),

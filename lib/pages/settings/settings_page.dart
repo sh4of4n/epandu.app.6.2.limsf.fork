@@ -179,6 +179,7 @@ class _SettingsState extends State<Settings> {
                 _isLoading = true;
               });
 
+              Navigator.pop(context);
               await authRepo.logout(context: context);
               Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
 

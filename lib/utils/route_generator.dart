@@ -5,6 +5,7 @@ import 'package:epandu/pages/menu/menu.dart';
 import 'package:epandu/pages/promotions/promotions.dart';
 import 'package:epandu/pages/vclub/value_club.dart';
 import 'package:epandu/pages/vclub/value_club_page.dart';
+import 'package:epandu/pay/pay.dart';
 import 'package:flutter/material.dart';
 
 import 'package:epandu/pages/emergency/emergency.dart';
@@ -279,6 +280,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           settings: RouteSettings(name: IDENTITY_BARCODE),
           builder: (_) => IdentityBarcode(),
+        );
+      case PAY:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: PAY),
+          builder: (_) => Pay(),
         );
       default:
         return _errorRoute();
