@@ -15,9 +15,10 @@ class InboxRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
     String userId = await localStorage.getUserId();
+    String appId = 'ePandu.App';
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appId=ePandu.App&userId=$userId';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appId=$appId&userId=$userId';
 
     var response = await networking.getData(
       path: 'GetNotificationListByUserId?$path',

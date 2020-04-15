@@ -25,7 +25,7 @@ class _IdentityBarcodeState extends State<IdentityBarcode> {
   }
 
   _getData() async {
-    String appId = 'ePandu.app';
+    String appId = 'ePandu.App';
     String appVersion = await localStorage.getAppVersion();
     String icNo = await localStorage.getStudentIc();
     String userId = await localStorage.getUserId();
