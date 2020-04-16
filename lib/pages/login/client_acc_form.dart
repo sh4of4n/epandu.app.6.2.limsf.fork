@@ -281,8 +281,8 @@ class _ClientAccountFormState extends State<ClientAccountForm>
 
       var result = await authRepo.getWsUrl(
         context: context,
-        acctUid: _caUid,
-        acctPwd: _caPwd,
+        acctUid: _caUid.replaceAll(' ', ''),
+        acctPwd: _caPwd.replaceAll(' ', ''),
         loginType: appConfig.wsCodeCrypt,
       );
 
