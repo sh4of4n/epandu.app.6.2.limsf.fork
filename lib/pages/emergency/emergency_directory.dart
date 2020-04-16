@@ -6,6 +6,7 @@ import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -29,6 +30,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
     color: Color(0xff5d6767),
   );
   String policeNumber = '';
+  String ambulanceNumber = '';
 
   @override
   void initState() {
@@ -46,21 +48,10 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         await Geolocator().checkGeolocationPermissionStatus();
 
     if (geolocationStatus == GeolocationStatus.granted) {
-      var response = await emergencyRepo.getSosContactSortByNearest(
-          context: context, sosContactType: 'POLICE');
-
-      if (response.isSuccess) {
-        var policeContacts = response.data;
-
-        for (int i = 0; i < policeContacts.length; i += 1) {
-          if (policeContacts[i].sosContactSubtype == 'IPD' && mounted) {
-            setState(() {
-              policeNumber = policeContacts[i].phone;
-            });
-            break;
-          }
-        }
-      }
+      Future.wait([
+        _getSosContact('POLICE'),
+        _getSosContact('AMBULANCE'),
+      ]);
     } else {
       customDialog.show(
         context: context,
@@ -90,14 +81,47 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
     }
   }
 
+  Future<void> _getSosContact(type) async {
+    var response = await emergencyRepo.getSosContactSortByNearest(
+      context: context,
+      sosContactType: type,
+    );
+
+    if (response.isSuccess && type == 'POLICE') {
+      var policeContacts = response.data;
+
+      for (int i = 0; i < policeContacts.length; i += 1) {
+        if (policeContacts[i].sosContactSubtype == 'IPD' && mounted) {
+          setState(() {
+            policeNumber = policeContacts[i].phone;
+          });
+          break;
+        }
+      }
+    } else if (response.isSuccess && type == 'AMBULANCE') {
+      var ambulanceContacts = response.data;
+
+      for (int i = 0; i < ambulanceContacts.length; i += 1) {
+        if (ambulanceContacts[i].sosContactSubtype == 'PUBLIC' && mounted) {
+          setState(() {
+            ambulanceNumber = ambulanceContacts[i].phone;
+          });
+          break;
+        }
+      }
+    }
+  }
+
   _callPoliceNumber() async {
     String trimNumber = policeNumber.replaceAll('-', '').replaceAll(' ', '');
 
     await launch('tel:$trimNumber');
   }
 
-  _callEmergencyNumber({@required String number}) async {
-    await launch('tel:999');
+  _callEmergencyNumber() async {
+    String trimNumber = ambulanceNumber.replaceAll('-', '').replaceAll(' ', '');
+
+    await launch('tel:$trimNumber');
   }
 
   @override
@@ -134,89 +158,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                 SizedBox(
                   height: 20.h,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30.w),
-                  child: Table(
-                    // defaultVerticalAlignment: TableCellVerticalAlignment.top,
-                    // border: TableBorder.all(),
-                    children: [
-                      TableRow(
-                        children: [
-                          DirectoryCard(
-                            title: AppLocalizations.of(context)
-                                .translate('police_title'),
-                            image: myImage.policeIcon,
-                            phoneIcon: myImage.phoneButton,
-                            directoryIcon: myImage.directoryButton,
-                            iconText: iconText,
-                            phoneAction: _callPoliceNumber,
-                            directoryName: DIRECTORY_LIST,
-                            directoryType: 'POLICE',
-                          ),
-                          DirectoryCard(
-                            title: AppLocalizations.of(context)
-                                .translate('ambulance_title'),
-                            image: myImage.ambulanceIcon,
-                            phoneIcon: myImage.phoneButton,
-                            directoryIcon: myImage.directoryButton,
-                            iconText: iconText,
-                            phoneAction: _callEmergencyNumber,
-                            directoryName: DIRECTORY_LIST,
-                            directoryType: 'AMBULANCE',
-                          ),
-                        ],
-                      ),
-                      TableRow(
-                        children: [
-                          DirectoryCard(
-                            title: AppLocalizations.of(context)
-                                .translate('bomba_title'),
-                            image: myImage.bombaIcon,
-                            phoneIcon: myImage.phoneButton,
-                            directoryIcon: myImage.directoryButton,
-                            iconText: iconText,
-                            // directoryName: DIRECTORY_LIST,
-                            // directoryType: 'BOMBA',
-                          ),
-                          DirectoryCard(
-                            title: AppLocalizations.of(context)
-                                .translate('towing_service'),
-                            image: myImage.towingIcon,
-                            phoneIcon: myImage.phoneButton,
-                            directoryIcon: myImage.directoryButton,
-                            iconText: iconText,
-                            // directoryName: DIRECTORY_LIST,
-                            // directoryType: 'WORKSHOP',
-                          ),
-                        ],
-                      ),
-                      TableRow(
-                        children: [
-                          DirectoryCard(
-                            title: AppLocalizations.of(context)
-                                .translate('workshop_cars'),
-                            image: myImage.workshopCar,
-                            phoneIcon: myImage.phoneButton,
-                            directoryIcon: myImage.directoryButton,
-                            iconText: iconText,
-                            // directoryName: DIRECTORY_LIST,
-                            // directoryType: 'BOMBA',
-                          ),
-                          DirectoryCard(
-                            title: AppLocalizations.of(context)
-                                .translate('workshop_bike'),
-                            image: myImage.workshopBike,
-                            phoneIcon: myImage.phoneButton,
-                            directoryIcon: myImage.directoryButton,
-                            iconText: iconText,
-                            // directoryName: DIRECTORY_LIST,
-                            // directoryType: 'WORKSHOP',
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                _renderCards(),
                 SizedBox(
                   height: ScreenUtil().setHeight(70),
                 ),
@@ -238,5 +180,177 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         ),
       ),
     );
+  }
+
+  _renderCards() {
+    if (policeNumber.isNotEmpty && ambulanceNumber.isNotEmpty) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 30.w),
+        child: Table(
+          // defaultVerticalAlignment: TableCellVerticalAlignment.top,
+          // border: TableBorder.all(),
+          children: [
+            TableRow(
+              children: [
+                DirectoryCard(
+                  title: AppLocalizations.of(context).translate('police_title'),
+                  image: myImage.policeIcon,
+                  phoneIcon: myImage.phoneButton,
+                  directoryIcon: myImage.directoryButton,
+                  iconText: iconText,
+                  phoneAction: _callPoliceNumber,
+                  directoryName: DIRECTORY_LIST,
+                  directoryType: 'POLICE',
+                ),
+                DirectoryCard(
+                  title:
+                      AppLocalizations.of(context).translate('ambulance_title'),
+                  image: myImage.ambulanceIcon,
+                  phoneIcon: myImage.phoneButton,
+                  directoryIcon: myImage.directoryButton,
+                  iconText: iconText,
+                  phoneAction: _callEmergencyNumber,
+                  directoryName: DIRECTORY_LIST,
+                  directoryType: 'AMBULANCE',
+                ),
+              ],
+            ),
+            TableRow(
+              children: [
+                DirectoryCard(
+                  title: AppLocalizations.of(context).translate('bomba_title'),
+                  image: myImage.bombaIcon,
+                  phoneIcon: myImage.phoneButton,
+                  directoryIcon: myImage.directoryButton,
+                  iconText: iconText,
+                  // directoryName: DIRECTORY_LIST,
+                  // directoryType: 'BOMBA',
+                ),
+                DirectoryCard(
+                  title:
+                      AppLocalizations.of(context).translate('towing_service'),
+                  image: myImage.towingIcon,
+                  phoneIcon: myImage.phoneButton,
+                  directoryIcon: myImage.directoryButton,
+                  iconText: iconText,
+                  // directoryName: DIRECTORY_LIST,
+                  // directoryType: 'WORKSHOP',
+                ),
+              ],
+            ),
+            TableRow(
+              children: [
+                DirectoryCard(
+                  title:
+                      AppLocalizations.of(context).translate('workshop_cars'),
+                  image: myImage.workshopCar,
+                  phoneIcon: myImage.phoneButton,
+                  directoryIcon: myImage.directoryButton,
+                  iconText: iconText,
+                  // directoryName: DIRECTORY_LIST,
+                  // directoryType: 'BOMBA',
+                ),
+                DirectoryCard(
+                  title:
+                      AppLocalizations.of(context).translate('workshop_bike'),
+                  image: myImage.workshopBike,
+                  phoneIcon: myImage.phoneButton,
+                  directoryIcon: myImage.directoryButton,
+                  iconText: iconText,
+                  // directoryName: DIRECTORY_LIST,
+                  // directoryType: 'WORKSHOP',
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 30.w),
+        child: Table(
+          children: [
+            TableRow(
+              children: [
+                Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.white,
+                  child: DirectoryCard(
+                    title: '',
+                    image: myImage.policeIcon,
+                    phoneIcon: myImage.phoneButton,
+                    directoryIcon: myImage.directoryButton,
+                    iconText: iconText,
+                  ),
+                ),
+                Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.white,
+                  child: DirectoryCard(
+                    title: '',
+                    image: myImage.ambulanceIcon,
+                    phoneIcon: myImage.phoneButton,
+                    directoryIcon: myImage.directoryButton,
+                    iconText: iconText,
+                  ),
+                ),
+              ],
+            ),
+            TableRow(
+              children: [
+                Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.white,
+                  child: DirectoryCard(
+                    title: '',
+                    image: myImage.bombaIcon,
+                    phoneIcon: myImage.phoneButton,
+                    directoryIcon: myImage.directoryButton,
+                    iconText: iconText,
+                  ),
+                ),
+                Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.white,
+                  child: DirectoryCard(
+                    title: '',
+                    image: myImage.towingIcon,
+                    phoneIcon: myImage.phoneButton,
+                    directoryIcon: myImage.directoryButton,
+                    iconText: iconText,
+                  ),
+                ),
+              ],
+            ),
+            TableRow(
+              children: [
+                Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.white,
+                  child: DirectoryCard(
+                    title: '',
+                    image: myImage.workshopCar,
+                    phoneIcon: myImage.phoneButton,
+                    directoryIcon: myImage.directoryButton,
+                    iconText: iconText,
+                  ),
+                ),
+                Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.white,
+                  child: DirectoryCard(
+                    title: '',
+                    image: myImage.workshopBike,
+                    phoneIcon: myImage.phoneButton,
+                    directoryIcon: myImage.directoryButton,
+                    iconText: iconText,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    }
   }
 }
