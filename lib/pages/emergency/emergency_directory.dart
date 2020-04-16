@@ -101,14 +101,18 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
     } else if (response.isSuccess && type == 'AMBULANCE') {
       var ambulanceContacts = response.data;
 
-      for (int i = 0; i < ambulanceContacts.length; i += 1) {
+      /* for (int i = 0; i < ambulanceContacts.length; i += 1) {
         if (ambulanceContacts[i].sosContactSubtype == 'PUBLIC' && mounted) {
           setState(() {
             ambulanceNumber = ambulanceContacts[i].phone;
           });
           break;
         }
-      }
+      } */
+
+      setState(() {
+        ambulanceNumber = ambulanceContacts[0].phone;
+      });
     }
   }
 
