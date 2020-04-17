@@ -10,12 +10,12 @@ import 'package:provider/provider.dart';
 
 import '../../app_localizations.dart';
 
-class LoginBottomCard extends StatefulWidget {
+class LoginTabletBottomCard extends StatefulWidget {
   @override
-  _LoginBottomCardState createState() => _LoginBottomCardState();
+  _LoginTabletBottomCardState createState() => _LoginTabletBottomCardState();
 }
 
-class _LoginBottomCardState extends State<LoginBottomCard> {
+class _LoginTabletBottomCardState extends State<LoginTabletBottomCard> {
   final customDialog = CustomDialog();
   final localStorage = LocalStorage();
   int count = 0;
@@ -60,7 +60,7 @@ class _LoginBottomCardState extends State<LoginBottomCard> {
                   return Text(
                     '${AppLocalizations.of(context).translate('language_lbl')} ${lang.language}',
                     style:
-                        TextStyle(fontSize: 56.sp, fontWeight: FontWeight.w500),
+                        TextStyle(fontSize: 35.sp, fontWeight: FontWeight.w500),
                   );
                 },
               ),
@@ -93,13 +93,13 @@ class _LoginBottomCardState extends State<LoginBottomCard> {
                   Text(
                     AppLocalizations.of(context).translate('version_lbl'),
                     style: TextStyle(
-                      fontSize: 52.sp,
+                      fontSize: 35.sp,
                     ),
                   ),
                   Text(
                     ': $appVersion',
                     style: TextStyle(
-                      fontSize: 52.sp,
+                      fontSize: 35.sp,
                     ),
                   ),
                 ],

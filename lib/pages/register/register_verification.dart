@@ -145,8 +145,13 @@ class _RegisterVerificationState extends State<RegisterVerification> {
                 SizedBox(height: 20.h),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 130.w),
-                  child: Text(AppLocalizations.of(context)
-                      .translate('enter_verification')),
+                  child: Text(
+                    AppLocalizations.of(context)
+                        .translate('enter_verification'),
+                    style: TextStyle(
+                      fontSize: 35.sp,
+                    ),
+                  ),
                 ),
                 Form(
                   key: _formKey,
@@ -157,7 +162,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
                         padding: EdgeInsets.symmetric(horizontal: 130.w),
                         child: TextFormField(
                           style: TextStyle(
-                            fontSize: 58.sp,
+                            fontSize: 40.sp,
                             color: Color(0xff808080),
                           ),
                           keyboardType: TextInputType.phone,
@@ -207,25 +212,17 @@ class _RegisterVerificationState extends State<RegisterVerification> {
                                     color: Colors.greenAccent,
                                   )
                                 : ButtonTheme(
-                                    padding: EdgeInsets.all(0.0),
                                     shape: StadiumBorder(),
                                     child: RaisedButton(
                                       onPressed: _next,
                                       color: Color(0xffdd0e0e),
                                       textColor: Colors.white,
                                       child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(18.0),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 30.0,
-                                        ),
                                         child: Text(
                                           AppLocalizations.of(context)
                                               .translate('next_btn'),
                                           style: TextStyle(
-                                            fontSize: 56.sp,
+                                            fontSize: 35.sp,
                                           ),
                                         ),
                                       ),
