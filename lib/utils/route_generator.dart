@@ -2,10 +2,10 @@ import 'package:epandu/pages/epandu/add_booking.dart';
 import 'package:epandu/pages/epandu/epandu.dart';
 import 'package:epandu/pages/inbox/inbox.dart';
 import 'package:epandu/pages/menu/menu.dart';
+import 'package:epandu/pages/pay/pay.dart';
 import 'package:epandu/pages/promotions/promotions.dart';
 import 'package:epandu/pages/vclub/value_club.dart';
 import 'package:epandu/pages/vclub/value_club_page.dart';
-import 'package:epandu/pay/pay.dart';
 import 'package:flutter/material.dart';
 
 import 'package:epandu/pages/emergency/emergency.dart';

@@ -2,7 +2,7 @@ import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../app_localizations.dart';
+import '../../app_localizations.dart';
 
 class Pay extends StatelessWidget {
   final image = ImagesConstant();
