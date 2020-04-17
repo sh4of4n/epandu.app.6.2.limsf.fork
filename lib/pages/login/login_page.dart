@@ -4,8 +4,8 @@ import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'login_bottom_card.dart';
-import 'login_bottom_tablet_form.dart';
 import 'login_form.dart';
+import 'login_tablet_bottom_card.dart';
 import 'login_tablet_form.dart';
 
 class Login extends StatefulWidget {
@@ -112,8 +112,8 @@ class _LoginState extends State<Login> {
               height: MediaQuery.of(context).size.height,
               child: Column(
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top: 200.h),
+                  Container(
+                    margin: EdgeInsets.only(top: 500.h),
                     child: Image.asset(
                       ImagesConstant().logo,
                       width: 1000.w,
@@ -121,7 +121,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 140.w),
+                    padding: EdgeInsets.symmetric(horizontal: 220.w),
                     child: Column(
                       children: <Widget>[
                         SizedBox(

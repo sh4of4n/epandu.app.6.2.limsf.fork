@@ -105,7 +105,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
       ),
       child: Padding(
         padding:
-            EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 20.0),
+            EdgeInsets.only(left: 50.w, right: 50.w, top: 48.h, bottom: 60.h),
         child: Form(
           key: _formKey,
           child: Column(
@@ -115,11 +115,14 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                 height: 35.h,
               ),
               TextFormField(
+                style: TextStyle(
+                  fontSize: 35.sp,
+                ),
                 focusNode: _phoneFocus,
                 keyboardType: TextInputType.phone,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  contentPadding: EdgeInsets.symmetric(vertical: 40.h),
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
@@ -127,7 +130,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                       AppLocalizations.of(context).translate('phone_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.account_circle),
+                  prefixIcon: Icon(Icons.account_circle, size: 32),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(30),
@@ -153,18 +156,21 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                 },
               ),
               SizedBox(
-                height: 70.h,
+                height: 50.h,
               ),
               TextFormField(
+                style: TextStyle(
+                  fontSize: 35.sp,
+                ),
                 focusNode: _passwordFocus,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  contentPadding: EdgeInsets.symmetric(vertical: 40.h),
                   hintStyle: TextStyle(color: primaryColor),
                   labelText:
                       AppLocalizations.of(context).translate('password_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.lock),
+                  prefixIcon: Icon(Icons.lock, size: 32),
                   suffixIcon: IconButton(
                     icon: Icon(
                         _obscureText ? Icons.visibility_off : Icons.visibility),
@@ -199,7 +205,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                 },
               ),
               SizedBox(
-                height: 60.h,
+                height: 40.h,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -212,14 +218,14 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                       AppLocalizations.of(context)
                           .translate('forgot_password_lbl'),
                       style: TextStyle(
-                        fontSize: 56.sp,
+                        fontSize: 35.sp,
                       ),
                     ),
                   ),
                 ],
               ),
               SizedBox(
-                height: 40.h,
+                height: 30.h,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -254,7 +260,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                     child: Text(
                       AppLocalizations.of(context).translate('sign_up_btn'),
                       style: TextStyle(
-                        fontSize: 56.sp,
+                        fontSize: 35.sp,
                       ),
                     ),
                   ),
@@ -274,8 +280,8 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
               color: primaryColor,
             )
           : ButtonTheme(
-              minWidth: 420.w,
-              padding: EdgeInsets.symmetric(vertical: 11.0),
+              minWidth: 250.w,
+              padding: EdgeInsets.symmetric(vertical: 20.h),
               buttonColor: primaryColor,
               shape: StadiumBorder(),
               child: RaisedButton(
@@ -284,7 +290,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                 child: Text(
                   AppLocalizations.of(context).translate('login_btn'),
                   style: TextStyle(
-                    fontSize: 56.sp,
+                    fontSize: 35.sp,
                   ),
                 ),
               ),

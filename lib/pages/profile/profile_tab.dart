@@ -167,21 +167,34 @@ class _ProfileTabState extends State<ProfileTab>
     switch (_tabIndex) {
       case 0:
         return <Widget>[
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 70.h),
-            margin: EdgeInsets.only(right: 15.w),
-            child: OutlineButton(
-              borderSide: BorderSide(
-                color: Colors.blue,
-                width: 1.5,
-              ),
-              shape: StadiumBorder(),
-              onPressed: () => Navigator.pushNamed(context, UPDATE_PROFILE),
-              child: Text('Edit profile'),
-            ),
+          LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              if (constraints.maxWidth < 600) {
+                return editProfileBtn('mobile');
+              }
+              return editProfileBtn('tablet');
+            },
           ),
         ];
     }
+  }
+
+  editProfileBtn(device) {
+    return Container(
+      padding: device == 'mobile'
+          ? EdgeInsets.symmetric(vertical: 70.h)
+          : EdgeInsets.symmetric(vertical: 40.h),
+      margin: EdgeInsets.only(right: 15.w),
+      child: OutlineButton(
+        borderSide: BorderSide(
+          color: Colors.blue,
+          width: 1.5,
+        ),
+        shape: StadiumBorder(),
+        onPressed: () => Navigator.pushNamed(context, UPDATE_PROFILE),
+        child: Text('Edit profile'),
+      ),
+    );
   }
 
   @override

@@ -60,6 +60,10 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   String _deviceId = '';
   String _deviceOs = '';
 
+  TextStyle inputStyle = TextStyle(
+    fontSize: 35.sp,
+  );
+
   @override
   void initState() {
     super.initState();
@@ -99,6 +103,16 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
 
   @override
   Widget build(BuildContext context) {
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      if (constraints.maxWidth < 600) {
+        return defaultLayout();
+      }
+      return tabLayout();
+    });
+  }
+
+  defaultLayout() {
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -225,10 +239,10 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                                 context, _emailFocus, _passwordFocus);
                           },
                           /* validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Email is required.';
-                          }
-                        }, */
+                            if (value.isEmpty) {
+                              return 'Email is required.';
+                            }
+                          }, */
                           onChanged: (value) {
                             if (value != _email) {
                               _email = value;
@@ -329,7 +343,38 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                                     style: TextStyle(color: Colors.red),
                                   )
                                 : SizedBox.shrink(),
-                            _signUpButton(),
+                            Container(
+                              alignment: Alignment.center,
+                              child: _isLoading
+                                  ? SpinKitFoldingCube(
+                                      color: primaryColor,
+                                    )
+                                  : ButtonTheme(
+                                      padding: EdgeInsets.all(0.0),
+                                      shape: StadiumBorder(),
+                                      child: RaisedButton(
+                                        onPressed: _submit,
+                                        color: Color(0xffdd0e0e),
+                                        textColor: Colors.white,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(18.0),
+                                          ),
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 30.0,
+                                          ),
+                                          child: Text(
+                                            AppLocalizations.of(context)
+                                                .translate('sign_up_btn'),
+                                            style: TextStyle(
+                                              fontSize: 56.sp,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                            ),
                           ],
                         ),
                         SizedBox(
@@ -354,36 +399,287 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
     );
   }
 
-  _signUpButton() {
-    return Container(
-      alignment: Alignment.center,
-      child: _isLoading
-          ? SpinKitFoldingCube(
-              color: primaryColor,
-            )
-          : ButtonTheme(
-              padding: EdgeInsets.all(0.0),
-              shape: StadiumBorder(),
-              child: RaisedButton(
-                onPressed: _submit,
-                color: Color(0xffdd0e0e),
-                textColor: Colors.white,
+  tabLayout() {
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.white,
+              primaryColor,
+            ],
+            stops: [0.60, 0.90],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: Image.asset(image.logo2, height: 90.h),
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+          ),
+          body: Stack(
+            children: <Widget>[
+              SingleChildScrollView(
                 child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18.0),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 30.0,
-                  ),
-                  child: Text(
-                    AppLocalizations.of(context).translate('sign_up_btn'),
-                    style: TextStyle(
-                      fontSize: 56.sp,
+                  padding: EdgeInsets.symmetric(horizontal: 130.w),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(
+                          height: ScreenUtil().setHeight(35),
+                        ),
+                        TextFormField(
+                          style: inputStyle,
+                          focusNode: _phoneFocus,
+                          keyboardType: TextInputType.phone,
+                          textInputAction: TextInputAction.next,
+                          enabled: false,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: -10.h),
+                            hintStyle: TextStyle(
+                              color: primaryColor,
+                            ),
+                            labelText: AppLocalizations.of(context)
+                                .translate('login_id'),
+                            prefixIcon: Icon(Icons.phone_android),
+                          ),
+                          onFieldSubmitted: (term) {
+                            fieldFocusChange(context, _phoneFocus, _nameFocus);
+                          },
+                          initialValue: _phone,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return AppLocalizations.of(context)
+                                  .translate('phone_required_msg');
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            if (value != _phone) {
+                              _phone = value;
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(70),
+                        ),
+                        TextFormField(
+                          style: inputStyle,
+                          focusNode: _nameFocus,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: -10.h),
+                            hintStyle: TextStyle(
+                              color: primaryColor,
+                            ),
+                            labelText: AppLocalizations.of(context)
+                                .translate('nick_name_lbl'),
+                            prefixIcon: Icon(Icons.account_circle),
+                          ),
+                          onFieldSubmitted: (term) {
+                            fieldFocusChange(context, _nameFocus, _emailFocus);
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return AppLocalizations.of(context)
+                                  .translate('name_required_msg');
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            if (value != _name) {
+                              _name = value;
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(70),
+                        ),
+                        TextFormField(
+                          style: inputStyle,
+                          focusNode: _emailFocus,
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: -10.h),
+                            hintStyle: TextStyle(
+                              color: primaryColor,
+                            ),
+                            labelText: AppLocalizations.of(context)
+                                .translate('email_lbl'),
+                            prefixIcon: Icon(Icons.mail),
+                          ),
+                          onFieldSubmitted: (term) {
+                            fieldFocusChange(
+                                context, _emailFocus, _passwordFocus);
+                          },
+                          /* validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Email is required.';
+                            }
+                          }, */
+                          onChanged: (value) {
+                            if (value != _email) {
+                              _email = value;
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(70),
+                        ),
+                        TextFormField(
+                          style: inputStyle,
+                          focusNode: _passwordFocus,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: -10.h),
+                            hintStyle: TextStyle(color: primaryColor),
+                            labelText: AppLocalizations.of(context)
+                                .translate('password_lbl'),
+                            prefixIcon: Icon(Icons.lock),
+                            suffixIcon: IconButton(
+                              icon: Icon(_obscurePassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility),
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    _obscurePassword = !_obscurePassword;
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                          obscureText: _obscurePassword,
+                          onFieldSubmitted: (term) {
+                            fieldFocusChange(
+                                context, _passwordFocus, _confirmPasswordFocus);
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return AppLocalizations.of(context)
+                                  .translate('password_required_msg');
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            if (value != _password) {
+                              _password = value;
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(70),
+                        ),
+                        TextFormField(
+                          style: inputStyle,
+                          focusNode: _confirmPasswordFocus,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: -10.h),
+                            hintStyle: TextStyle(color: primaryColor),
+                            labelText: AppLocalizations.of(context)
+                                .translate('confirm_password'),
+                            prefixIcon: Icon(Icons.lock),
+                            suffixIcon: IconButton(
+                              icon: Icon(_obscureConfirmPassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility),
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    _obscureConfirmPassword =
+                                        !_obscureConfirmPassword;
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                          obscureText: _obscureConfirmPassword,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return AppLocalizations.of(context)
+                                  .translate('confirm_password_required');
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            if (value != _confirmPassword) {
+                              _confirmPassword = value;
+                            }
+                          },
+                        ),
+                        SizedBox(height: 40.h),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            _message.isNotEmpty
+                                ? Text(
+                                    _message,
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                : SizedBox.shrink(),
+                            Container(
+                              alignment: Alignment.center,
+                              child: _isLoading
+                                  ? SpinKitFoldingCube(
+                                      color: primaryColor,
+                                    )
+                                  : ButtonTheme(
+                                      shape: StadiumBorder(),
+                                      child: RaisedButton(
+                                        onPressed: _submit,
+                                        color: Color(0xffdd0e0e),
+                                        textColor: Colors.white,
+                                        child: Container(
+                                          child: Text(
+                                            AppLocalizations.of(context)
+                                                .translate('sign_up_btn'),
+                                            style: TextStyle(
+                                              fontSize: 35.sp,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(40),
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(70),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-            ),
+              LoadingModal(
+                isVisible: _loginLoading,
+                color: primaryColor,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

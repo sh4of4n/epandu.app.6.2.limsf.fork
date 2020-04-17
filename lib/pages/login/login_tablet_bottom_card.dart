@@ -60,7 +60,7 @@ class _LoginTabletBottomCardState extends State<LoginTabletBottomCard> {
                   return Text(
                     '${AppLocalizations.of(context).translate('language_lbl')} ${lang.language}',
                     style:
-                        TextStyle(fontSize: 56.sp, fontWeight: FontWeight.w500),
+                        TextStyle(fontSize: 35.sp, fontWeight: FontWeight.w500),
                   );
                 },
               ),
@@ -93,13 +93,13 @@ class _LoginTabletBottomCardState extends State<LoginTabletBottomCard> {
                   Text(
                     AppLocalizations.of(context).translate('version_lbl'),
                     style: TextStyle(
-                      fontSize: 52.sp,
+                      fontSize: 35.sp,
                     ),
                   ),
                   Text(
                     ': $appVersion',
                     style: TextStyle(
-                      fontSize: 52.sp,
+                      fontSize: 35.sp,
                     ),
                   ),
                 ],

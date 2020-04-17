@@ -218,7 +218,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
                     child: Text(
                       AppLocalizations.of(context).translate('go_back_lbl'),
                       style: TextStyle(
-                        fontSize: 38.sp,
+                        fontSize: 35.sp,
                       ),
                     ),
                   ),
@@ -260,7 +260,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
               color: primaryColor,
             )
           : ButtonTheme(
-              minWidth: 250.w,
+              minWidth: 200.w,
               padding: EdgeInsets.symmetric(vertical: 20.h),
               buttonColor: primaryColor,
               shape: StadiumBorder(),
@@ -270,7 +270,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
                 child: Text(
                   AppLocalizations.of(context).translate('save_btn'),
                   style: TextStyle(
-                    fontSize: 45.sp,
+                    fontSize: 35.sp,
                   ),
                 ),
               ),
