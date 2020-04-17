@@ -78,8 +78,14 @@ class ImagesConstant {
   String ambulanceIcon = 'assets/images/ambulance.png';
   String policeIcon = 'assets/images/police.png';
   String bombaIcon = 'assets/images/bomba.png';
+  String towingIcon = 'assets/images/towing.png';
   String workshopIcon = 'assets/images/workshop.png';
   String emergencyImage = 'assets/images/emergency-image.jpg';
+  String workshopCar = 'assets/images/workshop-car.png';
+  String workshopBike = 'assets/images/workshop-bike.png';
+  String phoneButton = 'assets/images/phone-button.png';
+  String directoryButton = 'assets/images/directory-button.png';
+
   // String avatar = 'images/avatar.jpg';
   // String loginBackground = 'assets/images/login_background.jpg';
 
