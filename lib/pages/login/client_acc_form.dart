@@ -62,9 +62,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 1500),
-      curve: Curves.elasticOut,
+    return Container(
       width: double.infinity,
       // height: _height,
       decoration: BoxDecoration(
@@ -92,7 +90,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(
-                height: ScreenUtil().setHeight(35),
+                height: 35.h,
               ),
               TextFormField(
                 focusNode: _caUidFocus,
@@ -132,7 +130,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                 },
               ),
               SizedBox(
-                height: ScreenUtil().setHeight(70),
+                height: 70.h,
               ),
               TextFormField(
                 focusNode: _caPwdFocus,
@@ -178,7 +176,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                 },
               ),
               SizedBox(
-                height: ScreenUtil().setHeight(60),
+                height: 60.h,
               ),
               _showConnectedCa(),
               Row(
@@ -198,7 +196,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                 ],
               ),
               SizedBox(
-                height: ScreenUtil().setHeight(40),
+                height: 40.h,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -213,7 +211,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                     child: Text(
                       AppLocalizations.of(context).translate('go_back_lbl'),
                       style: TextStyle(
-                        fontSize: ScreenUtil().setSp(56),
+                        fontSize: 56.sp,
                       ),
                     ),
                   ),
@@ -236,7 +234,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                 '${AppLocalizations.of(context).translate('connected_ca')}: $_connectedCa'),
           ),
           SizedBox(
-            height: ScreenUtil().setHeight(60),
+            height: 60.h,
           ),
         ],
       );
@@ -251,7 +249,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
               color: primaryColor,
             )
           : ButtonTheme(
-              minWidth: ScreenUtil().setWidth(420),
+              minWidth: 420.w,
               padding: EdgeInsets.symmetric(vertical: 11.0),
               buttonColor: primaryColor,
               shape: StadiumBorder(),
@@ -261,7 +259,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                 child: Text(
                   AppLocalizations.of(context).translate('save_btn'),
                   style: TextStyle(
-                    fontSize: ScreenUtil().setSp(56),
+                    fontSize: 56.sp,
                   ),
                 ),
               ),

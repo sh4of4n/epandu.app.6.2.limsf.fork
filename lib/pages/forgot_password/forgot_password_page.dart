@@ -41,8 +41,8 @@ class ForgotPassword extends StatelessWidget {
                       padding: EdgeInsets.only(top: 20.0),
                       child: Image.asset(
                         ImagesConstant().logo,
-                        width: ScreenUtil().setWidth(1000),
-                        height: ScreenUtil().setHeight(600),
+                        width: 1000.w,
+                        height: 600.h,
                       ),
                     ),
                   ],
@@ -50,11 +50,11 @@ class ForgotPassword extends StatelessWidget {
                 SingleChildScrollView(
                   child: Padding(
                     padding:
-                        EdgeInsets.only(left: 40.0, right: 40.0, top: 60.0),
+                        EdgeInsets.only(left: 140.w, right: 140.w, top: 230.h),
                     child: Column(
                       children: <Widget>[
                         SizedBox(
-                          height: ScreenUtil().setHeight(510),
+                          height: 510.h,
                         ),
                         ForgotPasswordForm(),
                       ],

@@ -10,12 +10,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:epandu/app_localizations.dart';
 
-class LoginForm extends StatefulWidget {
+class LoginTabletForm extends StatefulWidget {
   @override
-  _LoginFormState createState() => _LoginFormState();
+  _LoginTabletFormState createState() => _LoginTabletFormState();
 }
 
-class _LoginFormState extends State<LoginForm> with PageBaseClass {
+class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
   final authRepo = AuthRepo();
 
   final _formKey = GlobalKey<FormState>();

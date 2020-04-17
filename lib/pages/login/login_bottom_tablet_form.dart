@@ -10,12 +10,12 @@ import 'package:provider/provider.dart';
 
 import '../../app_localizations.dart';
 
-class LoginBottomCard extends StatefulWidget {
+class LoginTabletBottomCard extends StatefulWidget {
   @override
-  _LoginBottomCardState createState() => _LoginBottomCardState();
+  _LoginTabletBottomCardState createState() => _LoginTabletBottomCardState();
 }
 
-class _LoginBottomCardState extends State<LoginBottomCard> {
+class _LoginTabletBottomCardState extends State<LoginTabletBottomCard> {
   final customDialog = CustomDialog();
   final localStorage = LocalStorage();
   int count = 0;

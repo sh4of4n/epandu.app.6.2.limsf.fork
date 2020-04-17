@@ -1,8 +1,7 @@
 import 'package:epandu/base/page_base_class.dart';
-import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
+import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/device_info.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
@@ -10,19 +9,26 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:epandu/app_localizations.dart';
 
-class LoginForm extends StatefulWidget {
+class ClientAccountTabletForm extends StatefulWidget {
+  final data;
+
+  ClientAccountTabletForm(this.data);
+
   @override
-  _LoginFormState createState() => _LoginFormState();
+  _ClientAccountTabletFormState createState() =>
+      _ClientAccountTabletFormState();
 }
 
-class _LoginFormState extends State<LoginForm> with PageBaseClass {
+class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
+    with PageBaseClass {
   final authRepo = AuthRepo();
+  final AppConfig appConfig = AppConfig();
 
   final _formKey = GlobalKey<FormState>();
 
-  final FocusNode _phoneFocus = FocusNode();
+  final FocusNode _caUidFocus = FocusNode();
 
-  final FocusNode _passwordFocus = FocusNode();
+  final FocusNode _caPwdFocus = FocusNode();
 
   final primaryColor = ColorConstant.primaryColor;
 
@@ -30,56 +36,29 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
 
   bool _isLoading = false;
 
-  String _phone;
-  String _password;
-  String _loginMessage = '';
+  String _message = '';
+  String _caUid = '';
+  String _caPwd = '';
   bool _obscureText = true;
+  String _connectedCa = '';
 
   // var _height = ScreenUtil().setHeight(1300);
 
   // var _height = ScreenUtil.screenHeight / 4.5;
 
-  Location location = Location();
-  String _latitude = '';
-  String _longitude = '';
-
-  DeviceInfo deviceInfo = DeviceInfo();
-  // String _deviceModel = '';
-  String _deviceVersion = '';
-  String _deviceId = '';
-  String _deviceOs = '';
-
   @override
   void initState() {
     super.initState();
 
-    _getCurrentLocation();
-    _getDeviceInfo();
+    _getConnectedCa();
   }
 
-  _getDeviceInfo() async {
-    // get device info
-    await deviceInfo.getDeviceInfo();
-
-    // _deviceModel = deviceInfo.model;
-    _deviceVersion = deviceInfo.version;
-    _deviceId = deviceInfo.id;
-    _deviceOs = deviceInfo.os;
-
-    // print('deviceId: ' + deviceId);
-  }
-
-  _getCurrentLocation() async {
-    await location.getCurrentLocation();
+  _getConnectedCa() async {
+    String _clientAcc = await localStorage.getCaUid();
 
     setState(() {
-      _latitude =
-          location.latitude != null ? location.latitude.toString() : '999';
-      _longitude =
-          location.longitude != null ? location.longitude.toString() : '999';
+      _connectedCa = _clientAcc;
     });
-
-    // print('$_latitude, $_longitude');
   }
 
   @override
@@ -105,7 +84,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
       ),
       child: Padding(
         padding:
-            EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 20.0),
+            EdgeInsets.only(left: 50.w, right: 50.w, top: 48.h, bottom: 60.h),
         child: Form(
           key: _formKey,
           child: Column(
@@ -115,19 +94,21 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 height: 35.h,
               ),
               TextFormField(
-                focusNode: _phoneFocus,
-                keyboardType: TextInputType.phone,
+                style: TextStyle(
+                  fontSize: 35.sp,
+                ),
+                focusNode: _caUidFocus,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  contentPadding: EdgeInsets.symmetric(vertical: 40.h),
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
-                  labelText:
-                      AppLocalizations.of(context).translate('phone_lbl'),
+                  labelText: AppLocalizations.of(context)
+                      .translate('client_acc_id_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.account_circle),
+                  prefixIcon: Icon(Icons.account_circle, size: 32),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(30),
@@ -137,34 +118,37 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                   ),
                 ),
                 onFieldSubmitted: (term) {
-                  fieldFocusChange(context, _phoneFocus, _passwordFocus);
+                  fieldFocusChange(context, _caUidFocus, _caPwdFocus);
                 },
                 validator: (value) {
                   if (value.isEmpty) {
                     return AppLocalizations.of(context)
-                        .translate('phone_required_msg');
+                        .translate('client_acc_id_required');
                   }
                   return null;
                 },
                 onSaved: (value) {
-                  if (value != _phone) {
-                    _phone = value;
+                  if (value != _caUid) {
+                    _caUid = value;
                   }
                 },
               ),
               SizedBox(
-                height: 70.h,
+                height: 50.h,
               ),
               TextFormField(
-                focusNode: _passwordFocus,
+                style: TextStyle(
+                  fontSize: 35.sp,
+                ),
+                focusNode: _caPwdFocus,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  contentPadding: EdgeInsets.symmetric(vertical: 40.h),
                   hintStyle: TextStyle(color: primaryColor),
-                  labelText:
-                      AppLocalizations.of(context).translate('password_lbl'),
+                  labelText: AppLocalizations.of(context)
+                      .translate('client_acc_pwd_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.lock),
+                  prefixIcon: Icon(Icons.lock, size: 32),
                   suffixIcon: IconButton(
                     icon: Icon(
                         _obscureText ? Icons.visibility_off : Icons.visibility),
@@ -193,50 +177,27 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                   return null;
                 },
                 onSaved: (value) {
-                  if (value != _password) {
-                    _password = value;
+                  if (value != _caPwd) {
+                    _caPwd = value;
                   }
                 },
               ),
               SizedBox(
-                height: 60.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, FORGOT_PASSWORD);
-                    },
-                    child: Text(
-                      AppLocalizations.of(context)
-                          .translate('forgot_password_lbl'),
-                      style: TextStyle(
-                        fontSize: 56.sp,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
                 height: 40.h,
               ),
+              _showConnectedCa(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      _loginMessage.isNotEmpty
-                          ? LimitedBox(
-                              maxWidth: 800.w,
-                              child: Text(
-                                _loginMessage,
-                                style: TextStyle(color: Colors.red),
-                                textAlign: TextAlign.center,
-                              ),
+                      _message.isNotEmpty
+                          ? Text(
+                              _message,
+                              style: TextStyle(color: Colors.red),
                             )
                           : SizedBox.shrink(),
-                      _loginButton(),
+                      _saveButton(),
                     ],
                   ),
                 ],
@@ -249,12 +210,15 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, SIGN_UP_MOBILE);
+                      if (widget.data == 'SETTINGS')
+                        Navigator.pushReplacementNamed(context, LOGIN);
+                      else
+                        Navigator.pop(context);
                     },
                     child: Text(
-                      AppLocalizations.of(context).translate('sign_up_btn'),
+                      AppLocalizations.of(context).translate('go_back_lbl'),
                       style: TextStyle(
-                        fontSize: 56.sp,
+                        fontSize: 38.sp,
                       ),
                     ),
                   ),
@@ -267,24 +231,46 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
     );
   }
 
-  _loginButton() {
+  _showConnectedCa() {
+    if (_connectedCa.isNotEmpty) {
+      return Column(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.h),
+            child: Text(
+              '${AppLocalizations.of(context).translate('connected_ca')}: $_connectedCa',
+              style: TextStyle(
+                fontSize: 35.sp,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 40.h,
+          ),
+        ],
+      );
+    }
+    return Container(width: 0, height: 0);
+  }
+
+  _saveButton() {
     return Container(
       child: _isLoading
           ? SpinKitFoldingCube(
               color: primaryColor,
             )
           : ButtonTheme(
-              minWidth: 420.w,
-              padding: EdgeInsets.symmetric(vertical: 11.0),
+              minWidth: 250.w,
+              padding: EdgeInsets.symmetric(vertical: 20.h),
               buttonColor: primaryColor,
               shape: StadiumBorder(),
               child: RaisedButton(
-                onPressed: _submitLogin, // () => localStorage.reset(),
+                onPressed: _submit,
                 textColor: Colors.white,
                 child: Text(
-                  AppLocalizations.of(context).translate('login_btn'),
+                  AppLocalizations.of(context).translate('save_btn'),
                   style: TextStyle(
-                    fontSize: 56.sp,
+                    fontSize: 45.sp,
                   ),
                 ),
               ),
@@ -292,67 +278,36 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
     );
   }
 
-  _submitLogin() async {
+  _submit() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
       setState(() {
-        // _height = ScreenUtil().setHeight(1300);
+        _message = '';
         _isLoading = true;
-        _loginMessage = '';
       });
 
-      /* var result = await authRepo.login(
+      var result = await authRepo.getWsUrl(
         context: context,
-        phone: _phone,
-        password: _password,
-      ); */
-
-      var result = await authRepo.login(
-        context: context,
-        phone: _phone,
-        password: _password,
-        latitude: _latitude,
-        longitude: _longitude,
-        deviceRemark: '$_deviceOs $_deviceVersion',
-        phDeviceId: _deviceId,
+        acctUid: _caUid.replaceAll(' ', ''),
+        acctPwd: _caPwd.replaceAll(' ', ''),
+        loginType: appConfig.wsCodeCrypt,
       );
 
       if (result.isSuccess) {
-        if (result.data == 'empty') {
-          var getRegisteredDi =
-              await authRepo.getUserRegisteredDI(context: context);
-
-          if (getRegisteredDi.isSuccess) {
-            Navigator.pushReplacementNamed(context, HOME);
-          } else {
-            setState(() {
-              _isLoading = false;
-              _loginMessage = result.message;
-            });
-          }
-        } else if (result.data.length > 1) {
-          // Navigate to DI selection page
-          // Temporary navigate to home
-          // Navigator.pushReplacementNamed(context, HOME);
-
-          Navigator.pushReplacementNamed(context, SELECT_DI,
-              arguments: result.data);
-        } else {
-          localStorage.saveDiCode(result.data[0].diCode);
-
-          Navigator.pushReplacementNamed(context, HOME);
-        }
+        if (widget.data == 'SETTINGS')
+          Navigator.pushReplacementNamed(context, LOGIN);
+        else
+          Navigator.pop(context);
       } else {
         setState(() {
-          _isLoading = false;
-          _loginMessage = result.message;
+          _message = result.message.toString();
         });
       }
-    } else {
+
       setState(() {
-        // _height = ScreenUtil().setHeight(1450);
+        _isLoading = false;
       });
     }
   }
