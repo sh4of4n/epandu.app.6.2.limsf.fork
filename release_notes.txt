@@ -1,5 +1,2 @@
 New:
-- Push notifications enhancements and fixes
-- Login enhancement
-- Barcode scanner
-- QR id 
+- UI enhancements and bug fixes
