@@ -111,6 +111,152 @@ class _RegisterVerificationState extends State<RegisterVerification> {
 
   @override
   Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        if (constraints.maxWidth < 600) {
+          return defaultLayout();
+        }
+        return tabLayout();
+      },
+    );
+  }
+
+  defaultLayout() {
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.white,
+              primaryColor,
+            ],
+            stops: [0.45, 0.85],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: Image.asset(image.logo2, height: 90.h),
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                SizedBox(height: 20.h),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 130.w),
+                  child: Text(AppLocalizations.of(context)
+                      .translate('enter_verification')),
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 130.w),
+                        child: TextFormField(
+                          style: TextStyle(
+                            fontSize: 58.sp,
+                            color: Color(0xff808080),
+                          ),
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                              // contentPadding:
+                              //     EdgeInsets.symmetric(vertical: 120.h),
+                              suffixIcon: IconButton(
+                            icon: Icon(Icons.refresh),
+                            onPressed: _resend == false
+                                ? _requestVerificationCode
+                                : null,
+                          )),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return AppLocalizations.of(context)
+                                  .translate('verification_required');
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            if (value != _verificationCode) {
+                              _verificationCode = value;
+                            }
+                          },
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          _message.isNotEmpty
+                              ? Container(
+                                  margin: EdgeInsets.symmetric(vertical: 20.h),
+                                  alignment: Alignment.center,
+                                  width: 1300.w,
+                                  child: Text(
+                                    '$_message ${_resend == true ? _current : ''}',
+                                    style: _messageStyle,
+                                  ),
+                                )
+                              : Container(
+                                  margin: EdgeInsets.symmetric(vertical: 20.h),
+                                ),
+                          Container(
+                            alignment: Alignment.center,
+                            child: _isLoading
+                                ? SpinKitFoldingCube(
+                                    color: Colors.greenAccent,
+                                  )
+                                : ButtonTheme(
+                                    padding: EdgeInsets.all(0.0),
+                                    shape: StadiumBorder(),
+                                    child: RaisedButton(
+                                      onPressed: _next,
+                                      color: Color(0xffdd0e0e),
+                                      textColor: Colors.white,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(18.0),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 30.0,
+                                        ),
+                                        child: Text(
+                                          AppLocalizations.of(context)
+                                              .translate('next_btn'),
+                                          style: TextStyle(
+                                            fontSize: 56.sp,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  tabLayout() {
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);

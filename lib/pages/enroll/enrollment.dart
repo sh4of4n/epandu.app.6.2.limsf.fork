@@ -494,6 +494,10 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   }
 
   _getRaceValue(race) {
+    setState(() {
+      _raceParam = race;
+    });
+
     if (race == 'M')
       return AppLocalizations.of(context).translate('malay_race_lbl');
     else if (race == 'C')
