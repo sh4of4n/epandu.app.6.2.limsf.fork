@@ -27,7 +27,7 @@ class EpanduCategory extends StatelessWidget {
             Colors.white,
             Color(0xffffd225),
           ],
-          stops: [0.85, 1.2],
+          stops: [0.60, 1.2],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -37,7 +37,7 @@ class EpanduCategory extends StatelessWidget {
         appBar: AppBar(
           title: FadeInImage(
             alignment: Alignment.center,
-            height: ScreenUtil().setHeight(110),
+            height: 110.h,
             placeholder: MemoryImage(kTransparentImage),
             image: AssetImage(
               myImage.logo2,
@@ -49,17 +49,6 @@ class EpanduCategory extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              /* FadeInImage(
-                alignment: Alignment.center,
-                height: ScreenUtil().setHeight(190),
-                placeholder: MemoryImage(kTransparentImage),
-                image: AssetImage(
-                  myImage.logo2,
-                ),
-              ),
-              SizedBox(
-                height: ScreenUtil().setHeight(40),
-              ), */
               FadeInImage(
                 alignment: Alignment.center,
                 placeholder: MemoryImage(kTransparentImage),
@@ -68,11 +57,10 @@ class EpanduCategory extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: ScreenUtil().setHeight(60),
+                height: 60.h,
               ),
               Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(60)),
+                padding: EdgeInsets.symmetric(horizontal: 60.w),
                 child: Table(
                   // defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                   // border: TableBorder.all(),
@@ -80,99 +68,46 @@ class EpanduCategory extends StatelessWidget {
                     TableRow(
                       children: [
                         InkWell(
+                          onTap: () {},
+                          child: Column(
+                            children: <Widget>[
+                              FadeInImage(
+                                alignment: Alignment.center,
+                                height: 330.h,
+                                placeholder: MemoryImage(kTransparentImage),
+                                image: AssetImage(
+                                  myImage.infoIcon,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Text(
+                                AppLocalizations.of(context).translate('info'),
+                                style: iconText,
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                        InkWell(
                           onTap: () => Navigator.pushNamed(context, ENROLLMENT),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(
                                 alignment: Alignment.center,
-                                height: ScreenUtil().setHeight(350),
+                                height: 330.h,
                                 placeholder: MemoryImage(kTransparentImage),
                                 image: AssetImage(
                                   myImage.enrollIcon,
                                 ),
                               ),
                               SizedBox(
-                                height: ScreenUtil().setHeight(20),
+                                height: 20.h,
                               ),
                               Text(
                                 AppLocalizations.of(context)
                                     .translate('enroll_lbl'),
-                                style: iconText,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: Column(
-                            children: <Widget>[
-                              FadeInImage(
-                                alignment: Alignment.center,
-                                height: ScreenUtil().setHeight(350),
-                                placeholder: MemoryImage(kTransparentImage),
-                                image: AssetImage(
-                                  myImage.importantInfoIcon,
-                                ),
-                              ),
-                              SizedBox(
-                                height: ScreenUtil().setHeight(20),
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('important_info_lbl'),
-                                style: iconText,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () => Navigator.pushNamed(context, KPP),
-                          child: Column(
-                            children: <Widget>[
-                              FadeInImage(
-                                alignment: Alignment.center,
-                                height: ScreenUtil().setHeight(350),
-                                placeholder: MemoryImage(kTransparentImage),
-                                image: AssetImage(
-                                  myImage.kppIcon,
-                                ),
-                              ),
-                              SizedBox(
-                                height: ScreenUtil().setHeight(20),
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('kpp01_lbl'),
-                                style: iconText,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    TableRow(
-                      children: [
-                        InkWell(
-                          onTap: () {},
-                          child: Column(
-                            children: <Widget>[
-                              FadeInImage(
-                                alignment: Alignment.center,
-                                height: ScreenUtil().setHeight(350),
-                                placeholder: MemoryImage(kTransparentImage),
-                                image: AssetImage(
-                                  myImage.jobIcon,
-                                ),
-                              ),
-                              SizedBox(
-                                height: ScreenUtil().setHeight(20),
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('job_lbl'),
                                 style: iconText,
                                 textAlign: TextAlign.center,
                               ),
@@ -185,18 +120,70 @@ class EpanduCategory extends StatelessWidget {
                             children: <Widget>[
                               FadeInImage(
                                 alignment: Alignment.center,
-                                height: ScreenUtil().setHeight(350),
+                                height: 330.h,
                                 placeholder: MemoryImage(kTransparentImage),
                                 image: AssetImage(
                                   myImage.bookingIcon,
                                 ),
                               ),
                               SizedBox(
-                                height: ScreenUtil().setHeight(20),
+                                height: 20.h,
                               ),
                               Text(
                                 AppLocalizations.of(context)
                                     .translate('booking_lbl'),
+                                style: iconText,
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        InkWell(
+                          onTap: () => Navigator.pushNamed(context, KPP),
+                          child: Column(
+                            children: <Widget>[
+                              FadeInImage(
+                                alignment: Alignment.center,
+                                height: 330.h,
+                                placeholder: MemoryImage(kTransparentImage),
+                                image: AssetImage(
+                                  myImage.classIcon,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Text(
+                                AppLocalizations.of(context)
+                                    .translate('elearning'),
+                                style: iconText,
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () => Navigator.pushNamed(context, RECORDS),
+                          child: Column(
+                            children: <Widget>[
+                              FadeInImage(
+                                alignment: Alignment.center,
+                                height: 330.h,
+                                placeholder: MemoryImage(kTransparentImage),
+                                image: AssetImage(
+                                  myImage.attendanceIcon,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Text(
+                                AppLocalizations.of(context)
+                                    .translate('records'),
                                 style: iconText,
                                 textAlign: TextAlign.center,
                               ),
@@ -209,18 +196,18 @@ class EpanduCategory extends StatelessWidget {
                             children: <Widget>[
                               FadeInImage(
                                 alignment: Alignment.center,
-                                height: ScreenUtil().setHeight(350),
+                                height: 330.h,
                                 placeholder: MemoryImage(kTransparentImage),
                                 image: AssetImage(
-                                  myImage.faqIcon,
+                                  myImage.driverJob,
                                 ),
                               ),
                               SizedBox(
-                                height: ScreenUtil().setHeight(20),
+                                height: 20.h,
                               ),
                               Text(
                                 AppLocalizations.of(context)
-                                    .translate('faq_lbl'),
+                                    .translate('driver_jobs'),
                                 style: iconText,
                                 textAlign: TextAlign.center,
                               ),
@@ -232,24 +219,23 @@ class EpanduCategory extends StatelessWidget {
                     TableRow(
                       children: [
                         InkWell(
-                          onTap: () =>
-                              Navigator.pushNamed(context, REGISTERED_COURSE),
+                          onTap: () {},
                           child: Column(
                             children: <Widget>[
                               FadeInImage(
                                 alignment: Alignment.center,
-                                height: ScreenUtil().setHeight(350),
+                                height: 330.h,
                                 placeholder: MemoryImage(kTransparentImage),
                                 image: AssetImage(
-                                  myImage.classIcon,
+                                  myImage.pickupIcon,
                                 ),
                               ),
                               SizedBox(
-                                height: ScreenUtil().setHeight(20),
+                                height: 20.h,
                               ),
                               Text(
                                 AppLocalizations.of(context)
-                                    .translate('class_title'),
+                                    .translate('pickup'),
                                 style: iconText,
                                 textAlign: TextAlign.center,
                               ),
@@ -257,24 +243,23 @@ class EpanduCategory extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () =>
-                              Navigator.pushNamed(context, PAYMENT_HISTORY),
+                          onTap: () {},
                           child: Column(
                             children: <Widget>[
                               FadeInImage(
                                 alignment: Alignment.center,
-                                height: ScreenUtil().setHeight(350),
+                                height: 330.h,
                                 placeholder: MemoryImage(kTransparentImage),
                                 image: AssetImage(
-                                  myImage.paymentIcon,
+                                  myImage.webinarIcon,
                                 ),
                               ),
                               SizedBox(
-                                height: ScreenUtil().setHeight(20),
+                                height: 20.h,
                               ),
                               Text(
                                 AppLocalizations.of(context)
-                                    .translate('payment_lbl'),
+                                    .translate('webinar'),
                                 style: iconText,
                                 textAlign: TextAlign.center,
                               ),
@@ -282,24 +267,22 @@ class EpanduCategory extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () =>
-                              Navigator.pushNamed(context, ATTENDANCE_RECORD),
+                          onTap: () {},
                           child: Column(
                             children: <Widget>[
                               FadeInImage(
                                 alignment: Alignment.center,
-                                height: ScreenUtil().setHeight(350),
+                                height: 330.h,
                                 placeholder: MemoryImage(kTransparentImage),
                                 image: AssetImage(
-                                  myImage.attendanceIcon,
+                                  myImage.chatIcon,
                                 ),
                               ),
                               SizedBox(
-                                height: ScreenUtil().setHeight(20),
+                                height: 20.h,
                               ),
                               Text(
-                                AppLocalizations.of(context)
-                                    .translate('attendance_title'),
+                                AppLocalizations.of(context).translate('chat'),
                                 style: iconText,
                                 textAlign: TextAlign.center,
                               ),

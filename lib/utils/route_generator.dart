@@ -286,6 +286,11 @@ class RouteGenerator {
           settings: RouteSettings(name: PAY),
           builder: (_) => Pay(),
         );
+      case RECORDS:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: RECORDS),
+          builder: (_) => Records(),
+        );
       default:
         return _errorRoute();
     }

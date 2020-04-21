@@ -70,6 +70,13 @@ class ImagesConstant {
   String classIcon = 'assets/images/classes.png';
   String paymentIcon = 'assets/images/payment.png';
   String attendanceIcon = 'assets/images/attendance.png';
+  String chatIcon = 'assets/images/chat.png';
+  String driverJob = 'assets/images/driver-job.png';
+  String infoIcon = 'assets/images/info.png';
+  String webinarIcon = 'assets/images/webinar.png';
+  String pickupIcon = 'assets/images/pickup.png';
+  String aboutIcon = 'assets/images/about.png';
+  String contestIcon = 'assets/images/contest.png';
   String visaImage = 'assets/images/visa.png';
   String banksImage = 'assets/images/banks.png';
   String comingSoon = 'assets/images/coming-soon.png';

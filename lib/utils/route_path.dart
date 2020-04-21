@@ -50,3 +50,4 @@ const String MERCHANT_LIST = '/merchant_list';
 const String INBOX = '/inbox';
 const String IDENTITY_BARCODE = '/identity_barcode';
 const String PAY = '/pay';
+const String RECORDS = '/records';
