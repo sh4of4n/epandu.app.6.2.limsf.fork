@@ -6,3 +6,5 @@ export 'payment_history_detail.dart';
 export 'registered_course_detail.dart';
 export 'booking.dart';
 export 'records.dart';
+export 'pickup_history.dart';
+export 'request_pickup.dart';

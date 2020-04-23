@@ -472,7 +472,7 @@ class EpanduRepo {
         await networking.postData(api: api, body: body, headers: headers);
 
     if (response.isSuccess && response.data == 'True') {
-      return Response(true, message: 'password_updated');
+      return Response(true);
     } else if (response.message != null &&
         response.message.contains('timeout')) {
       return Response(false,

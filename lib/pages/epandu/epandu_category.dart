@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+import 'bottom_menu.dart';
+
 class EpanduCategory extends StatelessWidget {
   final authRepo = AuthRepo();
   final image = ImagesConstant();
@@ -27,7 +29,7 @@ class EpanduCategory extends StatelessWidget {
             Colors.white,
             Color(0xffffd225),
           ],
-          stops: [0.60, 1.2],
+          stops: [0.60, 0.8],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -46,6 +48,7 @@ class EpanduCategory extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
+        bottomNavigationBar: BottomMenu(),
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -219,7 +222,8 @@ class EpanduCategory extends StatelessWidget {
                     TableRow(
                       children: [
                         InkWell(
-                          onTap: () {},
+                          onTap: () =>
+                              Navigator.pushNamed(context, PICKUP_HISTORY),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(

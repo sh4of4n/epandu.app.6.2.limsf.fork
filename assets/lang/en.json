@@ -266,6 +266,8 @@
   "section_required": "Section is required.",
   "date": "Date",
   "date_required": "Date is required.",
+  "time": "Time",
+  "to": "To",
   "booking_success": "Booking successful.",
   "get_merchant_list_fail": "Failed to load merchant list. Please try again later.",
   "delete_account": "Delete account",
@@ -286,5 +288,12 @@
   "merchant_detail_fail": "Failed to load merchant detail. Please try again later.",
   "inbox_list_fail": "Failed to load inbox list. Please try again later.",
   "notifications": "Notifications",
-  "coming_soon_msg": "This feature will be available soon. Stay tuned!"
+  "coming_soon_msg": "This feature will be available soon. Stay tuned!",
+  "pickup_history": "Pickup History",
+  "get_pickup_fail": "Failed to load pickup data. Please try again later.",
+  "request_pickup": "Request Pickup",
+  "direction": "Direction",
+  "about": "About",
+  "contest_and_win": "Contest and Win",
+  "pickup_added": "Pickup added successfully."
 }

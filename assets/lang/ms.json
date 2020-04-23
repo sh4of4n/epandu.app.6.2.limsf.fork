@@ -266,6 +266,8 @@
   "section_required": "Seksyen diperlukan.",
   "date": "Tarikh",
   "date_required": "Tarikh diperlukan.",
+  "time": "Masa",
+  "to": "Ke",
   "booking_success": "Tempahan berjaya.",
   "get_merchant_list_fail": "Gagal memuatkan senarai pedagang. Sila cuba sebentar lagi.",
   "delete_account": "Padamkan akaun",
@@ -286,5 +288,12 @@
   "merchant_detail_fail": "Gagal memuat butiran pedagang. Sila cuba sebentar lagi.",
   "inbox_list_fail": "Gagal memuatkan senarai peti masuk. Sila cuba sebentar lagi.",
   "notifications": "Notifikasi",
-  "coming_soon_msg": "Ciri ini akan tersedia tidak lama lagi. Nantikan!"
+  "coming_soon_msg": "Ciri ini akan tersedia tidak lama lagi. Nantikan!",
+  "pickup_history": "Sejarah Pengambilan",
+  "get_pickup_fail": "Gagal memuatkan data pengambilan. Sila cuba sebentar lagi.",
+  "request_pickup": "Minta Pengambilan",
+  "direction": "Arah",
+  "about": "Mengenai",
+  "contest_and_win": "Peraduan",
+  "pickup_added": "Pengambilan berjaya ditambahkan."
 }

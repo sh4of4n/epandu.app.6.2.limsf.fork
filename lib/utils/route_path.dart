@@ -51,3 +51,5 @@ const String INBOX = '/inbox';
 const String IDENTITY_BARCODE = '/identity_barcode';
 const String PAY = '/pay';
 const String RECORDS = '/records';
+const String PICKUP_HISTORY = '/pickup_history';
+const String REQUEST_PICKUP = '/request_pickup';

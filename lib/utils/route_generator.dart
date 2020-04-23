@@ -291,6 +291,16 @@ class RouteGenerator {
           settings: RouteSettings(name: RECORDS),
           builder: (_) => Records(),
         );
+      case PICKUP_HISTORY:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: PICKUP_HISTORY),
+          builder: (_) => PickupHistory(),
+        );
+      case REQUEST_PICKUP:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: REQUEST_PICKUP),
+          builder: (_) => RequestPickup(),
+        );
       default:
         return _errorRoute();
     }
