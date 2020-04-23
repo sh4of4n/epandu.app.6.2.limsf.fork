@@ -267,6 +267,7 @@
   "date": "Date",
   "date_required": "Date is required.",
   "time": "Time",
+  "time_required": "Time is required.",
   "to": "To",
   "booking_success": "Booking successful.",
   "get_merchant_list_fail": "Failed to load merchant list. Please try again later.",
@@ -293,6 +294,7 @@
   "get_pickup_fail": "Failed to load pickup data. Please try again later.",
   "request_pickup": "Request Pickup",
   "direction": "Direction",
+  "direction_required": "Direction is required.",
   "about": "About",
   "contest_and_win": "Contest and Win",
   "pickup_added": "Pickup added successfully."

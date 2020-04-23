@@ -169,6 +169,13 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       }
                       return null;
                     },
+                    validator: (value) {
+                      if (value == null) {
+                        return AppLocalizations.of(context)
+                            .translate('date_required');
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 SizedBox(
@@ -214,6 +221,13 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       );
                       return DateTimeField.convert(time);
                     },
+                    validator: (value) {
+                      if (value == null) {
+                        return AppLocalizations.of(context)
+                            .translate('time_required');
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 SizedBox(
@@ -258,6 +272,13 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       setState(() {
                         _direction = value;
                       });
+                    },
+                    validator: (value) {
+                      if (value == null) {
+                        return AppLocalizations.of(context)
+                            .translate('direction_required');
+                      }
+                      return null;
                     },
                   ),
                 ),
