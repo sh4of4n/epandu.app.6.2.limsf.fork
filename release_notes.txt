@@ -1,2 +1,3 @@
 New:
 - UI enhancements and bug fixes
+- Pickup module added
