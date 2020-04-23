@@ -141,15 +141,18 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                           context: context,
                           builder: (context) {
                             return CupertinoDatePicker(
-                              initialDateTime: DateTime(2000),
+                              initialDateTime: DateTime(DateTime.now().year,
+                                  DateTime.now().month, DateTime.now().day + 1),
                               onDateTimeChanged: (DateTime date) {
                                 setState(() {
                                   _dateController.text =
                                       DateFormat('yyyy/MM/dd').format(date);
                                 });
                               },
-                              minimumYear: 1920,
-                              maximumYear: 2020,
+                              minimumDate: DateTime(DateTime.now().year,
+                                  DateTime.now().month, DateTime.now().day + 1),
+                              minimumYear: DateTime.now().year,
+                              maximumYear: DateTime.now().year + 1,
                               mode: CupertinoDatePickerMode.date,
                             );
                           },
@@ -170,7 +173,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       return null;
                     },
                     validator: (value) {
-                      if (value == null) {
+                      if (_dateController.text.isEmpty) {
                         return AppLocalizations.of(context)
                             .translate('date_required');
                       }
