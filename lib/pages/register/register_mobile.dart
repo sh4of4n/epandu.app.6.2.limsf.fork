@@ -73,9 +73,6 @@ class _RegisterMobileState extends State<RegisterMobile> {
                   child: Text(
                     AppLocalizations.of(context)
                         .translate('enter_your_mobile_no'),
-                    style: TextStyle(
-                      fontSize: 35.sp,
-                    ),
                   ),
                 ),
                 Form(
@@ -252,8 +249,13 @@ class _RegisterMobileState extends State<RegisterMobile> {
                 SizedBox(height: 20.h),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 130.w),
-                  child: Text(AppLocalizations.of(context)
-                      .translate('enter_your_mobile_no')),
+                  child: Text(
+                    AppLocalizations.of(context)
+                        .translate('enter_your_mobile_no'),
+                    style: TextStyle(
+                      fontSize: 35.sp,
+                    ),
+                  ),
                 ),
                 Form(
                   key: _formKey,
