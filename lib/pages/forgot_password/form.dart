@@ -36,9 +36,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 1500),
-      curve: Curves.elasticOut,
+    return Container(
       width: double.infinity,
       // height: _height,
       decoration: BoxDecoration(
@@ -160,27 +158,41 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
   }
 
   _submitButton() {
-    return Container(
-      child: _isLoading
-          ? SpinKitFoldingCube(
-              color: primaryColor,
-            )
-          : ButtonTheme(
-              minWidth: ScreenUtil().setWidth(420),
-              padding: EdgeInsets.symmetric(vertical: 11.0),
-              buttonColor: primaryColor,
-              shape: StadiumBorder(),
-              child: RaisedButton(
-                onPressed: _submit,
-                textColor: Colors.white,
+    return Column(
+      children: <Widget>[
+        _message.isNotEmpty
+            ? Container(
+                width: 900.w,
                 child: Text(
-                  AppLocalizations.of(context).translate('submit_btn'),
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(56),
+                  _message,
+                  style: TextStyle(color: Colors.red),
+                  textAlign: TextAlign.center,
+                ),
+              )
+            : Container(width: 0, height: 0),
+        Container(
+          child: _isLoading
+              ? SpinKitFoldingCube(
+                  color: primaryColor,
+                )
+              : ButtonTheme(
+                  minWidth: ScreenUtil().setWidth(420),
+                  padding: EdgeInsets.symmetric(vertical: 11.0),
+                  buttonColor: primaryColor,
+                  shape: StadiumBorder(),
+                  child: RaisedButton(
+                    onPressed: _submit,
+                    textColor: Colors.white,
+                    child: Text(
+                      AppLocalizations.of(context).translate('submit_btn'),
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(56),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
+        ),
+      ],
     );
   }
 
@@ -195,10 +207,13 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
       });
 
       var result = await authRepo.login(
-        context: context,
-        phone: _phone,
-        password: '',
-      );
+          context: context,
+          phone: _phone,
+          password: '',
+          deviceRemark: '',
+          latitude: '999',
+          longitude: '999',
+          phDeviceId: '');
 
       if (result.isSuccess) {
         Navigator.pop(context);
@@ -224,11 +239,11 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
           });
         }
 
-        CustomSnackbar().show(
+        /* CustomSnackbar().show(
           context,
           message: _message,
           type: MessageType.ERROR,
-        );
+        ); */
 
         setState(() {
           _isLoading = false;

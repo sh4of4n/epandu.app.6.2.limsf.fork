@@ -7,6 +7,7 @@
   "forgot_password_lbl": "Lupa kata laluan?",
   "login_btn": "LOG MASUK",
   "invalid_login": "Telefon dan / atau kata laluan tidak sah.",
+  "invalid_phone": "Nombor telefon tidak sah.",
   "epandu_title": "ePandu",
   "connected_ca": "Akaun ID kini",
   "client_acc_id_lbl": "Akaun ID",

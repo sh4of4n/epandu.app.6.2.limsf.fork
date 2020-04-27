@@ -194,7 +194,7 @@ class AuthRepo {
     String appId = 'ePandu.App';
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0&latitude=$latitude&longitude=$longitude&appCode=$appCode&appId=$appId&deviceId=&appVersion=$appVersion&deviceRemark=${Uri.encodeComponent(deviceRemark)}&phDeviceId=$phDeviceId&phLine1Number=&phNetOpName=&phPhoneType=&phSimSerialNo=&bdBoard=&bdBrand=&bdDevice=&bdDisplay=&bdManufacturer=&bdModel=&bdProduct=&pfDeviceId=&regId=$pushToken';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0&latitude=$latitude&longitude=$longitude&appCode=$appCode&appId=$appId&deviceId=&appVersion=$appVersion&deviceRemark=${deviceRemark.isNotEmpty ? Uri.encodeComponent(deviceRemark) : ''}&phDeviceId=$phDeviceId&phLine1Number=&phNetOpName=&phPhoneType=&phSimSerialNo=&bdBoard=&bdBrand=&bdDevice=&bdDisplay=&bdManufacturer=&bdModel=&bdProduct=&pfDeviceId=&regId=$pushToken';
 
     var response = await networking.getData(
       path: 'GetUserByUserPhonePwdWithDeviceId?$path',
@@ -216,6 +216,10 @@ class AuthRepo {
         return result;
       } else if (responseData.msg == 'Reset Password Success') {
         return Response(true, message: responseData.msg);
+      } else if (responseData.msg ==
+          'No user registered under this phone number.') {
+        return Response(false,
+            message: AppLocalizations.of(context).translate('invalid_phone'));
       }
       return Response(false, message: responseData.msg);
     } else if (response.message != null &&
