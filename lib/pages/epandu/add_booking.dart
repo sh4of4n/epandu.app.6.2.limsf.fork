@@ -40,11 +40,11 @@ class _AddBookingState extends State<AddBooking> {
   void initState() {
     super.initState();
 
-    _getTestListGroupId();
+    _getTestListGroupIdByIcNo();
   }
 
-  _getTestListGroupId() async {
-    var response = await ePanduRepo.getTestListGroupId(
+  _getTestListGroupIdByIcNo() async {
+    var response = await ePanduRepo.getTestListGroupIdByIcNo(
       context: context,
     );
 
@@ -160,6 +160,7 @@ class _AddBookingState extends State<AddBooking> {
                           testDate = '';
                           testListTestType = null;
                           testList = null;
+                          courseSectionlist = null;
 
                           _getTestListTestType();
                           _getCourseSectionList();

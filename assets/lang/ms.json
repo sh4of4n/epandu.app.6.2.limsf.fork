@@ -279,6 +279,7 @@
   "enter_your_mobile_no": "Mula dengan memasukkan nombor telefon bimbit anda.",
   "enter_verification": "SMS telah dihantar ke telefon anda. Sila masukkan kod pengesahan anda.",
   "verification_required": "Kod pengesahan diperlukan.",
+  "phone_number_registered": "Nombor telefon sudah didaftar.",
   "verification_sent": "Kod pengesahan telah dihantar.",
   "verification_send_fail": "Gagal menghantar kod pengesahan. Sila cuba sebentar lagi.",
   "incorrect_verification_code": "Kod pengesahan tidak betul.",

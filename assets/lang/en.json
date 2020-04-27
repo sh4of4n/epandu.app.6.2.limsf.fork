@@ -279,6 +279,7 @@
   "enter_your_mobile_no": "Lets get started by entering your mobile number.",
   "enter_verification": "SMS has been sent to your phone. Please enter your verification code.",
   "verification_required": "Verification code is required.",
+  "phone_number_registered": "Phone number is already registered.",
   "verification_sent": "Verification code sent.",
   "verification_send_fail": "Failed to send verification code. Please try again later.",
   "incorrect_verification_code": "Verification code is incorrect.",
