@@ -928,12 +928,13 @@ class CollectTrn {
   }
 } */
 
-class StudentAttendanceResponse {
+// GetDTestByCodeResponse
+class GetDTestByCodeResponse {
   List<DTest> dTest;
 
-  StudentAttendanceResponse({this.dTest});
+  GetDTestByCodeResponse({this.dTest});
 
-  StudentAttendanceResponse.fromJson(Map<String, dynamic> json) {
+  GetDTestByCodeResponse.fromJson(Map<String, dynamic> json) {
     if (json['DTest'] != null) {
       dTest = new List<DTest>();
       json['DTest'].forEach((v) {
@@ -986,6 +987,7 @@ class DTest {
   String ctrlNo;
   String ereqCode;
   String ereqId;
+  String ebookDate;
   String etestTime;
   String eattempt;
   String ereqRecp;
@@ -999,6 +1001,8 @@ class DTest {
   String transtamp;
   String classCode;
   String recpNo;
+  String cardDate;
+  String aprvDate;
   String pRemark;
   String pAmount;
   String sesi;
@@ -1006,9 +1010,11 @@ class DTest {
   String apprvBooking;
   String compCode;
   String branchCode;
+  String rowKey;
   String lastupload;
   String deleted;
   String diCode;
+  String testTypeValue;
 
   DTest(
       {this.id,
@@ -1045,6 +1051,7 @@ class DTest {
       this.ctrlNo,
       this.ereqCode,
       this.ereqId,
+      this.ebookDate,
       this.etestTime,
       this.eattempt,
       this.ereqRecp,
@@ -1058,6 +1065,8 @@ class DTest {
       this.transtamp,
       this.classCode,
       this.recpNo,
+      this.cardDate,
+      this.aprvDate,
       this.pRemark,
       this.pAmount,
       this.sesi,
@@ -1065,9 +1074,11 @@ class DTest {
       this.apprvBooking,
       this.compCode,
       this.branchCode,
+      this.rowKey,
       this.lastupload,
       this.deleted,
-      this.diCode});
+      this.diCode,
+      this.testTypeValue});
 
   DTest.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -1104,6 +1115,7 @@ class DTest {
     ctrlNo = json['ctrl_no'];
     ereqCode = json['ereq_code'];
     ereqId = json['ereq_id'];
+    ebookDate = json['ebook_date'];
     etestTime = json['etest_time'];
     eattempt = json['eattempt'];
     ereqRecp = json['ereq_recp'];
@@ -1117,6 +1129,8 @@ class DTest {
     transtamp = json['transtamp'];
     classCode = json['class_code'];
     recpNo = json['recp_no'];
+    cardDate = json['card_date'];
+    aprvDate = json['aprv_date'];
     pRemark = json['p_remark'];
     pAmount = json['p_amount'];
     sesi = json['sesi'];
@@ -1124,9 +1138,11 @@ class DTest {
     apprvBooking = json['apprv_booking'];
     compCode = json['comp_code'];
     branchCode = json['branch_code'];
+    rowKey = json['row_key'];
     lastupload = json['lastupload'];
     deleted = json['deleted'];
     diCode = json['di_code'];
+    testTypeValue = json['test_type_value'];
   }
 
   Map<String, dynamic> toJson() {
@@ -1165,6 +1181,7 @@ class DTest {
     data['ctrl_no'] = this.ctrlNo;
     data['ereq_code'] = this.ereqCode;
     data['ereq_id'] = this.ereqId;
+    data['ebook_date'] = this.ebookDate;
     data['etest_time'] = this.etestTime;
     data['eattempt'] = this.eattempt;
     data['ereq_recp'] = this.ereqRecp;
@@ -1178,6 +1195,8 @@ class DTest {
     data['transtamp'] = this.transtamp;
     data['class_code'] = this.classCode;
     data['recp_no'] = this.recpNo;
+    data['card_date'] = this.cardDate;
+    data['aprv_date'] = this.aprvDate;
     data['p_remark'] = this.pRemark;
     data['p_amount'] = this.pAmount;
     data['sesi'] = this.sesi;
@@ -1185,9 +1204,11 @@ class DTest {
     data['apprv_booking'] = this.apprvBooking;
     data['comp_code'] = this.compCode;
     data['branch_code'] = this.branchCode;
+    data['row_key'] = this.rowKey;
     data['lastupload'] = this.lastupload;
     data['deleted'] = this.deleted;
     data['di_code'] = this.diCode;
+    data['test_type_value'] = this.testTypeValue;
     return data;
   }
 }

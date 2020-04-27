@@ -175,12 +175,11 @@ class EpanduRepo {
     );
 
     if (response.isSuccess && response.data != null) {
-      StudentAttendanceResponse studentAttendanceResponse;
+      GetDTestByCodeResponse getDTestByCodeResponse;
 
-      studentAttendanceResponse =
-          StudentAttendanceResponse.fromJson(response.data);
+      getDTestByCodeResponse = GetDTestByCodeResponse.fromJson(response.data);
 
-      return Response(true, data: studentAttendanceResponse.dTest);
+      return Response(true, data: getDTestByCodeResponse.dTest);
     } else if (response.message != null &&
         response.message.contains('timeout')) {
       return Response(false,

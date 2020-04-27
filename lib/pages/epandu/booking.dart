@@ -170,12 +170,13 @@ class _BookingState extends State<Booking> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
-                                        if (snapshot.data[index].apprvBooking !=
+                                        if (snapshot
+                                                .data[index].testTypeValue !=
                                             null)
                                           Text(
                                             'Status: ' +
                                                 snapshot
-                                                    .data[index].apprvBooking,
+                                                    .data[index].testTypeValue,
                                             style: textStyleBold,
                                           ),
                                         Text(''),
