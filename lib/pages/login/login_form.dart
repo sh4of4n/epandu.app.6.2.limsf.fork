@@ -73,10 +73,9 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
     await location.getCurrentLocation();
 
     setState(() {
-      _latitude =
-          location.latitude != null ? location.latitude.toString() : '999';
+      _latitude = location.latitude != null ? location.latitude.toString() : '';
       _longitude =
-          location.longitude != null ? location.longitude.toString() : '999';
+          location.longitude != null ? location.longitude.toString() : '';
     });
 
     // print('$_latitude, $_longitude');
@@ -313,8 +312,8 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
         context: context,
         phone: _phone,
         password: _password,
-        latitude: _latitude,
-        longitude: _longitude,
+        latitude: _latitude.isEmpty ? '999' : _latitude,
+        longitude: _longitude.isEmpty ? '999' : _longitude,
         deviceRemark: '$_deviceOs $_deviceVersion',
         phDeviceId: _deviceId,
       );
