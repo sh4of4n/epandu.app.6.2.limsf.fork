@@ -135,10 +135,8 @@ class _BookingState extends State<Booking> {
                                           MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Text(
-                                          dateFormat.format(
-                                            DateTime.parse(
-                                                snapshot.data[index].testDate),
-                                          ),
+                                          snapshot.data[index].testDate
+                                              .substring(0, 10),
                                           style: textStyle,
                                         ),
                                         if (snapshot.data[index].time != null)

@@ -159,9 +159,7 @@ class _PickupHistoryState extends State<PickupHistory> {
                                       padding:
                                           EdgeInsets.symmetric(vertical: 30.h),
                                       child: Text(
-                                        DateFormat("yyyy-MM-dd").format(
-                                          DateTime.parse(data.pickupDate),
-                                        ),
+                                        data.pickupDate.substring(0, 10),
                                       ),
                                     ),
                                     Padding(

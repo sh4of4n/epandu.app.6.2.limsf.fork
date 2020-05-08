@@ -614,8 +614,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     setState(() {
       _icNo = _enrollHistoryData[0].icNo;
       _icName = _enrollHistoryData[0].name;
-      _dob = DateFormat('yyyy/MM/dd')
-          .format(DateTime.parse(_enrollHistoryData[0].birthDt));
+      _dob = _enrollHistoryData[0].birthDt.substring(0, 10);
       _race = _enrollHistoryData[0].race;
       // _nationality = _enrollHistoryData[0].citizenship;
       if (_enrollHistoryData[0].sex == 'L') {
@@ -702,8 +701,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                 ),
                 Text(
                   _enrollHistoryData[0].birthDt != null
-                      ? DateFormat('yyyy/MM/dd')
-                          .format(DateTime.parse(_enrollHistoryData[0].birthDt))
+                      ? _enrollHistoryData[0].birthDt.substring(0, 10)
                       : '',
                   style: textStyle,
                 ),

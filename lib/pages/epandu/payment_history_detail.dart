@@ -131,8 +131,7 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
                         children: [
                           TableRow(
                             children: [
-                              Text(format.format(
-                                  DateTime.parse(snapshot.data[0].trandate))),
+                              Text(snapshot.data[0].trandate.substring(0, 10)),
                               Text(
                                 'REC ${snapshot.data[0].recpNo}',
                                 textAlign: TextAlign.right,

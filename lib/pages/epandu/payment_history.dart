@@ -141,7 +141,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                               TableRow(
                                 children: [
                                   Text(
-                                    '${format.format(DateTime.parse(item.trandate))}',
+                                    '${item.trandate.substring(0, 10)}',
                                     style: _subtitleStyle,
                                   ),
                                   Text(
