@@ -258,61 +258,62 @@ class _AddBookingState extends State<AddBooking> {
                       },
                     ),
                   ),
-                  Container(
-                    margin:
-                        EdgeInsets.symmetric(vertical: 20.h, horizontal: 60.w),
-                    child: DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 10.h,
-                          horizontal: 60.w,
+                  if (testType == 'Practical')
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                          vertical: 20.h, horizontal: 60.w),
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.h,
+                            horizontal: 60.w,
+                          ),
+                          labelText:
+                              AppLocalizations.of(context).translate('section'),
+                          fillColor: Colors.white,
+                          filled: true,
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.blue, width: 1.3),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.blue[700], width: 1.6),
+                            // borderRadius: BorderRadius.circular(0),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
                         ),
-                        labelText:
+                        disabledHint: Text(
                             AppLocalizations.of(context).translate('section'),
-                        fillColor: Colors.white,
-                        filled: true,
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.blue, width: 1.3),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.blue[700], width: 1.6),
-                          // borderRadius: BorderRadius.circular(0),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
+                            style: TextStyle(color: Color(0xff808080))),
+                        value: section.isEmpty ? null : section,
+                        onChanged: (value) {
+                          setState(() {
+                            section = value;
+                          });
+                        },
+                        items: courseSectionlist == null
+                            ? null
+                            : courseSectionlist
+                                .map<DropdownMenuItem<String>>((value) {
+                                return DropdownMenuItem<String>(
+                                  value: value.section,
+                                  child: Text(value.section),
+                                );
+                              }).toList(),
+                        validator: (value) {
+                          if (value == null) {
+                            return AppLocalizations.of(context)
+                                .translate('section_required');
+                          }
+                          return null;
+                        },
                       ),
-                      disabledHint: Text(
-                          AppLocalizations.of(context).translate('section'),
-                          style: TextStyle(color: Color(0xff808080))),
-                      value: section.isEmpty ? null : section,
-                      onChanged: (value) {
-                        setState(() {
-                          section = value;
-                        });
-                      },
-                      items: courseSectionlist == null
-                          ? null
-                          : courseSectionlist
-                              .map<DropdownMenuItem<String>>((value) {
-                              return DropdownMenuItem<String>(
-                                value: value.section,
-                                child: Text(value.section),
-                              );
-                            }).toList(),
-                      validator: (value) {
-                        if (value == null) {
-                          return AppLocalizations.of(context)
-                              .translate('section_required');
-                        }
-                        return null;
-                      },
                     ),
-                  ),
                   Container(
                     margin:
                         EdgeInsets.symmetric(vertical: 20.h, horizontal: 60.w),
