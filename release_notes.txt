@@ -1,3 +1,5 @@
 New:
-- UI enhancements and bug fixes
-- Pickup module added
+- Add booking section will not be available if selected type is theory
+- Fix date showing a day early
+- Fix forgot password bug
+- UI and feature enhancements
