@@ -260,7 +260,11 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                                     ),
                                     child: FlatButton(
                                       padding: EdgeInsets.all(0.0),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, DIRECTORY_LIST,
+                                            arguments: 'BOMBA');
+                                      },
                                       child: null,
                                     ),
                                   ),
@@ -314,7 +318,11 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                                     ),
                                     child: FlatButton(
                                       padding: EdgeInsets.all(0.0),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, DIRECTORY_LIST,
+                                            arguments: 'WORKSHOP_CARS');
+                                      },
                                       child: null,
                                     ),
                                   ),
@@ -347,14 +355,14 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                               Container(
                                   margin: EdgeInsets.symmetric(
                                       vertical: ScreenUtil().setHeight(10)),
-                                  height: ScreenUtil().setHeight(300),
-                                  width: ScreenUtil().setWidth(400),
+                                  height: 300.h,
+                                  width: 400.w,
                                   child: Image.asset(myImage.ambulanceIcon)),
                               Wrap(
                                 children: <Widget>[
                                   Container(
-                                    height: ScreenUtil().setHeight(200),
-                                    width: ScreenUtil().setWidth(300),
+                                    height: 200.h,
+                                    width: 300.w,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
                                         image: AssetImage(myImage.phoneButton),
@@ -401,10 +409,9 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                           Column(
                             children: <Widget>[
                               Container(
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: ScreenUtil().setHeight(10)),
-                                  height: ScreenUtil().setHeight(300),
-                                  width: ScreenUtil().setWidth(400),
+                                  margin: EdgeInsets.symmetric(vertical: 10.h),
+                                  height: 300.h,
+                                  width: 400.w,
                                   child: Image.asset(myImage.towingIcon)),
                               Wrap(
                                 children: <Widget>[
@@ -433,7 +440,11 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                                     ),
                                     child: FlatButton(
                                       padding: EdgeInsets.all(0.0),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, DIRECTORY_LIST,
+                                            arguments: 'TOWING');
+                                      },
                                       child: null,
                                     ),
                                   ),
@@ -485,7 +496,11 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                                     ),
                                     child: FlatButton(
                                       padding: EdgeInsets.all(0.0),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, DIRECTORY_LIST,
+                                            arguments: 'WORKSHOP_BIKE');
+                                      },
                                       child: null,
                                     ),
                                   ),

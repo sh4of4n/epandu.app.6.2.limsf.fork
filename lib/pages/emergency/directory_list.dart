@@ -78,6 +78,8 @@ class _DirectoryListState extends State<DirectoryList> {
         return Text(AppLocalizations.of(context).translate('ambulance_title'));
       case 'EMBASSY':
         return Text(AppLocalizations.of(context).translate('embassy_title'));
+      case 'BOMBA':
+        return Text(AppLocalizations.of(context).translate('bomba_title'));
     }
   }
 
@@ -153,7 +155,8 @@ class _DirectoryListState extends State<DirectoryList> {
                         return _listItem(snapshot, index);
                       } else if (snapshot.data[0].sosContactType ==
                               'AMBULANCE' ||
-                          snapshot.data[0].sosContactType == 'EMBASSY') {
+                          snapshot.data[0].sosContactType == 'EMBASSY' ||
+                          snapshot.data[0].sosContactType == 'BOMBA') {
                         return _listItem(snapshot, index);
                       }
                       return Container(height: 0, width: 0);
