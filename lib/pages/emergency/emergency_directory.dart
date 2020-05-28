@@ -321,7 +321,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                                       onPressed: () {
                                         Navigator.pushNamed(
                                             context, DIRECTORY_LIST,
-                                            arguments: 'WORKSHOP_CARS');
+                                            arguments: 'WORKSHOP');
                                       },
                                       child: null,
                                     ),
@@ -443,7 +443,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                                       onPressed: () {
                                         Navigator.pushNamed(
                                             context, DIRECTORY_LIST,
-                                            arguments: 'TOWING');
+                                            arguments: 'INSURANCE');
                                       },
                                       child: null,
                                     ),
@@ -499,7 +499,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                                       onPressed: () {
                                         Navigator.pushNamed(
                                             context, DIRECTORY_LIST,
-                                            arguments: 'WORKSHOP_BIKE');
+                                            arguments: 'BIKEWORKSHOP');
                                       },
                                       child: null,
                                     ),
