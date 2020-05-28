@@ -122,6 +122,7 @@ class EmergencyRepo {
     sosContactType,
     sosContactCode,
     areaCode,
+    maxRadius,
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
@@ -129,7 +130,7 @@ class EmergencyRepo {
     String longitude = await localStorage.getUserLongitude();
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&sosContactType=${sosContactType ?? ''}&sosContactCode=${sosContactCode ?? ''}&areaCode=${areaCode ?? ''}&latitude=$latitude&longitude=$longitude&maxRadius=30';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&sosContactType=${sosContactType ?? ''}&sosContactCode=${sosContactCode ?? ''}&areaCode=${areaCode ?? ''}&latitude=$latitude&longitude=$longitude&maxRadius=$maxRadius';
 
     var response = await networking.getData(
       path: 'GetSosContactSortByNearest?$path',

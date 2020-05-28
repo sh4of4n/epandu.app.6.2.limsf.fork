@@ -21,6 +21,8 @@ class _DirectoryListState extends State<DirectoryList> {
   final localStorage = LocalStorage();
   Future _getDirectoryContacts;
 
+  var maxRadius = '30';
+
   @override
   void initState() {
     super.initState();
@@ -29,8 +31,13 @@ class _DirectoryListState extends State<DirectoryList> {
   }
 
   _getContacts() async {
+    if (widget.data == 'INSURANCE')
+      setState(() {
+        maxRadius = '0';
+      });
+
     var response = await emergencyRepo.getSosContactSortByNearest(
-        context: context, sosContactType: widget.data);
+        context: context, sosContactType: widget.data, maxRadius: maxRadius);
 
     if (mounted && response.isSuccess) {
       return response.data;
@@ -80,6 +87,12 @@ class _DirectoryListState extends State<DirectoryList> {
         return Text(AppLocalizations.of(context).translate('embassy_title'));
       case 'BOMBA':
         return Text(AppLocalizations.of(context).translate('bomba_title'));
+      case 'INSURANCE':
+        return Text(AppLocalizations.of(context).translate('towing_service'));
+      case 'WORKSHOP':
+        return Text(AppLocalizations.of(context).translate('workshop_cars'));
+      case 'BIKEWORKSHOP':
+        return Text(AppLocalizations.of(context).translate('workshop_bike'));
     }
   }
 
@@ -156,7 +169,10 @@ class _DirectoryListState extends State<DirectoryList> {
                       } else if (snapshot.data[0].sosContactType ==
                               'AMBULANCE' ||
                           snapshot.data[0].sosContactType == 'EMBASSY' ||
-                          snapshot.data[0].sosContactType == 'BOMBA') {
+                          snapshot.data[0].sosContactType == 'BOMBA' ||
+                          snapshot.data[0].sosContactType == 'INSURANCE' ||
+                          snapshot.data[0].sosContactType == 'WORKSHOP' ||
+                          snapshot.data[0].sosContactType == 'BIKEWORKSHOP') {
                         return _listItem(snapshot, index);
                       }
                       return Container(height: 0, width: 0);
