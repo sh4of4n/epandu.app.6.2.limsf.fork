@@ -803,16 +803,26 @@ class SaveUserPasswordRequest {
   String wsCodeCrypt;
   String caUid;
   String caPwd;
+  String appCode;
+  String appId;
   String userId;
   String password;
 
   SaveUserPasswordRequest(
-      {this.wsCodeCrypt, this.caUid, this.caPwd, this.userId, this.password});
+      {this.wsCodeCrypt,
+      this.caUid,
+      this.caPwd,
+      this.appCode,
+      this.appId,
+      this.userId,
+      this.password});
 
   SaveUserPasswordRequest.fromJson(Map<String, dynamic> json) {
     wsCodeCrypt = json['wsCodeCrypt'];
     caUid = json['caUid'];
     caPwd = json['caPwd'];
+    appCode = json['appCode'];
+    appId = json['appId'];
     userId = json['userId'];
     password = json['password'];
   }
@@ -822,6 +832,8 @@ class SaveUserPasswordRequest {
     data['wsCodeCrypt'] = this.wsCodeCrypt;
     data['caUid'] = this.caUid;
     data['caPwd'] = this.caPwd;
+    data['appCode'] = this.appCode;
+    data['appId'] = this.appId;
     data['userId'] = this.userId;
     data['password'] = this.password;
     return data;

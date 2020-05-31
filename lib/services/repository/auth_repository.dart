@@ -597,11 +597,15 @@ class AuthRepo {
   Future<Response> saveUserPassword({context, userId, password}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
+    String appCode = 'EPANDU';
+    String appId = 'ePandu.App';
 
     SaveUserPasswordRequest saveUserPasswordRequest = SaveUserPasswordRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
+      appCode: appCode,
+      appId: appId,
       userId: userId,
       password: password,
     );
@@ -928,9 +932,11 @@ class AuthRepo {
       {context, phoneCountryCode, phone}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
+    String appCode = 'EPANDU';
+    String appId = 'ePandu.App';
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&phoneCountryCode=${Uri.encodeQueryComponent(phoneCountryCode)}&phone=$phone';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appCode=$appCode&appId=$appId&phoneCountryCode=${Uri.encodeQueryComponent(phoneCountryCode)}&phone=$phone';
 
     var response = await networking.getData(
       path: 'RequestVerificationCode?$path',
