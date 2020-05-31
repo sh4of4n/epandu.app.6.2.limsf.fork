@@ -95,7 +95,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                         ),
                       ),
                     ),
-                    InkWell(
+                    /* InkWell(
                       onTap: () => Navigator.pushNamed(context, PAY),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
@@ -112,6 +112,30 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                                 AppLocalizations.of(context)
                                     .translate('pay_lbl'),
                                 style: widget.iconText),
+                          ],
+                        ),
+                      ),
+                    ), */
+                    InkWell(
+                      onTap: () => Navigator.pushNamed(context, INVITE),
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 8.0,
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Icon(
+                              MyCustomIcons.invite_icon,
+                              size: 26,
+                              color: Color(0xff808080),
+                            ),
+                            SizedBox(height: ScreenUtil().setHeight(20)),
+                            Text(
+                              AppLocalizations.of(context)
+                                  .translate('invite_lbl'),
+                              style: widget.iconText,
+                            ),
                           ],
                         ),
                       ),

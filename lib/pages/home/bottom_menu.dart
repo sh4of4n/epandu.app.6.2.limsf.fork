@@ -40,7 +40,20 @@ class BottomMenu extends StatelessWidget {
                 children: [
                   TableRow(
                     children: [
-                      InkWell(
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 12.0,
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              height: 160.h,
+                              width: 80.w,
+                            ),
+                          ],
+                        ),
+                      ),
+                      /* InkWell(
                         onTap: () => Navigator.popUntil(
                             context, ModalRoute.withName(HOME)),
                         borderRadius: BorderRadius.circular(10.0),
@@ -90,14 +103,14 @@ class BottomMenu extends StatelessWidget {
                             ],
                           ),
                         ),
-                      ),
+                      ), */
                       Column(
                         children: <Widget>[
                           Image.memory(kTransparentImage,
                               width: ScreenUtil().setWidth(150)),
                         ],
                       ),
-                      InkWell(
+                      /* InkWell(
                         onTap: () => Navigator.pushNamed(context, INVITE),
                         borderRadius: BorderRadius.circular(10.0),
                         child: Padding(
@@ -149,7 +162,7 @@ class BottomMenu extends StatelessWidget {
                             ],
                           ),
                         ),
-                      ),
+                      ), */
                     ],
                   ),
                 ],

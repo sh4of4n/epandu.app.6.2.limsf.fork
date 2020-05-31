@@ -48,7 +48,7 @@ class EpanduCategory extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
-        bottomNavigationBar: BottomMenu(),
+        // bottomNavigationBar: BottomMenu(),
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -194,6 +194,31 @@ class EpanduCategory extends StatelessWidget {
                           ),
                         ),
                         InkWell(
+                          onTap: () =>
+                              Navigator.pushNamed(context, PICKUP_HISTORY),
+                          child: Column(
+                            children: <Widget>[
+                              FadeInImage(
+                                alignment: Alignment.center,
+                                height: 330.h,
+                                placeholder: MemoryImage(kTransparentImage),
+                                image: AssetImage(
+                                  myImage.pickupIcon,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              Text(
+                                AppLocalizations.of(context)
+                                    .translate('pickup'),
+                                style: iconText,
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                        /* InkWell(
                           onTap: () {},
                           child: Column(
                             children: <Widget>[
@@ -216,10 +241,10 @@ class EpanduCategory extends StatelessWidget {
                               ),
                             ],
                           ),
-                        ),
+                        ), */
                       ],
                     ),
-                    TableRow(
+                    /* TableRow(
                       children: [
                         InkWell(
                           onTap: () =>
@@ -294,7 +319,7 @@ class EpanduCategory extends StatelessWidget {
                           ),
                         ),
                       ],
-                    ),
+                    ), */
                   ],
                 ),
               ),
