@@ -27,12 +27,12 @@ class _ProfileTabState extends State<ProfileTab>
         size: 28.0,
       ),
     ),
-    Tab(
+    /* Tab(
       icon: new Icon(
         Icons.account_balance_wallet,
         size: 28.0,
       ),
-    ),
+    ), */
     Tab(
       icon: new Icon(
         Icons.settings,
