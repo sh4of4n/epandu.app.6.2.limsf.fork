@@ -53,3 +53,4 @@ const String PAY = '/pay';
 const String RECORDS = '/records';
 const String PICKUP_HISTORY = '/pickup_history';
 const String REQUEST_PICKUP = '/request_pickup';
+const String COMING_SOON = 'coming_soon';

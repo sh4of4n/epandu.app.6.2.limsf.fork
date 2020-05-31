@@ -71,7 +71,8 @@ class EpanduCategory extends StatelessWidget {
                     TableRow(
                       children: [
                         InkWell(
-                          onTap: () {},
+                          onTap: () =>
+                              Navigator.pushNamed(context, COMING_SOON),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(
@@ -195,7 +196,8 @@ class EpanduCategory extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () =>
-                              Navigator.pushNamed(context, PICKUP_HISTORY),
+                              // Navigator.pushNamed(context, PICKUP_HISTORY),
+                              Navigator.pushNamed(context, COMING_SOON),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(

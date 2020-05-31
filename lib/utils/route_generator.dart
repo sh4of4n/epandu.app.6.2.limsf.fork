@@ -1,3 +1,4 @@
+import 'package:epandu/coming_soon/coming_soon.dart';
 import 'package:epandu/pages/epandu/add_booking.dart';
 import 'package:epandu/pages/epandu/epandu.dart';
 import 'package:epandu/pages/inbox/inbox.dart';
@@ -300,6 +301,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           settings: RouteSettings(name: REQUEST_PICKUP),
           builder: (_) => RequestPickup(),
+        );
+      case COMING_SOON:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: COMING_SOON),
+          builder: (_) => ComingSoon(),
         );
       default:
         return _errorRoute();

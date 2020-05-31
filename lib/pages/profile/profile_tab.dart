@@ -156,9 +156,9 @@ class _ProfileTabState extends State<ProfileTab>
     switch (_tabIndex) {
       case 0:
         return Text(AppLocalizations.of(context).translate('profile_title'));
+      // case 1:
+      //   return Text(AppLocalizations.of(context).translate('edompet_title'));
       case 1:
-        return Text(AppLocalizations.of(context).translate('edompet_title'));
-      case 2:
         return Text(AppLocalizations.of(context).translate('settings_lbl'));
     }
   }
@@ -219,7 +219,7 @@ class _ProfileTabState extends State<ProfileTab>
           backgroundColor: Colors.transparent,
           body: TabBarView(controller: _tabController, children: [
             Profile(),
-            Edompet(),
+            // Edompet(),
             Settings(widget.positionStream),
           ]),
           bottomNavigationBar: Container(
