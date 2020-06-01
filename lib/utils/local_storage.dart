@@ -26,6 +26,36 @@ class LocalStorage {
   static const String kUserLatitude = 'LATITUDE';
   static const String kUserLongitude = 'LONGITUDE';
   static const String kAppVersion = 'APP_VERSION';
+  static const String kBirthDate = 'BIRTH_DATE';
+  static const String kRace = 'RACE';
+  static const String kNickName = 'NICK_NAME';
+
+  Future<void> saveNickName(String nickName) {
+    return Preference.setString(kNickName, nickName);
+  }
+
+  Future<String> getNickName() async {
+    return Preference.getString(kNickName, def: '');
+  }
+
+
+  Future<void> saveRace(String race) {
+    return Preference.setString(kRace, race);
+  }
+
+  Future<String> getRace() async {
+    return Preference.getString(kRace, def: '');
+  }
+
+
+  Future<void> saveBirthDate(String birthDate) {
+    return Preference.setString(kBirthDate, birthDate);
+  }
+
+  Future<String> getBirthDate() async {
+    return Preference.getString(kBirthDate, def: '');
+  }
+
 
   Future<void> saveLocale(String locale) {
     return Preference.setString(kLocale, locale);

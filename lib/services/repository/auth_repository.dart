@@ -190,8 +190,8 @@ class AuthRepo {
     final String caPwdUrlEncode = await localStorage.getCaPwdEncode();
     String pushToken = await Hive.box('ws_url').get('push_token');
     String appVersion = await localStorage.getAppVersion();
-    String appCode = 'EPANDU';
-    String appId = 'ePandu.App';
+    String appCode = appConfig.appCode;
+    String appId = appConfig.appId;
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0&latitude=$latitude&longitude=$longitude&appCode=$appCode&appId=$appId&deviceId=&appVersion=$appVersion&deviceRemark=${deviceRemark.isNotEmpty ? Uri.encodeComponent(deviceRemark) : ''}&phDeviceId=$phDeviceId&phLine1Number=&phNetOpName=&phPhoneType=&phSimSerialNo=&bdBoard=&bdBrand=&bdDevice=&bdDisplay=&bdManufacturer=&bdModel=&bdProduct=&pfDeviceId=&regId=$pushToken';
@@ -597,8 +597,8 @@ class AuthRepo {
   Future<Response> saveUserPassword({context, userId, password}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
-    String appCode = 'EPANDU';
-    String appId = 'ePandu.App';
+    String appCode = appConfig.appCode;
+    String appId = appConfig.appId;
 
     SaveUserPasswordRequest saveUserPasswordRequest = SaveUserPasswordRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
@@ -932,8 +932,8 @@ class AuthRepo {
       {context, phoneCountryCode, phone}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
-    String appCode = 'EPANDU';
-    String appId = 'ePandu.App';
+    String appCode = appConfig.appCode;
+    String appId = appConfig.appId;
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appCode=$appCode&appId=$appId&phoneCountryCode=${Uri.encodeQueryComponent(phoneCountryCode)}&phone=$phone';
@@ -1019,8 +1019,8 @@ class AuthRepo {
       signUpPwd: signUpPwd,
       latitude: latitude ?? '',
       longitude: longitude ?? '',
-      appCode: 'EPANDU',
-      appId: 'ePandu.App',
+      appCode: appConfig.appCode,
+      appId: appConfig.appId,
       deviceId: '',
       appVersion: appVersion,
       deviceRemark: deviceVersion,
@@ -1052,6 +1052,102 @@ class AuthRepo {
     // Success
     if (response.isSuccess && response.data != null) {
       message = AppLocalizations.of(context).translate('register_success');
+
+      return Response(true, message: message);
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message != null && response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message != null &&
+        response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
+    }
+
+    // Fail
+    message = AppLocalizations.of(context).translate('register_error');
+
+    return Response(false, message: message);
+  }
+
+  // scan QR
+  Future<Response> registerUserToDI({
+    context,
+    String diCode,
+    String icNo,
+    // String name,
+    String nationality,
+    // String phoneCountryCode,
+    // String phone,
+    String dateOfBirthString,
+    String gender,
+    String race,
+    String add1,
+    String add2,
+    String add3,
+    String postcode,
+    String city,
+    String state,
+    String country,
+    String email,
+    // String userId,
+    String bodyTemperature,
+    String scanCode,
+  }) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+    String userId = await localStorage.getUserId();
+    String name = await localStorage.getUsername();
+    String phoneCountryCode = await localStorage.getCountryCode();
+    String phone = await localStorage.getUserPhone();
+
+    RegisterUserToDIRequest params = RegisterUserToDIRequest(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      appCode: 'EPANDU',
+      appId: appConfig.appId,
+      diCode: diCode ?? appConfig.diCode,
+      icNo: icNo ?? '',
+      name: name,
+      nationality: nationality ?? 'WARGANEGARA',
+      phoneCountryCode: phoneCountryCode,
+      phone: phone,
+      dateOfBirthString: dateOfBirthString ?? '',
+      gender: gender ?? '',
+      race: race ?? '',
+      add1: add1 ?? '',
+      add2: add2 ?? '',
+      add3: add3 ?? '',
+      postcode: postcode ?? '',
+      city: city ?? '',
+      state: state ?? '',
+      country: country ?? '',
+      email: email ?? '',
+      userId: userId ?? 'TBS',
+      bodyTemperature: bodyTemperature ?? '',
+      scanCode: scanCode ?? '',
+    );
+
+    String body = jsonEncode(params);
+    String api = 'RegisterUserToDI';
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+
+    var response =
+        await networking.postData(api: api, body: body, headers: headers);
+
+    var message = '';
+
+    // Success
+    if (response.isSuccess && response.data != null) {
+      message = AppLocalizations.of(context).translate('success');
 
       return Response(true, message: message);
     } else if (response.message != null &&

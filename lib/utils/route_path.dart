@@ -54,3 +54,4 @@ const String RECORDS = '/records';
 const String PICKUP_HISTORY = '/pickup_history';
 const String REQUEST_PICKUP = '/request_pickup';
 const String COMING_SOON = 'coming_soon';
+const String REGISTER_USER_TO_DI = '/register_user_to_di';

@@ -21,8 +21,12 @@ class ProfileRepo {
     String state,
     String country,
     String email,
-    String icNo,
     String registerAs,
+    String icNo,
+    String nationality,
+    String dateOfBirthString,
+    String race,
+    String nickName,
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
@@ -31,11 +35,18 @@ class ProfileRepo {
 
     SaveProfileRequest params = SaveProfileRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
+      appCode: appConfig.appCode,
+      appId: appConfig.appId,
       caUid: caUid,
       caPwd: caPwd,
       diCode: diCode ?? appConfig.diCode,
       userId: userId,
       name: name,
+      nickName: nickName??'',
+      icNo: icNo??'',
+      nationality: nationality??'WARGANEGARA',
+      dateOfBirthString: dateOfBirthString??'',
+      race: race??'',
       address: address ?? '',
       postcode: postcode ?? '',
       state: state ?? '',
@@ -44,14 +55,22 @@ class ProfileRepo {
     );
 
     String body = jsonEncode(params);
-    String api = 'SaveUserProfile';
+    String api = 'SaveUserProfileWithIC';
     Map<String, String> headers = {'Content-Type': 'application/json'};
 
     var response =
-        await networking.postData(api: api, body: body, headers: headers);
+    await networking.postData(api: api, body: body, headers: headers);
 
     // Success
     if (response.isSuccess && response.data != null) {
+
+      localStorage.saveBirthDate(dateOfBirthString??'');
+      localStorage.saveStudentIc(icNo??'');
+      localStorage.saveUsername(name??'');
+      localStorage.saveEmail(email??'');
+      localStorage.saveNickName(nickName??'');
+
+
       return Response(true,
           message: AppLocalizations.of(context).translate('profile_updated'));
     } else if (response.message != null &&
@@ -74,7 +93,6 @@ class ProfileRepo {
     return Response(false,
         message: AppLocalizations.of(context).translate('profile_update_fail'));
   }
-
   /* Future getStudentProfile() async {
     String userId = await localStorage.getUserId();
     String diCode = await localStorage.getDiCode();

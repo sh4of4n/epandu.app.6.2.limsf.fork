@@ -2155,3 +2155,155 @@ class SignUpArguments {
 
   SignUpArguments({this.phoneCountryCode, this.phone, this.verificationCode});
 }
+
+// RegisterToUserDI
+class RegisterUserToDIRequest {
+  String wsCodeCrypt;
+  String caUid;
+  String caPwd;
+  String appCode;
+  String appId;
+  String diCode;
+  String icNo;
+  String name;
+  String nationality;
+  String phoneCountryCode;
+  String phone;
+  String dateOfBirthString;
+  String gender;
+  String race;
+  String add1;
+  String add2;
+  String add3;
+  String postcode;
+  String city;
+  String state;
+  String country;
+  String email;
+  String userId;
+  String bodyTemperature;
+  String scanCode;
+
+  RegisterUserToDIRequest(
+      {this.wsCodeCrypt,
+      this.caUid,
+      this.caPwd,
+      this.appCode,
+      this.appId,
+      this.diCode,
+      this.icNo,
+      this.name,
+      this.nationality,
+      this.phoneCountryCode,
+      this.phone,
+      this.dateOfBirthString,
+      this.gender,
+      this.race,
+      this.add1,
+      this.add2,
+      this.add3,
+      this.postcode,
+      this.city,
+      this.state,
+      this.country,
+      this.email,
+      this.userId,
+      this.bodyTemperature,
+      this.scanCode});
+
+  RegisterUserToDIRequest.fromJson(Map<String, dynamic> json) {
+    wsCodeCrypt = json['wsCodeCrypt'];
+    caUid = json['caUid'];
+    caPwd = json['caPwd'];
+    appCode = json['appCode'];
+    appId = json['appId'];
+    diCode = json['diCode'];
+    icNo = json['icNo'];
+    name = json['name'];
+    nationality = json['nationality'];
+    phoneCountryCode = json['phoneCountryCode'];
+    phone = json['phone'];
+    dateOfBirthString = json['dateOfBirthString'];
+    gender = json['gender'];
+    race = json['race'];
+    add1 = json['add1'];
+    add2 = json['add2'];
+    add3 = json['add3'];
+    postcode = json['postcode'];
+    city = json['city'];
+    state = json['state'];
+    country = json['country'];
+    email = json['email'];
+    userId = json['userId'];
+    bodyTemperature = json['bodyTemperature'];
+    scanCode = json['scanCode'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['wsCodeCrypt'] = this.wsCodeCrypt;
+    data['caUid'] = this.caUid;
+    data['caPwd'] = this.caPwd;
+    data['appCode'] = this.appCode;
+    data['appId'] = this.appId;
+    data['diCode'] = this.diCode;
+    data['icNo'] = this.icNo;
+    data['name'] = this.name;
+    data['nationality'] = this.nationality;
+    data['phoneCountryCode'] = this.phoneCountryCode;
+    data['phone'] = this.phone;
+    data['dateOfBirthString'] = this.dateOfBirthString;
+    data['gender'] = this.gender;
+    data['race'] = this.race;
+    data['add1'] = this.add1;
+    data['add2'] = this.add2;
+    data['add3'] = this.add3;
+    data['postcode'] = this.postcode;
+    data['city'] = this.city;
+    data['state'] = this.state;
+    data['country'] = this.country;
+    data['email'] = this.email;
+    data['userId'] = this.userId;
+    data['bodyTemperature'] = this.bodyTemperature;
+    data['scanCode'] = this.scanCode;
+    return data;
+  }
+}
+
+// Scan response
+class ScanResponse {
+  String diCode;
+  String name;
+  String nationality;
+  String phoneCountryCode;
+  String phone;
+  String userId;
+
+  ScanResponse(
+      {this.diCode,
+      this.name,
+      this.nationality,
+      this.phoneCountryCode,
+      this.phone,
+      this.userId});
+
+  ScanResponse.fromJson(Map<String, dynamic> json) {
+    diCode = json['diCode'];
+    name = json['name'];
+    nationality = json['nationality'];
+    phoneCountryCode = json['phoneCountryCode'];
+    phone = json['phone'];
+    userId = json['userId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['diCode'] = this.diCode;
+    data['name'] = this.name;
+    data['nationality'] = this.nationality;
+    data['phoneCountryCode'] = this.phoneCountryCode;
+    data['phone'] = this.phone;
+    data['userId'] = this.userId;
+    return data;
+  }
+}

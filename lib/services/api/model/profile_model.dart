@@ -42,24 +42,39 @@ class SaveProfileRequest {
   String diCode;
   String userId;
   String name;
+  String icNo;
   String address;
   String postcode;
   String state;
   String country;
   String email;
+  String nationality;
+  String dateOfBirthString;
+  String race;
+  String appId;
+  String appCode;
+  String nickName;
 
   SaveProfileRequest(
       {this.wsCodeCrypt,
-      this.caUid,
-      this.caPwd,
-      this.diCode,
-      this.userId,
-      this.name,
-      this.address,
-      this.postcode,
-      this.state,
-      this.country,
-      this.email});
+        this.caUid,
+        this.caPwd,
+        this.diCode,
+        this.userId,
+        this.name,
+        this.address,
+        this.postcode,
+        this.state,
+        this.country,
+        this.email,
+        this.icNo,
+        this.nationality,
+        this.dateOfBirthString,
+        this.race,
+        this.appId,
+        this.appCode,
+        this.nickName,
+      });
 
   SaveProfileRequest.fromJson(Map<String, dynamic> json) {
     wsCodeCrypt = json['wsCodeCrypt'];
@@ -73,6 +88,13 @@ class SaveProfileRequest {
     state = json['state'];
     country = json['country'];
     email = json['email'];
+    icNo = json['icNo'];
+    nationality = json['nationality'];
+    dateOfBirthString = json['dateOfBirthString'];
+    race = json['race'];
+    appId = json['appId'];
+    appCode = json['appCode'];
+    nickName = json['nickName'];
   }
 
   Map<String, dynamic> toJson() {
@@ -88,6 +110,13 @@ class SaveProfileRequest {
     data['state'] = this.state;
     data['country'] = this.country;
     data['email'] = this.email;
+    data['icNo'] = this.icNo;
+    data['nationality'] = this.nationality;
+    data['dateOfBirthString'] = this.dateOfBirthString;
+    data['race'] = this.race;
+    data['appCode'] = this.appCode;
+    data['appId'] = this.appId;
+    data['nickName'] = this.nickName;
     return data;
   }
 }

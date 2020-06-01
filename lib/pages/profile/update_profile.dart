@@ -1,12 +1,17 @@
+import 'dart:io';
+
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/services/repository/profile_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/local_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 
 import '../../app_localizations.dart';
 
@@ -25,11 +30,21 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
 
   final FocusNode _nameFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
-
+  final FocusNode _dobFocus = FocusNode();
+  final FocusNode _icFocus = FocusNode();
+  final FocusNode _nickNameFocus = FocusNode();
+  final _dobController = TextEditingController();
+  final format = DateFormat("yyyy-MM-dd");
   String _getName = '';
   String _getEmail = '';
+  String _getUserIc = '';
+  String _getBirthDate = '';
+  String _getNickName = '';
 
+  String _dob = '';
+  String _ic = '';
   String _name = '';
+  String _nickName = '';
   String _email = '';
   String _message = '';
   bool _isLoading = false;
@@ -37,6 +52,8 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   TextStyle _messageStyle = TextStyle(color: Colors.red);
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _icController = TextEditingController();
+  final _nickNameController = TextEditingController();
 
   @override
   void initState() {
@@ -44,6 +61,9 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
 
     _nameController.addListener(_nameValue);
     _emailController.addListener(_emailValue);
+    _dobController.addListener(_dobValue);
+    _icController.addListener(_icValue);
+    _nickNameController.addListener(_nickNameValue);
 
     _getUserInfo();
   }
@@ -51,9 +71,28 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   _getUserInfo() async {
     _getName = await localStorage.getUsername();
     _getEmail = await localStorage.getEmail();
+    _getBirthDate = await localStorage.getBirthDate();
+    _getUserIc = await localStorage.getStudentIc();
+    _getNickName = await localStorage.getNickName();
 
     _nameController.text = _getName;
     _emailController.text = _getEmail;
+    _dobController.text =
+        _getBirthDate.isNotEmpty ? _getBirthDate.substring(0, 10) : '';
+    _icController.text = _getUserIc;
+    _nickNameController.text = _getNickName;
+  }
+
+  _nickNameValue() {
+    setState(() {
+      _nickName = _nickNameController.text;
+    });
+  }
+
+  _icValue() {
+    setState(() {
+      _ic = _icController.text;
+    });
   }
 
   _nameValue() {
@@ -65,6 +104,12 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   _emailValue() {
     setState(() {
       _email = _emailController.text;
+    });
+  }
+
+  _dobValue() {
+    setState(() {
+      _dob = _dobController.text;
     });
   }
 
@@ -103,6 +148,56 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       labelStyle: TextStyle(
                         color: Color(0xff808080),
                       ),
+                      labelText: "Name on IC/Passport",
+                      /*AppLocalizations.of(context)
+                          .translate('nick_name_lbl'),*/
+                      fillColor: Colors.white,
+                      filled: true,
+                      prefixIcon: Icon(Icons.assignment_ind),
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.cancel),
+                        onPressed: () {
+                          _nameController.text = '';
+                        },
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.blue[700], width: 1.6),
+                        // borderRadius: BorderRadius.circular(0),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    onFieldSubmitted: (term) {
+                      fieldFocusChange(
+                        context,
+                        _nameFocus,
+                        _emailFocus,
+                      );
+                    },
+                  ),
+                  SizedBox(
+                    height: 60.h,
+                  ),
+                  TextFormField(
+                    controller: _nickNameController,
+                    focusNode: _nickNameFocus,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+                      hintStyle: TextStyle(
+                        color: primaryColor,
+                      ),
+                      labelStyle: TextStyle(
+                        color: Color(0xff808080),
+                      ),
                       labelText: AppLocalizations.of(context)
                           .translate('nick_name_lbl'),
                       fillColor: Colors.white,
@@ -111,7 +206,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       suffixIcon: IconButton(
                         icon: Icon(Icons.cancel),
                         onPressed: () {
-                          _nameController.text = '';
+                          _nickNameController.text = '';
                         },
                       ),
                       enabledBorder: OutlineInputBorder(
@@ -202,6 +297,65 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       });
                     }, */
                   ),
+                  SizedBox(height: 60.h),
+                  TextFormField(
+                    controller: _icController,
+                    focusNode: _icFocus,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+                      hintStyle: TextStyle(
+                        color: primaryColor,
+                      ),
+                      labelStyle: TextStyle(
+                        color: Color(0xff808080),
+                      ),
+                      labelText: AppLocalizations.of(context)
+                          .translate('ic_required_lbl'),
+                      fillColor: Colors.white,
+                      filled: true,
+                      prefixIcon: Icon(Icons.assignment_ind),
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.cancel),
+                        onPressed: () {
+                          _icController.text = '';
+                        },
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.blue[700], width: 1.6),
+                        // borderRadius: BorderRadius.circular(0),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    /* validator: (value) {
+                      if (value.isEmpty) {
+                        return AppLocalizations.of(context)
+                            .translate('ic_name_required_msg');
+                      }
+                      return null;
+                    }, */
+                    /* onChanged: (value) {
+                      setState(() {
+                        _name = value;
+                      });
+                    }, */
+                  ),
+                  SizedBox(
+                    height: 60.h,
+                  ),
+                  _dobField(),
+                  /* SizedBox(height: 60.h),
+                  _raceField(),
+*/
                   SizedBox(height: 40.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -227,6 +381,149 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
       ),
     );
   }
+
+  _dobField() {
+    return DateTimeField(
+      focusNode: _dobFocus,
+      format: format,
+      controller: _dobController,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(
+          vertical: 50.h,
+        ),
+        labelStyle: TextStyle(
+          color: Color(0xff808080),
+        ),
+        labelText: AppLocalizations.of(context).translate('dob_required_lbl'),
+        fillColor: Colors.white,
+        filled: true,
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue[700], width: 1.6),
+          // borderRadius: BorderRadius.circular(0),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        prefixIcon: Icon(Icons.calendar_today),
+        suffixIcon: IconButton(
+          icon: Icon(Icons.cancel),
+          onPressed: () {
+            _dobController.text = '';
+          },
+        ),
+      ),
+      validator: (value) {
+        if (_dobController.text.isEmpty) {
+          return AppLocalizations.of(context).translate('dob_required_msg');
+        }
+        return null;
+      },
+      onShowPicker: (context, currentValue) async {
+        if (Platform.isIOS) {
+          if (_dobController.text.isEmpty) {
+            setState(() {
+              _dobController.text = DateFormat('yyyy/MM/dd').format(
+                DateTime(2000, 1, 1),
+              );
+            });
+          }
+
+          await showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return CupertinoDatePicker(
+                initialDateTime: DateTime(2000),
+                onDateTimeChanged: (DateTime date) {
+                  setState(() {
+                    _dobController.text = DateFormat('yyyy/MM/dd').format(date);
+                  });
+                },
+                minimumYear: 1920,
+                maximumYear: 2020,
+                mode: CupertinoDatePickerMode.date,
+              );
+            },
+          );
+        } else {
+          return showDatePicker(
+              context: context,
+              firstDate: DateTime(1920),
+              initialDate: currentValue ?? DateTime(2000),
+              lastDate: DateTime(2020));
+        }
+        return null;
+      },
+    );
+  }
+/*
+  _raceField() {
+    return DropdownButtonFormField<String>(
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(
+          vertical: 0.h,
+        ),
+        labelText: AppLocalizations.of(context).translate('race_lbl'),
+        fillColor: Colors.white,
+        filled: true,
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue[700], width: 1.6),
+          // borderRadius: BorderRadius.circular(0),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        prefixIcon: Icon(Icons.people),
+      ),
+      disabledHint: Text(AppLocalizations.of(context).translate('race_lbl')),
+      value: _race.isEmpty ? null : _race,
+      */ /* _nationality.isNotEmpty
+          ? _nationality
+          : AppLocalizations.of(context).translate('citizen_lbl'), */ /*
+      onChanged: (value) {
+        setState(() {
+          _race = value;
+          if (value == AppLocalizations.of(context).translate('malay_race_lbl'))
+            _raceParam = 'M';
+          else if (value ==
+              AppLocalizations.of(context).translate('chinese_lbl'))
+            _raceParam = 'C';
+          else if (value ==
+              AppLocalizations.of(context).translate('indian_lbl'))
+            _raceParam = 'I';
+          else
+            _raceParam = 'O';
+        });
+      },
+      items: <String>[
+        AppLocalizations.of(context).translate('malay_race_lbl'),
+        AppLocalizations.of(context).translate('chinese_lbl'),
+        AppLocalizations.of(context).translate('indian_lbl'),
+        AppLocalizations.of(context).translate('others_lbl'),
+      ].map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      validator: (value) {
+        if (value == null) {
+          return AppLocalizations.of(context).translate('race_required_msg');
+        }
+        return null;
+      },
+    );
+  }*/
 
   _inviteButton() {
     return Container(
@@ -275,6 +572,9 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         context: context,
         name: _name.isNotEmpty ? _name : _getName,
         email: _email.isNotEmpty ? _email : _getEmail,
+        icNo: _ic.isNotEmpty ? _ic : _getUserIc,
+        dateOfBirthString: _dob.isNotEmpty ? _dob : _getBirthDate,
+        nickName: _nickName.isNotEmpty ? _nickName : _getNickName,
       );
 
       if (result.isSuccess) {

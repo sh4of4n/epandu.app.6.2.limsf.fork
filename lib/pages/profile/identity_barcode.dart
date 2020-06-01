@@ -16,6 +16,15 @@ class _IdentityBarcodeState extends State<IdentityBarcode> {
   final localStorage = LocalStorage();
 
   String id = '';
+  String diCode = '';
+  // String icNo = '';
+  String userId = '';
+  String phoneCountryCode = '';
+  String phone = '';
+  // String dob = '';
+  // String gender = '';
+  String name = '';
+  String nationality = 'WARGANEGARA';
 
   @override
   void initState() {
@@ -27,11 +36,23 @@ class _IdentityBarcodeState extends State<IdentityBarcode> {
   _getData() async {
     String appId = 'ePandu.App';
     String appVersion = await localStorage.getAppVersion();
-    String icNo = await localStorage.getStudentIc();
-    String userId = await localStorage.getUserId();
+    String getDiCode = await localStorage.getDiCode();
+    String getIcNo = await localStorage.getStudentIc();
+    String getUserId = await localStorage.getUserId();
+    String getPhoneCountryCode = await localStorage.getCountryCode();
+    String getPhone = await localStorage.getUserPhone();
+    // String getGender = await localStorage.getGender();
+    String getName = await localStorage.getUsername();
 
     setState(() {
-      id = appId + appVersion + icNo + userId;
+      id = appId + appVersion + getIcNo + getUserId;
+      diCode = getDiCode;
+      // icNo = getIcNo;
+      userId = getUserId;
+      phoneCountryCode = getPhoneCountryCode;
+      phone = getPhone;
+      // gender = getGender;
+      name = getName;
     });
   }
 
@@ -42,7 +63,8 @@ class _IdentityBarcodeState extends State<IdentityBarcode> {
         embeddedImageStyle: QrEmbeddedImageStyle(
           size: Size(40, 40),
         ),
-        data: id,
+        data:
+            '{"diCode": "$diCode", "name": "$name", "nationality": "$nationality", "phoneCountryCode": "$phoneCountryCode", "phone": "$phone", "userId": "$userId"}',
         version: QrVersions.auto,
         size: 250.0,
       );

@@ -307,6 +307,11 @@ class RouteGenerator {
           settings: RouteSettings(name: COMING_SOON),
           builder: (_) => ComingSoon(),
         );
+      case REGISTER_USER_TO_DI:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: REGISTER_USER_TO_DI),
+          builder: (_) => RegisterUserToDi(data),
+        );
       default:
         return _errorRoute();
     }

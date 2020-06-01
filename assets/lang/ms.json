@@ -299,5 +299,8 @@
   "direction_required": "Arah diperlukan.",
   "about": "Mengenai",
   "contest_and_win": "Peraduan",
-  "pickup_added": "Pengambilan berjaya ditambahkan."
+  "pickup_added": "Pengambilan berjaya ditambahkan.",
+  "body_temp": "Suhu badan",
+  "body_temp_required_msg": "Suhu badan diperlukan.",
+  "success": "Berjaya"
 }

@@ -3,6 +3,7 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,6 +22,7 @@ class HomeTopMenu extends StatefulWidget {
 
 class _HomeTopMenuState extends State<HomeTopMenu> {
   final myImage = ImagesConstant();
+  final customDialog = CustomDialog();
   bool _showBadge = false;
   String barcode = "";
 
@@ -44,20 +46,33 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
   Future _scan() async {
     try {
       String barcode = await BarcodeScanner.scan();
-      setState(() => this.barcode = barcode);
+      Navigator.pushNamed(context, REGISTER_USER_TO_DI, arguments: barcode);
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
-        setState(() {
-          this.barcode = 'The user did not grant the camera permission!';
-        });
+        customDialog.show(
+          context: context,
+          content: 'Please grant camera permission.',
+          onPressed: () => Navigator.pop(context),
+          type: DialogType.WARNING,
+        );
       } else {
-        setState(() => this.barcode = 'Unknown error: $e');
+        customDialog.show(
+          context: context,
+          content: 'Error $e',
+          onPressed: () => Navigator.pop(context),
+          type: DialogType.ERROR,
+        );
       }
     } on FormatException {
       setState(() => this.barcode =
           'null (User returned using the "back"-button before scanning anything. Result)');
     } catch (e) {
-      setState(() => this.barcode = 'Unknown error: $e');
+      customDialog.show(
+        context: context,
+        content: 'Error $e',
+        onPressed: () => Navigator.pop(context),
+        type: DialogType.ERROR,
+      );
     }
   }
 
