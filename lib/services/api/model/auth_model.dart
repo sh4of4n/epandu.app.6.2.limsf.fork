@@ -2297,15 +2297,23 @@ class ScanResponse {
 class QRCode {
   String appId;
   String appVersion;
+  String phoneCountryCode;
   String phone;
   String name;
   String userId;
 
-  QRCode({this.appId, this.appVersion, this.phone, this.name, this.userId});
+  QRCode(
+      {this.appId,
+      this.appVersion,
+      this.phoneCountryCode,
+      this.phone,
+      this.name,
+      this.userId});
 
   QRCode.fromJson(Map<String, dynamic> json) {
     appId = json['appId'];
     appVersion = json['appVersion'];
+    phoneCountryCode = json['phoneCountryCode'];
     phone = json['phone'];
     name = json['name'];
     userId = json['userId'];
@@ -2315,6 +2323,7 @@ class QRCode {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['appId'] = this.appId;
     data['appVersion'] = this.appVersion;
+    data['phoneCountryCode'] = this.phoneCountryCode;
     data['phone'] = this.phone;
     data['name'] = this.name;
     data['userId'] = this.userId;

@@ -1120,7 +1120,7 @@ class AuthRepo {
       icNo: icNo ?? '',
       name: name,
       nationality: nationality ?? 'WARGANEGARA',
-      phoneCountryCode: phoneCountryCode ?? '',
+      phoneCountryCode: phoneCountryCode,
       phone: phone,
       dateOfBirthString: dateOfBirthString ?? '',
       gender: gender ?? '',

@@ -68,7 +68,7 @@ class _IdentityBarcodeState extends State<IdentityBarcode> {
           size: Size(40, 40),
         ),
         data:
-            '{"QRCode":[{"appId": "${appConfig.appId}", "appVersion": "$appVersion", "phone": "$phoneCountryCode$phone", "name": "$name", "userId": "$userId"}]}',
+            '{"QRCode":[{"appId": "${appConfig.appId}", "appVersion": "$appVersion", "phoneCountryCode": "$phoneCountryCode", "phone": "$phone", "name": "$name", "userId": "$userId"}]}',
         version: QrVersions.auto,
         size: 250.0,
       );
