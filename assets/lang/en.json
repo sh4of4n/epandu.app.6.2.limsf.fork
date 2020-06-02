@@ -302,5 +302,13 @@
   "pickup_added": "Pickup added successfully.",
   "body_temp": "Body Temperature",
   "body_temp_required_msg": "Body temperature is required.",
-  "success": "Success"
+  "success": "Success",
+  "no_enrolled_class": "You have no enrolled classes. Please enroll to proceed with booking.",
+  "no_nearby_contacts": "There is no contact near your location.",
+  "no_contacts": "This institute has no contact number.",
+  "select_insurance": "Please select and contact your insurance agency from the list.",
+  "contact_no": "Contact no",
+  "scan_success": "We welcome you to be a member of",
+  "scan_fail": "Failed to join ",
+  "organisation": "organisation"
 }

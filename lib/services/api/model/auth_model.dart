@@ -2272,38 +2272,59 @@ class RegisterUserToDIRequest {
 
 // Scan response
 class ScanResponse {
-  String diCode;
-  String name;
-  String nationality;
-  String phoneCountryCode;
-  String phone;
-  String userId;
+  List<QRCode> qRCode;
 
-  ScanResponse(
-      {this.diCode,
-      this.name,
-      this.nationality,
-      this.phoneCountryCode,
-      this.phone,
-      this.userId});
+  ScanResponse({this.qRCode});
 
   ScanResponse.fromJson(Map<String, dynamic> json) {
-    diCode = json['diCode'];
-    name = json['name'];
-    nationality = json['nationality'];
-    phoneCountryCode = json['phoneCountryCode'];
+    if (json['QRCode'] != null) {
+      qRCode = new List<QRCode>();
+      json['QRCode'].forEach((v) {
+        qRCode.add(new QRCode.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.qRCode != null) {
+      data['QRCode'] = this.qRCode.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class QRCode {
+  String appId;
+  String appVersion;
+  String phone;
+  String name;
+  String userId;
+
+  QRCode({this.appId, this.appVersion, this.phone, this.name, this.userId});
+
+  QRCode.fromJson(Map<String, dynamic> json) {
+    appId = json['appId'];
+    appVersion = json['appVersion'];
     phone = json['phone'];
+    name = json['name'];
     userId = json['userId'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['diCode'] = this.diCode;
-    data['name'] = this.name;
-    data['nationality'] = this.nationality;
-    data['phoneCountryCode'] = this.phoneCountryCode;
+    data['appId'] = this.appId;
+    data['appVersion'] = this.appVersion;
     data['phone'] = this.phone;
+    data['name'] = this.name;
     data['userId'] = this.userId;
     return data;
   }
+}
+
+class ScanResultArgument {
+  var barcode;
+  String status;
+
+  ScanResultArgument({this.barcode, this.status});
 }

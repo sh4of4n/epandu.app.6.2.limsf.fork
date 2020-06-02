@@ -1,6 +1,7 @@
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/services/location.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/custom_snackbar.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
@@ -19,6 +20,7 @@ class DirectoryDetail extends StatefulWidget {
 }
 
 class _DirectoryDetailState extends State<DirectoryDetail> {
+  final customSnackbar = CustomSnackbar();
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
   final location = Location();
@@ -53,10 +55,19 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
   }
 
   _phone() async {
-    String trimNumber =
-        widget.snapshot.phone.replaceAll('-', '').replaceAll(' ', '');
+    if (widget.snapshot.phone == null) {
+      customSnackbar.show(
+        context,
+        message: AppLocalizations.of(context).translate('no_contacts'),
+        duration: 5000,
+        type: MessageType.INFO,
+      );
+    } else {
+      String trimNumber =
+          widget.snapshot.phone.replaceAll('-', '').replaceAll(' ', '');
 
-    await launch('tel:$trimNumber');
+      await launch('tel:$trimNumber');
+    }
   }
 
   _openDestination(context) async {

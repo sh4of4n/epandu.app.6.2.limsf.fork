@@ -3,6 +3,7 @@ import 'package:epandu/services/api/networking.dart';
 import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
+import 'package:flutter/material.dart';
 
 import '../../app_localizations.dart';
 
@@ -118,11 +119,11 @@ class EmergencyRepo {
   // GetSosContactNearest
 
   Future<Response> getSosContactSortByNearest({
-    context,
+    @required context,
     sosContactType,
     sosContactCode,
     areaCode,
-    maxRadius,
+    @required maxRadius,
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();

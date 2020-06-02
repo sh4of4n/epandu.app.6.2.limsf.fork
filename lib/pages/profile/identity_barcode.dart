@@ -1,4 +1,5 @@
 import 'package:epandu/app_localizations.dart';
+import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,10 @@ class IdentityBarcode extends StatefulWidget {
 class _IdentityBarcodeState extends State<IdentityBarcode> {
   final image = ImagesConstant();
   final localStorage = LocalStorage();
+  final appConfig = AppConfig();
 
   String id = '';
+  String appVersion = '';
   String diCode = '';
   // String icNo = '';
   String userId = '';
@@ -34,8 +37,8 @@ class _IdentityBarcodeState extends State<IdentityBarcode> {
   }
 
   _getData() async {
-    String appId = 'ePandu.App';
-    String appVersion = await localStorage.getAppVersion();
+    String appId = appConfig.appId;
+    String getAppVersion = await localStorage.getAppVersion();
     String getDiCode = await localStorage.getDiCode();
     String getIcNo = await localStorage.getStudentIc();
     String getUserId = await localStorage.getUserId();
@@ -45,8 +48,9 @@ class _IdentityBarcodeState extends State<IdentityBarcode> {
     String getName = await localStorage.getUsername();
 
     setState(() {
-      id = appId + appVersion + getIcNo + getUserId;
+      id = appId + getAppVersion + getIcNo + getUserId;
       diCode = getDiCode;
+      appVersion = getAppVersion;
       // icNo = getIcNo;
       userId = getUserId;
       phoneCountryCode = getPhoneCountryCode;
@@ -64,7 +68,7 @@ class _IdentityBarcodeState extends State<IdentityBarcode> {
           size: Size(40, 40),
         ),
         data:
-            '{"diCode": "$diCode", "name": "$name", "nationality": "$nationality", "phoneCountryCode": "$phoneCountryCode", "phone": "$phone", "userId": "$userId"}',
+            '{"QRCode":[{"appId": "${appConfig.appId}", "appVersion": "$appVersion", "phone": "$phoneCountryCode$phone", "name": "$name", "userId": "$userId"}]}',
         version: QrVersions.auto,
         size: 250.0,
       );

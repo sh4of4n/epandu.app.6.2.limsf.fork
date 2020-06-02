@@ -52,8 +52,25 @@ class _AddBookingState extends State<AddBooking> {
       setState(() {
         testListGroupId = response.data;
       });
-    else
-      return response.message;
+    else {
+      customDialog.show(
+        context: context,
+        content: AppLocalizations.of(context).translate('no_enrolled_class'),
+        barrierDismissable: false,
+        customActions: <Widget>[
+          FlatButton(
+            child: Text(AppLocalizations.of(context).translate('ok_btn')),
+            onPressed: () => Navigator.popUntil(
+              context,
+              ModalRoute.withName(EPANDU),
+            ),
+          )
+        ],
+        type: DialogType.GENERAL,
+      );
+
+      // return response.message;
+    }
   }
 
   _getTestListTestType() async {

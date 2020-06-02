@@ -302,5 +302,13 @@
   "pickup_added": "Pengambilan berjaya ditambahkan.",
   "body_temp": "Suhu badan",
   "body_temp_required_msg": "Suhu badan diperlukan.",
-  "success": "Berjaya"
+  "success": "Berjaya",
+  "no_enrolled_class": "Anda tidak mempunyai kelas yang didaftarkan. Sila daftar untuk meneruskan tempahan.",
+  "no_nearby_contacts": "Tidak ada kenalan berhampiran lokasi anda.",
+  "no_contacts": "Institut ini tidak mempunyai nombor hubungan.",
+  "select_insurance": "Sila pilih dan hubungi agensi insurans anda dari senarai.",
+  "contact_no": "Nombor telefon",
+  "scan_success": "Kami mengalu-alukan anda untuk menjadi ahli ",
+  "scan_fail": "Gagal menyertai ",
+  "organisation": "organisasi"
 }

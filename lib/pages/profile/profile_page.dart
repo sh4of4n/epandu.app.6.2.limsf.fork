@@ -21,7 +21,6 @@ class _ProfileState extends State<Profile> {
   String _birthDate = '';
   String _race = '';
   String _nationality = '';
-  // String _nationality = '';
   // String _gender = '';
   // String _studentIc = '';
   // String _address = '';
@@ -185,7 +184,8 @@ class _ProfileState extends State<Profile> {
             if (_phone != 'null')
               ListTile(
                 leading: Icon(Icons.phone),
-                title: Text(AppLocalizations.of(context).translate('login_id')),
+                title:
+                    Text(AppLocalizations.of(context).translate('contact_no')),
                 subtitle: Text('$_phone', style: _subtitleStyle),
               ),
             if (_email != 'null')
@@ -207,13 +207,13 @@ class _ProfileState extends State<Profile> {
                     ),
                 subtitle: Text('$_birthDate', style: _subtitleStyle),
               ),
-            if (_nationality != 'null')
+            /* if (_nationality != 'null')
               ListTile(
                 leading: Icon(Icons.flag),
                 title: Text(
                     AppLocalizations.of(context).translate('nationality_lbl')),
                 subtitle: Text('$_nationality', style: _subtitleStyle),
-              ),
+              ), */
             SizedBox(height: ScreenUtil().setHeight(20)),
             /* if (_state != 'null' && _country != 'null')
               ListTile(

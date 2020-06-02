@@ -2,6 +2,7 @@ import 'package:app_settings/app_settings.dart';
 import 'package:epandu/services/repository/emergency_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
+import 'package:epandu/utils/custom_snackbar.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,6 +22,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
   final emergencyRepo = EmergencyRepo();
   final myImage = ImagesConstant();
   final customDialog = CustomDialog();
+  final customSnackbar = CustomSnackbar();
   final geolocator = Geolocator();
   final iconText = TextStyle(
     fontSize: ScreenUtil().setSp(64),
@@ -29,6 +31,9 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
   );
   String policeNumber = '';
   String ambulanceNumber = '';
+  String bombaNumber = '';
+  String carWorkshopNumber = '';
+  String bikeWorkshopNumber = '';
 
   @override
   void initState() {
@@ -49,6 +54,9 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
       Future.wait([
         _getSosContact('POLICE'),
         _getSosContact('AMBULANCE'),
+        _getSosContact('BOMBA'),
+        _getSosContact('WORKSHOP'),
+        _getSosContact('BIKEWORKSHOP'),
       ]);
     } else {
       customDialog.show(
@@ -83,6 +91,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
     var response = await emergencyRepo.getSosContactSortByNearest(
       context: context,
       sosContactType: type,
+      maxRadius: '30',
     );
 
     if (response.isSuccess && type == 'POLICE') {
@@ -111,19 +120,112 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
       setState(() {
         ambulanceNumber = ambulanceContacts[0].phone;
       });
+    } else if (response.isSuccess && type == 'BOMBA') {
+      var bombaContacts = response.data;
+
+      for (int i = 0; i < bombaContacts.length; i += 1) {
+        if (bombaContacts[i].phone != null && mounted) {
+          setState(() {
+            bombaNumber = bombaContacts[i].phone;
+          });
+          break;
+        }
+      }
+
+      // setState(() {
+      //   bombaNumber = bombaContacts[0].phone;
+      // });
+    } else if (response.isSuccess && type == 'WORKSHOP') {
+      var carWorkshopContacts = response.data;
+
+      setState(() {
+        carWorkshopNumber = carWorkshopContacts[0].phone;
+      });
+    } else if (response.isSuccess && type == 'BIKEWORKSHOP') {
+      var bikeWorkshopContacts = response.data;
+
+      setState(() {
+        bikeWorkshopNumber = bikeWorkshopContacts[0].phone;
+      });
     }
   }
 
   _callPoliceNumber() async {
-    String trimNumber = policeNumber.replaceAll('-', '').replaceAll(' ', '');
+    if (policeNumber.isEmpty) {
+      customSnackbar.show(
+        context,
+        message: AppLocalizations.of(context).translate('no_nearby_contacts'),
+        duration: 5000,
+        type: MessageType.INFO,
+      );
+    } else {
+      String trimNumber = policeNumber.replaceAll('-', '').replaceAll(' ', '');
 
-    await launch('tel:$trimNumber');
+      await launch('tel:$trimNumber');
+    }
   }
 
   _callEmergencyNumber() async {
-    String trimNumber = ambulanceNumber.replaceAll('-', '').replaceAll(' ', '');
+    if (ambulanceNumber.isEmpty) {
+      customSnackbar.show(
+        context,
+        message: AppLocalizations.of(context).translate('no_nearby_contacts'),
+        duration: 5000,
+        type: MessageType.INFO,
+      );
+    } else {
+      String trimNumber =
+          ambulanceNumber.replaceAll('-', '').replaceAll(' ', '');
 
-    await launch('tel:$trimNumber');
+      await launch('tel:$trimNumber');
+    }
+  }
+
+  _callBombaNumber() async {
+    if (bombaNumber.isEmpty) {
+      customSnackbar.show(
+        context,
+        message: AppLocalizations.of(context).translate('no_nearby_contacts'),
+        duration: 5000,
+        type: MessageType.INFO,
+      );
+    } else {
+      String trimNumber = bombaNumber.replaceAll('-', '').replaceAll(' ', '');
+
+      await launch('tel:$trimNumber');
+    }
+  }
+
+  _callCarWorkshopNumber() async {
+    if (carWorkshopNumber.isEmpty) {
+      customSnackbar.show(
+        context,
+        message: AppLocalizations.of(context).translate('no_nearby_contacts'),
+        duration: 5000,
+        type: MessageType.INFO,
+      );
+    } else {
+      String trimNumber =
+          carWorkshopNumber.replaceAll('-', '').replaceAll(' ', '');
+
+      await launch('tel:$trimNumber');
+    }
+  }
+
+  _callBikeWorkshopNumber() async {
+    if (bikeWorkshopNumber.isEmpty) {
+      customSnackbar.show(
+        context,
+        message: AppLocalizations.of(context).translate('no_nearby_contacts'),
+        duration: 5000,
+        type: MessageType.INFO,
+      );
+    } else {
+      String trimNumber =
+          bikeWorkshopNumber.replaceAll('-', '').replaceAll(' ', '');
+
+      await launch('tel:$trimNumber');
+    }
   }
 
   @override
@@ -245,7 +347,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                                     ),
                                     child: FlatButton(
                                       padding: EdgeInsets.all(0.0),
-                                      onPressed: () {},
+                                      onPressed: _callBombaNumber,
                                       child: null,
                                     ),
                                   ),
@@ -303,7 +405,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                                     ),
                                     child: FlatButton(
                                       padding: EdgeInsets.all(0.0),
-                                      onPressed: () {},
+                                      onPressed: _callCarWorkshopNumber,
                                       child: null,
                                     ),
                                   ),
@@ -425,7 +527,15 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                                     ),
                                     child: FlatButton(
                                       padding: EdgeInsets.all(0.0),
-                                      onPressed: () {},
+                                      onPressed: () => {
+                                        customSnackbar.show(
+                                          context,
+                                          message: AppLocalizations.of(context)
+                                              .translate('select_insurance'),
+                                          duration: 5000,
+                                          type: MessageType.INFO,
+                                        ),
+                                      },
                                       child: null,
                                     ),
                                   ),
@@ -481,7 +591,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                                     ),
                                     child: FlatButton(
                                       padding: EdgeInsets.all(0.0),
-                                      onPressed: () {},
+                                      onPressed: _callBikeWorkshopNumber,
                                       child: null,
                                     ),
                                   ),

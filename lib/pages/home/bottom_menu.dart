@@ -1,11 +1,11 @@
-import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
+// import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../../app_localizations.dart';
+// import '../../app_localizations.dart';
 
 class BottomMenu extends StatelessWidget {
   final iconText;

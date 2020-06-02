@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:badges/badges.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
+import 'package:epandu/services/api/model/auth_model.dart';
+import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/route_path.dart';
@@ -21,6 +25,7 @@ class HomeTopMenu extends StatefulWidget {
 }
 
 class _HomeTopMenuState extends State<HomeTopMenu> {
+  final authRepo = AuthRepo();
   final myImage = ImagesConstant();
   final customDialog = CustomDialog();
   bool _showBadge = false;
@@ -46,7 +51,8 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
   Future _scan() async {
     try {
       String barcode = await BarcodeScanner.scan();
-      Navigator.pushNamed(context, REGISTER_USER_TO_DI, arguments: barcode);
+
+      registerUserToDi(barcode);
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         customDialog.show(
@@ -73,6 +79,33 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
         onPressed: () => Navigator.pop(context),
         type: DialogType.ERROR,
       );
+    }
+  }
+
+  registerUserToDi(barcode) async {
+    ScanResponse scanResponse = ScanResponse.fromJson(jsonDecode(barcode));
+
+    var result = await authRepo.registerUserToDI(
+      context: context,
+      // name: scanResponse.name,
+      // phoneCountryCode: scanResponse.phoneCountryCode,
+      // phone: scanResponse.phone,
+      // userId: scanResponse.userId,
+      scanCode: barcode,
+    );
+
+    if (result.isSuccess) {
+      Navigator.pushNamed(context, REGISTER_USER_TO_DI,
+          arguments: ScanResultArgument(
+            barcode: scanResponse,
+            status: 'success',
+          ));
+    } else {
+      Navigator.pushNamed(context, REGISTER_USER_TO_DI,
+          arguments: ScanResultArgument(
+            barcode: scanResponse,
+            status: 'fail',
+          ));
     }
   }
 

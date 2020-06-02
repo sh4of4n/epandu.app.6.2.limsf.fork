@@ -42,11 +42,11 @@ class ProfileRepo {
       diCode: diCode ?? appConfig.diCode,
       userId: userId,
       name: name,
-      nickName: nickName??'',
-      icNo: icNo??'',
-      nationality: nationality??'WARGANEGARA',
-      dateOfBirthString: dateOfBirthString??'',
-      race: race??'',
+      nickName: nickName ?? '',
+      icNo: icNo ?? '',
+      nationality: nationality ?? 'WARGANEGARA',
+      dateOfBirthString: dateOfBirthString ?? '',
+      race: race ?? '',
       address: address ?? '',
       postcode: postcode ?? '',
       state: state ?? '',
@@ -59,17 +59,15 @@ class ProfileRepo {
     Map<String, String> headers = {'Content-Type': 'application/json'};
 
     var response =
-    await networking.postData(api: api, body: body, headers: headers);
+        await networking.postData(api: api, body: body, headers: headers);
 
     // Success
     if (response.isSuccess && response.data != null) {
-
-      localStorage.saveBirthDate(dateOfBirthString??'');
-      localStorage.saveStudentIc(icNo??'');
-      localStorage.saveUsername(name??'');
-      localStorage.saveEmail(email??'');
-      localStorage.saveNickName(nickName??'');
-
+      localStorage.saveBirthDate(dateOfBirthString ?? '');
+      localStorage.saveStudentIc(icNo ?? '');
+      localStorage.saveUsername(name ?? '');
+      localStorage.saveEmail(email ?? '');
+      localStorage.saveNickName(nickName ?? '');
 
       return Response(true,
           message: AppLocalizations.of(context).translate('profile_updated'));

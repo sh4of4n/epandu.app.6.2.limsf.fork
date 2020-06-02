@@ -7,6 +7,7 @@ import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/services/api/model/auth_model.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:xml2json/xml2json.dart';
 
@@ -1080,7 +1081,7 @@ class AuthRepo {
   // scan QR
   Future<Response> registerUserToDI({
     context,
-    String diCode,
+    // String diCode,
     String icNo,
     // String name,
     String nationality,
@@ -1099,7 +1100,7 @@ class AuthRepo {
     String email,
     // String userId,
     String bodyTemperature,
-    String scanCode,
+    @required String scanCode,
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
@@ -1107,6 +1108,7 @@ class AuthRepo {
     String name = await localStorage.getUsername();
     String phoneCountryCode = await localStorage.getCountryCode();
     String phone = await localStorage.getUserPhone();
+    String diCode = await localStorage.getDiCode();
 
     RegisterUserToDIRequest params = RegisterUserToDIRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
@@ -1114,11 +1116,11 @@ class AuthRepo {
       caPwd: caPwd,
       appCode: 'EPANDU',
       appId: appConfig.appId,
-      diCode: diCode ?? appConfig.diCode,
+      diCode: diCode,
       icNo: icNo ?? '',
       name: name,
       nationality: nationality ?? 'WARGANEGARA',
-      phoneCountryCode: phoneCountryCode,
+      phoneCountryCode: phoneCountryCode ?? '',
       phone: phone,
       dateOfBirthString: dateOfBirthString ?? '',
       gender: gender ?? '',
@@ -1131,9 +1133,9 @@ class AuthRepo {
       state: state ?? '',
       country: country ?? '',
       email: email ?? '',
-      userId: userId ?? 'TBS',
-      bodyTemperature: bodyTemperature ?? '',
-      scanCode: scanCode ?? '',
+      userId: userId ?? '',
+      bodyTemperature: bodyTemperature ?? '0',
+      scanCode: scanCode,
     );
 
     String body = jsonEncode(params);

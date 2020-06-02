@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import 'bottom_menu.dart';
+// import 'bottom_menu.dart';
 
 class EpanduCategory extends StatelessWidget {
   final authRepo = AuthRepo();
