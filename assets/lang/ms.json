@@ -310,5 +310,7 @@
   "contact_no": "Nombor telefon",
   "scan_success": "Kami mengalu-alukan anda untuk menjadi ahli ",
   "scan_fail": "Gagal menyertai ",
-  "organisation": "organisasi"
+  "organisation": "organisasi",
+  "current_location": "Lokasi anda",
+  "get_promotion_fail": "Failed to load promotions. Please try again later."
 }

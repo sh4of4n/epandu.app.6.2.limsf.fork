@@ -80,7 +80,7 @@ class _PromotionsState extends State<Promotions> {
                 case ConnectionState.waiting:
                   return _loadingShimmer();
                 case ConnectionState.done:
-                  if (snapshot is String) {
+                  if (snapshot.data is String) {
                     return Center(
                       child: Text(AppLocalizations.of(context)
                           .translate('no_feeds_message')),

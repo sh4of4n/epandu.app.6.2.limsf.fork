@@ -114,7 +114,7 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
     }
   }
 
-  _showMyLocation() async {
+  /* _showMyLocation() async {
     double lat = double.tryParse(await localStorage.getUserLatitude());
     double long = double.tryParse(await localStorage.getUserLongitude());
 
@@ -156,7 +156,7 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
     } catch (e) {
       print(e);
     }
-  }
+  } */
 
   _remark() {
     if (widget.snapshot.remark != null) {
@@ -239,7 +239,9 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
                   SizedBox(
                     height: 5.0,
                   ),
-                  Text(AppLocalizations.of(context).translate('from_lbl'),
+                  Text(
+                      AppLocalizations.of(context)
+                          .translate('current_location'),
                       style: _titleStyle),
                   Text(address ?? '', style: _textStyle),
                   SizedBox(
@@ -294,13 +296,13 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
                           child: Icon(Icons.navigation, color: Colors.white),
                           padding: const EdgeInsets.all(10.0),
                         ),
-                        RawMaterialButton(
+                        /* RawMaterialButton(
                           fillColor: Colors.red,
                           shape: CircleBorder(),
                           onPressed: _showMyLocation,
                           child: Icon(Icons.location_on, color: Colors.white),
                           padding: const EdgeInsets.all(10.0),
-                        ),
+                        ), */
                       ],
                     ),
                   ),

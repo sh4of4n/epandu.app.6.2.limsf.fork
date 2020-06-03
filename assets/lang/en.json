@@ -310,5 +310,7 @@
   "contact_no": "Contact no",
   "scan_success": "We welcome you to be a member of",
   "scan_fail": "Failed to join ",
-  "organisation": "organisation"
+  "organisation": "organisation",
+  "current_location": "Your current location",
+  "get_promotion_fail": "Failed to load promotions. Please try again later."
 }

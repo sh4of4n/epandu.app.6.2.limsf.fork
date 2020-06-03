@@ -383,7 +383,6 @@ class AuthRepo {
   // method was called checkExistingUser
   Future<Response> getUserByUserPhone({
     context,
-    String type,
     String countryCode,
     String phone,
     String userId,
@@ -417,10 +416,10 @@ class AuthRepo {
     if (userId.isEmpty) userId = 'TBS';
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&userPhone=$userPhone';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&userPhone=${Uri.encodeComponent(userPhone)}&appCode=${appConfig.appCode}&appId=${appConfig.appId}';
 
     var response = await networking.getData(
-      path: 'GetUserByUserPhone?$path',
+      path: 'GetUserByUserPhoneAppId?$path',
     );
 
     if (response.isSuccess && response.data != null) {
@@ -445,7 +444,6 @@ class AuthRepo {
     // Number not registered
     var result = await createAppAccount(
       context,
-      type,
       countryCode,
       defPhone,
       userId,
@@ -467,7 +465,6 @@ class AuthRepo {
 
   Future<Response> createAppAccount(
     context,
-    String type,
     String countryCode,
     String phone,
     String userId,
@@ -487,11 +484,12 @@ class AuthRepo {
     String caPwd = await localStorage.getCaPwd();
     String trimIc = icNo?.replaceAll('-', '');
 
-    CreateAppAccount params = CreateAppAccount(
+    CreateAppAccountWithAppIdRequest params = CreateAppAccountWithAppIdRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
-      appCode: '',
+      appCode: appConfig.appCode,
+      appId: appConfig.appId,
       diCode: diCode ?? appConfig.diCode,
       userId: userId,
       name: name,
@@ -514,7 +512,7 @@ class AuthRepo {
     );
 
     String body = jsonEncode(params);
-    String api = 'CreateAppAccount';
+    String api = 'CreateAppAccountWithAppId';
     Map<String, String> headers = {'Content-Type': 'application/json'};
 
     var response =
@@ -523,12 +521,10 @@ class AuthRepo {
     var message = '';
 
     // Success
-    if (response.isSuccess && response.data != null) {
-      if (type == 'INVITE')
-        message = AppLocalizations.of(context).translate('invite_sent');
-      else
-        message = AppLocalizations.of(context).translate('register_success');
-
+    if (response.isSuccess &&
+        response.data != null &&
+        response.data.isNotEmpty) {
+      message = AppLocalizations.of(context).translate('invite_sent');
       return Response(true, message: message);
     } else if (response.message != null &&
         response.message.contains('timeout')) {
@@ -548,10 +544,10 @@ class AuthRepo {
     }
 
     // Fail
-    if (type == 'INVITE')
+    /*  if (response.message.isEmpty) {
       message = AppLocalizations.of(context).translate('invite_fail');
-    else
-      message = AppLocalizations.of(context).translate('register_error');
+    } */
+    message = AppLocalizations.of(context).translate('invite_fail');
 
     return Response(false, message: message);
   }
@@ -876,7 +872,8 @@ class AuthRepo {
           message: AppLocalizations.of(context).translate('format_exception'));
     }
 
-    return Response(false);
+    return Response(false,
+        message: AppLocalizations.of(context).translate('get_promotion_fail'));
   }
 
   Future<Response> deleteAppMemberAccount({context}) async {

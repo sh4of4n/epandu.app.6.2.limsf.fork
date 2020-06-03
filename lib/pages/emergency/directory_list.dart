@@ -57,10 +57,14 @@ class _DirectoryListState extends State<DirectoryList> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(snapshot.data[index].sosContactSubtype ?? ''),
-            Text(snapshot.data[index].areaCode ?? ''),
-            Text(snapshot.data[index].sosContactName ?? ''),
-            Text(snapshot.data[index].phone ?? ''),
+            if (snapshot.data[index].sosContactSubtype != null)
+              Text(snapshot.data[index].sosContactSubtype),
+            if (snapshot.data[index].areaCode != null)
+              Text(snapshot.data[index].areaCode),
+            if (snapshot.data[index].sosContactName != null)
+              Text(snapshot.data[index].sosContactName),
+            if (snapshot.data[index].phone != null)
+              Text(snapshot.data[index].phone),
             Text(double.tryParse(snapshot.data[index].distance)
                         .toStringAsFixed(2) +
                     'km' ??

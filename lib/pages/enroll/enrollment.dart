@@ -411,7 +411,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     );
   }
 
-  _nationalityField() {
+  /* _nationalityField() {
     return DropdownButtonFormField<String>(
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
@@ -462,7 +462,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         return null;
       }, */
     );
-  }
+  } */
 
   _raceField() {
     return DropdownButtonFormField<String>(

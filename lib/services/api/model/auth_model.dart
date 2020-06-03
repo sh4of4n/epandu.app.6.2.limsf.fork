@@ -694,7 +694,7 @@ class Armaster {
 // End UserRegisteredDiResponse
 
 // Invite Friends
-class CreateAppAccount {
+/* class CreateAppAccount {
   String wsCodeCrypt;
   String caUid;
   String caPwd;
@@ -776,6 +776,115 @@ class CreateAppAccount {
     data['caUid'] = this.caUid;
     data['caPwd'] = this.caPwd;
     data['appCode'] = this.appCode;
+    data['diCode'] = this.diCode;
+    data['userId'] = this.userId;
+    data['name'] = this.name;
+    data['icNo'] = this.icNo;
+    data['passportNo'] = this.passportNo;
+    data['phoneCountryCode'] = this.phoneCountryCode;
+    data['phone'] = this.phone;
+    data['nationality'] = this.nationality;
+    data['dateOfBirthString'] = this.dateOfBirthString;
+    data['gender'] = this.gender;
+    data['race'] = this.race;
+    data['add1'] = this.add1;
+    data['add2'] = this.add2;
+    data['add3'] = this.add3;
+    data['postcode'] = this.postcode;
+    data['city'] = this.city;
+    data['state'] = this.state;
+    data['country'] = this.country;
+    data['email'] = this.email;
+    return data;
+  }
+} */
+
+class CreateAppAccountWithAppIdRequest {
+  String wsCodeCrypt;
+  String caUid;
+  String caPwd;
+  String appCode;
+  String appId;
+  String diCode;
+  String userId;
+  String name;
+  String icNo;
+  String passportNo;
+  String phoneCountryCode;
+  String phone;
+  String nationality;
+  String dateOfBirthString;
+  String gender;
+  String race;
+  String add1;
+  String add2;
+  String add3;
+  String postcode;
+  String city;
+  String state;
+  String country;
+  String email;
+
+  CreateAppAccountWithAppIdRequest(
+      {this.wsCodeCrypt,
+      this.caUid,
+      this.caPwd,
+      this.appCode,
+      this.appId,
+      this.diCode,
+      this.userId,
+      this.name,
+      this.icNo,
+      this.passportNo,
+      this.phoneCountryCode,
+      this.phone,
+      this.nationality,
+      this.dateOfBirthString,
+      this.gender,
+      this.race,
+      this.add1,
+      this.add2,
+      this.add3,
+      this.postcode,
+      this.city,
+      this.state,
+      this.country,
+      this.email});
+
+  CreateAppAccountWithAppIdRequest.fromJson(Map<String, dynamic> json) {
+    wsCodeCrypt = json['wsCodeCrypt'];
+    caUid = json['caUid'];
+    caPwd = json['caPwd'];
+    appCode = json['appCode'];
+    appId = json['appId'];
+    diCode = json['diCode'];
+    userId = json['userId'];
+    name = json['name'];
+    icNo = json['icNo'];
+    passportNo = json['passportNo'];
+    phoneCountryCode = json['phoneCountryCode'];
+    phone = json['phone'];
+    nationality = json['nationality'];
+    dateOfBirthString = json['dateOfBirthString'];
+    gender = json['gender'];
+    race = json['race'];
+    add1 = json['add1'];
+    add2 = json['add2'];
+    add3 = json['add3'];
+    postcode = json['postcode'];
+    city = json['city'];
+    state = json['state'];
+    country = json['country'];
+    email = json['email'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['wsCodeCrypt'] = this.wsCodeCrypt;
+    data['caUid'] = this.caUid;
+    data['caPwd'] = this.caPwd;
+    data['appCode'] = this.appCode;
+    data['appId'] = this.appId;
     data['diCode'] = this.diCode;
     data['userId'] = this.userId;
     data['name'] = this.name;

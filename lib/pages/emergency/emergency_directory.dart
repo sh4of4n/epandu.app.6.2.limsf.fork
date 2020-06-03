@@ -122,9 +122,11 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         }
       } */
 
-      setState(() {
-        ambulanceNumber = ambulanceContacts[0].phone;
-      });
+      if (mounted) {
+        setState(() {
+          ambulanceNumber = ambulanceContacts[0].phone;
+        });
+      }
     } else if (response.isSuccess && type == 'BOMBA') {
       var bombaContacts = response.data;
 
@@ -143,15 +145,19 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
     } else if (response.isSuccess && type == 'WORKSHOP') {
       var carWorkshopContacts = response.data;
 
-      setState(() {
-        carWorkshopNumber = carWorkshopContacts[0].phone;
-      });
+      if (mounted) {
+        setState(() {
+          carWorkshopNumber = carWorkshopContacts[0].phone;
+        });
+      }
     } else if (response.isSuccess && type == 'BIKEWORKSHOP') {
       var bikeWorkshopContacts = response.data;
 
-      setState(() {
-        bikeWorkshopNumber = bikeWorkshopContacts[0].phone;
-      });
+      if (mounted) {
+        setState(() {
+          bikeWorkshopNumber = bikeWorkshopContacts[0].phone;
+        });
+      }
     }
   }
 
@@ -258,7 +264,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
             child: Column(
               children: <Widget>[
                 FadeInImage(
-                  // alignment: Alignment.center,
+                  alignment: Alignment.center,
                   placeholder: MemoryImage(kTransparentImage),
                   image: AssetImage(
                     myImage.sosBanner,
