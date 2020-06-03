@@ -60,7 +60,7 @@ class ImagesConstant {
   String motor = 'assets/images/motor.png';
   String sos = 'assets/images/sos-icon.png';
   String menu = 'assets/images/menu-icon.png';
-  String tyreShop = 'assets/images/tyre-shop-image.png';
+  // String tyreShop = 'assets/images/tyre-shop-image.png';
   String jobIcon = 'assets/images/job.png';
   String enrollIcon = 'assets/images/enroll.png';
   String importantInfoIcon = 'assets/images/important-info.png';
@@ -80,6 +80,7 @@ class ImagesConstant {
   String visaImage = 'assets/images/visa.png';
   String banksImage = 'assets/images/banks.png';
   String comingSoon = 'assets/images/coming-soon.png';
+  String advertBanner = 'assets/images/advert-banner.png';
 
   // emergency
   String ambulanceIcon = 'assets/images/ambulance.png';
@@ -92,6 +93,7 @@ class ImagesConstant {
   String workshopBike = 'assets/images/workshop-bike.png';
   String phoneButton = 'assets/images/phone-button.png';
   String directoryButton = 'assets/images/directory-button.png';
+  String sosBanner = 'assets/images/sos-banner.png';
 
   // String avatar = 'images/avatar.jpg';
   // String loginBackground = 'assets/images/login_background.jpg';

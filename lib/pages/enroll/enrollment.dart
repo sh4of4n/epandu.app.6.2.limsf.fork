@@ -80,12 +80,17 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     fontSize: 62.sp,
   );
 
+  String countryCode = '';
+  String phone = '';
+  String email = '';
+
   @override
   void initState() {
     super.initState();
 
     _dobController.addListener(_dobValue);
     _getEnrollHistory();
+    _getParticulars();
   }
 
   Future<dynamic> _getEnrollHistory() async {
@@ -107,10 +112,142 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     // });
   }
 
+  _getParticulars() async {
+    String getCountryCode = await localStorage.getCountryCode();
+    String getPhone = await localStorage.getUserPhone();
+    String getEmail = await localStorage.getEmail();
+
+    setState(() {
+      countryCode = getCountryCode;
+      phone = getPhone;
+      email = getEmail;
+    });
+  }
+
   _dobValue() {
     setState(() {
       _dob = _dobController.text;
     });
+  }
+
+  _phoneField() {
+    return TextFormField(
+      enabled: false,
+      initialValue: countryCode + phone,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+        hintStyle: TextStyle(
+          color: primaryColor,
+        ),
+        labelStyle: TextStyle(
+          color: Color(0xff808080),
+        ),
+        labelText: AppLocalizations.of(context).translate('contact_no'),
+        fillColor: Colors.white,
+        filled: true,
+        prefixIcon: Icon(Icons.phone_iphone),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue[700], width: 1.6),
+          // borderRadius: BorderRadius.circular(0),
+          borderRadius: BorderRadius.circular(30),
+        ),
+      ),
+    );
+  }
+
+  _emailField() {
+    return TextFormField(
+      enabled: false,
+      initialValue: email,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+        hintStyle: TextStyle(
+          color: primaryColor,
+        ),
+        labelStyle: TextStyle(
+          color: Color(0xff808080),
+        ),
+        labelText: AppLocalizations.of(context).translate('email_lbl'),
+        fillColor: Colors.white,
+        filled: true,
+        prefixIcon: Icon(Icons.mail),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue[700], width: 1.6),
+          // borderRadius: BorderRadius.circular(0),
+          borderRadius: BorderRadius.circular(30),
+        ),
+      ),
+    );
+  }
+
+  _idNameField() {
+    return TextFormField(
+      focusNode: _idNameFocus,
+      keyboardType: TextInputType.multiline,
+      maxLines: null,
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+        hintStyle: TextStyle(
+          color: primaryColor,
+        ),
+        labelStyle: TextStyle(
+          color: Color(0xff808080),
+        ),
+        labelText:
+            AppLocalizations.of(context).translate('ic_name_required_lbl'),
+        fillColor: Colors.white,
+        filled: true,
+        prefixIcon: Icon(Icons.assignment_ind),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue[700], width: 1.6),
+          // borderRadius: BorderRadius.circular(0),
+          borderRadius: BorderRadius.circular(30),
+        ),
+      ),
+      onFieldSubmitted: (term) {
+        fieldFocusChange(
+          context,
+          _idNameFocus,
+          _idFocus,
+        );
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          return AppLocalizations.of(context).translate('ic_name_required_msg');
+        }
+        return null;
+      },
+      onChanged: (value) {
+        setState(() {
+          _icName = value;
+        });
+      },
+    );
   }
 
   _idField() {
@@ -147,7 +284,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         fieldFocusChange(
           context,
           _idFocus,
-          _idNameFocus,
+          _dobFocus,
         );
       },
       validator: (value) {
@@ -195,60 +332,6 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
             else
               _gender = Gender.male;
           }
-        });
-      },
-    );
-  }
-
-  _idNameField() {
-    return TextFormField(
-      focusNode: _idNameFocus,
-      keyboardType: TextInputType.multiline,
-      maxLines: null,
-      textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 16.0),
-        hintStyle: TextStyle(
-          color: primaryColor,
-        ),
-        labelStyle: TextStyle(
-          color: Color(0xff808080),
-        ),
-        labelText:
-            AppLocalizations.of(context).translate('ic_name_required_lbl'),
-        fillColor: Colors.white,
-        filled: true,
-        prefixIcon: Icon(Icons.assignment_ind),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 1.3),
-          borderRadius: BorderRadius.circular(30),
-        ),
-        border: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 1.3),
-          borderRadius: BorderRadius.circular(30),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue[700], width: 1.6),
-          // borderRadius: BorderRadius.circular(0),
-          borderRadius: BorderRadius.circular(30),
-        ),
-      ),
-      onFieldSubmitted: (term) {
-        fieldFocusChange(
-          context,
-          _idNameFocus,
-          _dobFocus,
-        );
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          return AppLocalizations.of(context).translate('ic_name_required_msg');
-        }
-        return null;
-      },
-      onChanged: (value) {
-        setState(() {
-          _icName = value;
         });
       },
     );
@@ -528,13 +611,13 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           children: <Widget>[
             ClipRect(
               child: Align(
-                alignment: Alignment.center,
-                heightFactor: 0.6,
+                // alignment: Alignment.center,
+                // heightFactor: 0.6,
                 child: FadeInImage(
                   alignment: Alignment.center,
                   placeholder: MemoryImage(kTransparentImage),
                   image: AssetImage(
-                    myImage.tyreShop,
+                    myImage.advertBanner,
                   ),
                 ),
               ),
@@ -547,18 +630,22 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    _idField(),
-                    SizedBox(
-                      height: ScreenUtil().setHeight(60),
-                    ),
                     _idNameField(),
                     SizedBox(
                       height: ScreenUtil().setHeight(60),
                     ),
-                    /* _emailField(),
-                      SizedBox(
-                        height: ScreenUtil().setHeight(60),
-                      ), */
+                    _idField(),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(60),
+                    ),
+                    _phoneField(),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(60),
+                    ),
+                    _emailField(),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(60),
+                    ),
                     /* _addressField(),
                       SizedBox(
                         height: ScreenUtil().setHeight(60),
@@ -575,10 +662,10 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                     SizedBox(
                       height: ScreenUtil().setHeight(60),
                     ),
-                    _nationalityField(),
+                    /*  _nationalityField(),
                     SizedBox(
                       height: ScreenUtil().setHeight(20),
-                    ),
+                    ), */
                     _genderSelection(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -635,7 +722,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                 alignment: Alignment.center,
                 placeholder: MemoryImage(kTransparentImage),
                 image: AssetImage(
-                  myImage.tyreShop,
+                  myImage.advertBanner,
                 ),
               ),
             ),

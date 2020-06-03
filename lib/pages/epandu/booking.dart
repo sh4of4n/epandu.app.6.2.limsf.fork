@@ -89,7 +89,7 @@ class _BookingState extends State<Booking> {
                 alignment: Alignment.center,
                 placeholder: MemoryImage(kTransparentImage),
                 image: AssetImage(
-                  image.tyreShop,
+                  image.advertBanner,
                 ),
               ),
               SizedBox(

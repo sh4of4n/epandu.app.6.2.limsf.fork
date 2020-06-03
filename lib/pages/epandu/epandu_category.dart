@@ -56,7 +56,7 @@ class EpanduCategory extends StatelessWidget {
                 alignment: Alignment.center,
                 placeholder: MemoryImage(kTransparentImage),
                 image: AssetImage(
-                  myImage.tyreShop,
+                  myImage.advertBanner,
                 ),
               ),
               SizedBox(

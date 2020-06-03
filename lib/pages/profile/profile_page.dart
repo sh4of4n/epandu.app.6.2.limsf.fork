@@ -160,25 +160,20 @@ class _ProfileState extends State<Profile> {
             if (_name != 'null')
               ListTile(
                 leading: Icon(Icons.account_box),
-                title: Text("Name on IC/Passport"
-                    //AppLocalizations.of(context).translate('login_id')
-                    ),
+                title:
+                    Text(AppLocalizations.of(context).translate('ic_name_lbl')),
                 subtitle: Text('$_name', style: _subtitleStyle),
               ),
             ListTile(
               leading: Icon(Icons.account_box),
-              title: Text("Nick Name"
-                  //AppLocalizations.of(context).translate('login_id')
-                  ),
+              title:
+                  Text(AppLocalizations.of(context).translate('nick_name_lbl')),
               subtitle: Text('$_nickName', style: _subtitleStyle),
             ),
             if (_studentIC != 'null')
               ListTile(
                 leading: Icon(Icons.perm_identity),
-                title: Text(
-                  "IC/Passport",
-                  //AppLocalizations.of(context).translate('ic_required_lbl')
-                ),
+                title: Text(AppLocalizations.of(context).translate('ic_lbl')),
                 subtitle: Text('$_studentIC', style: _subtitleStyle),
               ),
             if (_phone != 'null')
@@ -202,9 +197,7 @@ class _ProfileState extends State<Profile> {
             if (_birthDate != 'null')
               ListTile(
                 leading: Icon(Icons.date_range),
-                title: Text("Date of Birth"
-                    //AppLocalizations.of(context).translate('dob_required_lbl')
-                    ),
+                title: Text(AppLocalizations.of(context).translate('dob_lbl')),
                 subtitle: Text('$_birthDate', style: _subtitleStyle),
               ),
             /* if (_nationality != 'null')

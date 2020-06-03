@@ -81,7 +81,7 @@ class _PickupHistoryState extends State<PickupHistory> {
                   alignment: Alignment.center,
                   placeholder: MemoryImage(kTransparentImage),
                   image: AssetImage(
-                    image.tyreShop,
+                    image.advertBanner,
                   ),
                 ),
                 FutureBuilder(

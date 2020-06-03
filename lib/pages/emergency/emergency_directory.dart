@@ -42,6 +42,11 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
     _checkLocationPermission();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   _checkLocationPermission() async {
     // contactBox = Hive.box('emergencyContact');
 
@@ -253,10 +258,10 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
             child: Column(
               children: <Widget>[
                 FadeInImage(
-                  alignment: Alignment.center,
+                  // alignment: Alignment.center,
                   placeholder: MemoryImage(kTransparentImage),
                   image: AssetImage(
-                    myImage.emergencyImage,
+                    myImage.sosBanner,
                   ),
                 ),
                 Wrap(

@@ -148,9 +148,8 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       labelStyle: TextStyle(
                         color: Color(0xff808080),
                       ),
-                      labelText: "Name on IC/Passport",
-                      /*AppLocalizations.of(context)
-                          .translate('nick_name_lbl'),*/
+                      labelText:
+                          AppLocalizations.of(context).translate('ic_name_lbl'),
                       fillColor: Colors.white,
                       filled: true,
                       prefixIcon: Icon(Icons.assignment_ind),
@@ -179,7 +178,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       fieldFocusChange(
                         context,
                         _nameFocus,
-                        _emailFocus,
+                        _nickNameFocus,
                       );
                     },
                   ),
@@ -227,7 +226,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                     onFieldSubmitted: (term) {
                       fieldFocusChange(
                         context,
-                        _nameFocus,
+                        _nickNameFocus,
                         _emailFocus,
                       );
                     },
@@ -250,6 +249,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                   TextFormField(
                     controller: _emailController,
                     focusNode: _emailFocus,
+                    textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 10.0),
                       hintStyle: TextStyle(
@@ -284,6 +284,13 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
+                    onFieldSubmitted: (term) {
+                      fieldFocusChange(
+                        context,
+                        _emailFocus,
+                        _icFocus,
+                      );
+                    },
                     /* validator: (value) {
                       if (value.isEmpty) {
                         return AppLocalizations.of(context)
@@ -336,6 +343,13 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
+                    onFieldSubmitted: (term) {
+                      fieldFocusChange(
+                        context,
+                        _icFocus,
+                        _dobFocus,
+                      );
+                    },
                     /* validator: (value) {
                       if (value.isEmpty) {
                         return AppLocalizations.of(context)

@@ -131,7 +131,7 @@ class _AddBookingState extends State<AddBooking> {
               alignment: Alignment.center,
               placeholder: MemoryImage(kTransparentImage),
               image: AssetImage(
-                image.tyreShop,
+                image.advertBanner,
               ),
             ),
             SizedBox(height: 20.h),
