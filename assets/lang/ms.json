@@ -312,5 +312,6 @@
   "scan_fail": "Gagal menyertai ",
   "organisation": "organisasi",
   "current_location": "Lokasi anda",
-  "get_promotion_fail": "Failed to load promotions. Please try again later."
+  "get_promotion_fail": "Gagal memuatkan promosi. Sila cuba sebentar lagi.",
+  "log_in": "Log Masuk"
 }

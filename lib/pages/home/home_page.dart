@@ -178,8 +178,8 @@ class _HomeState extends State<Home> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Container(
-              margin:
-                  EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(40)),
+              // margin:
+              //     EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(40)),
               // height: ScreenUtil.screenHeightDp - ScreenUtil().setHeight(100),
               child: Column(
                 children: <Widget>[

@@ -89,29 +89,29 @@ class AuthRepo {
       }
     } else if (response.message != null &&
         response.message.contains('timeout')) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('timeout_exception'));
-    } else if (response.message != null &&
-        response.message.contains('socket')) {
-      // Changes the web service URL based on exception and current altWsUrl.
-      if (altWsUrl == null)
-        altWsUrl = wsUrl1;
-      else if (altWsUrl == wsUrl1)
-        altWsUrl = wsUrl2;
-      else if (altWsUrl == wsUrl2)
-        altWsUrl = wsUrl3;
-      else
-        return Response(false,
-            message:
-                AppLocalizations.of(context).translate('socket_exception'));
-
-      // Call this function again with the altWsUrl.
-      getWsUrl(
+      wsUrlCallback(
         context: context,
         acctUid: acctUid,
         acctPwd: acctPwd,
-        loginType: appConfig.wsCodeCrypt,
         altWsUrl: altWsUrl,
+        wsUrl1: wsUrl1,
+        wsUrl2: wsUrl2,
+        wsUrl3: wsUrl3,
+        type: 'timeout',
+      );
+      // return Response(false,
+      //     message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
+      wsUrlCallback(
+        context: context,
+        acctUid: acctUid,
+        acctPwd: acctPwd,
+        altWsUrl: altWsUrl,
+        wsUrl1: wsUrl1,
+        wsUrl2: wsUrl2,
+        wsUrl3: wsUrl3,
+        type: 'socket',
       );
     } else if (response.message != null && response.message.contains('http')) {
       return Response(false,
@@ -124,6 +124,43 @@ class AuthRepo {
 
     return Response(false,
         message: AppLocalizations.of(context).translate('no_url_found'));
+  }
+
+  wsUrlCallback(
+      {context,
+      acctUid,
+      acctPwd,
+      altWsUrl,
+      wsUrl1,
+      wsUrl2,
+      wsUrl3,
+      type}) async {
+    // Changes the web service URL based on exception and current altWsUrl.
+    if (altWsUrl == null)
+      altWsUrl = wsUrl1;
+    else if (altWsUrl == wsUrl1)
+      altWsUrl = wsUrl2;
+    else if (altWsUrl == wsUrl2)
+      altWsUrl = wsUrl3;
+    else {
+      if (type == 'timeout')
+        return Response(false,
+            message:
+                AppLocalizations.of(context).translate('timeout_exception'));
+      else if (type == 'socket')
+        return Response(false,
+            message:
+                AppLocalizations.of(context).translate('socket_exception'));
+    }
+
+    // Call this function again with the altWsUrl.
+    getWsUrl(
+      context: context,
+      acctUid: acctUid,
+      acctPwd: acctPwd,
+      loginType: appConfig.wsCodeCrypt,
+      altWsUrl: altWsUrl,
+    );
   }
 
   /* Future<Response> login({context, String phone, String password}) async {
@@ -1015,8 +1052,8 @@ class AuthRepo {
       country: '',
       email: email ?? '',
       signUpPwd: signUpPwd,
-      latitude: latitude ?? '',
-      longitude: longitude ?? '',
+      latitude: latitude,
+      longitude: longitude,
       appCode: appConfig.appCode,
       appId: appConfig.appId,
       deviceId: '',

@@ -1,4 +1,5 @@
 import 'package:app_settings/app_settings.dart';
+import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repository/emergency_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
@@ -29,6 +30,8 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
     fontWeight: FontWeight.bold,
     color: Color(0xff5d6767),
   );
+  final location = Location();
+
   String policeNumber = '';
   String ambulanceNumber = '';
   String bombaNumber = '';
@@ -52,10 +55,13 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
 
     // await location.getCurrentLocation();
 
+    bool serviceLocationStatus = await Geolocator().isLocationServiceEnabled();
+
     GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
 
-    if (geolocationStatus == GeolocationStatus.granted) {
+    if (serviceLocationStatus &&
+        geolocationStatus == GeolocationStatus.granted) {
       Future.wait([
         _getSosContact('POLICE'),
         _getSosContact('AMBULANCE'),

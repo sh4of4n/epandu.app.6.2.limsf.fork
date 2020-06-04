@@ -1,11 +1,11 @@
-// import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
+import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-// import '../../app_localizations.dart';
+import '../../app_localizations.dart';
 
 class BottomMenu extends StatelessWidget {
   final iconText;
@@ -86,15 +86,15 @@ class BottomMenu extends StatelessWidget {
                           ),
                           child: Column(
                             children: <Widget>[
-                              Icon(
+                              /* Icon(
                                 MyCustomIcons.v_club_icon,
                                 size: 18,
                                 color: Color(0xff808080),
-                              ),
-                              /* Image.asset(
-                                myImage.vClub,
-                                height: 20,
                               ), */
+                              Image.asset(
+                                myImage.vClub,
+                                height: 18,
+                              ),
                               SizedBox(height: ScreenUtil().setHeight(20)),
                               Text(
                                   AppLocalizations.of(context)

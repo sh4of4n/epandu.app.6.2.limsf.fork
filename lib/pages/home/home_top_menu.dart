@@ -255,16 +255,23 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
               borderRadius: BorderRadius.circular(10.0),
               child: Container(
                 padding: EdgeInsets.only(
-                  top: ScreenUtil().setHeight(60),
+                  top: 85.h,
                 ),
-                margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(80)),
-                child: FadeInImage(
-                  alignment: Alignment.center,
-                  placeholder: MemoryImage(kTransparentImage),
-                  height: ScreenUtil().setHeight(100),
-                  image: AssetImage(
-                    myImage.logo2,
-                  ),
+                // margin: EdgeInsets.only(bottom: 80.h),
+                child: Column(
+                  children: <Widget>[
+                    FadeInImage(
+                      alignment: Alignment.center,
+                      placeholder: MemoryImage(kTransparentImage),
+                      height: 90.h,
+                      image: AssetImage(
+                        myImage.logo2,
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                    Text(AppLocalizations.of(context).translate('log_in'),
+                        style: widget.iconText),
+                  ],
                 ),
               ),
             ),

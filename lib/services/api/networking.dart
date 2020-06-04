@@ -43,7 +43,7 @@ class Networking {
       if (url == customUrl) {
         response = await http
             .get('$url/${path ?? ""}')
-            .timeout(const Duration(milliseconds: 30000));
+            .timeout(const Duration(milliseconds: 10000));
 
         print('$url/${path ?? ""}');
       } else {

@@ -47,7 +47,7 @@ class Feeds extends StatelessWidget {
             return Column(
               children: <Widget>[
                 Ink(
-                  height: ScreenUtil().setHeight(780),
+                  // height: ScreenUtil().setHeight(780),
                   width: ScreenUtil().setWidth(1300),
                   decoration: BoxDecoration(
                     boxShadow: [
@@ -91,9 +91,10 @@ class Feeds extends StatelessWidget {
                     },
                     child: Column(
                       children: <Widget>[
-                        Container(
-                          width: double.infinity,
-                          height: ScreenUtil().setHeight(600),
+                        /* Container(
+                          // width: double.infinity,
+                          // height: ScreenUtil().setHeight(600),
+                          width: 1300.w,
                           child: ClipRRect(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(12),
@@ -105,7 +106,25 @@ class Feeds extends StatelessWidget {
                                         .feedMediaFilename
                                         .replaceAll(removeBracket, '')
                                         .split('\r\n')[0],
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.contain,
+                                  )
+                                : Container(),
+                          ),
+                        ), */
+                        AspectRatio(
+                          aspectRatio: 16 / 9,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
+                            ),
+                            child: feed[index].feedMediaFilename != null
+                                ? Image.network(
+                                    feed[index]
+                                        .feedMediaFilename
+                                        .replaceAll(removeBracket, '')
+                                        .split('\r\n')[0],
+                                    fit: BoxFit.contain,
                                   )
                                 : Container(),
                           ),
@@ -156,7 +175,7 @@ class Feeds extends StatelessWidget {
             return Column(
               children: <Widget>[
                 Ink(
-                  height: ScreenUtil().setHeight(980),
+                  // height: ScreenUtil().setHeight(980),
                   width: ScreenUtil().setWidth(1300),
                   decoration: BoxDecoration(
                     boxShadow: [
@@ -200,7 +219,7 @@ class Feeds extends StatelessWidget {
                     },
                     child: Column(
                       children: <Widget>[
-                        Container(
+                        /* Container(
                           width: double.infinity,
                           height: ScreenUtil().setHeight(800),
                           child: ClipRRect(
@@ -215,6 +234,24 @@ class Feeds extends StatelessWidget {
                                         .replaceAll(removeBracket, '')
                                         .split('\r\n')[0],
                                     fit: BoxFit.fill,
+                                  )
+                                : Container(),
+                          ),
+                        ), */
+                        AspectRatio(
+                          aspectRatio: 16 / 9,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
+                            ),
+                            child: feed[index].feedMediaFilename != null
+                                ? Image.network(
+                                    feed[index]
+                                        .feedMediaFilename
+                                        .replaceAll(removeBracket, '')
+                                        .split('\r\n')[0],
+                                    fit: BoxFit.contain,
                                   )
                                 : Container(),
                           ),

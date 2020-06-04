@@ -1,4 +1,5 @@
-import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
+// import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
+import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +13,7 @@ class HomePageHeader extends StatelessWidget {
   HomePageHeader({this.instituteLogo, this.positionStream});
 
   final formatter = NumberFormat('#,##0.00');
+  final image = ImagesConstant();
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +100,15 @@ class HomePageHeader extends StatelessWidget {
               Container(
                 alignment: Alignment.topRight,
                 // margin: EdgeInsets.only(top: ScreenUtil().setHeight(30)),
-                child: IconButton(
+                child: InkWell(
+                  onTap: () => Navigator.pushNamed(context, PROFILE_TAB,
+                      arguments: positionStream),
+                  child: Image.asset(
+                    image.profileRed,
+                    width: 150.w,
+                  ),
+                ),
+                /* child: IconButton(
                   iconSize: 36,
                   icon: Icon(
                     MyCustomIcons.account_icon,
@@ -106,7 +116,7 @@ class HomePageHeader extends StatelessWidget {
                   ),
                   onPressed: () => Navigator.pushNamed(context, PROFILE_TAB,
                       arguments: positionStream),
-                ),
+                ), */
               ),
             ],
           ),

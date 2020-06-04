@@ -116,11 +116,17 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     String getCountryCode = await localStorage.getCountryCode();
     String getPhone = await localStorage.getUserPhone();
     String getEmail = await localStorage.getEmail();
+    String getIcName = await localStorage.getUsername();
+    String _getIcNo = await localStorage.getStudentIc();
+    String _getDob = await localStorage.getBirthDate();
 
     setState(() {
       countryCode = getCountryCode;
       phone = getPhone;
       email = getEmail;
+      _icName = getIcName;
+      _icNo = _getIcNo;
+      _dob = _getDob;
     });
   }
 
@@ -202,6 +208,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       keyboardType: TextInputType.multiline,
       maxLines: null,
       textInputAction: TextInputAction.next,
+      initialValue: _icName,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 16.0),
         hintStyle: TextStyle(
@@ -254,6 +261,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     return TextFormField(
       focusNode: _idFocus,
       textInputAction: TextInputAction.next,
+      initialValue: _icNo,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 16.0),
         hintStyle: TextStyle(
@@ -342,6 +350,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       focusNode: _dobFocus,
       format: format,
       controller: _dobController,
+      initialValue: _dob.isNotEmpty ? DateTime.parse(_dob) : null,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
           vertical: 50.h,

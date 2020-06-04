@@ -34,15 +34,15 @@ class BottomMenu extends StatelessWidget {
                     ),
                     child: Column(
                       children: <Widget>[
-                        Icon(
+                        /* Icon(
                           MyCustomIcons.v_club_icon,
                           size: 22,
                           color: Color(0xff808080),
+                        ), */
+                        Image.asset(
+                          myImage.vClub,
+                          height: 22,
                         ),
-                        /* Image.asset(
-                                myImage.vClub,
-                                height: 20,
-                              ), */
                         SizedBox(height: ScreenUtil().setHeight(20)),
                         Text(
                             AppLocalizations.of(context)

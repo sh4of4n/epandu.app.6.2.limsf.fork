@@ -59,7 +59,11 @@ dev_dependencies:
   json_serializable: ^3.2.3
   hive_generator: ^0.7.0
   build_runner:
+  flutter_launcher_name: ^0.0.1
   flutter_launcher_icons: ^0.7.4
+
+flutter_launcher_name:
+  name: 'ePandu'
 
 flutter_icons:
   android: true

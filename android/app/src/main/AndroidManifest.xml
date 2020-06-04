@@ -13,7 +13,7 @@
     <!-- android:name="io.flutter.app.FlutterApplication" -->
     <application
         android:name=".Application"
-        android:label="epandu"
+        android:label="ePandu"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

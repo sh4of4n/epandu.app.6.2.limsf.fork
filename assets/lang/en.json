@@ -312,5 +312,6 @@
   "scan_fail": "Failed to join ",
   "organisation": "organisation",
   "current_location": "Your current location",
-  "get_promotion_fail": "Failed to load promotions. Please try again later."
+  "get_promotion_fail": "Failed to load promotions. Please try again later.",
+  "log_in": "Log In"
 }
