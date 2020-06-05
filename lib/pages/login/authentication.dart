@@ -68,9 +68,14 @@ class _AuthenticationState extends State<Authentication> {
 
   _checkExistingLogin() async {
     String userId = await localStorage.getUserId();
+    String diCode = await localStorage.getDiCode();
 
-    if (userId.isNotEmpty) {
+    if (userId.isNotEmpty && diCode.isNotEmpty) {
       Navigator.pushReplacementNamed(context, HOME);
+    } else if (userId.isNotEmpty && diCode.isEmpty) {
+      await authRepo.logout(context: context, type: '');
+
+      Navigator.pushReplacementNamed(context, LOGIN);
     } else {
       Navigator.pushReplacementNamed(context, LOGIN);
     }

@@ -316,6 +316,9 @@ class AuthRepo {
       localStorage.saveState(responseData[0].state);
       localStorage.savePostCode(responseData[0].postcode);
 
+      // save empty on DiCode for user to choose
+      localStorage.saveDiCode('');
+
       return Response(true, data: responseData);
     } else if (response.message != null &&
         response.message.contains('timeout')) {
@@ -385,7 +388,7 @@ class AuthRepo {
   }
 
   //logout
-  Future<void> logout({context}) async {
+  Future<void> logout({context, type}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
     String userId = await localStorage.getUserId();
@@ -403,8 +406,10 @@ class AuthRepo {
 
     await localStorage.reset();
     // Hive.box('ws_url').clear();
-    Hive.box('telcoList').clear();
-    Hive.box('serviceList').clear();
+    if (type == 'CLEAR') {
+      Hive.box('telcoList').clear();
+      Hive.box('serviceList').clear();
+    }
     // Hive.box('emergencyContact').clear();
 
     /* await getWsUrl(
@@ -1115,7 +1120,7 @@ class AuthRepo {
   // scan QR
   Future<Response> registerUserToDI({
     context,
-    // String diCode,
+    String diCode,
     String icNo,
     // String name,
     String nationality,
@@ -1133,7 +1138,7 @@ class AuthRepo {
     String country,
     String email,
     // String userId,
-    String bodyTemperature,
+    @required String bodyTemperature,
     @required String scanCode,
   }) async {
     String caUid = await localStorage.getCaUid();
@@ -1142,7 +1147,7 @@ class AuthRepo {
     String name = await localStorage.getUsername();
     String phoneCountryCode = await localStorage.getCountryCode();
     String phone = await localStorage.getUserPhone();
-    String diCode = await localStorage.getDiCode();
+    // String diCode = await localStorage.getDiCode();
 
     RegisterUserToDIRequest params = RegisterUserToDIRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,

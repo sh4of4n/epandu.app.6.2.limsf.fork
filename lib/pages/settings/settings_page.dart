@@ -171,14 +171,14 @@ class _SettingsState extends State<Settings> {
           FlatButton(
             child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () async {
-              if (widget.data != null) widget.data.cancel();
+              // if (widget.data != null) widget.data.cancel();
 
               setState(() {
                 _isLoading = true;
               });
 
               Navigator.pop(context);
-              await authRepo.logout(context: context);
+              await authRepo.logout(context: context, type: 'CLEAR');
               Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
 
               setState(() {

@@ -52,7 +52,8 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
     try {
       String barcode = await BarcodeScanner.scan();
 
-      registerUserToDi(barcode);
+      Navigator.pushNamed(context, REGISTER_USER_TO_DI, arguments: barcode);
+      // registerUserToDi(barcode);
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.CameraAccessDenied) {
         customDialog.show(
@@ -82,7 +83,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
     }
   }
 
-  registerUserToDi(barcode) async {
+  /* registerUserToDi(barcode) async {
     ScanResponse scanResponse = ScanResponse.fromJson(jsonDecode(barcode));
 
     var result = await authRepo.registerUserToDI(
@@ -107,7 +108,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
             status: 'fail',
           ));
     }
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {

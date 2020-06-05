@@ -53,7 +53,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
   void initState() {
     super.initState();
 
-    _getCurrentLocation();
+    // _getCurrentLocation();
     _getDeviceInfo();
   }
 
@@ -69,7 +69,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
     // print('deviceId: ' + deviceId);
   }
 
-  _getCurrentLocation() async {
+  /* _getCurrentLocation() async {
     await location.getCurrentLocation();
 
     setState(() {
@@ -79,7 +79,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
     });
 
     // print('$_latitude, $_longitude');
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {

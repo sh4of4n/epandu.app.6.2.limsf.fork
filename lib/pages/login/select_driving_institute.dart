@@ -1,4 +1,4 @@
-import 'dart:convert';
+// import 'dart:convert';
 
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/utils/constants.dart';
@@ -14,6 +14,9 @@ class SelectDrivingInstitute extends StatelessWidget {
 
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
+
+  final RegExp exp =
+      RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +71,7 @@ class SelectDrivingInstitute extends StatelessWidget {
                     children: <Widget>[
                       InkWell(
                         onTap: () {
-                          localStorage.saveDiCode(diList[index]['di_code']);
+                          localStorage.saveDiCode(diList[index].diCode);
 
                           Navigator.pushReplacementNamed(context, HOME);
                         },
@@ -81,10 +84,19 @@ class SelectDrivingInstitute extends StatelessWidget {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(15.0),
                           ),
-                          child: Image.memory(
+                          child:
+                              /* Image.memory(
                             base64Decode(
-                              diList[index]['app_background_photo'],
+                              diList[index].appBackgroundPhoto,
                             ),
+                            width: ScreenUtil().setWidth(300),
+                            height: ScreenUtil().setHeight(300),
+                          ), */
+                              Image.network(
+                            diList[index]
+                                .appBackgroundPhotoPath
+                                .replaceAll(exp, '')
+                                .split('\r\n')[0],
                             width: ScreenUtil().setWidth(300),
                             height: ScreenUtil().setHeight(300),
                           ),

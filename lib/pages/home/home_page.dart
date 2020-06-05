@@ -53,14 +53,14 @@ class _HomeState extends State<Home> {
 
     _openHiveBoxes();
     // getStudentInfo();
-    _getCurrentLocation();
+    // _getCurrentLocation();
     _getDiProfile();
     _getActiveFeed();
   }
 
   @override
   void dispose() {
-    positionStream.cancel();
+    // positionStream.cancel();
     super.dispose();
   }
 
@@ -114,10 +114,10 @@ class _HomeState extends State<Home> {
     }
   }
 
-  _getCurrentLocation() async {
+  /* _getCurrentLocation() async {
     await location.getCurrentLocation();
     await _checkSavedCoord();
-    userTracking();
+    // userTracking();
   }
 
   // Check if stored latitude and longitude is null
@@ -131,10 +131,10 @@ class _HomeState extends State<Home> {
       localStorage.saveUserLatitude(location.latitude.toString());
       localStorage.saveUserLongitude(location.longitude.toString());
     }
-  }
+  } */
 
   // remember to add positionStream.cancel()
-  Future<void> userTracking() async {
+  /* Future<void> userTracking() async {
     GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
 
@@ -148,7 +148,7 @@ class _HomeState extends State<Home> {
         localStorage.saveUserLongitude(position.longitude.toString());
       });
     }
-  }
+  } */
 
   _openHiveBoxes() async {
     await Hive.openBox('telcoList');

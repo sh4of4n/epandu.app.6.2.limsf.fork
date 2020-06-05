@@ -350,7 +350,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       focusNode: _dobFocus,
       format: format,
       controller: _dobController,
-      initialValue: _dob.isNotEmpty ? DateTime.parse(_dob) : null,
+      // initialValue: _dob.isNotEmpty ? DateTime.parse(_dob) : null,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
           vertical: 50.h,
@@ -620,7 +620,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           children: <Widget>[
             ClipRect(
               child: Align(
-                // alignment: Alignment.center,
+                alignment: Alignment.center,
                 // heightFactor: 0.6,
                 child: FadeInImage(
                   alignment: Alignment.center,
@@ -726,7 +726,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           ClipRect(
             child: Align(
               alignment: Alignment.center,
-              heightFactor: 0.6,
+              // heightFactor: 0.6,
               child: FadeInImage(
                 alignment: Alignment.center,
                 placeholder: MemoryImage(kTransparentImage),

@@ -4,6 +4,7 @@ import 'package:epandu/services/repository/emergency_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/custom_snackbar.dart';
+import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,6 +21,7 @@ class EmergencyDirectory extends StatefulWidget {
 
 class _EmergencyDirectoryState extends State<EmergencyDirectory> {
   final primaryColor = ColorConstant.primaryColor;
+  final localStorage = LocalStorage();
   final emergencyRepo = EmergencyRepo();
   final myImage = ImagesConstant();
   final customDialog = CustomDialog();
@@ -57,18 +59,11 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
 
     bool serviceLocationStatus = await Geolocator().isLocationServiceEnabled();
 
-    GeolocationStatus geolocationStatus =
-        await Geolocator().checkGeolocationPermissionStatus();
+    // GeolocationStatus geolocationStatus =
+    //     await Geolocator().checkGeolocationPermissionStatus();
 
-    if (serviceLocationStatus &&
-        geolocationStatus == GeolocationStatus.granted) {
-      Future.wait([
-        _getSosContact('POLICE'),
-        _getSosContact('AMBULANCE'),
-        _getSosContact('BOMBA'),
-        _getSosContact('WORKSHOP'),
-        _getSosContact('BIKEWORKSHOP'),
-      ]);
+    if (serviceLocationStatus) {
+      _getCurrentLocation();
     } else {
       customDialog.show(
         context: context,
@@ -95,6 +90,33 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         ],
         type: DialogType.GENERAL,
       );
+    }
+  }
+
+  _getCurrentLocation() async {
+    await location.getCurrentLocation();
+    await _checkSavedCoord();
+    // userTracking();
+
+    Future.wait([
+      _getSosContact('POLICE'),
+      _getSosContact('AMBULANCE'),
+      _getSosContact('BOMBA'),
+      _getSosContact('WORKSHOP'),
+      _getSosContact('BIKEWORKSHOP'),
+    ]);
+  }
+
+  // Check if stored latitude and longitude is null
+  _checkSavedCoord() async {
+    double _savedLatitude =
+        double.tryParse(await localStorage.getUserLatitude());
+    double _savedLongitude =
+        double.tryParse(await localStorage.getUserLongitude());
+
+    if (_savedLatitude == null || _savedLongitude == null) {
+      localStorage.saveUserLatitude(location.latitude.toString());
+      localStorage.saveUserLongitude(location.longitude.toString());
     }
   }
 

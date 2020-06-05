@@ -2410,6 +2410,7 @@ class QRCode {
   String phone;
   String name;
   String userId;
+  String merchantDbCode;
 
   QRCode(
       {this.appId,
@@ -2417,7 +2418,8 @@ class QRCode {
       this.phoneCountryCode,
       this.phone,
       this.name,
-      this.userId});
+      this.userId,
+      this.merchantDbCode});
 
   QRCode.fromJson(Map<String, dynamic> json) {
     appId = json['appId'];
@@ -2426,6 +2428,7 @@ class QRCode {
     phone = json['phone'];
     name = json['name'];
     userId = json['userId'];
+    merchantDbCode = json['merchantDbCode'];
   }
 
   Map<String, dynamic> toJson() {
@@ -2436,6 +2439,7 @@ class QRCode {
     data['phone'] = this.phone;
     data['name'] = this.name;
     data['userId'] = this.userId;
+    data['merchantDbCode'] = this.merchantDbCode;
     return data;
   }
 }
