@@ -5,6 +5,7 @@ import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/services/repository/kpp_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
@@ -30,7 +31,7 @@ class _HomeState extends State<Home> {
   // String _username = '';
   var studentEnrollmentData;
   var feed;
-
+  final myImage = ImagesConstant();
   // get location
   Location location = Location();
   StreamSubscription<Position> positionStream;
@@ -173,6 +174,22 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         key: _scaffoldKey,
         backgroundColor: Colors.transparent,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: Container(
+          margin: EdgeInsets.only(top: 120.h),
+          height: 350.h,
+          width: 450.w,
+          child: FloatingActionButton(
+            onPressed: () {
+              Navigator.pushNamed(context, EMERGENCY_DIRECTORY);
+            },
+            child: Image.asset(
+              myImage.sos,
+              // width: ScreenUtil().setWidth(300),
+            ),
+            backgroundColor: Colors.transparent,
+          ),
+        ),
         bottomNavigationBar:
             BottomMenu(iconText: _iconText, positionStream: positionStream),
         body: SafeArea(
