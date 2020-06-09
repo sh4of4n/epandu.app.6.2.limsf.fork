@@ -28,6 +28,7 @@ class _SettingsState extends State<Settings> {
   double _defIconSize = 30;
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
+  String _clientAcc = '';
 
   bool _isLoading = false;
 
@@ -40,6 +41,8 @@ class _SettingsState extends State<Settings> {
 
   _getPackageInfo() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    // get client acc
+    _clientAcc = await localStorage.getCaUid();
 
     setState(() {
       appVersion = packageInfo.version;
@@ -132,6 +135,34 @@ class _SettingsState extends State<Settings> {
                 title:
                     Text(AppLocalizations.of(context).translate('version_lbl')),
                 subtitle: Text('V.$appVersion'),
+                /* onTap: () async {
+                    count += 1;
+
+                    if (count == 4) {
+                      customDialog.show(
+                        barrierDismissable: false,
+                        context: context,
+                        title: AppLocalizations.of(context)
+                            .translate('client_acc_title'),
+                        content: AppLocalizations.of(context)
+                            .translate('client_acc_desc'),
+                        type: DialogType.SUCCESS,
+                        onPressed: () async {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, CLIENT_ACC, (r) => false,
+                              arguments: 'SETTINGS');
+                          await authRepo.logout();
+                        },
+                      );
+                    }
+                  }, */
+              ),
+              Divider(),
+              ListTile(
+                leading: Icon(Icons.code, size: _defIconSize),
+                title:
+                    Text(AppLocalizations.of(context).translate('client_acc')),
+                subtitle: Text(_clientAcc),
                 /* onTap: () async {
                     count += 1;
 

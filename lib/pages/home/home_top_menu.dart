@@ -50,12 +50,12 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
 
   Future _scan() async {
     try {
-      String barcode = await BarcodeScanner.scan();
+      var barcode = await BarcodeScanner.scan();
 
       Navigator.pushNamed(context, REGISTER_USER_TO_DI, arguments: barcode);
       // registerUserToDi(barcode);
     } on PlatformException catch (e) {
-      if (e.code == BarcodeScanner.CameraAccessDenied) {
+      if (e.code == BarcodeScanner.cameraAccessDenied) {
         customDialog.show(
           context: context,
           content: 'Please grant camera permission.',
@@ -63,23 +63,25 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
           type: DialogType.WARNING,
         );
       } else {
-        customDialog.show(
+        setState(() => this.barcode = 'Error $e');
+        /* customDialog.show(
           context: context,
           content: 'Error $e',
           onPressed: () => Navigator.pop(context),
           type: DialogType.ERROR,
-        );
+        ); */
       }
     } on FormatException {
       setState(() => this.barcode =
           'null (User returned using the "back"-button before scanning anything. Result)');
     } catch (e) {
-      customDialog.show(
+      setState(() => this.barcode = 'Error $e');
+      /* customDialog.show(
         context: context,
         content: 'Error $e',
         onPressed: () => Navigator.pop(context),
         type: DialogType.ERROR,
-      );
+      ); */
     }
   }
 

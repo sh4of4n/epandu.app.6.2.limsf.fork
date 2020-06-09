@@ -38,7 +38,6 @@ class LocalStorage {
     return Preference.getString(kNickName, def: '');
   }
 
-
   Future<void> saveRace(String race) {
     return Preference.setString(kRace, race);
   }
@@ -47,7 +46,6 @@ class LocalStorage {
     return Preference.getString(kRace, def: '');
   }
 
-
   Future<void> saveBirthDate(String birthDate) {
     return Preference.setString(kBirthDate, birthDate);
   }
@@ -55,7 +53,6 @@ class LocalStorage {
   Future<String> getBirthDate() async {
     return Preference.getString(kBirthDate, def: '');
   }
-
 
   Future<void> saveLocale(String locale) {
     return Preference.setString(kLocale, locale);
@@ -105,11 +102,11 @@ class LocalStorage {
     return Preference.getString(kUserId, def: '');
   }
 
-  Future<void> saveUsername(String username) {
+  Future<void> saveName(String username) {
     return Preference.setString(kUsername, username);
   }
 
-  Future<String> getUsername() async {
+  Future<String> getName() async {
     return Preference.getString(kUsername, def: '');
   }
 
@@ -284,5 +281,8 @@ class LocalStorage {
     await Preference.remove(kUserLatitude);
     await Preference.remove(kUserLongitude);
     await Preference.remove(kAppVersion);
+    await Preference.remove(kBirthDate);
+    await Preference.remove(kNickName);
+    await Preference.remove(kRace);
   }
 }

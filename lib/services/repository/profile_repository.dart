@@ -65,7 +65,7 @@ class ProfileRepo {
     if (response.isSuccess && response.data != null) {
       localStorage.saveBirthDate(dateOfBirthString ?? '');
       localStorage.saveStudentIc(icNo ?? '');
-      localStorage.saveUsername(name ?? '');
+      localStorage.saveName(name ?? '');
       localStorage.saveEmail(email ?? '');
       localStorage.saveNickName(nickName ?? '');
 

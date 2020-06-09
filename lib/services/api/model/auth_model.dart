@@ -2075,6 +2075,7 @@ class RegisterRequest {
   String diCode;
   String userId;
   String name;
+  String nickName;
   String icNo;
   String passportNo;
   String phoneCountryCode;
@@ -2121,6 +2122,7 @@ class RegisterRequest {
       this.diCode,
       this.userId,
       this.name,
+      this.nickName,
       this.icNo,
       this.passportNo,
       this.phoneCountryCode,
@@ -2167,6 +2169,7 @@ class RegisterRequest {
     diCode = json['diCode'];
     userId = json['userId'];
     name = json['name'];
+    nickName = json['nickName'];
     icNo = json['icNo'];
     passportNo = json['passportNo'];
     phoneCountryCode = json['phoneCountryCode'];
@@ -2215,6 +2218,7 @@ class RegisterRequest {
     data['diCode'] = this.diCode;
     data['userId'] = this.userId;
     data['name'] = this.name;
+    data['nickName'] = this.nickName;
     data['icNo'] = this.icNo;
     data['passportNo'] = this.passportNo;
     data['phoneCountryCode'] = this.phoneCountryCode;

@@ -249,7 +249,7 @@ class AuthRepo {
         localStorage.saveUserId(responseData.userId);
         localStorage.saveSessionId(responseData.sessionId);
 
-        var result = await getUserRegisteredDI(context: context);
+        var result = await getUserRegisteredDI(context: context, type: 'LOGIN');
 
         return result;
       } else if (responseData.msg == 'Reset Password Success') {
@@ -281,7 +281,7 @@ class AuthRepo {
         message: AppLocalizations.of(context).translate('invalid_login'));
   }
 
-  Future<Response> getUserRegisteredDI({context}) async {
+  Future<Response> getUserRegisteredDI({context, @required type}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
 
@@ -300,7 +300,8 @@ class AuthRepo {
           UserRegisteredDiResponse.fromJson(response.data);
       var responseData = userRegisteredDiResponse.armaster;
 
-      localStorage.saveUsername(responseData[0].name);
+      localStorage.saveName(responseData[0].name);
+      localStorage.saveNickName(responseData[0].nickName);
       localStorage.saveCountryCode(responseData[0].phoneCountryCode);
       localStorage.saveUserPhone(responseData[0].phone);
       localStorage.saveEmail(responseData[0].eMail);
@@ -317,7 +318,7 @@ class AuthRepo {
       localStorage.savePostCode(responseData[0].postcode);
 
       // save empty on DiCode for user to choose
-      localStorage.saveDiCode('');
+      if (type == 'LOGIN') localStorage.saveDiCode('');
 
       return Response(true, data: responseData);
     } else if (response.message != null &&
@@ -1020,6 +1021,7 @@ class AuthRepo {
     String countryCode,
     String phone,
     String name,
+    String nickName,
     String email,
     String signUpPwd,
     String latitude,
@@ -1040,6 +1042,7 @@ class AuthRepo {
       diCode: appConfig.diCode,
       userId: 'TBS',
       name: name,
+      nickName: nickName,
       icNo: '',
       passportNo: '',
       phoneCountryCode: countryCode,
@@ -1144,7 +1147,7 @@ class AuthRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
     String userId = await localStorage.getUserId();
-    String name = await localStorage.getUsername();
+    String name = await localStorage.getName();
     String phoneCountryCode = await localStorage.getCountryCode();
     String phone = await localStorage.getUserPhone();
     // String diCode = await localStorage.getDiCode();

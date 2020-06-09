@@ -327,10 +327,12 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
 
       if (result.isSuccess) {
         if (result.data == 'empty') {
-          var getRegisteredDi =
-              await authRepo.getUserRegisteredDI(context: context);
+          var getRegisteredDi = await authRepo.getUserRegisteredDI(
+              context: context, type: 'LOGIN');
 
           if (getRegisteredDi.isSuccess) {
+            localStorage.saveDiCode(getRegisteredDi.data[0].diCode);
+
             Navigator.pushReplacementNamed(context, HOME);
           } else {
             setState(() {

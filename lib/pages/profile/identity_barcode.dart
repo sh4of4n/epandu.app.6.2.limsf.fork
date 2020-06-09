@@ -45,7 +45,7 @@ class _IdentityBarcodeState extends State<IdentityBarcode> {
     String getPhoneCountryCode = await localStorage.getCountryCode();
     String getPhone = await localStorage.getUserPhone();
     // String getGender = await localStorage.getGender();
-    String getName = await localStorage.getUsername();
+    String getName = await localStorage.getName();
 
     setState(() {
       id = appId + getAppVersion + getIcNo + getUserId;

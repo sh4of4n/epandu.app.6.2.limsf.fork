@@ -126,38 +126,38 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       );
                     },
                     onShowPicker: (context, currentValue) async {
-                      if (Platform.isIOS) {
-                        if (_dateController.text.isEmpty) {
-                          setState(() {
-                            _dateController.text =
-                                DateFormat('yyyy/MM/dd').format(
-                              DateTime(DateTime.now().year,
-                                  DateTime.now().month, DateTime.now().day + 1),
-                            );
-                          });
-                        }
+                      // if (Platform.isIOS) {
+                      if (_dateController.text.isEmpty) {
+                        setState(() {
+                          _dateController.text =
+                              DateFormat('yyyy-MM-dd').format(
+                            DateTime(DateTime.now().year, DateTime.now().month,
+                                DateTime.now().day + 1),
+                          );
+                        });
+                      }
 
-                        await showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return CupertinoDatePicker(
-                              initialDateTime: DateTime(DateTime.now().year,
-                                  DateTime.now().month, DateTime.now().day + 1),
-                              onDateTimeChanged: (DateTime date) {
-                                setState(() {
-                                  _dateController.text =
-                                      DateFormat('yyyy/MM/dd').format(date);
-                                });
-                              },
-                              minimumDate: DateTime(DateTime.now().year,
-                                  DateTime.now().month, DateTime.now().day + 1),
-                              minimumYear: DateTime.now().year,
-                              maximumYear: DateTime.now().year + 1,
-                              mode: CupertinoDatePickerMode.date,
-                            );
-                          },
-                        );
-                      } else {
+                      await showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return CupertinoDatePicker(
+                            initialDateTime: DateTime(DateTime.now().year,
+                                DateTime.now().month, DateTime.now().day + 1),
+                            onDateTimeChanged: (DateTime date) {
+                              setState(() {
+                                _dateController.text =
+                                    DateFormat('yyyy-MM-dd').format(date);
+                              });
+                            },
+                            minimumDate: DateTime(DateTime.now().year,
+                                DateTime.now().month, DateTime.now().day + 1),
+                            minimumYear: DateTime.now().year,
+                            maximumYear: DateTime.now().year + 1,
+                            mode: CupertinoDatePickerMode.date,
+                          );
+                        },
+                      );
+                      /* } else {
                         return showDatePicker(
                             context: context,
                             firstDate: DateTime(DateTime.now().year,
@@ -169,7 +169,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                                     DateTime.now().day + 1),
                             lastDate: DateTime(
                                 DateTime.now().year, DateTime.now().month + 1));
-                      }
+                      } */
                       return null;
                     },
                     validator: (value) {

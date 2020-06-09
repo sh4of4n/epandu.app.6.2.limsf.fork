@@ -116,7 +116,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     String getCountryCode = await localStorage.getCountryCode();
     String getPhone = await localStorage.getUserPhone();
     String getEmail = await localStorage.getEmail();
-    String getIcName = await localStorage.getUsername();
+    String getIcName = await localStorage.getName();
     String _getIcNo = await localStorage.getStudentIc();
     String _getDob = await localStorage.getBirthDate();
 
@@ -127,6 +127,10 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       _icName = getIcName;
       _icNo = _getIcNo;
       _dob = _getDob;
+
+      if (_icNo.isNotEmpty) {
+        autoFillDob(_icNo);
+      }
     });
   }
 
@@ -305,41 +309,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         setState(() {
           _icNo = value;
 
-          if (value.replaceAll('-', '').replaceAll(' ', '').length == 12) {
-            setState(() {
-              _potentialDob = value.substring(0, 7);
-
-              String _year = _potentialDob.substring(0, 2);
-              int _currentYear = DateTime.now().year;
-              int _birthYear = 0;
-              int _birthMonth = int.tryParse(_potentialDob.substring(2, 4));
-              int _birthDay = int.tryParse(_potentialDob.substring(4, 6));
-
-              if (_currentYear - int.tryParse('19' + _year) < 70) {
-                _birthYear = int.tryParse('19$_year');
-                _message = '';
-              } else if (_currentYear - int.tryParse('20' + _year) < 16) {
-                _birthYear = int.tryParse('20$_year');
-
-                _message =
-                    AppLocalizations.of(context).translate('enroll_underage');
-              }
-
-              _dobController.text = DateFormat('yyyy/MM/dd').format(
-                DateTime(_birthYear, _birthMonth, _birthDay),
-              );
-            });
-
-            if (int.tryParse(value
-                        .replaceAll('-', '')
-                        .replaceAll(' ', '')
-                        .substring(11)) %
-                    2 ==
-                0)
-              _gender = Gender.female;
-            else
-              _gender = Gender.male;
-          }
+          autoFillDob(value);
         });
       },
     );
@@ -383,38 +353,38 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         return null;
       },
       onShowPicker: (context, currentValue) async {
-        if (Platform.isIOS) {
-          if (_dobController.text.isEmpty) {
-            setState(() {
-              _dobController.text = DateFormat('yyyy/MM/dd').format(
-                DateTime(2000, 1, 1),
-              );
-            });
-          }
+        // if (Platform.isIOS) {
+        if (_dobController.text.isEmpty) {
+          setState(() {
+            _dobController.text = DateFormat('yyyy-MM-dd').format(
+              DateTime(2000, 1, 1),
+            );
+          });
+        }
 
-          await showModalBottomSheet(
-            context: context,
-            builder: (context) {
-              return CupertinoDatePicker(
-                initialDateTime: DateTime(2000),
-                onDateTimeChanged: (DateTime date) {
-                  setState(() {
-                    _dobController.text = DateFormat('yyyy/MM/dd').format(date);
-                  });
-                },
-                minimumYear: 1920,
-                maximumYear: 2020,
-                mode: CupertinoDatePickerMode.date,
-              );
-            },
-          );
-        } else {
+        await showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return CupertinoDatePicker(
+              initialDateTime: DateTime.parse(_dobController.text),
+              onDateTimeChanged: (DateTime date) {
+                setState(() {
+                  _dobController.text = DateFormat('yyyy-MM-dd').format(date);
+                });
+              },
+              minimumYear: 1920,
+              maximumYear: 2020,
+              mode: CupertinoDatePickerMode.date,
+            );
+          },
+        );
+        /* } else {
           return showDatePicker(
               context: context,
               firstDate: DateTime(1920),
               initialDate: currentValue ?? DateTime(2000),
               lastDate: DateTime(2020));
-        }
+        } */
         return null;
       },
     );
@@ -600,6 +570,41 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       return AppLocalizations.of(context).translate('others_lbl');
     else
       return '';
+  }
+
+  autoFillDob(value) {
+    if (value.replaceAll('-', '').replaceAll(' ', '').length == 12) {
+      setState(() {
+        _potentialDob = value.substring(0, 7);
+
+        String _year = _potentialDob.substring(0, 2);
+        int _currentYear = DateTime.now().year;
+        int _birthYear = 0;
+        int _birthMonth = int.tryParse(_potentialDob.substring(2, 4));
+        int _birthDay = int.tryParse(_potentialDob.substring(4, 6));
+
+        if (_currentYear - int.tryParse('19' + _year) < 70) {
+          _birthYear = int.tryParse('19$_year');
+          _message = '';
+        } else if (_currentYear - int.tryParse('20' + _year) < 16) {
+          _birthYear = int.tryParse('20$_year');
+
+          _message = AppLocalizations.of(context).translate('enroll_underage');
+        }
+
+        _dobController.text = DateFormat('yyyy-MM-dd').format(
+          DateTime(_birthYear, _birthMonth, _birthDay),
+        );
+      });
+
+      if (int.tryParse(
+                  value.replaceAll('-', '').replaceAll(' ', '').substring(11)) %
+              2 ==
+          0)
+        _gender = Gender.female;
+      else
+        _gender = Gender.male;
+    }
   }
 
   _checkEnrollmentStatus() {

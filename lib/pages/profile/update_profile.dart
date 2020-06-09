@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
@@ -48,6 +46,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   String _email = '';
   String _message = '';
   bool _isLoading = false;
+  String _potentialDob = '';
 
   TextStyle _messageStyle = TextStyle(color: Colors.red);
   final _nameController = TextEditingController();
@@ -69,7 +68,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   }
 
   _getUserInfo() async {
-    _getName = await localStorage.getUsername();
+    _getName = await localStorage.getName();
     _getEmail = await localStorage.getEmail();
     _getBirthDate = await localStorage.getBirthDate();
     _getUserIc = await localStorage.getStudentIc();
@@ -92,6 +91,8 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   _icValue() {
     setState(() {
       _ic = _icController.text;
+
+      autoFillDob(_ic);
     });
   }
 
@@ -111,6 +112,33 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
     setState(() {
       _dob = _dobController.text;
     });
+  }
+
+  autoFillDob(value) {
+    if (value.replaceAll('-', '').replaceAll(' ', '').length == 12) {
+      setState(() {
+        _potentialDob = value.substring(0, 7);
+
+        String _year = _potentialDob.substring(0, 2);
+        int _currentYear = DateTime.now().year;
+        int _birthYear = 0;
+        int _birthMonth = int.tryParse(_potentialDob.substring(2, 4));
+        int _birthDay = int.tryParse(_potentialDob.substring(4, 6));
+
+        if (_currentYear - int.tryParse('19' + _year) < 70) {
+          _birthYear = int.tryParse('19$_year');
+          _message = '';
+        } else if (_currentYear - int.tryParse('20' + _year) < 16) {
+          _birthYear = int.tryParse('20$_year');
+
+          _message = AppLocalizations.of(context).translate('enroll_underage');
+        }
+
+        _dobController.text = DateFormat('yyyy-MM-dd').format(
+          DateTime(_birthYear, _birthMonth, _birthDay),
+        );
+      });
+    }
   }
 
   @override
@@ -156,7 +184,9 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       suffixIcon: IconButton(
                         icon: Icon(Icons.cancel),
                         onPressed: () {
-                          _nameController.text = '';
+                          WidgetsBinding.instance.addPostFrameCallback(
+                              (_) => _nameController.clear());
+                          // _nameController.text = '';
                         },
                       ),
                       enabledBorder: OutlineInputBorder(
@@ -205,7 +235,8 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       suffixIcon: IconButton(
                         icon: Icon(Icons.cancel),
                         onPressed: () {
-                          _nickNameController.text = '';
+                          WidgetsBinding.instance.addPostFrameCallback(
+                              (_) => _nickNameController.clear());
                         },
                       ),
                       enabledBorder: OutlineInputBorder(
@@ -266,7 +297,8 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       suffixIcon: IconButton(
                         icon: Icon(Icons.cancel),
                         onPressed: () {
-                          _emailController.text = '';
+                          WidgetsBinding.instance.addPostFrameCallback(
+                              (_) => _emailController.clear());
                         },
                       ),
                       enabledBorder: OutlineInputBorder(
@@ -308,7 +340,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                   TextFormField(
                     controller: _icController,
                     focusNode: _icFocus,
-                    textInputAction: TextInputAction.next,
+                    // textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 10.0),
                       hintStyle: TextStyle(
@@ -325,7 +357,8 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       suffixIcon: IconButton(
                         icon: Icon(Icons.cancel),
                         onPressed: () {
-                          _icController.text = '';
+                          WidgetsBinding.instance.addPostFrameCallback(
+                              (_) => _icController.clear());
                         },
                       ),
                       enabledBorder: OutlineInputBorder(
@@ -343,13 +376,13 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    onFieldSubmitted: (term) {
-                      fieldFocusChange(
-                        context,
-                        _icFocus,
-                        _dobFocus,
-                      );
-                    },
+                    // onFieldSubmitted: (term) {
+                    //   fieldFocusChange(
+                    //     context,
+                    //     _icFocus,
+                    //     _dobFocus,
+                    //   );
+                    // },
                     /* validator: (value) {
                       if (value.isEmpty) {
                         return AppLocalizations.of(context)
@@ -425,12 +458,13 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
           borderRadius: BorderRadius.circular(30),
         ),
         prefixIcon: Icon(Icons.calendar_today),
-        suffixIcon: IconButton(
+        /* suffixIcon: IconButton(
           icon: Icon(Icons.cancel),
           onPressed: () {
-            _dobController.text = '';
+            WidgetsBinding.instance
+                .addPostFrameCallback((_) => _dobController.clear());
           },
-        ),
+        ), */
       ),
       validator: (value) {
         if (_dobController.text.isEmpty) {
@@ -439,38 +473,38 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         return null;
       },
       onShowPicker: (context, currentValue) async {
-        if (Platform.isIOS) {
-          if (_dobController.text.isEmpty) {
-            setState(() {
-              _dobController.text = DateFormat('yyyy/MM/dd').format(
-                DateTime(2000, 1, 1),
-              );
-            });
-          }
-
-          await showModalBottomSheet(
-            context: context,
-            builder: (context) {
-              return CupertinoDatePicker(
-                initialDateTime: DateTime(2000),
-                onDateTimeChanged: (DateTime date) {
-                  setState(() {
-                    _dobController.text = DateFormat('yyyy/MM/dd').format(date);
-                  });
-                },
-                minimumYear: 1920,
-                maximumYear: 2020,
-                mode: CupertinoDatePickerMode.date,
-              );
-            },
-          );
-        } else {
-          return showDatePicker(
-              context: context,
-              firstDate: DateTime(1920),
-              initialDate: currentValue ?? DateTime(2000),
-              lastDate: DateTime(2020));
+        // if (Platform.isIOS) {
+        if (_dobController.text.isEmpty) {
+          setState(() {
+            _dobController.text = DateFormat('yyyy-MM-dd').format(
+              DateTime(2000, 1, 1),
+            );
+          });
         }
+
+        await showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return CupertinoDatePicker(
+              initialDateTime: DateTime.parse(_dobController.text),
+              onDateTimeChanged: (DateTime date) {
+                setState(() {
+                  _dobController.text = DateFormat('yyyy-MM-dd').format(date);
+                });
+              },
+              minimumYear: 1920,
+              maximumYear: 2020,
+              mode: CupertinoDatePickerMode.date,
+            );
+          },
+        );
+        // } else {
+        //   return showDatePicker(
+        //       context: context,
+        //       firstDate: DateTime(1920),
+        //       initialDate: currentValue ?? DateTime(2000),
+        //       lastDate: DateTime(2020));
+        // }
         return null;
       },
     );
@@ -597,7 +631,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
           _messageStyle = TextStyle(color: Colors.green);
         });
 
-        await authRepo.getUserRegisteredDI(context: context);
+        await authRepo.getUserRegisteredDI(context: context, type: 'UPDATE');
 
         Navigator.pop(context);
       } else {

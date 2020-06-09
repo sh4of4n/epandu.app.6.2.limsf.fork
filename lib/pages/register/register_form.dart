@@ -29,6 +29,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
 
   final FocusNode _phoneFocus = FocusNode();
   final FocusNode _nameFocus = FocusNode();
+  final FocusNode _nickNameFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
   final FocusNode _confirmPasswordFocus = FocusNode();
@@ -44,6 +45,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
 
   String _phone = '';
   String _name = '';
+  String _nickName = '';
   String _email = '';
   String _password = '';
   String _confirmPassword = '';
@@ -166,6 +168,9 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                             ),
                             labelText: AppLocalizations.of(context)
                                 .translate('login_id'),
+                            labelStyle: TextStyle(
+                              color: Colors.grey[800],
+                            ),
                             prefixIcon: Icon(Icons.phone_android),
                           ),
                           onFieldSubmitted: (term) {
@@ -198,22 +203,62 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                               color: primaryColor,
                             ),
                             labelText: AppLocalizations.of(context)
-                                .translate('nick_name_lbl'),
+                                .translate('ic_name_lbl'),
+                            labelStyle: TextStyle(
+                              color: Colors.grey[800],
+                            ),
                             prefixIcon: Icon(Icons.account_circle),
                           ),
                           onFieldSubmitted: (term) {
-                            fieldFocusChange(context, _nameFocus, _emailFocus);
+                            fieldFocusChange(
+                                context, _nameFocus, _nickNameFocus);
                           },
                           validator: (value) {
                             if (value.isEmpty) {
                               return AppLocalizations.of(context)
-                                  .translate('name_required_msg');
+                                  .translate('ic_name_required_msg');
                             }
                             return null;
                           },
                           onChanged: (value) {
                             if (value != _name) {
                               _name = value;
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(70),
+                        ),
+                        TextFormField(
+                          focusNode: _nickNameFocus,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: -10.h),
+                            hintStyle: TextStyle(
+                              color: primaryColor,
+                            ),
+                            labelText: AppLocalizations.of(context)
+                                .translate('nick_name_lbl'),
+                            labelStyle: TextStyle(
+                              color: Colors.grey[800],
+                            ),
+                            prefixIcon: Icon(Icons.account_circle),
+                          ),
+                          onFieldSubmitted: (term) {
+                            fieldFocusChange(
+                                context, _nickNameFocus, _emailFocus);
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return AppLocalizations.of(context)
+                                  .translate('nick_name_required_msg');
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            if (value != _nickName) {
+                              _nickName = value;
                             }
                           },
                         ),
@@ -232,6 +277,9 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                             ),
                             labelText: AppLocalizations.of(context)
                                 .translate('email_lbl'),
+                            labelStyle: TextStyle(
+                              color: Colors.grey[800],
+                            ),
                             prefixIcon: Icon(Icons.mail),
                           ),
                           onFieldSubmitted: (term) {
@@ -261,6 +309,9 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                             hintStyle: TextStyle(color: primaryColor),
                             labelText: AppLocalizations.of(context)
                                 .translate('password_lbl'),
+                            labelStyle: TextStyle(
+                              color: Colors.grey[800],
+                            ),
                             prefixIcon: Icon(Icons.lock),
                             suffixIcon: IconButton(
                               icon: Icon(_obscurePassword
@@ -304,6 +355,9 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                             hintStyle: TextStyle(color: primaryColor),
                             labelText: AppLocalizations.of(context)
                                 .translate('confirm_password'),
+                            labelStyle: TextStyle(
+                              color: Colors.grey[800],
+                            ),
                             prefixIcon: Icon(Icons.lock),
                             suffixIcon: IconButton(
                               icon: Icon(_obscureConfirmPassword
@@ -487,22 +541,57 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                               color: primaryColor,
                             ),
                             labelText: AppLocalizations.of(context)
-                                .translate('nick_name_lbl'),
+                                .translate('ic_name_lbl'),
                             prefixIcon: Icon(Icons.account_circle),
                           ),
                           onFieldSubmitted: (term) {
-                            fieldFocusChange(context, _nameFocus, _emailFocus);
+                            fieldFocusChange(
+                                context, _nameFocus, _nickNameFocus);
                           },
                           validator: (value) {
                             if (value.isEmpty) {
                               return AppLocalizations.of(context)
-                                  .translate('name_required_msg');
+                                  .translate('ic_name_required_msg');
                             }
                             return null;
                           },
                           onChanged: (value) {
                             if (value != _name) {
                               _name = value;
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(70),
+                        ),
+                        TextFormField(
+                          style: inputStyle,
+                          focusNode: _nickNameFocus,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: -10.h),
+                            hintStyle: TextStyle(
+                              color: primaryColor,
+                            ),
+                            labelText: AppLocalizations.of(context)
+                                .translate('nick_name_lbl'),
+                            prefixIcon: Icon(Icons.account_circle),
+                          ),
+                          onFieldSubmitted: (term) {
+                            fieldFocusChange(
+                                context, _nickNameFocus, _emailFocus);
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return AppLocalizations.of(context)
+                                  .translate('nick_name_required_msg');
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            if (value != _nickName) {
+                              _nickName = value;
                             }
                           },
                         ),
@@ -699,6 +788,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
           countryCode: widget.data.phoneCountryCode,
           phone: widget.data.phone,
           name: _name,
+          nickName: _nickName,
           signUpPwd: _password,
           email: _email,
           latitude: _latitude,
@@ -774,9 +864,11 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
 
     if (result.isSuccess) {
       var getRegisteredDi =
-          await authRepo.getUserRegisteredDI(context: context);
+          await authRepo.getUserRegisteredDI(context: context, type: 'LOGIN');
 
       if (getRegisteredDi.isSuccess) {
+        localStorage.saveDiCode(getRegisteredDi.data[0].diCode);
+
         Navigator.pushNamedAndRemoveUntil(context, HOME, (r) => false);
       } else {
         Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);

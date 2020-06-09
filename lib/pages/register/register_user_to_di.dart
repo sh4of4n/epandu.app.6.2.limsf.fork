@@ -76,7 +76,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
   _getData() async {
     // String getPhoneCountryCode = await localStorage.getCountryCode();
     String getPhone = await localStorage.getUserPhone();
-    String getName = await localStorage.getUsername();
+    String getName = await localStorage.getName();
 
     setState(() {
       // phoneCountryCode = getPhoneCountryCode;
@@ -195,7 +195,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
                               .translate('date_time'),
                           prefixIcon: Icon(Icons.phone_android),
                         ),
-                        initialValue: DateFormat('yyyy/MM/dd:HH:mm')
+                        initialValue: DateFormat('yyyy-MM-dd:HH:mm')
                             .format(DateTime.now()),
                       ),
                       SizedBox(height: 50.h),
@@ -232,6 +232,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
                       ),
                       SizedBox(height: 50.h),
                       TextFormField(
+                        autofocus: true,
                         keyboardType:
                             TextInputType.numberWithOptions(decimal: true),
                         decoration: InputDecoration(
