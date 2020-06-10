@@ -264,7 +264,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   _idField() {
     return TextFormField(
       focusNode: _idFocus,
-      textInputAction: TextInputAction.next,
+      // textInputAction: TextInputAction.next,
       initialValue: _icNo,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 16.0),
@@ -292,13 +292,13 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           borderRadius: BorderRadius.circular(30),
         ),
       ),
-      onFieldSubmitted: (term) {
+      /* onFieldSubmitted: (term) {
         fieldFocusChange(
           context,
           _idFocus,
           _dobFocus,
         );
-      },
+      }, */
       validator: (value) {
         if (value.isEmpty) {
           return AppLocalizations.of(context).translate('ic_required_msg');
