@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:badges/badges.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
-import 'package:epandu/services/api/model/auth_model.dart';
-import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/route_path.dart';
@@ -25,7 +21,6 @@ class HomeTopMenu extends StatefulWidget {
 }
 
 class _HomeTopMenuState extends State<HomeTopMenu> {
-  final authRepo = AuthRepo();
   final myImage = ImagesConstant();
   final customDialog = CustomDialog();
   bool _showBadge = false;
@@ -51,19 +46,19 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
   Future _scan() async {
     try {
       var barcode = await BarcodeScanner.scan();
-
-      Navigator.pushNamed(context, REGISTER_USER_TO_DI, arguments: barcode);
-      // registerUserToDi(barcode);
+      Navigator.pushNamed(context, REGISTER_USER_TO_DI,
+          arguments: barcode.rawContent);
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {
         customDialog.show(
           context: context,
-          content: 'Please grant camera permission.',
+          content: AppLocalizations.of(context).translate('camera_permission'),
           onPressed: () => Navigator.pop(context),
           type: DialogType.WARNING,
         );
       } else {
-        setState(() => this.barcode = 'Error $e');
+        setState(() => this.barcode =
+            AppLocalizations.of(context).translate('unknown_error') + '$e');
         /* customDialog.show(
           context: context,
           content: 'Error $e',

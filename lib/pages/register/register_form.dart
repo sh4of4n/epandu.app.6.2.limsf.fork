@@ -74,11 +74,11 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
       _phone = widget.data.phoneCountryCode + widget.data.phone;
     });
 
-    _getCurrentLocation();
+    // _getCurrentLocation();
     _getDeviceInfo();
   }
 
-  _getCurrentLocation() async {
+  /* _getCurrentLocation() async {
     await location.getCurrentLocation();
 
     setState(() {
@@ -89,7 +89,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
     });
 
     // print('$_latitude, $_longitude');
-  }
+  } */
 
   _getDeviceInfo() async {
     // get device info

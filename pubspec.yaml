@@ -6,6 +6,9 @@ version: 1.0.0+1
 environment:
   sdk: '>=2.7.0 <3.0.0'
 
+dependency_overrides:
+  dartx: ^0.3.0
+
 dependencies:
   flutter:
     sdk: flutter
@@ -17,7 +20,7 @@ dependencies:
 
   ## Widgets
   shimmer: ^1.0.1
-  flushbar: ^1.9.1
+  flushbar: ^1.10.4
   cupertino_icons: ^0.1.2
   flutter_custom_clippers: ^1.1.0
   datetime_picker_formfield: ^1.0.0
@@ -37,8 +40,8 @@ dependencies:
   url_launcher: ^5.4.1
   map_launcher: ^0.4.1
   app_settings: ^3.0.0+1
-  path_provider: ^1.5.1
-  shared_preferences: ^0.5.6
+  path_provider: ^1.6.10
+  shared_preferences: ^0.5.7+3
   device_info: ^0.4.2+1
   package_info: ^0.4.0+16
   flutter_screenutil: ^1.1.0

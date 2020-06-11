@@ -315,5 +315,7 @@
   "organisation": "organisation",
   "current_location": "Your current location",
   "get_promotion_fail": "Failed to load promotions. Please try again later.",
-  "log_in": "Log In"
+  "log_in": "Log In",
+  "camera_permission": "Please grant camera permission.",
+  "unknown_error": "Unknown error "
 }
