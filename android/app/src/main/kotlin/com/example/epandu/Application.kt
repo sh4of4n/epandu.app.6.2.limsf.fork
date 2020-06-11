@@ -13,6 +13,6 @@ class Application : FlutterApplication(), PluginRegistrantCallback {
   }
 
   override fun registerWith(registry: PluginRegistry?) {
-    GeneratedPluginRegistrant.registerWith(registry)
+    registry?.registrarFor("io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin")
   }
 }

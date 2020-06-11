@@ -57,6 +57,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   bool _obscureConfirmPassword = true;
 
   DeviceInfo deviceInfo = DeviceInfo();
+  String _deviceBrand = '';
   String _deviceModel = '';
   String _deviceVersion = '';
   String _deviceId = '';
@@ -95,6 +96,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
     // get device info
     await deviceInfo.getDeviceInfo();
 
+    _deviceBrand = deviceInfo.manufacturer;
     _deviceModel = deviceInfo.model;
     _deviceVersion = deviceInfo.version;
     _deviceId = deviceInfo.id;
@@ -794,6 +796,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
           latitude: _latitude,
           longitude: _longitude,
           deviceId: _deviceId,
+          deviceBrand: _deviceBrand,
           deviceModel: _deviceModel,
           deviceVersion: '$_deviceOs $_deviceVersion',
         );

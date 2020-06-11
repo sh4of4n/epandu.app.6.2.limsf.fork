@@ -16,7 +16,7 @@ dependencies:
   ## Online
   xml2json: ^4.1.1
   http: ^0.12.0+4
-  firebase_messaging: ^6.0.13
+  firebase_messaging: ^6.0.16
 
   ## Widgets
   shimmer: ^1.0.1

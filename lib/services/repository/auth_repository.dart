@@ -67,7 +67,7 @@ class AuthRepo {
       var data = jsonDecode(jsonData);
 
       GetWsUrlResponse getWsUrlResponse = GetWsUrlResponse.fromJson(data);
-      String wsVer = '1_4';
+      String wsVer = '5_0';
       final wsUrlBox = Hive.box('ws_url');
 
       if (getWsUrlResponse.loginAcctInfo != null) {
@@ -228,8 +228,8 @@ class AuthRepo {
     final String caPwdUrlEncode = await localStorage.getCaPwdEncode();
     String pushToken = await Hive.box('ws_url').get('push_token');
     String appVersion = await localStorage.getAppVersion();
-    String appCode = appConfig.appCode;
-    String appId = appConfig.appId;
+    // String appCode = appConfig.appCode;
+    // String appId = appConfig.appId;
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0&latitude=$latitude&longitude=$longitude&appCode=${appConfig.appCode}&appId=${appConfig.appId}&deviceId=&appVersion=$appVersion&deviceRemark=${deviceRemark.isNotEmpty ? Uri.encodeComponent(deviceRemark) : ''}&phDeviceId=$phDeviceId&phLine1Number=&phNetOpName=&phPhoneType=&phSimSerialNo=&bdBoard=&bdBrand=&bdDevice=&bdDisplay=&bdManufacturer=&bdModel=&bdProduct=&pfDeviceId=&regId=${pushToken ?? ''}';
@@ -1027,6 +1027,7 @@ class AuthRepo {
     String latitude,
     String longitude,
     String deviceId,
+    String deviceBrand,
     String deviceModel,
     String deviceVersion,
   }) async {
@@ -1073,7 +1074,7 @@ class AuthRepo {
       phPhoneType: '',
       phSimSerialNo: '',
       bdBoard: '',
-      bdBrand: '',
+      bdBrand: deviceBrand,
       bdDevice: '',
       bdDisplay: '',
       bdManufacturer: '',
@@ -1156,7 +1157,7 @@ class AuthRepo {
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
-      appCode: 'EPANDU',
+      appCode: appConfig.appCode,
       appId: appConfig.appId,
       diCode: diCode,
       icNo: icNo ?? '',
