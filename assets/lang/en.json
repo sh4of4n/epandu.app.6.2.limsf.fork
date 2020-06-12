@@ -317,5 +317,8 @@
   "get_promotion_fail": "Failed to load promotions. Please try again later.",
   "log_in": "Log In",
   "camera_permission": "Please grant camera permission.",
-  "unknown_error": "Unknown error "
+  "unknown_error": "Unknown error ",
+  "merchant_id": "Merchant ID",
+  "merchant_name": "Merchant Name",
+  "date_time": "Date Time"
 }

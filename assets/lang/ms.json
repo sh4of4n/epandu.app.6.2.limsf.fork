@@ -317,5 +317,8 @@
   "get_promotion_fail": "Gagal memuatkan promosi. Sila cuba sebentar lagi.",
   "log_in": "Log Masuk",
   "camera_permission": "Sila beri kebenaran kamera.",
-  "unknown_error": "Ralat tidak diketahui "
+  "unknown_error": "Ralat tidak diketahui ",
+  "merchant_id": "ID Pedagang",
+  "merchant_name": "Nama Pedagang",
+  "date_time": "Masa Tarikh"
 }
