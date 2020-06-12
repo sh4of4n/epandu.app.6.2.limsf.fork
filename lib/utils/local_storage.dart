@@ -29,6 +29,7 @@ class LocalStorage {
   static const String kBirthDate = 'BIRTH_DATE';
   static const String kRace = 'RACE';
   static const String kNickName = 'NICK_NAME';
+  static const String kMerchantDbCode = 'MERCHANT_DB_CODE';
 
   Future<void> saveNickName(String nickName) {
     return Preference.setString(kNickName, nickName);
@@ -254,6 +255,14 @@ class LocalStorage {
     return Preference.setString(kAppVersion, appVersion);
   }
 
+  Future<String> getMerchantDbCode() async {
+    return Preference.getString(kMerchantDbCode, def: '');
+  }
+
+  Future<void> saveMerchantDbCode(String dbCode) async {
+    return Preference.setString(kMerchantDbCode, dbCode);
+  }
+
   Future<void> reset() async {
     // await Preference.removeAll();
     await Preference.remove(kWsUrl);
@@ -284,5 +293,6 @@ class LocalStorage {
     await Preference.remove(kBirthDate);
     await Preference.remove(kNickName);
     await Preference.remove(kRace);
+    await Preference.remove(kMerchantDbCode);
   }
 }

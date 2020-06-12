@@ -359,6 +359,9 @@ class AuthRepo {
 
       instituteLogoResponse = InstituteLogoResponse.fromJson(response.data);
 
+      // save merchantDbCode
+      localStorage.saveMerchantDbCode(instituteLogoResponse.armaster[0].dbcode);
+
       localStorage.saveInstituteLogo(instituteLogoResponse
           .armaster[0].appBackgroundPhotoPath
           .replaceAll(removeBracket, '')
@@ -822,6 +825,8 @@ class AuthRepo {
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
+      appCode: appConfig.appCode,
+      appId: appConfig.appId,
       diCode: diCode,
       groupId: groupId,
       icNo: icNo,
@@ -1122,7 +1127,7 @@ class AuthRepo {
   }
 
   // scan QR
-  Future<Response> registerUserToDI({
+  /* Future<Response> registerUserToDI({
     context,
     String diCode,
     String icNo,
@@ -1183,6 +1188,116 @@ class AuthRepo {
 
     String body = jsonEncode(params);
     String api = 'RegisterUserToDI';
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+
+    var response =
+        await networking.postData(api: api, body: body, headers: headers);
+
+    var message = '';
+
+    // Success
+    if (response.isSuccess && response.data != null) {
+      message = AppLocalizations.of(context).translate('success');
+
+      return Response(true, message: message);
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message != null && response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message != null &&
+        response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
+    }
+
+    // Fail
+    message = AppLocalizations.of(context).translate('register_error');
+
+    return Response(false, message: message);
+  } */
+
+  Future<Response> registerUserToDI({
+    context,
+    String appVersion,
+    // String loginId,
+    @required String bodyTemperature,
+    String scannedAppId,
+    String scannedAppVer,
+    String scannedLoginId,
+    String scannedUserId,
+    @required String scanCode,
+    String deviceRemark,
+    String phDeviceId,
+    String phLine1Number,
+    String phNetOpName,
+    String phPhoneType,
+    String phSimSerialNo,
+    String bdBoard,
+    String bdBrand,
+    String bdDevice,
+    String bdDisplay,
+    String bdManufacturer,
+    String bdModel,
+    String bdProduct,
+    String pfDeviceId,
+    String regId,
+    String latitude,
+    String longitude,
+  }) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+    String userId = await localStorage.getUserId();
+    // String diCode = await localStorage.getDiCode();
+
+    String countryCode = await localStorage.getCountryCode();
+    String phone = await localStorage.getUserPhone();
+    String loginId = (countryCode + phone).replaceAll('+6', '');
+    String merchantNo = await localStorage.getMerchantDbCode();
+
+    RegisterUserToDIRequest params = RegisterUserToDIRequest(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      appCode: appConfig.appCode ?? '',
+      appId: appConfig.appId ?? '',
+      appVersion: appVersion ?? '',
+      merchantNo: merchantNo ?? '',
+      loginId: loginId ?? '',
+      userId: userId ?? '',
+      bodyTemperature: bodyTemperature ?? '',
+      scannedAppId: scannedAppId ?? '',
+      scannedAppVer: scannedAppVer ?? '',
+      scannedLoginId: scannedLoginId ?? '',
+      scannedUserId: scannedUserId ?? '',
+      scanCode: scanCode,
+      deviceRemark: deviceRemark ?? '',
+      phDeviceId: phDeviceId,
+      phLine1Number: phLine1Number ?? '',
+      phNetOpName: phNetOpName ?? '',
+      phPhoneType: phPhoneType ?? '',
+      phSimSerialNo: phSimSerialNo ?? '',
+      bdBoard: bdBoard ?? '',
+      bdBrand: bdBrand ?? '',
+      bdDevice: bdDevice ?? '',
+      bdDisplay: bdDisplay ?? '',
+      bdManufacturer: bdManufacturer ?? '',
+      bdModel: bdModel ?? '',
+      bdProduct: bdProduct ?? '',
+      pfDeviceId: pfDeviceId ?? '',
+      regId: regId ?? '',
+      latitude: latitude,
+      longitude: longitude,
+    );
+
+    String body = jsonEncode(params);
+    String api = 'RegisterUserToDIV2';
     Map<String, String> headers = {'Content-Type': 'application/json'};
 
     var response =

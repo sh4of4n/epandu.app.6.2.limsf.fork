@@ -2,8 +2,10 @@
 import 'dart:convert';
 
 import 'package:epandu/services/api/model/auth_model.dart';
+import 'package:epandu/services/location.dart';
 import 'package:epandu/utils/custom_button.dart';
 import 'package:epandu/utils/custom_dialog.dart';
+import 'package:epandu/utils/device_info.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,7 +14,9 @@ import 'package:flutter/material.dart';
 // import 'package:epandu/services/api/model/auth_model.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'package:package_info/package_info.dart';
 
 import '../../app_localizations.dart';
 
@@ -32,33 +36,103 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
   final image = ImagesConstant();
   final primaryColor = ColorConstant.primaryColor;
   final _formKey = GlobalKey<FormState>();
+  Location location;
 
   String name = '';
+  String merchantId = '';
+  String merchantName = '';
   String phoneCountryCode = '';
   String phone = '';
+  String appVersion = '';
   String _bodyTemp = '';
   String _message = '';
   bool _isLoading = false;
 
+  String latitude = '';
+  String longitude = '';
+
+  DeviceInfo deviceInfo = DeviceInfo();
+
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
+  final merchantIdController = TextEditingController();
+  final merchantNameController = TextEditingController();
+
+  String _deviceManufacturer = '';
+  // String _deviceVersion = '';
+  String _deviceId = '';
+  // String _deviceOs = '';
+  String _deviceModel = '';
 
   @override
   void initState() {
     super.initState();
 
-    /* ScanResponse scanResponse =
+    ScanResponse scanResponse =
         ScanResponse.fromJson(jsonDecode(widget.barcode));
 
-    setState(() {
+    /* setState(() {
       name = scanResponse.qRCode[0].name;
       phone = scanResponse.qRCode[0].phone;
     }); */
 
     nameController.addListener(nameValue);
     phoneController.addListener(phoneValue);
+    merchantIdController.addListener(merchantIdValue);
+    merchantNameController.addListener(merchantNameValue);
 
-    _getData();
+    _getPackageInfo();
+    _getDeviceInfo();
+    _checkLocationPermission();
+
+    if (scanResponse.qRCode[0] != null) {
+      setState(() {
+        nameController.text = scanResponse.qRCode[0].name;
+        phoneController.text = scanResponse.qRCode[0].loginId;
+        merchantIdController.text = scanResponse.qRCode[0].merchantDbCode;
+        merchantNameController.text = scanResponse.qRCode[0].merchantName;
+      });
+    } else {
+      _getData();
+    }
+  }
+
+  _getPackageInfo() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    setState(() {
+      appVersion = packageInfo.version;
+    });
+  }
+
+  _getDeviceInfo() async {
+    // get device info
+    await deviceInfo.getDeviceInfo();
+
+    // _deviceModel = deviceInfo.model;
+    _deviceManufacturer = deviceInfo.manufacturer;
+    // _deviceVersion = deviceInfo.version;
+    _deviceId = deviceInfo.id;
+    // _deviceOs = deviceInfo.os;
+    _deviceModel = deviceInfo.model;
+
+    // print('deviceId: ' + deviceId);
+  }
+
+  _checkLocationPermission() async {
+    bool serviceLocationStatus = await Geolocator().isLocationServiceEnabled();
+    GeolocationStatus geolocationStatus =
+        await Geolocator().checkGeolocationPermissionStatus();
+
+    if (serviceLocationStatus &&
+        geolocationStatus == GeolocationStatus.granted) {
+      await location.getCurrentLocation();
+
+      setState(() {
+        latitude = location.latitude.toString();
+        longitude = location.longitude.toString();
+      });
+    }
   }
 
   nameValue() {
@@ -70,6 +144,18 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
   phoneValue() {
     setState(() {
       phone = phoneController.text;
+    });
+  }
+
+  merchantIdValue() {
+    setState(() {
+      merchantId = merchantIdController.text;
+    });
+  }
+
+  merchantNameValue() {
+    setState(() {
+      merchantName = merchantNameController.text;
     });
   }
 
@@ -101,14 +187,18 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
 
       var result = await authRepo.registerUserToDI(
         context: context,
-        diCode: scanResponse.qRCode[0].merchantDbCode,
-        // name: scanResponse.qRCode[0].name,
-        // nationality: scanResponse.nationality,
-        // phoneCountryCode: scanResponse.qRCode[0].phoneCountryCode,
-        // phone: scanResponse.qRCode[0].phone,
-        // userId: scanResponse.userId,
         bodyTemperature: _bodyTemp,
+        appVersion: appVersion,
+        scannedAppId: scanResponse.qRCode[0].appId,
+        scannedAppVer: scanResponse.qRCode[0].appVersion,
+        scannedLoginId: scanResponse.qRCode[0].loginId,
+        scannedUserId: scanResponse.qRCode[0].userId,
         scanCode: widget.barcode,
+        phDeviceId: _deviceId,
+        bdBrand: _deviceManufacturer,
+        bdModel: _deviceModel,
+        latitude: latitude,
+        longitude: longitude,
       );
 
       if (result.isSuccess) {
@@ -200,6 +290,38 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
                       ),
                       SizedBox(height: 50.h),
                       TextFormField(
+                        controller: merchantIdController,
+                        enabled: false,
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(vertical: -10.h),
+                          hintStyle: TextStyle(
+                            color: primaryColor,
+                          ),
+                          labelText: AppLocalizations.of(context)
+                              .translate('merchant_id'),
+                          prefixIcon: Icon(Icons.person),
+                        ),
+                      ),
+                      SizedBox(height: 50.h),
+                      TextFormField(
+                        controller: merchantNameController,
+                        enabled: false,
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(vertical: -10.h),
+                          hintStyle: TextStyle(
+                            color: primaryColor,
+                          ),
+                          labelText: AppLocalizations.of(context)
+                              .translate('merchant_name'),
+                          prefixIcon: Icon(Icons.person),
+                        ),
+                      ),
+                      SizedBox(height: 50.h),
+                      /* TextFormField(
                         controller: nameController,
                         enabled: false,
                         keyboardType:
@@ -230,7 +352,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
                           prefixIcon: Icon(Icons.phone_android),
                         ),
                       ),
-                      SizedBox(height: 50.h),
+                      SizedBox(height: 50.h), */
                       TextFormField(
                         // autofocus: true,
                         keyboardType:

@@ -24,6 +24,7 @@ class _IdentityBarcodeState extends State<IdentityBarcode> {
   String userId = '';
   String phoneCountryCode = '';
   String phone = '';
+  String loginId = '';
   // String dob = '';
   // String gender = '';
   String name = '';
@@ -55,6 +56,7 @@ class _IdentityBarcodeState extends State<IdentityBarcode> {
       userId = getUserId;
       phoneCountryCode = getPhoneCountryCode;
       phone = getPhone;
+      loginId = (phoneCountryCode + phone).replaceAll('+6', '');
       // gender = getGender;
       name = getName;
     });
@@ -68,7 +70,7 @@ class _IdentityBarcodeState extends State<IdentityBarcode> {
           size: Size(40, 40),
         ),
         data:
-            '{"QRCode":[{"appId": "${appConfig.appId}", "appVersion": "$appVersion", "phoneCountryCode": "$phoneCountryCode", "phone": "$phone", "name": "$name", "userId": "$userId"}]}',
+            '{"QRCode":[{"appId": "${appConfig.appId}", "appVersion": "$appVersion", "loginId": "$loginId", "name": "$name", "userId": "$userId"}]}',
         version: QrVersions.auto,
         size: 250.0,
       );

@@ -1534,6 +1534,8 @@ class SaveEnrollmentRequest {
   String wsCodeCrypt;
   String caUid;
   String caPwd;
+  String appCode;
+  String appId;
   String diCode;
   String groupId;
   String icNo;
@@ -1558,6 +1560,8 @@ class SaveEnrollmentRequest {
       {this.wsCodeCrypt,
       this.caUid,
       this.caPwd,
+      this.appCode,
+      this.appId,
       this.diCode,
       this.groupId,
       this.icNo,
@@ -1582,6 +1586,8 @@ class SaveEnrollmentRequest {
     wsCodeCrypt = json['wsCodeCrypt'];
     caUid = json['caUid'];
     caPwd = json['caPwd'];
+    appCode = json['appCode'];
+    appId = json['appId'];
     diCode = json['diCode'];
     groupId = json['groupId'];
     icNo = json['icNo'];
@@ -1608,6 +1614,8 @@ class SaveEnrollmentRequest {
     data['wsCodeCrypt'] = this.wsCodeCrypt;
     data['caUid'] = this.caUid;
     data['caPwd'] = this.caPwd;
+    data['appCode'] = this.appCode;
+    data['appId'] = this.appId;
     data['diCode'] = this.diCode;
     data['groupId'] = this.groupId;
     data['icNo'] = this.icNo;
@@ -2270,7 +2278,7 @@ class SignUpArguments {
 }
 
 // RegisterToUserDI
-class RegisterUserToDIRequest {
+/* class RegisterUserToDIRequest {
   String wsCodeCrypt;
   String caUid;
   String caPwd;
@@ -2381,6 +2389,147 @@ class RegisterUserToDIRequest {
     data['scanCode'] = this.scanCode;
     return data;
   }
+} */
+
+class RegisterUserToDIRequest {
+  String wsCodeCrypt;
+  String caUid;
+  String caPwd;
+  String appCode;
+  String appId;
+  String appVersion;
+  String merchantNo;
+  String loginId;
+  String userId;
+  String bodyTemperature;
+  String scannedAppId;
+  String scannedAppVer;
+  String scannedLoginId;
+  String scannedUserId;
+  String scanCode;
+  String deviceRemark;
+  String phDeviceId;
+  String phLine1Number;
+  String phNetOpName;
+  String phPhoneType;
+  String phSimSerialNo;
+  String bdBoard;
+  String bdBrand;
+  String bdDevice;
+  String bdDisplay;
+  String bdManufacturer;
+  String bdModel;
+  String bdProduct;
+  String pfDeviceId;
+  String regId;
+  String latitude;
+  String longitude;
+
+  RegisterUserToDIRequest(
+      {this.wsCodeCrypt,
+      this.caUid,
+      this.caPwd,
+      this.appCode,
+      this.appId,
+      this.appVersion,
+      this.merchantNo,
+      this.loginId,
+      this.userId,
+      this.bodyTemperature,
+      this.scannedAppId,
+      this.scannedAppVer,
+      this.scannedLoginId,
+      this.scannedUserId,
+      this.scanCode,
+      this.deviceRemark,
+      this.phDeviceId,
+      this.phLine1Number,
+      this.phNetOpName,
+      this.phPhoneType,
+      this.phSimSerialNo,
+      this.bdBoard,
+      this.bdBrand,
+      this.bdDevice,
+      this.bdDisplay,
+      this.bdManufacturer,
+      this.bdModel,
+      this.bdProduct,
+      this.pfDeviceId,
+      this.regId,
+      this.latitude,
+      this.longitude});
+
+  RegisterUserToDIRequest.fromJson(Map<String, dynamic> json) {
+    wsCodeCrypt = json['wsCodeCrypt'];
+    caUid = json['caUid'];
+    caPwd = json['caPwd'];
+    appCode = json['appCode'];
+    appId = json['appId'];
+    appVersion = json['appVersion'];
+    merchantNo = json['merchantNo'];
+    loginId = json['loginId'];
+    userId = json['userId'];
+    bodyTemperature = json['bodyTemperature'];
+    scannedAppId = json['scannedAppId'];
+    scannedAppVer = json['scannedAppVer'];
+    scannedLoginId = json['scannedLoginId'];
+    scannedUserId = json['scannedUserId'];
+    scanCode = json['scanCode'];
+    deviceRemark = json['deviceRemark'];
+    phDeviceId = json['phDeviceId'];
+    phLine1Number = json['phLine1Number'];
+    phNetOpName = json['phNetOpName'];
+    phPhoneType = json['phPhoneType'];
+    phSimSerialNo = json['phSimSerialNo'];
+    bdBoard = json['bdBoard'];
+    bdBrand = json['bdBrand'];
+    bdDevice = json['bdDevice'];
+    bdDisplay = json['bdDisplay'];
+    bdManufacturer = json['bdManufacturer'];
+    bdModel = json['bdModel'];
+    bdProduct = json['bdProduct'];
+    pfDeviceId = json['pfDeviceId'];
+    regId = json['regId'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['wsCodeCrypt'] = this.wsCodeCrypt;
+    data['caUid'] = this.caUid;
+    data['caPwd'] = this.caPwd;
+    data['appCode'] = this.appCode;
+    data['appId'] = this.appId;
+    data['appVersion'] = this.appVersion;
+    data['merchantNo'] = this.merchantNo;
+    data['loginId'] = this.loginId;
+    data['userId'] = this.userId;
+    data['bodyTemperature'] = this.bodyTemperature;
+    data['scannedAppId'] = this.scannedAppId;
+    data['scannedAppVer'] = this.scannedAppVer;
+    data['scannedLoginId'] = this.scannedLoginId;
+    data['scannedUserId'] = this.scannedUserId;
+    data['scanCode'] = this.scanCode;
+    data['deviceRemark'] = this.deviceRemark;
+    data['phDeviceId'] = this.phDeviceId;
+    data['phLine1Number'] = this.phLine1Number;
+    data['phNetOpName'] = this.phNetOpName;
+    data['phPhoneType'] = this.phPhoneType;
+    data['phSimSerialNo'] = this.phSimSerialNo;
+    data['bdBoard'] = this.bdBoard;
+    data['bdBrand'] = this.bdBrand;
+    data['bdDevice'] = this.bdDevice;
+    data['bdDisplay'] = this.bdDisplay;
+    data['bdManufacturer'] = this.bdManufacturer;
+    data['bdModel'] = this.bdModel;
+    data['bdProduct'] = this.bdProduct;
+    data['pfDeviceId'] = this.pfDeviceId;
+    data['regId'] = this.regId;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
+    return data;
+  }
 }
 
 // Scan response
@@ -2410,40 +2559,40 @@ class ScanResponse {
 class QRCode {
   String appId;
   String appVersion;
-  String phoneCountryCode;
-  String phone;
+  String loginId;
   String name;
   String userId;
   String merchantDbCode;
+  String merchantName;
 
   QRCode(
       {this.appId,
       this.appVersion,
-      this.phoneCountryCode,
-      this.phone,
+      this.loginId,
       this.name,
       this.userId,
-      this.merchantDbCode});
+      this.merchantDbCode,
+      this.merchantName});
 
   QRCode.fromJson(Map<String, dynamic> json) {
     appId = json['appId'];
     appVersion = json['appVersion'];
-    phoneCountryCode = json['phoneCountryCode'];
-    phone = json['phone'];
+    loginId = json['loginId'];
     name = json['name'];
     userId = json['userId'];
     merchantDbCode = json['merchantDbCode'];
+    merchantName = json['merchantName'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['appId'] = this.appId;
     data['appVersion'] = this.appVersion;
-    data['phoneCountryCode'] = this.phoneCountryCode;
-    data['phone'] = this.phone;
+    data['loginId'] = this.loginId;
     data['name'] = this.name;
     data['userId'] = this.userId;
     data['merchantDbCode'] = this.merchantDbCode;
+    data['merchantName'] = this.merchantName;
     return data;
   }
 }
