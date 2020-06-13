@@ -5,6 +5,7 @@ import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:package_info/package_info.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class IdentityBarcode extends StatefulWidget {
@@ -38,8 +39,9 @@ class _IdentityBarcodeState extends State<IdentityBarcode> {
   }
 
   _getData() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
     String appId = appConfig.appId;
-    String getAppVersion = await localStorage.getAppVersion();
     String getDiCode = await localStorage.getDiCode();
     String getIcNo = await localStorage.getStudentIc();
     String getUserId = await localStorage.getUserId();
@@ -49,9 +51,9 @@ class _IdentityBarcodeState extends State<IdentityBarcode> {
     String getName = await localStorage.getName();
 
     setState(() {
-      id = appId + getAppVersion + getIcNo + getUserId;
+      id = appId + packageInfo.version + getIcNo + getUserId;
       diCode = getDiCode;
-      appVersion = getAppVersion;
+      appVersion = packageInfo.version;
       // icNo = getIcNo;
       userId = getUserId;
       phoneCountryCode = getPhoneCountryCode;
