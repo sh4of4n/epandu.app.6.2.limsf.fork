@@ -312,6 +312,11 @@ class RouteGenerator {
           settings: RouteSettings(name: REGISTER_USER_TO_DI),
           builder: (_) => RegisterUserToDi(data),
         );
+      case TAKE_PROFILE_PICTURE:
+        return MaterialPageRoute(
+          settings: RouteSettings(name: TAKE_PROFILE_PICTURE),
+          builder: (_) => TakeProfilePicture(data),
+        );
       default:
         return _errorRoute();
     }

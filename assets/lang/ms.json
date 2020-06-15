@@ -320,5 +320,8 @@
   "unknown_error": "Ralat tidak diketahui ",
   "merchant_id": "ID Pedagang",
   "merchant_name": "Nama Pedagang",
-  "date_time": "Masa Tarikh"
+  "date_time": "Masa Tarikh",
+  "take_photo": "Ambil foto",
+  "choose_existing_photo": "Pilih foto yang ada",
+  "toggle_camera": "Togol kamera"
 }

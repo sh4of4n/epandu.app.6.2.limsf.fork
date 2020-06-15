@@ -46,8 +46,9 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
   Future _scan() async {
     try {
       var barcode = await BarcodeScanner.scan();
-      Navigator.pushNamed(context, REGISTER_USER_TO_DI,
-          arguments: barcode.rawContent);
+      if (barcode.rawContent.isNotEmpty)
+        Navigator.pushNamed(context, REGISTER_USER_TO_DI,
+            arguments: barcode.rawContent);
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {
         customDialog.show(

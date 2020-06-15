@@ -6,6 +6,7 @@ enum DialogType {
   SUCCESS,
   ERROR,
   WARNING,
+  SIMPLE_DIALOG,
 }
 
 class CustomDialog {
@@ -94,6 +95,14 @@ class CustomDialog {
           actions,
           barrierDismissable,
         );
+      case DialogType.SIMPLE_DIALOG:
+        actions = customActions;
+        return _simpleDialog(
+          context,
+          title,
+          actions,
+          barrierDismissable,
+        );
     }
   }
 
@@ -114,6 +123,24 @@ class CustomDialog {
         );
       },
       barrierDismissible: barrierDismissable ?? true,
+    );
+  }
+
+  _simpleDialog(
+    context,
+    title,
+    actions,
+    barrierDismissible,
+  ) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: title,
+          children: actions,
+        );
+      },
+      barrierDismissible: barrierDismissible ?? true,
     );
   }
 }

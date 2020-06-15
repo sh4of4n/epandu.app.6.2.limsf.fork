@@ -1,17 +1,26 @@
+import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/services/repository/profile_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
+import 'package:epandu/utils/custom_snackbar.dart';
 import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../app_localizations.dart';
+
+enum AppState { free, picked, cropped }
 
 class UpdateProfile extends StatefulWidget {
   @override
@@ -21,11 +30,14 @@ class UpdateProfile extends StatefulWidget {
 class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   final profileRepo = ProfileRepo();
   final authRepo = AuthRepo();
+  final customSnackbar = CustomSnackbar();
   final _formKey = GlobalKey<FormState>();
   final customDialog = CustomDialog();
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
+  final picker = ImagePicker();
 
+  List<CameraDescription> cameras;
   final FocusNode _nameFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _dobFocus = FocusNode();
@@ -33,6 +45,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   final FocusNode _nickNameFocus = FocusNode();
   final _dobController = TextEditingController();
   final format = DateFormat("yyyy-MM-dd");
+  String imagePath;
   String _getName = '';
   String _getEmail = '';
   String _getUserIc = '';
@@ -47,6 +60,12 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   String _message = '';
   bool _isLoading = false;
   String _potentialDob = '';
+
+  String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
+  File _image;
+  File _croppedImage;
+  String _profileUrl;
+  var imageState;
 
   TextStyle _messageStyle = TextStyle(color: Colors.red);
   final _nameController = TextEditingController();
@@ -65,6 +84,17 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
     _nickNameController.addListener(_nickNameValue);
 
     _getUserInfo();
+    _getAvailableCameras();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _dobController.dispose();
+    _icController.dispose();
+    _nickNameController.dispose();
+    super.dispose();
   }
 
   _getUserInfo() async {
@@ -80,6 +110,10 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         _getBirthDate.isNotEmpty ? _getBirthDate.substring(0, 10) : '';
     _icController.text = _getUserIc;
     _nickNameController.text = _getNickName;
+  }
+
+  _getAvailableCameras() async {
+    cameras = await availableCameras();
   }
 
   _nickNameValue() {
@@ -141,6 +175,73 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
     }
   }
 
+  _profileImage() {
+    return IconButton(
+      onPressed: () {
+        customDialog.show(
+          context: context,
+          content: '',
+          customActions: <Widget>[
+            SimpleDialogOption(
+              child: Text(AppLocalizations.of(context).translate('take_photo')),
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, TAKE_PROFILE_PICTURE,
+                    arguments: cameras);
+              },
+            ),
+            SimpleDialogOption(
+                child: Text(AppLocalizations.of(context)
+                    .translate('choose_existing_photo')),
+                onPressed: () {
+                  Navigator.pop(context);
+                  _getImageGallery();
+                }),
+          ],
+          type: DialogType.SIMPLE_DIALOG,
+        );
+      },
+      icon: Icon(
+        Icons.account_circle,
+        color: Colors.grey[850],
+      ),
+      iconSize: 70,
+    );
+  }
+
+  Future _getImageGallery() async {
+    var pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    if (pickedFile?.path != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+        imageState = AppState.picked;
+      });
+
+      _editImage("GALLERY");
+    }
+  }
+
+  Future<void> _editImage(fileDirectory) async {
+    File croppedFile = await ImageCropper.cropImage(
+      sourcePath: _image.path,
+      aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+      maxWidth: 512,
+      maxHeight: 512,
+    );
+
+    if (croppedFile != null) {
+      setState(() {
+        _croppedImage = croppedFile;
+        imageState = AppState.cropped;
+      });
+
+      // if (_croppedImage != null) {
+      //   _uploadImage(fileDirectory, "CROP");
+      // }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -159,11 +260,13 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 70.w),
-            margin: EdgeInsets.symmetric(vertical: 100.h),
+            margin: EdgeInsets.symmetric(vertical: 50.h),
             child: Form(
               key: _formKey,
               child: Column(
                 children: <Widget>[
+                  _profileImage(),
+                  SizedBox(height: 40.h),
                   TextFormField(
                     controller: _nameController,
                     focusNode: _nameFocus,

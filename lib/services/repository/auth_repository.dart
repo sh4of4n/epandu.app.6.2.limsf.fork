@@ -67,7 +67,7 @@ class AuthRepo {
       var data = jsonDecode(jsonData);
 
       GetWsUrlResponse getWsUrlResponse = GetWsUrlResponse.fromJson(data);
-      String wsVer = '5_0';
+      String wsVer = '5_1';
       final wsUrlBox = Hive.box('ws_url');
 
       if (getWsUrlResponse.loginAcctInfo != null) {

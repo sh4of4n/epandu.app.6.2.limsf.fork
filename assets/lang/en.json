@@ -320,5 +320,8 @@
   "unknown_error": "Unknown error ",
   "merchant_id": "Merchant ID",
   "merchant_name": "Merchant Name",
-  "date_time": "Date Time"
+  "date_time": "Date Time",
+  "take_photo": "Take photo",
+  "choose_existing_photo": "Choose existing photo",
+  "toggle_camera": "Toggle camera"
 }

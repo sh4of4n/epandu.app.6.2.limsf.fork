@@ -31,6 +31,9 @@ dependencies:
   qr_flutter: ^3.2.0
   barcode_scan: ^3.0.1
   expandable: ^4.1.4
+  image_picker: ^0.6.7+1
+  image_cropper: ^1.2.3
+  camera: ^0.5.8+2
 
   ## Tools
   intl: ^0.16.0
