@@ -44,7 +44,8 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
   String _longitude = '';
 
   DeviceInfo deviceInfo = DeviceInfo();
-  // String _deviceModel = '';
+  String _deviceBrand = '';
+  String _deviceModel = '';
   String _deviceVersion = '';
   String _deviceId = '';
   String _deviceOs = '';
@@ -61,7 +62,8 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
     // get device info
     await deviceInfo.getDeviceInfo();
 
-    // _deviceModel = deviceInfo.model;
+    _deviceBrand = deviceInfo.manufacturer;
+    _deviceModel = deviceInfo.model;
     _deviceVersion = deviceInfo.version;
     _deviceId = deviceInfo.id;
     _deviceOs = deviceInfo.os;
@@ -314,6 +316,8 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
         password: _password,
         latitude: _latitude.isEmpty ? '999' : _latitude,
         longitude: _longitude.isEmpty ? '999' : _longitude,
+        deviceBrand: _deviceBrand,
+        deviceModel: _deviceModel,
         deviceRemark: '$_deviceOs $_deviceVersion',
         phDeviceId: _deviceId,
       );
