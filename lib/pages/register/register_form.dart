@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/location.dart';
@@ -11,6 +15,10 @@ import 'package:epandu/widgets/loading_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+
+enum AppState { free, picked, cropped }
 
 class RegisterForm extends StatefulWidget {
   final data;
@@ -63,6 +71,13 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   String _deviceId = '';
   String _deviceOs = '';
 
+  List<CameraDescription> cameras;
+  final picker = ImagePicker();
+  String profilePic = '';
+  File _image;
+  File _croppedImage;
+  var imageState;
+
   TextStyle inputStyle = TextStyle(
     fontSize: 35.sp,
   );
@@ -104,6 +119,98 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
 
     // print('deviceId: ' + deviceId);
   }
+
+  // Profile picture
+  _profileImage() {
+    if (profilePic.isNotEmpty) {
+      return InkWell(
+        onTap: _profilePicOption,
+        child: Image.memory(
+          base64Decode(profilePic),
+          width: 700.w,
+          height: 700.w,
+          fit: BoxFit.cover,
+        ),
+      );
+    }
+    return IconButton(
+      onPressed: _profilePicOption,
+      icon: Icon(
+        Icons.account_circle,
+        color: Colors.grey[850],
+      ),
+      iconSize: 70,
+    );
+  }
+
+  _profilePicOption() {
+    customDialog.show(
+      context: context,
+      content: '',
+      customActions: <Widget>[
+        SimpleDialogOption(
+          child: Text(AppLocalizations.of(context).translate('take_photo')),
+          onPressed: () async {
+            Navigator.pop(context);
+            await Navigator.pushNamed(context, TAKE_PROFILE_PICTURE,
+                arguments: cameras);
+
+            String newProfilePic = await localStorage.getProfilePic();
+
+            setState(() {
+              profilePic = newProfilePic;
+            });
+          },
+        ),
+        SimpleDialogOption(
+            child: Text(AppLocalizations.of(context)
+                .translate('choose_existing_photo')),
+            onPressed: () {
+              Navigator.pop(context);
+              _getImageGallery();
+            }),
+      ],
+      type: DialogType.SIMPLE_DIALOG,
+    );
+  }
+
+  Future _getImageGallery() async {
+    var pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    if (pickedFile?.path != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+        imageState = AppState.picked;
+      });
+
+      _editImage("GALLERY");
+    }
+  }
+
+  Future<void> _editImage(fileDirectory) async {
+    File croppedFile = await ImageCropper.cropImage(
+      sourcePath: _image.path,
+      aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+      maxWidth: 512,
+      maxHeight: 512,
+    );
+
+    if (croppedFile != null) {
+      setState(() {
+        _croppedImage = croppedFile;
+        imageState = AppState.cropped;
+        profilePic = base64Encode(_croppedImage.readAsBytesSync());
+
+        localStorage
+            .saveProfilePic(base64Encode(_croppedImage.readAsBytesSync()));
+      });
+
+      // if (_croppedImage != null) {
+      //   _uploadImage(fileDirectory, "CROP");
+      // }
+    }
+  }
+  // End profile picture //
 
   @override
   Widget build(BuildContext context) {
@@ -157,6 +264,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                         SizedBox(
                           height: ScreenUtil().setHeight(35),
                         ),
+                        _profileImage(),
                         TextFormField(
                           focusNode: _phoneFocus,
                           keyboardType: TextInputType.phone,
@@ -496,6 +604,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                         SizedBox(
                           height: ScreenUtil().setHeight(35),
                         ),
+                        _profileImage(),
                         TextFormField(
                           style: inputStyle,
                           focusNode: _phoneFocus,
@@ -793,6 +902,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
           nickName: _nickName,
           signUpPwd: _password,
           email: _email,
+          userProfileImageBase64String: '',
           latitude: _latitude,
           longitude: _longitude,
           deviceId: _deviceId,

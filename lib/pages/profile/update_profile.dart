@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
@@ -60,6 +61,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   String _message = '';
   bool _isLoading = false;
   String _potentialDob = '';
+  String profilePic = '';
 
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
   File _image;
@@ -103,6 +105,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
     _getBirthDate = await localStorage.getBirthDate();
     _getUserIc = await localStorage.getStudentIc();
     _getNickName = await localStorage.getNickName();
+    profilePic = await localStorage.getProfilePic();
 
     _nameController.text = _getName;
     _emailController.text = _getEmail;
@@ -175,37 +178,57 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
     }
   }
 
+  // Profile picture
   _profileImage() {
+    if (profilePic.isNotEmpty) {
+      return InkWell(
+        onTap: _profilePicOption,
+        child: Image.memory(
+          base64Decode(profilePic),
+          width: 700.w,
+          height: 700.w,
+          fit: BoxFit.cover,
+        ),
+      );
+    }
     return IconButton(
-      onPressed: () {
-        customDialog.show(
-          context: context,
-          content: '',
-          customActions: <Widget>[
-            SimpleDialogOption(
-              child: Text(AppLocalizations.of(context).translate('take_photo')),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, TAKE_PROFILE_PICTURE,
-                    arguments: cameras);
-              },
-            ),
-            SimpleDialogOption(
-                child: Text(AppLocalizations.of(context)
-                    .translate('choose_existing_photo')),
-                onPressed: () {
-                  Navigator.pop(context);
-                  _getImageGallery();
-                }),
-          ],
-          type: DialogType.SIMPLE_DIALOG,
-        );
-      },
+      onPressed: _profilePicOption,
       icon: Icon(
         Icons.account_circle,
         color: Colors.grey[850],
       ),
       iconSize: 70,
+    );
+  }
+
+  _profilePicOption() {
+    customDialog.show(
+      context: context,
+      content: '',
+      customActions: <Widget>[
+        SimpleDialogOption(
+          child: Text(AppLocalizations.of(context).translate('take_photo')),
+          onPressed: () async {
+            Navigator.pop(context);
+            await Navigator.pushNamed(context, TAKE_PROFILE_PICTURE,
+                arguments: cameras);
+
+            String newProfilePic = await localStorage.getProfilePic();
+
+            setState(() {
+              profilePic = newProfilePic;
+            });
+          },
+        ),
+        SimpleDialogOption(
+            child: Text(AppLocalizations.of(context)
+                .translate('choose_existing_photo')),
+            onPressed: () {
+              Navigator.pop(context);
+              _getImageGallery();
+            }),
+      ],
+      type: DialogType.SIMPLE_DIALOG,
     );
   }
 
@@ -234,6 +257,10 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
       setState(() {
         _croppedImage = croppedFile;
         imageState = AppState.cropped;
+        profilePic = base64Encode(_croppedImage.readAsBytesSync());
+
+        localStorage
+            .saveProfilePic(base64Encode(_croppedImage.readAsBytesSync()));
       });
 
       // if (_croppedImage != null) {
@@ -241,6 +268,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
       // }
     }
   }
+  // End profile picture //
 
   @override
   Widget build(BuildContext context) {
@@ -726,6 +754,8 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         icNo: _ic.isNotEmpty ? _ic : _getUserIc,
         dateOfBirthString: _dob.isNotEmpty ? _dob : _getBirthDate,
         nickName: _nickName.isNotEmpty ? _nickName : _getNickName,
+        userProfileImageBase64String: profilePic,
+        removeUserProfileImage: false,
       );
 
       if (result.isSuccess) {

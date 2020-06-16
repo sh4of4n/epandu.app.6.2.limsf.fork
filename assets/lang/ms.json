@@ -323,5 +323,6 @@
   "date_time": "Masa Tarikh",
   "take_photo": "Ambil foto",
   "choose_existing_photo": "Pilih foto yang ada",
-  "toggle_camera": "Togol kamera"
+  "toggle_camera": "Togol kamera",
+  "get_profile_fail": "Gagal memuatkan profil, sila cuba sebentar lagi."
 }

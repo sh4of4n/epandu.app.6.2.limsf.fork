@@ -37,86 +37,97 @@
 
 class SaveProfileRequest {
   String wsCodeCrypt;
+  String appCode;
+  String appId;
   String caUid;
   String caPwd;
   String diCode;
   String userId;
   String name;
+  String nickName;
   String icNo;
+  String nationality;
+  String dateOfBirthString;
+  String race;
   String address;
   String postcode;
   String state;
   String country;
   String email;
-  String nationality;
-  String dateOfBirthString;
-  String race;
-  String appId;
-  String appCode;
-  String nickName;
+  List<int> userProfileImage;
+  String userProfileImageBase64String;
+  bool removeUserProfileImage;
 
   SaveProfileRequest(
       {this.wsCodeCrypt,
-        this.caUid,
-        this.caPwd,
-        this.diCode,
-        this.userId,
-        this.name,
-        this.address,
-        this.postcode,
-        this.state,
-        this.country,
-        this.email,
-        this.icNo,
-        this.nationality,
-        this.dateOfBirthString,
-        this.race,
-        this.appId,
-        this.appCode,
-        this.nickName,
-      });
+      this.appCode,
+      this.appId,
+      this.caUid,
+      this.caPwd,
+      this.diCode,
+      this.userId,
+      this.name,
+      this.nickName,
+      this.icNo,
+      this.nationality,
+      this.dateOfBirthString,
+      this.race,
+      this.address,
+      this.postcode,
+      this.state,
+      this.country,
+      this.email,
+      this.userProfileImage,
+      this.userProfileImageBase64String,
+      this.removeUserProfileImage});
 
   SaveProfileRequest.fromJson(Map<String, dynamic> json) {
     wsCodeCrypt = json['wsCodeCrypt'];
+    appCode = json['appCode'];
+    appId = json['appId'];
     caUid = json['caUid'];
     caPwd = json['caPwd'];
     diCode = json['diCode'];
     userId = json['userId'];
     name = json['name'];
+    nickName = json['nickName'];
+    icNo = json['icNo'];
+    nationality = json['nationality'];
+    dateOfBirthString = json['dateOfBirthString'];
+    race = json['race'];
     address = json['address'];
     postcode = json['postcode'];
     state = json['state'];
     country = json['country'];
     email = json['email'];
-    icNo = json['icNo'];
-    nationality = json['nationality'];
-    dateOfBirthString = json['dateOfBirthString'];
-    race = json['race'];
-    appId = json['appId'];
-    appCode = json['appCode'];
-    nickName = json['nickName'];
+    userProfileImage = json['userProfileImage'];
+    userProfileImageBase64String = json['userProfileImageBase64String'];
+    removeUserProfileImage = json['removeUserProfileImage'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['wsCodeCrypt'] = this.wsCodeCrypt;
+    data['appCode'] = this.appCode;
+    data['appId'] = this.appId;
     data['caUid'] = this.caUid;
     data['caPwd'] = this.caPwd;
     data['diCode'] = this.diCode;
     data['userId'] = this.userId;
     data['name'] = this.name;
+    data['nickName'] = this.nickName;
+    data['icNo'] = this.icNo;
+    data['nationality'] = this.nationality;
+    data['dateOfBirthString'] = this.dateOfBirthString;
+    data['race'] = this.race;
     data['address'] = this.address;
     data['postcode'] = this.postcode;
     data['state'] = this.state;
     data['country'] = this.country;
     data['email'] = this.email;
-    data['icNo'] = this.icNo;
-    data['nationality'] = this.nationality;
-    data['dateOfBirthString'] = this.dateOfBirthString;
-    data['race'] = this.race;
-    data['appCode'] = this.appCode;
-    data['appId'] = this.appId;
-    data['nickName'] = this.nickName;
+    data['userProfileImage'] = this.userProfileImage;
+    data['userProfileImageBase64String'] = this.userProfileImageBase64String;
+    data['removeUserProfileImage'] = this.removeUserProfileImage;
     return data;
   }
 }

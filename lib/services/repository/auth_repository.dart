@@ -163,57 +163,6 @@ class AuthRepo {
     );
   }
 
-  /* Future<Response> login({context, String phone, String password}) async {
-    final String caUid = await localStorage.getCaUid();
-    // final String caPwd = await localStorage.getCaPwd();
-    final String caPwdUrlEncode = await localStorage.getCaPwdEncode();
-
-    String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwdUrlEncode&diCode=${appConfig.diCode}&userPhone=$phone&userPwd=$password&ipAddress=0.0.0.0';
-
-    var response = await networking.getData(
-      path: 'GetUserByUserPhonePwd?$path',
-    );
-
-    if (response.isSuccess && response.data != null) {
-      LoginResponse loginResponse = LoginResponse.fromJson(response.data);
-      var responseData = loginResponse.table1[0];
-
-      if (responseData.userId != null && responseData.msg == null) {
-        print(responseData.userId);
-        print(responseData.sessionId);
-
-        localStorage.saveUserId(responseData.userId);
-        localStorage.saveSessionId(responseData.sessionId);
-
-        var result = await getUserRegisteredDI(context: context);
-
-        return result;
-      } else if (responseData.msg == 'Reset Password Success') {
-        return Response(true, message: responseData.msg);
-      }
-      return Response(false, message: responseData.msg);
-    } else if (response.message != null &&
-        response.message.contains('timeout')) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('timeout_exception'));
-    } else if (response.message != null &&
-        response.message.contains('socket')) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('socket_exception'));
-    } else if (response.message != null && response.message.contains('http')) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('http_exception'));
-    } else if (response.message != null &&
-        response.message.contains('format')) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('format_exception'));
-    }
-
-    return Response(false,
-        message: AppLocalizations.of(context).translate('invalid_login'));
-  } */
-
   Future<Response> login({
     context,
     String phone,
@@ -804,17 +753,20 @@ class AuthRepo {
 
   Future<Response> saveEnrollmentWithParticular({
     context,
-    phoneCountryCode,
-    phone,
-    diCode,
-    icNo,
-    groupId,
-    name,
-    email,
-    nationality,
-    dateOfBirthString,
-    gender,
-    race,
+    String phoneCountryCode,
+    String phone,
+    String diCode,
+    String icNo,
+    String groupId,
+    String name,
+    String email,
+    String nationality,
+    String dateOfBirthString,
+    String gender,
+    String race,
+    List<int> userProfileImage,
+    String userProfileImageBase64String,
+    bool removeUserProfileImage,
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
@@ -848,6 +800,9 @@ class AuthRepo {
       country: '',
       email: email,
       userId: userId,
+      userProfileImage: userProfileImage,
+      userProfileImageBase64String: userProfileImageBase64String ?? '',
+      removeUserProfileImage: removeUserProfileImage ?? false,
     );
 
     String body = jsonEncode(saveEnrollmentRequest);
@@ -1037,6 +992,9 @@ class AuthRepo {
     String deviceBrand,
     String deviceModel,
     String deviceVersion,
+    List<int> userProfileImage,
+    String userProfileImageBase64String,
+    bool removeUserProfileImage,
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
@@ -1068,6 +1026,9 @@ class AuthRepo {
       country: '',
       email: email ?? '',
       signUpPwd: signUpPwd,
+      userProfileImage: userProfileImage,
+      userProfileImageBase64String: userProfileImageBase64String ?? '',
+      removeUserProfileImage: removeUserProfileImage ?? false,
       latitude: latitude,
       longitude: longitude,
       appCode: appConfig.appCode,

@@ -1555,6 +1555,9 @@ class SaveEnrollmentRequest {
   String country;
   String email;
   String userId;
+  List<int> userProfileImage;
+  String userProfileImageBase64String;
+  bool removeUserProfileImage;
 
   SaveEnrollmentRequest(
       {this.wsCodeCrypt,
@@ -1580,7 +1583,10 @@ class SaveEnrollmentRequest {
       this.state,
       this.country,
       this.email,
-      this.userId});
+      this.userId,
+      this.userProfileImage,
+      this.userProfileImageBase64String,
+      this.removeUserProfileImage});
 
   SaveEnrollmentRequest.fromJson(Map<String, dynamic> json) {
     wsCodeCrypt = json['wsCodeCrypt'];
@@ -1607,6 +1613,9 @@ class SaveEnrollmentRequest {
     country = json['country'];
     email = json['email'];
     userId = json['userId'];
+    userProfileImage = json['userProfileImage'];
+    userProfileImageBase64String = json['userProfileImageBase64String'];
+    removeUserProfileImage = json['removeUserProfileImage'];
   }
 
   Map<String, dynamic> toJson() {
@@ -1635,6 +1644,9 @@ class SaveEnrollmentRequest {
     data['country'] = this.country;
     data['email'] = this.email;
     data['userId'] = this.userId;
+    data['userProfileImage'] = this.userProfileImage;
+    data['userProfileImageBase64String'] = this.userProfileImageBase64String;
+    data['removeUserProfileImage'] = this.removeUserProfileImage;
     return data;
   }
 }
@@ -2101,6 +2113,9 @@ class RegisterRequest {
   String country;
   String email;
   String signUpPwd;
+  List<int> userProfileImage;
+  String userProfileImageBase64String;
+  bool removeUserProfileImage;
   String latitude;
   String longitude;
   String appCode;
@@ -2148,6 +2163,9 @@ class RegisterRequest {
       this.country,
       this.email,
       this.signUpPwd,
+      this.userProfileImage,
+      this.userProfileImageBase64String,
+      this.removeUserProfileImage,
       this.latitude,
       this.longitude,
       this.appCode,
@@ -2195,6 +2213,9 @@ class RegisterRequest {
     country = json['country'];
     email = json['email'];
     signUpPwd = json['signUpPwd'];
+    userProfileImage = json['userProfileImage'];
+    userProfileImageBase64String = json['userProfileImageBase64String'];
+    removeUserProfileImage = json['removeUserProfileImage'];
     latitude = json['latitude'];
     longitude = json['longitude'];
     appCode = json['appCode'];
@@ -2244,6 +2265,9 @@ class RegisterRequest {
     data['country'] = this.country;
     data['email'] = this.email;
     data['signUpPwd'] = this.signUpPwd;
+    data['userProfileImage'] = this.userProfileImage;
+    data['userProfileImageBase64String'] = this.userProfileImageBase64String;
+    data['removeUserProfileImage'] = this.removeUserProfileImage;
     data['latitude'] = this.latitude;
     data['longitude'] = this.longitude;
     data['appCode'] = this.appCode;

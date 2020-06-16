@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_snackbar.dart';
+import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:path/path.dart' show join;
@@ -21,6 +23,7 @@ class TakeProfilePicture extends StatefulWidget {
 
 class TakeProfilePictureState extends State<TakeProfilePicture> {
   final customSnackbar = CustomSnackbar();
+  final localStorage = LocalStorage();
   CameraController _controller;
   Future<void> _initializeControllerFuture;
   final primaryColor = ColorConstant.primaryColor;
@@ -48,12 +51,16 @@ class TakeProfilePictureState extends State<TakeProfilePicture> {
   } */
 
   void loadCamera(CameraDescription cameraDescription) async {
+    setState(() {
+      this.cameraDescription = cameraDescription;
+    });
+
     if (_controller != null) {
       await _controller.dispose();
     }
     _controller = CameraController(
       cameraDescription,
-      ResolutionPreset.medium,
+      ResolutionPreset.low,
       enableAudio: false,
     );
 
@@ -135,6 +142,13 @@ class TakeProfilePictureState extends State<TakeProfilePicture> {
             );
 
             await _controller.takePicture(path);
+
+            localStorage
+                .saveProfilePic(base64Encode(File(path).readAsBytesSync()));
+
+            String test = await localStorage.getProfilePic();
+
+            print(test);
 
             Navigator.pop(context);
             /* Navigator.push(

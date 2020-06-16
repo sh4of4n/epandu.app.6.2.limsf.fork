@@ -13,6 +13,41 @@ class ProfileRepo {
   final localStorage = LocalStorage();
   final networking = Networking();
 
+  Future<Response> getUserProfile({context}) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+    String userId = await localStorage.getUserId();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appCode=${appConfig.appCode}&appId=${appConfig.appId}&userId=$userId';
+
+    var response = await networking.getData(
+      path: 'GetUserProfile?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      return Response(true, data: response.data);
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message != null && response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message != null &&
+        response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
+    }
+
+    return Response(false,
+        message: AppLocalizations.of(context).translate('get_profile_fail'));
+  }
+
   Future<Response> saveUserProfile({
     context,
     String name,
@@ -27,6 +62,9 @@ class ProfileRepo {
     String dateOfBirthString,
     String race,
     String nickName,
+    List<int> userProfileImage,
+    String userProfileImageBase64String,
+    bool removeUserProfileImage,
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
@@ -52,6 +90,9 @@ class ProfileRepo {
       state: state ?? '',
       country: country ?? '',
       email: email ?? '',
+      userProfileImage: userProfileImage,
+      userProfileImageBase64String: userProfileImageBase64String ?? '',
+      removeUserProfileImage: removeUserProfileImage ?? false,
     );
 
     String body = jsonEncode(params);
