@@ -1,6 +1,7 @@
 // import 'package:epandu/pages/edompet/edompet.dart';
 import 'package:epandu/pages/profile/profile_page.dart';
 import 'package:epandu/pages/settings/settings.dart';
+import 'package:epandu/services/api/model/profile_model.dart';
 import 'package:epandu/services/repository/profile_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
@@ -19,7 +20,9 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab>
-    with SingleTickerProviderStateMixin {
+    with
+        SingleTickerProviderStateMixin,
+        AutomaticKeepAliveClientMixin<ProfileTab> {
   final List<Tab> myTabs = <Tab>[
     Tab(
       icon: new Icon(
@@ -45,13 +48,9 @@ class _ProfileTabState extends State<ProfileTab>
   final profileRepo = ProfileRepo();
   final localStorage = LocalStorage();
   final primaryColor = ColorConstant.primaryColor;
-  // var tagResult;
-  // var quoteResult;
-  // int count = 0;
 
-  var enrollmentResponse;
-  var enrollmentData;
-  // var enrolledClassResponse;
+  final RegExp removeBracket =
+      RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
 
   var paymentResponse;
   var paymentData;
@@ -63,6 +62,11 @@ class _ProfileTabState extends State<ProfileTab>
   String paymentMessage = '';
   String attendanceMessage = '';
 
+  UserProfile userProfile;
+
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
@@ -70,81 +74,41 @@ class _ProfileTabState extends State<ProfileTab>
     _tabController = TabController(vsync: this, length: myTabs.length);
     _tabController.addListener(_getTabSelection);
 
-    // _getEnrollmentData();
-    // _getPaymentData();
-    // _getAttendanceData();
+    _getUserInfo();
   }
 
-  /* _getEnrollmentData() async {
-    if (enrollmentData == null) {
-      enrollmentResponse = await profileRepo.getEnrollByCode(context: context);
+  _getUserInfo() async {
+    String _getName = await localStorage.getName();
+    String _getNickName = await localStorage.getNickName();
+    String _getEmail = await localStorage.getEmail();
+    String _getPhone = await localStorage.getUserPhone();
+    String _getCountry = await localStorage.getCountry();
+    String _getState = await localStorage.getState();
+    String _getStudentIc = await localStorage.getStudentIc();
 
-      if (enrollmentResponse.isSuccess) {
-        if (mounted) {
-          setState(() {
-            enrollmentData = enrollmentResponse;
-            enrollmentMessage = '';
-          });
-        }
-      } else {
-        if (mounted) {
-          setState(() {
-            enrollmentData = null;
-            enrollmentMessage =
-                AppLocalizations.of(context).translate('no_enrollment_desc');
-          });
-        }
-      }
-    }
-    // enrolledClassResponse = await profileRepo.getEnrolledClasses();
-  } */
+    String _getBirthDate = await localStorage.getBirthDate();
+    String _getRace = await localStorage.getRace();
+    String _getNationality = await localStorage.getNationality();
+    String _getProfilePic = await localStorage.getProfilePic();
 
-  /* _getPaymentData() async {
-    if (paymentData == null) {
-      paymentResponse =
-          await profileRepo.getCollectionByStudent(context: context);
-
-      if (paymentResponse.isSuccess) {
-        if (mounted) {
-          setState(() {
-            paymentData = paymentResponse;
-            paymentMessage = '';
-          });
-        }
-      } else {
-        if (mounted) {
-          setState(() {
-            paymentData = null;
-            paymentMessage =
-                AppLocalizations.of(context).translate('no_payment_desc');
-          });
-        }
-      }
-    }
-  } */
-
-  /*  _getAttendanceData() async {
-    if (attendanceData == null) {
-      attendanceResponse = await profileRepo.getDTestByCode(context: context);
-
-      if (attendanceResponse.isSuccess) {
-        if (mounted) {
-          setState(() {
-            attendanceData = attendanceResponse;
-            attendanceMessage = '';
-          });
-        }
-      } else {
-        if (mounted) {
-          setState(() {
-            attendanceData = null;
-            attendanceMessage =
-                AppLocalizations.of(context).translate('no_attendance_desc');
-          });
-        }
-      }
-    }
-  } */
+    setState(() {
+      userProfile = UserProfile(
+        name: _getName,
+        nickName: _getNickName,
+        eMail: _getEmail,
+        phone: _getPhone,
+        countryName: _getCountry,
+        stateName: _getState,
+        icNo: _getStudentIc,
+        birthDate: _getBirthDate,
+        race: _getRace,
+        nationality: _getNationality,
+        picturePath: _getProfilePic != null
+            ? _getProfilePic.replaceAll(removeBracket, '').split('\r\n')[0]
+            : '',
+      );
+    });
+  }
 
   _getTabSelection() {
     setState(() {
@@ -191,14 +155,19 @@ class _ProfileTabState extends State<ProfileTab>
           width: 1.5,
         ),
         shape: StadiumBorder(),
-        onPressed: () => Navigator.pushNamed(context, UPDATE_PROFILE),
-        child: Text('Edit profile'),
+        onPressed: () async {
+          await Navigator.pushNamed(context, UPDATE_PROFILE)
+              .then((value) => _getUserInfo());
+        },
+        child: Text(AppLocalizations.of(context).translate('edit_profile')),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return DefaultTabController(
       length: 4,
       child: Container(
@@ -218,7 +187,7 @@ class _ProfileTabState extends State<ProfileTab>
           ),
           backgroundColor: Colors.transparent,
           body: TabBarView(controller: _tabController, children: [
-            Profile(),
+            Profile(userProfile: userProfile),
             // Edompet(),
             Settings(widget.positionStream),
           ]),

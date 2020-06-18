@@ -2044,6 +2044,7 @@ class EnrollmentData {
   String dateOfBirthString;
   String nationality;
   String race;
+  String profilePic;
 
   EnrollmentData({
     this.phoneCountryCode,
@@ -2056,6 +2057,7 @@ class EnrollmentData {
     this.dateOfBirthString,
     this.nationality,
     this.race,
+    this.profilePic,
   });
 }
 

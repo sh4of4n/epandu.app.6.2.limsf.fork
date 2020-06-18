@@ -61,12 +61,12 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   String _message = '';
   bool _isLoading = false;
   String _potentialDob = '';
-  String profilePic = '';
+  String profilePicBase64 = '';
+  String profilePicUrl = '';
 
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
   File _image;
   File _croppedImage;
-  String _profileUrl;
   var imageState;
 
   TextStyle _messageStyle = TextStyle(color: Colors.red);
@@ -105,7 +105,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
     _getBirthDate = await localStorage.getBirthDate();
     _getUserIc = await localStorage.getStudentIc();
     _getNickName = await localStorage.getNickName();
-    profilePic = await localStorage.getProfilePic();
+    profilePicUrl = await localStorage.getProfilePic();
 
     _nameController.text = _getName;
     _emailController.text = _getEmail;
@@ -180,13 +180,23 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
 
   // Profile picture
   _profileImage() {
-    if (profilePic.isNotEmpty) {
+    if (profilePicUrl.isNotEmpty && profilePicBase64.isEmpty) {
+      return InkWell(
+        onTap: _profilePicOption,
+        child: Image.network(
+          profilePicUrl,
+          width: 600.w,
+          height: 600.w,
+          fit: BoxFit.cover,
+        ),
+      );
+    } else if (profilePicBase64.isNotEmpty && profilePicUrl.isEmpty) {
       return InkWell(
         onTap: _profilePicOption,
         child: Image.memory(
-          base64Decode(profilePic),
-          width: 700.w,
-          height: 700.w,
+          base64Decode(profilePicBase64),
+          width: 600.w,
+          height: 600.w,
           fit: BoxFit.cover,
         ),
       );
@@ -210,14 +220,19 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
           child: Text(AppLocalizations.of(context).translate('take_photo')),
           onPressed: () async {
             Navigator.pop(context);
-            await Navigator.pushNamed(context, TAKE_PROFILE_PICTURE,
+            var newProfilePic = await Navigator.pushNamed(
+                context, TAKE_PROFILE_PICTURE,
                 arguments: cameras);
 
-            String newProfilePic = await localStorage.getProfilePic();
-
-            setState(() {
-              profilePic = newProfilePic;
-            });
+            // String newProfilePic = await localStorage.getProfilePic();
+            if (newProfilePic != null)
+              setState(() {
+                profilePicUrl = '';
+                _image = File(newProfilePic);
+                _editImage();
+                // profilePicBase64 =
+                //     base64Encode(File(newProfilePic).readAsBytesSync());
+              });
           },
         ),
         SimpleDialogOption(
@@ -241,11 +256,11 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         imageState = AppState.picked;
       });
 
-      _editImage("GALLERY");
+      _editImage();
     }
   }
 
-  Future<void> _editImage(fileDirectory) async {
+  Future<void> _editImage() async {
     File croppedFile = await ImageCropper.cropImage(
       sourcePath: _image.path,
       aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
@@ -257,10 +272,11 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
       setState(() {
         _croppedImage = croppedFile;
         imageState = AppState.cropped;
-        profilePic = base64Encode(_croppedImage.readAsBytesSync());
+        profilePicBase64 = base64Encode(_croppedImage.readAsBytesSync());
+        profilePicUrl = '';
 
-        localStorage
-            .saveProfilePic(base64Encode(_croppedImage.readAsBytesSync()));
+        // localStorage
+        //     .saveProfilePic(base64Encode(_croppedImage.readAsBytesSync()));
       });
 
       // if (_croppedImage != null) {
@@ -604,38 +620,38 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         return null;
       },
       onShowPicker: (context, currentValue) async {
-        // if (Platform.isIOS) {
-        if (_dobController.text.isEmpty) {
-          setState(() {
-            _dobController.text = DateFormat('yyyy-MM-dd').format(
-              DateTime(2000, 1, 1),
-            );
-          });
-        }
+        if (Platform.isIOS) {
+          if (_dobController.text.isEmpty) {
+            setState(() {
+              _dobController.text = DateFormat('yyyy-MM-dd').format(
+                DateTime(2000, 1, 1),
+              );
+            });
+          }
 
-        await showModalBottomSheet(
-          context: context,
-          builder: (context) {
-            return CupertinoDatePicker(
-              initialDateTime: DateTime.parse(_dobController.text),
-              onDateTimeChanged: (DateTime date) {
-                setState(() {
-                  _dobController.text = DateFormat('yyyy-MM-dd').format(date);
-                });
-              },
-              minimumYear: 1920,
-              maximumYear: 2020,
-              mode: CupertinoDatePickerMode.date,
-            );
-          },
-        );
-        // } else {
-        //   return showDatePicker(
-        //       context: context,
-        //       firstDate: DateTime(1920),
-        //       initialDate: currentValue ?? DateTime(2000),
-        //       lastDate: DateTime(2020));
-        // }
+          await showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return CupertinoDatePicker(
+                initialDateTime: DateTime.parse(_dobController.text),
+                onDateTimeChanged: (DateTime date) {
+                  setState(() {
+                    _dobController.text = DateFormat('yyyy-MM-dd').format(date);
+                  });
+                },
+                minimumYear: 1920,
+                maximumYear: DateTime.now().year,
+                mode: CupertinoDatePickerMode.date,
+              );
+            },
+          );
+        } else {
+          return showDatePicker(
+              context: context,
+              firstDate: DateTime(1920),
+              initialDate: currentValue ?? DateTime.now(),
+              lastDate: DateTime.now());
+        }
         return null;
       },
     );
@@ -754,7 +770,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         icNo: _ic.isNotEmpty ? _ic : _getUserIc,
         dateOfBirthString: _dob.isNotEmpty ? _dob : _getBirthDate,
         nickName: _nickName.isNotEmpty ? _nickName : _getNickName,
-        userProfileImageBase64String: profilePic,
+        userProfileImageBase64String: profilePicBase64,
         removeUserProfileImage: false,
       );
 
@@ -766,7 +782,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
 
         await authRepo.getUserRegisteredDI(context: context, type: 'UPDATE');
 
-        Navigator.pop(context);
+        Navigator.pop(context, true);
       } else {
         setState(() {
           _message = result.message;

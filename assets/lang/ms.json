@@ -324,5 +324,7 @@
   "take_photo": "Ambil foto",
   "choose_existing_photo": "Pilih foto yang ada",
   "toggle_camera": "Togol kamera",
-  "get_profile_fail": "Gagal memuatkan profil, sila cuba sebentar lagi."
+  "get_profile_fail": "Gagal memuatkan profil, sila cuba sebentar lagi.",
+  "edit_profile": "Sunting profil",
+  "edit": "Tukar"
 }

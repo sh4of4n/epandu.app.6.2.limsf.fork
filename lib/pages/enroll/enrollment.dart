@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/api/model/auth_model.dart';
@@ -14,12 +16,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import '../../app_localizations.dart';
 
 enum Gender { male, female }
+enum AppState { free, picked, cropped }
 
 class Enrollment extends StatefulWidget {
   @override
@@ -84,6 +89,14 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   String phone = '';
   String email = '';
 
+  List<CameraDescription> cameras;
+  final picker = ImagePicker();
+  String profilePicUrl = '';
+  String profilePicBase64 = '';
+  File _image;
+  File _croppedImage;
+  var imageState;
+
   @override
   void initState() {
     super.initState();
@@ -91,6 +104,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     _dobController.addListener(_dobValue);
     _getEnrollHistory();
     _getParticulars();
+    _getAvailableCameras();
   }
 
   Future<dynamic> _getEnrollHistory() async {
@@ -119,6 +133,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     String getIcName = await localStorage.getName();
     String _getIcNo = await localStorage.getStudentIc();
     String _getDob = await localStorage.getBirthDate();
+    String _getProfilePic = await localStorage.getProfilePic();
 
     setState(() {
       countryCode = getCountryCode;
@@ -127,6 +142,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       _icName = getIcName;
       _icNo = _getIcNo;
       _dob = _getDob;
+      profilePicUrl = _getProfilePic;
 
       if (_icNo.isNotEmpty) {
         autoFillDob(_icNo);
@@ -607,6 +623,124 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     }
   }
 
+  // Profile picture
+  _getAvailableCameras() async {
+    cameras = await availableCameras();
+  }
+
+  _profileImage() {
+    if (profilePicUrl.isNotEmpty && profilePicBase64.isEmpty) {
+      return Padding(
+        padding: EdgeInsets.only(bottom: 60.h),
+        child: InkWell(
+          onTap: _profilePicOption,
+          child: Image.network(
+            profilePicUrl,
+            width: 600.w,
+            height: 600.w,
+            fit: BoxFit.cover,
+          ),
+        ),
+      );
+    } else if (profilePicBase64.isNotEmpty && profilePicUrl.isEmpty) {
+      return Padding(
+        padding: EdgeInsets.only(bottom: 60.h),
+        child: InkWell(
+          onTap: _profilePicOption,
+          child: Image.memory(
+            base64Decode(profilePicBase64),
+            width: 600.w,
+            height: 600.w,
+            fit: BoxFit.cover,
+          ),
+        ),
+      );
+    }
+    return IconButton(
+      onPressed: _profilePicOption,
+      icon: Icon(
+        Icons.account_circle,
+        color: Colors.grey[850],
+      ),
+      iconSize: 70,
+    );
+  }
+
+  _profilePicOption() {
+    customDialog.show(
+      context: context,
+      content: '',
+      customActions: <Widget>[
+        SimpleDialogOption(
+          child: Text(AppLocalizations.of(context).translate('take_photo')),
+          onPressed: () async {
+            Navigator.pop(context);
+            var newProfilePic = await Navigator.pushNamed(
+                context, TAKE_PROFILE_PICTURE,
+                arguments: cameras);
+
+            // String newProfilePic = await localStorage.getProfilePic();
+            if (newProfilePic != null)
+              setState(() {
+                profilePicUrl = '';
+                _image = File(newProfilePic);
+                _editImage();
+                // profilePicBase64 =
+                //     base64Encode(File(newProfilePic).readAsBytesSync());
+              });
+          },
+        ),
+        SimpleDialogOption(
+            child: Text(AppLocalizations.of(context)
+                .translate('choose_existing_photo')),
+            onPressed: () {
+              Navigator.pop(context);
+              _getImageGallery();
+            }),
+      ],
+      type: DialogType.SIMPLE_DIALOG,
+    );
+  }
+
+  Future _getImageGallery() async {
+    var pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    if (pickedFile?.path != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+        imageState = AppState.picked;
+      });
+
+      _editImage();
+    }
+  }
+
+  Future<void> _editImage() async {
+    File croppedFile = await ImageCropper.cropImage(
+      sourcePath: _image.path,
+      aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+      maxWidth: 512,
+      maxHeight: 512,
+    );
+
+    if (croppedFile != null) {
+      setState(() {
+        _croppedImage = croppedFile;
+        imageState = AppState.cropped;
+        profilePicBase64 = base64Encode(_croppedImage.readAsBytesSync());
+        profilePicUrl = '';
+
+        // localStorage
+        //     .saveProfilePic(base64Encode(_croppedImage.readAsBytesSync()));
+      });
+
+      // if (_croppedImage != null) {
+      //   _uploadImage(fileDirectory, "CROP");
+      // }
+    }
+  }
+  // End profile picture //
+
   _checkEnrollmentStatus() {
     if (_obtainingStatus) {
       return Column(
@@ -623,7 +757,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       return SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            ClipRect(
+            /* ClipRect(
               child: Align(
                 alignment: Alignment.center,
                 // heightFactor: 0.6,
@@ -635,7 +769,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                   ),
                 ),
               ),
-            ),
+            ), */
             Container(
               margin: const EdgeInsets.symmetric(vertical: 15.0),
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -644,6 +778,9 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    Center(
+                      child: _profileImage(),
+                    ),
                     _idNameField(),
                     SizedBox(
                       height: ScreenUtil().setHeight(60),
@@ -942,6 +1079,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                 dateOfBirthString: _dob,
                 nationality: 'WARGANEGARA',
                 race: _raceParam,
+                profilePic: profilePicBase64,
               ));
 
           /* var result = await authRepo.saveEnrollmentWithParticular(
@@ -1000,6 +1138,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
             dateOfBirthString: _dob,
             nationality: 'WARGANEGARA',
             race: _raceParam,
+            profilePic: profilePicBase64,
           ));
     }
   }

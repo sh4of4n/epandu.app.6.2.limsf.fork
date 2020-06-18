@@ -92,6 +92,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
 
     // _getCurrentLocation();
     _getDeviceInfo();
+    _getAvailableCameras();
   }
 
   /* _getCurrentLocation() async {
@@ -121,25 +122,47 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   }
 
   // Profile picture
+  _getAvailableCameras() async {
+    cameras = await availableCameras();
+  }
+
   _profileImage() {
     if (profilePic.isNotEmpty) {
-      return InkWell(
-        onTap: _profilePicOption,
-        child: Image.memory(
-          base64Decode(profilePic),
-          width: 700.w,
-          height: 700.w,
-          fit: BoxFit.cover,
+      return Padding(
+        padding: EdgeInsets.only(bottom: 70.h),
+        child: InkWell(
+          onTap: _profilePicOption,
+          child: Image.memory(
+            base64Decode(profilePic),
+            width: 600.w,
+            height: 600.w,
+            fit: BoxFit.cover,
+          ),
         ),
       );
     }
-    return IconButton(
-      onPressed: _profilePicOption,
-      icon: Icon(
-        Icons.account_circle,
-        color: Colors.grey[850],
+    return Padding(
+      padding: EdgeInsets.only(bottom: 70.h),
+      child: Column(
+        children: <Widget>[
+          IconButton(
+            onPressed: _profilePicOption,
+            icon: Icon(
+              Icons.account_circle,
+              color: Colors.grey[850],
+            ),
+            iconSize: 80,
+          ),
+          OutlineButton(
+            borderSide: BorderSide(
+              color: Colors.blue,
+              width: 1.5,
+            ),
+            onPressed: _profilePicOption,
+            child: Text(AppLocalizations.of(context).translate('edit')),
+          ),
+        ],
       ),
-      iconSize: 70,
     );
   }
 
@@ -152,14 +175,18 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
           child: Text(AppLocalizations.of(context).translate('take_photo')),
           onPressed: () async {
             Navigator.pop(context);
-            await Navigator.pushNamed(context, TAKE_PROFILE_PICTURE,
+            var newProfilePic = await Navigator.pushNamed(
+                context, TAKE_PROFILE_PICTURE,
                 arguments: cameras);
 
-            String newProfilePic = await localStorage.getProfilePic();
-
-            setState(() {
-              profilePic = newProfilePic;
-            });
+            if (newProfilePic != null)
+              setState(() {
+                profilePic = '';
+                _image = File(newProfilePic);
+                _editImage();
+                // profilePicBase64 =
+                //     base64Encode(File(newProfilePic).readAsBytesSync());
+              });
           },
         ),
         SimpleDialogOption(
@@ -183,11 +210,11 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
         imageState = AppState.picked;
       });
 
-      _editImage("GALLERY");
+      _editImage();
     }
   }
 
-  Future<void> _editImage(fileDirectory) async {
+  Future<void> _editImage() async {
     File croppedFile = await ImageCropper.cropImage(
       sourcePath: _image.path,
       aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
@@ -201,8 +228,8 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
         imageState = AppState.cropped;
         profilePic = base64Encode(_croppedImage.readAsBytesSync());
 
-        localStorage
-            .saveProfilePic(base64Encode(_croppedImage.readAsBytesSync()));
+        // localStorage
+        //     .saveProfilePic(base64Encode(_croppedImage.readAsBytesSync()));
       });
 
       // if (_croppedImage != null) {
@@ -264,7 +291,9 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                         SizedBox(
                           height: ScreenUtil().setHeight(35),
                         ),
-                        _profileImage(),
+                        Center(
+                          child: _profileImage(),
+                        ),
                         TextFormField(
                           focusNode: _phoneFocus,
                           keyboardType: TextInputType.phone,
@@ -511,7 +540,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                               alignment: Alignment.center,
                               child: _isLoading
                                   ? SpinKitFoldingCube(
-                                      color: primaryColor,
+                                      color: Colors.blue,
                                     )
                                   : ButtonTheme(
                                       padding: EdgeInsets.all(0.0),
@@ -604,7 +633,9 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                         SizedBox(
                           height: ScreenUtil().setHeight(35),
                         ),
-                        _profileImage(),
+                        Center(
+                          child: _profileImage(),
+                        ),
                         TextFormField(
                           style: inputStyle,
                           focusNode: _phoneFocus,
@@ -839,7 +870,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                               alignment: Alignment.center,
                               child: _isLoading
                                   ? SpinKitFoldingCube(
-                                      color: primaryColor,
+                                      color: Colors.blue,
                                     )
                                   : ButtonTheme(
                                       shape: StadiumBorder(),
@@ -902,7 +933,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
           nickName: _nickName,
           signUpPwd: _password,
           email: _email,
-          userProfileImageBase64String: '',
+          userProfileImageBase64String: profilePic,
           latitude: _latitude,
           longitude: _longitude,
           deviceId: _deviceId,

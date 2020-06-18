@@ -107,6 +107,7 @@ class _SelectInstituteState extends State<SelectInstitute> {
                           dateOfBirthString: widget.data.dateOfBirthString,
                           nationality: widget.data.nationality,
                           race: widget.data.race,
+                          profilePic: widget.data.profilePic,
                           diCode: snapshot.data[index].diCode,
                         ),
                       ),

@@ -324,5 +324,7 @@
   "take_photo": "Take photo",
   "choose_existing_photo": "Choose existing photo",
   "toggle_camera": "Toggle camera",
-  "get_profile_fail": "Gagal memuatkan profil, sila cuba sebentar lagi."
+  "get_profile_fail": "Gagal memuatkan profil, sila cuba sebentar lagi.",
+  "edit_profile": "Edit profile",
+  "edit": "Edit"
 }

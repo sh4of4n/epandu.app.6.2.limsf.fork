@@ -370,6 +370,7 @@ class _SelectClassState extends State<SelectClass> {
       dateOfBirthString: widget.data.dateOfBirthString,
       nationality: widget.data.nationality,
       race: widget.data.race,
+      userProfileImageBase64String: widget.data.profilePic,
     );
 
     if (result.isSuccess) {
@@ -388,8 +389,11 @@ class _SelectClassState extends State<SelectClass> {
         customActions: <Widget>[
           FlatButton(
             child: Text(AppLocalizations.of(context).translate('ok_btn')),
-            onPressed: () =>
-                Navigator.pushNamedAndRemoveUntil(context, HOME, (r) => false),
+            onPressed: () async {
+              await authRepo.getUserRegisteredDI(
+                  context: context, type: 'UPDATE');
+              Navigator.pushNamedAndRemoveUntil(context, HOME, (r) => false);
+            },
           ),
         ],
       );

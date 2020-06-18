@@ -143,14 +143,14 @@ class TakeProfilePictureState extends State<TakeProfilePicture> {
 
             await _controller.takePicture(path);
 
-            localStorage
-                .saveProfilePic(base64Encode(File(path).readAsBytesSync()));
+            // localStorage
+            //     .saveProfilePic(base64Encode(File(path).readAsBytesSync()));
 
-            String test = await localStorage.getProfilePic();
+            // String test = await localStorage.getProfilePic();
 
-            print(test);
+            // print(test);
 
-            Navigator.pop(context);
+            Navigator.pop(context, path);
             /* Navigator.push(
               context,
               MaterialPageRoute(

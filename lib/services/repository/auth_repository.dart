@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:epandu/services/api/model/kpp_model.dart';
 import 'package:epandu/services/api/networking.dart';
+import 'package:epandu/services/repository/profile_repository.dart';
 import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
@@ -18,6 +19,7 @@ class AuthRepo {
   final localStorage = LocalStorage();
   final xml2json = Xml2Json();
   final networking = Networking();
+  final profileRepo = ProfileRepo();
 
   final RegExp removeBracket =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
@@ -251,22 +253,25 @@ class AuthRepo {
           UserRegisteredDiResponse.fromJson(response.data);
       var responseData = userRegisteredDiResponse.armaster;
 
-      localStorage.saveName(responseData[0].name);
-      localStorage.saveNickName(responseData[0].nickName);
-      localStorage.saveCountryCode(responseData[0].phoneCountryCode);
-      localStorage.saveUserPhone(responseData[0].phone);
-      localStorage.saveEmail(responseData[0].eMail);
-      localStorage.saveNationality(responseData[0].nationality);
-      localStorage.saveGender(responseData[0].gender);
-      localStorage.saveStudentIc(responseData[0].icNo);
+      var profileResult = await profileRepo.getUserProfile(context: context);
 
-      // Temporary workaround
-      if (responseData[0].add is String)
-        localStorage.saveAddress(responseData[0].add);
-
-      localStorage.saveCountry(responseData[0].country);
-      localStorage.saveState(responseData[0].state);
-      localStorage.savePostCode(responseData[0].postcode);
+      if (profileResult.isSuccess) {
+        localStorage.saveName(profileResult.data[0].name);
+        localStorage.saveNickName(profileResult.data[0].nickName);
+        localStorage.saveEmail(profileResult.data[0].eMail);
+        localStorage.saveUserPhone(profileResult.data[0].phone);
+        localStorage.saveCountry(profileResult.data[0].countryName);
+        localStorage.saveState(profileResult.data[0].stateName);
+        localStorage.saveStudentIc(profileResult.data[0].icNo);
+        localStorage.saveBirthDate(profileResult.data[0].birthDate);
+        localStorage.saveRace(profileResult.data[0].race);
+        localStorage.saveNationality(profileResult.data[0].nationality);
+        localStorage.saveGender(profileResult.data[0].gender);
+        if (profileResult.data[0].picturePath != null)
+          localStorage.saveProfilePic(profileResult.data[0].picturePath
+              .replaceAll(removeBracket, '')
+              .split('\r\n')[0]);
+      }
 
       // save empty on DiCode for user to choose
       if (type == 'LOGIN') localStorage.saveDiCode('');

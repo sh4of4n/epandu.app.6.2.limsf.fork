@@ -26,7 +26,11 @@ class ProfileRepo {
     );
 
     if (response.isSuccess && response.data != null) {
-      return Response(true, data: response.data);
+      GetUserProfileResponse getUserProfileResponse =
+          GetUserProfileResponse.fromJson(response.data);
+      var responseData = getUserProfileResponse.userProfile;
+
+      return Response(true, data: responseData);
     } else if (response.message != null &&
         response.message.contains('timeout')) {
       return Response(false,
