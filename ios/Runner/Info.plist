@@ -33,8 +33,12 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo library access is required for selecting profile picture.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera permission is required for barcode scanning.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone usage is required for video recording.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app needs access to location when open and in the background for SOS features.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
