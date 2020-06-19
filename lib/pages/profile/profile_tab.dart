@@ -63,6 +63,7 @@ class _ProfileTabState extends State<ProfileTab>
   String attendanceMessage = '';
 
   UserProfile userProfile;
+  bool isLoading = false;
 
   @override
   bool get wantKeepAlive => true;
@@ -74,7 +75,61 @@ class _ProfileTabState extends State<ProfileTab>
     _tabController = TabController(vsync: this, length: myTabs.length);
     _tabController.addListener(_getTabSelection);
 
-    _getUserInfo();
+    _getUserProfile();
+    // _getUserInfo();
+  }
+
+  _getUserProfile() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    var result = await profileRepo.getUserProfile(context: context);
+
+    if (result.isSuccess) {
+      setState(() {
+        userProfile = UserProfile(
+          name: result.data[0].name,
+          nickName: result.data[0].nickName,
+          eMail: result.data[0].eMail,
+          phone: result.data[0].phone,
+          countryName: result.data[0].countryName,
+          stateName: result.data[0].stateName,
+          icNo: result.data[0].icNo,
+          birthDate: result.data[0].birthDate,
+          race: result.data[0].race,
+          nationality: result.data[0].nationality,
+          picturePath: result.data[0].picturePath != null &&
+                  result.data[0].picturePath.isNotEmpty
+              ? result.data[0].picturePath
+                  .replaceAll(removeBracket, '')
+                  .split('\r\n')[0]
+              : '',
+        );
+      });
+
+      localStorage.saveName(result.data[0].name);
+      localStorage.saveNickName(result.data[0].nickName);
+      localStorage.saveEmail(result.data[0].eMail);
+      localStorage.saveUserPhone(result.data[0].phone);
+      localStorage.saveCountry(result.data[0].countryName);
+      localStorage.saveState(result.data[0].stateName);
+      localStorage.saveStudentIc(result.data[0].icNo);
+      localStorage.saveBirthDate(result.data[0].birthDate);
+      localStorage.saveRace(result.data[0].race);
+      localStorage.saveNationality(result.data[0].nationality);
+      localStorage.saveGender(result.data[0].gender);
+      if (result.data[0].picturePath != null)
+        localStorage.saveProfilePic(result.data[0].picturePath
+            .replaceAll(removeBracket, '')
+            .split('\r\n')[0]);
+    } else {
+      _getUserInfo();
+    }
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   _getUserInfo() async {
@@ -103,7 +158,7 @@ class _ProfileTabState extends State<ProfileTab>
         birthDate: _getBirthDate,
         race: _getRace,
         nationality: _getNationality,
-        picturePath: _getProfilePic != null
+        picturePath: _getProfilePic != null && _getProfilePic.isNotEmpty
             ? _getProfilePic.replaceAll(removeBracket, '').split('\r\n')[0]
             : '',
       );
@@ -187,7 +242,10 @@ class _ProfileTabState extends State<ProfileTab>
           ),
           backgroundColor: Colors.transparent,
           body: TabBarView(controller: _tabController, children: [
-            Profile(userProfile: userProfile),
+            Profile(
+              userProfile: userProfile,
+              isLoading: isLoading,
+            ),
             // Edompet(),
             Settings(widget.positionStream),
           ]),

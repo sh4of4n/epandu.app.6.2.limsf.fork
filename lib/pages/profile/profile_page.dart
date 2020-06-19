@@ -2,13 +2,15 @@ import 'package:epandu/app_localizations.dart';
 import 'package:epandu/services/repository/profile_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/widgets/loading_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Profile extends StatefulWidget {
   final userProfile;
+  final isLoading;
 
-  Profile({this.userProfile});
+  Profile({this.userProfile, this.isLoading});
 
   @override
   _ProfileState createState() => _ProfileState();
@@ -60,15 +62,16 @@ class _ProfileState extends State<Profile>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return Container(
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            /* Container(
+    return Stack(
+      children: <Widget>[
+        SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              /* Container(
                     height: ScreenUtil().setHeight(300),
                     width: ScreenUtil.screenWidth,
                     color: Colors.blue), */
-            /*Container(
+              /*Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.symmetric(
                   vertical: ScreenUtil().setHeight(140.0),
@@ -85,28 +88,34 @@ class _ProfileState extends State<Profile>
                 ],
               ),
             ),*/
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                child: Container(
-                  width: ScreenUtil.screenWidth,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(height: ScreenUtil().setHeight(40)),
-                      _profileImage(),
-                      _userInfo(),
-                    ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  child: Container(
+                    width: ScreenUtil.screenWidth,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(height: ScreenUtil().setHeight(40)),
+                        _profileImage(),
+                        _userInfo(),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
+        LoadingModal(
+          isVisible: widget.isLoading,
+          // opacity: 0.8,
+          color: primaryColor,
+        ),
+      ],
     );
   }
 
@@ -163,7 +172,8 @@ class _ProfileState extends State<Profile>
               ListTile(
                 leading: Icon(Icons.date_range),
                 title: Text(AppLocalizations.of(context).translate('dob_lbl')),
-                subtitle: Text('${widget.userProfile?.birthDate}',
+                subtitle: Text(
+                    '${widget.userProfile.birthDate.isNotEmpty ? widget.userProfile.birthDate.substring(0, 10) : ''}',
                     style: _subtitleStyle),
               ),
             /* if (_nationality != null)
