@@ -354,7 +354,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
                       ),
                       SizedBox(height: 50.h), */
                       TextFormField(
-                        // autofocus: true,
+                        autofocus: true,
                         keyboardType:
                             TextInputType.numberWithOptions(decimal: true),
                         decoration: InputDecoration(
@@ -364,10 +364,10 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
                           ),
                           labelText: AppLocalizations.of(context)
                               .translate('body_temp'),
-                          // labelStyle: TextStyle(
-                          //   color: Colors.grey[850],
-                          //   fontWeight: FontWeight.bold,
-                          // ),
+                          labelStyle: TextStyle(
+                            color: Colors.grey[850],
+                            fontWeight: FontWeight.bold,
+                          ),
                           prefixIcon: Icon(Icons.people),
                         ),
                         validator: (value) {

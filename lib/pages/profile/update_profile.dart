@@ -198,6 +198,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
           width: 600.w,
           height: 600.w,
           fit: BoxFit.cover,
+          gaplessPlayback: true,
         ),
       );
     }
