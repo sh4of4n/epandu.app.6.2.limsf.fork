@@ -4,6 +4,7 @@ import 'package:epandu/pages/settings/settings.dart';
 import 'package:epandu/services/api/model/profile_model.dart';
 import 'package:epandu/services/repository/profile_repository.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,7 @@ class _ProfileTabState extends State<ProfileTab>
   final profileRepo = ProfileRepo();
   final localStorage = LocalStorage();
   final primaryColor = ColorConstant.primaryColor;
+  final customDialog = CustomDialog();
 
   final RegExp removeBracket =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
@@ -125,6 +127,11 @@ class _ProfileTabState extends State<ProfileTab>
             .split('\r\n')[0]);
     } else {
       _getUserInfo();
+      /* customDialog.show(
+        context: context,
+        content: result.message,
+        type: DialogType.WARNING,
+      ); */
     }
 
     setState(() {

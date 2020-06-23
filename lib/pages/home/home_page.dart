@@ -65,7 +65,7 @@ class _HomeState extends State<Home> {
     super.dispose();
   }
 
-  _getDiProfile() async {
+  Future<void> _getDiProfile() async {
     // String instituteLogoPath = await localStorage.getInstituteLogo();
 
     var result = await authRepo.getDiProfile(context: context);
@@ -102,7 +102,7 @@ class _HomeState extends State<Home> {
     } */
   }
 
-  _getActiveFeed() async {
+  Future<void> _getActiveFeed() async {
     var result = await authRepo.getActiveFeed(
       context: context,
       feedType: 'MAIN',
@@ -193,24 +193,27 @@ class _HomeState extends State<Home> {
         bottomNavigationBar:
             BottomMenu(iconText: _iconText, positionStream: positionStream),
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Container(
-              // margin:
-              //     EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(40)),
-              // height: ScreenUtil.screenHeightDp - ScreenUtil().setHeight(100),
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: ScreenUtil().setWidth(60)),
-                    child: HomePageHeader(
-                        instituteLogo: instituteLogo,
-                        positionStream: positionStream),
-                  ),
-                  HomeTopMenu(iconText: _iconText),
-                  LimitedBox(maxHeight: ScreenUtil().setHeight(30)),
-                  Feeds(feed: feed),
-                ],
+          child: RefreshIndicator(
+            onRefresh: _getActiveFeed,
+            child: SingleChildScrollView(
+              child: Container(
+                // margin:
+                //     EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(40)),
+                // height: ScreenUtil.screenHeightDp - ScreenUtil().setHeight(100),
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: ScreenUtil().setWidth(60)),
+                      child: HomePageHeader(
+                          instituteLogo: instituteLogo,
+                          positionStream: positionStream),
+                    ),
+                    HomeTopMenu(iconText: _iconText),
+                    LimitedBox(maxHeight: ScreenUtil().setHeight(30)),
+                    Feeds(feed: feed),
+                  ],
+                ),
               ),
             ),
           ),
