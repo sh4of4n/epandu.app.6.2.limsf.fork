@@ -1,4 +1,5 @@
 import 'package:epandu/app_localizations.dart';
+import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repository/emergency_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
@@ -19,6 +20,7 @@ class _DirectoryListState extends State<DirectoryList> {
   final emergencyRepo = EmergencyRepo();
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
+  final location = Location();
   Future _getDirectoryContacts;
 
   var maxRadius = '30';
@@ -31,6 +33,11 @@ class _DirectoryListState extends State<DirectoryList> {
   }
 
   _getContacts() async {
+    await location.getCurrentLocation();
+
+    localStorage.saveUserLatitude(location.latitude.toString());
+    localStorage.saveUserLongitude(location.longitude.toString());
+
     if (widget.data == 'INSURANCE')
       setState(() {
         maxRadius = '0';

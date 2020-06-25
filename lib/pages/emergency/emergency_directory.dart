@@ -109,15 +109,18 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
 
   // Check if stored latitude and longitude is null
   _checkSavedCoord() async {
-    double _savedLatitude =
+    localStorage.saveUserLatitude(location.latitude.toString());
+    localStorage.saveUserLongitude(location.longitude.toString());
+
+    /* double _savedLatitude =
         double.tryParse(await localStorage.getUserLatitude());
     double _savedLongitude =
         double.tryParse(await localStorage.getUserLongitude());
-
-    if (_savedLatitude == null || _savedLongitude == null) {
+ */
+    /* if (_savedLatitude == null || _savedLongitude == null) {
       localStorage.saveUserLatitude(location.latitude.toString());
       localStorage.saveUserLongitude(location.longitude.toString());
-    }
+    } */
   }
 
   Future<void> _getSosContact(type) async {

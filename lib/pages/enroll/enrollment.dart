@@ -7,6 +7,7 @@ import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/api/model/auth_model.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/services/repository/epandu_repository.dart';
+import 'package:epandu/services/repository/profile_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/custom_snackbar.dart';
@@ -34,11 +35,15 @@ class Enrollment extends StatefulWidget {
 class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   final authRepo = AuthRepo();
   final epanduRepo = EpanduRepo();
+  final profileRepo = ProfileRepo();
   final customDialog = CustomDialog();
   final customSnackbar = CustomSnackbar();
   final format = DateFormat("yyyy-MM-dd");
 
   final _formKey = GlobalKey<FormState>();
+
+  final RegExp removeBracket =
+      RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
 
   final FocusNode _idFocus = FocusNode();
   final FocusNode _idNameFocus = FocusNode();
@@ -85,7 +90,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     fontSize: 62.sp,
   );
 
-  String countryCode = '';
+  // String countryCode = '';
   String phone = '';
   String email = '';
 
@@ -127,24 +132,30 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   }
 
   _getParticulars() async {
-    String getCountryCode = await localStorage.getCountryCode();
-    String getPhone = await localStorage.getUserPhone();
-    String getEmail = await localStorage.getEmail();
-    String getIcName = await localStorage.getName();
-    String _getIcNo = await localStorage.getStudentIc();
-    String _getDob = await localStorage.getBirthDate();
-    String _getProfilePic = await localStorage.getProfilePic();
+    var result = await profileRepo.getUserProfile(context: context);
+
+    // String getCountryCode = await localStorage.getCountryCode();
+    // String getPhone = await localStorage.getUserPhone();
+    // String getEmail = await localStorage.getEmail();
+    // String getIcName = await localStorage.getName();
+    // String _getIcNo = await localStorage.getStudentIc();
+    // String _getDob = await localStorage.getBirthDate();
+    // String _getProfilePic = await localStorage.getProfilePic();
 
     setState(() {
-      countryCode = getCountryCode;
-      phone = getPhone;
-      email = getEmail;
-      _icName = getIcName;
-      _icNo = _getIcNo;
-      _dob = _getDob;
-      profilePicUrl = _getProfilePic;
+      phone = result.data[0].phone;
+      email = result.data[0].eMail;
+      _icName = result.data[0].name;
+      _icNo = result.data[0].icNo;
+      _dob = result.data[0].birthDate;
+      profilePicUrl = result.data[0].picturePath != null &&
+              result.data[0].picturePath.isNotEmpty
+          ? result.data[0].picturePath
+              .replaceAll(removeBracket, '')
+              .split('\r\n')[0]
+          : '';
 
-      if (_icNo.isNotEmpty) {
+      if (_icNo != null && _icNo.isNotEmpty) {
         autoFillDob(_icNo);
       }
     });
@@ -159,7 +170,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   _phoneField() {
     return TextFormField(
       enabled: false,
-      initialValue: countryCode + phone,
+      initialValue: phone,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 16.0),
         hintStyle: TextStyle(
@@ -369,38 +380,38 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         return null;
       },
       onShowPicker: (context, currentValue) async {
-        // if (Platform.isIOS) {
-        if (_dobController.text.isEmpty) {
-          setState(() {
-            _dobController.text = DateFormat('yyyy-MM-dd').format(
-              DateTime(2000, 1, 1),
-            );
-          });
-        }
+        if (Platform.isIOS) {
+          if (_dobController.text.isEmpty) {
+            setState(() {
+              _dobController.text = DateFormat('yyyy-MM-dd').format(
+                DateTime(2000, 1, 1),
+              );
+            });
+          }
 
-        await showModalBottomSheet(
-          context: context,
-          builder: (context) {
-            return CupertinoDatePicker(
-              initialDateTime: DateTime.parse(_dobController.text),
-              onDateTimeChanged: (DateTime date) {
-                setState(() {
-                  _dobController.text = DateFormat('yyyy-MM-dd').format(date);
-                });
-              },
-              minimumYear: 1920,
-              maximumYear: 2020,
-              mode: CupertinoDatePickerMode.date,
-            );
-          },
-        );
-        /* } else {
+          await showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return CupertinoDatePicker(
+                initialDateTime: DateTime.parse(_dobController.text),
+                onDateTimeChanged: (DateTime date) {
+                  setState(() {
+                    _dobController.text = DateFormat('yyyy-MM-dd').format(date);
+                  });
+                },
+                minimumYear: 1920,
+                maximumYear: DateTime.now().year,
+                mode: CupertinoDatePickerMode.date,
+              );
+            },
+          );
+        } else {
           return showDatePicker(
               context: context,
               firstDate: DateTime(1920),
               initialDate: currentValue ?? DateTime(2000),
               lastDate: DateTime(2020));
-        } */
+        }
         return null;
       },
     );

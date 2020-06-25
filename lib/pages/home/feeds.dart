@@ -1,3 +1,5 @@
+import 'package:epandu/services/repository/profile_repository.dart';
+import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,6 +25,10 @@ class Feeds extends StatelessWidget {
 
   final RegExp removeBracket =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
+
+  final localStorage = LocalStorage();
+
+  final profileRepo = ProfileRepo();
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +69,7 @@ class Feeds extends StatelessWidget {
                   ),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(12),
-                    onTap: () {
+                    onTap: () async {
                       var feedValue = feed[index].feedNavigate;
 
                       if (feedValue != null) {
@@ -83,7 +89,36 @@ class Feeds extends StatelessWidget {
                               break;
                           }
                         } else {
-                          launch(feedValue);
+                          var result = await profileRepo.getUserProfile(
+                              context: context);
+
+                          String merchantNo = 'P1001';
+                          String phone = result.data[0].phone;
+                          String email = result.data[0].eMail;
+                          String icName = result.data[0].name;
+                          String icNo = result.data[0].icNo;
+                          String dob = result.data[0].birthDate;
+                          String userId = await localStorage.getUserId();
+                          String profilePic =
+                              result.data[0].picturePath != null &&
+                                      result.data[0].picturePath.isNotEmpty
+                                  ? result.data[0].picturePath
+                                      .replaceAll(removeBracket, '')
+                                      .split('\r\n')[0]
+                                  : '';
+
+                          String url = feedValue +
+                              '/#/?' +
+                              'merchantNo=$merchantNo' +
+                              '&icName=$icName' +
+                              '&icNo=$icNo' +
+                              '&phone=$phone' +
+                              '&email=$email' +
+                              '&dob=${dob.substring(0, 10)}' +
+                              '&userId=$userId';
+
+                          launch(url,
+                              forceWebView: true, enableJavaScript: true);
                         }
                       } else {
                         Navigator.pushNamed(context, PROMOTIONS);
@@ -191,7 +226,7 @@ class Feeds extends StatelessWidget {
                   ),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(12),
-                    onTap: () {
+                    onTap: () async {
                       var feedValue = feed[index].feedNavigate;
 
                       if (feedValue != null) {
@@ -211,7 +246,36 @@ class Feeds extends StatelessWidget {
                               break;
                           }
                         } else {
-                          launch(feedValue);
+                          var result = await profileRepo.getUserProfile(
+                              context: context);
+
+                          String merchantNo = 'P1001';
+                          String phone = result.data[0].phone;
+                          String email = result.data[0].eMail;
+                          String icName = result.data[0].name;
+                          String icNo = result.data[0].icNo;
+                          String dob = result.data[0].birthDate;
+                          String userId = await localStorage.getUserId();
+                          String profilePic =
+                              result.data[0].picturePath != null &&
+                                      result.data[0].picturePath.isNotEmpty
+                                  ? result.data[0].picturePath
+                                      .replaceAll(removeBracket, '')
+                                      .split('\r\n')[0]
+                                  : '';
+
+                          String url = feedValue +
+                              '/#/?' +
+                              'merchantNo=$merchantNo' +
+                              '&icName=$icName' +
+                              '&icNo=$icNo' +
+                              '&phone=$phone' +
+                              '&email=$email' +
+                              '&dob=${dob.substring(0, 10)}' +
+                              '&userId=$userId';
+
+                          launch(url,
+                              forceWebView: true, enableJavaScript: true);
                         }
                       } else {
                         Navigator.pushNamed(context, PROMOTIONS);

@@ -137,6 +137,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
             width: 600.w,
             height: 600.w,
             fit: BoxFit.cover,
+            gaplessPlayback: true,
           ),
         ),
       );
