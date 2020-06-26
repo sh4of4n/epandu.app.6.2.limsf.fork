@@ -267,7 +267,7 @@ class Feeds extends StatelessWidget {
                           String url = feedValue +
                               '/#/?' +
                               'merchantNo=$merchantNo' +
-                              '&icName=$icName' +
+                              '&icName=${Uri.encodeComponent(icName)}' +
                               '&icNo=$icNo' +
                               '&phone=$phone' +
                               '&email=$email' +
