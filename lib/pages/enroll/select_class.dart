@@ -338,8 +338,8 @@ class _SelectClassState extends State<SelectClass> {
                 opacity: 0.7,
                 child: Container(
                   color: Colors.grey[900],
-                  width: ScreenUtil.screenWidthDp,
-                  height: ScreenUtil.screenHeightDp,
+                  width: ScreenUtil.screenWidth,
+                  height: ScreenUtil.screenHeight,
                   child: Center(
                     child: SpinKitFoldingCube(
                       color: primaryColor,

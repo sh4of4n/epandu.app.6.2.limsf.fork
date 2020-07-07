@@ -73,7 +73,7 @@ class _PickupHistoryState extends State<PickupHistory> {
         ),
         backgroundColor: Colors.transparent,
         body: Container(
-          height: ScreenUtil.screenHeightDp,
+          height: ScreenUtil.screenHeight,
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[

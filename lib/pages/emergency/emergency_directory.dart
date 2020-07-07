@@ -290,7 +290,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         ),
         body: Container(
           // margin: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(50)),
-          height: ScreenUtil.screenHeightDp,
+          height: ScreenUtil.screenHeight,
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[

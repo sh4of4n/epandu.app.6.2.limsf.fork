@@ -29,8 +29,8 @@ class Pay extends StatelessWidget {
           backgroundColor: Colors.transparent,
         ),
         body: Container(
-          width: ScreenUtil.screenWidthDp,
-          height: ScreenUtil.screenHeightDp,
+          width: ScreenUtil.screenWidth,
+          height: ScreenUtil.screenHeight,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

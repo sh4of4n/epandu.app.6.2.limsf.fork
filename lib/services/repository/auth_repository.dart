@@ -99,7 +99,7 @@ class AuthRepo {
         wsUrl1: wsUrl1,
         wsUrl2: wsUrl2,
         wsUrl3: wsUrl3,
-        type: 'timeout',
+        message: AppLocalizations.of(context).translate('timeout_exception'),
       );
       // return Response(false,
       //     message: AppLocalizations.of(context).translate('timeout_exception'));
@@ -113,7 +113,7 @@ class AuthRepo {
         wsUrl1: wsUrl1,
         wsUrl2: wsUrl2,
         wsUrl3: wsUrl3,
-        type: 'socket',
+        message: AppLocalizations.of(context).translate('socket_exception'),
       );
     } else if (response.message != null && response.message.contains('http')) {
       return Response(false,
@@ -128,15 +128,16 @@ class AuthRepo {
         message: AppLocalizations.of(context).translate('no_url_found'));
   }
 
-  wsUrlCallback(
-      {context,
-      acctUid,
-      acctPwd,
-      altWsUrl,
-      wsUrl1,
-      wsUrl2,
-      wsUrl3,
-      type}) async {
+  wsUrlCallback({
+    context,
+    acctUid,
+    acctPwd,
+    altWsUrl,
+    wsUrl1,
+    wsUrl2,
+    wsUrl3,
+    message,
+  }) async {
     // Changes the web service URL based on exception and current altWsUrl.
     if (altWsUrl == null)
       altWsUrl = wsUrl1;
@@ -144,25 +145,21 @@ class AuthRepo {
       altWsUrl = wsUrl2;
     else if (altWsUrl == wsUrl2)
       altWsUrl = wsUrl3;
-    else {
-      if (type == 'timeout')
-        return Response(false,
-            message:
-                AppLocalizations.of(context).translate('timeout_exception'));
-      else if (type == 'socket')
-        return Response(false,
-            message:
-                AppLocalizations.of(context).translate('socket_exception'));
-    }
+    else
+      return Response(false, message: message);
 
     // Call this function again with the altWsUrl.
-    getWsUrl(
+    var callbackResult = await getWsUrl(
       context: context,
       acctUid: acctUid,
       acctPwd: acctPwd,
       loginType: appConfig.wsCodeCrypt,
       altWsUrl: altWsUrl,
     );
+
+    if (callbackResult.isSuccess) {
+      return Response(true, data: callbackResult.data, message: '');
+    }
   }
 
   Future<Response> login({

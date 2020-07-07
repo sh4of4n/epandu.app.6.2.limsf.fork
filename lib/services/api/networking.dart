@@ -1,19 +1,15 @@
 import 'dart:async';
-
+import 'package:epandu/services/repository/base_repository.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/custom_snackbar.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
 import 'dart:convert';
-import 'package:path/path.dart';
-import 'package:async/async.dart';
 import 'dart:io';
 import 'package:xml2json/xml2json.dart';
-
 import '../response.dart';
 
-class Networking {
+class Networking extends BaseRepo {
   final xml2json = Xml2Json();
   final appConfig = AppConfig();
   final customSnackbar = CustomSnackbar();
@@ -148,7 +144,7 @@ class Networking {
     }
   }
 
-  Future multiPartRequest(File imageFile) async {
+  /* Future multiPartRequest(File imageFile) async {
     var stream =
         new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
@@ -171,5 +167,5 @@ class Networking {
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     }
-  }
+  } */
 }

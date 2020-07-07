@@ -63,7 +63,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                 opacity: 0.9,
                 child: FadeInImage(
                   height: 1100.h,
-                  width: ScreenUtil.screenWidthDp,
+                  width: ScreenUtil.screenWidth,
                   fit: BoxFit.cover,
                   alignment: Alignment.center,
                   placeholder: MemoryImage(kTransparentImage),
@@ -256,7 +256,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                 opacity: 0.9,
                 child: FadeInImage(
                   height: 1100.h,
-                  width: ScreenUtil.screenWidthDp,
+                  width: ScreenUtil.screenWidth,
                   fit: BoxFit.cover,
                   alignment: Alignment.center,
                   placeholder: MemoryImage(kTransparentImage),

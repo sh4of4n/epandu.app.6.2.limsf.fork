@@ -72,7 +72,7 @@ class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
 
     return SingleChildScrollView(
       child: Container(
-        width: ScreenUtil.screenWidthDp,
+        width: ScreenUtil.screenWidth,
         padding: EdgeInsets.symmetric(horizontal: 80.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

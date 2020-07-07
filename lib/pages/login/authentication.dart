@@ -84,7 +84,6 @@ class _AuthenticationState extends State<Authentication> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(
-      context,
       width: 1440,
       height: 2960,
       allowFontScaling: true,

@@ -917,7 +917,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
             ),
           ),
           Container(
-            width: ScreenUtil.screenWidthDp,
+            width: ScreenUtil.screenWidth,
             padding: EdgeInsets.symmetric(horizontal: 80.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
