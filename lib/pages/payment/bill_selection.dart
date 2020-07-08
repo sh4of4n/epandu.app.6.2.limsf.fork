@@ -1,12 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/services/repository/bill_repository.dart';
 import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hive/hive.dart';
+
+import '../../router.gr.dart';
 
 class BillSelection extends StatelessWidget {
   final primaryColor = ColorConstant.primaryColor;
@@ -56,8 +58,10 @@ class BillSelection extends StatelessWidget {
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
-                      onTap: () => Navigator.pushNamed(context, BILL_DETAIL,
-                          arguments: snapshot.data[index]),
+                      onTap: () => ExtendedNavigator.of(context).pushNamed(
+                          Routes.billDetail,
+                          arguments:
+                              BillDetailArguments(data: snapshot.data[index])),
                       child: GridTile(
                         child:
                             Image.network(snapshot.data[index].telcoImageUri),

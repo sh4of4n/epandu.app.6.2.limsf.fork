@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -83,7 +84,7 @@ class KppResult extends StatelessWidget {
                 shape: StadiumBorder(),
                 child: RaisedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    ExtendedNavigator.of(context).pop();
                   },
                   textColor: Colors.white,
                   padding: const EdgeInsets.all(0.0),

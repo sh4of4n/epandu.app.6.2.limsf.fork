@@ -1,10 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+import '../../router.gr.dart';
 import 'bottom_menu.dart';
 
 class ValueClub extends StatelessWidget {
@@ -58,7 +59,8 @@ class ValueClub extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => Navigator.pushNamed(context, BILL_SELECTION),
+                      onTap: () => ExtendedNavigator.of(context)
+                          .pushNamed(Routes.billSelection),
                       child: FadeInImage(
                         alignment: Alignment.center,
                         placeholder: MemoryImage(kTransparentImage),
@@ -73,8 +75,8 @@ class ValueClub extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () =>
-                          Navigator.pushNamed(context, AIRTIME_SELECTION),
+                      onTap: () => ExtendedNavigator.of(context)
+                          .pushNamed(Routes.airtimeSelection),
                       child: FadeInImage(
                         alignment: Alignment.center,
                         placeholder: MemoryImage(kTransparentImage),
@@ -89,8 +91,10 @@ class ValueClub extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => Navigator.pushNamed(context, MERCHANT_LIST,
-                          arguments: 'TOUR'),
+                      onTap: () => ExtendedNavigator.of(context).pushNamed(
+                          Routes.merchantList,
+                          arguments:
+                              MerchantListArguments(merchantType: 'TOUR')),
                       child: FadeInImage(
                         alignment: Alignment.center,
                         placeholder: MemoryImage(kTransparentImage),
@@ -105,8 +109,10 @@ class ValueClub extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => Navigator.pushNamed(context, MERCHANT_LIST,
-                          arguments: 'HOCHIAK'),
+                      onTap: () => ExtendedNavigator.of(context).pushNamed(
+                          Routes.merchantList,
+                          arguments:
+                              MerchantListArguments(merchantType: 'HOCHIAK')),
                       child: FadeInImage(
                         alignment: Alignment.center,
                         placeholder: MemoryImage(kTransparentImage),
@@ -121,8 +127,10 @@ class ValueClub extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => Navigator.pushNamed(context, MERCHANT_LIST,
-                          arguments: 'HIGHEDU'),
+                      onTap: () => ExtendedNavigator.of(context).pushNamed(
+                          Routes.merchantList,
+                          arguments:
+                              MerchantListArguments(merchantType: 'HIGHEDU')),
                       child: FadeInImage(
                         alignment: Alignment.center,
                         placeholder: MemoryImage(kTransparentImage),
@@ -137,8 +145,10 @@ class ValueClub extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => Navigator.pushNamed(context, MERCHANT_LIST,
-                          arguments: 'JOB'),
+                      onTap: () => ExtendedNavigator.of(context).pushNamed(
+                          Routes.merchantList,
+                          arguments:
+                              MerchantListArguments(merchantType: 'JOB')),
                       child: FadeInImage(
                         alignment: Alignment.center,
                         placeholder: MemoryImage(kTransparentImage),
@@ -153,8 +163,10 @@ class ValueClub extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => Navigator.pushNamed(context, MERCHANT_LIST,
-                          arguments: 'RIDE'),
+                      onTap: () => ExtendedNavigator.of(context).pushNamed(
+                          Routes.merchantList,
+                          arguments:
+                              MerchantListArguments(merchantType: 'RIDE')),
                       child: FadeInImage(
                         alignment: Alignment.center,
                         placeholder: MemoryImage(kTransparentImage),
@@ -169,8 +181,9 @@ class ValueClub extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => Navigator.pushNamed(context, MERCHANT_LIST,
-                          arguments: 'DI'),
+                      onTap: () => ExtendedNavigator.of(context).pushNamed(
+                          Routes.merchantList,
+                          arguments: MerchantListArguments(merchantType: 'DI')),
                       child: FadeInImage(
                         alignment: Alignment.center,
                         placeholder: MemoryImage(kTransparentImage),
@@ -185,8 +198,10 @@ class ValueClub extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => Navigator.pushNamed(context, MERCHANT_LIST,
-                          arguments: 'WORKSHOP'),
+                      onTap: () => ExtendedNavigator.of(context).pushNamed(
+                          Routes.merchantList,
+                          arguments:
+                              MerchantListArguments(merchantType: 'WORKSHOP')),
                       child: FadeInImage(
                         alignment: Alignment.center,
                         placeholder: MemoryImage(kTransparentImage),

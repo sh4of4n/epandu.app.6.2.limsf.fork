@@ -1,8 +1,9 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:epandu/router.gr.dart';
 import 'package:epandu/services/repository/epandu_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
@@ -60,9 +61,8 @@ class _AddBookingState extends State<AddBooking> {
         customActions: <Widget>[
           FlatButton(
             child: Text(AppLocalizations.of(context).translate('ok_btn')),
-            onPressed: () => Navigator.popUntil(
-              context,
-              ModalRoute.withName(EPANDU),
+            onPressed: () => ExtendedNavigator.of(context).popUntil(
+              ModalRoute.withName(Routes.epanduCategory),
             ),
           )
         ],
@@ -468,8 +468,8 @@ class _AddBookingState extends State<AddBooking> {
           customActions: <Widget>[
             FlatButton(
               child: Text(AppLocalizations.of(context).translate('ok_btn')),
-              onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                  context, HOME, (r) => false),
+              onPressed: () => ExtendedNavigator.of(context)
+                  .pushNamedAndRemoveUntil(Routes.home, (r) => false),
             ),
           ],
         );
@@ -478,7 +478,7 @@ class _AddBookingState extends State<AddBooking> {
           context: context,
           type: DialogType.ERROR,
           content: result.message.toString(),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => ExtendedNavigator.of(context).pop(),
         );
       }
 

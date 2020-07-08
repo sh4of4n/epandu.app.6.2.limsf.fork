@@ -1,12 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/pages/payment/top_up_button.dart';
 import 'package:epandu/services/api/model/bill_model.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../router.gr.dart';
 
 class AirtimeBillDetail extends StatefulWidget {
   final data;
@@ -75,7 +77,8 @@ class _AirtimeBillDetailState extends State<AirtimeBillDetail> {
         telcoComm: widget.data,
       );
 
-      Navigator.pushNamed(context, AIRTIME_TRANSACTION, arguments: billArgs);
+      ExtendedNavigator.of(context).pushNamed(Routes.airtimeTransaction,
+          arguments: AirtimeTransactionArguments(data: billArgs));
     } else {
       setState(() {
         _message =

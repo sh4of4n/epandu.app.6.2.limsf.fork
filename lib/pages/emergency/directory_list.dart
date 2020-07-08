@@ -1,16 +1,18 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repository/emergency_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class DirectoryList extends StatefulWidget {
-  final data;
+import '../../router.gr.dart';
 
-  DirectoryList(this.data);
+class DirectoryList extends StatefulWidget {
+  final directoryType;
+
+  DirectoryList(this.directoryType);
 
   @override
   _DirectoryListState createState() => _DirectoryListState();
@@ -38,13 +40,15 @@ class _DirectoryListState extends State<DirectoryList> {
     localStorage.saveUserLatitude(location.latitude.toString());
     localStorage.saveUserLongitude(location.longitude.toString());
 
-    if (widget.data == 'INSURANCE')
+    if (widget.directoryType == 'INSURANCE')
       setState(() {
         maxRadius = '0';
       });
 
     var response = await emergencyRepo.getSosContactSortByNearest(
-        context: context, sosContactType: widget.data, maxRadius: maxRadius);
+        context: context,
+        sosContactType: widget.directoryType,
+        maxRadius: maxRadius);
 
     if (mounted && response.isSuccess) {
       return response.data;
@@ -55,8 +59,10 @@ class _DirectoryListState extends State<DirectoryList> {
   _listItem(snapshot, index) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, DIRECTORY_DETAIL,
-            arguments: snapshot.data[index]);
+        ExtendedNavigator.of(context).pushNamed(
+          Routes.directoryDetail,
+          arguments: DirectoryDetailArguments(snapshot: snapshot.data[index]),
+        );
       },
       child: Container(
         width: double.infinity,
@@ -89,7 +95,7 @@ class _DirectoryListState extends State<DirectoryList> {
   }
 
   _getAppBarTitle() {
-    switch (widget.data) {
+    switch (widget.directoryType) {
       case 'POLICE':
         return Text(AppLocalizations.of(context).translate('police_title'));
       case 'AMBULANCE':

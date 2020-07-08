@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
@@ -285,7 +286,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
           );
 
           if (result.isSuccess) {
-            Navigator.pop(context);
+            ExtendedNavigator.of(context).pop();
 
             CustomSnackbar().show(
               context,

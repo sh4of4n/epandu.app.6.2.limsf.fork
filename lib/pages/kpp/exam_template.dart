@@ -1,8 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/pages/kpp/question_options.dart';
 import 'package:epandu/services/api/model/kpp_model.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/custom_snackbar.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:typed_data';
@@ -13,6 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 
 import '../../app_localizations.dart';
+import '../../router.gr.dart';
 
 class ExamTemplate extends StatefulWidget {
   final snapshot;
@@ -116,8 +117,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
                     // Hive box must be cleared here
                     examDataBox.clear();
 
-                    Navigator.pop(context);
-                    Navigator.pop(context);
+                    ExtendedNavigator.of(context).pop();
+                    ExtendedNavigator.of(context).pop();
                   },
                 ),
               ],
@@ -496,8 +497,10 @@ class _ExamTemplateState extends State<ExamTemplate> {
                         _checkSelectedAnswer(data.answerIndex, 'next');
                       }
                     } else {
-                      Navigator.pushReplacementNamed(context, KPP_RESULT,
-                          arguments: kppExamData);
+                      ExtendedNavigator.of(context).pushReplacementNamed(
+                        Routes.kppResult,
+                        arguments: KppResultArguments(data: kppExamData),
+                      );
 
                       // end timer
                       _timer.cancel();
@@ -565,8 +568,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
         FlatButton(
           child: Text(AppLocalizations.of(context).translate('yes_lbl')),
           onPressed: () {
-            Navigator.pop(context);
-            Navigator.pop(context);
+            ExtendedNavigator.of(context).pop();
+            ExtendedNavigator.of(context).pop();
 
             _timer.cancel();
 
@@ -577,7 +580,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
         FlatButton(
           child: Text(AppLocalizations.of(context).translate('no_lbl')),
           onPressed: () {
-            Navigator.pop(context);
+            ExtendedNavigator.of(context).pop();
           },
         ),
       ],

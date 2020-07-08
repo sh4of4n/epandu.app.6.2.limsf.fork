@@ -1,10 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../app_localizations.dart';
+import '../../router.gr.dart';
 
 class PaymentPage extends StatelessWidget {
   final primaryColor = ColorConstant.primaryColor;
@@ -46,13 +47,15 @@ class PaymentPage extends StatelessWidget {
               shrinkWrap: true,
               children: <Widget>[
                 ListTile(
-                  onTap: () => Navigator.pushNamed(context, AIRTIME_SELECTION),
+                  onTap: () => ExtendedNavigator.of(context)
+                      .pushNamed(Routes.airtimeSelection),
                   leading: Icon(Icons.attach_money),
                   title: Text(
                       AppLocalizations.of(context).translate('airtime_lbl')),
                 ),
                 ListTile(
-                  onTap: () => Navigator.pushNamed(context, BILL_SELECTION),
+                  onTap: () => ExtendedNavigator.of(context)
+                      .pushNamed(Routes.billSelection),
                   leading: Icon(Icons.attach_money),
                   title:
                       Text(AppLocalizations.of(context).translate('bill_lbl')),

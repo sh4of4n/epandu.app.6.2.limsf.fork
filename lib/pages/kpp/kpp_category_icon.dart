@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 class KppCategoryIcon extends StatelessWidget {
@@ -24,7 +25,8 @@ class KppCategoryIcon extends StatelessWidget {
     return InkWell(
       onTap: () {
         component != null
-            ? Navigator.pushNamed(context, component, arguments: argument)
+            ? ExtendedNavigator.of(context)
+                .pushNamed(component, arguments: argument)
             : SizedBox.shrink();
       },
       child: Container(

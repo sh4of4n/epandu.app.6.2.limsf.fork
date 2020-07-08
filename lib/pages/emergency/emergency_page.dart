@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/pages/emergency/authorities_button.dart';
 import 'package:epandu/services/location.dart';
@@ -5,13 +6,14 @@ import 'package:epandu/services/repository/emergency_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:app_settings/app_settings.dart';
+
+import '../../router.gr.dart';
 
 class Emergency extends StatefulWidget {
   @override
@@ -73,16 +75,16 @@ class _EmergencyState extends State<Emergency> {
           FlatButton(
             child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
+              ExtendedNavigator.of(context).pop();
+              ExtendedNavigator.of(context).pop();
               AppSettings.openLocationSettings();
             },
           ),
           FlatButton(
             child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
+              ExtendedNavigator.of(context).pop();
+              ExtendedNavigator.of(context).pop();
             },
           ),
         ],
@@ -120,8 +122,8 @@ class _EmergencyState extends State<Emergency> {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.view_list),
-              onPressed: () =>
-                  Navigator.pushNamed(context, EMERGENCY_DIRECTORY),
+              onPressed: () => ExtendedNavigator.of(context)
+                  .pushNamed(Routes.emergencyDirectory),
             )
           ],
         ),

@@ -1,11 +1,12 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
+import 'package:epandu/router.gr.dart';
 import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/services/repository/kpp_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
@@ -181,7 +182,8 @@ class _HomeState extends State<Home> {
           width: 450.w,
           child: FloatingActionButton(
             onPressed: () {
-              Navigator.pushNamed(context, EMERGENCY_DIRECTORY);
+              ExtendedNavigator.of(context)
+                  .pushNamed(Routes.emergencyDirectory);
             },
             child: Image.asset(
               myImage.sos,

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class PushDialog extends StatelessWidget {
       customActions: <Widget>[
         FlatButton(
           child: Text(AppLocalizations.of(context).translate('ok_btn')),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => ExtendedNavigator.of(context).pop(),
         ),
       ],
       type: DialogType.GENERAL,

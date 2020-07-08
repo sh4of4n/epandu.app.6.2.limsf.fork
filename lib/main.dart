@@ -1,16 +1,16 @@
 // import 'dart:io';
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/api/model/language_model.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:epandu/utils/route_generator.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'app_localizations_delegate.dart';
 import 'application.dart';
+import 'router.gr.dart';
 import 'services/api/model/bill_model.dart';
 import 'services/api/model/kpp_model.dart';
 import 'package:epandu/utils/custom_dialog.dart';
@@ -263,13 +263,13 @@ class _MyAppState extends State<MyApp> {
     if (view != null) {
       switch (view) {
         case 'ENROLLMENT':
-          Navigator.pushNamed(context, ENROLLMENT);
+          ExtendedNavigator.of(context).pushNamed(Routes.enrollment);
           break;
         case 'KPP':
-          Navigator.pushNamed(context, KPP);
+          ExtendedNavigator.of(context).pushNamed(Routes.kppCategory);
           break;
         case 'VCLUB':
-          Navigator.pushNamed(context, VALUE_CLUB);
+          ExtendedNavigator.of(context).pushNamed(Routes.valueClub);
           break;
       }
     }
@@ -304,8 +304,12 @@ class _MyAppState extends State<MyApp> {
         // Built-in localization for text direction LTR/RTL
         GlobalWidgetsLocalizations.delegate,
       ],
-      initialRoute: AUTH,
-      onGenerateRoute: RouteGenerator.generateRoute,
+      builder: ExtendedNavigator<Router>(
+        initialRoute: Routes.authentication,
+        router: Router(),
+      ),
+      // initialRoute: AUTH,
+      // onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 

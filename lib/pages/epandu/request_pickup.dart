@@ -1,16 +1,16 @@
-import 'dart:io';
-
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/repository/pickup_repository.dart';
 import 'package:epandu/utils/custom_dialog.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../router.gr.dart';
 
 class RequestPickup extends StatefulWidget {
   @override
@@ -349,8 +349,8 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
           customActions: <Widget>[
             FlatButton(
               child: Text(AppLocalizations.of(context).translate('ok_btn')),
-              onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                  context, HOME, (r) => false),
+              onPressed: () => ExtendedNavigator.of(context)
+                  .pushNamedAndRemoveUntil(Routes.home, (r) => false),
             ),
           ],
         );
@@ -359,7 +359,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
           context: context,
           type: DialogType.ERROR,
           content: result.message.toString(),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => ExtendedNavigator.of(context).pop(),
         );
       }
 

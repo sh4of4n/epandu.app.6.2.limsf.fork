@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/base/page_base_class.dart';
@@ -10,13 +11,14 @@ import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/device_info.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:epandu/widgets/loading_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../../router.gr.dart';
 
 enum AppState { free, picked, cropped }
 
@@ -175,10 +177,10 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
         SimpleDialogOption(
           child: Text(AppLocalizations.of(context).translate('take_photo')),
           onPressed: () async {
-            Navigator.pop(context);
-            var newProfilePic = await Navigator.pushNamed(
-                context, TAKE_PROFILE_PICTURE,
-                arguments: cameras);
+            ExtendedNavigator.of(context).pop();
+            var newProfilePic = await ExtendedNavigator.of(context).pushNamed(
+                Routes.takeProfilePicture,
+                arguments: TakeProfilePictureArguments(camera: cameras));
 
             if (newProfilePic != null)
               setState(() {
@@ -194,7 +196,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
             child: Text(AppLocalizations.of(context)
                 .translate('choose_existing_photo')),
             onPressed: () {
-              Navigator.pop(context);
+              ExtendedNavigator.of(context).pop();
               _getImageGallery();
             }),
       ],
@@ -991,7 +993,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   }
 
   _login() async {
-    Navigator.pop(context);
+    ExtendedNavigator.of(context).pop();
 
     setState(() {
       _loginLoading = true;
@@ -1014,12 +1016,15 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
       if (getRegisteredDi.isSuccess) {
         localStorage.saveDiCode(getRegisteredDi.data[0].diCode);
 
-        Navigator.pushNamedAndRemoveUntil(context, HOME, (r) => false);
+        ExtendedNavigator.of(context)
+            .pushNamedAndRemoveUntil(Routes.home, (r) => false);
       } else {
-        Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
+        ExtendedNavigator.of(context)
+            .pushNamedAndRemoveUntil(Routes.login, (r) => false);
       }
     } else {
-      Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
+      ExtendedNavigator.of(context)
+          .pushNamedAndRemoveUntil(Routes.login, (r) => false);
     }
 
     setState(() {

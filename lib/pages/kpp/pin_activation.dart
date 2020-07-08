@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/repository/kpp_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +76,7 @@ class _PinActivationState extends State<PinActivation> {
         });
 
         // _getTheoryQuestionPaperNoWithCreditControl();
-        Navigator.pop(context);
+        ExtendedNavigator.of(context).pop();
       } else {
         setState(() {
           pinMessage = result.message;

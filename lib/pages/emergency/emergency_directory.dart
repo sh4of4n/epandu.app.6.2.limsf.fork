@@ -1,11 +1,11 @@
 import 'package:app_settings/app_settings.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repository/emergency_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/custom_snackbar.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
@@ -13,6 +13,7 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_localizations.dart';
+import '../../router.gr.dart';
 
 class EmergencyDirectory extends StatefulWidget {
   @override
@@ -75,16 +76,16 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
           FlatButton(
             child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
+              ExtendedNavigator.of(context).pop();
+              ExtendedNavigator.of(context).pop();
               AppSettings.openLocationSettings();
             },
           ),
           FlatButton(
             child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
+              ExtendedNavigator.of(context).pop();
+              ExtendedNavigator.of(context).pop();
             },
           ),
         ],
@@ -349,9 +350,10 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                                     child: FlatButton(
                                       padding: EdgeInsets.all(0.0),
                                       onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, DIRECTORY_LIST,
-                                            arguments: 'POLICE');
+                                        ExtendedNavigator.of(context).pushNamed(
+                                            Routes.directoryList,
+                                            arguments: DirectoryListArguments(
+                                                directoryType: 'POLICE'));
                                       },
                                       child: null,
                                     ),
@@ -405,9 +407,10 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                                     child: FlatButton(
                                       padding: EdgeInsets.all(0.0),
                                       onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, DIRECTORY_LIST,
-                                            arguments: 'BOMBA');
+                                        ExtendedNavigator.of(context).pushNamed(
+                                            Routes.directoryList,
+                                            arguments: DirectoryListArguments(
+                                                directoryType: 'BOMBA'));
                                       },
                                       child: null,
                                     ),
@@ -463,9 +466,10 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                                     child: FlatButton(
                                       padding: EdgeInsets.all(0.0),
                                       onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, DIRECTORY_LIST,
-                                            arguments: 'WORKSHOP');
+                                        ExtendedNavigator.of(context).pushNamed(
+                                            Routes.directoryList,
+                                            arguments: DirectoryListArguments(
+                                                directoryType: 'WORKSHOP'));
                                       },
                                       child: null,
                                     ),
@@ -530,9 +534,10 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                                     child: FlatButton(
                                       padding: EdgeInsets.all(0.0),
                                       onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, DIRECTORY_LIST,
-                                            arguments: 'AMBULANCE');
+                                        ExtendedNavigator.of(context).pushNamed(
+                                            Routes.directoryList,
+                                            arguments: DirectoryListArguments(
+                                                directoryType: 'AMBULANCE'));
                                       },
                                       child: null,
                                     ),
@@ -593,9 +598,10 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                                     child: FlatButton(
                                       padding: EdgeInsets.all(0.0),
                                       onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, DIRECTORY_LIST,
-                                            arguments: 'INSURANCE');
+                                        ExtendedNavigator.of(context).pushNamed(
+                                            Routes.directoryList,
+                                            arguments: DirectoryListArguments(
+                                                directoryType: 'INSURANCE'));
                                       },
                                       child: null,
                                     ),
@@ -649,9 +655,10 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                                     child: FlatButton(
                                       padding: EdgeInsets.all(0.0),
                                       onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, DIRECTORY_LIST,
-                                            arguments: 'BIKEWORKSHOP');
+                                        ExtendedNavigator.of(context).pushNamed(
+                                            Routes.directoryList,
+                                            arguments: DirectoryListArguments(
+                                                directoryType: 'BIKEWORKSHOP'));
                                       },
                                       child: null,
                                     ),
