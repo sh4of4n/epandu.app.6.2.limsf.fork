@@ -1,13 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:epandu/app_localizations.dart';
+
+import '../../router.gr.dart';
 
 class ClientAccountForm extends StatefulWidget {
   final data;
@@ -204,9 +206,10 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                   InkWell(
                     onTap: () {
                       if (widget.data == 'SETTINGS')
-                        Navigator.pushReplacementNamed(context, LOGIN);
+                        ExtendedNavigator.of(context)
+                            .pushReplacementNamed(Routes.login);
                       else
-                        Navigator.pop(context);
+                        ExtendedNavigator.of(context).pop();
                     },
                     child: Text(
                       AppLocalizations.of(context).translate('go_back_lbl'),
@@ -286,9 +289,9 @@ class _ClientAccountFormState extends State<ClientAccountForm>
 
       if (result.isSuccess) {
         if (widget.data == 'SETTINGS')
-          Navigator.pushReplacementNamed(context, LOGIN);
+          ExtendedNavigator.of(context).pushReplacementNamed(Routes.login);
         else
-          Navigator.pop(context);
+          ExtendedNavigator.of(context).pop();
       } else {
         setState(() {
           _message = result.message.toString();

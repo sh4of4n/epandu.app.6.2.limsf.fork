@@ -1,10 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import '../../app_localizations.dart';
+import '../../router.gr.dart';
 
 class Records extends StatelessWidget {
   final iconText = TextStyle(
@@ -64,8 +65,8 @@ class Records extends StatelessWidget {
                     TableRow(
                       children: [
                         InkWell(
-                          onTap: () =>
-                              Navigator.pushNamed(context, REGISTERED_COURSE),
+                          onTap: () => ExtendedNavigator.of(context)
+                              .pushNamed(Routes.registeredCourse),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(
@@ -89,8 +90,8 @@ class Records extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () =>
-                              Navigator.pushNamed(context, PAYMENT_HISTORY),
+                          onTap: () => ExtendedNavigator.of(context)
+                              .pushNamed(Routes.paymentHistory),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(
@@ -114,8 +115,8 @@ class Records extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () =>
-                              Navigator.pushNamed(context, ATTENDANCE_RECORD),
+                          onTap: () => ExtendedNavigator.of(context)
+                              .pushNamed(Routes.attendanceRecord),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(

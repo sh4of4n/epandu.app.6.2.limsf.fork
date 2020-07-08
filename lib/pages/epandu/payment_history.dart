@@ -1,12 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/repository/epandu_repository.dart';
 import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../app_localizations.dart';
+import '../../router.gr.dart';
 
 class PaymentHistory extends StatefulWidget {
   @override
@@ -126,10 +127,10 @@ class _PaymentHistoryState extends State<PaymentHistory> {
               children: <Widget>[
                 for (var item in items)
                   InkWell(
-                    onTap: () => Navigator.pushNamed(
-                      context,
-                      PAYMENT_HISTORY_DETAIL,
-                      arguments: item.recpNo,
+                    onTap: () => ExtendedNavigator.of(context).pushNamed(
+                      Routes.paymentHistoryDetail,
+                      arguments:
+                          PaymentHistoryDetailArguments(recpNo: item.recpNo),
                     ),
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(50.w, 50.h, 50.w, 0),

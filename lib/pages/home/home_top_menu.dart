@@ -1,10 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:badges/badges.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
+import 'package:epandu/router.gr.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
@@ -47,14 +48,14 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
     try {
       var barcode = await BarcodeScanner.scan();
       if (barcode.rawContent.isNotEmpty)
-        Navigator.pushNamed(context, REGISTER_USER_TO_DI,
-            arguments: barcode.rawContent);
+        ExtendedNavigator.of(context).pushNamed(Routes.registerUserToDi,
+            arguments: RegisterUserToDiArguments(barcode: barcode.rawContent));
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {
         customDialog.show(
           context: context,
           content: AppLocalizations.of(context).translate('camera_permission'),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => ExtendedNavigator.of(context).pop(),
           type: DialogType.WARNING,
         );
       } else {
@@ -164,7 +165,8 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                       ),
                     ), */
                     InkWell(
-                      onTap: () => Navigator.pushNamed(context, INVITE),
+                      onTap: () => ExtendedNavigator.of(context)
+                          .pushNamed(Routes.invite),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
@@ -197,8 +199,8 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                       ),
                     ),
                     InkWell(
-                      onTap: () =>
-                          Navigator.pushNamed(context, IDENTITY_BARCODE),
+                      onTap: () => ExtendedNavigator.of(context)
+                          .pushNamed(Routes.identityBarcode),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
@@ -219,7 +221,8 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                       ),
                     ),
                     InkWell(
-                      onTap: () => Navigator.pushNamed(context, INBOX),
+                      onTap: () =>
+                          ExtendedNavigator.of(context).pushNamed(Routes.inbox),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
@@ -250,7 +253,8 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
           Align(
             alignment: Alignment.center,
             child: InkWell(
-              onTap: () => Navigator.pushNamed(context, EPANDU),
+              onTap: () => ExtendedNavigator.of(context)
+                  .pushNamed(Routes.epanduCategory),
               borderRadius: BorderRadius.circular(10.0),
               child: Container(
                 padding: EdgeInsets.only(

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/pages/kpp/exam_template.dart';
 import 'package:epandu/services/api/model/kpp_model.dart';
@@ -11,9 +12,13 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hive/hive.dart';
 
 class KppExam extends StatefulWidget {
-  final data;
+  final String groupId;
+  final String paperNo;
 
-  KppExam(this.data);
+  KppExam({
+    @required this.groupId,
+    @required this.paperNo,
+  });
 
   @override
   _KppExamState createState() => _KppExamState();
@@ -58,7 +63,7 @@ class _KppExamState extends State<KppExam> {
               groupId = data.groupId;
               paperNo = data.paperNo;
 
-              Navigator.pop(context);
+              ExtendedNavigator.of(context).pop();
 
               _getTheoryQuestionByPaper();
             },
@@ -66,12 +71,12 @@ class _KppExamState extends State<KppExam> {
           FlatButton(
             child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
-              groupId = widget.data.groupId;
-              paperNo = widget.data.paperNo;
+              groupId = widget.groupId;
+              paperNo = widget.paperNo;
               // Hive box must be cleared here
               examDataBox.clear();
 
-              Navigator.pop(context);
+              ExtendedNavigator.of(context).pop();
 
               _getTheoryQuestionByPaper();
             },
@@ -81,8 +86,8 @@ class _KppExamState extends State<KppExam> {
         barrierDismissable: false,
       );
     } else {
-      groupId = widget.data.groupId;
-      paperNo = widget.data.paperNo;
+      groupId = widget.groupId;
+      paperNo = widget.paperNo;
 
       _getTheoryQuestionByPaper();
     }

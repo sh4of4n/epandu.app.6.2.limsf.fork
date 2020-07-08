@@ -1,14 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/api/model/language_model.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/language_options.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 
 import '../../app_localizations.dart';
+import '../../router.gr.dart';
 
 class LoginBottomCard extends StatefulWidget {
   @override
@@ -81,8 +82,9 @@ class _LoginBottomCardState extends State<LoginBottomCard> {
                     barrierDismissable: false,
                     onPressed: () async {
                       count = 0;
-                      Navigator.pop(context);
-                      Navigator.pushNamed(context, CLIENT_ACC);
+                      ExtendedNavigator.of(context).pop();
+                      ExtendedNavigator.of(context)
+                          .pushNamed(Routes.clientAccount);
                     },
                   );
                 }

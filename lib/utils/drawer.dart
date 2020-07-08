@@ -1,9 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/custom_dialog.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 
 import '../app_localizations.dart';
+import '../router.gr.dart';
 
 class DrawerMenu extends StatefulWidget {
   @override
@@ -38,13 +39,13 @@ class _DrawerMenuState extends State<DrawerMenu> {
               // Update the state of the app
               // ...
               // Then close the drawer
-              Navigator.pop(context);
+              ExtendedNavigator.of(context).pop();
             },
           ),
           ListTile(
             title: Text(AppLocalizations.of(context).translate('settings_lbl')),
             onTap: () {
-              Navigator.pushNamed(context, SETTINGS);
+              ExtendedNavigator.of(context).pushNamed(Routes.settings);
             },
           ),
           ListTile(
@@ -65,14 +66,15 @@ class _DrawerMenuState extends State<DrawerMenu> {
           FlatButton(
             child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () async {
-              Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
+              ExtendedNavigator.of(context)
+                  .pushNamedAndRemoveUntil(Routes.login, (r) => false);
               await authRepo.logout();
             },
           ),
           FlatButton(
             child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
-              Navigator.pop(context);
+              ExtendedNavigator.of(context).pop();
             },
           ),
         ],

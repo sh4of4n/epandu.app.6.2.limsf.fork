@@ -1,14 +1,16 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/device_info.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:epandu/app_localizations.dart';
+
+import '../../router.gr.dart';
 
 class LoginTabletForm extends StatefulWidget {
   @override
@@ -212,7 +214,8 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, FORGOT_PASSWORD);
+                      ExtendedNavigator.of(context)
+                          .pushNamed(Routes.forgotPassword);
                     },
                     child: Text(
                       AppLocalizations.of(context)
@@ -255,7 +258,8 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, SIGN_UP_MOBILE);
+                      ExtendedNavigator.of(context)
+                          .pushNamed(Routes.registerMobile);
                     },
                     child: Text(
                       AppLocalizations.of(context).translate('sign_up_btn'),
@@ -333,7 +337,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
           if (getRegisteredDi.isSuccess) {
             localStorage.saveDiCode(getRegisteredDi.data[0].diCode);
 
-            Navigator.pushReplacementNamed(context, HOME);
+            ExtendedNavigator.of(context).pushReplacementNamed(Routes.home);
           } else {
             setState(() {
               _isLoading = false;
@@ -345,12 +349,13 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
           // Temporary navigate to home
           // Navigator.pushReplacementNamed(context, HOME);
 
-          Navigator.pushReplacementNamed(context, SELECT_DI,
-              arguments: result.data);
+          ExtendedNavigator.of(context).pushReplacementNamed(
+              Routes.selectDrivingInstitute,
+              arguments: SelectDrivingInstituteArguments(diList: result.data));
         } else {
           localStorage.saveDiCode(result.data[0].diCode);
 
-          Navigator.pushReplacementNamed(context, HOME);
+          ExtendedNavigator.of(context).pushReplacementNamed(Routes.home);
         }
       } else {
         setState(() {

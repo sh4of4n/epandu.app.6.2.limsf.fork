@@ -1,7 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import '../../app_localizations.dart';
+import '../../router.gr.dart';
 
 class SelectClass extends StatefulWidget {
   final data;
@@ -392,7 +393,8 @@ class _SelectClassState extends State<SelectClass> {
             onPressed: () async {
               await authRepo.getUserRegisteredDI(
                   context: context, type: 'UPDATE');
-              Navigator.pushNamedAndRemoveUntil(context, HOME, (r) => false);
+              ExtendedNavigator.of(context)
+                  .pushNamedAndRemoveUntil(Routes.home, (r) => false);
             },
           ),
         ],
@@ -402,7 +404,7 @@ class _SelectClassState extends State<SelectClass> {
         context: context,
         type: DialogType.ERROR,
         content: result.message.toString(),
-        onPressed: () => Navigator.pop(context),
+        onPressed: () => ExtendedNavigator.of(context).pop(),
       );
     }
 

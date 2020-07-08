@@ -1,12 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/services/api/model/auth_model.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+import '../../router.gr.dart';
 
 class RegisterMobile extends StatefulWidget {
   @override
@@ -413,11 +415,16 @@ class _RegisterMobileState extends State<RegisterMobile> {
       );
 
       if (result.isSuccess) {
-        Navigator.pushNamed(context, SIGN_UP_VERIFICATION,
-            arguments: SignUpArguments(
-                phoneCountryCode: _countryCode,
-                phone: mobileNo,
-                verificationCode: result.data.toString()));
+        ExtendedNavigator.of(context).pushNamed(
+          Routes.registerVerification,
+          arguments: RegisterVerificationArguments(
+            data: SignUpArguments(
+              phoneCountryCode: _countryCode,
+              phone: mobileNo,
+              verificationCode: result.data.toString(),
+            ),
+          ),
+        );
       } else {
         setState(() {
           _message = result.message;

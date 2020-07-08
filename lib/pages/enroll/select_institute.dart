@@ -1,8 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
+import 'package:epandu/router.gr.dart';
 import 'package:epandu/services/api/model/auth_model.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -95,20 +96,21 @@ class _SelectInstituteState extends State<SelectInstitute> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
-                      onTap: () => Navigator.pushNamed(
-                        context,
-                        SELECT_CLASS,
-                        arguments: EnrollmentData(
-                          icNo: widget.data.icNo,
-                          name: widget.data.name,
-                          email: widget.data.email,
-                          // groupId: widget.data.groupId,
-                          gender: widget.data.gender,
-                          dateOfBirthString: widget.data.dateOfBirthString,
-                          nationality: widget.data.nationality,
-                          race: widget.data.race,
-                          profilePic: widget.data.profilePic,
-                          diCode: snapshot.data[index].diCode,
+                      onTap: () => ExtendedNavigator.of(context).pushNamed(
+                        Routes.selectClass,
+                        arguments: SelectClassArguments(
+                          data: EnrollmentData(
+                            icNo: widget.data.icNo,
+                            name: widget.data.name,
+                            email: widget.data.email,
+                            // groupId: widget.data.groupId,
+                            gender: widget.data.gender,
+                            dateOfBirthString: widget.data.dateOfBirthString,
+                            nationality: widget.data.nationality,
+                            race: widget.data.race,
+                            profilePic: widget.data.profilePic,
+                            diCode: snapshot.data[index].diCode,
+                          ),
                         ),
                       ),
                       child: Container(

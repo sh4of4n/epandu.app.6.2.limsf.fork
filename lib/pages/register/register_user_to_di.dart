@@ -1,13 +1,14 @@
 // import 'dart:convert';
 import 'dart:convert';
 
+import 'package:auto_route/auto_route.dart';
+import 'package:epandu/router.gr.dart';
 import 'package:epandu/services/api/model/auth_model.dart';
 import 'package:epandu/services/location.dart';
 import 'package:epandu/utils/custom_button.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/device_info.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -202,7 +203,8 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
       );
 
       if (result.isSuccess) {
-        Navigator.popUntil(context, ModalRoute.withName(HOME));
+        ExtendedNavigator.of(context)
+            .popUntil(ModalRoute.withName(Routes.home));
         /* customDialog.show(
           context: context,
           title: Center(
@@ -229,7 +231,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
         customDialog.show(
           context: context,
           content: result.message.toString(),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => ExtendedNavigator.of(context).pop(),
           type: DialogType.ERROR,
         );
       }

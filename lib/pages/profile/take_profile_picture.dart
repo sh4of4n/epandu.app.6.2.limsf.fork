@@ -1,6 +1,6 @@
-import 'dart:convert';
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_snackbar.dart';
@@ -150,7 +150,7 @@ class TakeProfilePictureState extends State<TakeProfilePicture> {
 
             // print(test);
 
-            Navigator.pop(context, path);
+            ExtendedNavigator.of(context).pop(path);
             /* Navigator.push(
               context,
               MaterialPageRoute(

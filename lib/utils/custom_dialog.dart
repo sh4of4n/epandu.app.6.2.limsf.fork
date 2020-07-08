@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 enum DialogType {
@@ -24,7 +25,7 @@ class CustomDialog {
     List<Widget> actions = <Widget>[
       FlatButton(
         child: Text("Ok"),
-        onPressed: onPressed ?? () => Navigator.pop(context),
+        onPressed: onPressed ?? () => ExtendedNavigator.of(context).pop(),
       )
     ];
 

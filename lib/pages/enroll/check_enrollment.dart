@@ -1,4 +1,5 @@
-import 'package:epandu/utils/route_path.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:epandu/router.gr.dart';
 import 'package:flutter/material.dart';
 
 class CheckEnrollment extends StatefulWidget {
@@ -11,7 +12,7 @@ class _CheckEnrollmentState extends State<CheckEnrollment> {
   void initState() {
     super.initState();
 
-    Navigator.pushReplacementNamed(context, SELECT_INSTITUTE);
+    ExtendedNavigator.of(context).pushReplacementNamed(Routes.selectInstitute);
   }
 
   @override

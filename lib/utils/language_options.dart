@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/services/api/model/language_model.dart';
 import 'package:epandu/utils/local_storage.dart';
@@ -22,7 +23,7 @@ class LanguageOptions extends StatelessWidget {
               Provider.of<LanguageModel>(context, listen: false)
                   .selectedLanguage(
                       AppLocalizations.of(context).translate('english_lbl'));
-              Navigator.pop(context);
+              ExtendedNavigator.of(context).pop();
             },
           ),
           ListTile(
@@ -33,7 +34,7 @@ class LanguageOptions extends StatelessWidget {
               Provider.of<LanguageModel>(context, listen: false)
                   .selectedLanguage(
                       AppLocalizations.of(context).translate('malay_lbl'));
-              Navigator.pop(context);
+              ExtendedNavigator.of(context).pop();
             },
           ),
         ],

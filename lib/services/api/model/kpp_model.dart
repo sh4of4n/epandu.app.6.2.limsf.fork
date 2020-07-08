@@ -748,11 +748,11 @@ class TheoryQuestion {
   }
 }
 
-class KppModuleArguments {
+class KppArguments {
   final groupId;
   final paperNo;
 
-  KppModuleArguments({
+  KppArguments({
     this.groupId,
     this.paperNo,
   });

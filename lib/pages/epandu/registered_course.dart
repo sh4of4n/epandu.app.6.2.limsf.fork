@@ -1,7 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/services/repository/epandu_repository.dart';
 import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -10,6 +10,7 @@ import 'package:transparent_image/transparent_image.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
 import '../../app_localizations.dart';
+import '../../router.gr.dart';
 
 class RegisteredCourse extends StatefulWidget {
   @override
@@ -163,9 +164,12 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
-                            onTap: () => Navigator.pushNamed(
-                                context, REGISTERED_COURSE_DETAIL,
-                                arguments: snapshot.data[index].groupId),
+                            onTap: () =>
+                                ExtendedNavigator.of(context).pushNamed(
+                              Routes.registeredCourseDetail,
+                              arguments: RegisteredCourseDetailArguments(
+                                  groupId: snapshot.data[index].groupId),
+                            ),
                             child: Container(
                               width: double.infinity,
                               padding: EdgeInsets.fromLTRB(50.w, 30.w, 50.w, 0),

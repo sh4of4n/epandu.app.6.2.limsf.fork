@@ -1,6 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/repository/epandu_repository.dart';
 import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import '../../app_localizations.dart';
+import '../../router.gr.dart';
 
 class Booking extends StatefulWidget {
   @override
@@ -76,7 +77,8 @@ class _BookingState extends State<Booking> {
             color: Color(0xffdd0e0e),
             textColor: Colors.white,
             padding: EdgeInsets.all(12),
-            onPressed: () => Navigator.pushNamed(context, ADD_BOOKING),
+            onPressed: () =>
+                ExtendedNavigator.of(context).pushNamed(Routes.addBooking),
             child: Icon(
               Icons.add,
             ),

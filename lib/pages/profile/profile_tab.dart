@@ -1,4 +1,5 @@
 // import 'package:epandu/pages/edompet/edompet.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/pages/profile/profile_page.dart';
 import 'package:epandu/pages/settings/settings.dart';
 import 'package:epandu/services/api/model/profile_model.dart';
@@ -6,10 +7,10 @@ import 'package:epandu/services/repository/profile_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../app_localizations.dart';
+import '../../router.gr.dart';
 
 class ProfileTab extends StatefulWidget {
   final positionStream;
@@ -218,7 +219,8 @@ class _ProfileTabState extends State<ProfileTab>
         ),
         shape: StadiumBorder(),
         onPressed: () async {
-          await Navigator.pushNamed(context, UPDATE_PROFILE)
+          await ExtendedNavigator.of(context)
+              .pushNamed(Routes.updateProfile)
               .then((value) => _getUserInfo());
         },
         child: Text(AppLocalizations.of(context).translate('edit_profile')),

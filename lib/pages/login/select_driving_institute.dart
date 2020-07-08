@@ -1,11 +1,13 @@
 // import 'dart:convert';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../router.gr.dart';
 
 class SelectDrivingInstitute extends StatelessWidget {
   final diList;
@@ -73,7 +75,8 @@ class SelectDrivingInstitute extends StatelessWidget {
                         onTap: () {
                           localStorage.saveDiCode(diList[index].diCode);
 
-                          Navigator.pushReplacementNamed(context, HOME);
+                          ExtendedNavigator.of(context)
+                              .pushReplacementNamed(Routes.home);
                         },
                         child: Container(
                           margin: EdgeInsets.symmetric(horizontal: 10.0),

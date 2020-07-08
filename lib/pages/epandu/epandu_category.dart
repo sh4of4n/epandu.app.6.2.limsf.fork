@@ -1,11 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
+
+import '../../router.gr.dart';
 
 // import 'bottom_menu.dart';
 
@@ -71,8 +73,8 @@ class EpanduCategory extends StatelessWidget {
                     TableRow(
                       children: [
                         InkWell(
-                          onTap: () =>
-                              Navigator.pushNamed(context, COMING_SOON),
+                          onTap: () => ExtendedNavigator.of(context)
+                              .pushNamed(Routes.comingSoon),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(
@@ -95,7 +97,8 @@ class EpanduCategory extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () => Navigator.pushNamed(context, ENROLLMENT),
+                          onTap: () => ExtendedNavigator.of(context)
+                              .pushNamed(Routes.enrollment),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(
@@ -119,7 +122,8 @@ class EpanduCategory extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () => Navigator.pushNamed(context, BOOKING),
+                          onTap: () => ExtendedNavigator.of(context)
+                              .pushNamed(Routes.booking),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(
@@ -147,7 +151,8 @@ class EpanduCategory extends StatelessWidget {
                     TableRow(
                       children: [
                         InkWell(
-                          onTap: () => Navigator.pushNamed(context, KPP),
+                          onTap: () => ExtendedNavigator.of(context)
+                              .pushNamed(Routes.kppCategory),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(
@@ -171,7 +176,8 @@ class EpanduCategory extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () => Navigator.pushNamed(context, RECORDS),
+                          onTap: () => ExtendedNavigator.of(context)
+                              .pushNamed(Routes.records),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(
@@ -197,7 +203,8 @@ class EpanduCategory extends StatelessWidget {
                         InkWell(
                           onTap: () =>
                               // Navigator.pushNamed(context, PICKUP_HISTORY),
-                              Navigator.pushNamed(context, COMING_SOON),
+                              ExtendedNavigator.of(context)
+                                  .pushNamed(Routes.comingSoon),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(

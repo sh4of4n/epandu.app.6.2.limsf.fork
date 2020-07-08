@@ -1,14 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/api/model/language_model.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/language_options.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import '../../app_localizations.dart';
+import '../../router.gr.dart';
 
 class Menu extends StatefulWidget {
   final data;
@@ -96,7 +97,8 @@ class _MenuState extends State<Menu> {
                 title: Text(AppLocalizations.of(context)
                     .translate('change_password_lbl')),
                 onTap: () {
-                  Navigator.pushNamed(context, CHANGE_PASSWORD);
+                  ExtendedNavigator.of(context)
+                      .pushNamed(Routes.changePassword);
                 },
               ),
               Divider(),
@@ -152,14 +154,15 @@ class _MenuState extends State<Menu> {
             onPressed: () async {
               if (widget.data != null) widget.data.cancel();
 
-              Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
+              ExtendedNavigator.of(context)
+                  .pushNamedAndRemoveUntil(Routes.login, (r) => false);
               await authRepo.logout(context: context);
             },
           ),
           FlatButton(
             child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
-              Navigator.pop(context);
+              ExtendedNavigator.of(context).pop();
             },
           ),
         ],

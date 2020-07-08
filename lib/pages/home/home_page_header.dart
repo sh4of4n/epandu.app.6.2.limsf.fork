@@ -1,10 +1,12 @@
 // import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
+
+import '../../router.gr.dart';
 
 class HomePageHeader extends StatelessWidget {
   final String instituteLogo;
@@ -101,8 +103,11 @@ class HomePageHeader extends StatelessWidget {
                 alignment: Alignment.topRight,
                 // margin: EdgeInsets.only(top: ScreenUtil().setHeight(30)),
                 child: InkWell(
-                  onTap: () => Navigator.pushNamed(context, PROFILE_TAB,
-                      arguments: positionStream),
+                  onTap: () => ExtendedNavigator.of(context).pushNamed(
+                    Routes.profileTab,
+                    arguments:
+                        ProfileTabArguments(positionStream: positionStream),
+                  ),
                   child: Image.asset(
                     image.profileRed,
                     width: 150.w,

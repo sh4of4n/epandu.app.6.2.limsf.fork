@@ -3,12 +3,12 @@ import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/services/repository/kpp_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+import '../../router.gr.dart';
 import 'kpp_category_icon.dart';
 
 class KppCategory extends StatefulWidget {
@@ -94,8 +94,8 @@ class _KppCategoryState extends State<KppCategory> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     KppCategoryIcon(
-                      component: MODULE,
-                      argument: 'KPP-D',
+                      component: Routes.kppModule,
+                      argument: KppModuleArguments(data: 'KPP-D'),
                       width: ScreenUtil().setWidth(600),
                       height: ScreenUtil().setHeight(500),
                       borderWidth: 5.0,
@@ -103,8 +103,8 @@ class _KppCategoryState extends State<KppCategory> {
                       image: image.car,
                     ),
                     KppCategoryIcon(
-                      component: MODULE,
-                      argument: 'KPP-B',
+                      component: Routes.kppModule,
+                      argument: KppModuleArguments(data: 'KPP-B'),
                       width: ScreenUtil().setWidth(600),
                       height: ScreenUtil().setHeight(500),
                       borderWidth: 5.0,

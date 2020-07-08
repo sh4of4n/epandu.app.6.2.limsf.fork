@@ -1,15 +1,16 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/api/model/language_model.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/language_options.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:epandu/widgets/loading_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import '../../app_localizations.dart';
+import '../../router.gr.dart';
 
 class Settings extends StatefulWidget {
   final data;
@@ -89,7 +90,8 @@ class _SettingsState extends State<Settings> {
                 title: Text(AppLocalizations.of(context)
                     .translate('change_password_lbl')),
                 onTap: () {
-                  Navigator.pushNamed(context, CHANGE_PASSWORD);
+                  ExtendedNavigator.of(context)
+                      .pushNamed(Routes.changePassword);
                 },
               ),
               Divider(),
@@ -122,7 +124,7 @@ class _SettingsState extends State<Settings> {
                               AppLocalizations.of(context).translate('no_lbl')),
                           onPressed: () {
                             count = 0;
-                            Navigator.pop(context);
+                            ExtendedNavigator.of(context).pop();
                           },
                         ),
                       ],
@@ -208,9 +210,10 @@ class _SettingsState extends State<Settings> {
                 _isLoading = true;
               });
 
-              Navigator.pop(context);
+              ExtendedNavigator.of(context).pop();
               await authRepo.logout(context: context, type: 'CLEAR');
-              Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
+              ExtendedNavigator.of(context)
+                  .pushNamedAndRemoveUntil(Routes.login, (r) => false);
 
               setState(() {
                 _isLoading = false;
@@ -220,7 +223,7 @@ class _SettingsState extends State<Settings> {
           FlatButton(
             child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
-              Navigator.pop(context);
+              ExtendedNavigator.of(context).pop();
             },
           ),
         ],
@@ -228,7 +231,7 @@ class _SettingsState extends State<Settings> {
   }
 
   _deleteAccount() async {
-    Navigator.pop(context);
+    ExtendedNavigator.of(context).pop();
 
     setState(() {
       _isLoading = true;
@@ -237,13 +240,14 @@ class _SettingsState extends State<Settings> {
     var result = await authRepo.deleteAppMemberAccount(context: context);
 
     if (result.isSuccess) {
-      Navigator.pushNamedAndRemoveUntil(context, LOGIN, (r) => false);
+      ExtendedNavigator.of(context)
+          .pushNamedAndRemoveUntil(Routes.login, (r) => false);
     } else {
       customDialog.show(
         context: context,
         type: DialogType.ERROR,
         content: result.message.toString(),
-        onPressed: () => Navigator.pop(context),
+        onPressed: () => ExtendedNavigator.of(context).pop(),
       );
     }
 

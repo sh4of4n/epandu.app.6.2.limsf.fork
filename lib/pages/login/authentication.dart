@@ -1,11 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
+import 'package:epandu/router.gr.dart';
 import 'package:epandu/services/api/model/language_model.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/app_config.dart';
 
 import 'package:epandu/utils/device_info.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -71,13 +72,13 @@ class _AuthenticationState extends State<Authentication> {
     String diCode = await localStorage.getDiCode();
 
     if (userId.isNotEmpty && diCode.isNotEmpty) {
-      Navigator.pushReplacementNamed(context, HOME);
+      ExtendedNavigator.of(context).pushReplacementNamed(Routes.home);
     } else if (userId.isNotEmpty && diCode.isEmpty) {
       await authRepo.logout(context: context, type: '');
 
-      Navigator.pushReplacementNamed(context, LOGIN);
+      ExtendedNavigator.of(context).pushReplacementNamed(Routes.login);
     } else {
-      Navigator.pushReplacementNamed(context, LOGIN);
+      ExtendedNavigator.of(context).pushReplacementNamed(Routes.login);
     }
   }
 

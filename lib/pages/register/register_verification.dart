@@ -1,12 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:quiver/async.dart';
 
 import '../../app_localizations.dart';
+import '../../router.gr.dart';
 
 class RegisterVerification extends StatefulWidget {
   final data;
@@ -394,7 +395,8 @@ class _RegisterVerificationState extends State<RegisterVerification> {
       FocusScope.of(context).requestFocus(new FocusNode());
 
       if (_verificationCode == _correctVerificationCode) {
-        Navigator.pushNamed(context, SIGN_UP_FORM, arguments: widget.data);
+        ExtendedNavigator.of(context).pushNamed(Routes.registerForm,
+            arguments: RegisterFormArguments(data: widget.data));
 
         setState(() {
           _message = '';

@@ -1,15 +1,16 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/services/api/model/kpp_model.dart';
 import 'package:epandu/services/repository/kpp_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:random_color/random_color.dart';
 
+import '../../router.gr.dart';
 import 'kpp_module_icon.dart';
 
 class KppModule extends StatefulWidget {
@@ -96,8 +97,8 @@ class _KppModuleState extends State<KppModule> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   KppModuleIcon(
-                      component: KPP_EXAM,
-                      argument: KppModuleArguments(
+                      component: Routes.kppExam,
+                      argument: KppExamArguments(
                         groupId: widget.data,
                         paperNo: snapshot[index].paperNo,
                       ),
@@ -137,8 +138,8 @@ class _KppModuleState extends State<KppModule> {
                 padding: const EdgeInsets.symmetric(
                     horizontal: 10.0, vertical: 17.0),
                 child: KppModuleIcon(
-                  component: KPP_EXAM,
-                  argument: KppModuleArguments(
+                  component: Routes.kppExam,
+                  argument: KppExamArguments(
                     groupId: widget.data,
                     paperNo: 'DEMO-BW',
                   ),
@@ -153,8 +154,8 @@ class _KppModuleState extends State<KppModule> {
                 padding: const EdgeInsets.symmetric(
                     horizontal: 10.0, vertical: 17.0),
                 child: KppModuleIcon(
-                  component: KPP_EXAM,
-                  argument: KppModuleArguments(
+                  component: Routes.kppExam,
+                  argument: KppExamArguments(
                     groupId: widget.data,
                     paperNo: 'DEMO-50',
                   ),
@@ -176,10 +177,9 @@ class _KppModuleState extends State<KppModule> {
               shape: StadiumBorder(),
               buttonColor: Colors.amber[700],
               child: RaisedButton(
-                onPressed: () => Navigator.pushNamed(
-                  context,
-                  PIN_ACTIVATION,
-                  arguments: widget.data,
+                onPressed: () => ExtendedNavigator.of(context).pushNamed(
+                  Routes.pinActivation,
+                  arguments: PinActivationArguments(data: widget.data),
                 ),
                 textColor: Colors.white,
                 child: Text(

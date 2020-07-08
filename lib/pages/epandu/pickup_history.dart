@@ -1,12 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/services/repository/pickup_repository.dart';
 import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 // import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
+
+import '../../router.gr.dart';
 
 class PickupHistory extends StatefulWidget {
   @override
@@ -65,7 +67,8 @@ class _PickupHistoryState extends State<PickupHistory> {
             color: Color(0xffdd0e0e),
             textColor: Colors.white,
             padding: EdgeInsets.all(12),
-            onPressed: () => Navigator.pushNamed(context, REQUEST_PICKUP),
+            onPressed: () =>
+                ExtendedNavigator.of(context).pushNamed(Routes.requestPickup),
             child: Icon(
               Icons.add,
             ),

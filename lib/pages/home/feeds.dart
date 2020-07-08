@@ -1,10 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/repository/profile_repository.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/utils/route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../router.gr.dart';
 
 class Feeds extends StatelessWidget {
   final feed;
@@ -79,13 +81,16 @@ class Feeds extends StatelessWidget {
                         if (!isUrl) {
                           switch (feedValue) {
                             case 'ENROLLMENT':
-                              Navigator.pushNamed(context, ENROLLMENT);
+                              ExtendedNavigator.of(context)
+                                  .pushNamed(Routes.enrollment);
                               break;
                             case 'KPP':
-                              Navigator.pushNamed(context, KPP);
+                              ExtendedNavigator.of(context)
+                                  .pushNamed(Routes.kppCategory);
                               break;
                             case 'VCLUB':
-                              Navigator.pushNamed(context, VALUE_CLUB);
+                              ExtendedNavigator.of(context)
+                                  .pushNamed(Routes.valueClub);
                               break;
                           }
                         } else {
@@ -121,7 +126,8 @@ class Feeds extends StatelessWidget {
                               forceWebView: true, enableJavaScript: true);
                         }
                       } else {
-                        Navigator.pushNamed(context, PROMOTIONS);
+                        ExtendedNavigator.of(context)
+                            .pushNamed(Routes.promotions);
                       }
                     },
                     child: Column(
@@ -236,13 +242,16 @@ class Feeds extends StatelessWidget {
                         if (!isUrl) {
                           switch (feedValue) {
                             case 'ENROLLMENT':
-                              Navigator.pushNamed(context, ENROLLMENT);
+                              ExtendedNavigator.of(context)
+                                  .pushNamed(Routes.enrollment);
                               break;
                             case 'KPP':
-                              Navigator.pushNamed(context, KPP);
+                              ExtendedNavigator.of(context)
+                                  .pushNamed(Routes.kppCategory);
                               break;
                             case 'VCLUB':
-                              Navigator.pushNamed(context, VALUE_CLUB);
+                              ExtendedNavigator.of(context)
+                                  .pushNamed(Routes.valueClub);
                               break;
                           }
                         } else {
@@ -278,7 +287,8 @@ class Feeds extends StatelessWidget {
                               forceWebView: true, enableJavaScript: true);
                         }
                       } else {
-                        Navigator.pushNamed(context, PROMOTIONS);
+                        ExtendedNavigator.of(context)
+                            .pushNamed(Routes.promotions);
                       }
                     },
                     child: Column(
