@@ -9,11 +9,13 @@ import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_localizations.dart';
 import '../../router.gr.dart';
+import 'directory_card.dart';
 
 class EmergencyDirectory extends StatefulWidget {
   @override
@@ -302,391 +304,207 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                     myImage.sosBanner,
                   ),
                 ),
-                Wrap(
-                  direction: Axis.horizontal,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: ScreenUtil().setWidth(60)),
-                      child: Column(
-//
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.symmetric(
-                                    vertical: ScreenUtil().setHeight(10)),
-                                height: ScreenUtil().setHeight(300),
-                                width: ScreenUtil().setWidth(400),
-                                child: Image.asset(
-                                  myImage.policeIcon,
-                                ),
-                              ),
-                              Wrap(
-                                children: <Widget>[
-                                  Container(
-                                    height: ScreenUtil().setHeight(200),
-                                    width: ScreenUtil().setWidth(300),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(myImage.phoneButton),
-                                      ),
-                                    ),
-                                    child: FlatButton(
-                                      padding: EdgeInsets.all(0.0),
-                                      onPressed: _callPoliceNumber,
-                                      child: null,
-                                    ),
-                                  ),
-                                  Container(
-                                    height: ScreenUtil().setHeight(200),
-                                    width: ScreenUtil().setWidth(300),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image:
-                                            AssetImage(myImage.directoryButton),
-                                      ),
-                                    ),
-                                    child: FlatButton(
-                                      padding: EdgeInsets.all(0.0),
-                                      onPressed: () {
-                                        ExtendedNavigator.of(context).pushNamed(
-                                            Routes.directoryList,
-                                            arguments: DirectoryListArguments(
-                                                directoryType: 'POLICE'));
-                                      },
-                                      child: null,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('police_title'),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey[600],
-                                    fontSize: ScreenUtil()
-                                        .setSp(54, allowFontScalingSelf: true)),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: ScreenUtil().setHeight(10)),
-                                  height: ScreenUtil().setHeight(300),
-                                  width: ScreenUtil().setWidth(400),
-                                  child: Image.asset(myImage.bombaIcon)),
-                              Wrap(
-                                children: <Widget>[
-                                  Container(
-                                    height: ScreenUtil().setHeight(200),
-                                    width: ScreenUtil().setWidth(300),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(myImage.phoneButton),
-                                      ),
-                                    ),
-                                    child: FlatButton(
-                                      padding: EdgeInsets.all(0.0),
-                                      onPressed: _callBombaNumber,
-                                      child: null,
-                                    ),
-                                  ),
-                                  Container(
-                                    height: ScreenUtil().setHeight(200),
-                                    width: ScreenUtil().setWidth(300),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image:
-                                            AssetImage(myImage.directoryButton),
-                                      ),
-                                    ),
-                                    child: FlatButton(
-                                      padding: EdgeInsets.all(0.0),
-                                      onPressed: () {
-                                        ExtendedNavigator.of(context).pushNamed(
-                                            Routes.directoryList,
-                                            arguments: DirectoryListArguments(
-                                                directoryType: 'BOMBA'));
-                                      },
-                                      child: null,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('bomba_title'),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey[600],
-                                    fontSize: ScreenUtil()
-                                        .setSp(54, allowFontScalingSelf: true)),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: ScreenUtil().setHeight(10)),
-                                  height: ScreenUtil().setHeight(300),
-                                  width: ScreenUtil().setWidth(400),
-                                  child: Image.asset(
-                                    myImage.workshopCar,
-                                  )),
-                              Wrap(
-                                children: <Widget>[
-                                  Container(
-                                    height: ScreenUtil().setHeight(200),
-                                    width: ScreenUtil().setWidth(300),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(myImage.phoneButton),
-                                      ),
-                                    ),
-                                    child: FlatButton(
-                                      padding: EdgeInsets.all(0.0),
-                                      onPressed: _callCarWorkshopNumber,
-                                      child: null,
-                                    ),
-                                  ),
-                                  Container(
-                                    height: ScreenUtil().setHeight(200),
-                                    width: ScreenUtil().setWidth(300),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image:
-                                            AssetImage(myImage.directoryButton),
-                                      ),
-                                    ),
-                                    child: FlatButton(
-                                      padding: EdgeInsets.all(0.0),
-                                      onPressed: () {
-                                        ExtendedNavigator.of(context).pushNamed(
-                                            Routes.directoryList,
-                                            arguments: DirectoryListArguments(
-                                                directoryType: 'WORKSHOP'));
-                                      },
-                                      child: null,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('workshop_cars'),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey[600],
-                                    fontSize: ScreenUtil()
-                                        .setSp(54, allowFontScalingSelf: true)),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: ScreenUtil().setWidth(60)),
-                      child: Column(
-//                      direction: Axis.vertical,
-//                      spacing: 20.0,
-//                      runSpacing: 10.0,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: ScreenUtil().setHeight(10)),
-                                  height: 300.h,
-                                  width: 400.w,
-                                  child: Image.asset(myImage.ambulanceIcon)),
-                              Wrap(
-                                children: <Widget>[
-                                  Container(
-                                    height: 200.h,
-                                    width: 300.w,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(myImage.phoneButton),
-                                      ),
-                                    ),
-                                    child: FlatButton(
-                                      padding: EdgeInsets.all(0.0),
-                                      onPressed: _callEmergencyNumber,
-                                      child: null,
-                                    ),
-                                  ),
-                                  Container(
-                                    height: ScreenUtil().setHeight(200),
-                                    width: ScreenUtil().setWidth(300),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image:
-                                            AssetImage(myImage.directoryButton),
-                                      ),
-                                    ),
-                                    child: FlatButton(
-                                      padding: EdgeInsets.all(0.0),
-                                      onPressed: () {
-                                        ExtendedNavigator.of(context).pushNamed(
-                                            Routes.directoryList,
-                                            arguments: DirectoryListArguments(
-                                                directoryType: 'AMBULANCE'));
-                                      },
-                                      child: null,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('ambulance_title'),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey[600],
-                                    fontSize: ScreenUtil()
-                                        .setSp(54, allowFontScalingSelf: true)),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.symmetric(vertical: 10.h),
-                                  height: 300.h,
-                                  width: 400.w,
-                                  child: Image.asset(myImage.towingIcon)),
-                              Wrap(
-                                children: <Widget>[
-                                  Container(
-                                    height: ScreenUtil().setHeight(200),
-                                    width: ScreenUtil().setWidth(300),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(myImage.phoneButton),
-                                      ),
-                                    ),
-                                    child: FlatButton(
-                                      padding: EdgeInsets.all(0.0),
-                                      onPressed: () => {
-                                        customSnackbar.show(
-                                          context,
-                                          message: AppLocalizations.of(context)
-                                              .translate('select_insurance'),
-                                          duration: 5000,
-                                          type: MessageType.INFO,
-                                        ),
-                                      },
-                                      child: null,
-                                    ),
-                                  ),
-                                  Container(
-                                    height: ScreenUtil().setHeight(200),
-                                    width: ScreenUtil().setWidth(300),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image:
-                                            AssetImage(myImage.directoryButton),
-                                      ),
-                                    ),
-                                    child: FlatButton(
-                                      padding: EdgeInsets.all(0.0),
-                                      onPressed: () {
-                                        ExtendedNavigator.of(context).pushNamed(
-                                            Routes.directoryList,
-                                            arguments: DirectoryListArguments(
-                                                directoryType: 'INSURANCE'));
-                                      },
-                                      child: null,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('towing_service'),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey[600],
-                                    fontSize: ScreenUtil()
-                                        .setSp(54, allowFontScalingSelf: true)),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: ScreenUtil().setHeight(10)),
-                                  height: ScreenUtil().setHeight(300),
-                                  width: ScreenUtil().setWidth(400),
-                                  child: Image.asset(myImage.workshopBike)),
-                              Wrap(
-                                children: <Widget>[
-                                  Container(
-                                    height: ScreenUtil().setHeight(200),
-                                    width: ScreenUtil().setWidth(300),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(myImage.phoneButton),
-                                      ),
-                                    ),
-                                    child: FlatButton(
-                                      padding: EdgeInsets.all(0.0),
-                                      onPressed: _callBikeWorkshopNumber,
-                                      child: null,
-                                    ),
-                                  ),
-                                  Container(
-                                    height: ScreenUtil().setHeight(200),
-                                    width: ScreenUtil().setWidth(300),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image:
-                                            AssetImage(myImage.directoryButton),
-                                      ),
-                                    ),
-                                    child: FlatButton(
-                                      padding: EdgeInsets.all(0.0),
-                                      onPressed: () {
-                                        ExtendedNavigator.of(context).pushNamed(
-                                            Routes.directoryList,
-                                            arguments: DirectoryListArguments(
-                                                directoryType: 'BIKEWORKSHOP'));
-                                      },
-                                      child: null,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('workshop_bike'),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey[600],
-                                    fontSize: ScreenUtil()
-                                        .setSp(54, allowFontScalingSelf: true)),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                SizedBox(
+                  height: 20.h,
                 ),
-                SizedBox(height: 40.h),
+                _renderCards(),
+                SizedBox(
+                  height: ScreenUtil().setHeight(70),
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  _renderCards() {
+    if (policeNumber.isNotEmpty && ambulanceNumber.isNotEmpty) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 30.w),
+        child: Table(
+          // defaultVerticalAlignment: TableCellVerticalAlignment.top,
+          // border: TableBorder.all(),
+          children: [
+            TableRow(
+              children: [
+                DirectoryCard(
+                  title: AppLocalizations.of(context).translate('police_title'),
+                  image: myImage.policeIcon,
+                  phoneIcon: myImage.phoneButton,
+                  directoryIcon: myImage.directoryButton,
+                  iconText: iconText,
+                  phoneAction: _callPoliceNumber,
+                  directoryName: Routes.directoryList,
+                  directoryType:
+                      DirectoryListArguments(directoryType: 'POLICE'),
+                ),
+                DirectoryCard(
+                  title:
+                      AppLocalizations.of(context).translate('ambulance_title'),
+                  image: myImage.ambulanceIcon,
+                  phoneIcon: myImage.phoneButton,
+                  directoryIcon: myImage.directoryButton,
+                  iconText: iconText,
+                  phoneAction: _callEmergencyNumber,
+                  directoryName: Routes.directoryList,
+                  directoryType:
+                      DirectoryListArguments(directoryType: 'AMBULANCE'),
+                ),
+              ],
+            ),
+            TableRow(
+              children: [
+                DirectoryCard(
+                  title: AppLocalizations.of(context).translate('bomba_title'),
+                  image: myImage.bombaIcon,
+                  phoneIcon: myImage.phoneButton,
+                  directoryIcon: myImage.directoryButton,
+                  iconText: iconText,
+                  phoneAction: _callBombaNumber,
+                  directoryName: Routes.directoryList,
+                  directoryType: DirectoryListArguments(directoryType: 'BOMBA'),
+                ),
+                DirectoryCard(
+                  title:
+                      AppLocalizations.of(context).translate('towing_service'),
+                  image: myImage.towingIcon,
+                  phoneIcon: myImage.phoneButton,
+                  directoryIcon: myImage.directoryButton,
+                  iconText: iconText,
+                  phoneAction: () => {
+                    customSnackbar.show(
+                      context,
+                      message: AppLocalizations.of(context)
+                          .translate('select_insurance'),
+                      duration: 5000,
+                      type: MessageType.INFO,
+                    ),
+                  },
+                  directoryName: Routes.directoryList,
+                  directoryType:
+                      DirectoryListArguments(directoryType: 'INSURANCE'),
+                ),
+              ],
+            ),
+            TableRow(
+              children: [
+                DirectoryCard(
+                  title:
+                      AppLocalizations.of(context).translate('workshop_cars'),
+                  image: myImage.workshopCar,
+                  phoneIcon: myImage.phoneButton,
+                  directoryIcon: myImage.directoryButton,
+                  iconText: iconText,
+                  phoneAction: _callCarWorkshopNumber,
+                  directoryName: Routes.directoryList,
+                  directoryType:
+                      DirectoryListArguments(directoryType: 'WORKSHOP'),
+                ),
+                DirectoryCard(
+                  title:
+                      AppLocalizations.of(context).translate('workshop_bike'),
+                  image: myImage.workshopBike,
+                  phoneIcon: myImage.phoneButton,
+                  directoryIcon: myImage.directoryButton,
+                  iconText: iconText,
+                  phoneAction: _callBikeWorkshopNumber,
+                  directoryName: Routes.directoryList,
+                  directoryType:
+                      DirectoryListArguments(directoryType: 'BIKEWORKSHOP'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 30.w),
+        child: Table(
+          children: [
+            TableRow(
+              children: [
+                Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.white,
+                  child: DirectoryCard(
+                    title: '',
+                    image: myImage.policeIcon,
+                    phoneIcon: myImage.phoneButton,
+                    directoryIcon: myImage.directoryButton,
+                    iconText: iconText,
+                  ),
+                ),
+                Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.white,
+                  child: DirectoryCard(
+                    title: '',
+                    image: myImage.ambulanceIcon,
+                    phoneIcon: myImage.phoneButton,
+                    directoryIcon: myImage.directoryButton,
+                    iconText: iconText,
+                  ),
+                ),
+              ],
+            ),
+            TableRow(
+              children: [
+                Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.white,
+                  child: DirectoryCard(
+                    title: '',
+                    image: myImage.bombaIcon,
+                    phoneIcon: myImage.phoneButton,
+                    directoryIcon: myImage.directoryButton,
+                    iconText: iconText,
+                  ),
+                ),
+                Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.white,
+                  child: DirectoryCard(
+                    title: '',
+                    image: myImage.towingIcon,
+                    phoneIcon: myImage.phoneButton,
+                    directoryIcon: myImage.directoryButton,
+                    iconText: iconText,
+                  ),
+                ),
+              ],
+            ),
+            TableRow(
+              children: [
+                Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.white,
+                  child: DirectoryCard(
+                    title: '',
+                    image: myImage.workshopCar,
+                    phoneIcon: myImage.phoneButton,
+                    directoryIcon: myImage.directoryButton,
+                    iconText: iconText,
+                  ),
+                ),
+                Shimmer.fromColors(
+                  baseColor: Colors.grey[300],
+                  highlightColor: Colors.white,
+                  child: DirectoryCard(
+                    title: '',
+                    image: myImage.workshopBike,
+                    phoneIcon: myImage.phoneButton,
+                    directoryIcon: myImage.directoryButton,
+                    iconText: iconText,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    }
   }
 }

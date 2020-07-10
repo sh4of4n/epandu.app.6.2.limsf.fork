@@ -37,17 +37,17 @@ class Networking extends BaseRepo {
       http.Response response;
       // for getWsUrl
       if (url == customUrl) {
+        print('$url/${path ?? ""}');
+
         response = await http
             .get('$url/${path ?? ""}')
             .timeout(const Duration(milliseconds: 10000));
-
-        print('$url/${path ?? ""}');
       } else {
+        print('$url/webapi/${path ?? ""}');
+
         response = await http
             .get('$url/webapi/${path ?? ""}')
             .timeout(const Duration(milliseconds: 30000));
-
-        print('$url/webapi/${path ?? ""}');
       }
 
       if (response.statusCode == 200) {
@@ -97,13 +97,13 @@ class Networking extends BaseRepo {
         url = await wsUrlBox.get('wsUrl');
       }
 
-      http.Response response = await http
-          .post('$url/webapi/$api${path ?? ""}', body: body, headers: headers)
-          .timeout(const Duration(seconds: 30));
-
       print('$url/webapi/$api${path ?? ""}');
 
       print('body: ' + body);
+
+      http.Response response = await http
+          .post('$url/webapi/$api${path ?? ""}', body: body, headers: headers)
+          .timeout(const Duration(seconds: 30));
 
       if (response.statusCode == 200) {
         print(response.body);
