@@ -122,13 +122,18 @@ class Feeds extends StatelessWidget {
                               '&dob=${dob.substring(0, 10)}' +
                               '&userId=$userId';
 
-                          launch(url,
-                              forceWebView: true, enableJavaScript: true);
+                          ExtendedNavigator.of(context).pushNamed(
+                              Routes.webview,
+                              arguments: WebviewArguments(url: url));
+
+                          /* launch(url,
+                              forceWebView: true, enableJavaScript: true); */
                         }
-                      } else {
+                      }
+                      /* else {
                         ExtendedNavigator.of(context)
                             .pushNamed(Routes.promotions);
-                      }
+                      } */
                     },
                     child: Column(
                       children: <Widget>[
@@ -184,10 +189,12 @@ class Feeds extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text(feed[index].feedText, style: adText),
-                              Icon(
-                                Icons.chevron_right,
-                              ),
+                              Text(feed[index].feedText ?? '', style: adText),
+                              if (feed[index].feedText != null &&
+                                  feed[index].feedText.isNotEmpty)
+                                Icon(
+                                  Icons.chevron_right,
+                                ),
                             ],
                           ),
                         ),
@@ -286,10 +293,11 @@ class Feeds extends StatelessWidget {
                           launch(url,
                               forceWebView: true, enableJavaScript: true);
                         }
-                      } else {
+                      }
+                      /* else {
                         ExtendedNavigator.of(context)
                             .pushNamed(Routes.promotions);
-                      }
+                      } */
                     },
                     child: Column(
                       children: <Widget>[
@@ -344,10 +352,12 @@ class Feeds extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text(feed[index].feedText, style: adTabText),
-                              Icon(
-                                Icons.chevron_right,
-                              ),
+                              Text(feed[index].feedText ?? '', style: adText),
+                              if (feed[index].feedText != null &&
+                                  feed[index].feedText.isNotEmpty)
+                                Icon(
+                                  Icons.chevron_right,
+                                ),
                             ],
                           ),
                         ),

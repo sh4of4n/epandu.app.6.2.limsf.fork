@@ -57,6 +57,7 @@ import 'package:epandu/pages/payment/bill_transaction.dart';
 import 'package:epandu/pages/payment/bill_detail.dart';
 import 'package:epandu/pages/payment/bill_selection.dart';
 import 'package:epandu/pages/vclub/merchant_list.dart';
+import 'package:epandu/pages/home/webview.dart';
 import 'package:epandu/coming_soon/coming_soon.dart';
 
 class Routes {
@@ -109,6 +110,7 @@ class Routes {
   static const String billDetail = '/bill-detail';
   static const String billSelection = '/bill-selection';
   static const String merchantList = '/merchant-list';
+  static const String webview = '/Webview';
   static const String comingSoon = '/coming-soon';
   static const all = <String>{
     authentication,
@@ -160,6 +162,7 @@ class Routes {
     billDetail,
     billSelection,
     merchantList,
+    webview,
     comingSoon,
   };
 }
@@ -217,6 +220,7 @@ class Router extends RouterBase {
     RouteDef(Routes.billDetail, page: BillDetail),
     RouteDef(Routes.billSelection, page: BillSelection),
     RouteDef(Routes.merchantList, page: MerchantList),
+    RouteDef(Routes.webview, page: Webview),
     RouteDef(Routes.comingSoon, page: ComingSoon),
   ];
   @override
@@ -546,6 +550,13 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    Webview: (RouteData data) {
+      var args = data.getArgs<WebviewArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => Webview(url: args.url),
+        settings: data,
+      );
+    },
     ComingSoon: (RouteData data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => ComingSoon(),
@@ -709,4 +720,10 @@ class BillDetailArguments {
 class MerchantListArguments {
   final dynamic merchantType;
   MerchantListArguments({@required this.merchantType});
+}
+
+//Webview arguments holder class
+class WebviewArguments {
+  final String url;
+  WebviewArguments({@required this.url});
 }
