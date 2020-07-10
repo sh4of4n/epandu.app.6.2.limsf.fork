@@ -8,3 +8,4 @@ export 'booking.dart';
 export 'records.dart';
 export 'pickup_history.dart';
 export 'request_pickup.dart';
+export 'add_booking.dart';
