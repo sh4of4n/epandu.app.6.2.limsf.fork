@@ -31,6 +31,7 @@ class LocalStorage {
   static const String kNickName = 'NICK_NAME';
   static const String kMerchantDbCode = 'MERCHANT_DB_CODE';
   static const String kProfilePic = 'PROFILE_PIC';
+  static const String kLoginDeviceId = 'LOGIN_DEVICE_ID';
 
   Future<void> saveNickName(String nickName) {
     return Preference.setString(kNickName, nickName);
@@ -270,6 +271,14 @@ class LocalStorage {
 
   Future<void> saveProfilePic(String profilePic) async {
     return Preference.setString(kProfilePic, profilePic);
+  }
+
+  Future<String> getLoginDeviceId() async {
+    return Preference.getString(kLoginDeviceId, def: '');
+  }
+
+  Future<void> saveLoginDeviceId(String deviceId) async {
+    return Preference.setString(kLoginDeviceId, deviceId);
   }
 
   Future<void> reset() async {

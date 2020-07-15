@@ -201,13 +201,15 @@ class Table1 {
   String userId;
   String sessionId;
   String msg;
+  String deviceId;
 
-  Table1({this.userId, this.sessionId, this.msg});
+  Table1({this.userId, this.sessionId, this.msg, this.deviceId});
 
   Table1.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
     sessionId = json['sessionId'];
     msg = json['msg'];
+    deviceId = json['deviceId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -215,6 +217,7 @@ class Table1 {
     data['userId'] = this.userId;
     data['sessionId'] = this.sessionId;
     data['msg'] = this.msg;
+    data['deviceId'] = this.deviceId;
     return data;
   }
 }
@@ -1689,16 +1692,21 @@ class Feed {
   String feedDoc;
   String feedRef;
   String feedDesc;
+  String feedType;
   String bgDate;
   String durationDay;
   String active;
   String rowKey;
   String feedText;
+  String feedMedia;
   String feedMediaFilename;
   String feedNavigate;
+  String udfReturnParameter;
   String merchantNo;
   String localFeed;
+  String remark;
   String createUser;
+  String createDate;
   String editUser;
   String editDate;
   String deleted;
@@ -1711,16 +1719,21 @@ class Feed {
       this.feedDoc,
       this.feedRef,
       this.feedDesc,
+      this.feedType,
       this.bgDate,
       this.durationDay,
       this.active,
       this.rowKey,
       this.feedText,
+      this.feedMedia,
       this.feedMediaFilename,
       this.feedNavigate,
+      this.udfReturnParameter,
       this.merchantNo,
       this.localFeed,
+      this.remark,
       this.createUser,
+      this.createDate,
       this.editUser,
       this.editDate,
       this.deleted,
@@ -1733,16 +1746,21 @@ class Feed {
     feedDoc = json['feed_doc'];
     feedRef = json['feed_ref'];
     feedDesc = json['feed_desc'];
+    feedType = json['feed_type'];
     bgDate = json['bg_date'];
     durationDay = json['duration_day'];
     active = json['active'];
     rowKey = json['row_key'];
     feedText = json['feed_text'];
+    feedMedia = json['feed_media'];
     feedMediaFilename = json['feed_media_filename'];
     feedNavigate = json['feed_navigate'];
+    udfReturnParameter = json['udf_return_parameter'];
     merchantNo = json['merchant_no'];
     localFeed = json['local_feed'];
+    remark = json['remark'];
     createUser = json['create_user'];
+    createDate = json['create_date'];
     editUser = json['edit_user'];
     editDate = json['edit_date'];
     deleted = json['deleted'];
@@ -1757,16 +1775,21 @@ class Feed {
     data['feed_doc'] = this.feedDoc;
     data['feed_ref'] = this.feedRef;
     data['feed_desc'] = this.feedDesc;
+    data['feed_type'] = this.feedType;
     data['bg_date'] = this.bgDate;
     data['duration_day'] = this.durationDay;
     data['active'] = this.active;
     data['row_key'] = this.rowKey;
     data['feed_text'] = this.feedText;
+    data['feed_media'] = this.feedMedia;
     data['feed_media_filename'] = this.feedMediaFilename;
     data['feed_navigate'] = this.feedNavigate;
+    data['udf_return_parameter'] = this.udfReturnParameter;
     data['merchant_no'] = this.merchantNo;
     data['local_feed'] = this.localFeed;
+    data['remark'] = this.remark;
     data['create_user'] = this.createUser;
+    data['create_date'] = this.createDate;
     data['edit_user'] = this.editUser;
     data['edit_date'] = this.editDate;
     data['deleted'] = this.deleted;

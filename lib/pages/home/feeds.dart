@@ -1,17 +1,21 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/repository/profile_repository.dart';
+import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 
 import '../../router.gr.dart';
 
 class Feeds extends StatelessWidget {
   final feed;
+  final String appVersion;
+  final String latitude;
+  final String longitude;
 
-  Feeds({this.feed});
+  Feeds({this.feed, this.appVersion, this.latitude, this.longitude});
 
   final adText = TextStyle(
     fontSize: ScreenUtil().setSp(70),
@@ -29,8 +33,105 @@ class Feeds extends StatelessWidget {
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
 
   final localStorage = LocalStorage();
-
   final profileRepo = ProfileRepo();
+  final appConfig = AppConfig();
+
+  loadUrl(feed, context) async {
+    var result = await profileRepo.getUserProfile(context: context);
+
+    String merchantNo = 'P1001';
+    String phone = result.data[0].phone;
+    String email = result.data[0].eMail;
+    String icName = result.data[0].name;
+    String icNo = result.data[0].icNo;
+    String dob = result.data[0].birthDate;
+    String userId = await localStorage.getUserId();
+    String loginDeviceId = await localStorage.getLoginDeviceId();
+    String profilePic = result.data[0].picturePath != null &&
+            result.data[0].picturePath.isNotEmpty
+        ? result.data[0].picturePath
+            .replaceAll(removeBracket, '')
+            .split('\r\n')[0]
+        : '';
+
+    String url = feed.feedNavigate +
+        '/#/?' +
+        'appId=${appConfig.appId}' +
+        '&appVersion=$appVersion' +
+        '&userId=$userId' +
+        '&deviceId=$loginDeviceId' +
+        _getMerchantNo(udf: feed.udfReturnParameter, merchantNo: merchantNo) +
+        _getIcName(
+            udf: feed.udfReturnParameter, icName: Uri.encodeComponent(icName)) +
+        _getIcNo(udf: feed.udfReturnParameter, icNo: icNo) +
+        _getPhone(udf: feed.udfReturnParameter, phone: phone) +
+        _getEmail(udf: feed.udfReturnParameter, email: email) +
+        _getBirthDate(udf: feed.udfReturnParameter, dob: dob.substring(0, 10)) +
+        _getLatitude(udf: feed.udfReturnParameter) +
+        _getLongitude(udf: feed.udfReturnParameter);
+
+    ExtendedNavigator.of(context)
+        .pushNamed(Routes.webview, arguments: WebviewArguments(url: url));
+
+    /* launch(url,
+                              forceWebView: true, enableJavaScript: true); */
+  }
+
+  String _getMerchantNo({udf, merchantNo}) {
+    if (udf.contains('merchant_no')) {
+      return '&merchantNo=$merchantNo';
+    }
+    return '';
+  }
+
+  String _getIcName({udf, icName}) {
+    if (udf.contains('name')) {
+      return '&icName=${Uri.encodeComponent(icName)}';
+    }
+    return '';
+  }
+
+  String _getIcNo({udf, icNo}) {
+    if (udf.contains('ic_no')) {
+      return '&icNo=$icNo';
+    }
+    return '';
+  }
+
+  String _getPhone({udf, phone}) {
+    if (udf.contains('phone')) {
+      return '&phone=$phone';
+    }
+    return '';
+  }
+
+  String _getEmail({udf, email}) {
+    if (udf.contains('e_mail')) {
+      return '&email=${email ?? ''}';
+    }
+    return '';
+  }
+
+  String _getBirthDate({udf, dob}) {
+    if (udf.contains('e_mail')) {
+      return '&dob=${dob.substring(0, 10)}';
+    }
+    return '';
+  }
+
+  String _getLatitude({udf}) {
+    if (udf.contains('latitude')) {
+      return '&latitude=$latitude';
+    }
+    return '';
+  }
+
+  String _getLongitude({udf}) {
+    if (udf.contains('longitude')) {
+      return '&longitude=$longitude';
+    }
+    return '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,42 +193,11 @@ class Feeds extends StatelessWidget {
                               ExtendedNavigator.of(context)
                                   .pushNamed(Routes.valueClub);
                               break;
+                            default:
+                              break;
                           }
                         } else {
-                          var result = await profileRepo.getUserProfile(
-                              context: context);
-
-                          String merchantNo = 'P1001';
-                          String phone = result.data[0].phone;
-                          String email = result.data[0].eMail;
-                          String icName = result.data[0].name;
-                          String icNo = result.data[0].icNo;
-                          String dob = result.data[0].birthDate;
-                          String userId = await localStorage.getUserId();
-                          String profilePic =
-                              result.data[0].picturePath != null &&
-                                      result.data[0].picturePath.isNotEmpty
-                                  ? result.data[0].picturePath
-                                      .replaceAll(removeBracket, '')
-                                      .split('\r\n')[0]
-                                  : '';
-
-                          String url = feedValue +
-                              '/#/?' +
-                              'merchantNo=$merchantNo' +
-                              '&icName=${Uri.encodeComponent(icName)}' +
-                              '&icNo=$icNo' +
-                              '&phone=$phone' +
-                              '&email=${email ?? ''}' +
-                              '&dob=${dob.substring(0, 10)}' +
-                              '&userId=$userId';
-
-                          ExtendedNavigator.of(context).pushNamed(
-                              Routes.webview,
-                              arguments: WebviewArguments(url: url));
-
-                          /* launch(url,
-                              forceWebView: true, enableJavaScript: true); */
+                          loadUrl(feed[index], context);
                         }
                       }
                       /* else {
@@ -260,38 +330,11 @@ class Feeds extends StatelessWidget {
                               ExtendedNavigator.of(context)
                                   .pushNamed(Routes.valueClub);
                               break;
+                            default:
+                              break;
                           }
                         } else {
-                          var result = await profileRepo.getUserProfile(
-                              context: context);
-
-                          String merchantNo = 'P1001';
-                          String phone = result.data[0].phone;
-                          String email = result.data[0].eMail;
-                          String icName = result.data[0].name;
-                          String icNo = result.data[0].icNo;
-                          String dob = result.data[0].birthDate;
-                          String userId = await localStorage.getUserId();
-                          String profilePic =
-                              result.data[0].picturePath != null &&
-                                      result.data[0].picturePath.isNotEmpty
-                                  ? result.data[0].picturePath
-                                      .replaceAll(removeBracket, '')
-                                      .split('\r\n')[0]
-                                  : '';
-
-                          String url = feedValue +
-                              '/#/?' +
-                              'merchantNo=$merchantNo' +
-                              '&icName=${Uri.encodeComponent(icName)}' +
-                              '&icNo=$icNo' +
-                              '&phone=$phone' +
-                              '&email=$email' +
-                              '&dob=${dob.substring(0, 10)}' +
-                              '&userId=$userId';
-
-                          launch(url,
-                              forceWebView: true, enableJavaScript: true);
+                          loadUrl(feed[index], context);
                         }
                       }
                       /* else {

@@ -198,6 +198,7 @@ class AuthRepo {
 
         localStorage.saveUserId(responseData.userId);
         localStorage.saveSessionId(responseData.sessionId);
+        localStorage.saveLoginDeviceId(responseData.deviceId);
 
         var result = await getUserRegisteredDI(context: context, type: 'LOGIN');
 

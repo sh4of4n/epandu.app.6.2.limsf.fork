@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_settings/app_settings.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:epandu/services/location.dart';
@@ -11,7 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
+import 'package:package_info/package_info.dart';
+import 'package:epandu/utils/custom_dialog.dart';
 
+import '../../app_localizations.dart';
 import 'bottom_menu.dart';
 import 'feeds.dart';
 import 'home_page_header.dart';
@@ -27,6 +31,7 @@ class _HomeState extends State<Home> {
 
   final authRepo = AuthRepo();
   final kppRepo = KppRepo();
+  final customDialog = CustomDialog();
   final localStorage = LocalStorage();
   final primaryColor = ColorConstant.primaryColor;
   // String _username = '';
@@ -43,6 +48,9 @@ class _HomeState extends State<Home> {
   );
   String instituteLogo = '';
   bool isLogoLoaded = false;
+  String appVersion = '';
+  String latitude = '';
+  String longitude = '';
 
   final _iconText = TextStyle(
     fontSize: ScreenUtil().setSp(55),
@@ -56,8 +64,18 @@ class _HomeState extends State<Home> {
     _openHiveBoxes();
     // getStudentInfo();
     // _getCurrentLocation();
+    _checkLocationPermission();
     _getDiProfile();
     _getActiveFeed();
+    _getAppVersion();
+  }
+
+  _getAppVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    setState(() {
+      appVersion = packageInfo.version;
+    });
   }
 
   @override
@@ -116,24 +134,56 @@ class _HomeState extends State<Home> {
     }
   }
 
-  /* _getCurrentLocation() async {
-    await location.getCurrentLocation();
-    await _checkSavedCoord();
-    // userTracking();
+  _checkLocationPermission() async {
+    // contactBox = Hive.box('emergencyContact');
+
+    // await location.getCurrentLocation();
+
+    bool serviceLocationStatus = await Geolocator().isLocationServiceEnabled();
+
+    // GeolocationStatus geolocationStatus =
+    //     await Geolocator().checkGeolocationPermissionStatus();
+
+    if (serviceLocationStatus) {
+      _getCurrentLocation();
+    } else {
+      customDialog.show(
+        context: context,
+        barrierDismissable: false,
+        title: Text(
+            AppLocalizations.of(context).translate('loc_permission_title')),
+        content: AppLocalizations.of(context).translate('loc_permission_desc'),
+        customActions: <Widget>[
+          FlatButton(
+            child: Text(AppLocalizations.of(context).translate('yes_lbl')),
+            onPressed: () {
+              ExtendedNavigator.of(context).pop();
+              ExtendedNavigator.of(context).pop();
+              AppSettings.openLocationSettings();
+            },
+          ),
+          FlatButton(
+            child: Text(AppLocalizations.of(context).translate('no_lbl')),
+            onPressed: () {
+              ExtendedNavigator.of(context).pop();
+              ExtendedNavigator.of(context).pop();
+            },
+          ),
+        ],
+        type: DialogType.GENERAL,
+      );
+    }
   }
 
-  // Check if stored latitude and longitude is null
-  _checkSavedCoord() async {
-    double _savedLatitude =
-        double.tryParse(await localStorage.getUserLatitude());
-    double _savedLongitude =
-        double.tryParse(await localStorage.getUserLongitude());
+  _getCurrentLocation() async {
+    await location.getCurrentLocation();
 
-    if (_savedLatitude == null || _savedLongitude == null) {
-      localStorage.saveUserLatitude(location.latitude.toString());
-      localStorage.saveUserLongitude(location.longitude.toString());
-    }
-  } */
+    localStorage.saveUserLatitude(location.latitude.toString());
+    localStorage.saveUserLongitude(location.longitude.toString());
+
+    latitude = location.latitude.toString();
+    longitude = location.longitude.toString();
+  }
 
   // remember to add positionStream.cancel()
   /* Future<void> userTracking() async {
@@ -213,7 +263,12 @@ class _HomeState extends State<Home> {
                     ),
                     HomeTopMenu(iconText: _iconText),
                     LimitedBox(maxHeight: ScreenUtil().setHeight(30)),
-                    Feeds(feed: feed),
+                    Feeds(
+                      feed: feed,
+                      appVersion: appVersion,
+                      latitude: latitude,
+                      longitude: longitude,
+                    ),
                   ],
                 ),
               ),
