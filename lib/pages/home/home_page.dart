@@ -92,11 +92,12 @@ class _HomeState extends State<Home> {
     if (result.isSuccess && result.data != null) {
       // Uint8List decodedImage = base64Decode(
       //     result.data);
-
-      setState(() {
-        instituteLogo = result.data;
-        isLogoLoaded = true;
-      });
+      if (mounted) {
+        setState(() {
+          instituteLogo = result.data;
+          isLogoLoaded = true;
+        });
+      }
     }
 
     /* if (instituteLogoPath.isEmpty) {

@@ -808,9 +808,11 @@ class CreateAppAccountWithAppIdRequest {
   String caPwd;
   String appCode;
   String appId;
+  String appVersion;
   String diCode;
   String userId;
   String name;
+  String nickName;
   String icNo;
   String passportNo;
   String phoneCountryCode;
@@ -834,9 +836,11 @@ class CreateAppAccountWithAppIdRequest {
       this.caPwd,
       this.appCode,
       this.appId,
+      this.appVersion,
       this.diCode,
       this.userId,
       this.name,
+      this.nickName,
       this.icNo,
       this.passportNo,
       this.phoneCountryCode,
@@ -860,9 +864,11 @@ class CreateAppAccountWithAppIdRequest {
     caPwd = json['caPwd'];
     appCode = json['appCode'];
     appId = json['appId'];
+    appVersion = json['appVersion'];
     diCode = json['diCode'];
     userId = json['userId'];
     name = json['name'];
+    nickName = json['nickName'];
     icNo = json['icNo'];
     passportNo = json['passportNo'];
     phoneCountryCode = json['phoneCountryCode'];
@@ -888,9 +894,11 @@ class CreateAppAccountWithAppIdRequest {
     data['caPwd'] = this.caPwd;
     data['appCode'] = this.appCode;
     data['appId'] = this.appId;
+    data['appVersion'] = this.appVersion;
     data['diCode'] = this.diCode;
     data['userId'] = this.userId;
     data['name'] = this.name;
+    data['nickName'] = this.nickName;
     data['icNo'] = this.icNo;
     data['passportNo'] = this.passportNo;
     data['phoneCountryCode'] = this.phoneCountryCode;

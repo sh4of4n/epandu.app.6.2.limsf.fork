@@ -203,13 +203,25 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         ),
       );
     }
-    return IconButton(
-      onPressed: _profilePicOption,
-      icon: Icon(
-        Icons.account_circle,
-        color: Colors.grey[850],
-      ),
-      iconSize: 70,
+    return Column(
+      children: <Widget>[
+        IconButton(
+          onPressed: _profilePicOption,
+          icon: Icon(
+            Icons.account_circle,
+            color: Colors.grey[850],
+          ),
+          iconSize: 70,
+        ),
+        OutlineButton(
+          borderSide: BorderSide(
+            color: Colors.blue,
+            width: 1.5,
+          ),
+          onPressed: _profilePicOption,
+          child: Text(AppLocalizations.of(context).translate('edit')),
+        ),
+      ],
     );
   }
 

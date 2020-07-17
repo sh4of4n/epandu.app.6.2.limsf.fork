@@ -135,13 +135,14 @@ class _ProfileState extends State<Profile>
                 subtitle:
                     Text('${widget.userProfile?.name}', style: _subtitleStyle),
               ),
-            ListTile(
-              leading: Icon(Icons.account_box),
-              title:
-                  Text(AppLocalizations.of(context).translate('nick_name_lbl')),
-              subtitle: Text('${widget.userProfile?.nickName}',
-                  style: _subtitleStyle),
-            ),
+            if (widget.userProfile?.nickName != null)
+              ListTile(
+                leading: Icon(Icons.account_box),
+                title: Text(
+                    AppLocalizations.of(context).translate('nick_name_lbl')),
+                subtitle: Text('${widget.userProfile?.nickName}',
+                    style: _subtitleStyle),
+              ),
             if (widget.userProfile?.icNo != null)
               ListTile(
                 leading: Icon(Icons.perm_identity),

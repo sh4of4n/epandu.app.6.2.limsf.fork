@@ -56,6 +56,10 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   // final FocusNode _nearbyDiFocus = FocusNode();
   // final FocusNode _nationalityFocus = FocusNode();
 
+  final _phoneController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _idNameController = TextEditingController();
+  final _icNoController = TextEditingController();
   final _dobController = TextEditingController();
 
   final primaryColor = ColorConstant.primaryColor;
@@ -107,6 +111,10 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   void initState() {
     super.initState();
 
+    _phoneController.addListener(_phoneValue);
+    _emailController.addListener(_emailValue);
+    _idNameController.addListener(_idNameValue);
+    _icNoController.addListener(_icNoValue);
     _dobController.addListener(_dobValue);
     _getEnrollHistory();
     _getParticulars();
@@ -143,22 +151,48 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     // String _getDob = await localStorage.getBirthDate();
     // String _getProfilePic = await localStorage.getProfilePic();
 
-    setState(() {
-      phone = result.data[0].phone;
-      email = result.data[0].eMail;
-      _icName = result.data[0].name;
-      _icNo = result.data[0].icNo;
-      _dob = result.data[0].birthDate;
-      profilePicUrl = result.data[0].picturePath != null &&
-              result.data[0].picturePath.isNotEmpty
-          ? result.data[0].picturePath
-              .replaceAll(removeBracket, '')
-              .split('\r\n')[0]
-          : '';
+    if (mounted) {
+      setState(() {
+        _phoneController.text = result.data[0].phone;
+        _emailController.text = result.data[0].eMail;
+        _idNameController.text = result.data[0].name;
+        _icNoController.text = result.data[0].icNo;
+        _dobController.text = result.data[0].birthDate;
+        profilePicUrl = result.data[0].picturePath != null &&
+                result.data[0].picturePath.isNotEmpty
+            ? result.data[0].picturePath
+                .replaceAll(removeBracket, '')
+                .split('\r\n')[0]
+            : '';
 
-      if (_icNo != null && _icNo.isNotEmpty) {
-        autoFillDob(_icNo);
-      }
+        if (_icNo != null && _icNo.isNotEmpty) {
+          autoFillDob(_icNo);
+        }
+      });
+    }
+  }
+
+  _phoneValue() {
+    setState(() {
+      phone = _phoneController.text;
+    });
+  }
+
+  _emailValue() {
+    setState(() {
+      email = _emailController.text;
+    });
+  }
+
+  _idNameValue() {
+    setState(() {
+      _icName = _idNameController.text;
+    });
+  }
+
+  _icNoValue() {
+    setState(() {
+      _icNo = _icNoController.text;
     });
   }
 
@@ -171,7 +205,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   _phoneField() {
     return TextFormField(
       enabled: false,
-      initialValue: phone,
+      controller: _phoneController,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 16.0),
         hintStyle: TextStyle(
@@ -204,7 +238,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   _emailField() {
     return TextFormField(
       enabled: false,
-      initialValue: email,
+      controller: _emailController,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 16.0),
         hintStyle: TextStyle(
@@ -237,10 +271,10 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   _idNameField() {
     return TextFormField(
       focusNode: _idNameFocus,
+      controller: _idNameController,
       keyboardType: TextInputType.multiline,
       maxLines: null,
       textInputAction: TextInputAction.next,
-      initialValue: _icName,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 16.0),
         hintStyle: TextStyle(
@@ -292,8 +326,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   _idField() {
     return TextFormField(
       focusNode: _idFocus,
+      controller: _icNoController,
       // textInputAction: TextInputAction.next,
-      initialValue: _icNo,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 16.0),
         hintStyle: TextStyle(
@@ -669,13 +703,25 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         ),
       );
     }
-    return IconButton(
-      onPressed: _profilePicOption,
-      icon: Icon(
-        Icons.account_circle,
-        color: Colors.grey[850],
-      ),
-      iconSize: 70,
+    return Column(
+      children: <Widget>[
+        IconButton(
+          onPressed: _profilePicOption,
+          icon: Icon(
+            Icons.account_circle,
+            color: Colors.grey[850],
+          ),
+          iconSize: 70,
+        ),
+        OutlineButton(
+          borderSide: BorderSide(
+            color: Colors.blue,
+            width: 1.5,
+          ),
+          onPressed: _profilePicOption,
+          child: Text(AppLocalizations.of(context).translate('edit')),
+        ),
+      ],
     );
   }
 
@@ -794,6 +840,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                     Center(
                       child: _profileImage(),
                     ),
+                    SizedBox(height: 60.h),
                     _idNameField(),
                     SizedBox(
                       height: ScreenUtil().setHeight(60),

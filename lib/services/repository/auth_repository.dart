@@ -388,6 +388,7 @@ class AuthRepo {
     String userId,
     String diCode,
     String name,
+    String nickName,
     String add1,
     String add2,
     String add3,
@@ -449,6 +450,7 @@ class AuthRepo {
       userId,
       diCode,
       name,
+      nickName,
       add1,
       add2,
       add3,
@@ -470,6 +472,7 @@ class AuthRepo {
     String userId,
     String diCode,
     String name,
+    String nickName,
     String add1,
     String add2,
     String add3,
@@ -483,6 +486,7 @@ class AuthRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
     String trimIc = icNo?.replaceAll('-', '');
+    String appVersion = await localStorage.getAppVersion();
 
     CreateAppAccountWithAppIdRequest params = CreateAppAccountWithAppIdRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
@@ -490,9 +494,11 @@ class AuthRepo {
       caPwd: caPwd,
       appCode: appConfig.appCode,
       appId: appConfig.appId,
+      appVersion: appVersion,
       diCode: diCode ?? appConfig.diCode,
       userId: userId,
       name: name,
+      nickName: nickName ?? '',
       icNo: trimIc ?? '',
       passportNo: '',
       phoneCountryCode: countryCode,
