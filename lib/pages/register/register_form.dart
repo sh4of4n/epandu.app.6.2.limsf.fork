@@ -178,7 +178,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
           child: Text(AppLocalizations.of(context).translate('take_photo')),
           onPressed: () async {
             ExtendedNavigator.of(context).pop();
-            var newProfilePic = await ExtendedNavigator.of(context).pushNamed(
+            var newProfilePic = await ExtendedNavigator.of(context).push(
                 Routes.takeProfilePicture,
                 arguments: TakeProfilePictureArguments(camera: cameras));
 
@@ -941,7 +941,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
           longitude: _longitude,
           deviceId: _deviceId,
           deviceBrand: _deviceBrand,
-          deviceModel: _deviceModel,
+          deviceModel: Uri.encodeComponent(_deviceModel),
           deviceVersion: '$_deviceOs $_deviceVersion',
         );
 
@@ -1017,14 +1017,14 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
         localStorage.saveDiCode(getRegisteredDi.data[0].diCode);
 
         ExtendedNavigator.of(context)
-            .pushNamedAndRemoveUntil(Routes.home, (r) => false);
+            .pushAndRemoveUntil(Routes.home, (r) => false);
       } else {
         ExtendedNavigator.of(context)
-            .pushNamedAndRemoveUntil(Routes.login, (r) => false);
+            .pushAndRemoveUntil(Routes.login, (r) => false);
       }
     } else {
       ExtendedNavigator.of(context)
-          .pushNamedAndRemoveUntil(Routes.login, (r) => false);
+          .pushAndRemoveUntil(Routes.login, (r) => false);
     }
 
     setState(() {

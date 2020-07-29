@@ -83,8 +83,7 @@ class _LoginTabletBottomCardState extends State<LoginTabletBottomCard> {
                     onPressed: () async {
                       count = 0;
                       ExtendedNavigator.of(context).pop();
-                      ExtendedNavigator.of(context)
-                          .pushNamed(Routes.clientAccount);
+                      ExtendedNavigator.of(context).push(Routes.clientAccount);
                     },
                   );
                 }

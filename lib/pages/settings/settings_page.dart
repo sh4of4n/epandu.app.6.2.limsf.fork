@@ -90,8 +90,7 @@ class _SettingsState extends State<Settings> {
                 title: Text(AppLocalizations.of(context)
                     .translate('change_password_lbl')),
                 onTap: () {
-                  ExtendedNavigator.of(context)
-                      .pushNamed(Routes.changePassword);
+                  ExtendedNavigator.of(context).push(Routes.changePassword);
                 },
               ),
               Divider(),
@@ -150,7 +149,7 @@ class _SettingsState extends State<Settings> {
                             .translate('client_acc_desc'),
                         type: DialogType.SUCCESS,
                         onPressed: () async {
-                          Navigator.pushNamedAndRemoveUntil(
+                          Navigator.pushAndRemoveUntil(
                               context, CLIENT_ACC, (r) => false,
                               arguments: 'SETTINGS');
                           await authRepo.logout();
@@ -178,7 +177,7 @@ class _SettingsState extends State<Settings> {
                             .translate('client_acc_desc'),
                         type: DialogType.SUCCESS,
                         onPressed: () async {
-                          Navigator.pushNamedAndRemoveUntil(
+                          Navigator.pushAndRemoveUntil(
                               context, CLIENT_ACC, (r) => false,
                               arguments: 'SETTINGS');
                           await authRepo.logout();
@@ -213,7 +212,7 @@ class _SettingsState extends State<Settings> {
               ExtendedNavigator.of(context).pop();
               await authRepo.logout(context: context, type: 'CLEAR');
               ExtendedNavigator.of(context)
-                  .pushNamedAndRemoveUntil(Routes.login, (r) => false);
+                  .pushAndRemoveUntil(Routes.login, (r) => false);
 
               setState(() {
                 _isLoading = false;
@@ -241,7 +240,7 @@ class _SettingsState extends State<Settings> {
 
     if (result.isSuccess) {
       ExtendedNavigator.of(context)
-          .pushNamedAndRemoveUntil(Routes.login, (r) => false);
+          .pushAndRemoveUntil(Routes.login, (r) => false);
     } else {
       customDialog.show(
         context: context,

@@ -214,8 +214,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      ExtendedNavigator.of(context)
-                          .pushNamed(Routes.forgotPassword);
+                      ExtendedNavigator.of(context).push(Routes.forgotPassword);
                     },
                     child: Text(
                       AppLocalizations.of(context)
@@ -258,8 +257,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      ExtendedNavigator.of(context)
-                          .pushNamed(Routes.registerMobile);
+                      ExtendedNavigator.of(context).push(Routes.registerMobile);
                     },
                     child: Text(
                       AppLocalizations.of(context).translate('sign_up_btn'),
@@ -337,7 +335,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
           if (getRegisteredDi.isSuccess) {
             localStorage.saveDiCode(getRegisteredDi.data[0].diCode);
 
-            ExtendedNavigator.of(context).pushReplacementNamed(Routes.home);
+            ExtendedNavigator.of(context).replace(Routes.home);
           } else {
             setState(() {
               _isLoading = false;
@@ -347,15 +345,14 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
         } else if (result.data.length > 1) {
           // Navigate to DI selection page
           // Temporary navigate to home
-          // Navigator.pushReplacementNamed(context, HOME);
+          // Navigator.replace(context, HOME);
 
-          ExtendedNavigator.of(context).pushReplacementNamed(
-              Routes.selectDrivingInstitute,
+          ExtendedNavigator.of(context).replace(Routes.selectDrivingInstitute,
               arguments: SelectDrivingInstituteArguments(diList: result.data));
         } else {
           localStorage.saveDiCode(result.data[0].diCode);
 
-          ExtendedNavigator.of(context).pushReplacementNamed(Routes.home);
+          ExtendedNavigator.of(context).replace(Routes.home);
         }
       } else {
         setState(() {

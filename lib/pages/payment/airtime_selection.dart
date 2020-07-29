@@ -58,7 +58,7 @@ class AirtimeSelection extends StatelessWidget {
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
-                      onTap: () => ExtendedNavigator.of(context).pushNamed(
+                      onTap: () => ExtendedNavigator.of(context).push(
                           Routes.airtimeBillDetail,
                           arguments: AirtimeBillDetailArguments(
                               data: snapshot.data[index])),

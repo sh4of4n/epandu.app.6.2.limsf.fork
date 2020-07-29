@@ -57,7 +57,7 @@ class BottomMenu extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () => Navigator.pushNamed(context, VALUE_CLUB),
+                onTap: () => Navigator.push(context, VALUE_CLUB),
                 borderRadius: BorderRadius.circular(10.0),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
@@ -89,7 +89,7 @@ class BottomMenu extends StatelessWidget {
                 ],
               ),
               /* InkWell(
-                onTap: () => Navigator.pushNamed(context, INVITE),
+                onTap: () => Navigator.push(context, INVITE),
                 borderRadius: BorderRadius.circular(10.0),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
@@ -112,7 +112,7 @@ class BottomMenu extends StatelessWidget {
                 ),
               ),
               InkWell(
-                // onTap: () => Navigator.pushNamed(context, MENU,
+                // onTap: () => Navigator.push(context, MENU,
                 //     arguments: positionStream),
                 onTap: () {},
                 borderRadius: BorderRadius.circular(10.0),
@@ -208,7 +208,7 @@ class BottomMenu extends StatelessWidget {
                         ),
                       ),
                       InkWell(
-                        onTap: () => Navigator.pushNamed(context, VALUE_CLUB),
+                        onTap: () => Navigator.push(context, VALUE_CLUB),
                         borderRadius: BorderRadius.circular(10.0),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
@@ -241,7 +241,7 @@ class BottomMenu extends StatelessWidget {
                         ],
                       ),*/
                       /* InkWell(
-                        onTap: () => Navigator.pushNamed(context, INVITE),
+                        onTap: () => Navigator.push(context, INVITE),
                         borderRadius: BorderRadius.circular(10.0),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
@@ -265,7 +265,7 @@ class BottomMenu extends StatelessWidget {
                         ),
                       ),
                       InkWell(
-                        // onTap: () => Navigator.pushNamed(context, MENU,
+                        // onTap: () => Navigator.push(context, MENU,
                         //     arguments: positionStream),
                         onTap: () {},
                         borderRadius: BorderRadius.circular(10.0),
@@ -304,7 +304,7 @@ class BottomMenu extends StatelessWidget {
 
             child: InkWell(
 
-              onTap: () => Navigator.pushNamed(context, EMERGENCY_DIRECTORY),
+              onTap: () => Navigator.push(context, EMERGENCY_DIRECTORY),
               borderRadius: BorderRadius.circular(10.0),
               child: Image.asset(
                 myImage.sos,

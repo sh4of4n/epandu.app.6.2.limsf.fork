@@ -5,6 +5,7 @@ import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:validators/validators.dart';
 // import 'package:url_launcher/url_launcher.dart';
 
 import '../../router.gr.dart';
@@ -55,7 +56,7 @@ class Feeds extends StatelessWidget {
         : '';
 
     String url = feed.feedNavigate +
-        '/#/?' +
+        '?' +
         'appId=${appConfig.appId}' +
         '&appVersion=$appVersion' +
         '&userId=$userId' +
@@ -71,63 +72,63 @@ class Feeds extends StatelessWidget {
         _getLongitude(udf: feed.udfReturnParameter);
 
     ExtendedNavigator.of(context)
-        .pushNamed(Routes.webview, arguments: WebviewArguments(url: url));
+        .push(Routes.webview, arguments: WebviewArguments(url: url));
 
     /* launch(url,
                               forceWebView: true, enableJavaScript: true); */
   }
 
   String _getMerchantNo({udf, merchantNo}) {
-    if (udf.contains('merchant_no')) {
+    if (udf != null && udf.contains('merchant_no')) {
       return '&merchantNo=$merchantNo';
     }
     return '';
   }
 
   String _getIcName({udf, icName}) {
-    if (udf.contains('name')) {
+    if (udf != null && udf.contains('name')) {
       return '&icName=${Uri.encodeComponent(icName)}';
     }
     return '';
   }
 
   String _getIcNo({udf, icNo}) {
-    if (udf.contains('ic_no')) {
+    if (udf != null && udf.contains('ic_no')) {
       return '&icNo=$icNo';
     }
     return '';
   }
 
   String _getPhone({udf, phone}) {
-    if (udf.contains('phone')) {
+    if (udf != null && udf.contains('phone')) {
       return '&phone=$phone';
     }
     return '';
   }
 
   String _getEmail({udf, email}) {
-    if (udf.contains('e_mail')) {
+    if (udf != null && udf.contains('e_mail')) {
       return '&email=${email ?? ''}';
     }
     return '';
   }
 
   String _getBirthDate({udf, dob}) {
-    if (udf.contains('e_mail')) {
+    if (udf != null && udf.contains('birth_date')) {
       return '&dob=${dob.substring(0, 10)}';
     }
     return '';
   }
 
   String _getLatitude({udf}) {
-    if (udf.contains('latitude')) {
+    if (udf != null && udf.contains('latitude')) {
       return '&latitude=$latitude';
     }
     return '';
   }
 
   String _getLongitude({udf}) {
-    if (udf.contains('longitude')) {
+    if (udf != null && udf.contains('longitude')) {
       return '&longitude=$longitude';
     }
     return '';
@@ -176,22 +177,22 @@ class Feeds extends StatelessWidget {
                       var feedValue = feed[index].feedNavigate;
 
                       if (feedValue != null) {
-                        bool isUrl = Uri.parse(feedValue).isAbsolute;
+                        bool isUrl = isURL(feedValue);
 
                         // Navigation
                         if (!isUrl) {
                           switch (feedValue) {
                             case 'ENROLLMENT':
                               ExtendedNavigator.of(context)
-                                  .pushNamed(Routes.enrollment);
+                                  .push(Routes.enrollment);
                               break;
                             case 'KPP':
                               ExtendedNavigator.of(context)
-                                  .pushNamed(Routes.kppCategory);
+                                  .push(Routes.kppCategory);
                               break;
                             case 'VCLUB':
                               ExtendedNavigator.of(context)
-                                  .pushNamed(Routes.valueClub);
+                                  .push(Routes.valueClub);
                               break;
                             default:
                               break;
@@ -202,7 +203,7 @@ class Feeds extends StatelessWidget {
                       }
                       /* else {
                         ExtendedNavigator.of(context)
-                            .pushNamed(Routes.promotions);
+                            .push(Routes.promotions);
                       } */
                     },
                     child: Column(
@@ -313,22 +314,22 @@ class Feeds extends StatelessWidget {
                       var feedValue = feed[index].feedNavigate;
 
                       if (feedValue != null) {
-                        bool isUrl = Uri.parse(feedValue).isAbsolute;
+                        bool isUrl = isURL(feedValue);
 
                         // Navigation
                         if (!isUrl) {
                           switch (feedValue) {
                             case 'ENROLLMENT':
                               ExtendedNavigator.of(context)
-                                  .pushNamed(Routes.enrollment);
+                                  .push(Routes.enrollment);
                               break;
                             case 'KPP':
                               ExtendedNavigator.of(context)
-                                  .pushNamed(Routes.kppCategory);
+                                  .push(Routes.kppCategory);
                               break;
                             case 'VCLUB':
                               ExtendedNavigator.of(context)
-                                  .pushNamed(Routes.valueClub);
+                                  .push(Routes.valueClub);
                               break;
                             default:
                               break;
@@ -339,7 +340,7 @@ class Feeds extends StatelessWidget {
                       }
                       /* else {
                         ExtendedNavigator.of(context)
-                            .pushNamed(Routes.promotions);
+                            .push(Routes.promotions);
                       } */
                     },
                     child: Column(

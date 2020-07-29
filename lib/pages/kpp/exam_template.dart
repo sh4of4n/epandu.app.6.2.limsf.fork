@@ -497,7 +497,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                         _checkSelectedAnswer(data.answerIndex, 'next');
                       }
                     } else {
-                      ExtendedNavigator.of(context).pushReplacementNamed(
+                      ExtendedNavigator.of(context).replace(
                         Routes.kppResult,
                         arguments: KppResultArguments(data: kppExamData),
                       );

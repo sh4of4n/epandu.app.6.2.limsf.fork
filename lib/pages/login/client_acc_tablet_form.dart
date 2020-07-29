@@ -213,8 +213,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
                   InkWell(
                     onTap: () {
                       if (widget.data == 'SETTINGS')
-                        ExtendedNavigator.of(context)
-                            .pushReplacementNamed(Routes.login);
+                        ExtendedNavigator.of(context).replace(Routes.login);
                       else
                         ExtendedNavigator.of(context).pop();
                     },
@@ -300,7 +299,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
 
       if (result.isSuccess) {
         if (widget.data == 'SETTINGS')
-          ExtendedNavigator.of(context).pushReplacementNamed(Routes.login);
+          ExtendedNavigator.of(context).replace(Routes.login);
         else
           ExtendedNavigator.of(context).pop();
       } else {

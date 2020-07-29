@@ -197,7 +197,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
         scanCode: widget.barcode,
         phDeviceId: _deviceId,
         bdBrand: _deviceManufacturer,
-        bdModel: _deviceModel,
+        bdModel: Uri.encodeComponent(_deviceModel),
         latitude: latitude,
         longitude: longitude,
       );

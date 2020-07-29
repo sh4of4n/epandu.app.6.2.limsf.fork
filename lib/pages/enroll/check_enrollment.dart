@@ -12,7 +12,7 @@ class _CheckEnrollmentState extends State<CheckEnrollment> {
   void initState() {
     super.initState();
 
-    ExtendedNavigator.of(context).pushReplacementNamed(Routes.selectInstitute);
+    ExtendedNavigator.of(context).replace(Routes.selectInstitute);
   }
 
   @override

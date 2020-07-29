@@ -27,8 +27,7 @@ class KppModuleIcon extends StatelessWidget {
     return InkWell(
       onTap: () {
         component != null
-            ? ExtendedNavigator.of(context)
-                .pushNamed(component, arguments: argument)
+            ? ExtendedNavigator.of(context).push(component, arguments: argument)
             : SizedBox.shrink();
       },
       child: Container(

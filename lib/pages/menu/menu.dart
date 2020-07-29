@@ -97,8 +97,7 @@ class _MenuState extends State<Menu> {
                 title: Text(AppLocalizations.of(context)
                     .translate('change_password_lbl')),
                 onTap: () {
-                  ExtendedNavigator.of(context)
-                      .pushNamed(Routes.changePassword);
+                  ExtendedNavigator.of(context).push(Routes.changePassword);
                 },
               ),
               Divider(),
@@ -127,7 +126,7 @@ class _MenuState extends State<Menu> {
                           .translate('client_acc_desc'),
                       type: DialogType.SUCCESS,
                       onPressed: () async {
-                        Navigator.pushNamedAndRemoveUntil(
+                        Navigator.pushAndRemoveUntil(
                             context, CLIENT_ACC, (r) => false,
                             arguments: 'Menu');
                         await authRepo.logout();
@@ -155,7 +154,7 @@ class _MenuState extends State<Menu> {
               if (widget.data != null) widget.data.cancel();
 
               ExtendedNavigator.of(context)
-                  .pushNamedAndRemoveUntil(Routes.login, (r) => false);
+                  .pushAndRemoveUntil(Routes.login, (r) => false);
               await authRepo.logout(context: context);
             },
           ),

@@ -734,7 +734,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           child: Text(AppLocalizations.of(context).translate('take_photo')),
           onPressed: () async {
             ExtendedNavigator.of(context).pop();
-            var newProfilePic = await ExtendedNavigator.of(context).pushNamed(
+            var newProfilePic = await ExtendedNavigator.of(context).push(
                 Routes.takeProfilePicture,
                 arguments: TakeProfilePictureArguments(camera: cameras));
 
@@ -1130,7 +1130,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           _message = '';
         }); */
 
-          ExtendedNavigator.of(context).pushNamed(
+          ExtendedNavigator.of(context).push(
             Routes.selectInstitute,
             arguments: SelectInstituteArguments(
               data: EnrollmentData(
@@ -1176,7 +1176,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
             customActions: <Widget>[
               FlatButton(
                 child: Text(AppLocalizations.of(context).translate('ok_btn')),
-                onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                onPressed: () => Navigator.pushAndRemoveUntil(
                     context, HOME, (r) => false),
               ),
             ],
@@ -1193,7 +1193,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         }
       }
     } else {
-      ExtendedNavigator.of(context).pushNamed(
+      ExtendedNavigator.of(context).push(
         Routes.selectInstitute,
         arguments: SelectInstituteArguments(
           data: EnrollmentData(

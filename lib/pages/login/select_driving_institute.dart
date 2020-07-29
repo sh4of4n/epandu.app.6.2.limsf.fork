@@ -75,8 +75,7 @@ class SelectDrivingInstitute extends StatelessWidget {
                         onTap: () {
                           localStorage.saveDiCode(diList[index].diCode);
 
-                          ExtendedNavigator.of(context)
-                              .pushReplacementNamed(Routes.home);
+                          ExtendedNavigator.of(context).replace(Routes.home);
                         },
                         child: Container(
                           margin: EdgeInsets.symmetric(horizontal: 10.0),

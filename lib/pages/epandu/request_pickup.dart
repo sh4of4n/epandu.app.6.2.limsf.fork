@@ -350,7 +350,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
             FlatButton(
               child: Text(AppLocalizations.of(context).translate('ok_btn')),
               onPressed: () => ExtendedNavigator.of(context)
-                  .pushNamedAndRemoveUntil(Routes.home, (r) => false),
+                  .pushAndRemoveUntil(Routes.home, (r) => false),
             ),
           ],
         );

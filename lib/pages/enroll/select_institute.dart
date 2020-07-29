@@ -96,7 +96,7 @@ class _SelectInstituteState extends State<SelectInstitute> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
-                      onTap: () => ExtendedNavigator.of(context).pushNamed(
+                      onTap: () => ExtendedNavigator.of(context).push(
                         Routes.selectClass,
                         arguments: SelectClassArguments(
                           data: EnrollmentData(

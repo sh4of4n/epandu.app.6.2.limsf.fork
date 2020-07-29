@@ -48,14 +48,14 @@ class PaymentPage extends StatelessWidget {
               children: <Widget>[
                 ListTile(
                   onTap: () => ExtendedNavigator.of(context)
-                      .pushNamed(Routes.airtimeSelection),
+                      .push(Routes.airtimeSelection),
                   leading: Icon(Icons.attach_money),
                   title: Text(
                       AppLocalizations.of(context).translate('airtime_lbl')),
                 ),
                 ListTile(
-                  onTap: () => ExtendedNavigator.of(context)
-                      .pushNamed(Routes.billSelection),
+                  onTap: () =>
+                      ExtendedNavigator.of(context).push(Routes.billSelection),
                   leading: Icon(Icons.attach_money),
                   title:
                       Text(AppLocalizations.of(context).translate('bill_lbl')),

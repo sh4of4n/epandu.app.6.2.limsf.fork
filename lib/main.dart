@@ -263,13 +263,13 @@ class _MyAppState extends State<MyApp> {
     if (view != null) {
       switch (view) {
         case 'ENROLLMENT':
-          ExtendedNavigator.of(context).pushNamed(Routes.enrollment);
+          ExtendedNavigator.of(context).push(Routes.enrollment);
           break;
         case 'KPP':
-          ExtendedNavigator.of(context).pushNamed(Routes.kppCategory);
+          ExtendedNavigator.of(context).push(Routes.kppCategory);
           break;
         case 'VCLUB':
-          ExtendedNavigator.of(context).pushNamed(Routes.valueClub);
+          ExtendedNavigator.of(context).push(Routes.valueClub);
           break;
       }
     }

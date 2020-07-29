@@ -200,7 +200,7 @@ class _ProfileState extends State<Profile>
               padding: EdgeInsets.all(0.0),
               shape: StadiumBorder(),
               child: RaisedButton(
-                onPressed: () => Navigator.pushNamed(context, ENROLL),
+                onPressed: () => Navigator.push(context, ENROLL),
                 textColor: Colors.white,
                 padding: const EdgeInsets.all(0.0),
                 child: Container(

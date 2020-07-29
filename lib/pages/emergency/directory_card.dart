@@ -58,7 +58,7 @@ class DirectoryCard extends StatelessWidget {
               ),
               InkWell(
                 onTap: directoryName != null && directoryType != null
-                    ? () => ExtendedNavigator.of(context).pushNamed(
+                    ? () => ExtendedNavigator.of(context).push(
                           directoryName,
                           arguments: directoryType,
                         )

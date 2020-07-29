@@ -58,7 +58,7 @@ class BillSelection extends StatelessWidget {
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
-                      onTap: () => ExtendedNavigator.of(context).pushNamed(
+                      onTap: () => ExtendedNavigator.of(context).push(
                           Routes.billDetail,
                           arguments:
                               BillDetailArguments(data: snapshot.data[index])),

@@ -59,7 +59,7 @@ class _DirectoryListState extends State<DirectoryList> {
   _listItem(snapshot, index) {
     return GestureDetector(
       onTap: () {
-        ExtendedNavigator.of(context).pushNamed(
+        ExtendedNavigator.of(context).push(
           Routes.directoryDetail,
           arguments: DirectoryDetailArguments(snapshot: snapshot.data[index]),
         );

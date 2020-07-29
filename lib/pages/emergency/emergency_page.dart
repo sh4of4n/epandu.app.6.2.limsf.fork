@@ -122,8 +122,8 @@ class _EmergencyState extends State<Emergency> {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.view_list),
-              onPressed: () => ExtendedNavigator.of(context)
-                  .pushNamed(Routes.emergencyDirectory),
+              onPressed: () =>
+                  ExtendedNavigator.of(context).push(Routes.emergencyDirectory),
             )
           ],
         ),

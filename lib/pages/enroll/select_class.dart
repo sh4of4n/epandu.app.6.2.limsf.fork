@@ -394,7 +394,7 @@ class _SelectClassState extends State<SelectClass> {
               await authRepo.getUserRegisteredDI(
                   context: context, type: 'UPDATE');
               ExtendedNavigator.of(context)
-                  .pushNamedAndRemoveUntil(Routes.home, (r) => false);
+                  .pushAndRemoveUntil(Routes.home, (r) => false);
             },
           ),
         ],

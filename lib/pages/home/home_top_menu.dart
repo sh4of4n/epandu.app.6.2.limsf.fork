@@ -48,7 +48,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
     try {
       var barcode = await BarcodeScanner.scan();
       if (barcode.rawContent.isNotEmpty)
-        ExtendedNavigator.of(context).pushNamed(Routes.registerUserToDi,
+        ExtendedNavigator.of(context).push(Routes.registerUserToDi,
             arguments: RegisterUserToDiArguments(barcode: barcode.rawContent));
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {
@@ -95,13 +95,13 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
     );
 
     if (result.isSuccess) {
-      Navigator.pushNamed(context, REGISTER_USER_TO_DI,
+      Navigator.push(context, REGISTER_USER_TO_DI,
           arguments: ScanResultArgument(
             barcode: scanResponse,
             status: 'success',
           ));
     } else {
-      Navigator.pushNamed(context, REGISTER_USER_TO_DI,
+      Navigator.push(context, REGISTER_USER_TO_DI,
           arguments: ScanResultArgument(
             barcode: scanResponse,
             status: 'fail',
@@ -144,7 +144,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                       ),
                     ),
                     /* InkWell(
-                      onTap: () => Navigator.pushNamed(context, PAY),
+                      onTap: () => Navigator.push(context, PAY),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
@@ -165,8 +165,8 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                       ),
                     ), */
                     InkWell(
-                      onTap: () => ExtendedNavigator.of(context)
-                          .pushNamed(Routes.invite),
+                      onTap: () =>
+                          ExtendedNavigator.of(context).push(Routes.invite),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
@@ -200,7 +200,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                     ),
                     InkWell(
                       onTap: () => ExtendedNavigator.of(context)
-                          .pushNamed(Routes.identityBarcode),
+                          .push(Routes.identityBarcode),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
@@ -222,7 +222,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                     ),
                     InkWell(
                       onTap: () =>
-                          ExtendedNavigator.of(context).pushNamed(Routes.inbox),
+                          ExtendedNavigator.of(context).push(Routes.inbox),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
@@ -253,8 +253,8 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
           Align(
             alignment: Alignment.center,
             child: InkWell(
-              onTap: () => ExtendedNavigator.of(context)
-                  .pushNamed(Routes.epanduCategory),
+              onTap: () =>
+                  ExtendedNavigator.of(context).push(Routes.epanduCategory),
               borderRadius: BorderRadius.circular(10.0),
               child: Container(
                 padding: EdgeInsets.only(

@@ -45,7 +45,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           ListTile(
             title: Text(AppLocalizations.of(context).translate('settings_lbl')),
             onTap: () {
-              ExtendedNavigator.of(context).pushNamed(Routes.settings);
+              ExtendedNavigator.of(context).push(Routes.settings);
             },
           ),
           ListTile(
@@ -67,7 +67,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
             child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () async {
               ExtendedNavigator.of(context)
-                  .pushNamedAndRemoveUntil(Routes.login, (r) => false);
+                  .pushAndRemoveUntil(Routes.login, (r) => false);
               await authRepo.logout();
             },
           ),

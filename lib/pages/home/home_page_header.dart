@@ -103,7 +103,7 @@ class HomePageHeader extends StatelessWidget {
                 alignment: Alignment.topRight,
                 // margin: EdgeInsets.only(top: ScreenUtil().setHeight(30)),
                 child: InkWell(
-                  onTap: () => ExtendedNavigator.of(context).pushNamed(
+                  onTap: () => ExtendedNavigator.of(context).push(
                     Routes.profileTab,
                     arguments:
                         ProfileTabArguments(positionStream: positionStream),
@@ -119,7 +119,7 @@ class HomePageHeader extends StatelessWidget {
                     MyCustomIcons.account_icon,
                     color: Color(0xffb3b3b3),
                   ),
-                  onPressed: () => Navigator.pushNamed(context, PROFILE_TAB,
+                  onPressed: () => Navigator.push(context, PROFILE_TAB,
                       arguments: positionStream),
                 ), */
               ),

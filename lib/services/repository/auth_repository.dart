@@ -351,7 +351,7 @@ class AuthRepo {
     String caPwd = await localStorage.getCaPwd();
     String userId = await localStorage.getUserId();
     //  Temporarily use TBS as diCode
-    String diCode = 'TBS';
+    String diCode = appConfig.diCode;
     // String diCode = await localStorage.getDiCode();
     String sessionId = await localStorage.getSessionId();
 

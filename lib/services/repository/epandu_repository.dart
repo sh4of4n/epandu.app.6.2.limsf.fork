@@ -21,7 +21,7 @@ class EpanduRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
     //  Temporarily use TBS as diCode
-    String diCode = 'TBS';
+    String diCode = appConfig.diCode;
     // String diCode = await localStorage.getDiCode();
     // String groupId = '';
     String icNo = await localStorage.getStudentIc();
@@ -71,7 +71,7 @@ class EpanduRepo {
     String caPwd = await localStorage.getCaPwdEncode();
 
     //  Temporarily use TBS as diCode
-    String diCode = 'TBS';
+    String diCode = appConfig.diCode;
     // String diCode = await localStorage.getDiCode();
     String icNo = await localStorage.getStudentIc();
 
@@ -116,7 +116,7 @@ class EpanduRepo {
     String caPwd = await localStorage.getCaPwdEncode();
 
     //  Temporarily use TBS as diCode
-    String diCode = 'TBS';
+    String diCode = appConfig.diCode;
     // String diCode = await localStorage.getDiCode();
 
     String path =

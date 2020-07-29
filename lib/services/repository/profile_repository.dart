@@ -154,7 +154,7 @@ class ProfileRepo {
     String caPwd = await localStorage.getCaPwd();
 
     //  Temporarily use TBS as diCode
-    String diCode = 'TBS';
+    String diCode = appConfig.diCode;
     // String diCode = await localStorage.getDiCode();
     String icNo = await localStorage.getStudentIc();
 
@@ -179,7 +179,7 @@ class ProfileRepo {
     String caPwd = await localStorage.getCaPwd();
 
     //  Temporarily use TBS as diCode
-    String diCode = 'TBS';
+    String diCode = appConfig.diCode;
     // String diCode = await localStorage.getDiCode();
     String groupId = await localStorage.getEnrolledGroupId();
     String icNo = await localStorage.getStudentIc();

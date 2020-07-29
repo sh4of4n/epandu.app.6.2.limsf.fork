@@ -233,8 +233,7 @@ class _HomeState extends State<Home> {
           width: 450.w,
           child: FloatingActionButton(
             onPressed: () {
-              ExtendedNavigator.of(context)
-                  .pushNamed(Routes.emergencyDirectory);
+              ExtendedNavigator.of(context).push(Routes.emergencyDirectory);
             },
             child: Image.asset(
               myImage.sos,

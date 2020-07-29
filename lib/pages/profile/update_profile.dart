@@ -234,7 +234,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
           child: Text(AppLocalizations.of(context).translate('take_photo')),
           onPressed: () async {
             ExtendedNavigator.of(context).pop();
-            var newProfilePic = await ExtendedNavigator.of(context).pushNamed(
+            var newProfilePic = await ExtendedNavigator.of(context).push(
                 Routes.takeProfilePicture,
                 arguments: TakeProfilePictureArguments(camera: cameras));
 

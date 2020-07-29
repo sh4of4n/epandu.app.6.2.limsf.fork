@@ -77,7 +77,7 @@ class _AirtimeBillDetailState extends State<AirtimeBillDetail> {
         telcoComm: widget.data,
       );
 
-      ExtendedNavigator.of(context).pushNamed(Routes.airtimeTransaction,
+      ExtendedNavigator.of(context).push(Routes.airtimeTransaction,
           arguments: AirtimeTransactionArguments(data: billArgs));
     } else {
       setState(() {

@@ -77,7 +77,7 @@ class _BillDetailState extends State<BillDetail> {
         serviceComm: widget.data,
       );
 
-      ExtendedNavigator.of(context).pushNamed(Routes.billTransaction,
+      ExtendedNavigator.of(context).push(Routes.billTransaction,
           arguments: BillTransactionArguments(data: billArgs));
     } else {
       setState(() {

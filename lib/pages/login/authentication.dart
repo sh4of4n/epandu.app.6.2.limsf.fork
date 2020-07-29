@@ -72,19 +72,20 @@ class _AuthenticationState extends State<Authentication> {
     String diCode = await localStorage.getDiCode();
 
     if (userId.isNotEmpty && diCode.isNotEmpty) {
-      ExtendedNavigator.of(context).pushReplacementNamed(Routes.home);
+      ExtendedNavigator.of(context).replace(Routes.home);
     } else if (userId.isNotEmpty && diCode.isEmpty) {
       await authRepo.logout(context: context, type: '');
 
-      ExtendedNavigator.of(context).pushReplacementNamed(Routes.login);
+      ExtendedNavigator.of(context).replace(Routes.login);
     } else {
-      ExtendedNavigator.of(context).pushReplacementNamed(Routes.login);
+      ExtendedNavigator.of(context).replace(Routes.login);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(
+      context,
       width: 1440,
       height: 2960,
       allowFontScaling: true,

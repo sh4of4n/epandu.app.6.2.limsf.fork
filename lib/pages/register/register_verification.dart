@@ -395,7 +395,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
       FocusScope.of(context).requestFocus(new FocusNode());
 
       if (_verificationCode == _correctVerificationCode) {
-        ExtendedNavigator.of(context).pushNamed(Routes.registerForm,
+        ExtendedNavigator.of(context).push(Routes.registerForm,
             arguments: RegisterFormArguments(data: widget.data));
 
         setState(() {
@@ -409,6 +409,6 @@ class _RegisterVerificationState extends State<RegisterVerification> {
         });
     }
 
-    // Navigator.pushNamed(context, SIGN_UP_FORM, arguments: widget.data);
+    // Navigator.push(context, SIGN_UP_FORM, arguments: widget.data);
   }
 }

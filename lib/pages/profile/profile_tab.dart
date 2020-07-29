@@ -220,7 +220,7 @@ class _ProfileTabState extends State<ProfileTab>
         shape: StadiumBorder(),
         onPressed: () async {
           await ExtendedNavigator.of(context)
-              .pushNamed(Routes.updateProfile)
+              .push(Routes.updateProfile)
               .then((value) => _getUserInfo());
         },
         child: Text(AppLocalizations.of(context).translate('edit_profile')),
