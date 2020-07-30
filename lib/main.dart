@@ -1,5 +1,6 @@
 // import 'dart:io';
 import 'package:auto_route/auto_route.dart';
+import 'package:epandu/services/api/model/call_status_model.dart';
 import 'package:epandu/services/api/model/language_model.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
@@ -77,21 +78,17 @@ void main() async {
   await Hive.openBox('ws_url');
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => LanguageModel(),
-      child: MyApp(),
-    ),
-    /* MultiProvider(
+    MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (context) => LanguageModel(),
         ),
         ChangeNotifierProvider(
-          create: (context) => NotificationModel(),
+          create: (context) => CallStatusModel(),
         ),
       ],
       child: MyApp(),
-    ), */
+    ),
   );
 }
 

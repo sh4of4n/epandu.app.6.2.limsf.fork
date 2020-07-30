@@ -182,8 +182,10 @@ class _HomeState extends State<Home> {
     localStorage.saveUserLatitude(location.latitude.toString());
     localStorage.saveUserLongitude(location.longitude.toString());
 
-    latitude = location.latitude.toString();
-    longitude = location.longitude.toString();
+    setState(() {
+      latitude = location.latitude.toString();
+      longitude = location.longitude.toString();
+    });
   }
 
   // remember to add positionStream.cancel()
