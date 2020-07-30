@@ -75,11 +75,12 @@ class _FeedsState extends State<Feeds> {
           _getIcName(
               udf: feed.udfReturnParameter,
               icName: Uri.encodeComponent(icName)) +
-          _getIcNo(udf: feed.udfReturnParameter, icNo: icNo) +
+          _getIcNo(
+              udf: feed.udfReturnParameter, icNo: icNo == null ? '' : icNo) +
           _getPhone(udf: feed.udfReturnParameter, phone: phone) +
           _getEmail(udf: feed.udfReturnParameter, email: email) +
           _getBirthDate(
-              udf: feed.udfReturnParameter, dob: dob.substring(0, 10)) +
+              udf: feed.udfReturnParameter, dob: dob?.substring(0, 10)) +
           _getLatitude(udf: feed.udfReturnParameter) +
           _getLongitude(udf: feed.udfReturnParameter);
 
@@ -128,7 +129,7 @@ class _FeedsState extends State<Feeds> {
 
   String _getBirthDate({udf, dob}) {
     if (udf != null && udf.contains('birth_date')) {
-      return '&dob=${dob.substring(0, 10)}';
+      return '&dob=${dob?.substring(0, 10)}';
     }
     return '';
   }
