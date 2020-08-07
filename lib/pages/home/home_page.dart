@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:app_settings/app_settings.dart';
+// import 'package:app_settings/app_settings.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/router.gr.dart';
-import 'package:epandu/services/location.dart';
+// import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/services/repository/kpp_repository.dart';
 import 'package:epandu/utils/constants.dart';
@@ -13,9 +13,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
 import 'package:package_info/package_info.dart';
-import 'package:epandu/utils/custom_dialog.dart';
+// import 'package:epandu/utils/custom_dialog.dart';
 
-import '../../app_localizations.dart';
+// import '../../app_localizations.dart';
 import 'bottom_menu.dart';
 import 'feeds.dart';
 import 'home_page_header.dart';
@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
 
   final authRepo = AuthRepo();
   final kppRepo = KppRepo();
-  final customDialog = CustomDialog();
+  // final customDialog = CustomDialog();
   final localStorage = LocalStorage();
   final primaryColor = ColorConstant.primaryColor;
   // String _username = '';
@@ -39,8 +39,8 @@ class _HomeState extends State<Home> {
   var feed;
   final myImage = ImagesConstant();
   // get location
-  Location location = Location();
-  StreamSubscription<Position> positionStream;
+  // Location location = Location();
+  // StreamSubscription<Position> positionStream;
   final geolocator = Geolocator();
   final locationOptions = LocationOptions(
     accuracy: LocationAccuracy.high,
@@ -49,8 +49,8 @@ class _HomeState extends State<Home> {
   String instituteLogo = '';
   bool isLogoLoaded = false;
   String appVersion = '';
-  String latitude = '';
-  String longitude = '';
+  // String latitude = '';
+  // String longitude = '';
 
   final _iconText = TextStyle(
     fontSize: ScreenUtil().setSp(55),
@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
     _openHiveBoxes();
     // getStudentInfo();
     // _getCurrentLocation();
-    _checkLocationPermission();
+    // _checkLocationPermission();
     _getDiProfile();
     _getActiveFeed();
     _getAppVersion();
@@ -135,7 +135,7 @@ class _HomeState extends State<Home> {
     }
   }
 
-  _checkLocationPermission() async {
+  /* _checkLocationPermission() async {
     // contactBox = Hive.box('emergencyContact');
 
     // await location.getCurrentLocation();
@@ -186,10 +186,10 @@ class _HomeState extends State<Home> {
       latitude = location.latitude.toString();
       longitude = location.longitude.toString();
     });
-  }
+  } */
 
   // remember to add positionStream.cancel()
-  /* Future<void> userTracking() async {
+  /* Future<void> _userTracking() async {
     GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
 
@@ -201,6 +201,11 @@ class _HomeState extends State<Home> {
           .listen((Position position) async {
         localStorage.saveUserLatitude(position.latitude.toString());
         localStorage.saveUserLongitude(position.longitude.toString());
+
+        setState(() {
+          latitude = location.latitude.toString();
+          longitude = location.longitude.toString();
+        });
       });
     }
   } */
@@ -244,8 +249,10 @@ class _HomeState extends State<Home> {
             backgroundColor: Colors.transparent,
           ),
         ),
-        bottomNavigationBar:
-            BottomMenu(iconText: _iconText, positionStream: positionStream),
+        bottomNavigationBar: BottomMenu(
+          iconText: _iconText,
+          // positionStream: positionStream,
+        ),
         body: SafeArea(
           child: RefreshIndicator(
             onRefresh: _getActiveFeed,
@@ -260,16 +267,15 @@ class _HomeState extends State<Home> {
                       padding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(60)),
                       child: HomePageHeader(
-                          instituteLogo: instituteLogo,
-                          positionStream: positionStream),
+                        instituteLogo: instituteLogo,
+                        // positionStream: positionStream,
+                      ),
                     ),
                     HomeTopMenu(iconText: _iconText),
                     LimitedBox(maxHeight: ScreenUtil().setHeight(30)),
                     Feeds(
                       feed: feed,
                       appVersion: appVersion,
-                      latitude: latitude,
-                      longitude: longitude,
                     ),
                   ],
                 ),

@@ -28,20 +28,20 @@ final ColorScheme colorScheme = ColorScheme.light(
 
 class FontTheme {
   TextTheme primaryFont = TextTheme(
-    display4: TextStyle(fontSize: 98, color: Color(0xff808080)),
-    display3: TextStyle(fontSize: 61, color: Color(0xff808080)),
-    display2: TextStyle(fontSize: 49, color: Color(0xff808080)),
-    display1: TextStyle(fontSize: 35, color: Color(0xff808080)),
-    headline: TextStyle(fontSize: 24, color: Color(0xff808080)),
-    title: TextStyle(
-        fontSize: 20, fontWeight: FontWeight.w600, color: Color(0xff808080)),
-    subhead: TextStyle(fontSize: 16, color: Color(0xff808080)),
-    body2: TextStyle(fontSize: 17, color: Color(0xff808080)),
-    body1: TextStyle(fontSize: 15, color: Color(0xff808080)),
-    caption: TextStyle(fontSize: 13, color: Color(0xff808080)),
-    button: TextStyle(fontSize: 15, color: Color(0xff808080)),
-    subtitle: TextStyle(fontSize: 14, color: Color(0xff808080)),
-    overline: TextStyle(fontSize: 11, color: Color(0xff808080)),
+    headline1: TextStyle(fontSize: 96, color: Color(0xff5c5c5c)),
+    headline2: TextStyle(fontSize: 60, color: Color(0xff5c5c5c)),
+    headline3: TextStyle(fontSize: 48, color: Color(0xff5c5c5c)),
+    headline4: TextStyle(fontSize: 34, color: Color(0xff5c5c5c)),
+    headline5: TextStyle(fontSize: 24, color: Color(0xff5c5c5c)),
+    headline6: TextStyle(
+        fontSize: 20, fontWeight: FontWeight.w600, color: Color(0xff5c5c5c)),
+    subtitle1: TextStyle(fontSize: 16, color: Color(0xff5c5c5c)),
+    subtitle2: TextStyle(fontSize: 14, color: Color(0xff5c5c5c)),
+    bodyText1: TextStyle(fontSize: 16, color: Color(0xff5c5c5c)),
+    bodyText2: TextStyle(fontSize: 14, color: Color(0xff5c5c5c)),
+    button: TextStyle(fontSize: 14, color: Color(0xff5c5c5c)),
+    caption: TextStyle(fontSize: 12, color: Color(0xff5c5c5c)),
+    overline: TextStyle(fontSize: 10, color: Color(0xff5c5c5c)),
   );
 
   /* TextStyle appBarTextStyle = TextStyle(

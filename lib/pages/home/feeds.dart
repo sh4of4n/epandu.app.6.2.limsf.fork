@@ -1,24 +1,27 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/api/model/call_status_model.dart';
+import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repository/profile_repository.dart';
 import 'package:epandu/utils/app_config.dart';
+import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:validators/validators.dart';
 // import 'package:url_launcher/url_launcher.dart';
 
+import '../../app_localizations.dart';
 import '../../router.gr.dart';
 
 class Feeds extends StatefulWidget {
   final feed;
   final String appVersion;
-  final String latitude;
-  final String longitude;
 
-  Feeds({this.feed, this.appVersion, this.latitude, this.longitude});
+  Feeds({this.feed, this.appVersion});
 
   @override
   _FeedsState createState() => _FeedsState();
@@ -40,9 +43,72 @@ class _FeedsState extends State<Feeds> {
   final RegExp removeBracket =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
 
+  // get location
+  Location location = Location();
+
+  String latitude = '';
+  String longitude = '';
+
+  final customDialog = CustomDialog();
+
   final localStorage = LocalStorage();
   final profileRepo = ProfileRepo();
   final appConfig = AppConfig();
+
+  _checkLocationPermission(feed, context) async {
+    // contactBox = Hive.box('emergencyContact');
+
+    // await location.getCurrentLocation();
+
+    bool serviceLocationStatus = await Geolocator().isLocationServiceEnabled();
+
+    // GeolocationStatus geolocationStatus =
+    //     await Geolocator().checkGeolocationPermissionStatus();
+
+    if (serviceLocationStatus) {
+      _getCurrentLocation(feed, context);
+    } else {
+      customDialog.show(
+        context: context,
+        barrierDismissable: false,
+        title: Text(
+            AppLocalizations.of(context).translate('loc_permission_title')),
+        content: AppLocalizations.of(context).translate('loc_permission_desc'),
+        customActions: <Widget>[
+          FlatButton(
+            child: Text(AppLocalizations.of(context).translate('yes_lbl')),
+            onPressed: () {
+              ExtendedNavigator.of(context).pop();
+              ExtendedNavigator.of(context).pop();
+              AppSettings.openLocationSettings();
+            },
+          ),
+          FlatButton(
+            child: Text(AppLocalizations.of(context).translate('no_lbl')),
+            onPressed: () {
+              ExtendedNavigator.of(context).pop();
+              ExtendedNavigator.of(context).pop();
+            },
+          ),
+        ],
+        type: DialogType.GENERAL,
+      );
+    }
+  }
+
+  _getCurrentLocation(feed, context) async {
+    await location.getCurrentLocation();
+
+    localStorage.saveUserLatitude(location.latitude.toString());
+    localStorage.saveUserLongitude(location.longitude.toString());
+
+    setState(() {
+      latitude = location.latitude.toString();
+      longitude = location.longitude.toString();
+    });
+
+    loadUrl(feed, context);
+  }
 
   loadUrl(feed, context) async {
     if (Provider.of<CallStatusModel>(context, listen: false).status == false) {
@@ -136,14 +202,14 @@ class _FeedsState extends State<Feeds> {
 
   String _getLatitude({udf}) {
     if (udf != null && udf.contains('latitude')) {
-      return '&latitude=${widget.latitude}';
+      return '&latitude=$latitude';
     }
     return '';
   }
 
   String _getLongitude({udf}) {
     if (udf != null && udf.contains('longitude')) {
-      return '&longitude=${widget.longitude}';
+      return '&longitude=$longitude';
     }
     return '';
   }
@@ -212,7 +278,7 @@ class _FeedsState extends State<Feeds> {
                               break;
                           }
                         } else {
-                          loadUrl(widget.feed[index], context);
+                          _checkLocationPermission(widget.feed[index], context);
                         }
                       }
                       /* else {
@@ -349,7 +415,7 @@ class _FeedsState extends State<Feeds> {
                               break;
                           }
                         } else {
-                          loadUrl(widget.feed[index], context);
+                          _checkLocationPermission(widget.feed[index], context);
                         }
                       }
                       /* else {
