@@ -76,9 +76,11 @@ class Networking extends BaseRepo {
           message: parsedMessage,
         );
       }
-    } on TimeoutException {
+    } on TimeoutException catch (e) {
+      print(e.toString());
       return Response(false, message: 'timeout');
-    } on SocketException {
+    } on SocketException catch (e) {
+      print(e.toString());
       return Response(false, message: 'socket');
     } on FormatException catch (e) {
       print(e.toString());

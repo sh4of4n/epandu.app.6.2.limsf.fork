@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
-import 'package:epandu/services/api/model/language_model.dart';
+import 'package:epandu/services/api/model/provider_model.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

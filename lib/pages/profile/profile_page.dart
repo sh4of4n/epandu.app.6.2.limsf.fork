@@ -2,7 +2,7 @@ import 'package:epandu/app_localizations.dart';
 import 'package:epandu/services/repository/profile_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
-import 'package:epandu/widgets/loading_modal.dart';
+import 'package:epandu/widgets/loading_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -110,7 +110,7 @@ class _ProfileState extends State<Profile>
             ],
           ),
         ),
-        LoadingModal(
+        LoadingModel(
           isVisible: widget.isLoading,
           // opacity: 0.8,
           color: primaryColor,

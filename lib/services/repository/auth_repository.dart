@@ -91,7 +91,7 @@ class AuthRepo {
       }
     } else if (response.message != null &&
         response.message.contains('timeout')) {
-      wsUrlCallback(
+      var callbackResult = await wsUrlCallback(
         context: context,
         acctUid: acctUid,
         acctPwd: acctPwd,
@@ -101,11 +101,15 @@ class AuthRepo {
         wsUrl3: wsUrl3,
         message: AppLocalizations.of(context).translate('timeout_exception'),
       );
+
+      if (callbackResult.isSuccess) {
+        return Response(true, data: callbackResult.data, message: '');
+      }
       // return Response(false,
       //     message: AppLocalizations.of(context).translate('timeout_exception'));
     } else if (response.message != null &&
         response.message.contains('socket')) {
-      wsUrlCallback(
+      var callbackResult = await wsUrlCallback(
         context: context,
         acctUid: acctUid,
         acctPwd: acctPwd,
@@ -115,6 +119,10 @@ class AuthRepo {
         wsUrl3: wsUrl3,
         message: AppLocalizations.of(context).translate('socket_exception'),
       );
+
+      if (callbackResult.isSuccess) {
+        return Response(true, data: callbackResult.data, message: '');
+      }
     } else if (response.message != null && response.message.contains('http')) {
       return Response(false,
           message: AppLocalizations.of(context).translate('http_exception'));
@@ -658,6 +666,56 @@ class AuthRepo {
       GetDiListResponse getDiListResponse =
           GetDiListResponse.fromJson(response.data);
       var responseData = getDiListResponse.armasterProfile;
+
+      return Response(true, data: responseData);
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message != null && response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message != null &&
+        response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
+    }
+
+    return Response(false, message: 'No records found.');
+  }
+
+  Future<Response> getDiNearMe({
+    context,
+    @required merchantNo,
+    @required startIndex,
+    @required noOfRecords,
+    @required latitude,
+    @required longitude,
+    @required maxRadius,
+  }) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+    String userId = await localStorage.getUserId();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd' +
+            '&appCode=${appConfig.appCode}&appId=${appConfig.appId}' +
+            '&merchantNo=$merchantNo&userId=$userId' +
+            '&startIndex=$startIndex&noOfRecords=$noOfRecords' +
+            '&latitude=$latitude&longitude=$longitude&maxRadius=$maxRadius';
+
+    var response = await networking.getData(
+      path: 'GetDINearMe?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetDiNearMeResponse getDiNearMeResponse =
+          GetDiNearMeResponse.fromJson(response.data);
+      var responseData = getDiNearMeResponse.merchant;
 
       return Response(true, data: responseData);
     } else if (response.message != null &&

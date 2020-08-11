@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/router.gr.dart';
-import 'package:epandu/services/api/model/language_model.dart';
+import 'package:epandu/services/api/model/provider_model.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/app_config.dart';
 

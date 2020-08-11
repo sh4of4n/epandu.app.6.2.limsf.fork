@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:auto_route/auto_route.dart';
-import 'package:epandu/services/api/model/call_status_model.dart';
+import 'package:epandu/services/api/model/provider_model.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

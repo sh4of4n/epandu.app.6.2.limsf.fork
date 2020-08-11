@@ -1,6 +1,6 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:epandu/services/api/model/call_status_model.dart';
+import 'package:epandu/services/api/model/provider_model.dart';
 import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repository/profile_repository.dart';
 import 'package:epandu/utils/app_config.dart';
@@ -116,45 +116,63 @@ class _FeedsState extends State<Feeds> {
 
       var result = await profileRepo.getUserProfile(context: context);
 
-      String merchantNo = 'P1001';
-      String phone = result.data[0].phone;
-      String email = result.data[0].eMail;
-      String icName = result.data[0].name;
-      String icNo = result.data[0].icNo;
-      String dob = result.data[0].birthDate;
-      String userId = await localStorage.getUserId();
-      String loginDeviceId = await localStorage.getLoginDeviceId();
-      String profilePic = result.data[0].picturePath != null &&
-              result.data[0].picturePath.isNotEmpty
-          ? result.data[0].picturePath
-              .replaceAll(removeBracket, '')
-              .split('\r\n')[0]
-          : '';
+      if (result.isSuccess) {
+        String merchantNo = 'P1001';
+        String phone = result.data[0].phone;
+        String email = result.data[0].eMail;
+        String icName = result.data[0].name;
+        String icNo = result.data[0].icNo;
+        String dob = result.data[0].birthDate;
+        String userId = await localStorage.getUserId();
+        String loginDeviceId = await localStorage.getLoginDeviceId();
+        String profilePic = result.data[0].picturePath != null &&
+                result.data[0].picturePath.isNotEmpty
+            ? result.data[0].picturePath
+                .replaceAll(removeBracket, '')
+                .split('\r\n')[0]
+            : '';
 
-      String url = feed.feedNavigate +
-          '?' +
-          'appId=${appConfig.appId}' +
-          '&appVersion=${widget.appVersion}' +
-          '&userId=$userId' +
-          '&deviceId=$loginDeviceId' +
-          _getMerchantNo(udf: feed.udfReturnParameter, merchantNo: merchantNo) +
-          _getIcName(
-              udf: feed.udfReturnParameter,
-              icName: Uri.encodeComponent(icName)) +
-          _getIcNo(
-              udf: feed.udfReturnParameter, icNo: icNo == null ? '' : icNo) +
-          _getPhone(udf: feed.udfReturnParameter, phone: phone) +
-          _getEmail(udf: feed.udfReturnParameter, email: email) +
-          _getBirthDate(
-              udf: feed.udfReturnParameter, dob: dob?.substring(0, 10)) +
-          _getLatitude(udf: feed.udfReturnParameter) +
-          _getLongitude(udf: feed.udfReturnParameter);
+        String url = feed.feedNavigate +
+            '?' +
+            'appId=${appConfig.appId}' +
+            '&appVersion=${widget.appVersion}' +
+            '&userId=$userId' +
+            '&deviceId=$loginDeviceId' +
+            _getMerchantNo(
+                udf: feed.udfReturnParameter, merchantNo: merchantNo) +
+            _getIcName(
+                udf: feed.udfReturnParameter,
+                icName: Uri.encodeComponent(icName)) +
+            _getIcNo(
+                udf: feed.udfReturnParameter, icNo: icNo == null ? '' : icNo) +
+            _getPhone(udf: feed.udfReturnParameter, phone: phone) +
+            _getEmail(udf: feed.udfReturnParameter, email: email) +
+            _getBirthDate(
+                udf: feed.udfReturnParameter, dob: dob?.substring(0, 10)) +
+            _getLatitude(udf: feed.udfReturnParameter) +
+            _getLongitude(udf: feed.udfReturnParameter);
 
-      ExtendedNavigator.of(context)
-          .push(Routes.webview, arguments: WebviewArguments(url: url));
+        ExtendedNavigator.of(context)
+            .push(Routes.webview, arguments: WebviewArguments(url: url));
 
-      /* launch(url,
+        /* launch(url,
                               forceWebView: true, enableJavaScript: true); */
+      } else {
+        customDialog.show(
+          context: context,
+          barrierDismissable: false,
+          content: result.message,
+          customActions: <Widget>[
+            FlatButton(
+              child: Text(AppLocalizations.of(context).translate('ok_btn')),
+              onPressed: () {
+                ExtendedNavigator.of(context).pop();
+              },
+            ),
+          ],
+          type: DialogType.GENERAL,
+        );
+      }
     }
   }
 
@@ -282,32 +300,32 @@ class _FeedsState extends State<Feeds> {
                         }
                       }
                       /* else {
-                        ExtendedNavigator.of(context)
-                            .push(Routes.promotions);
-                      } */
+                          ExtendedNavigator.of(context)
+                              .push(Routes.promotions);
+                        } */
                     },
                     child: Column(
                       children: <Widget>[
                         /* Container(
-                          // width: double.infinity,
-                          // height: ScreenUtil().setHeight(600),
-                          width: 1300.w,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(12),
-                              topRight: Radius.circular(12),
+                            // width: double.infinity,
+                            // height: ScreenUtil().setHeight(600),
+                            width: 1300.w,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(12),
+                                topRight: Radius.circular(12),
+                              ),
+                              child: feed[index].feedMediaFilename != null
+                                  ? Image.network(
+                                      feed[index]
+                                          .feedMediaFilename
+                                          .replaceAll(removeBracket, '')
+                                          .split('\r\n')[0],
+                                      fit: BoxFit.contain,
+                                    )
+                                  : Container(),
                             ),
-                            child: feed[index].feedMediaFilename != null
-                                ? Image.network(
-                                    feed[index]
-                                        .feedMediaFilename
-                                        .replaceAll(removeBracket, '')
-                                        .split('\r\n')[0],
-                                    fit: BoxFit.contain,
-                                  )
-                                : Container(),
-                          ),
-                        ), */
+                          ), */
                         AspectRatio(
                           aspectRatio: 16 / 9,
                           child: ClipRRect(
