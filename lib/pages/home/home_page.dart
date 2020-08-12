@@ -85,7 +85,7 @@ class _HomeState extends State<Home> {
         if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent) {
           setState(() {
-            _startIndex += 5;
+            _startIndex += 10;
           });
 
           if (_message.isEmpty) {
@@ -157,7 +157,7 @@ class _HomeState extends State<Home> {
       context: context,
       feedType: 'MAIN',
       startIndex: _startIndex,
-      noOfRecords: 5,
+      noOfRecords: 10,
     );
 
     /* if (result.isSuccess) {

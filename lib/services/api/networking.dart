@@ -17,6 +17,7 @@ class Networking extends BaseRepo {
   // var body;
   String url;
   String customUrl;
+  int milliseconds;
 
   String removeAllHtmlTags(String htmlText) {
     RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
@@ -24,7 +25,7 @@ class Networking extends BaseRepo {
     return htmlText.replaceAll(exp, '');
   }
 
-  Networking({this.customUrl});
+  Networking({this.customUrl, this.milliseconds});
 
   Future<Response> getData({path}) async {
     if (customUrl != null) {
@@ -41,13 +42,13 @@ class Networking extends BaseRepo {
 
         response = await http
             .get('$url/${path ?? ""}')
-            .timeout(const Duration(milliseconds: 10000));
+            .timeout(Duration(milliseconds: milliseconds ?? 10000));
       } else {
         print('$url/webapi/${path ?? ""}');
 
         response = await http
             .get('$url/webapi/${path ?? ""}')
-            .timeout(const Duration(milliseconds: 30000));
+            .timeout(Duration(milliseconds: milliseconds ?? 30000));
       }
 
       if (response.statusCode == 200) {

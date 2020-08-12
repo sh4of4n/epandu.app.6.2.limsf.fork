@@ -109,6 +109,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   AppLocalizationsDelegate _newLocaleDelegate;
   final localStorage = LocalStorage();
+  final image = ImagesConstant();
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   String _homeScreenText = "Waiting for token...";
@@ -282,6 +283,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    precacheImage(AssetImage(image.logo2), context);
     return MaterialApp(
       title: 'ePandu',
       theme: ThemeData(

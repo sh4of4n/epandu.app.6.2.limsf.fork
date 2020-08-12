@@ -52,7 +52,8 @@ class AuthRepo {
     String params =
         'LoginPub?wsCodeCrypt=$wsCodeCrypt&acctUid=$acctUid&acctPwd=${Uri.encodeQueryComponent(acctPwd)}&loginType=$loginType&misc=';
 
-    var response = await Networking(customUrl: '$wsUrl').getData(path: params);
+    var response = await Networking(customUrl: '$wsUrl', milliseconds: 5000)
+        .getData(path: params);
 
     if (response.isSuccess && response.data != null) {
       RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);

@@ -250,7 +250,7 @@ class _FeedsState extends State<Feeds> {
   }
 
   defaultLayout() {
-    if (widget.feed != null)
+    if (widget.feed.length > 0)
       return Container(
         // height: ScreenUtil().setHeight(1700),
         child: ListView(
@@ -386,7 +386,7 @@ class _FeedsState extends State<Feeds> {
   }
 
   tabLayout() {
-    if (widget.feed != null)
+    if (widget.feed.length > 0)
       return Container(
         // height: ScreenUtil().setHeight(1700),
         child: ListView(

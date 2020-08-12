@@ -4,12 +4,15 @@ import 'package:epandu/router.gr.dart';
 import 'package:epandu/services/api/model/provider_model.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/app_config.dart';
+import 'package:epandu/utils/constants.dart';
 
 import 'package:epandu/utils/device_info.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class Authentication extends StatefulWidget {
   @override
@@ -20,6 +23,7 @@ class _AuthenticationState extends State<Authentication> {
   final AuthRepo authRepo = AuthRepo();
   final AppConfig appConfig = AppConfig();
   final LocalStorage localStorage = LocalStorage();
+  final image = ImagesConstant();
 
   DeviceInfo deviceInfo = DeviceInfo();
   String deviceModel = '';
@@ -92,7 +96,27 @@ class _AuthenticationState extends State<Authentication> {
     );
 
     return Scaffold(
-      body: Container(),
+      backgroundColor: Color(0xFFFFE91D),
+      body: Container(
+        height: ScreenUtil.screenHeight,
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            /* FadeInImage(
+              alignment: Alignment.center,
+              placeholder: MemoryImage(kTransparentImage),
+              image: AssetImage(
+                image.logo2,
+              ),
+            ), */
+            Image.asset(image.logo2),
+            SpinKitThreeBounce(
+              color: Color(0xFF3696A8),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
