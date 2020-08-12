@@ -16,6 +16,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 // import 'package:epandu/utils/custom_dialog.dart';
 
 // import '../../app_localizations.dart';
@@ -39,7 +40,7 @@ class _HomeState extends State<Home> {
   final primaryColor = ColorConstant.primaryColor;
   // String _username = '';
   var studentEnrollmentData;
-  var feed;
+  // var feed;
   final myImage = ImagesConstant();
   // get location
   // Location location = Location();
@@ -60,6 +61,13 @@ class _HomeState extends State<Home> {
     fontWeight: FontWeight.w500,
   );
 
+  String _message = '';
+  bool _isLoading = false;
+  int _startIndex = 0;
+  List<dynamic> items = [];
+
+  ScrollController _scrollController = new ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -71,6 +79,24 @@ class _HomeState extends State<Home> {
     _getDiProfile();
     _getActiveFeed();
     _getAppVersion();
+
+    _scrollController
+      ..addListener(() {
+        if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+          setState(() {
+            _startIndex += 5;
+          });
+
+          if (_message.isEmpty) {
+            setState(() {
+              _isLoading = true;
+            });
+
+            _getActiveFeed();
+          }
+        }
+      });
   }
 
   _getAppVersion() async {
@@ -84,6 +110,7 @@ class _HomeState extends State<Home> {
   @override
   void dispose() {
     // positionStream.cancel();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -129,12 +156,33 @@ class _HomeState extends State<Home> {
     var result = await authRepo.getActiveFeed(
       context: context,
       feedType: 'MAIN',
+      startIndex: _startIndex,
+      noOfRecords: 5,
     );
 
-    if (result.isSuccess) {
+    /* if (result.isSuccess) {
       setState(() {
         feed = result.data;
       });
+    } */
+
+    if (result.isSuccess) {
+      if (result.data.length > 0) if (mounted)
+        setState(() {
+          for (int i = 0; i < result.data.length; i += 1) {
+            items.add(result.data[i]);
+          }
+        });
+      else if (mounted)
+        setState(() {
+          _isLoading = false;
+        });
+    } else {
+      if (mounted)
+        setState(() {
+          _message = result.message;
+          _isLoading = false;
+        });
     }
   }
 
@@ -219,6 +267,29 @@ class _HomeState extends State<Home> {
     // await Hive.openBox('emergencyContact');
   }
 
+  shimmer() {
+    return Container(
+      alignment: Alignment.topCenter,
+      padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 10.0),
+      child: Column(
+        children: <Widget>[
+          Shimmer.fromColors(
+            baseColor: Colors.grey[200],
+            highlightColor: Colors.white,
+            child: Container(
+              width: ScreenUtil().setWidth(1300),
+              height: ScreenUtil().setHeight(750),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                color: Colors.grey[200],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -262,6 +333,7 @@ class _HomeState extends State<Home> {
               RefreshIndicator(
                 onRefresh: _getActiveFeed,
                 child: SingleChildScrollView(
+                  controller: _scrollController,
                   child: Container(
                     // margin:
                     //     EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(40)),
@@ -279,9 +351,10 @@ class _HomeState extends State<Home> {
                         HomeTopMenu(iconText: _iconText),
                         LimitedBox(maxHeight: ScreenUtil().setHeight(30)),
                         Feeds(
-                          feed: feed,
+                          feed: items,
                           appVersion: appVersion,
                         ),
+                        if (_isLoading) shimmer(),
                       ],
                     ),
                   ),

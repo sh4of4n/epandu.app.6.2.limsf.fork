@@ -910,12 +910,17 @@ class AuthRepo {
             .replaceAll(r'"', ''));
   }
 
-  Future<Response> getActiveFeed({context, feedType}) async {
+  Future<Response> getActiveFeed({
+    context,
+    @required feedType,
+    @required startIndex,
+    @required noOfRecords,
+  }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&feedType=${feedType ?? ''}&startIndex=0&noOfRecords=10';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&feedType=${feedType ?? ''}&startIndex=$startIndex&noOfRecords=$noOfRecords';
 
     var response = await networking.getData(
       path: 'GetActiveFeedByType?$path',

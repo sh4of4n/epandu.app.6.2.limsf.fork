@@ -253,66 +253,66 @@ class _FeedsState extends State<Feeds> {
     if (widget.feed != null)
       return Container(
         // height: ScreenUtil().setHeight(1700),
-        child: ListView.builder(
+        child: ListView(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          itemCount: widget.feed.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Column(
-              children: <Widget>[
-                Ink(
-                  // height: ScreenUtil().setHeight(780),
-                  width: ScreenUtil().setWidth(1300),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        offset: Offset(0, 0.4),
-                        blurRadius: 0.3,
-                        spreadRadius: 0.5,
-                      ),
-                    ],
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(12),
-                    onTap: () async {
-                      var feedValue = widget.feed[index].feedNavigate;
+          children: <Widget>[
+            for (var item in widget.feed)
+              Column(
+                children: <Widget>[
+                  Ink(
+                    // height: ScreenUtil().setHeight(780),
+                    width: ScreenUtil().setWidth(1300),
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0, 0.4),
+                          blurRadius: 0.3,
+                          spreadRadius: 0.5,
+                        ),
+                      ],
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(12),
+                      onTap: () async {
+                        var feedValue = item.feedNavigate;
 
-                      if (feedValue != null) {
-                        bool isUrl = isURL(feedValue);
+                        if (feedValue != null) {
+                          bool isUrl = isURL(feedValue);
 
-                        // Navigation
-                        if (!isUrl) {
-                          switch (feedValue) {
-                            case 'ENROLLMENT':
-                              ExtendedNavigator.of(context)
-                                  .push(Routes.enrollment);
-                              break;
-                            case 'KPP':
-                              ExtendedNavigator.of(context)
-                                  .push(Routes.kppCategory);
-                              break;
-                            case 'VCLUB':
-                              ExtendedNavigator.of(context)
-                                  .push(Routes.valueClub);
-                              break;
-                            default:
-                              break;
+                          // Navigation
+                          if (!isUrl) {
+                            switch (feedValue) {
+                              case 'ENROLLMENT':
+                                ExtendedNavigator.of(context)
+                                    .push(Routes.enrollment);
+                                break;
+                              case 'KPP':
+                                ExtendedNavigator.of(context)
+                                    .push(Routes.kppCategory);
+                                break;
+                              case 'VCLUB':
+                                ExtendedNavigator.of(context)
+                                    .push(Routes.valueClub);
+                                break;
+                              default:
+                                break;
+                            }
+                          } else {
+                            _checkLocationPermission(item, context);
                           }
-                        } else {
-                          _checkLocationPermission(widget.feed[index], context);
                         }
-                      }
-                      /* else {
+                        /* else {
                           ExtendedNavigator.of(context)
                               .push(Routes.promotions);
                         } */
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        /* Container(
+                      },
+                      child: Column(
+                        children: <Widget>[
+                          /* Container(
                             // width: double.infinity,
                             // height: ScreenUtil().setHeight(600),
                             width: 1300.w,
@@ -332,55 +332,54 @@ class _FeedsState extends State<Feeds> {
                                   : Container(),
                             ),
                           ), */
-                        AspectRatio(
-                          aspectRatio: 16 / 9,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(12),
-                              topRight: Radius.circular(12),
-                            ),
-                            child: widget.feed[index].feedMediaFilename != null
-                                ? Image.network(
-                                    widget.feed[index].feedMediaFilename
-                                        .replaceAll(removeBracket, '')
-                                        .split('\r\n')[0],
-                                    fit: BoxFit.contain,
-                                  )
-                                : Container(),
-                          ),
-                        ),
-                        Container(
-                          height: ScreenUtil().setHeight(180),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: ScreenUtil().setWidth(70),
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(12),
-                              bottomRight: Radius.circular(12),
+                          AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(12),
+                                topRight: Radius.circular(12),
+                              ),
+                              child: item.feedMediaFilename != null
+                                  ? Image.network(
+                                      item.feedMediaFilename
+                                          .replaceAll(removeBracket, '')
+                                          .split('\r\n')[0],
+                                      fit: BoxFit.contain,
+                                    )
+                                  : Container(),
                             ),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(widget.feed[index].feedText ?? '',
-                                  style: adText),
-                              if (widget.feed[index].feedText != null &&
-                                  widget.feed[index].feedText.isNotEmpty)
-                                Icon(
-                                  Icons.chevron_right,
-                                ),
-                            ],
+                          Container(
+                            height: ScreenUtil().setHeight(180),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: ScreenUtil().setWidth(70),
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(12),
+                                bottomRight: Radius.circular(12),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(item.feedText ?? '', style: adText),
+                                if (item.feedText != null &&
+                                    item.feedText.isNotEmpty)
+                                  Icon(
+                                    Icons.chevron_right,
+                                  ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: ScreenUtil().setHeight(50)),
-              ],
-            );
-          },
+                  SizedBox(height: ScreenUtil().setHeight(50)),
+                ],
+              ),
+          ],
         ),
       );
     return _loadingShimmer();
@@ -390,66 +389,66 @@ class _FeedsState extends State<Feeds> {
     if (widget.feed != null)
       return Container(
         // height: ScreenUtil().setHeight(1700),
-        child: ListView.builder(
+        child: ListView(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          itemCount: widget.feed.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Column(
-              children: <Widget>[
-                Ink(
-                  // height: ScreenUtil().setHeight(980),
-                  width: ScreenUtil().setWidth(1300),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        offset: Offset(0, 0.4),
-                        blurRadius: 0.3,
-                        spreadRadius: 0.5,
-                      ),
-                    ],
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(12),
-                    onTap: () async {
-                      var feedValue = widget.feed[index].feedNavigate;
+          children: <Widget>[
+            for (var item in widget.feed)
+              Column(
+                children: <Widget>[
+                  Ink(
+                    // height: ScreenUtil().setHeight(980),
+                    width: ScreenUtil().setWidth(1300),
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0, 0.4),
+                          blurRadius: 0.3,
+                          spreadRadius: 0.5,
+                        ),
+                      ],
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(12),
+                      onTap: () async {
+                        var feedValue = item.feedNavigate;
 
-                      if (feedValue != null) {
-                        bool isUrl = isURL(feedValue);
+                        if (feedValue != null) {
+                          bool isUrl = isURL(feedValue);
 
-                        // Navigation
-                        if (!isUrl) {
-                          switch (feedValue) {
-                            case 'ENROLLMENT':
-                              ExtendedNavigator.of(context)
-                                  .push(Routes.enrollment);
-                              break;
-                            case 'KPP':
-                              ExtendedNavigator.of(context)
-                                  .push(Routes.kppCategory);
-                              break;
-                            case 'VCLUB':
-                              ExtendedNavigator.of(context)
-                                  .push(Routes.valueClub);
-                              break;
-                            default:
-                              break;
+                          // Navigation
+                          if (!isUrl) {
+                            switch (feedValue) {
+                              case 'ENROLLMENT':
+                                ExtendedNavigator.of(context)
+                                    .push(Routes.enrollment);
+                                break;
+                              case 'KPP':
+                                ExtendedNavigator.of(context)
+                                    .push(Routes.kppCategory);
+                                break;
+                              case 'VCLUB':
+                                ExtendedNavigator.of(context)
+                                    .push(Routes.valueClub);
+                                break;
+                              default:
+                                break;
+                            }
+                          } else {
+                            _checkLocationPermission(item, context);
                           }
-                        } else {
-                          _checkLocationPermission(widget.feed[index], context);
                         }
-                      }
-                      /* else {
+                        /* else {
                         ExtendedNavigator.of(context)
                             .push(Routes.promotions);
                       } */
-                    },
-                    child: Column(
-                      children: <Widget>[
-                        /* Container(
+                      },
+                      child: Column(
+                        children: <Widget>[
+                          /* Container(
                           width: double.infinity,
                           height: ScreenUtil().setHeight(800),
                           child: ClipRRect(
@@ -468,55 +467,54 @@ class _FeedsState extends State<Feeds> {
                                 : Container(),
                           ),
                         ), */
-                        AspectRatio(
-                          aspectRatio: 16 / 9,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(12),
-                              topRight: Radius.circular(12),
-                            ),
-                            child: widget.feed[index].feedMediaFilename != null
-                                ? Image.network(
-                                    widget.feed[index].feedMediaFilename
-                                        .replaceAll(removeBracket, '')
-                                        .split('\r\n')[0],
-                                    fit: BoxFit.contain,
-                                  )
-                                : Container(),
-                          ),
-                        ),
-                        Container(
-                          height: ScreenUtil().setHeight(180),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: ScreenUtil().setWidth(70),
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(12),
-                              bottomRight: Radius.circular(12),
+                          AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(12),
+                                topRight: Radius.circular(12),
+                              ),
+                              child: item.feedMediaFilename != null
+                                  ? Image.network(
+                                      item.feedMediaFilename
+                                          .replaceAll(removeBracket, '')
+                                          .split('\r\n')[0],
+                                      fit: BoxFit.contain,
+                                    )
+                                  : Container(),
                             ),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(widget.feed[index].feedText ?? '',
-                                  style: adText),
-                              if (widget.feed[index].feedText != null &&
-                                  widget.feed[index].feedText.isNotEmpty)
-                                Icon(
-                                  Icons.chevron_right,
-                                ),
-                            ],
+                          Container(
+                            height: ScreenUtil().setHeight(180),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: ScreenUtil().setWidth(70),
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(12),
+                                bottomRight: Radius.circular(12),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(item.feedText ?? '', style: adText),
+                                if (item.feedText != null &&
+                                    item.feedText.isNotEmpty)
+                                  Icon(
+                                    Icons.chevron_right,
+                                  ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: ScreenUtil().setHeight(50)),
-              ],
-            );
-          },
+                  SizedBox(height: ScreenUtil().setHeight(50)),
+                ],
+              ),
+          ],
         ),
       );
     return _loadingTabShimmer();
