@@ -113,6 +113,7 @@ class _AuthenticationState extends State<Authentication> {
             Image.asset(image.logo2),
             SpinKitThreeBounce(
               color: Color(0xFF3696A8),
+              size: 30,
             ),
           ],
         ),
