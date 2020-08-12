@@ -23,7 +23,7 @@ class CallStatusModel extends ChangeNotifier {
 class FeedsLoadingModel extends ChangeNotifier {
   bool isLoading = false;
 
-  void callStatus(bool isLoading) {
+  void loadingStatus(bool isLoading) {
     this.isLoading = isLoading;
 
     notifyListeners();

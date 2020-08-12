@@ -3,16 +3,19 @@ import 'dart:async';
 // import 'package:app_settings/app_settings.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/router.gr.dart';
+import 'package:epandu/services/api/model/provider_model.dart';
 // import 'package:epandu/services/location.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/services/repository/kpp_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/widgets/loading_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
 import 'package:package_info/package_info.dart';
+import 'package:provider/provider.dart';
 // import 'package:epandu/utils/custom_dialog.dart';
 
 // import '../../app_localizations.dart';
@@ -254,33 +257,51 @@ class _HomeState extends State<Home> {
           // positionStream: positionStream,
         ),
         body: SafeArea(
-          child: RefreshIndicator(
-            onRefresh: _getActiveFeed,
-            child: SingleChildScrollView(
-              child: Container(
-                // margin:
-                //     EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(40)),
-                // height: ScreenUtil.screenHeightDp - ScreenUtil().setHeight(100),
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: ScreenUtil().setWidth(60)),
-                      child: HomePageHeader(
-                        instituteLogo: instituteLogo,
-                        // positionStream: positionStream,
-                      ),
+          child: Stack(
+            children: <Widget>[
+              RefreshIndicator(
+                onRefresh: _getActiveFeed,
+                child: SingleChildScrollView(
+                  child: Container(
+                    // margin:
+                    //     EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(40)),
+                    // height: ScreenUtil.screenHeightDp - ScreenUtil().setHeight(100),
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: ScreenUtil().setWidth(60)),
+                          child: HomePageHeader(
+                            instituteLogo: instituteLogo,
+                            // positionStream: positionStream,
+                          ),
+                        ),
+                        HomeTopMenu(iconText: _iconText),
+                        LimitedBox(maxHeight: ScreenUtil().setHeight(30)),
+                        Feeds(
+                          feed: feed,
+                          appVersion: appVersion,
+                        ),
+                      ],
                     ),
-                    HomeTopMenu(iconText: _iconText),
-                    LimitedBox(maxHeight: ScreenUtil().setHeight(30)),
-                    Feeds(
-                      feed: feed,
-                      appVersion: appVersion,
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
+              Consumer<FeedsLoadingModel>(
+                builder: (BuildContext context, loadingModel, child) {
+                  return LoadingModel(
+                    isVisible: loadingModel.isLoading,
+                    color: primaryColor,
+                  );
+                },
+              ),
+              /* LoadingModel(
+                isVisible:
+                    Provider.of<FeedsLoadingModel>(context, listen: false)
+                        .isLoading,
+                color: primaryColor,
+              ), */
+            ],
           ),
         ),
       ),

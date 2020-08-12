@@ -56,6 +56,7 @@ class _FeedsState extends State<Feeds> {
   final appConfig = AppConfig();
 
   _checkLocationPermission(feed, context) async {
+    Provider.of<FeedsLoadingModel>(context, listen: false).loadingStatus(true);
     // contactBox = Hive.box('emergencyContact');
 
     // await location.getCurrentLocation();
@@ -155,6 +156,9 @@ class _FeedsState extends State<Feeds> {
         ExtendedNavigator.of(context)
             .push(Routes.webview, arguments: WebviewArguments(url: url));
 
+        Provider.of<FeedsLoadingModel>(context, listen: false)
+            .loadingStatus(false);
+
         /* launch(url,
                               forceWebView: true, enableJavaScript: true); */
       } else {
@@ -167,6 +171,8 @@ class _FeedsState extends State<Feeds> {
               child: Text(AppLocalizations.of(context).translate('ok_btn')),
               onPressed: () {
                 ExtendedNavigator.of(context).pop();
+                Provider.of<FeedsLoadingModel>(context, listen: false)
+                    .loadingStatus(false);
               },
             ),
           ],
