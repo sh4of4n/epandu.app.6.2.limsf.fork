@@ -31,6 +31,7 @@ class AuthRepo {
     loginType,
     callback,
     altWsUrl,
+    int milliseconds,
   }) async {
     final String wsVer = '1.1';
     final String wsUrl0 =
@@ -52,7 +53,8 @@ class AuthRepo {
     String params =
         'LoginPub?wsCodeCrypt=$wsCodeCrypt&acctUid=$acctUid&acctPwd=${Uri.encodeQueryComponent(acctPwd)}&loginType=$loginType&misc=';
 
-    var response = await Networking(customUrl: '$wsUrl', milliseconds: 5000)
+    var response = await Networking(
+            customUrl: '$wsUrl', milliseconds: milliseconds ?? 2000)
         .getData(path: params);
 
     if (response.isSuccess && response.data != null) {
@@ -148,13 +150,13 @@ class AuthRepo {
     message,
   }) async {
     // Changes the web service URL based on exception and current altWsUrl.
-    if (altWsUrl == null)
+    if (altWsUrl == null) {
       altWsUrl = wsUrl1;
-    else if (altWsUrl == wsUrl1)
+    } else if (altWsUrl == wsUrl1) {
       altWsUrl = wsUrl2;
-    else if (altWsUrl == wsUrl2)
+    } else if (altWsUrl == wsUrl2) {
       altWsUrl = wsUrl3;
-    else
+    } else
       return Response(false, message: message);
 
     // Call this function again with the altWsUrl.
@@ -164,6 +166,7 @@ class AuthRepo {
       acctPwd: acctPwd,
       loginType: appConfig.wsCodeCrypt,
       altWsUrl: altWsUrl,
+      milliseconds: 10000,
     );
 
     if (callbackResult.isSuccess) {

@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class Authentication extends StatefulWidget {
   @override
@@ -96,7 +95,7 @@ class _AuthenticationState extends State<Authentication> {
     );
 
     return Scaffold(
-      backgroundColor: Color(0xFFFFE91D),
+      backgroundColor: ColorConstant.primaryColor,
       body: Container(
         height: ScreenUtil.screenHeight,
         alignment: Alignment.center,
