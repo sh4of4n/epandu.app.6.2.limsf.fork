@@ -48,19 +48,21 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
 
   final FocusNode _idFocus = FocusNode();
   final FocusNode _idNameFocus = FocusNode();
-  // final FocusNode _emailFocus = FocusNode();
+  final FocusNode _emailFocus = FocusNode();
   // final FocusNode _addressFocus = FocusNode();
   // final FocusNode _postcodeFocus = FocusNode();
   final FocusNode _dobFocus = FocusNode();
   // final FocusNode _genderFocus = FocusNode();
   // final FocusNode _nearbyDiFocus = FocusNode();
   // final FocusNode _nationalityFocus = FocusNode();
+  final FocusNode _nickNameFocus = FocusNode();
 
-  final _phoneController = TextEditingController();
+  // final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
   final _idNameController = TextEditingController();
   final _icNoController = TextEditingController();
   final _dobController = TextEditingController();
+  final _nickNameController = TextEditingController();
 
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
@@ -77,6 +79,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   String _message = '';
   bool _obtainingStatus = true;
 
+  String _nickName = '';
   Gender _gender = Gender.male;
   String _genderValue = 'MALE';
   // String _countryCode = '+60';
@@ -95,6 +98,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     fontSize: 62.sp,
   );
 
+  TextStyle _messageStyle = TextStyle(color: Colors.red);
+
   // String countryCode = '';
   String phone = '';
   String email = '';
@@ -111,7 +116,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   void initState() {
     super.initState();
 
-    _phoneController.addListener(_phoneValue);
+    // _phoneController.addListener(_phoneValue);
+    _nickNameController.addListener(_nickNameValue);
     _emailController.addListener(_emailValue);
     _idNameController.addListener(_idNameValue);
     _icNoController.addListener(_icNoValue);
@@ -153,11 +159,13 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
 
     if (mounted) {
       setState(() {
-        _phoneController.text = result.data[0].phone;
+        // _phoneController.text = result.data[0].phone;
+        _nickNameController.text = result.data[0].nickName;
         _emailController.text = result.data[0].eMail;
         _idNameController.text = result.data[0].name;
         _icNoController.text = result.data[0].icNo;
         _dobController.text = result.data[0].birthDate;
+        _race = result.data[0].race ?? '';
         profilePicUrl = result.data[0].picturePath != null &&
                 result.data[0].picturePath.isNotEmpty
             ? result.data[0].picturePath
@@ -172,9 +180,15 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     }
   }
 
-  _phoneValue() {
+  /* _phoneValue() {
     setState(() {
       phone = _phoneController.text;
+    });
+  } */
+
+  _nickNameValue() {
+    setState(() {
+      _nickName = _nickNameController.text;
     });
   }
 
@@ -202,7 +216,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     });
   }
 
-  _phoneField() {
+  /* _phoneField() {
     return TextFormField(
       enabled: false,
       controller: _phoneController,
@@ -233,12 +247,72 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         ),
       ),
     );
+  } */
+
+  _nickNameField() {
+    return TextFormField(
+      controller: _nickNameController,
+      focusNode: _nickNameFocus,
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+        hintStyle: TextStyle(
+          color: primaryColor,
+        ),
+        labelStyle: TextStyle(
+          color: Color(0xff808080),
+        ),
+        labelText: AppLocalizations.of(context).translate('nick_name_lbl'),
+        fillColor: Colors.white,
+        filled: true,
+        prefixIcon: Icon(Icons.assignment_ind),
+        suffixIcon: IconButton(
+          icon: Icon(Icons.cancel),
+          onPressed: () {
+            WidgetsBinding.instance
+                .addPostFrameCallback((_) => _nickNameController.clear());
+          },
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue[700], width: 1.6),
+          // borderRadius: BorderRadius.circular(0),
+          borderRadius: BorderRadius.circular(30),
+        ),
+      ),
+      onFieldSubmitted: (term) {
+        fieldFocusChange(
+          context,
+          _nickNameFocus,
+          _emailFocus,
+        );
+      },
+      /* validator: (value) {
+                      if (value.isEmpty) {
+                        return AppLocalizations.of(context)
+                            .translate('ic_name_required_msg');
+                      }
+                      return null;
+                    }, */
+      /* onChanged: (value) {
+                      setState(() {
+                        _name = value;
+                      });
+                    }, */
+    );
   }
 
   _emailField() {
     return TextFormField(
-      enabled: false,
       controller: _emailController,
+      focusNode: _emailFocus,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 16.0),
         hintStyle: TextStyle(
@@ -841,15 +915,16 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                       child: _profileImage(),
                     ),
                     SizedBox(height: 60.h),
-                    _idNameField(),
-                    SizedBox(
-                      height: ScreenUtil().setHeight(60),
-                    ),
                     _idField(),
                     SizedBox(
                       height: ScreenUtil().setHeight(60),
                     ),
-                    _phoneField(),
+                    _idNameField(),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(60),
+                    ),
+                    // _phoneField(),
+                    _nickNameField(),
                     SizedBox(
                       height: ScreenUtil().setHeight(60),
                     ),
@@ -1125,71 +1200,54 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         FocusScope.of(context).requestFocus(new FocusNode());
         if (_message !=
             AppLocalizations.of(context).translate('enroll_underage')) {
-          /* setState(() {
-          _isLoading = true;
-          _message = '';
-        }); */
-
-          ExtendedNavigator.of(context).push(
-            Routes.selectInstitute,
-            arguments: SelectInstituteArguments(
-              data: EnrollmentData(
-                icNo: _icNo.replaceAll('-', ''),
-                name: _icName,
-                email: _email,
-                gender: _genderValue,
-                dateOfBirthString: _dob,
-                nationality: 'WARGANEGARA',
-                race: _raceParam,
-                profilePic: profilePicBase64,
-              ),
-            ),
-          );
-
-          /* var result = await authRepo.saveEnrollmentWithParticular(
-          context: context,
-          phoneCountryCode: _countryCode,
-          diCode: widget.data.diCode,
-          icNo: _icNo.replaceAll('-', ''),
-          name: _icName,
-          email: _email,
-          groupId: widget.data.groupId,
-          gender: _genderValue,
-          dateOfBirthString: _dob,
-          nationality: 'WARGANEGARA',
-          race: _race,
-        );
-
-        if (result.isSuccess) {
-          customDialog.show(
-            context: context,
-            barrierDismissable: false,
-            title: Center(
-              child: Icon(
-                Icons.check_circle_outline,
-                size: 120,
-                color: Colors.green,
-              ),
-            ),
-            content: AppLocalizations.of(context).translate('enroll_success'),
-            type: DialogType.GENERAL,
-            customActions: <Widget>[
-              FlatButton(
-                child: Text(AppLocalizations.of(context).translate('ok_btn')),
-                onPressed: () => Navigator.pushAndRemoveUntil(
-                    context, HOME, (r) => false),
-              ),
-            ],
-          );
-        } else {
           setState(() {
-            _message = result.message.toString();
+            _isLoading = true;
+            _message = '';
           });
-        } */
 
-          /* setState(() {
-          _isLoading = false;
-        }); */
+          var result = await profileRepo.saveUserProfile(
+            context: context,
+            name: _icName,
+            email: _email,
+            icNo: _icNo,
+            dateOfBirthString: _dob,
+            nickName: _nickName,
+            userProfileImageBase64String: profilePicBase64,
+            removeUserProfileImage: false,
+            race: _race,
+          );
+
+          if (result.isSuccess) {
+            setState(() {
+              _message = result.message;
+              _messageStyle = TextStyle(color: Colors.green);
+            });
+
+            ExtendedNavigator.of(context).push(
+              Routes.selectInstitute,
+              arguments: SelectInstituteArguments(
+                data: EnrollmentData(
+                  icNo: _icNo.replaceAll('-', ''),
+                  name: _icName,
+                  email: _email,
+                  gender: _genderValue,
+                  dateOfBirthString: _dob,
+                  nationality: 'WARGANEGARA',
+                  race: _raceParam,
+                  profilePic: profilePicBase64,
+                ),
+              ),
+            );
+          } else {
+            setState(() {
+              _message = result.message;
+              _messageStyle = TextStyle(color: Colors.red);
+            });
+          }
+
+          setState(() {
+            _isLoading = false;
+          });
         }
       }
     } else {

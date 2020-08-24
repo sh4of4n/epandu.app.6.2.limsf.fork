@@ -5,6 +5,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:epandu/base/page_base_class.dart';
+import 'package:epandu/pages/enroll/enroll.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/services/repository/profile_repository.dart';
 import 'package:epandu/utils/constants.dart';
@@ -64,6 +65,11 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   String _potentialDob = '';
   String profilePicBase64 = '';
   String profilePicUrl = '';
+
+  String _race = '';
+  String _raceParam = '';
+  Gender _gender = Gender.male;
+  String _genderValue = 'MALE';
 
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
   File _image;
@@ -326,6 +332,66 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                   _profileImage(),
                   SizedBox(height: 40.h),
                   TextFormField(
+                    controller: _icController,
+                    focusNode: _icFocus,
+                    // textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+                      hintStyle: TextStyle(
+                        color: primaryColor,
+                      ),
+                      labelStyle: TextStyle(
+                        color: Color(0xff808080),
+                      ),
+                      labelText: AppLocalizations.of(context)
+                          .translate('ic_required_lbl'),
+                      fillColor: Colors.white,
+                      filled: true,
+                      prefixIcon: Icon(Icons.featured_video),
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.cancel),
+                        onPressed: () {
+                          WidgetsBinding.instance.addPostFrameCallback(
+                              (_) => _icController.clear());
+                        },
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.blue[700], width: 1.6),
+                        // borderRadius: BorderRadius.circular(0),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    // onFieldSubmitted: (term) {
+                    //   fieldFocusChange(
+                    //     context,
+                    //     _icFocus,
+                    //     _dobFocus,
+                    //   );
+                    // },
+                    /* validator: (value) {
+                      if (value.isEmpty) {
+                        return AppLocalizations.of(context)
+                            .translate('ic_name_required_msg');
+                      }
+                      return null;
+                    }, */
+                    /* onChanged: (value) {
+                      setState(() {
+                        _name = value;
+                      });
+                    }, */
+                  ),
+                  SizedBox(height: 60.h),
+                  TextFormField(
                     controller: _nameController,
                     focusNode: _nameFocus,
                     textInputAction: TextInputAction.next,
@@ -498,72 +564,11 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                     }, */
                   ),
                   SizedBox(height: 60.h),
-                  TextFormField(
-                    controller: _icController,
-                    focusNode: _icFocus,
-                    // textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 10.0),
-                      hintStyle: TextStyle(
-                        color: primaryColor,
-                      ),
-                      labelStyle: TextStyle(
-                        color: Color(0xff808080),
-                      ),
-                      labelText: AppLocalizations.of(context)
-                          .translate('ic_required_lbl'),
-                      fillColor: Colors.white,
-                      filled: true,
-                      prefixIcon: Icon(Icons.assignment_ind),
-                      suffixIcon: IconButton(
-                        icon: Icon(Icons.cancel),
-                        onPressed: () {
-                          WidgetsBinding.instance.addPostFrameCallback(
-                              (_) => _icController.clear());
-                        },
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.blue[700], width: 1.6),
-                        // borderRadius: BorderRadius.circular(0),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                    // onFieldSubmitted: (term) {
-                    //   fieldFocusChange(
-                    //     context,
-                    //     _icFocus,
-                    //     _dobFocus,
-                    //   );
-                    // },
-                    /* validator: (value) {
-                      if (value.isEmpty) {
-                        return AppLocalizations.of(context)
-                            .translate('ic_name_required_msg');
-                      }
-                      return null;
-                    }, */
-                    /* onChanged: (value) {
-                      setState(() {
-                        _name = value;
-                      });
-                    }, */
-                  ),
-                  SizedBox(
-                    height: 60.h,
-                  ),
                   _dobField(),
-                  /* SizedBox(height: 60.h),
+                  SizedBox(height: 60.h),
                   _raceField(),
-*/
+                  SizedBox(height: 60.h),
+                  _genderSelection(),
                   SizedBox(height: 40.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -670,7 +675,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
       },
     );
   }
-/*
+
   _raceField() {
     return DropdownButtonFormField<String>(
       decoration: InputDecoration(
@@ -696,9 +701,6 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
       ),
       disabledHint: Text(AppLocalizations.of(context).translate('race_lbl')),
       value: _race.isEmpty ? null : _race,
-      */ /* _nationality.isNotEmpty
-          ? _nationality
-          : AppLocalizations.of(context).translate('citizen_lbl'), */ /*
       onChanged: (value) {
         setState(() {
           _race = value;
@@ -732,7 +734,56 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         return null;
       },
     );
-  }*/
+  }
+
+  _genderSelection() {
+    return Row(
+      children: <Widget>[
+        Text(
+          AppLocalizations.of(context).translate('gender_lbl'),
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        Radio(
+          activeColor: Color(0xffdd0e0e),
+          value: Gender.male,
+          groupValue: _gender,
+          onChanged: (Gender value) {
+            setState(() {
+              _gender = value;
+              _genderValue = 'MALE';
+              // genderInt = '1';
+            });
+          },
+        ),
+        Text(
+          AppLocalizations.of(context).translate('gender_male'),
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        Radio(
+          activeColor: Color(0xffdd0e0e),
+          value: Gender.female,
+          groupValue: _gender,
+          onChanged: (Gender value) {
+            setState(() {
+              _gender = value;
+              _genderValue = 'FEMALE';
+              // genderInt = '0';
+            });
+          },
+        ),
+        Text(
+          AppLocalizations.of(context).translate('gender_female'),
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+      ],
+    );
+  }
 
   _inviteButton() {
     return Container(
@@ -786,6 +837,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         nickName: _nickName.isNotEmpty ? _nickName : _getNickName,
         userProfileImageBase64String: profilePicBase64,
         removeUserProfileImage: false,
+        race: _race,
       );
 
       if (result.isSuccess) {
