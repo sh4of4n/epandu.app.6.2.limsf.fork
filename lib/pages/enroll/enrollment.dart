@@ -102,7 +102,6 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
 
   // String countryCode = '';
   String phone = '';
-  String email = '';
 
   List<CameraDescription> cameras;
   final picker = ImagePicker();
@@ -111,6 +110,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   File _image;
   File _croppedImage;
   var imageState;
+
+  String cupertinoDob = '';
 
   @override
   void initState() {
@@ -165,7 +166,21 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         _idNameController.text = result.data[0].name;
         _icNoController.text = result.data[0].icNo;
         _dobController.text = result.data[0].birthDate;
-        _race = result.data[0].race ?? '';
+        if (result.data[0].race == 'MALAY' || result.data[0].race == 'M') {
+          _race = 'Malay';
+          _raceParam = 'M';
+        } else if (result.data[0].race == 'CHINESE' ||
+            result.data[0].race == 'C') {
+          _race = 'Chinese';
+          _raceParam = 'C';
+        } else if (result.data[0].race == 'INDIAN' ||
+            result.data[0].race == 'I') {
+          _race = 'Indian';
+          _raceParam = 'I';
+        } else {
+          _race = 'Others';
+          _raceParam = 'O';
+        }
         profilePicUrl = result.data[0].picturePath != null &&
                 result.data[0].picturePath.isNotEmpty
             ? result.data[0].picturePath
@@ -194,7 +209,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
 
   _emailValue() {
     setState(() {
-      email = _emailController.text;
+      _email = _emailController.text;
     });
   }
 
@@ -313,8 +328,17 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     return TextFormField(
       controller: _emailController,
       focusNode: _emailFocus,
+      // textInputAction: TextInputAction.next,
+      keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+        suffixIcon: IconButton(
+          icon: Icon(Icons.cancel),
+          onPressed: () {
+            WidgetsBinding.instance
+                .addPostFrameCallback((_) => _emailController.clear());
+          },
+        ),
         hintStyle: TextStyle(
           color: primaryColor,
         ),
@@ -339,6 +363,13 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           borderRadius: BorderRadius.circular(30),
         ),
       ),
+      /* onFieldSubmitted: (term) {
+        fieldFocusChange(
+          context,
+          _emailFocus,
+          _dobFocus,
+        );
+      }, */
     );
   }
 
@@ -380,7 +411,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         fieldFocusChange(
           context,
           _idNameFocus,
-          _idFocus,
+          _nickNameFocus,
         );
       },
       validator: (value) {
@@ -401,7 +432,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     return TextFormField(
       focusNode: _idFocus,
       controller: _icNoController,
-      // textInputAction: TextInputAction.next,
+      textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 16.0),
         hintStyle: TextStyle(
@@ -428,13 +459,13 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           borderRadius: BorderRadius.circular(30),
         ),
       ),
-      /* onFieldSubmitted: (term) {
+      onFieldSubmitted: (term) {
         fieldFocusChange(
           context,
           _idFocus,
-          _dobFocus,
+          _idNameFocus,
         );
-      }, */
+      },
       validator: (value) {
         if (value.isEmpty) {
           return AppLocalizations.of(context).translate('ic_required_msg');
@@ -456,7 +487,6 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       focusNode: _dobFocus,
       format: format,
       controller: _dobController,
-      // initialValue: _dob.isNotEmpty ? DateTime.parse(_dob) : null,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
           vertical: 50.h,
@@ -481,6 +511,13 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           borderRadius: BorderRadius.circular(30),
         ),
         prefixIcon: Icon(Icons.calendar_today),
+        /* suffixIcon: IconButton(
+          icon: Icon(Icons.cancel),
+          onPressed: () {
+            WidgetsBinding.instance
+                .addPostFrameCallback((_) => _dobController.clear());
+          },
+        ), */
       ),
       validator: (value) {
         if (_dobController.text.isEmpty) {
@@ -489,7 +526,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         return null;
       },
       onShowPicker: (context, currentValue) async {
-        if (Platform.isIOS) {
+        if (Platform.isAndroid) {
           if (_dobController.text.isEmpty) {
             setState(() {
               _dobController.text = DateFormat('yyyy-MM-dd').format(
@@ -498,19 +535,43 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
             });
           }
 
-          await showModalBottomSheet(
+          await showCupertinoModalPopup(
             context: context,
             builder: (context) {
-              return CupertinoDatePicker(
-                initialDateTime: DateTime.parse(_dobController.text),
-                onDateTimeChanged: (DateTime date) {
-                  setState(() {
-                    _dobController.text = DateFormat('yyyy-MM-dd').format(date);
-                  });
-                },
-                minimumYear: 1920,
-                maximumYear: DateTime.now().year,
-                mode: CupertinoDatePickerMode.date,
+              return CupertinoActionSheet(
+                title: const Text('Pick a date'),
+                cancelButton: CupertinoActionSheetAction(
+                  child: const Text('Cancel'),
+                  onPressed: () => ExtendedNavigator.of(context).pop(),
+                ),
+                actions: <Widget>[
+                  SizedBox(
+                    height: 900.h,
+                    child: CupertinoDatePicker(
+                      initialDateTime: DateTime.parse(_dobController.text),
+                      onDateTimeChanged: (DateTime date) {
+                        setState(() {
+                          cupertinoDob = DateFormat('yyyy-MM-dd').format(date);
+                        });
+                      },
+                      minimumYear: 1920,
+                      maximumYear: DateTime.now().year,
+                      mode: CupertinoDatePickerMode.date,
+                    ),
+                  ),
+                  CupertinoActionSheetAction(
+                    child: const Text('Confirm'),
+                    onPressed: () {
+                      setState(() {
+                        if (cupertinoDob.isNotEmpty) {
+                          _dobController.text = cupertinoDob;
+                        }
+                      });
+
+                      ExtendedNavigator.of(context).pop();
+                    },
+                  ),
+                ],
               );
             },
           );
@@ -518,8 +579,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           return showDatePicker(
               context: context,
               firstDate: DateTime(1920),
-              initialDate: currentValue ?? DateTime(2000),
-              lastDate: DateTime(2020));
+              initialDate: currentValue ?? DateTime.now(),
+              lastDate: DateTime.now());
         }
         return null;
       },
@@ -961,7 +1022,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                             _message.isNotEmpty
                                 ? Text(
                                     _message,
-                                    style: TextStyle(color: Colors.red),
+                                    style: _messageStyle,
                                   )
                                 : SizedBox.shrink(),
                             _enrollButton(),
@@ -1164,7 +1225,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     return Container(
       child: _isLoading
           ? SpinKitFoldingCube(
-              color: Colors.greenAccent,
+              color: Colors.blue,
             )
           : ButtonTheme(
               padding: EdgeInsets.all(0.0),
@@ -1214,13 +1275,13 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
             nickName: _nickName,
             userProfileImageBase64String: profilePicBase64,
             removeUserProfileImage: false,
-            race: _race,
+            race: _raceParam,
           );
 
           if (result.isSuccess) {
             setState(() {
               _message = result.message;
-              _messageStyle = TextStyle(color: Colors.green);
+              _messageStyle = TextStyle(color: Colors.green[800]);
             });
 
             ExtendedNavigator.of(context).push(

@@ -54,6 +54,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   String _getUserIc = '';
   String _getBirthDate = '';
   String _getNickName = '';
+  String _getRace = '';
 
   String _dob = '';
   String _ic = '';
@@ -70,6 +71,8 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   String _raceParam = '';
   Gender _gender = Gender.male;
   String _genderValue = 'MALE';
+
+  String cupertinoDob = '';
 
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
   File _image;
@@ -112,6 +115,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
     _getBirthDate = await localStorage.getBirthDate();
     _getUserIc = await localStorage.getStudentIc();
     _getNickName = await localStorage.getNickName();
+    _getRace = await localStorage.getRace();
     profilePicUrl = await localStorage.getProfilePic();
 
     _nameController.text = _getName;
@@ -120,6 +124,19 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         _getBirthDate.isNotEmpty ? _getBirthDate.substring(0, 10) : '';
     _icController.text = _getUserIc;
     _nickNameController.text = _getNickName;
+    if (_getRace == 'MALAY' || _getRace == 'M') {
+      _race = 'Malay';
+      _raceParam = 'M';
+    } else if (_getRace == 'CHINESE' || _getRace == 'C') {
+      _race = 'Chinese';
+      _raceParam = 'C';
+    } else if (_getRace == 'INDIAN' || _getRace == 'I') {
+      _race = 'Indian';
+      _raceParam = 'I';
+    } else {
+      _race = 'Others';
+      _raceParam = 'O';
+    }
   }
 
   _getAvailableCameras() async {
@@ -334,7 +351,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                   TextFormField(
                     controller: _icController,
                     focusNode: _icFocus,
-                    // textInputAction: TextInputAction.next,
+                    textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 10.0),
                       hintStyle: TextStyle(
@@ -370,13 +387,13 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    // onFieldSubmitted: (term) {
-                    //   fieldFocusChange(
-                    //     context,
-                    //     _icFocus,
-                    //     _dobFocus,
-                    //   );
-                    // },
+                    onFieldSubmitted: (term) {
+                      fieldFocusChange(
+                        context,
+                        _icFocus,
+                        _nameFocus,
+                      );
+                    },
                     /* validator: (value) {
                       if (value.isEmpty) {
                         return AppLocalizations.of(context)
@@ -507,7 +524,8 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                   TextFormField(
                     controller: _emailController,
                     focusNode: _emailFocus,
-                    textInputAction: TextInputAction.next,
+                    // textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 10.0),
                       hintStyle: TextStyle(
@@ -543,13 +561,13 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    onFieldSubmitted: (term) {
+                    /* onFieldSubmitted: (term) {
                       fieldFocusChange(
                         context,
                         _emailFocus,
-                        _icFocus,
+                        _dobFocus,
                       );
-                    },
+                    }, */
                     /* validator: (value) {
                       if (value.isEmpty) {
                         return AppLocalizations.of(context)
@@ -648,19 +666,43 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
             });
           }
 
-          await showModalBottomSheet(
+          await showCupertinoModalPopup(
             context: context,
             builder: (context) {
-              return CupertinoDatePicker(
-                initialDateTime: DateTime.parse(_dobController.text),
-                onDateTimeChanged: (DateTime date) {
-                  setState(() {
-                    _dobController.text = DateFormat('yyyy-MM-dd').format(date);
-                  });
-                },
-                minimumYear: 1920,
-                maximumYear: DateTime.now().year,
-                mode: CupertinoDatePickerMode.date,
+              return CupertinoActionSheet(
+                title: const Text('Pick a date'),
+                cancelButton: CupertinoActionSheetAction(
+                  child: const Text('Cancel'),
+                  onPressed: () => ExtendedNavigator.of(context).pop(),
+                ),
+                actions: <Widget>[
+                  SizedBox(
+                    height: 900.h,
+                    child: CupertinoDatePicker(
+                      initialDateTime: DateTime.parse(_dobController.text),
+                      onDateTimeChanged: (DateTime date) {
+                        setState(() {
+                          cupertinoDob = DateFormat('yyyy-MM-dd').format(date);
+                        });
+                      },
+                      minimumYear: 1920,
+                      maximumYear: DateTime.now().year,
+                      mode: CupertinoDatePickerMode.date,
+                    ),
+                  ),
+                  CupertinoActionSheetAction(
+                    child: const Text('Confirm'),
+                    onPressed: () {
+                      setState(() {
+                        if (cupertinoDob.isNotEmpty) {
+                          _dobController.text = cupertinoDob;
+                        }
+                      });
+
+                      ExtendedNavigator.of(context).pop();
+                    },
+                  ),
+                ],
               );
             },
           );
@@ -837,7 +879,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         nickName: _nickName.isNotEmpty ? _nickName : _getNickName,
         userProfileImageBase64String: profilePicBase64,
         removeUserProfileImage: false,
-        race: _race,
+        race: _raceParam,
       );
 
       if (result.isSuccess) {
