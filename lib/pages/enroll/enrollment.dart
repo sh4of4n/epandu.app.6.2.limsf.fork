@@ -1272,6 +1272,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
             email: _email,
             icNo: _icNo,
             dateOfBirthString: _dob,
+            gender: _genderValue,
             nickName: _nickName,
             userProfileImageBase64String: profilePicBase64,
             removeUserProfileImage: false,

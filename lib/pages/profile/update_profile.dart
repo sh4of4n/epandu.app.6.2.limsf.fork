@@ -199,6 +199,14 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
           DateTime(_birthYear, _birthMonth, _birthDay),
         );
       });
+
+      if (int.tryParse(
+                  value.replaceAll('-', '').replaceAll(' ', '').substring(11)) %
+              2 ==
+          0)
+        _gender = Gender.female;
+      else
+        _gender = Gender.male;
     }
   }
 
@@ -876,6 +884,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         email: _email.isNotEmpty ? _email : _getEmail,
         icNo: _ic.isNotEmpty ? _ic : _getUserIc,
         dateOfBirthString: _dob.isNotEmpty ? _dob : _getBirthDate,
+        gender: _genderValue,
         nickName: _nickName.isNotEmpty ? _nickName : _getNickName,
         userProfileImageBase64String: profilePicBase64,
         removeUserProfileImage: false,

@@ -176,6 +176,7 @@ class SaveProfileRequest {
   String icNo;
   String nationality;
   String dateOfBirthString;
+  String gender;
   String race;
   String address;
   String postcode;
@@ -199,6 +200,7 @@ class SaveProfileRequest {
       this.icNo,
       this.nationality,
       this.dateOfBirthString,
+      this.gender,
       this.race,
       this.address,
       this.postcode,
@@ -222,13 +224,14 @@ class SaveProfileRequest {
     icNo = json['icNo'];
     nationality = json['nationality'];
     dateOfBirthString = json['dateOfBirthString'];
+    gender = json['gender'];
     race = json['race'];
     address = json['address'];
     postcode = json['postcode'];
     state = json['state'];
     country = json['country'];
     email = json['email'];
-    userProfileImage = json['userProfileImage'];
+    userProfileImage = json['userProfileImage'].cast<int>();
     userProfileImageBase64String = json['userProfileImageBase64String'];
     removeUserProfileImage = json['removeUserProfileImage'];
   }
@@ -247,6 +250,7 @@ class SaveProfileRequest {
     data['icNo'] = this.icNo;
     data['nationality'] = this.nationality;
     data['dateOfBirthString'] = this.dateOfBirthString;
+    data['gender'] = this.gender;
     data['race'] = this.race;
     data['address'] = this.address;
     data['postcode'] = this.postcode;
