@@ -19,6 +19,7 @@ class _PromotionsState extends State<Promotions> {
   final authRepo = AuthRepo();
 
   Future _getActiveFeeds;
+  int _startIndex = 0;
 
   final RegExp removeBracket =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
@@ -40,6 +41,8 @@ class _PromotionsState extends State<Promotions> {
     var result = await authRepo.getActiveFeed(
       context: context,
       feedType: 'PROMOTION',
+      startIndex: _startIndex,
+      noOfRecords: 10,
     );
 
     if (result.isSuccess) {
