@@ -62,6 +62,7 @@ class _HomeState extends State<Home> {
   );
 
   String _message = '';
+  bool _loadMore = false;
   bool _isLoading = false;
   int _startIndex = 0;
   List<dynamic> items = [];
@@ -90,7 +91,7 @@ class _HomeState extends State<Home> {
 
           if (_message.isEmpty) {
             setState(() {
-              _isLoading = true;
+              _loadMore = true;
             });
 
             _getActiveFeed();
@@ -153,6 +154,10 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> _getActiveFeed() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     var result = await authRepo.getActiveFeed(
       context: context,
       feedType: 'MAIN',
@@ -167,7 +172,7 @@ class _HomeState extends State<Home> {
     } */
 
     if (result.isSuccess) {
-      if (result.data.length > 0) if (mounted)
+      if (result.data.length > 0 && mounted)
         setState(() {
           for (int i = 0; i < result.data.length; i += 1) {
             items.add(result.data[i]);
@@ -175,15 +180,19 @@ class _HomeState extends State<Home> {
         });
       else if (mounted)
         setState(() {
-          _isLoading = false;
+          _loadMore = false;
         });
     } else {
       if (mounted)
         setState(() {
           _message = result.message;
-          _isLoading = false;
+          _loadMore = false;
         });
     }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   /* _checkLocationPermission() async {
@@ -352,9 +361,10 @@ class _HomeState extends State<Home> {
                         LimitedBox(maxHeight: ScreenUtil().setHeight(30)),
                         Feeds(
                           feed: items,
+                          isLoading: _isLoading,
                           appVersion: appVersion,
                         ),
-                        if (_isLoading) shimmer(),
+                        if (_loadMore) shimmer(),
                       ],
                     ),
                   ),

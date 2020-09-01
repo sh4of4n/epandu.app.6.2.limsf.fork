@@ -326,5 +326,6 @@
   "toggle_camera": "Togol kamera",
   "get_profile_fail": "Gagal memuatkan profil, sila cuba sebentar lagi.",
   "edit_profile": "Sunting profil",
-  "edit": "Tukar"
+  "edit": "Tukar",
+  "no_active_feeds": "Tidak ada suapan aktif."
 }

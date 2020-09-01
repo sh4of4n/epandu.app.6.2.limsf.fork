@@ -19,9 +19,10 @@ import '../../router.gr.dart';
 
 class Feeds extends StatefulWidget {
   final feed;
+  final bool isLoading;
   final String appVersion;
 
-  Feeds({this.feed, this.appVersion});
+  Feeds({this.feed, this.isLoading, this.appVersion});
 
   @override
   _FeedsState createState() => _FeedsState();
@@ -382,7 +383,8 @@ class _FeedsState extends State<Feeds> {
           ],
         ),
       );
-    return _loadingShimmer();
+    if (widget.isLoading) return _loadingShimmer();
+    return Text(AppLocalizations.of(context).translate('no_active_feeds'));
   }
 
   tabLayout() {
@@ -517,7 +519,8 @@ class _FeedsState extends State<Feeds> {
           ],
         ),
       );
-    return _loadingTabShimmer();
+    if (widget.isLoading) return _loadingTabShimmer();
+    return Text(AppLocalizations.of(context).translate('no_active_feeds'));
   }
 
   _loadingShimmer() {

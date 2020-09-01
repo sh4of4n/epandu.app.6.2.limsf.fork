@@ -326,5 +326,6 @@
   "toggle_camera": "Toggle camera",
   "get_profile_fail": "Failed to load profile. Please try again later.",
   "edit_profile": "Edit profile",
-  "edit": "Edit"
+  "edit": "Edit",
+  "no_active_feeds": "There are no active feeds."
 }
