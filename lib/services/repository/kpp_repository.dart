@@ -12,7 +12,53 @@ class KppRepo {
   final localStorage = LocalStorage();
   final networking = Networking();
 
-  // was getExamNo
+  Future<Response> getTheoryQuestionPaperNo({context, groupId}) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+
+    String courseCode = 'KPP1';
+    String langCode = 'ms-MY';
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&groupId=$groupId&courseCode=$courseCode&langCode=$langCode';
+
+    var response = await networking.getData(
+      path: 'GetTheoryQuestionPaperNo?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetPaperNoResponse getPaperNoResponse;
+
+      getPaperNoResponse = GetPaperNoResponse.fromJson(response.data);
+
+      return Response(true, data: getPaperNoResponse.paperNo);
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message != null && response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message != null &&
+        response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
+    }
+
+    RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+
+    return Response(false,
+        message: response.message
+            .toString()
+            .replaceAll(exp, '')
+            .replaceAll('&#xD;', '')
+            .replaceAll('[BLException]', ''));
+  }
+
   Future<Response> getTheoryQuestionPaperNoWithCreditControl(
       {context, groupId}) async {
     String caUid = await localStorage.getCaUid();
@@ -67,7 +113,6 @@ class KppRepo {
             .replaceAll('[BLException]', ''));
   }
 
-  // was getTheoryQuestionByPaper
   Future<Response> getTheoryQuestionByPaper({context, groupId, paperNo}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();

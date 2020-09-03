@@ -36,7 +36,7 @@ class _KppModuleState extends State<KppModule> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    _getTheoryQuestionPaperNoWithCreditControl();
+    _getTheoryQuestionPaperNo();
   }
 
   @override
@@ -44,11 +44,13 @@ class _KppModuleState extends State<KppModule> {
     super.dispose();
   }
 
-  _getTheoryQuestionPaperNoWithCreditControl() async {
+  _getTheoryQuestionPaperNo() async {
     String groupId = widget.data;
 
-    var result = await kppRepo.getTheoryQuestionPaperNoWithCreditControl(
-        context: context, groupId: groupId);
+    var result = await kppRepo.getTheoryQuestionPaperNo(
+      context: context,
+      groupId: groupId,
+    );
 
     if (result.isSuccess) {
       _getRandomColors(result.data);
