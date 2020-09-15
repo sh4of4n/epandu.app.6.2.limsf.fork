@@ -121,12 +121,12 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
   }
 
   _checkLocationPermission() async {
-    bool serviceLocationStatus = await Geolocator().isLocationServiceEnabled();
-    GeolocationStatus geolocationStatus =
-        await Geolocator().checkGeolocationPermissionStatus();
+    bool serviceLocationStatus = await isLocationServiceEnabled();
+    LocationPermission geolocationStatus = await checkPermission();
 
     if (serviceLocationStatus &&
-        geolocationStatus == GeolocationStatus.granted) {
+            geolocationStatus == LocationPermission.whileInUse ||
+        geolocationStatus == LocationPermission.always) {
       await location.getCurrentLocation();
 
       setState(() {

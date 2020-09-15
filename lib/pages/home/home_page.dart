@@ -45,7 +45,6 @@ class _HomeState extends State<Home> {
   // get location
   // Location location = Location();
   // StreamSubscription<Position> positionStream;
-  final geolocator = Geolocator();
   final locationOptions = LocationOptions(
     accuracy: LocationAccuracy.high,
     distanceFilter: 100,

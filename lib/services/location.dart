@@ -4,7 +4,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geocoder/geocoder.dart';
 
 class Location {
-  final geolocator = Geolocator();
   final locationOptions = LocationOptions(
     accuracy: LocationAccuracy.high,
     distanceFilter: 100,
@@ -18,8 +17,8 @@ class Location {
   final localStorage = LocalStorage();
 
   Future<void> getCurrentLocation() async {
-    Position position = await geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    Position position =
+        await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
     latitude = position.latitude;
     longitude = position.longitude;
@@ -48,7 +47,7 @@ class Location {
         locLatitude < 90 &&
         locLongitude > -180 &&
         locLongitude < 180) {
-      distanceInMeters = await geolocator.distanceBetween(
+      distanceInMeters = distanceBetween(
           _savedLatitude, _savedLongitude, locLatitude, locLongitude);
 
       distance = distanceInMeters;

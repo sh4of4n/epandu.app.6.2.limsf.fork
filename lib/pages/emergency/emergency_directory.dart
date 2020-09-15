@@ -29,7 +29,6 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
   final myImage = ImagesConstant();
   final customDialog = CustomDialog();
   final customSnackbar = CustomSnackbar();
-  final geolocator = Geolocator();
   final iconText = TextStyle(
     fontSize: ScreenUtil().setSp(64),
     fontWeight: FontWeight.bold,
@@ -60,7 +59,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
 
     // await location.getCurrentLocation();
 
-    bool serviceLocationStatus = await Geolocator().isLocationServiceEnabled();
+    bool serviceLocationStatus = await isLocationServiceEnabled();
 
     // GeolocationStatus geolocationStatus =
     //     await Geolocator().checkGeolocationPermissionStatus();

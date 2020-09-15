@@ -62,7 +62,7 @@ class _FeedsState extends State<Feeds> {
 
     // await location.getCurrentLocation();
 
-    bool serviceLocationStatus = await Geolocator().isLocationServiceEnabled();
+    bool serviceLocationStatus = await isLocationServiceEnabled();
 
     // GeolocationStatus geolocationStatus =
     //     await Geolocator().checkGeolocationPermissionStatus();

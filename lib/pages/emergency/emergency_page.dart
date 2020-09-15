@@ -28,7 +28,6 @@ class _EmergencyState extends State<Emergency> {
   Location location = Location();
   String policeNumber;
   final customDialog = CustomDialog();
-  final geolocator = Geolocator();
   final locationOptions = LocationOptions(
     accuracy: LocationAccuracy.high,
     distanceFilter: 100,
@@ -45,10 +44,10 @@ class _EmergencyState extends State<Emergency> {
 
     // await location.getCurrentLocation();
 
-    GeolocationStatus geolocationStatus =
-        await Geolocator().checkGeolocationPermissionStatus();
+    LocationPermission geolocationStatus = await checkPermission();
 
-    if (geolocationStatus == GeolocationStatus.granted) {
+    if (geolocationStatus == LocationPermission.whileInUse ||
+        geolocationStatus == LocationPermission.always) {
       var response = await emergencyRepo.getSosContactSortByNearest(
           context: context, sosContactType: 'POLICE', maxRadius: '30');
 
