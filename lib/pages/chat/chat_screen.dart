@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:epandu/pages/chat/chat_bloc.dart';
-import 'package:epandu/pages/chat/chat_sqlCRUD.dart';
+import 'package:epandu/services/database/chat_db.dart';
 import 'package:epandu/pages/chat/message_item.dart';
 import 'package:epandu/pages/chat/socket_helper.dart';
 import 'package:epandu/services/api/model/profile_model.dart';
-import 'package:epandu/services/repository/chat_repository.dart';
+import 'package:epandu/services/repository/meeting_repository.dart';
 import 'package:epandu/services/repository/profile_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
@@ -96,7 +96,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
     messages.insertAll(
         0,
-        await DBHelper().getMessagesTable1(
+        await ChatDatabase().getMessageAndAuthorTable(
             selfId: userId,
             targetId: widget.targetId,
             startIndex: _startIndex,
@@ -124,8 +124,10 @@ class _ChatScreenState extends State<ChatScreen> {
         messageId: message.id,
         targetId: message.target);
 
-    int value1 = await DBHelper().saveTable1(messageAndAuthorTable);
-    int value2 = await DBHelper().saveTable2(messageTargetTable);
+    int value1 =
+        await ChatDatabase().saveMessageAndAuthorTable(messageAndAuthorTable);
+    int value2 =
+        await ChatDatabase().saveMessageTargetTable(messageTargetTable);
     if (value1 > 0 && value2 > 0) {
       print("data insert success");
       return true;
@@ -538,8 +540,10 @@ class _ChatScreenState extends State<ChatScreen> {
         messageId: message.id,
         targetId: message.target);
 
-    int value1 = await DBHelper().saveTable1(messageAndAuthorTable);
-    int value2 = await DBHelper().saveTable2(messageTargetTable);
+    int value1 =
+        await ChatDatabase().saveMessageAndAuthorTable(messageAndAuthorTable);
+    int value2 =
+        await ChatDatabase().saveMessageTargetTable(messageTargetTable);
 
     setState(() {
       if (value1 > 0 && value2 > 0) {

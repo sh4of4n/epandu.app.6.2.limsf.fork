@@ -1,7 +1,4 @@
 import 'dart:convert';
-
-import 'package:epandu/services/api/model/chat_model.dart';
-import 'package:epandu/services/api/model/profile_model.dart';
 import 'package:epandu/services/api/networking.dart';
 import 'package:epandu/services/response.dart';
 import 'package:epandu/utils/app_config.dart';
@@ -15,44 +12,6 @@ class ChatRepo {
   final localStorage = LocalStorage();
   final networking = Networking();
   //user ID = Dbcode
-
-  Future<Response> getUserProfileWithPhone({context, userPhone}) async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
-
-    String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appCode=${appConfig.appCode}&appId=${appConfig.appId}&userPhone=$userPhone';
-
-    var response = await networking.getData(
-      path: 'GetUserByUserPhoneAppId?$path',
-    );
-
-    if (response.isSuccess && response.data != null) {
-      GetUserProfileWithPhoneResponse getUserProfileResponse =
-          GetUserProfileWithPhoneResponse.fromJson(response.data);
-      var responseData = getUserProfileResponse.userProfile;
-
-      return Response(true, data: responseData);
-    } else if (response.message != null &&
-        response.message.contains('timeout')) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('timeout_exception'));
-    } else if (response.message != null &&
-        response.message.contains('socket')) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('socket_exception'));
-    } else if (response.message != null && response.message.contains('http')) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('http_exception'));
-    } else if (response.message != null &&
-        response.message.contains('format')) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('format_exception'));
-    }
-
-    return Response(false,
-        message: AppLocalizations.of(context).translate('get_profile_fail'));
-  }
 
   Future<Response> getUserMeetingAccount({context}) async {
     String caUid = await localStorage.getCaUid();

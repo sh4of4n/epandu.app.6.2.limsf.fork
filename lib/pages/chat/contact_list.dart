@@ -2,16 +2,13 @@ import 'package:epandu/pages/chat/chat_screen.dart';
 import 'package:epandu/services/api/model/profile_model.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:epandu/services/api/model/chat_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-class UserChatListItem extends StatelessWidget {
-  final UserProfile userChat;
+class ContactList extends StatelessWidget {
+  final UserProfile contactList;
 
-  UserChatListItem({this.userChat});
+  ContactList({this.contactList});
 
   final LocalStorage localStorage = LocalStorage();
   final RegExp removeBracket =
@@ -20,10 +17,10 @@ class UserChatListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String picpath;
-    if (userChat.picturePath == null) {
+    if (contactList.picturePath == null) {
       picpath = "";
     } else {
-      picpath = userChat.picturePath;
+      picpath = contactList.picturePath;
     }
     return SizedBox(
       height: 300.h,
@@ -35,9 +32,9 @@ class UserChatListItem extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) {
                 return ChatScreen(
-                  targetId: userChat.userId,
+                  targetId: contactList.userId,
                   picturePath: picpath,
-                  name: userChat.name,
+                  name: contactList.name,
                 );
               },
             ),
@@ -63,9 +60,9 @@ class UserChatListItem extends StatelessWidget {
             children: <Widget>[
               Positioned.fill(
                 child: CircleAvatar(
-                  child: userChat.picturePath != null &&
-                          userChat.picturePath.isNotEmpty
-                      ? Image.network(userChat.picturePath
+                  child: contactList.picturePath != null &&
+                          contactList.picturePath.isNotEmpty
+                      ? Image.network(contactList.picturePath
                           .replaceAll(removeBracket, '')
                           .split('\r\n')[0])
                       : Image.memory(kTransparentImage),
@@ -90,7 +87,7 @@ class UserChatListItem extends StatelessWidget {
           ),
         ),
         title: Text(
-          userChat.name,
+          contactList.name,
           style: Theme.of(context).textTheme.headline5,
         ), /*
         subtitle: Text("My last message}",

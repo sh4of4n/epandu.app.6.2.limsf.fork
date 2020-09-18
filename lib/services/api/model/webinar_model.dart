@@ -1,6 +1,4 @@
 import 'dart:typed_data';
-
-import 'package:path/path.dart';
 import 'dart:convert';
 
 class GetUserMeetingAccountResponse {

@@ -444,6 +444,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
         phone: _phone,
         userId: _userId,
         name: _name,
+        scenario: 'INVITE',
       );
 
       if (result.isSuccess) {

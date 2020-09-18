@@ -6,11 +6,11 @@ import 'package:sqflite/sqflite.dart';
 Database db;
 
 class DatabaseCreator {
-  static const todoTable = 'todo';
-  static const id = 'id';
-  static const name = 'name';
-  static const info = 'info';
-  static const isDeleted = 'isDeleted';
+  static const String todoTable = 'todo';
+  static const String id = 'id';
+  static const String name = 'name';
+  static const String info = 'info';
+  static const String isDeleted = 'isDeleted';
 
   static void databaseLog(String functionName, String sql,
       [List<Map<String, dynamic>> selectQueryResult,
@@ -29,7 +29,7 @@ class DatabaseCreator {
   }
 
   Future<void> createTodoTable(Database db) async {
-    final todoSql = '''CREATE TABLE $todoTable
+    final String todoSql = '''CREATE TABLE $todoTable
     (
       $id INTEGER PRIMARY KEY,
       $name TEXT,

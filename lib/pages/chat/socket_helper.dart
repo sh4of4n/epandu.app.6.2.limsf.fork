@@ -1,4 +1,4 @@
-import 'package:epandu/services/repository/chat_repository.dart';
+import 'package:epandu/services/repository/meeting_repository.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 

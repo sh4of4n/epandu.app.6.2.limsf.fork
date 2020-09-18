@@ -195,7 +195,7 @@ class Router extends RouterBase {
     RouteDef(Routes.billDetail, page: BillDetail),
     RouteDef(Routes.billSelection, page: BillSelection),
     RouteDef(Routes.merchantList, page: MerchantList),
-    RouteDef(Routes.chatHomeScreen, page: ChatHomeScreen),
+    RouteDef(Routes.chatHomeScreen, page: ChatHome),
     RouteDef(Routes.webview, page: Webview),
     RouteDef(Routes.comingSoon, page: ComingSoon),
   ];
@@ -533,9 +533,9 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    ChatHomeScreen: (data) {
+    ChatHome: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => ChatHomeScreen(),
+        builder: (context) => ChatHome(),
         settings: data,
       );
     },

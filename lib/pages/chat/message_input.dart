@@ -1,5 +1,5 @@
 import 'package:epandu/pages/chat/chat_bloc.dart';
-import 'package:epandu/pages/chat/chat_sqlCRUD.dart';
+import 'package:epandu/services/database/chat_db.dart';
 import 'package:flutter/material.dart';
 import 'package:epandu/services/api/model/chat_model.dart';
 import 'package:provider/provider.dart';
@@ -271,8 +271,10 @@ class _MessageInputState extends State<MessageInput> {
         messageId: message.id,
         targetId: message.target);
 
-    int value1 = await DBHelper().saveTable1(messageAndAuthorTable);
-    int value2 = await DBHelper().saveTable2(messageTargetTable);
+    int value1 =
+        await ChatDatabase().saveMessageAndAuthorTable(messageAndAuthorTable);
+    int value2 =
+        await ChatDatabase().saveMessageTargetTable(messageTargetTable);
     if (value1 > 0 && value2 > 0) {
       print("data insert success");
       widget.messageList.add(message);
