@@ -9,23 +9,21 @@ class MessageItem extends StatelessWidget {
   final Message message;
   final int previousItemDate;
   final ScrollController scrollController;
+  final LocalStorage localStorage = LocalStorage();
+  final String userId;
 
   MessageItem(
       {this.message,
       this.previousItemDate,
-      this.selfId,
+      this.userId,
       this.scrollController});
-
-  final LocalStorage localStorage = LocalStorage();
-
-  final String selfId;
 
   @override
   Widget build(BuildContext context) {
     var date = DateTime.fromMillisecondsSinceEpoch(message.sentDateTime);
     var formattedDate = DateFormat.yMMMd().format(date);
     var formattedTime = DateFormat.jm().format(date);
-    if (message.author == selfId) {
+    if (message.author == userId) {
       return Column(
         children: <Widget>[
           Align(

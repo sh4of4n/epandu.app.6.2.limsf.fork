@@ -97,10 +97,10 @@ class ChatDatabase {
 
   //Read Query
   Future<List<Message>> getMessageAndAuthorTable(
-      {String selfId, String targetId, int startIndex, int noOfRecords}) async {
+      {String userId, String targetId, int startIndex, int noOfRecords}) async {
     var dbClient = await db;
     List<Map> maps = await dbClient.rawQuery(
-        "SELECT $MESSAGE_AND_AUTHOR_TABLE.id AS id, $MESSAGE_AND_AUTHOR_TABLE.author AS author, $MESSAGE_AND_AUTHOR_TABLE.data AS data, $MESSAGE_AND_AUTHOR_TABLE.sent_date_time AS sent_date_time, $MESSAGE_AND_AUTHOR_TABLE.type AS type,$MESSAGE_AND_AUTHOR_TABLE.is_seen AS is_seen FROM $MESSAGE_AND_AUTHOR_TABLE INNER JOIN $MESSAGE_TARGET_TABLE ON $MESSAGE_TARGET_TABLE.message_id = $MESSAGE_AND_AUTHOR_TABLE.id where $MESSAGE_AND_AUTHOR_TABLE.author = '$selfId' AND $MESSAGE_TARGET_TABLE.target_id = '$targetId' OR $MESSAGE_AND_AUTHOR_TABLE.author = '$targetId' AND $MESSAGE_TARGET_TABLE.target_id = '$selfId' ORDER BY $MESSAGE_AND_AUTHOR_TABLE.sent_date_time DESC LIMIT $startIndex,$noOfRecords ;");
+        "SELECT $MESSAGE_AND_AUTHOR_TABLE.id AS id, $MESSAGE_AND_AUTHOR_TABLE.author AS author, $MESSAGE_AND_AUTHOR_TABLE.data AS data, $MESSAGE_AND_AUTHOR_TABLE.sent_date_time AS sent_date_time, $MESSAGE_AND_AUTHOR_TABLE.type AS type,$MESSAGE_AND_AUTHOR_TABLE.is_seen AS is_seen FROM $MESSAGE_AND_AUTHOR_TABLE INNER JOIN $MESSAGE_TARGET_TABLE ON $MESSAGE_TARGET_TABLE.message_id = $MESSAGE_AND_AUTHOR_TABLE.id where $MESSAGE_AND_AUTHOR_TABLE.author = '$userId' AND $MESSAGE_TARGET_TABLE.target_id = '$targetId' OR $MESSAGE_AND_AUTHOR_TABLE.author = '$targetId' AND $MESSAGE_TARGET_TABLE.target_id = '$userId' ORDER BY $MESSAGE_AND_AUTHOR_TABLE.sent_date_time DESC LIMIT $startIndex,$noOfRecords ;");
     List<Message> messages = [];
     if (maps.length > 0) {
       for (int i = 0; i < maps.length; i++) {
@@ -118,7 +118,7 @@ class ChatDatabase {
 
     /*
     List<Map> maps = await dbClient.rawQuery(
-        "Select friend_id As user_id from $RELATIONSHIP_TABLE where host_id = '$selfId' LIMIT $startIndex,$noOfRecords;");
+        "Select friend_id As user_id from $RELATIONSHIP_TABLE where host_id = '$userId' LIMIT $startIndex,$noOfRecords;");
     */
 
     List<UserProfile> users = [];
@@ -132,13 +132,13 @@ class ChatDatabase {
     return users;
   }
 
-  Future<UserProfile> getSingleContact({String selfId, String friendId}) async {
+  Future<UserProfile> getSingleContact({String userId, String friendId}) async {
     var dbClient = await db;
     /*List<Map> maps = await dbClient.rawQuery(
-        "Select $USER_TABLE.id As iD, $USER_TABLE.name As name, $USER_TABLE.phone_number As phone from $USER_TABLE Inner Join $RELATIONSHIP_TABLE On $USER_TABLE.id = $RELATIONSHIP_TABLE.friend_id where $RELATIONSHIP_TABLE.host_id = '$selfId'  ORDER BY $USER_TABLE.name LIMIT $startIndex,$noOfRecords;");
+        "Select $USER_TABLE.id As iD, $USER_TABLE.name As name, $USER_TABLE.phone_number As phone from $USER_TABLE Inner Join $RELATIONSHIP_TABLE On $USER_TABLE.id = $RELATIONSHIP_TABLE.friend_id where $RELATIONSHIP_TABLE.host_id = '$userId'  ORDER BY $USER_TABLE.name LIMIT $startIndex,$noOfRecords;");
     */
     List<Map> maps = await dbClient.rawQuery(
-        "Select id As ID from $RELATIONSHIP_TABLE where host_id = '$selfId' And friend_id = '$friendId' ");
+        "Select id As ID from $RELATIONSHIP_TABLE where host_id = '$userId' And friend_id = '$friendId' ");
 
     UserProfile user;
     if (maps.length > 0) {
@@ -152,7 +152,7 @@ class ChatDatabase {
   Future<UserProfile> getSingleUser({String userId}) async {
     var dbClient = await db;
     /*List<Map> maps = await dbClient.rawQuery(
-        "Select $USER_TABLE.id As iD, $USER_TABLE.name As name, $USER_TABLE.phone_number As phone from $USER_TABLE Inner Join $RELATIONSHIP_TABLE On $USER_TABLE.id = $RELATIONSHIP_TABLE.friend_id where $RELATIONSHIP_TABLE.host_id = '$selfId'  ORDER BY $USER_TABLE.name LIMIT $startIndex,$noOfRecords;");
+        "Select $USER_TABLE.id As iD, $USER_TABLE.name As name, $USER_TABLE.phone_number As phone from $USER_TABLE Inner Join $RELATIONSHIP_TABLE On $USER_TABLE.id = $RELATIONSHIP_TABLE.friend_id where $RELATIONSHIP_TABLE.host_id = '$userId'  ORDER BY $USER_TABLE.name LIMIT $startIndex,$noOfRecords;");
     */
     List<Map> maps = await dbClient
         .rawQuery("Select id As ID from $USER_TABLE where id = '$userId'");

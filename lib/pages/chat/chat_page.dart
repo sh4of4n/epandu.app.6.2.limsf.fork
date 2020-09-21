@@ -11,7 +11,7 @@ import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
+// import 'package:shimmer/shimmer.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:uuid/uuid.dart';
 import 'package:epandu/services/api/model/chat_model.dart';
@@ -61,8 +61,8 @@ class _ChatHomeState extends State<ChatHome> {
   @override
   void dispose() {
     /*
-    socket.emit("cancelConnectionHomePage", selfId);
-    print("dispose " + selfId);
+    socket.emit("cancelConnectionHomePage", userId);
+    print("dispose " + userId);
     socket.disconnect();
     socket.destroy(); */
     _searchFocus.dispose();
@@ -140,7 +140,7 @@ class _ChatHomeState extends State<ChatHome> {
         socket.emit("initHomeScreen", userId);
       });
     });
-    print("connected");
+    // print("connected");
   }
 
   _addNewUserIntoDB({
@@ -154,7 +154,7 @@ class _ChatHomeState extends State<ChatHome> {
     _getSingleUserFromContact(friendId).then((value) async {
       if (value == null) {
         if (getUserProfileFromServerflag == true) {
-          print("getUserProfileFromServerflag true");
+          // print("getUserProfileFromServerflag true");
           await _getUserProfile(friendId);
           if (await ChatDatabase().saveRelationshipTable(
                       id1, userId, _searchResult.userId) ==
@@ -168,7 +168,7 @@ class _ChatHomeState extends State<ChatHome> {
             });
           }
         } else {
-          print("getUserProfileFromServerflag false");
+          // print("getUserProfileFromServerflag false");
           ChatDatabase().saveUserTable(friendProfile).then((value) async {
             if (value == 1) {
               print(friendProfile.userId);
@@ -190,9 +190,9 @@ class _ChatHomeState extends State<ChatHome> {
   }
 
   _getSingleUserFromContact(String friendId) async {
-    String selfId = await localStorage.getUserId();
+    String userId = await localStorage.getUserId();
     UserProfile user = await ChatDatabase()
-        .getSingleContact(selfId: selfId, friendId: friendId);
+        .getSingleContact(userId: userId, friendId: friendId);
     return user;
   }
 
@@ -295,7 +295,7 @@ class _ChatHomeState extends State<ChatHome> {
     }
   }
 
-  _loadingShimmer({int length}) {
+  /* _loadingShimmer({int length}) {
     return Container(
       alignment: Alignment.topCenter,
       child: ListView.builder(
@@ -321,7 +321,7 @@ class _ChatHomeState extends State<ChatHome> {
         },
       ),
     );
-  }
+  } */
 
   searchAppBar() {
     return AppBar(
@@ -350,7 +350,7 @@ class _ChatHomeState extends State<ChatHome> {
       title: Text("Chat"),
       actions: <Widget>[
         IconButton(
-          icon: Icon(Icons.search),
+          icon: Icon(Icons.add),
           onPressed: () {
             setState(() {
               _searchFlag = true;
@@ -394,7 +394,7 @@ class _ChatHomeState extends State<ChatHome> {
                         child: Consumer<String>(
                           builder: (context, msg, _) {
                             if (msg != null) {
-                              print("message receive call");
+                              // print("message receive call");
 
                               Message message =
                                   Message.fromJson(jsonDecode(msg));

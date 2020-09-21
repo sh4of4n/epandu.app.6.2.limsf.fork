@@ -13,7 +13,7 @@ class MessageInput extends StatefulWidget {
   final Function onPressedVoice;
   final Function onShowBottom;
   final List<Message> messageList;
-  final String selfId;
+  final String userId;
   final String targetId;
   final FocusNode focusNode;
 
@@ -23,7 +23,7 @@ class MessageInput extends StatefulWidget {
       this.onPressedAttach,
       this.onPressedVoice,
       this.onShowBottom,
-      this.selfId,
+      this.userId,
       this.targetId,
       this.messageList,
       this.focusNode});
@@ -117,7 +117,7 @@ class _MessageInputState extends State<MessageInput> {
                                 ),
                                 onTap: isEnable
                                     ? () {
-                                        _sendMessage(widget.selfId,
+                                        _sendMessage(widget.userId,
                                             widget.targetId, bloc);
                                       }
                                     : null,

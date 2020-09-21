@@ -43,8 +43,8 @@ class _ChatScreenState extends State<ChatScreen> {
   bool _isLoading = false;
   final webinarRepo = ChatRepo();
   int _startIndex = 0;
-  String _message = '';
-  String selfId;
+  // String _message = '';
+  String userId;
   UserProfile messageTargetProfile;
   final image = ImagesConstant();
   bool ableToLoad = true;
@@ -58,7 +58,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     _getMessages();
-    _setSelfId();
+    _getUserId();
     _getMessageTargetProfile();
     initSocketIO();
     focusNode = FocusNode();
@@ -83,10 +83,10 @@ class _ChatScreenState extends State<ChatScreen> {
   List<Message> messages = [];
   List<String> messageDuplicationIdentifier = [];
 
-  _setSelfId() async {
+  _getUserId() async {
     String userId = await localStorage.getUserId();
     setState(() {
-      this.selfId = userId;
+      this.userId = userId;
     });
   }
 
@@ -97,7 +97,7 @@ class _ChatScreenState extends State<ChatScreen> {
     messages.insertAll(
         0,
         await ChatDatabase().getMessageAndAuthorTable(
-            selfId: userId,
+            userId: userId,
             targetId: widget.targetId,
             startIndex: _startIndex,
             noOfRecords: 10));
@@ -129,18 +129,18 @@ class _ChatScreenState extends State<ChatScreen> {
     int value2 =
         await ChatDatabase().saveMessageTargetTable(messageTargetTable);
     if (value1 > 0 && value2 > 0) {
-      print("data insert success");
+      // print("data insert success");
       return true;
     } else {
-      print("data insert fail");
+      // print("data insert fail");
 
       return false;
     }
   }
 
-  _addMessageIntoMessagesArray(Message message) {
+  /* _addMessageIntoMessagesArray(Message message) {
     messages.add(message);
-  }
+  } */
 
   _getMessageTargetProfile() async {
     var result = await profileRepo.getUserProfile(
@@ -161,7 +161,7 @@ class _ChatScreenState extends State<ChatScreen> {
     } else {
       if (mounted)
         setState(() {
-          _message = result.message;
+          // _message = result.message;
           _isLoading = false;
         });
     }
@@ -170,7 +170,7 @@ class _ChatScreenState extends State<ChatScreen> {
   initSocketIO() async {
     String userId = await localStorage.getUserId();
     String combinedID = userId + "," + widget.targetId;
-    print(combinedID);
+    // print(combinedID);
     setState(() {
       SocketHelper().socket.then((value) {
         socket = value;
@@ -183,7 +183,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('1 ${messages.length}');
+    // print('1 ${messages.length}');
 
     return GestureDetector(
       onTap: () {
@@ -194,231 +194,218 @@ class _ChatScreenState extends State<ChatScreen> {
         }
       },
       child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            iconTheme: IconThemeData(color: Colors.black54),
-            title: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 3,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey.withOpacity(.3),
-                          offset: Offset(0, 2),
-                          blurRadius: 5)
-                    ],
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.black54),
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 3,
                   ),
-                  child: CircleAvatar(
-                    child: _circleImage(),
-                  ),
-                ),
-                SizedBox(width: 15),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      widget.name,
-                      style: Theme.of(context).textTheme.bodyText2,
-                      overflow: TextOverflow.clip,
-                    ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(.3),
+                        offset: Offset(0, 2),
+                        blurRadius: 5)
                   ],
-                )
-              ],
-            ),
+                ),
+                child: CircleAvatar(
+                  child: _circleImage(),
+                ),
+              ),
+              SizedBox(width: 15),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    widget.name,
+                    style: Theme.of(context).textTheme.bodyText2,
+                    overflow: TextOverflow.clip,
+                  ),
+                ],
+              )
+            ],
           ),
-          body: Provider.value(
-              value: socket,
-              child: ProxyProvider<Socket, ChatBloc>(
-                update: (context, socket, previousBloc) {
-                  return ChatBloc(Provider.of<Socket>(context));
-                },
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(80.w, 50.h, 80.w, 50.h),
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                        child: Consumer<ChatBloc>(
-                          builder: (context, bloc, _) => StreamProvider.value(
-                            initialData: null,
-                            value: bloc.chatItemsStream,
-                            child: Consumer<String>(
-                              builder: (context, msg, _) {
-                                print("message receive call");
+        ),
+        body: Provider.value(
+          value: socket,
+          child: ProxyProvider<Socket, ChatBloc>(
+            update: (context, socket, previousBloc) {
+              return ChatBloc(Provider.of<Socket>(context));
+            },
+            child: Container(
+              padding: EdgeInsets.fromLTRB(80.w, 50.h, 80.w, 50.h),
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: Consumer<ChatBloc>(
+                      builder: (context, bloc, _) => StreamProvider.value(
+                        initialData: null,
+                        value: bloc.chatItemsStream,
+                        child: Consumer<String>(
+                          builder: (context, msg, _) {
+                            // print("message receive call");
 
-                                if (msg != null) {
-                                  Message message =
-                                      Message.fromJson(jsonDecode(msg));
-                                  if ((message.target == selfId &&
-                                          message.author == widget.targetId) ||
-                                      (message.target == widget.targetId &&
-                                          message.author == selfId)) {
-                                    if (messageDuplicationIdentifier
-                                        .contains(msg)) {
-                                      print("meesges existed" + msg);
-                                    } else if (message.author ==
-                                        widget.targetId) {
-                                      socket.emit(
-                                          "acknowledgementReceive", msg);
+                            if (msg != null) {
+                              Message message =
+                                  Message.fromJson(jsonDecode(msg));
+                              if ((message.target == userId &&
+                                      message.author == widget.targetId) ||
+                                  (message.target == widget.targetId &&
+                                      message.author == userId)) {
+                                if (messageDuplicationIdentifier
+                                    .contains(msg)) {
+                                  print("meesges existed" + msg);
+                                } else if (message.author == widget.targetId) {
+                                  socket.emit("acknowledgementReceive", msg);
 
-                                      messages.add(message);
-                                      messageDuplicationIdentifier.add(msg);
-                                      _addMessagesIntoDB(message).then((value) {
-                                        if (value == true) {
-                                          print('2 ${messages.length}');
-                                          _scrollToBottom(100);
-                                        }
-                                      });
-                                    } else {
-                                      messageDuplicationIdentifier.add(msg);
-
-                                      messages.add(message);
+                                  messages.add(message);
+                                  messageDuplicationIdentifier.add(msg);
+                                  _addMessagesIntoDB(message).then((value) {
+                                    if (value == true) {
+                                      // print('2 ${messages.length}');
                                       _scrollToBottom(100);
                                     }
-                                  }
-                                }
-                                print('3 ${messages.length}');
+                                  });
+                                } else {
+                                  messageDuplicationIdentifier.add(msg);
 
-                                return SingleChildScrollView(
-                                  reverse: invertedFlag,
-                                  controller: _scrollController,
-                                  child: Column(
-                                    children: <Widget>[
-                                      _messageList(),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
+                                  messages.add(message);
+                                  _scrollToBottom(100);
+                                }
+                              }
+                            }
+                            // print('3 ${messages.length}');
+
+                            return SingleChildScrollView(
+                              reverse: invertedFlag,
+                              controller: _scrollController,
+                              child: Column(
+                                children: <Widget>[
+                                  _messageList(),
+                                ],
+                              ),
+                            );
+                          },
                         ),
                       ),
-                      Consumer<ChatBloc>(
-                          builder: (ctx, bloc, _) => Container(
-                                alignment: Alignment.bottomCenter,
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(35.0),
-                                          boxShadow: [
-                                            BoxShadow(
-                                                offset: Offset(0, 3),
-                                                blurRadius: 5,
-                                                color: Colors.grey)
-                                          ],
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            IconButton(
-                                                icon: Icon(Icons.face),
-                                                onPressed: () {}),
-                                            Expanded(
-                                              child: TextFormField(
-                                                onTap: () {
-                                                  _scrollToBottom(750);
-                                                },
-                                                maxLines: null,
-                                                controller:
-                                                    _textEditingController,
-                                                decoration: InputDecoration(
-                                                    hintText:
-                                                        "Type Something...",
-                                                    border: InputBorder.none),
-                                                onChanged: (value) {
-                                                  if (value.length > 0) {
-                                                    bloc.onTextValueChange(
-                                                        value);
+                    ),
+                  ),
+                  Consumer<ChatBloc>(
+                    builder: (ctx, bloc, _) => Container(
+                      alignment: Alignment.bottomCenter,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(35.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                      offset: Offset(0, 3),
+                                      blurRadius: 5,
+                                      color: Colors.grey)
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                      icon: Icon(Icons.face), onPressed: () {}),
+                                  Expanded(
+                                    child: TextFormField(
+                                      onTap: () {
+                                        _scrollToBottom(750);
+                                      },
+                                      maxLines: null,
+                                      controller: _textEditingController,
+                                      decoration: InputDecoration(
+                                          hintText: "Type Something...",
+                                          border: InputBorder.none),
+                                      onChanged: (value) {
+                                        if (value.length > 0) {
+                                          bloc.onTextValueChange(value);
 
-                                                    setState(() {
-                                                      this._isTyping = true;
-                                                    });
-                                                  } else if (value.length ==
-                                                      0) {
-                                                    bloc.onTextValueChange(
-                                                        value);
-                                                    setState(() {
-                                                      this._isTyping = false;
-                                                    });
-                                                  }
-                                                },
-                                                focusNode: focusNode,
-                                              ),
-                                            ),
-                                            Visibility(
-                                              visible: _isTyping == true
-                                                  ? false
-                                                  : true,
-                                              child: IconButton(
-                                                icon: Icon(Icons.photo_camera),
-                                                onPressed: () {},
-                                              ),
-                                            ),
-                                            IconButton(
-                                              icon: Icon(Icons.attach_file),
-                                              onPressed: () {},
-                                            )
-                                          ],
+                                          setState(() {
+                                            this._isTyping = true;
+                                          });
+                                        } else if (value.length == 0) {
+                                          bloc.onTextValueChange(value);
+                                          setState(() {
+                                            this._isTyping = false;
+                                          });
+                                        }
+                                      },
+                                      focusNode: focusNode,
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: _isTyping == true ? false : true,
+                                    child: IconButton(
+                                      icon: Icon(Icons.photo_camera),
+                                      onPressed: () {},
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.attach_file),
+                                    onPressed: () {},
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 15),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                            decoration: BoxDecoration(
+                                color: Colors.green, shape: BoxShape.circle),
+                            child: _isTyping == true
+                                ? StreamProvider.value(
+                                    // default disable button
+                                    initialData: false,
+                                    value: bloc.submitButtonStream,
+                                    child: Consumer<bool>(
+                                      builder: (ctx, isEnable, _) => InkWell(
+                                        child: Icon(
+                                          Icons.send,
+                                          color: Colors.white,
                                         ),
+                                        onTap: isEnable
+                                            ? () {
+                                                _sendMessage(userId,
+                                                    widget.targetId, bloc);
+                                              }
+                                            : null,
                                       ),
                                     ),
-                                    SizedBox(width: 15),
-                                    Container(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 10, 10, 10),
-                                      decoration: BoxDecoration(
-                                          color: Colors.green,
-                                          shape: BoxShape.circle),
-                                      child: _isTyping == true
-                                          ? StreamProvider.value(
-                                              // default disable button
-                                              initialData: false,
-                                              value: bloc.submitButtonStream,
-                                              child: Consumer<bool>(
-                                                builder: (ctx, isEnable, _) =>
-                                                    InkWell(
-                                                  child: Icon(
-                                                    Icons.send,
-                                                    color: Colors.white,
-                                                  ),
-                                                  onTap: isEnable
-                                                      ? () {
-                                                          _sendMessage(
-                                                              selfId,
-                                                              widget.targetId,
-                                                              bloc);
-                                                        }
-                                                      : null,
-                                                ),
-                                              ),
-                                            )
-                                          : InkWell(
-                                              child: Icon(
-                                                Icons.keyboard_voice,
-                                                color: Colors.white,
-                                              ),
-                                              //onLongPress: widget.onShowBottom
-                                            ),
-                                    )
-                                  ],
-                                ),
-                              ))
-                    ],
+                                  )
+                                : InkWell(
+                                    child: Icon(
+                                      Icons.keyboard_voice,
+                                      color: Colors.white,
+                                    ),
+                                    //onLongPress: widget.onShowBottom
+                                  ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ))),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -429,34 +416,41 @@ class _ChatScreenState extends State<ChatScreen> {
     return Image.memory(kTransparentImage);
   }
 
-  void _settingModalBottomSheet(context) {
+  /* void _settingModalBottomSheet(context) {
     showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return Center(
-              child: Container(
+      context: context,
+      builder: (BuildContext bc) {
+        return Center(
+          child: Container(
             height: 1500.h,
             child: Center(
-                child: new Row(children: <Widget>[
-              FlatButton(
-                  onPressed: null,
-                  child: Container(
+              child: new Row(
+                children: <Widget>[
+                  FlatButton(
+                      onPressed: null,
+                      child: Container(
+                          child: Column(
+                        children: <Widget>[Icon(Icons.image), Text("image")],
+                      ))),
+                  FlatButton(
+                    onPressed: null,
+                    child: Container(
                       child: Column(
-                    children: <Widget>[Icon(Icons.image), Text("image")],
-                  ))),
-              FlatButton(
-                  onPressed: null,
-                  child: Container(
-                      child: Column(
-                    children: <Widget>[
-                      Icon(Icons.video_library),
-                      Text("video")
-                    ],
-                  ))),
-            ])),
-          ));
-        });
-  }
+                        children: <Widget>[
+                          Icon(Icons.video_library),
+                          Text("video")
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  } */
 
   _messageList() {
     if (messages.length == 0 && messages.isNotEmpty) {
@@ -474,12 +468,12 @@ class _ChatScreenState extends State<ChatScreen> {
                 ? MessageItem(
                     message: messages[i],
                     previousItemDate: messages[i - 1].sentDateTime,
-                    selfId: selfId,
+                    userId: userId,
                     scrollController: _scrollController)
                 : MessageItem(
                     message: messages[i],
                     previousItemDate: 0,
-                    selfId: selfId,
+                    userId: userId,
                     scrollController: _scrollController),
           if (_isLoading)
             Shimmer.fromColors(
@@ -495,11 +489,13 @@ class _ChatScreenState extends State<ChatScreen> {
       );
     }
     return Center(
-        child: Container(
-            child: Align(
-      alignment: Alignment.center,
-      child: Text("Empty Message"),
-    )));
+      child: Container(
+        child: Align(
+          alignment: Alignment.center,
+          child: Text("Empty Message"),
+        ),
+      ),
+    );
   }
 
   Future<void> _sendMessage(String author, String target, ChatBloc bloc) async {
@@ -575,9 +571,9 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void dispose() {
     //socket.on('disconnect', (_) => print('disconnect'));
-    String combinedId = selfId + "," + widget.targetId;
-    socket.emit("cancelConnection", combinedId);
-    print("dispose " + combinedId);
+    // String combinedId = userId + "," + widget.targetId;
+    // socket.emit("cancelConnection", combinedId);
+    // print("dispose " + combinedId);
     messages.clear();
     socket.disconnect();
     socket.destroy();
