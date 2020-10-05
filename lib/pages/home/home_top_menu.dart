@@ -9,7 +9,7 @@ import 'package:epandu/utils/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
-import 'package:transparent_image/transparent_image.dart';
+// import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter/services.dart';
 
 class HomeTopMenu extends StatefulWidget {
@@ -189,7 +189,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                         ),
                       ),
                     ),
-                    Padding(
+                    /* Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Column(
                         children: <Widget>[
@@ -197,7 +197,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                               width: ScreenUtil().setWidth(150)),
                         ],
                       ),
-                    ),
+                    ), */
                     InkWell(
                       onTap: () => ExtendedNavigator.of(context)
                           .push(Routes.identityBarcode),
@@ -250,7 +250,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
               ],
             ),
           ),
-          Align(
+          /* Align(
             alignment: Alignment.center,
             child: InkWell(
               onTap: () =>
@@ -278,7 +278,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                 ),
               ),
             ),
-          ),
+          ), */
         ],
       ),
     );
