@@ -80,7 +80,8 @@ class _FeedsState extends State<Feeds> {
           FlatButton(
             child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () {
-              ExtendedNavigator.of(context).pop();
+              Provider.of<FeedsLoadingModel>(context, listen: false)
+                  .loadingStatus(false);
               ExtendedNavigator.of(context).pop();
               AppSettings.openLocationSettings();
             },
@@ -88,7 +89,16 @@ class _FeedsState extends State<Feeds> {
           FlatButton(
             child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
+              Provider.of<FeedsLoadingModel>(context, listen: false)
+                  .loadingStatus(false);
+
               ExtendedNavigator.of(context).pop();
+
+              customDialog.show(
+                  context: context,
+                  content: AppLocalizations.of(context)
+                      .translate('loc_permission_on'),
+                  type: DialogType.INFO);
             },
           ),
         ],
@@ -98,17 +108,31 @@ class _FeedsState extends State<Feeds> {
   }
 
   _getCurrentLocation(feed, context) async {
-    await location.getCurrentLocation();
+    // LocationPermission permission = await checkPermission();
+    LocationPermission permission = await location.checkLocationPermission();
 
-    localStorage.saveUserLatitude(location.latitude.toString());
-    localStorage.saveUserLongitude(location.longitude.toString());
+    if (permission == LocationPermission.whileInUse ||
+        permission == LocationPermission.always) {
+      await location.getCurrentLocation();
 
-    setState(() {
-      latitude = location.latitude.toString();
-      longitude = location.longitude.toString();
-    });
+      localStorage.saveUserLatitude(location.latitude.toString());
+      localStorage.saveUserLongitude(location.longitude.toString());
 
-    loadUrl(feed, context);
+      setState(() {
+        latitude = location.latitude.toString();
+        longitude = location.longitude.toString();
+      });
+
+      loadUrl(feed, context);
+    } else {
+      Provider.of<FeedsLoadingModel>(context, listen: false)
+          .loadingStatus(false);
+
+      customDialog.show(
+          context: context,
+          content: AppLocalizations.of(context).translate('loc_permission_on'),
+          type: DialogType.INFO);
+    }
   }
 
   loadUrl(feed, context) async {
