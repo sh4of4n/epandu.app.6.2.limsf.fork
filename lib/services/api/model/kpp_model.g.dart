@@ -8,13 +8,13 @@ part of 'kpp_model.dart';
 
 class KppExamDataAdapter extends TypeAdapter<KppExamData> {
   @override
-  final typeId = 0;
+  final int typeId = 0;
 
   @override
   KppExamData read(BinaryReader reader) {
-    var numOfFields = reader.readByte();
-    var fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return KppExamData(
       selectedAnswer: fields[0] as String,
@@ -55,4 +55,14 @@ class KppExamDataAdapter extends TypeAdapter<KppExamData> {
       ..writeByte(9)
       ..write(obj.paperNo);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is KppExamDataAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

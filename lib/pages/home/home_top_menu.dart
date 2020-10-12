@@ -9,7 +9,6 @@ import 'package:epandu/utils/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
-import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter/services.dart';
 
 class HomeTopMenu extends StatefulWidget {

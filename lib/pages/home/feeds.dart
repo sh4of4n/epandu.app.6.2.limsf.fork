@@ -11,7 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:validators/validators.dart';
+import 'package:string_validator/string_validator.dart';
 // import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_localizations.dart';

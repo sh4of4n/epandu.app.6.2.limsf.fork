@@ -8,13 +8,13 @@ part of 'bill_model.dart';
 
 class TelcoAdapter extends TypeAdapter<TelcoComm> {
   @override
-  final typeId = 2;
+  final int typeId = 2;
 
   @override
   TelcoComm read(BinaryReader reader) {
-    var numOfFields = reader.readByte();
-    var fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return TelcoComm(
       iD: fields[0] as String,
@@ -52,17 +52,27 @@ class TelcoAdapter extends TypeAdapter<TelcoComm> {
       ..writeByte(8)
       ..write(obj.sponsorMarkupRateUom2);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TelcoAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 class BillAdapter extends TypeAdapter<ServiceComm> {
   @override
-  final typeId = 3;
+  final int typeId = 3;
 
   @override
   ServiceComm read(BinaryReader reader) {
-    var numOfFields = reader.readByte();
-    var fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ServiceComm(
       iD: fields[0] as String,
@@ -130,4 +140,14 @@ class BillAdapter extends TypeAdapter<ServiceComm> {
       ..writeByte(18)
       ..write(obj.servChrgEntitleUom);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is BillAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

@@ -10,7 +10,7 @@ import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'app_localizations_delegate.dart';
 import 'application.dart';
-import 'router.gr.dart';
+import 'router.gr.dart' as router;
 import 'services/api/model/bill_model.dart';
 import 'services/api/model/kpp_model.dart';
 import 'package:epandu/utils/custom_dialog.dart';
@@ -263,13 +263,13 @@ class _MyAppState extends State<MyApp> {
     if (view != null) {
       switch (view) {
         case 'ENROLLMENT':
-          ExtendedNavigator.of(context).push(Routes.enrollment);
+          ExtendedNavigator.of(context).push(router.Routes.enrollment);
           break;
         case 'KPP':
-          ExtendedNavigator.of(context).push(Routes.kppCategory);
+          ExtendedNavigator.of(context).push(router.Routes.kppCategory);
           break;
         case 'VCLUB':
-          ExtendedNavigator.of(context).push(Routes.valueClub);
+          ExtendedNavigator.of(context).push(router.Routes.valueClub);
           break;
       }
     }
@@ -305,9 +305,9 @@ class _MyAppState extends State<MyApp> {
         // Built-in localization for text direction LTR/RTL
         GlobalWidgetsLocalizations.delegate,
       ],
-      builder: ExtendedNavigator<Router>(
-        initialRoute: Routes.authentication,
-        router: Router(),
+      builder: ExtendedNavigator<router.Router>(
+        initialRoute: router.Routes.authentication,
+        router: router.Router(),
       ),
       // initialRoute: AUTH,
       // onGenerateRoute: RouteGenerator.generateRoute,
