@@ -6,6 +6,7 @@ import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../../router.gr.dart';
 
@@ -35,25 +36,34 @@ class _DirectoryListState extends State<DirectoryList> {
   }
 
   _getContacts() async {
-    await location.getCurrentLocation();
+    LocationPermission permission = await location.checkLocationPermission();
 
-    localStorage.saveUserLatitude(location.latitude.toString());
-    localStorage.saveUserLongitude(location.longitude.toString());
+    if (permission == LocationPermission.whileInUse ||
+        permission == LocationPermission.always) {
+      await location.getCurrentLocation();
 
-    if (widget.directoryType == 'INSURANCE')
-      setState(() {
-        maxRadius = '0';
-      });
+      localStorage.saveUserLatitude(location.latitude.toString());
+      localStorage.saveUserLongitude(location.longitude.toString());
 
-    var response = await emergencyRepo.getSosContactSortByNearest(
-        context: context,
-        sosContactType: widget.directoryType,
-        maxRadius: maxRadius);
+      if (widget.directoryType == 'INSURANCE')
+        setState(() {
+          maxRadius = '0';
+        });
 
-    if (mounted && response.isSuccess) {
-      return response.data;
+      var response = await emergencyRepo.getSosContactSortByNearest(
+          context: context,
+          sosContactType: widget.directoryType,
+          maxRadius: maxRadius);
+
+      if (mounted && response.isSuccess) {
+        return response.data;
+      }
+      return response.message;
+    } else {
+      ExtendedNavigator.of(context).popUntil(
+        ModalRoute.withName(Routes.home),
+      );
     }
-    return response.message;
   }
 
   _listItem(snapshot, index) {

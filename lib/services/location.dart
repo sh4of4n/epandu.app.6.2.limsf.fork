@@ -24,6 +24,12 @@ class Location {
     longitude = position.longitude;
   }
 
+  Future<LocationPermission> checkLocationPermission() async {
+    LocationPermission permission = await requestPermission();
+
+    return permission;
+  }
+
   Future<void> getAddress(double lat, double long) async {
     final coordinates = Coordinates(lat, long);
 

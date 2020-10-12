@@ -96,17 +96,24 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
   }
 
   _getCurrentLocation() async {
-    await location.getCurrentLocation();
-    await _checkSavedCoord();
-    // userTracking();
+    LocationPermission permission = await location.checkLocationPermission();
 
-    Future.wait([
-      _getSosContact('POLICE'),
-      _getSosContact('AMBULANCE'),
-      _getSosContact('BOMBA'),
-      _getSosContact('WORKSHOP'),
-      _getSosContact('BIKEWORKSHOP'),
-    ]);
+    if (permission == LocationPermission.whileInUse ||
+        permission == LocationPermission.always) {
+      await location.getCurrentLocation();
+      await _checkSavedCoord();
+      // userTracking();
+
+      Future.wait([
+        _getSosContact('POLICE'),
+        _getSosContact('AMBULANCE'),
+        _getSosContact('BOMBA'),
+        _getSosContact('WORKSHOP'),
+        _getSosContact('BIKEWORKSHOP'),
+      ]);
+    } else {
+      ExtendedNavigator.of(context).pop();
+    }
   }
 
   // Check if stored latitude and longitude is null
