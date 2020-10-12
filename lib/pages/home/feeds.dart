@@ -89,7 +89,6 @@ class _FeedsState extends State<Feeds> {
             child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
               ExtendedNavigator.of(context).pop();
-              ExtendedNavigator.of(context).pop();
             },
           ),
         ],
