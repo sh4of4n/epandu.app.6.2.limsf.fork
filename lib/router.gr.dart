@@ -83,7 +83,7 @@ class Routes {
   static const String billDetail = '/bill-detail';
   static const String billSelection = '/bill-selection';
   static const String merchantList = '/merchant-list';
-  static const String chatHomeScreen = '/chat-home-screen';
+  static const String chatHome = '/chat-home';
   static const String webview = '/Webview';
   static const String comingSoon = '/coming-soon';
   static const all = <String>{
@@ -136,7 +136,7 @@ class Routes {
     billDetail,
     billSelection,
     merchantList,
-    chatHomeScreen,
+    chatHome,
     webview,
     comingSoon,
   };
@@ -195,7 +195,7 @@ class Router extends RouterBase {
     RouteDef(Routes.billDetail, page: BillDetail),
     RouteDef(Routes.billSelection, page: BillSelection),
     RouteDef(Routes.merchantList, page: MerchantList),
-    RouteDef(Routes.chatHomeScreen, page: ChatHome),
+    RouteDef(Routes.chatHome, page: ChatHome),
     RouteDef(Routes.webview, page: Webview),
     RouteDef(Routes.comingSoon, page: ComingSoon),
   ];

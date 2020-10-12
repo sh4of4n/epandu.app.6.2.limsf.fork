@@ -307,7 +307,7 @@ class EpanduCategory extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () => ExtendedNavigator.of(context)
-                              .push(Routes.chatHomeScreen),
+                              .push(Routes.chatHome),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(
