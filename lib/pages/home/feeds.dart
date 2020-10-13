@@ -109,29 +109,36 @@ class _FeedsState extends State<Feeds> {
 
   _getCurrentLocation(feed, context) async {
     // LocationPermission permission = await checkPermission();
-    LocationPermission permission = await location.checkLocationPermission();
+    if (feed.udfReturnParameter != null &&
+        feed.udfReturnParameter.contains('latitude') &&
+        feed.udfReturnParameter.contains('longitude')) {
+      LocationPermission permission = await location.checkLocationPermission();
 
-    if (permission == LocationPermission.whileInUse ||
-        permission == LocationPermission.always) {
-      await location.getCurrentLocation();
+      if (permission == LocationPermission.whileInUse ||
+          permission == LocationPermission.always) {
+        await location.getCurrentLocation();
 
-      localStorage.saveUserLatitude(location.latitude.toString());
-      localStorage.saveUserLongitude(location.longitude.toString());
+        localStorage.saveUserLatitude(location.latitude.toString());
+        localStorage.saveUserLongitude(location.longitude.toString());
 
-      setState(() {
-        latitude = location.latitude.toString();
-        longitude = location.longitude.toString();
-      });
+        setState(() {
+          latitude = location.latitude.toString();
+          longitude = location.longitude.toString();
+        });
 
-      loadUrl(feed, context);
+        loadUrl(feed, context);
+      } else {
+        Provider.of<FeedsLoadingModel>(context, listen: false)
+            .loadingStatus(false);
+
+        customDialog.show(
+            context: context,
+            content:
+                AppLocalizations.of(context).translate('loc_permission_on'),
+            type: DialogType.INFO);
+      }
     } else {
-      Provider.of<FeedsLoadingModel>(context, listen: false)
-          .loadingStatus(false);
-
-      customDialog.show(
-          context: context,
-          content: AppLocalizations.of(context).translate('loc_permission_on'),
-          type: DialogType.INFO);
+      loadUrl(feed, context);
     }
   }
 
