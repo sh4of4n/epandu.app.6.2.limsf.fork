@@ -146,6 +146,9 @@ class _FeedsState extends State<Feeds> {
     if (Provider.of<CallStatusModel>(context, listen: false).status == false) {
       Provider.of<CallStatusModel>(context, listen: false).callStatus(true);
 
+      var caUid = await localStorage.getCaUid();
+      var caPwd = await localStorage.getCaPwd();
+
       var result = await profileRepo.getUserProfile(context: context);
 
       if (result.isSuccess) {
@@ -170,6 +173,8 @@ class _FeedsState extends State<Feeds> {
             '&appVersion=${widget.appVersion}' +
             '&userId=$userId' +
             '&deviceId=$loginDeviceId' +
+            '&caUid=$caUid' +
+            '&caPwd=$caPwd' +
             _getMerchantNo(
                 udf: feed.udfReturnParameter, merchantNo: merchantNo) +
             _getIcName(
