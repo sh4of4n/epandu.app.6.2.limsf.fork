@@ -174,7 +174,7 @@ class _FeedsState extends State<Feeds> {
             '&userId=$userId' +
             '&deviceId=$loginDeviceId' +
             '&caUid=$caUid' +
-            '&caPwd=$caPwd' +
+            '&caPwd=${Uri.encodeQueryComponent(caPwd)}' +
             _getMerchantNo(
                 udf: feed.udfReturnParameter, merchantNo: merchantNo) +
             _getIcName(
