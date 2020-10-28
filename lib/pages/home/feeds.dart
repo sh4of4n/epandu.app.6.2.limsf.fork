@@ -187,7 +187,8 @@ class _FeedsState extends State<Feeds> {
             _getBirthDate(
                 udf: feed.udfReturnParameter, dob: dob?.substring(0, 10)) +
             _getLatitude(udf: feed.udfReturnParameter) +
-            _getLongitude(udf: feed.udfReturnParameter);
+            _getLongitude(udf: feed.udfReturnParameter) +
+            _getPackageCode(udf: feed.udfReturnParameter);
 
         ExtendedNavigator.of(context)
             .push(Routes.webview, arguments: WebviewArguments(url: url));
@@ -274,6 +275,26 @@ class _FeedsState extends State<Feeds> {
     return '';
   }
 
+  String _getPackageCode({udf}) {
+    if (udf != null && udf.contains('package')) {
+      List<dynamic> udfParameters = udf.split(',');
+      String package = '';
+
+      for (int i = 0; i < udfParameters.length; i += 1) {
+        if (udfParameters[i].contains('package')) {
+          setState(() {
+            package = udfParameters[i];
+          });
+
+          break;
+        }
+      }
+
+      return '&package=$package';
+    }
+    return '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -325,6 +346,10 @@ class _FeedsState extends State<Feeds> {
                               case 'ENROLLMENT':
                                 ExtendedNavigator.of(context)
                                     .push(Routes.enrollment);
+                                break;
+                              case 'DI_ENROLLMENT':
+                                ExtendedNavigator.of(context)
+                                    .push(Routes.diEnrollment);
                                 break;
                               case 'KPP':
                                 ExtendedNavigator.of(context)
@@ -460,6 +485,10 @@ class _FeedsState extends State<Feeds> {
                           if (!isUrl) {
                             switch (feedValue) {
                               case 'ENROLLMENT':
+                                ExtendedNavigator.of(context)
+                                    .push(Routes.enrollment);
+                                break;
+                              case 'DI_ENROLLMENT':
                                 ExtendedNavigator.of(context)
                                     .push(Routes.enrollment);
                                 break;

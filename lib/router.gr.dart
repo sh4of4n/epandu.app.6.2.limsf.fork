@@ -11,6 +11,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 import 'coming_soon/coming_soon.dart';
+import 'pages/di_enroll/di_enrollment.dart';
 import 'pages/emergency/emergency.dart';
 import 'pages/enroll/enroll.dart';
 import 'pages/epandu/epandu.dart';
@@ -44,6 +45,7 @@ class Routes {
   static const String home = '/Home';
   static const String settings = '/Settings';
   static const String enrollment = '/Enrollment';
+  static const String diEnrollment = '/di-enrollment';
   static const String kppCategory = '/kpp-category';
   static const String kppResult = '/kpp-result';
   static const String kppExam = '/kpp-exam';
@@ -96,6 +98,7 @@ class Routes {
     home,
     settings,
     enrollment,
+    diEnrollment,
     kppCategory,
     kppResult,
     kppExam,
@@ -154,6 +157,7 @@ class Router extends RouterBase {
     RouteDef(Routes.home, page: Home),
     RouteDef(Routes.settings, page: Settings),
     RouteDef(Routes.enrollment, page: Enrollment),
+    RouteDef(Routes.diEnrollment, page: DiEnrollment),
     RouteDef(Routes.kppCategory, page: KppCategory),
     RouteDef(Routes.kppResult, page: KppResult),
     RouteDef(Routes.kppExam, page: KppExam),
@@ -267,6 +271,12 @@ class Router extends RouterBase {
     Enrollment: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => Enrollment(),
+        settings: data,
+      );
+    },
+    DiEnrollment: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => DiEnrollment(),
         settings: data,
       );
     },

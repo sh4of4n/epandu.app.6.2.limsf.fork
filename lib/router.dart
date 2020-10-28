@@ -17,6 +17,7 @@ import 'package:epandu/pages/promotions/promotions.dart';
 import 'package:epandu/pages/register/register.dart';
 import 'package:epandu/pages/vclub/value_club.dart';
 
+import 'pages/di_enroll/di_enrollment.dart';
 import 'pages/emergency/emergency.dart';
 import 'pages/home/home.dart';
 import 'pages/login/login.dart';
@@ -36,6 +37,7 @@ import 'pages/settings/settings.dart';
     MaterialRoute(page: Home),
     MaterialRoute(page: Settings),
     MaterialRoute(page: Enrollment),
+    MaterialRoute(page: DiEnrollment),
     MaterialRoute(page: KppCategory),
     MaterialRoute(page: KppResult),
     MaterialRoute(page: KppExam),
