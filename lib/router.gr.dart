@@ -46,6 +46,8 @@ class Routes {
   static const String settings = '/Settings';
   static const String enrollment = '/Enrollment';
   static const String diEnrollment = '/di-enrollment';
+  static const String packageDetail = '/package-detail';
+  static const String enrollConfirmation = '/enroll-confirmation';
   static const String kppCategory = '/kpp-category';
   static const String kppResult = '/kpp-result';
   static const String kppExam = '/kpp-exam';
@@ -99,6 +101,8 @@ class Routes {
     settings,
     enrollment,
     diEnrollment,
+    packageDetail,
+    enrollConfirmation,
     kppCategory,
     kppResult,
     kppExam,
@@ -158,6 +162,8 @@ class Router extends RouterBase {
     RouteDef(Routes.settings, page: Settings),
     RouteDef(Routes.enrollment, page: Enrollment),
     RouteDef(Routes.diEnrollment, page: DiEnrollment),
+    RouteDef(Routes.packageDetail, page: PackageDetail),
+    RouteDef(Routes.enrollConfirmation, page: EnrollConfirmation),
     RouteDef(Routes.kppCategory, page: KppCategory),
     RouteDef(Routes.kppResult, page: KppResult),
     RouteDef(Routes.kppExam, page: KppExam),
@@ -275,8 +281,28 @@ class Router extends RouterBase {
       );
     },
     DiEnrollment: (data) {
+      final args = data.getArgs<DiEnrollmentArguments>(
+        orElse: () => DiEnrollmentArguments(),
+      );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => DiEnrollment(),
+        builder: (context) =>
+            DiEnrollment(packageCodeJson: args.packageCodeJson),
+        settings: data,
+      );
+    },
+    PackageDetail: (data) {
+      final args = data.getArgs<PackageDetailArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => PackageDetail(
+          args.packageCode,
+          args.packageDesc,
+        ),
+        settings: data,
+      );
+    },
+    EnrollConfirmation: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => EnrollConfirmation(),
         settings: data,
       );
     },
@@ -581,6 +607,20 @@ class RegisterFormArguments {
 class SettingsArguments {
   final dynamic data;
   SettingsArguments({@required this.data});
+}
+
+/// DiEnrollment arguments holder class
+class DiEnrollmentArguments {
+  final String packageCodeJson;
+  DiEnrollmentArguments({this.packageCodeJson});
+}
+
+/// PackageDetail arguments holder class
+class PackageDetailArguments {
+  final String packageCode;
+  final String packageDesc;
+  PackageDetailArguments(
+      {@required this.packageCode, @required this.packageDesc});
 }
 
 /// KppResult arguments holder class

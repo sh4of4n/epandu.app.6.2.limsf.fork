@@ -2949,3 +2949,45 @@ class ScanResultArgument {
 
   ScanResultArgument({this.barcode, this.status});
 }
+
+class GetPackageListByPackageCodeListResponse {
+  List<Package> package;
+
+  GetPackageListByPackageCodeListResponse({this.package});
+
+  GetPackageListByPackageCodeListResponse.fromJson(Map<String, dynamic> json) {
+    if (json['Package'] != null) {
+      package = new List<Package>();
+      json['Package'].forEach((v) {
+        package.add(new Package.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.package != null) {
+      data['Package'] = this.package.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Package {
+  String packageCode;
+  String packageDesc;
+
+  Package({this.packageCode, this.packageDesc});
+
+  Package.fromJson(Map<String, dynamic> json) {
+    packageCode = json['package_code'];
+    packageDesc = json['package_desc'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['package_code'] = this.packageCode;
+    data['package_desc'] = this.packageDesc;
+    return data;
+  }
+}

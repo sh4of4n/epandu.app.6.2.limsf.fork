@@ -328,5 +328,6 @@
   "get_profile_fail": "Failed to load profile. Please try again later.",
   "edit_profile": "Edit profile",
   "edit": "Edit",
-  "no_active_feeds": "There are no active feeds."
+  "no_active_feeds": "There are no active feeds.",
+  "get_package_fail": "Failed to load packages. Please try again later."
 }

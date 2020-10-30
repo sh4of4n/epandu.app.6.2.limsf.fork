@@ -328,5 +328,6 @@
   "get_profile_fail": "Gagal memuatkan profil, sila cuba sebentar lagi.",
   "edit_profile": "Sunting profil",
   "edit": "Tukar",
-  "no_active_feeds": "Tidak ada suapan aktif."
+  "no_active_feeds": "Tidak ada suapan aktif.",
+  "get_package_fail": "Gagal memuatkan pakej, sila cuba sebentar lagi."
 }
