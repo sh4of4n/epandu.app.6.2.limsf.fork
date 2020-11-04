@@ -13,12 +13,12 @@ dependencies:
   ## Online
   xml2json: ^4.2.0
   http: ^0.12.2
-  firebase_messaging: ^7.0.0
+  firebase_messaging: ^7.0.3
 
   ## Widgets
-  shimmer: ^1.1.1
+  shimmer: ^1.1.2
   flushbar: ^1.10.4
-  cupertino_icons: ^0.1.3
+  cupertino_icons: ^1.0.0
   flutter_custom_clippers: ^1.1.1
   datetime_picker_formfield: ^1.0.0
   transparent_image: ^1.0.0
@@ -28,25 +28,25 @@ dependencies:
   qr_flutter: ^3.2.0
   barcode_scan: ^3.0.1
   expandable: ^4.1.4
-  image_picker: ^0.6.7+4
-  image_cropper: ^1.2.3
-  camera: ^0.5.8+8
-  webview_flutter: ^1.0.1
+  image_picker: ^0.6.7+12
+  image_cropper: ^1.3.1
+  camera: ^0.5.8+11
+  webview_flutter: ^1.0.5
 
   ## Tools
-  intl: ^0.16.0
+  intl: ^0.16.1
   provider: ^4.3.2+2
-  geolocator: ^6.0.0+4
+  geolocator: ^6.1.4
   geocoder: ^0.2.1
-  url_launcher: ^5.5.3
+  url_launcher: ^5.7.10
   map_launcher: ^0.12.2
-  flutter_svg: ^0.18.1
-  app_settings: ^4.0.3
-  path_provider: ^1.6.14
-  shared_preferences: ^0.5.10
-  device_info: ^0.4.2+7
-  package_info: ^0.4.3
-  flutter_screenutil: ^2.3.1
+  flutter_svg: ^0.19.1
+  app_settings: ^4.0.4
+  path_provider: ^1.6.24
+  shared_preferences: ^0.5.12+4
+  device_info: ^1.0.0
+  package_info: ^0.4.3+2
+  flutter_screenutil: ^3.2.0
   flutter_spinkit: ^4.1.2+1
   random_color: ^1.0.5
   hive: ^1.4.4+1
@@ -71,7 +71,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   json_serializable: ^3.5.0
-  hive_generator: ^0.8.1
+  hive_generator: ^0.8.2
   build_runner:
   flutter_launcher_name: ^0.0.1
   flutter_launcher_icons: ^0.8.0

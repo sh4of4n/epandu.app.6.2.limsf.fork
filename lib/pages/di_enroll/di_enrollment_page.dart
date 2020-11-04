@@ -4,6 +4,7 @@ import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../router.gr.dart';
@@ -22,6 +23,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
   Future getPackages;
   final localStorage = LocalStorage();
   final primaryColor = ColorConstant.primaryColor;
+  final removeBracket = RemoveBracket.remove;
 
   @override
   void initState() {
@@ -36,7 +38,9 @@ class _DiEnrollmentState extends State<DiEnrollment> {
     var result = await authRepo.getPackageListByPackageCodeList(
       context: context,
       diCode: diCode,
-      packageCodeJson: widget.packageCodeJson ?? '',
+      packageCodeJson: widget.packageCodeJson.isEmpty
+          ? '{"Package": [{"package_code": "A"},{"package_code": "B"}]}'
+          : widget.packageCodeJson,
     );
 
     if (result.isSuccess) {
@@ -69,7 +73,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                       color: Colors.black26,
                       offset: Offset(0, 8.0),
                       blurRadius: 10.0,
-                    )
+                    ),
                   ],
                 ),
                 child: Center(
@@ -85,22 +89,57 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                 );
               }
 
-              return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    onTap: () => ExtendedNavigator.of(context).push(
-                      Routes.packageDetail,
-                      arguments: PackageDetailArguments(
-                        packageCode: snapshot.data[index].packageCode,
-                        packageDesc: snapshot.data[index].packageDesc,
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 50.h),
+                      child: Text(
+                        AppLocalizations.of(context)
+                            .translate('select_enrollment_package'),
+                        style: TextStyle(
+                            fontSize: 70.sp, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    child: Text(
-                      snapshot.data[index].packageCode,
+                    ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 200.w, vertical: 70.h),
+                          child: InkWell(
+                            onTap: () => ExtendedNavigator.of(context).push(
+                              Routes.packageDetail,
+                              arguments: PackageDetailArguments(
+                                packageCode: snapshot.data[index].packageCode,
+                                packageDesc: snapshot.data[index].packageDesc,
+                              ),
+                            ),
+                            child: Column(
+                              children: [
+                                Image.network(
+                                  snapshot.data[index].feedMediaFilename
+                                      .replaceAll(removeBracket, '')
+                                      .split('\r\n')[1],
+                                  gaplessPlayback: true,
+                                ),
+                                Text(
+                                  snapshot.data[index].packageCode,
+                                  style: TextStyle(
+                                    fontSize: 60.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
+                  ],
+                ),
               );
             default:
               return Center(

@@ -109,7 +109,7 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
         ),
         body: Container(
           padding: EdgeInsets.symmetric(vertical: 100.h, horizontal: 60.w),
-          width: ScreenUtil.screenWidth,
+          width: ScreenUtil().screenWidth,
           child: FutureBuilder(
             future: _getPaymentDetail,
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {

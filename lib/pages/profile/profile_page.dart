@@ -95,7 +95,7 @@ class _ProfileState extends State<Profile>
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   child: Container(
-                    width: ScreenUtil.screenWidth,
+                    width: ScreenUtil().screenWidth,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[

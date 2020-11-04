@@ -17,15 +17,15 @@ class Location {
   final localStorage = LocalStorage();
 
   Future<void> getCurrentLocation() async {
-    Position position =
-        await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
 
     latitude = position.latitude;
     longitude = position.longitude;
   }
 
   Future<LocationPermission> checkLocationPermission() async {
-    LocationPermission permission = await requestPermission();
+    LocationPermission permission = await Geolocator.requestPermission();
 
     return permission;
   }
@@ -53,7 +53,7 @@ class Location {
         locLatitude < 90 &&
         locLongitude > -180 &&
         locLongitude < 180) {
-      distanceInMeters = distanceBetween(
+      distanceInMeters = Geolocator.distanceBetween(
           _savedLatitude, _savedLongitude, locLatitude, locLongitude);
 
       distance = distanceInMeters;

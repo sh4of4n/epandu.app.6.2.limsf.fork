@@ -301,8 +301,16 @@ class Router extends RouterBase {
       );
     },
     EnrollConfirmation: (data) {
+      final args = data.getArgs<EnrollConfirmationArguments>(
+        orElse: () => EnrollConfirmationArguments(),
+      );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => EnrollConfirmation(),
+        builder: (context) => EnrollConfirmation(
+          merchantNo: args.merchantNo,
+          packageCode: args.packageCode,
+          prodDesc: args.prodDesc,
+          price: args.price,
+        ),
         settings: data,
       );
     },
@@ -621,6 +629,16 @@ class PackageDetailArguments {
   final String packageDesc;
   PackageDetailArguments(
       {@required this.packageCode, @required this.packageDesc});
+}
+
+/// EnrollConfirmation arguments holder class
+class EnrollConfirmationArguments {
+  final String merchantNo;
+  final String packageCode;
+  final String prodDesc;
+  final String price;
+  EnrollConfirmationArguments(
+      {this.merchantNo, this.packageCode, this.prodDesc, this.price});
 }
 
 /// KppResult arguments holder class

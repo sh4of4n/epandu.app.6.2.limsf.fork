@@ -62,7 +62,7 @@ class _FeedsState extends State<Feeds> {
 
     // await location.getCurrentLocation();
 
-    bool serviceLocationStatus = await isLocationServiceEnabled();
+    bool serviceLocationStatus = await Geolocator.isLocationServiceEnabled();
 
     // GeolocationStatus geolocationStatus =
     //     await Geolocator().checkGeolocationPermissionStatus();
@@ -160,12 +160,12 @@ class _FeedsState extends State<Feeds> {
         String dob = result.data[0].birthDate;
         String userId = await localStorage.getUserId();
         String loginDeviceId = await localStorage.getLoginDeviceId();
-        String profilePic = result.data[0].picturePath != null &&
-                result.data[0].picturePath.isNotEmpty
-            ? result.data[0].picturePath
-                .replaceAll(removeBracket, '')
-                .split('\r\n')[0]
-            : '';
+        // String profilePic = result.data[0].picturePath != null &&
+        //         result.data[0].picturePath.isNotEmpty
+        //     ? result.data[0].picturePath
+        //         .replaceAll(removeBracket, '')
+        //         .split('\r\n')[0]
+        //     : '';
 
         String url = feed.feedNavigate +
             '?' +
@@ -348,8 +348,15 @@ class _FeedsState extends State<Feeds> {
                                     .push(Routes.enrollment);
                                 break;
                               case 'DI_ENROLLMENT':
-                                ExtendedNavigator.of(context)
-                                    .push(Routes.diEnrollment);
+                                String packageCodeJson = _getPackageCode(
+                                    udf: item.udfReturnParameter);
+
+                                ExtendedNavigator.of(context).push(
+                                  Routes.diEnrollment,
+                                  arguments: DiEnrollmentArguments(
+                                      packageCodeJson: packageCodeJson
+                                          .replaceAll('&package=', '')),
+                                );
                                 break;
                               case 'KPP':
                                 ExtendedNavigator.of(context)
@@ -489,8 +496,15 @@ class _FeedsState extends State<Feeds> {
                                     .push(Routes.enrollment);
                                 break;
                               case 'DI_ENROLLMENT':
-                                ExtendedNavigator.of(context)
-                                    .push(Routes.enrollment);
+                                String packageCodeJson = _getPackageCode(
+                                    udf: item.udfReturnParameter);
+
+                                ExtendedNavigator.of(context).push(
+                                  Routes.diEnrollment,
+                                  arguments: DiEnrollmentArguments(
+                                      packageCodeJson: packageCodeJson
+                                          .replaceAll('&package=', '')),
+                                );
                                 break;
                               case 'KPP':
                                 ExtendedNavigator.of(context)

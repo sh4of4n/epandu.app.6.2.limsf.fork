@@ -10,6 +10,11 @@ class ColorConstant {
   static const amberAccent = Colors.amberAccent;
 }
 
+class RemoveBracket {
+  static final RegExp remove =
+      RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
+}
+
 final ColorScheme colorScheme = ColorScheme.light(
   primary: Color(0xFF501049),
   secondary: Color(0xFFE30425),

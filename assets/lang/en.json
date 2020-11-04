@@ -329,5 +329,18 @@
   "edit_profile": "Edit profile",
   "edit": "Edit",
   "no_active_feeds": "There are no active feeds.",
-  "get_package_fail": "Failed to load packages. Please try again later."
+  "get_package_fail": "Failed to load packages. Please try again later.",
+  "get_package_detail_fail": "Failed to load package detail. Please try again later.",
+  "create_order_fail": "Failed to create order. Please try again later.",
+  "get_bank_list_fail": "Failed to retrieve bank list. Please try again later.",
+  "select_enrollment_package": "Select enrollment package",
+  "institute_lbl": "Institute",
+  "package_lbl": "Package",
+  "pay_at_institute": "Pay at Institute",
+  "pay_online": "Pay Online",
+  "amount": "Amount",
+  "proceed": "Proceed",
+  "select_payment_method": "Select payment method",
+  "complete_your_profile": "Complete your profile to proceed with enrollment.",
+  "select_bank": "Select your bank"
 }

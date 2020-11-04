@@ -59,7 +59,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
 
     // await location.getCurrentLocation();
 
-    bool serviceLocationStatus = await isLocationServiceEnabled();
+    bool serviceLocationStatus = await Geolocator.isLocationServiceEnabled();
 
     // GeolocationStatus geolocationStatus =
     //     await Geolocator().checkGeolocationPermissionStatus();
@@ -299,7 +299,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         ),
         body: Container(
           // margin: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(50)),
-          height: ScreenUtil.screenHeight,
+          height: ScreenUtil().screenHeight,
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[

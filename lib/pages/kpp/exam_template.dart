@@ -61,9 +61,9 @@ class _ExamTemplateState extends State<ExamTemplate> {
       TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500);
 
   double answerWidthText =
-      ScreenUtil.screenWidth / (ScreenUtil.screenHeight / 5);
+      ScreenUtil().screenWidth / (ScreenUtil().screenHeight / 5);
   double answerWidthImg =
-      ScreenUtil.screenWidth / (ScreenUtil.screenHeight / 2);
+      ScreenUtil().screenWidth / (ScreenUtil().screenHeight / 2);
 
   Timer _timer;
   int minute = 45;

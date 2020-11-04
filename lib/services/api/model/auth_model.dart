@@ -1951,6 +1951,127 @@ class SaveEnrollmentRequest {
   }
 }
 
+class SaveEnrollmentPackageRequest {
+  String wsCodeCrypt;
+  String caUid;
+  String caPwd;
+  String appCode;
+  String appId;
+  String diCode;
+  String packageCode;
+  String icNo;
+  String name;
+  String nationality;
+  String phoneCountryCode;
+  String phone;
+  String dateOfBirthString;
+  String gender;
+  String race;
+  String add1;
+  String add2;
+  String add3;
+  String postcode;
+  String city;
+  String state;
+  String country;
+  String email;
+  String userId;
+  List<int> userProfileImage;
+  String userProfileImageBase64String;
+  bool removeUserProfileImage;
+
+  SaveEnrollmentPackageRequest(
+      {this.wsCodeCrypt,
+      this.caUid,
+      this.caPwd,
+      this.appCode,
+      this.appId,
+      this.diCode,
+      this.packageCode,
+      this.icNo,
+      this.name,
+      this.nationality,
+      this.phoneCountryCode,
+      this.phone,
+      this.dateOfBirthString,
+      this.gender,
+      this.race,
+      this.add1,
+      this.add2,
+      this.add3,
+      this.postcode,
+      this.city,
+      this.state,
+      this.country,
+      this.email,
+      this.userId,
+      this.userProfileImage,
+      this.userProfileImageBase64String,
+      this.removeUserProfileImage});
+
+  SaveEnrollmentPackageRequest.fromJson(Map<String, dynamic> json) {
+    wsCodeCrypt = json['wsCodeCrypt'];
+    caUid = json['caUid'];
+    caPwd = json['caPwd'];
+    appCode = json['appCode'];
+    appId = json['appId'];
+    diCode = json['diCode'];
+    packageCode = json['packageCode'];
+    icNo = json['icNo'];
+    name = json['name'];
+    nationality = json['nationality'];
+    phoneCountryCode = json['phoneCountryCode'];
+    phone = json['phone'];
+    dateOfBirthString = json['dateOfBirthString'];
+    gender = json['gender'];
+    race = json['race'];
+    add1 = json['add1'];
+    add2 = json['add2'];
+    add3 = json['add3'];
+    postcode = json['postcode'];
+    city = json['city'];
+    state = json['state'];
+    country = json['country'];
+    email = json['email'];
+    userId = json['userId'];
+    userProfileImage = json['userProfileImage'];
+    userProfileImageBase64String = json['userProfileImageBase64String'];
+    removeUserProfileImage = json['removeUserProfileImage'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['wsCodeCrypt'] = this.wsCodeCrypt;
+    data['caUid'] = this.caUid;
+    data['caPwd'] = this.caPwd;
+    data['appCode'] = this.appCode;
+    data['appId'] = this.appId;
+    data['diCode'] = this.diCode;
+    data['packageCode'] = this.packageCode;
+    data['icNo'] = this.icNo;
+    data['name'] = this.name;
+    data['nationality'] = this.nationality;
+    data['phoneCountryCode'] = this.phoneCountryCode;
+    data['phone'] = this.phone;
+    data['dateOfBirthString'] = this.dateOfBirthString;
+    data['gender'] = this.gender;
+    data['race'] = this.race;
+    data['add1'] = this.add1;
+    data['add2'] = this.add2;
+    data['add3'] = this.add3;
+    data['postcode'] = this.postcode;
+    data['city'] = this.city;
+    data['state'] = this.state;
+    data['country'] = this.country;
+    data['email'] = this.email;
+    data['userId'] = this.userId;
+    data['userProfileImage'] = this.userProfileImage;
+    data['userProfileImageBase64String'] = this.userProfileImageBase64String;
+    data['removeUserProfileImage'] = this.removeUserProfileImage;
+    return data;
+  }
+}
+
 class EnrollmentArguments {
   final String diCode;
   final String groupId;
@@ -2974,20 +3095,222 @@ class GetPackageListByPackageCodeListResponse {
 }
 
 class Package {
+  String iD;
+  String merchantNo;
   String packageCode;
   String packageDesc;
+  String groupIdGrouping;
+  String amt;
+  String termConditionPolicy;
+  String cancelPolicy;
+  String offerFrom;
+  String offerTo;
+  String paymentMode;
+  String paymentSchedule;
+  String feedMedia;
+  String feedMediaFilename;
+  String createDate;
+  String createUser;
+  String editDate;
+  String editUser;
+  String lastupload;
+  String transtamp;
+  String compCode;
+  String branchCode;
+  String rowKey;
+  String deleted;
 
-  Package({this.packageCode, this.packageDesc});
+  Package(
+      {this.iD,
+      this.merchantNo,
+      this.packageCode,
+      this.packageDesc,
+      this.groupIdGrouping,
+      this.amt,
+      this.termConditionPolicy,
+      this.cancelPolicy,
+      this.offerFrom,
+      this.offerTo,
+      this.paymentMode,
+      this.paymentSchedule,
+      this.feedMedia,
+      this.feedMediaFilename,
+      this.createDate,
+      this.createUser,
+      this.editDate,
+      this.editUser,
+      this.lastupload,
+      this.transtamp,
+      this.compCode,
+      this.branchCode,
+      this.rowKey,
+      this.deleted});
 
   Package.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    merchantNo = json['merchant_no'];
     packageCode = json['package_code'];
     packageDesc = json['package_desc'];
+    groupIdGrouping = json['group_id_grouping'];
+    amt = json['amt'];
+    termConditionPolicy = json['term_condition_policy'];
+    cancelPolicy = json['cancel_policy'];
+    offerFrom = json['offer_from'];
+    offerTo = json['offer_to'];
+    paymentMode = json['payment_mode'];
+    paymentSchedule = json['payment_schedule'];
+    feedMedia = json['feed_media'];
+    feedMediaFilename = json['feed_media_filename'];
+    createDate = json['create_date'];
+    createUser = json['create_user'];
+    editDate = json['edit_date'];
+    editUser = json['edit_user'];
+    lastupload = json['lastupload'];
+    transtamp = json['transtamp'];
+    compCode = json['comp_code'];
+    branchCode = json['branch_code'];
+    rowKey = json['row_key'];
+    deleted = json['deleted'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['merchant_no'] = this.merchantNo;
     data['package_code'] = this.packageCode;
     data['package_desc'] = this.packageDesc;
+    data['group_id_grouping'] = this.groupIdGrouping;
+    data['amt'] = this.amt;
+    data['term_condition_policy'] = this.termConditionPolicy;
+    data['cancel_policy'] = this.cancelPolicy;
+    data['offer_from'] = this.offerFrom;
+    data['offer_to'] = this.offerTo;
+    data['payment_mode'] = this.paymentMode;
+    data['payment_schedule'] = this.paymentSchedule;
+    data['feed_media'] = this.feedMedia;
+    data['feed_media_filename'] = this.feedMediaFilename;
+    data['create_date'] = this.createDate;
+    data['create_user'] = this.createUser;
+    data['edit_date'] = this.editDate;
+    data['edit_user'] = this.editUser;
+    data['lastupload'] = this.lastupload;
+    data['transtamp'] = this.transtamp;
+    data['comp_code'] = this.compCode;
+    data['branch_code'] = this.branchCode;
+    data['row_key'] = this.rowKey;
+    data['deleted'] = this.deleted;
+    return data;
+  }
+}
+
+class GetPackageDetlListResponse {
+  List<PackageDetl> packageDetl;
+
+  GetPackageDetlListResponse({this.packageDetl});
+
+  GetPackageDetlListResponse.fromJson(Map<String, dynamic> json) {
+    if (json['PackageDetl'] != null) {
+      packageDetl = new List<PackageDetl>();
+      json['PackageDetl'].forEach((v) {
+        packageDetl.add(new PackageDetl.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.packageDetl != null) {
+      data['PackageDetl'] = this.packageDetl.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class PackageDetl {
+  String iD;
+  String merchantNo;
+  String packageCode;
+  String prodCode;
+  String groupId;
+  String qty;
+  String uom;
+  String amt;
+  String createDate;
+  String createUser;
+  String editDate;
+  String editUser;
+  String lastupload;
+  String transtamp;
+  String compCode;
+  String branchCode;
+  String rowKey;
+  String deleted;
+  String prodDesc;
+
+  PackageDetl(
+      {this.iD,
+      this.merchantNo,
+      this.packageCode,
+      this.prodCode,
+      this.groupId,
+      this.qty,
+      this.uom,
+      this.amt,
+      this.createDate,
+      this.createUser,
+      this.editDate,
+      this.editUser,
+      this.lastupload,
+      this.transtamp,
+      this.compCode,
+      this.branchCode,
+      this.rowKey,
+      this.deleted,
+      this.prodDesc});
+
+  PackageDetl.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    merchantNo = json['merchant_no'];
+    packageCode = json['package_code'];
+    prodCode = json['prod_code'];
+    groupId = json['group_id'];
+    qty = json['qty'];
+    uom = json['uom'];
+    amt = json['amt'];
+    createDate = json['create_date'];
+    createUser = json['create_user'];
+    editDate = json['edit_date'];
+    editUser = json['edit_user'];
+    lastupload = json['lastupload'];
+    transtamp = json['transtamp'];
+    compCode = json['comp_code'];
+    branchCode = json['branch_code'];
+    rowKey = json['row_key'];
+    deleted = json['deleted'];
+    prodDesc = json['prod_desc'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['merchant_no'] = this.merchantNo;
+    data['package_code'] = this.packageCode;
+    data['prod_code'] = this.prodCode;
+    data['group_id'] = this.groupId;
+    data['qty'] = this.qty;
+    data['uom'] = this.uom;
+    data['amt'] = this.amt;
+    data['create_date'] = this.createDate;
+    data['create_user'] = this.createUser;
+    data['edit_date'] = this.editDate;
+    data['edit_user'] = this.editUser;
+    data['lastupload'] = this.lastupload;
+    data['transtamp'] = this.transtamp;
+    data['comp_code'] = this.compCode;
+    data['branch_code'] = this.branchCode;
+    data['row_key'] = this.rowKey;
+    data['deleted'] = this.deleted;
+    data['prod_desc'] = this.prodDesc;
     return data;
   }
 }

@@ -329,5 +329,18 @@
   "edit_profile": "Sunting profil",
   "edit": "Tukar",
   "no_active_feeds": "Tidak ada suapan aktif.",
-  "get_package_fail": "Gagal memuatkan pakej, sila cuba sebentar lagi."
+  "get_package_fail": "Gagal memuatkan pakej, sila cuba sebentar lagi.",
+  "get_package_detail_fail": "Gagal memuatkan butiran pakej, sila cuba sebentar lagi.",
+  "create_order_fail": "Gagal membuat pesanan. Sila cuba sebentar lagi.",
+  "get_bank_list_fail": "Gagal mendapatkan senarai bank. Sila cuba sebentar lagi.",
+  "select_enrollment_package": "Pilih pakej pendaftaran",
+  "institute_lbl": "Institusi",
+  "package_lbl": "Pakej",
+  "pay_at_institute": "Bayar di Institusi",
+  "pay_online": "Bayar Online",
+  "amount": "Jumlah",
+  "proceed": "Teruskan",
+  "select_payment_method": "Pilih kaedah pembayaran",
+  "complete_your_profile": "Lengkapkan profil anda untuk meneruskan pendaftaran.",
+  "select_bank": "Pilih bank anda"
 }

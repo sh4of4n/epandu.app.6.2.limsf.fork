@@ -4,30 +4,38 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoadingModel extends StatelessWidget {
   final isVisible;
-  final color;
+  final Color color;
+  final Color backgroundColor;
+  final double opacity;
 
-  LoadingModel({this.isVisible, this.color});
+  LoadingModel({
+    this.isVisible,
+    this.color,
+    this.backgroundColor,
+    this.opacity,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Visibility(
-        visible: isVisible,
-        child: Stack(
-          children: <Widget>[
-            Opacity(
-              opacity: 0.7,
-              child: Container(
-                color: Colors.grey[900],
-                width: ScreenUtil.screenWidth,
-                height: ScreenUtil.screenHeight,
-              ),
+      visible: isVisible,
+      child: Stack(
+        children: <Widget>[
+          Opacity(
+            opacity: opacity ?? 0.7,
+            child: Container(
+              color: backgroundColor ?? Colors.grey[900],
+              width: ScreenUtil().screenWidth,
+              height: ScreenUtil().screenHeight,
             ),
-            Center(
-              child: SpinKitFoldingCube(
-                color: color,
-              ),
+          ),
+          Center(
+            child: SpinKitChasingDots(
+              color: color ?? Colors.blue,
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }

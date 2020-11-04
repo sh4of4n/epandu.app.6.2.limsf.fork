@@ -89,15 +89,14 @@ class _AuthenticationState extends State<Authentication> {
   Widget build(BuildContext context) {
     ScreenUtil.init(
       context,
-      width: 1440,
-      height: 2960,
+      designSize: Size(1440, 2960),
       allowFontScaling: true,
     );
 
     return Scaffold(
       backgroundColor: ColorConstant.primaryColor,
       body: Container(
-        height: ScreenUtil.screenHeight,
+        height: ScreenUtil().screenHeight,
         alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

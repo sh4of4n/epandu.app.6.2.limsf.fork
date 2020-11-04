@@ -44,7 +44,7 @@ class _EmergencyState extends State<Emergency> {
 
     // await location.getCurrentLocation();
 
-    LocationPermission geolocationStatus = await checkPermission();
+    LocationPermission geolocationStatus = await Geolocator.checkPermission();
 
     if (geolocationStatus == LocationPermission.whileInUse ||
         geolocationStatus == LocationPermission.always) {

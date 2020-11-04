@@ -18,21 +18,21 @@ class _AirtimeTransactionState extends State<AirtimeTransaction> {
   final TextEditingController _trxController = TextEditingController();
 
   final primaryColor = ColorConstant.primaryColor;
-  String _trx = '';
+  // String _trx = '';
   String _message = '';
 
   @override
   void initState() {
     super.initState();
 
-    _trxController.addListener(_trxValue);
+    // _trxController.addListener(_trxValue);
   }
 
-  _trxValue() {
-    setState(() {
-      _trx = _trxController.text;
-    });
-  }
+  // _trxValue() {
+  //   setState(() {
+  //     _trx = _trxController.text;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
