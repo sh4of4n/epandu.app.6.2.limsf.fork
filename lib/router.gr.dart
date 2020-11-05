@@ -48,6 +48,9 @@ class Routes {
   static const String diEnrollment = '/di-enrollment';
   static const String packageDetail = '/package-detail';
   static const String enrollConfirmation = '/enroll-confirmation';
+  static const String orderList = '/order-list';
+  static const String bankList = '/bank-list';
+  static const String paymentStatus = '/payment-status';
   static const String kppCategory = '/kpp-category';
   static const String kppResult = '/kpp-result';
   static const String kppExam = '/kpp-exam';
@@ -103,6 +106,9 @@ class Routes {
     diEnrollment,
     packageDetail,
     enrollConfirmation,
+    orderList,
+    bankList,
+    paymentStatus,
     kppCategory,
     kppResult,
     kppExam,
@@ -164,6 +170,9 @@ class Router extends RouterBase {
     RouteDef(Routes.diEnrollment, page: DiEnrollment),
     RouteDef(Routes.packageDetail, page: PackageDetail),
     RouteDef(Routes.enrollConfirmation, page: EnrollConfirmation),
+    RouteDef(Routes.orderList, page: OrderList),
+    RouteDef(Routes.bankList, page: BankList),
+    RouteDef(Routes.paymentStatus, page: PaymentStatus),
     RouteDef(Routes.kppCategory, page: KppCategory),
     RouteDef(Routes.kppResult, page: KppResult),
     RouteDef(Routes.kppExam, page: KppExam),
@@ -306,11 +315,40 @@ class Router extends RouterBase {
       );
       return MaterialPageRoute<dynamic>(
         builder: (context) => EnrollConfirmation(
-          merchantNo: args.merchantNo,
           packageCode: args.packageCode,
-          prodDesc: args.prodDesc,
-          price: args.price,
+          packageDesc: args.packageDesc,
         ),
+        settings: data,
+      );
+    },
+    OrderList: (data) {
+      final args = data.getArgs<OrderListArguments>(
+        orElse: () => OrderListArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => OrderList(icNo: args.icNo),
+        settings: data,
+      );
+    },
+    BankList: (data) {
+      final args = data.getArgs<BankListArguments>(
+        orElse: () => BankListArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => BankList(
+          icNo: args.icNo,
+          docDoc: args.docDoc,
+          docRef: args.docRef,
+        ),
+        settings: data,
+      );
+    },
+    PaymentStatus: (data) {
+      final args = data.getArgs<PaymentStatusArguments>(
+        orElse: () => PaymentStatusArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => PaymentStatus(icNo: args.icNo),
         settings: data,
       );
     },
@@ -576,7 +614,10 @@ class Router extends RouterBase {
     Webview: (data) {
       final args = data.getArgs<WebviewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => Webview(url: args.url),
+        builder: (context) => Webview(
+          url: args.url,
+          backType: args.backType,
+        ),
         settings: data,
       );
     },
@@ -633,12 +674,29 @@ class PackageDetailArguments {
 
 /// EnrollConfirmation arguments holder class
 class EnrollConfirmationArguments {
-  final String merchantNo;
   final String packageCode;
-  final String prodDesc;
-  final String price;
-  EnrollConfirmationArguments(
-      {this.merchantNo, this.packageCode, this.prodDesc, this.price});
+  final String packageDesc;
+  EnrollConfirmationArguments({this.packageCode, this.packageDesc});
+}
+
+/// OrderList arguments holder class
+class OrderListArguments {
+  final String icNo;
+  OrderListArguments({this.icNo});
+}
+
+/// BankList arguments holder class
+class BankListArguments {
+  final String icNo;
+  final String docDoc;
+  final String docRef;
+  BankListArguments({this.icNo, this.docDoc, this.docRef});
+}
+
+/// PaymentStatus arguments holder class
+class PaymentStatusArguments {
+  final String icNo;
+  PaymentStatusArguments({this.icNo});
 }
 
 /// KppResult arguments holder class
@@ -772,5 +830,6 @@ class MerchantListArguments {
 /// Webview arguments holder class
 class WebviewArguments {
   final String url;
-  WebviewArguments({@required this.url});
+  final String backType;
+  WebviewArguments({@required this.url, this.backType});
 }

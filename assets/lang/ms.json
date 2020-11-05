@@ -193,7 +193,8 @@
   "client_acc_desc": "Mod akaun ID diaktifkan.",
   "logout_lbl": "Log keluar",
   "confirm_lbl": "Sahkan",
-  "confirm_log_out": "Adakah andi pasti untuk log keluar?",
+  "confirm_log_out": "Adakah anda pasti untuk log keluar?",
+  "confirm_back": "Adakah anda pasti mahu kembali?",
   "yes_lbl": "Ya",
   "no_lbl": "Tidak",
   "change_password_title": "Tukar kata laluan",
@@ -242,6 +243,7 @@
   "invite_btn": "JEMPUT",
   "cancel_btn": "KEMBALI",
   "back_btn": "KEMBALI",
+  "done_btn": "KEMBALI",
   "timeout_exception": "Data mengambil masa terlalu lama untuk dimuatkan, sila cuba lagi.",
   "socket_exception": "Sila periksa internet anda.",
   "http_exception": "Kesalahan sistem, sila cuba sebentar lagi.",
@@ -332,7 +334,9 @@
   "get_package_fail": "Gagal memuatkan pakej, sila cuba sebentar lagi.",
   "get_package_detail_fail": "Gagal memuatkan butiran pakej, sila cuba sebentar lagi.",
   "create_order_fail": "Gagal membuat pesanan. Sila cuba sebentar lagi.",
+  "get_order_list_fail": "Gagal mendapatkan senarai pesanan anda. Sila cuba sebentar lagi.",
   "get_bank_list_fail": "Gagal mendapatkan senarai bank. Sila cuba sebentar lagi.",
+  "get_payment_status_fail": "Gagal mendapatkan status bayaran. Sila cuba sebentar lagi.",
   "select_enrollment_package": "Pilih pakej pendaftaran",
   "institute_lbl": "Institusi",
   "package_lbl": "Pakej",
@@ -342,5 +346,7 @@
   "proceed": "Teruskan",
   "select_payment_method": "Pilih kaedah pembayaran",
   "complete_your_profile": "Lengkapkan profil anda untuk meneruskan pendaftaran.",
-  "select_bank": "Pilih bank anda"
+  "select_order": "Pilih pesanan anda",
+  "select_bank": "Pilih bank anda",
+  "payment_status": "Status bayaran"
 }

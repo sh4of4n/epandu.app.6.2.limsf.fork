@@ -194,6 +194,7 @@
   "logout_lbl": "Log out",
   "confirm_lbl": "Confirm",
   "confirm_log_out": "Are you sure you want to log out?",
+  "confirm_back": "Are you sure you want to go back?",
   "yes_lbl": "Yes",
   "no_lbl": "No",
   "change_password_title": "Change your password",
@@ -242,6 +243,7 @@
   "invite_btn": "INVITE",
   "cancel_btn": "CANCEL",
   "back_btn": "BACK",
+  "done_btn": "DONE",
   "timeout_exception": "Data took too long to load, please try again.",
   "socket_exception": "Please check your internet connection.",
   "http_exception": "Server error, we apologize for any inconvenience.",
@@ -332,7 +334,9 @@
   "get_package_fail": "Failed to load packages. Please try again later.",
   "get_package_detail_fail": "Failed to load package detail. Please try again later.",
   "create_order_fail": "Failed to create order. Please try again later.",
+  "get_order_list_fail": "Failed to retrieve order list. Please try again later.",
   "get_bank_list_fail": "Failed to retrieve bank list. Please try again later.",
+  "get_payment_status_fail": "Failed to retrieve payment status. Please try again later.",
   "select_enrollment_package": "Select enrollment package",
   "institute_lbl": "Institute",
   "package_lbl": "Package",
@@ -342,5 +346,7 @@
   "proceed": "Proceed",
   "select_payment_method": "Select payment method",
   "complete_your_profile": "Complete your profile to proceed with enrollment.",
-  "select_bank": "Select your bank"
+  "select_order": "Select your order",
+  "select_bank": "Select your bank",
+  "payment_status": "Payment status"
 }

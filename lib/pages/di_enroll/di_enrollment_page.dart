@@ -111,8 +111,8 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                               horizontal: 200.w, vertical: 70.h),
                           child: InkWell(
                             onTap: () => ExtendedNavigator.of(context).push(
-                              Routes.packageDetail,
-                              arguments: PackageDetailArguments(
+                              Routes.enrollConfirmation,
+                              arguments: EnrollConfirmationArguments(
                                 packageCode: snapshot.data[index].packageCode,
                                 packageDesc: snapshot.data[index].packageDesc,
                               ),

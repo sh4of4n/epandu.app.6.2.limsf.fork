@@ -1,8 +1,8 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:epandu/router.gr.dart';
+// import 'package:auto_route/auto_route.dart';
+// import 'package:epandu/router.gr.dart';
 import 'package:epandu/services/repository/auth_repository.dart';
 import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/custom_button.dart';
+// import 'package:epandu/utils/custom_button.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -103,7 +103,7 @@ class _PackageDetailState extends State<PackageDetail> {
                         Text(snapshot.data[0].prodDesc),
                       Text('RM' + snapshot.data[0].amt),
                       SizedBox(height: 50.h),
-                      CustomButton(
+                      /* CustomButton(
                         onPressed: () => ExtendedNavigator.of(context).push(
                           Routes.enrollConfirmation,
                           arguments: EnrollConfirmationArguments(
@@ -116,7 +116,7 @@ class _PackageDetailState extends State<PackageDetail> {
                         buttonColor: Color(0xffdd0e0e),
                         title:
                             AppLocalizations.of(context).translate('proceed'),
-                      )
+                      ) */
                     ],
                   ),
                 ),

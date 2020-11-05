@@ -2,40 +2,104 @@ import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:auto_route/auto_route.dart';
-import 'package:epandu/services/api/model/provider_model.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/custom_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:provider/provider.dart';
+import 'package:epandu/services/api/model/provider_model.dart';
 
-class Webview extends StatelessWidget {
+import '../../app_localizations.dart';
+import '../../router.gr.dart';
+import 'navigation_controls.dart';
+
+class Webview extends StatefulWidget {
   final String url;
+  final String backType;
 
-  Webview({@required this.url});
+  Webview({@required this.url, this.backType});
 
+  @override
+  _WebviewState createState() => _WebviewState();
+}
+
+WebViewController controllerGlobal;
+
+Future<bool> _onWillPop({context, backType, customDialog}) async {
+  // Provider.of<CallStatusModel>(context, listen: false).callStatus(false);
+  if (backType == 'NORMAL') {
+    ExtendedNavigator.of(context).pop();
+
+    return true;
+  } else {
+    if (await controllerGlobal.canGoBack()) {
+      controllerGlobal.goBack();
+    } else {
+      customDialog.show(
+        context: context,
+        content: AppLocalizations.of(context).translate('confirm_back'),
+        customActions: <Widget>[
+          FlatButton(
+              child: Text(AppLocalizations.of(context).translate('yes_lbl')),
+              onPressed: () {
+                Provider.of<CallStatusModel>(context, listen: false)
+                    .callStatus(false);
+                ExtendedNavigator.of(context).pop();
+                ExtendedNavigator.of(context).pop();
+                /* ExtendedNavigator.of(context).popUntil(
+                  ModalRoute.withName(Routes.home),
+                ); */
+              }),
+          FlatButton(
+            child: Text(AppLocalizations.of(context).translate('no_lbl')),
+            onPressed: () {
+              ExtendedNavigator.of(context).pop();
+            },
+          ),
+        ],
+        type: DialogType.GENERAL,
+      );
+    }
+
+    return Future.value(false);
+  }
+}
+
+class _WebviewState extends State<Webview> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
-
   final myImage = ImagesConstant();
+  final customDialog = CustomDialog();
 
-  Future<bool> _onWillPop() async {
-    // Provider.of<CallStatusModel>(context, listen: false).callStatus(false);
-
-    return false;
+  getBackType() {
+    if (widget.backType == 'NORMAL') {
+      return IconButton(
+        icon: Platform.isIOS
+            ? const Icon(Icons.arrow_back_ios)
+            : const Icon(Icons.arrow_back),
+        onPressed: () => ExtendedNavigator.of(context).pop(),
+      );
+    } else {
+      return NavigationControls(
+        webViewControllerFuture: _controller.future,
+        type: 'BACK',
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: _onWillPop,
+      onWillPop: () => _onWillPop(
+        context: context,
+        backType: widget.backType,
+        customDialog: customDialog,
+      ),
       child: Scaffold(
         appBar: AppBar(
-          leading: NavigationControls(
-            webViewControllerFuture: _controller.future,
-            type: 'BACK',
-          ),
+          leading: getBackType(),
           title: FadeInImage(
             alignment: Alignment.center,
             height: 110.h,
@@ -50,7 +114,7 @@ class Webview extends StatelessWidget {
           ],
         ),
         body: WebView(
-          initialUrl: url,
+          initialUrl: widget.url,
           javascriptMode: JavascriptMode.unrestricted,
           onWebViewCreated: (WebViewController webViewController) {
             _controller.complete(webViewController);
@@ -87,87 +151,5 @@ class Webview extends StatelessWidget {
             SnackBar(content: Text(message.message)),
           );
         });
-  }
-}
-
-class NavigationControls extends StatelessWidget {
-  final type;
-
-  const NavigationControls({this.webViewControllerFuture, this.type})
-      : assert(webViewControllerFuture != null);
-
-  final Future<WebViewController> webViewControllerFuture;
-
-  backButton(context, webViewReady, controller) async {
-    if (!webViewReady)
-      return null;
-    else {
-      if (await controller.canGoBack()) {
-        await controller.goBack();
-      } else {
-        Provider.of<CallStatusModel>(context, listen: false).callStatus(false);
-        ExtendedNavigator.of(context).pop();
-        // return;
-      }
-    }
-  }
-
-  // onWillPop(context, controller) async {
-  //   if (await controller.canGoBack()) {
-  //     await controller.goBack();
-  //   } else {
-  //     Provider.of<CallStatusModel>(context, listen: false).callStatus(false);
-  //     ExtendedNavigator.of(context).pop();
-  //     // return;
-  //   }
-  // }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<WebViewController>(
-      future: webViewControllerFuture,
-      builder:
-          (BuildContext context, AsyncSnapshot<WebViewController> snapshot) {
-        final bool webViewReady =
-            snapshot.connectionState == ConnectionState.done;
-        final WebViewController controller = snapshot.data;
-        return Row(
-          children: <Widget>[
-            if (type == 'BACK')
-              IconButton(
-                icon: Platform.isIOS
-                    ? const Icon(Icons.arrow_back_ios)
-                    : const Icon(Icons.arrow_back),
-                onPressed: () => backButton(context, webViewReady, controller),
-              ),
-            /* IconButton(
-              icon: const Icon(Icons.arrow_forward_ios),
-              onPressed: !webViewReady
-                  ? null
-                  : () async {
-                      if (await controller.canGoForward()) {
-                        await controller.goForward();
-                      } else {
-                        Scaffold.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text("No forward history item")),
-                        );
-                        return;
-                      }
-                    },
-            ), */
-            if (type == 'RELOAD')
-              IconButton(
-                icon: const Icon(Icons.replay),
-                onPressed: !webViewReady
-                    ? null
-                    : () {
-                        controller.reload();
-                      },
-              ),
-          ],
-        );
-      },
-    );
   }
 }

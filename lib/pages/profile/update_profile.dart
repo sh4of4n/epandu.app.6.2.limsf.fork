@@ -882,7 +882,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         context: context,
         name: _name.isNotEmpty ? _name : _getName,
         email: _email.isNotEmpty ? _email : _getEmail,
-        icNo: _ic.isNotEmpty ? _ic : _getUserIc,
+        icNo: _ic.isNotEmpty ? _ic.replaceAll('-', '') : _getUserIc,
         dateOfBirthString: _dob.isNotEmpty ? _dob : _getBirthDate,
         gender: _genderValue,
         nickName: _nickName.isNotEmpty ? _nickName : _getNickName,

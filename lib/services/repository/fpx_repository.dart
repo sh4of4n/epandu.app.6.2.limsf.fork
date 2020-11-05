@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:epandu/services/api/model/fpx_model.dart';
 import 'package:epandu/services/api/networking.dart';
@@ -25,21 +26,33 @@ class FpxRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
     String userId = await localStorage.getUserId();
+    String diCode = await localStorage.getMerchantDbCode();
 
-    String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&userId=$userId&icNo=$icNo&packageCode=$packageCode';
-
-    var response = await networking.getData(
-      path: 'CreateOrder?$path',
+    CreateOrderRequest createOrderRequest = CreateOrderRequest(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      diCode: diCode,
+      userId: userId,
+      icNo: icNo,
+      packageCode: packageCode,
     );
 
-    if (response.isSuccess && response.data != null) {
-      /*  CreateOrderResponse createOrderResponse =
-          CreateOrderResponse.fromJson(response.data);
-      var responseData = createOrderResponse.response;
+    String body = jsonEncode(createOrderRequest);
+    String api = 'CreateOrder';
+    Map<String, String> headers = {'Content-Type': 'application/json'};
 
-      return Response(true, data: responseData); */
-      print(response.data);
+    var response =
+        await networking.postData(api: api, body: body, headers: headers);
+
+    if (response.isSuccess &&
+        response.data != null &&
+        response.data != 'null') {
+      CreateOrderResponse createOrderResponse =
+          CreateOrderResponse.fromJson(response.data);
+      var responseData = createOrderResponse.slsTrn;
+
+      return Response(true, data: responseData);
     } else if (response.message != null &&
         response.message.contains('timeout')) {
       return Response(false,
@@ -63,7 +76,6 @@ class FpxRepo {
 
   Future<Response> getOrderListByIcNo({
     @required context,
-    @required diCode,
     @required icNo,
     @required startIndex,
     @required noOfRecords,
@@ -71,21 +83,21 @@ class FpxRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
     String userId = await localStorage.getUserId();
+    String diCode = await localStorage.getMerchantDbCode();
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&userId=$userId&icNo=$icNo&startIndex=$startIndex&noOfRecords=$noOfRecords';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&userId=$userId&icNo=$icNo&startIndex=$startIndex&noOfRecords=$noOfRecords';
 
     var response = await networking.getData(
       path: 'GetOrderListByIcNo?$path',
     );
 
     if (response.isSuccess && response.data != null) {
-      /*  CreateOrderResponse createOrderResponse =
-          CreateOrderResponse.fromJson(response.data);
-      var responseData = createOrderResponse.response;
+      GetOrderListByIcNoResponse getOrderListByIcNoResponse =
+          GetOrderListByIcNoResponse.fromJson(response.data);
+      var responseData = getOrderListByIcNoResponse.slsTrn;
 
-      return Response(true, data: responseData); */
-      print(response.data);
+      return Response(true, data: responseData);
     } else if (response.message != null &&
         response.message.contains('timeout')) {
       return Response(false,
@@ -150,7 +162,6 @@ class FpxRepo {
 
   Future<Response> fpxSendB2CAuthRequest({
     @required context,
-    @required diCode,
     @required docDoc,
     @required docRef,
     @required bankId,
@@ -160,6 +171,7 @@ class FpxRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
     String userId = await localStorage.getUserId();
+    String diCode = await localStorage.getMerchantDbCode();
 
     String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd' +
         '&diCode=$diCode&userId=$userId&icNo=$icNo&docDoc=$docDoc&docRef=$docRef&bankId=$bankId&callbackUrl=${callbackUrl ?? ''}';
@@ -169,12 +181,11 @@ class FpxRepo {
     );
 
     if (response.isSuccess && response.data != null) {
-      /*  GetPackageDetlListResponse getPackageDetlListResponse =
-          GetPackageDetlListResponse.fromJson(response.data);
-      var responseData = getPackageDetlListResponse.packageDetl;
+      FpxSendB2CAuthResponse fpxSendB2CAuthResponse =
+          FpxSendB2CAuthResponse.fromJson(response.data);
+      var responseData = fpxSendB2CAuthResponse.response;
 
-      return Response(true, data: responseData); */
-      print(response.data);
+      return Response(true, data: responseData);
     } else if (response.message != null &&
         response.message.contains('timeout')) {
       return Response(false,

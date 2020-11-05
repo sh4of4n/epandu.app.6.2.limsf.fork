@@ -14,16 +14,12 @@ import '../../app_localizations.dart';
 import '../../router.gr.dart';
 
 class EnrollConfirmation extends StatefulWidget {
-  final String merchantNo;
   final String packageCode;
-  final String prodDesc;
-  final String price;
+  final String packageDesc;
 
   EnrollConfirmation({
-    this.merchantNo,
     this.packageCode,
-    this.prodDesc,
-    this.price,
+    this.packageDesc,
   });
 
   @override
@@ -45,6 +41,8 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
   String _race = '';
   String _nationality = '';
   String _gender = '';
+
+  var packageDetlList;
 
   bool isLoading = false;
 
@@ -114,9 +112,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
       );
     }
 
-    setState(() {
-      isLoading = false;
-    });
+    getPackageDetlList();
   }
 
   _getUserInfo() async {
@@ -140,34 +136,29 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
     });
   }
 
-  /* getOnlinePaymentListByIcNo() async {
-    var result = await fpxRepo.getOnlinePaymentListByIcNo(
+  getPackageDetlList() async {
+    var diCode = await localStorage.getMerchantDbCode();
+
+    var result = await authRepo.getPackageDetlList(
       context: context,
-      icNo: _icNo,
-      startIndex: '-1',
-      noOfRecords: '-1',
+      diCode: diCode,
+      packageCode: widget.packageCode,
     );
 
     if (result.isSuccess) {
-      fpxSendB2CAuthRequest(onlinePaymentList: result.data);
+      setState(() {
+        packageDetlList = result.data;
+      });
+    } else {
+      setState(() {
+        packageDetlList = null;
+      });
     }
-  }  
 
-  fpxSendB2CAuthRequest({onlinePaymentList}) async {
-    var diCode = await localStorage.getMerchantDbCode();
-
-    var result = await fpxRepo.fpxSendB2CAuthRequest(
-      context: context,
-      diCode: diCode,
-      bankId: 'MBB0228',
-      icNo: _icNo,
-      docDoc: onlinePaymentList[0].docDoc,
-      docRef:
-          onlinePaymentList[0].docRef,
-    );
-
-    if (result.isSuccess) {}
-  } */
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   saveEnrollmentPackageWithParticular() async {
     setState(() {
@@ -182,7 +173,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
       icNo: _icNo,
       name: _name,
       email: _eMail,
-      packageCode: widget.packageCode,
+      packageCode: packageDetlList[0].packageCode,
       gender: _gender,
       dateOfBirthString: _birthDate,
       nationality: _nationality,
@@ -233,34 +224,40 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
   }
 
   createOrder() async {
+    ExtendedNavigator.of(context).pop();
+
+    setState(() {
+      isLoading = true;
+    });
+
     var diCode = await localStorage.getMerchantDbCode();
 
     var result = await fpxRepo.createOrder(
       context: context,
       diCode: diCode,
       icNo: _icNo,
-      packageCode: widget.packageCode,
+      packageCode: packageDetlList[0].packageCode,
     );
 
     if (result.isSuccess) {
-      getOrderListByIcNo(orderData: result.data);
+      ExtendedNavigator.of(context).push(
+        Routes.orderList,
+        arguments: OrderListArguments(
+          icNo: _icNo,
+        ),
+      );
+    } else {
+      customDialog.show(
+        context: context,
+        type: DialogType.ERROR,
+        content: result.message.toString(),
+        onPressed: () => ExtendedNavigator.of(context).pop(),
+      );
     }
-  }
 
-  getOrderListByIcNo({orderData}) async {
-    var diCode = await localStorage.getMerchantDbCode();
-
-    var result = await fpxRepo.getOrderListByIcNo(
-      context: context,
-      diCode: diCode,
-      icNo: _icNo,
-      startIndex: '-1',
-      noOfRecords: '-1',
-    );
-
-    if (result.isSuccess) {
-      print('success');
-    }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -294,45 +291,51 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                           Text(_name),
                         ],
                       ),
-                    if (widget.merchantNo != null)
+                    if (packageDetlList != null &&
+                        packageDetlList[0].merchantNo != null)
                       TableRow(
                         children: [
                           Text(AppLocalizations.of(context)
                               .translate('institute_lbl')),
-                          Text(widget.merchantNo),
+                          Text(packageDetlList[0].merchantNo),
                         ],
                       ),
-                    if (widget.packageCode != null)
+                    if (packageDetlList != null &&
+                        packageDetlList[0].packageCode != null)
                       TableRow(
                         children: [
                           Text(AppLocalizations.of(context)
                               .translate('package_lbl')),
-                          Text(widget.packageCode,
+                          Text(packageDetlList[0].packageCode,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               )),
                         ],
                       ),
-                    if (widget.prodDesc != null)
+                    if (packageDetlList != null &&
+                        packageDetlList[0].prodDesc != null)
                       TableRow(
                         children: [
                           Text(AppLocalizations.of(context)
                               .translate('description')),
-                          Text(widget.prodDesc),
+                          Text(packageDetlList[0].prodDesc),
                         ],
                       ),
-                    TableRow(
-                      children: [
-                        Text(AppLocalizations.of(context).translate('amount')),
-                        Text(
-                          'RM' + widget.price,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 56.sp,
+                    if (packageDetlList != null &&
+                        packageDetlList[0].amt != null)
+                      TableRow(
+                        children: [
+                          Text(
+                              AppLocalizations.of(context).translate('amount')),
+                          Text(
+                            'RM' + packageDetlList[0].amt,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 56.sp,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
                   ],
                 ),
               ),
