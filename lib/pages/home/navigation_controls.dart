@@ -10,12 +10,17 @@ import 'package:epandu/utils/custom_dialog.dart';
 
 import '../../app_localizations.dart';
 import '../../router.gr.dart';
+// import '../../router.gr.dart';
 
 class NavigationControls extends StatelessWidget {
   final type;
+  final backType;
 
-  const NavigationControls({this.webViewControllerFuture, this.type})
-      : assert(webViewControllerFuture != null);
+  const NavigationControls({
+    this.webViewControllerFuture,
+    this.type,
+    this.backType,
+  }) : assert(webViewControllerFuture != null);
 
   final Future<WebViewController> webViewControllerFuture;
 
@@ -25,9 +30,7 @@ class NavigationControls extends StatelessWidget {
     if (!webViewReady)
       return null;
     else {
-      if (await controller.canGoBack()) {
-        await controller.goBack();
-      } else {
+      if (backType == 'HOME') {
         customDialog.show(
           context: context,
           content: AppLocalizations.of(context).translate('confirm_back'),
@@ -37,11 +40,9 @@ class NavigationControls extends StatelessWidget {
                 onPressed: () {
                   Provider.of<CallStatusModel>(context, listen: false)
                       .callStatus(false);
-                  ExtendedNavigator.of(context).pop();
-                  ExtendedNavigator.of(context).pop();
-                  /* ExtendedNavigator.of(context).popUntil(
+                  ExtendedNavigator.of(context).popUntil(
                     ModalRoute.withName(Routes.home),
-                  ); */
+                  );
                 }),
             FlatButton(
               child: Text(AppLocalizations.of(context).translate('no_lbl')),
@@ -52,9 +53,40 @@ class NavigationControls extends StatelessWidget {
           ],
           type: DialogType.GENERAL,
         );
-        // Provider.of<CallStatusModel>(context, listen: false).callStatus(false);
-        // ExtendedNavigator.of(context).pop();
-        // return;
+      } else {
+        if (await controller.canGoBack()) {
+          await controller.goBack();
+        } else {
+          /* customDialog.show(
+            context: context,
+            content: AppLocalizations.of(context).translate('confirm_back'),
+            customActions: <Widget>[
+              FlatButton(
+                child: Text(AppLocalizations.of(context).translate('yes_lbl')),
+                onPressed: () {
+                  Provider.of<CallStatusModel>(context, listen: false)
+                      .callStatus(false);
+                  ExtendedNavigator.of(context).pop();
+                  ExtendedNavigator.of(context).pop();
+                  /* ExtendedNavigator.of(context).popUntil(
+                    ModalRoute.withName(Routes.home),
+                  ); */
+                },
+              ),
+              FlatButton(
+                child: Text(AppLocalizations.of(context).translate('no_lbl')),
+                onPressed: () {
+                  ExtendedNavigator.of(context).pop();
+                },
+              ),
+            ],
+            type: DialogType.GENERAL,
+          ); */
+          Provider.of<CallStatusModel>(context, listen: false)
+              .callStatus(false);
+          ExtendedNavigator.of(context).pop();
+          return;
+        }
       }
     }
   }

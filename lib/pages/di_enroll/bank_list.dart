@@ -60,7 +60,8 @@ class _BankListState extends State<BankList> {
 
     if (result.isSuccess) {
       ExtendedNavigator.of(context).push(Routes.webview,
-          arguments: WebviewArguments(url: result.data[0].responseData));
+          arguments: WebviewArguments(
+              url: result.data[0].responseData, backType: 'HOME'));
       /* launch(
         result.data[0].responseData,
         enableJavaScript: true,
@@ -125,9 +126,13 @@ class _BankListState extends State<BankList> {
                     itemCount: bankList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
-                        onTap: () =>
-                            fpxSendB2CAuthRequest(bankId: bankList[index]),
-                        title: Text(bankList[index]),
+                        onTap: () => fpxSendB2CAuthRequest(
+                            bankId: bankList[index]
+                                .replaceAll('A,', '')
+                                .replaceAll('B,', '')),
+                        title: Text(bankList[index]
+                            .replaceAll('A,', '')
+                            .replaceAll('B,', '')),
                       );
                     },
                   );

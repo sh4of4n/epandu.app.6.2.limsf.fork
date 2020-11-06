@@ -39,8 +39,9 @@ class _DiEnrollmentState extends State<DiEnrollment> {
       context: context,
       diCode: diCode,
       packageCodeJson: widget.packageCodeJson.isEmpty
-          ? '{"Package": [{"package_code": "A"},{"package_code": "B"}]}'
-          : widget.packageCodeJson,
+          ? Uri.encodeComponent(
+              '{"Package": [{"package_code": "A"},{"package_code": "B"}]}')
+          : Uri.encodeComponent(widget.packageCodeJson),
     );
 
     if (result.isSuccess) {

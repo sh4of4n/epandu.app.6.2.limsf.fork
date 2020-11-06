@@ -2,6 +2,7 @@ import 'package:app_settings/app_settings.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/api/model/provider_model.dart';
 import 'package:epandu/services/location.dart';
+import 'package:epandu/services/repository/fpx_repository.dart';
 import 'package:epandu/services/repository/profile_repository.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/custom_dialog.dart';
@@ -54,6 +55,7 @@ class _FeedsState extends State<Feeds> {
 
   final localStorage = LocalStorage();
   final profileRepo = ProfileRepo();
+  final fpxRepo = FpxRepo();
   final appConfig = AppConfig();
 
   _checkLocationPermission(feed, context) async {
@@ -295,6 +297,34 @@ class _FeedsState extends State<Feeds> {
     return '';
   }
 
+  getOnlinePaymentListByIcNo() async {
+    String icNo = await localStorage.getStudentIc();
+
+    var result = await fpxRepo.getOnlinePaymentListByIcNo(
+      context: context,
+      icNo: icNo ?? '',
+      startIndex: '-1',
+      noOfRecords: '-1',
+    );
+
+    if (result.isSuccess) {
+      return customDialog.show(
+        context: context,
+        title: AppLocalizations.of(context).translate('success'),
+        content:
+            'Paid Amount: ${result.data[0].paidAmt}\nTransaction status: ${result.data[0].status}',
+        customActions: <Widget>[
+          FlatButton(
+              child: Text(AppLocalizations.of(context).translate('ok_btn')),
+              onPressed: () {
+                ExtendedNavigator.of(context).pop();
+              }),
+        ],
+        type: DialogType.GENERAL,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -351,12 +381,15 @@ class _FeedsState extends State<Feeds> {
                                 String packageCodeJson = _getPackageCode(
                                     udf: item.udfReturnParameter);
 
-                                ExtendedNavigator.of(context).push(
-                                  Routes.diEnrollment,
-                                  arguments: DiEnrollmentArguments(
-                                      packageCodeJson: packageCodeJson
-                                          .replaceAll('&package=', '')),
-                                );
+                                ExtendedNavigator.of(context)
+                                    .push(
+                                      Routes.diEnrollment,
+                                      arguments: DiEnrollmentArguments(
+                                          packageCodeJson: packageCodeJson
+                                              .replaceAll('&package=', '')),
+                                    )
+                                    .then((value) =>
+                                        getOnlinePaymentListByIcNo());
                                 break;
                               case 'KPP':
                                 ExtendedNavigator.of(context)
@@ -499,12 +532,15 @@ class _FeedsState extends State<Feeds> {
                                 String packageCodeJson = _getPackageCode(
                                     udf: item.udfReturnParameter);
 
-                                ExtendedNavigator.of(context).push(
-                                  Routes.diEnrollment,
-                                  arguments: DiEnrollmentArguments(
-                                      packageCodeJson: packageCodeJson
-                                          .replaceAll('&package=', '')),
-                                );
+                                ExtendedNavigator.of(context)
+                                    .push(
+                                      Routes.diEnrollment,
+                                      arguments: DiEnrollmentArguments(
+                                          packageCodeJson: packageCodeJson
+                                              .replaceAll('&package=', '')),
+                                    )
+                                    .then((value) =>
+                                        getOnlinePaymentListByIcNo());
                                 break;
                               case 'KPP':
                                 ExtendedNavigator.of(context)

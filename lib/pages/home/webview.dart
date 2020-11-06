@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:epandu/services/api/model/provider_model.dart';
 
 import '../../app_localizations.dart';
+// import '../../router.gr.dart';
 import '../../router.gr.dart';
 import 'navigation_controls.dart';
 
@@ -29,42 +30,46 @@ WebViewController controllerGlobal;
 
 Future<bool> _onWillPop({context, backType, customDialog}) async {
   // Provider.of<CallStatusModel>(context, listen: false).callStatus(false);
-  if (backType == 'NORMAL') {
-    ExtendedNavigator.of(context).pop();
+  if (backType == 'HOME') {
+    _confirmBack(customDialog, context);
 
     return true;
   } else {
     if (await controllerGlobal.canGoBack()) {
       controllerGlobal.goBack();
     } else {
-      customDialog.show(
-        context: context,
-        content: AppLocalizations.of(context).translate('confirm_back'),
-        customActions: <Widget>[
-          FlatButton(
-              child: Text(AppLocalizations.of(context).translate('yes_lbl')),
-              onPressed: () {
-                Provider.of<CallStatusModel>(context, listen: false)
-                    .callStatus(false);
-                ExtendedNavigator.of(context).pop();
-                ExtendedNavigator.of(context).pop();
-                /* ExtendedNavigator.of(context).popUntil(
-                  ModalRoute.withName(Routes.home),
-                ); */
-              }),
-          FlatButton(
-            child: Text(AppLocalizations.of(context).translate('no_lbl')),
-            onPressed: () {
-              ExtendedNavigator.of(context).pop();
-            },
-          ),
-        ],
-        type: DialogType.GENERAL,
-      );
+      // _confirmBack(customDialog, context);
+      Provider.of<CallStatusModel>(context, listen: false).callStatus(false);
+      ExtendedNavigator.of(context).pop();
     }
 
     return Future.value(false);
   }
+}
+
+_confirmBack(customDialog, context) {
+  return customDialog.show(
+    context: context,
+    content: AppLocalizations.of(context).translate('confirm_back'),
+    customActions: <Widget>[
+      FlatButton(
+          child: Text(AppLocalizations.of(context).translate('yes_lbl')),
+          onPressed: () {
+            Provider.of<CallStatusModel>(context, listen: false)
+                .callStatus(false);
+            ExtendedNavigator.of(context).popUntil(
+              ModalRoute.withName(Routes.home),
+            );
+          }),
+      FlatButton(
+        child: Text(AppLocalizations.of(context).translate('no_lbl')),
+        onPressed: () {
+          ExtendedNavigator.of(context).pop();
+        },
+      ),
+    ],
+    type: DialogType.GENERAL,
+  );
 }
 
 class _WebviewState extends State<Webview> {
@@ -74,12 +79,14 @@ class _WebviewState extends State<Webview> {
   final customDialog = CustomDialog();
 
   getBackType() {
-    if (widget.backType == 'NORMAL') {
+    if (widget.backType == 'HOME') {
       return IconButton(
         icon: Platform.isIOS
             ? const Icon(Icons.arrow_back_ios)
             : const Icon(Icons.arrow_back),
-        onPressed: () => ExtendedNavigator.of(context).pop(),
+        onPressed: () {
+          _confirmBack(customDialog, context);
+        },
       );
     } else {
       return NavigationControls(

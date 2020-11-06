@@ -195,6 +195,7 @@
   "confirm_lbl": "Confirm",
   "confirm_log_out": "Are you sure you want to log out?",
   "confirm_back": "Are you sure you want to go back?",
+  "transaction_cancelled": "Your transaction will be cancelled.",
   "yes_lbl": "Yes",
   "no_lbl": "No",
   "change_password_title": "Change your password",
