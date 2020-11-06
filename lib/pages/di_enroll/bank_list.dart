@@ -120,20 +120,18 @@ class _BankListState extends State<BankList> {
                     );
                   }
 
-                  var bankList = snapshot.data[1].bankList.split('~');
+                  var bankList = snapshot.data[1].bankList.split(',');
 
                   return ListView.builder(
                     itemCount: bankList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        onTap: () => fpxSendB2CAuthRequest(
-                            bankId: bankList[index]
-                                .replaceAll('A,', '')
-                                .replaceAll('B,', '')),
-                        title: Text(bankList[index]
-                            .replaceAll('A,', '')
-                            .replaceAll('B,', '')),
-                      );
+                      return bankList[index].split('~')[3] == 'A'
+                          ? ListTile(
+                              onTap: () => fpxSendB2CAuthRequest(
+                                  bankId: bankList[index].split('~')[0]),
+                              title: Text(bankList[index].split('~')[2]),
+                            )
+                          : Container();
                     },
                   );
                 default:
