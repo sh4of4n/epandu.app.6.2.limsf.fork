@@ -349,5 +349,7 @@
   "complete_your_profile": "Lengkapkan profil anda untuk meneruskan pendaftaran.",
   "select_order": "Pilih pesanan anda",
   "select_bank": "Pilih bank anda",
-  "payment_status": "Status bayaran"
+  "payment_status": "Status bayaran",
+  "view_order": "Periksa pesanan",
+  "order_paid": "Pesanan ini sudah dibayar."
 }

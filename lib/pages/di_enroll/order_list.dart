@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/services/repository/fpx_repository.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -23,6 +24,7 @@ class _OrderListState extends State<OrderList> {
   final localStorage = LocalStorage();
   Future getOrderList;
   final primaryColor = ColorConstant.primaryColor;
+  final customDialog = CustomDialog();
 
   @override
   void initState() {
@@ -90,14 +92,24 @@ class _OrderListState extends State<OrderList> {
                     margin:
                         EdgeInsets.symmetric(horizontal: 40.w, vertical: 20.h),
                     child: InkWell(
-                      onTap: () => ExtendedNavigator.of(context).push(
-                        Routes.bankList,
-                        arguments: BankListArguments(
-                          icNo: widget.icNo,
-                          docDoc: snapshot.data[index].docDoc,
-                          docRef: snapshot.data[index].docRef,
-                        ),
-                      ),
+                      onTap: () {
+                        if (snapshot.data[index].trnStatus.toUpperCase() !=
+                            'PAID')
+                          ExtendedNavigator.of(context).push(
+                            Routes.bankList,
+                            arguments: BankListArguments(
+                              icNo: widget.icNo,
+                              docDoc: snapshot.data[index].docDoc,
+                              docRef: snapshot.data[index].docRef,
+                            ),
+                          );
+                        else
+                          customDialog.show(
+                              context: context,
+                              content: AppLocalizations.of(context)
+                                  .translate('order_paid'),
+                              type: DialogType.INFO);
+                      },
                       child: Card(
                         child: Padding(
                           padding: EdgeInsets.symmetric(
@@ -126,7 +138,11 @@ class _OrderListState extends State<OrderList> {
                               ),
                               TableRow(
                                 children: [
-                                  Text(''),
+                                  Text(
+                                      'Status: ${snapshot.data[index].trnStatus}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      )),
                                   Text(
                                     'Price: ' +
                                         snapshot.data[index].tlNettOrdAmt,

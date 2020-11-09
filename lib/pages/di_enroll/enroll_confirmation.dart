@@ -212,9 +212,15 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
     } else {
       customDialog.show(
         context: context,
-        type: DialogType.ERROR,
+        barrierDismissable: false,
+        type: DialogType.GENERAL,
         content: result.message.toString(),
-        onPressed: () => ExtendedNavigator.of(context).pop(),
+        customActions: [
+          FlatButton(
+            child: Text(AppLocalizations.of(context).translate('view_order')),
+            onPressed: createOrder,
+          ),
+        ],
       );
     }
 

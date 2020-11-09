@@ -349,5 +349,7 @@
   "complete_your_profile": "Complete your profile to proceed with enrollment.",
   "select_order": "Select your order",
   "select_bank": "Select your bank",
-  "payment_status": "Payment status"
+  "payment_status": "Payment status",
+  "view_order": "View order",
+  "order_paid": "This order is already paid."
 }
