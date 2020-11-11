@@ -300,143 +300,155 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
       ),
       body: Stack(
         children: [
-          Column(
-            children: [
-              Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: 100.w, vertical: 50.h),
-                child: Table(
-                  children: [
-                    if (_icNo != null)
-                      TableRow(
-                        children: [
-                          Text(
-                              AppLocalizations.of(context).translate('ic_lbl')),
-                          Text(_icNo),
-                        ],
-                      ),
-                    if (_name != null)
-                      TableRow(
-                        children: [
-                          Text(AppLocalizations.of(context)
-                              .translate('name_lbl')),
-                          Text(_name),
-                        ],
-                      ),
-                    if (packageDetlList != null &&
-                        packageDetlList[0].merchantNo != null)
-                      TableRow(
-                        children: [
-                          Text(AppLocalizations.of(context)
-                              .translate('institute_lbl')),
-                          Text(packageDetlList[0].merchantNo),
-                        ],
-                      ),
-                    if (packageDetlList != null &&
-                        packageDetlList[0].packageCode != null)
-                      TableRow(
-                        children: [
-                          Text(AppLocalizations.of(context)
-                              .translate('package_lbl')),
-                          Text(packageDetlList[0].packageCode,
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 100.w, vertical: 50.h),
+                  child: Table(
+                    children: [
+                      if (_icNo != null)
+                        TableRow(
+                          children: [
+                            Text(AppLocalizations.of(context)
+                                .translate('ic_lbl')),
+                            Text(_icNo),
+                          ],
+                        ),
+                      if (_name != null)
+                        TableRow(
+                          children: [
+                            Text(AppLocalizations.of(context)
+                                .translate('name_lbl')),
+                            Text(_name),
+                          ],
+                        ),
+                      if (packageDetlList != null &&
+                          packageDetlList[0].merchantNo != null)
+                        TableRow(
+                          children: [
+                            Text(AppLocalizations.of(context)
+                                .translate('institute_lbl')),
+                            Text(packageDetlList[0].merchantNo),
+                          ],
+                        ),
+                      if (packageDetlList != null &&
+                          packageDetlList[0].packageCode != null)
+                        TableRow(
+                          children: [
+                            Text(AppLocalizations.of(context)
+                                .translate('package_lbl')),
+                            Text(packageDetlList[0].packageCode,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                )),
+                          ],
+                        ),
+                      /* if (packageDetlList != null &&
+                          packageDetlList[0].prodDesc != null)
+                        TableRow(
+                          children: [
+                            Text(AppLocalizations.of(context)
+                                .translate('description')),
+                            Text(packageDetlList[0].prodDesc),
+                          ],
+                        ), */
+                      /* if (packageDetlList != null &&
+                          packageDetlList[0].amt != null)
+                        TableRow(
+                          children: [
+                            Text(AppLocalizations.of(context)
+                                .translate('amount')),
+                            Text(
+                              'RM' + packageDetlList[0].amt,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                              )),
-                        ],
-                      ),
-                    if (packageDetlList != null &&
-                        packageDetlList[0].prodDesc != null)
-                      TableRow(
-                        children: [
-                          Text(AppLocalizations.of(context)
-                              .translate('description')),
-                          Text(packageDetlList[0].prodDesc),
-                        ],
-                      ),
-                    if (packageDetlList != null &&
-                        packageDetlList[0].amt != null)
-                      TableRow(
-                        children: [
-                          Text(
-                              AppLocalizations.of(context).translate('amount')),
-                          Text(
-                            'RM' + packageDetlList[0].amt,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 56.sp,
+                                fontSize: 56.sp,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                  ],
+                          ],
+                        ), */
+                    ],
+                  ),
                 ),
-              ),
-              if (packageDetlList != null)
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 100.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                if (packageDetlList != null)
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 100.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)
+                              .translate('package_includes'),
+                          style: TextStyle(
+                              fontSize: 54.sp, fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(height: 20.h),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: packageDetlList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Table(
+                              children: [
+                                TableRow(
+                                  children: [
+                                    Text(
+                                        '${index + 1})  ${packageDetlList[index].prodDesc}'),
+                                    Text('RM' + packageDetlList[index].amt),
+                                  ],
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                SizedBox(height: 40.h),
+                Container(
+                  width: 1300.w,
+                  height: 1000.h,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                    color: Colors.grey,
+                    width: 1,
+                  )),
+                  child: ListView(
+                    shrinkWrap: true,
                     children: [
-                      Text(
-                        AppLocalizations.of(context)
-                            .translate('package_includes'),
-                        style: TextStyle(fontSize: 54.sp),
-                      ),
-                      SizedBox(height: 20.h),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: packageDetlList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Text(
-                              '${index + 1})  ${packageDetlList[index].prodDesc}');
-                        },
+                      Center(
+                        child: HtmlWidget(
+                          widget.termsAndCondition,
+                        ),
                       ),
                     ],
                   ),
                 ),
-              SizedBox(height: 40.h),
-              Container(
-                width: 1300.w,
-                height: 1000.h,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                  color: Colors.grey,
-                  width: 1,
-                )),
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    Center(
-                      child: HtmlWidget(
-                        widget.termsAndCondition,
-                      ),
-                    ),
-                  ],
+                LabeledCheckbox(
+                  label: AppLocalizations.of(context)
+                      .translate('terms_and_condition'),
+                  padding: EdgeInsets.symmetric(horizontal: 50.w),
+                  value: _isAgreed,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _isAgreed = value;
+                    });
+                  },
                 ),
-              ),
-              LabeledCheckbox(
-                label: AppLocalizations.of(context)
-                    .translate('terms_and_condition'),
-                padding: EdgeInsets.symmetric(horizontal: 50.w),
-                value: _isAgreed,
-                onChanged: (bool value) {
-                  setState(() {
-                    _isAgreed = value;
-                  });
-                },
-              ),
-              if (message.isNotEmpty)
-                Text(
-                  message,
-                  style: TextStyle(color: Colors.red),
+                if (message.isNotEmpty)
+                  Text(
+                    message,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                CustomButton(
+                  onPressed: saveEnrollmentPackageWithParticular,
+                  buttonColor: Color(0xffdd0e0e),
+                  title: AppLocalizations.of(context).translate('enroll_lbl'),
                 ),
-              CustomButton(
-                onPressed: saveEnrollmentPackageWithParticular,
-                buttonColor: Color(0xffdd0e0e),
-                title: AppLocalizations.of(context).translate('enroll_lbl'),
-              ),
-            ],
+              ],
+            ),
           ),
           LoadingModel(
             isVisible: isLoading,

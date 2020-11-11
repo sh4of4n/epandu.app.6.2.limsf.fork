@@ -279,20 +279,14 @@ class _FeedsState extends State<Feeds> {
 
   String _getPackageCode({udf}) {
     if (udf != null && udf.contains('package')) {
-      List<dynamic> udfParameters = udf.split(',');
-      String package = '';
+      int startIndex = udf.indexOf('{');
+      int endIndex = udf.indexOf(']}');
 
-      for (int i = 0; i < udfParameters.length; i += 1) {
-        if (udfParameters[i].contains('package')) {
-          setState(() {
-            package = udfParameters[i];
-          });
+      String packages = udf.substring(startIndex, endIndex);
 
-          break;
-        }
-      }
+      print(packages);
 
-      return '&package=$package';
+      return '&package=$packages';
     }
     return '';
   }
