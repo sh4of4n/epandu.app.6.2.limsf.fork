@@ -46,7 +46,6 @@ class Routes {
   static const String settings = '/Settings';
   static const String enrollment = '/Enrollment';
   static const String diEnrollment = '/di-enrollment';
-  static const String packageDetail = '/package-detail';
   static const String enrollConfirmation = '/enroll-confirmation';
   static const String orderList = '/order-list';
   static const String bankList = '/bank-list';
@@ -104,7 +103,6 @@ class Routes {
     settings,
     enrollment,
     diEnrollment,
-    packageDetail,
     enrollConfirmation,
     orderList,
     bankList,
@@ -168,7 +166,6 @@ class Router extends RouterBase {
     RouteDef(Routes.settings, page: Settings),
     RouteDef(Routes.enrollment, page: Enrollment),
     RouteDef(Routes.diEnrollment, page: DiEnrollment),
-    RouteDef(Routes.packageDetail, page: PackageDetail),
     RouteDef(Routes.enrollConfirmation, page: EnrollConfirmation),
     RouteDef(Routes.orderList, page: OrderList),
     RouteDef(Routes.bankList, page: BankList),
@@ -299,16 +296,6 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    PackageDetail: (data) {
-      final args = data.getArgs<PackageDetailArguments>(nullOk: false);
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => PackageDetail(
-          args.packageCode,
-          args.packageDesc,
-        ),
-        settings: data,
-      );
-    },
     EnrollConfirmation: (data) {
       final args = data.getArgs<EnrollConfirmationArguments>(
         orElse: () => EnrollConfirmationArguments(),
@@ -317,6 +304,7 @@ class Router extends RouterBase {
         builder: (context) => EnrollConfirmation(
           packageCode: args.packageCode,
           packageDesc: args.packageDesc,
+          termsAndCondition: args.termsAndCondition,
         ),
         settings: data,
       );
@@ -326,7 +314,10 @@ class Router extends RouterBase {
         orElse: () => OrderListArguments(),
       );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => OrderList(icNo: args.icNo),
+        builder: (context) => OrderList(
+          icNo: args.icNo,
+          packageCode: args.packageCode,
+        ),
         settings: data,
       );
     },
@@ -339,6 +330,7 @@ class Router extends RouterBase {
           icNo: args.icNo,
           docDoc: args.docDoc,
           docRef: args.docRef,
+          packageCode: args.packageCode,
         ),
         settings: data,
       );
@@ -664,25 +656,20 @@ class DiEnrollmentArguments {
   DiEnrollmentArguments({this.packageCodeJson});
 }
 
-/// PackageDetail arguments holder class
-class PackageDetailArguments {
-  final String packageCode;
-  final String packageDesc;
-  PackageDetailArguments(
-      {@required this.packageCode, @required this.packageDesc});
-}
-
 /// EnrollConfirmation arguments holder class
 class EnrollConfirmationArguments {
   final String packageCode;
   final String packageDesc;
-  EnrollConfirmationArguments({this.packageCode, this.packageDesc});
+  final String termsAndCondition;
+  EnrollConfirmationArguments(
+      {this.packageCode, this.packageDesc, this.termsAndCondition});
 }
 
 /// OrderList arguments holder class
 class OrderListArguments {
   final String icNo;
-  OrderListArguments({this.icNo});
+  final String packageCode;
+  OrderListArguments({this.icNo, this.packageCode});
 }
 
 /// BankList arguments holder class
@@ -690,7 +677,8 @@ class BankListArguments {
   final String icNo;
   final String docDoc;
   final String docRef;
-  BankListArguments({this.icNo, this.docDoc, this.docRef});
+  final String packageCode;
+  BankListArguments({this.icNo, this.docDoc, this.docRef, this.packageCode});
 }
 
 /// PaymentStatus arguments holder class

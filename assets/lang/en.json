@@ -351,5 +351,8 @@
   "select_bank": "Select your bank",
   "payment_status": "Payment status",
   "view_order": "View order",
-  "order_paid": "This order is already paid."
+  "order_paid": "This order is already paid.",
+  "terms_and_condition": "Agree to ePandu's Terms & Conditions",
+  "agree_to_terms_and_condition": "Please agree to the Terms & Conditions.",
+  "package_includes": "Package Includes"
 }

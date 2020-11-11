@@ -14,8 +14,14 @@ class BankList extends StatefulWidget {
   final String icNo;
   final String docDoc;
   final String docRef;
+  final String packageCode;
 
-  BankList({this.icNo, this.docDoc, this.docRef});
+  BankList({
+    this.icNo,
+    this.docDoc,
+    this.docRef,
+    this.packageCode,
+  });
 
   @override
   _BankListState createState() => _BankListState();
@@ -46,6 +52,8 @@ class _BankListState extends State<BankList> {
   }
 
   fpxSendB2CAuthRequest({bankId}) async {
+    String userId = await localStorage.getUserId();
+
     setState(() {
       isLoading = true;
     });
@@ -56,6 +64,8 @@ class _BankListState extends State<BankList> {
       icNo: widget.icNo,
       docDoc: widget.docDoc,
       docRef: widget.docRef,
+      callbackUrl: 'https://epandu.com/ePandu.Web2/DEVP/1_1/#/merchant-receipt?' +
+          'diCode=&docDoc=${widget.docDoc}&docRef=${widget.docRef}&icNo=${widget.icNo}&packageCode=${widget.packageCode}&bankId=${Uri.encodeComponent(bankId)}&userId=$userId',
     );
 
     if (result.isSuccess) {

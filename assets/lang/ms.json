@@ -351,5 +351,8 @@
   "select_bank": "Pilih bank anda",
   "payment_status": "Status bayaran",
   "view_order": "Periksa pesanan",
-  "order_paid": "Pesanan ini sudah dibayar."
+  "order_paid": "Pesanan ini sudah dibayar.",
+  "terms_and_condition": "Bersetuju dengan Terma & Syarat ePandu",
+  "agree_to_terms_and_condition": "Sila bersetuju dengan Terma & Syarat.",
+  "package_includes": "Pakej Termasuk"
 }

@@ -172,9 +172,10 @@ class FpxRepo {
     String caPwd = await localStorage.getCaPwdEncode();
     String userId = await localStorage.getUserId();
     String diCode = await localStorage.getMerchantDbCode();
+    String email = await localStorage.getEmail();
 
     String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd' +
-        '&diCode=$diCode&userId=$userId&icNo=$icNo&docDoc=$docDoc&docRef=$docRef&bankId=$bankId&callbackUrl=${callbackUrl ?? ''}';
+        '&diCode=$diCode&userId=$userId&icNo=$icNo&docDoc=$docDoc&docRef=$docRef&email=$email&bankId=$bankId&callbackUrl=${callbackUrl ?? ''}';
 
     var response = await networking.getData(
       path: 'FPX_SendB2CAuthRequest?$path',

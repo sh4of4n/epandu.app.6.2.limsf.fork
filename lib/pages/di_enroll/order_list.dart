@@ -12,8 +12,9 @@ import '../../router.gr.dart';
 
 class OrderList extends StatefulWidget {
   final String icNo;
+  final String packageCode;
 
-  OrderList({this.icNo});
+  OrderList({this.icNo, this.packageCode});
 
   @override
   _OrderListState createState() => _OrderListState();
@@ -101,6 +102,7 @@ class _OrderListState extends State<OrderList> {
                               icNo: widget.icNo,
                               docDoc: snapshot.data[index].docDoc,
                               docRef: snapshot.data[index].docRef,
+                              packageCode: widget.packageCode,
                             ),
                           );
                         else

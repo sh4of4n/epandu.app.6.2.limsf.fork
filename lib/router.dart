@@ -38,7 +38,6 @@ import 'pages/settings/settings.dart';
     MaterialRoute(page: Settings),
     MaterialRoute(page: Enrollment),
     MaterialRoute(page: DiEnrollment),
-    MaterialRoute(page: PackageDetail),
     MaterialRoute(page: EnrollConfirmation),
     MaterialRoute(page: OrderList),
     MaterialRoute(page: BankList),

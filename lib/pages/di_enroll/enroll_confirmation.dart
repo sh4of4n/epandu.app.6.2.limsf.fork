@@ -12,14 +12,17 @@ import 'package:epandu/services/repository/fpx_repository.dart';
 
 import '../../app_localizations.dart';
 import '../../router.gr.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class EnrollConfirmation extends StatefulWidget {
   final String packageCode;
   final String packageDesc;
+  final String termsAndCondition;
 
   EnrollConfirmation({
     this.packageCode,
     this.packageDesc,
+    this.termsAndCondition,
   });
 
   @override
@@ -45,6 +48,8 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
   var packageDetlList;
 
   bool isLoading = false;
+  bool _isAgreed = false;
+  String message = '';
 
   @override
   void initState() {
@@ -93,6 +98,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
     if (_icNo == null ||
         _birthDate == null ||
         _race == null ||
+        _eMail == null ||
         _gender == null) {
       customDialog.show(
         context: context,
@@ -161,72 +167,80 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
   }
 
   saveEnrollmentPackageWithParticular() async {
-    setState(() {
-      isLoading = true;
-    });
+    if (_isAgreed) {
+      setState(() {
+        message = '';
+        isLoading = true;
+      });
 
-    var diCode = await localStorage.getMerchantDbCode();
+      var diCode = await localStorage.getMerchantDbCode();
 
-    var result = await authRepo.saveEnrollmentPackageWithParticular(
-      context: context,
-      diCode: diCode,
-      icNo: _icNo,
-      name: _name,
-      email: _eMail,
-      packageCode: packageDetlList[0].packageCode,
-      gender: _gender,
-      dateOfBirthString: _birthDate,
-      nationality: _nationality,
-      race: _race,
-      userProfileImageBase64String: "",
-    );
-
-    if (result.isSuccess) {
-      customDialog.show(
+      var result = await authRepo.saveEnrollmentPackageWithParticular(
         context: context,
-        barrierDismissable: false,
-        title: Center(
-          child: Icon(
-            Icons.check_circle_outline,
-            size: 120,
-            color: Colors.green,
-          ),
-        ),
-        content:
-            AppLocalizations.of(context).translate('select_payment_method'),
-        type: DialogType.GENERAL,
-        customActions: <Widget>[
-          FlatButton(
-            child: Text(
-                AppLocalizations.of(context).translate('pay_at_institute')),
-            onPressed: () => ExtendedNavigator.of(context).popUntil(
-              ModalRoute.withName(Routes.home),
+        diCode: diCode,
+        icNo: _icNo,
+        name: _name,
+        email: _eMail,
+        packageCode: packageDetlList[0].packageCode,
+        gender: _gender,
+        dateOfBirthString: _birthDate,
+        nationality: _nationality,
+        race: _race,
+        userProfileImageBase64String: "",
+      );
+
+      if (result.isSuccess) {
+        customDialog.show(
+          context: context,
+          barrierDismissable: false,
+          title: Center(
+            child: Icon(
+              Icons.check_circle_outline,
+              size: 120,
+              color: Colors.green,
             ),
           ),
-          FlatButton(
-            child: Text(AppLocalizations.of(context).translate('pay_online')),
-            onPressed: createOrder,
-          ),
-        ],
-      );
-    } else {
-      customDialog.show(
-        context: context,
-        barrierDismissable: false,
-        type: DialogType.GENERAL,
-        content: result.message.toString(),
-        customActions: [
-          FlatButton(
-            child: Text(AppLocalizations.of(context).translate('view_order')),
-            onPressed: createOrder,
-          ),
-        ],
-      );
-    }
+          content:
+              AppLocalizations.of(context).translate('select_payment_method'),
+          type: DialogType.GENERAL,
+          customActions: <Widget>[
+            FlatButton(
+              child: Text(
+                  AppLocalizations.of(context).translate('pay_at_institute')),
+              onPressed: () => ExtendedNavigator.of(context).popUntil(
+                ModalRoute.withName(Routes.home),
+              ),
+            ),
+            FlatButton(
+              child: Text(AppLocalizations.of(context).translate('pay_online')),
+              onPressed: createOrder,
+            ),
+          ],
+        );
+      } else {
+        customDialog.show(
+          context: context,
+          barrierDismissable: false,
+          type: DialogType.GENERAL,
+          content: result.message.toString(),
+          customActions: [
+            FlatButton(
+              child: Text(AppLocalizations.of(context).translate('view_order')),
+              onPressed: createOrder,
+            ),
+          ],
+        );
+      }
 
-    setState(() {
-      isLoading = false;
-    });
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        message = AppLocalizations.of(context)
+            .translate('agree_to_terms_and_condition');
+      });
+    }
   }
 
   createOrder() async {
@@ -250,6 +264,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
         Routes.orderList,
         arguments: OrderListArguments(
           icNo: _icNo,
+          packageCode: packageDetlList[0].packageCode,
         ),
       );
     } else {
@@ -273,6 +288,15 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
         title: Text(
           AppLocalizations.of(context).translate('enroll_lbl'),
         ),
+        actions: [
+          IconButton(
+            onPressed: () => ExtendedNavigator.of(context).pushAndRemoveUntil(
+              Routes.updateProfile,
+              ModalRoute.withName(Routes.home),
+            ),
+            icon: Icon(Icons.edit),
+          ),
+        ],
       ),
       body: Stack(
         children: [
@@ -286,14 +310,16 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                     if (_icNo != null)
                       TableRow(
                         children: [
-                          Text('IC'),
+                          Text(
+                              AppLocalizations.of(context).translate('ic_lbl')),
                           Text(_icNo),
                         ],
                       ),
                     if (_name != null)
                       TableRow(
                         children: [
-                          Text('Name'),
+                          Text(AppLocalizations.of(context)
+                              .translate('name_lbl')),
                           Text(_name),
                         ],
                       ),
@@ -345,6 +371,31 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                   ],
                 ),
               ),
+              if (packageDetlList != null)
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 100.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)
+                            .translate('package_includes'),
+                        style: TextStyle(fontSize: 54.sp),
+                      ),
+                      SizedBox(height: 20.h),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: packageDetlList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Text(
+                              '${index + 1})  ${packageDetlList[index].prodDesc}');
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              SizedBox(height: 40.h),
               Container(
                 width: 1300.w,
                 height: 1000.h,
@@ -356,11 +407,30 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                 child: ListView(
                   shrinkWrap: true,
                   children: [
-                    Center(child: Text('Terms & Conditions here')),
+                    Center(
+                      child: HtmlWidget(
+                        widget.termsAndCondition,
+                      ),
+                    ),
                   ],
                 ),
               ),
-              SizedBox(height: 40.h),
+              LabeledCheckbox(
+                label: AppLocalizations.of(context)
+                    .translate('terms_and_condition'),
+                padding: EdgeInsets.symmetric(horizontal: 50.w),
+                value: _isAgreed,
+                onChanged: (bool value) {
+                  setState(() {
+                    _isAgreed = value;
+                  });
+                },
+              ),
+              if (message.isNotEmpty)
+                Text(
+                  message,
+                  style: TextStyle(color: Colors.red),
+                ),
               CustomButton(
                 onPressed: saveEnrollmentPackageWithParticular,
                 buttonColor: Color(0xffdd0e0e),
@@ -372,6 +442,43 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
             isVisible: isLoading,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class LabeledCheckbox extends StatelessWidget {
+  const LabeledCheckbox({
+    this.label,
+    this.padding,
+    this.value,
+    this.onChanged,
+  });
+
+  final String label;
+  final EdgeInsets padding;
+  final bool value;
+  final Function onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        onChanged(!value);
+      },
+      child: Padding(
+        padding: padding,
+        child: Row(
+          children: <Widget>[
+            Checkbox(
+              value: value,
+              onChanged: (bool newValue) {
+                onChanged(newValue);
+              },
+            ),
+            Expanded(child: Text(label)),
+          ],
+        ),
       ),
     );
   }
