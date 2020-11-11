@@ -418,9 +418,13 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                   child: ListView(
                     shrinkWrap: true,
                     children: [
-                      Center(
-                        child: HtmlWidget(
-                          widget.termsAndCondition,
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 20.w, vertical: 20.h),
+                        child: Center(
+                          child: HtmlWidget(
+                            widget.termsAndCondition,
+                          ),
                         ),
                       ),
                     ],
