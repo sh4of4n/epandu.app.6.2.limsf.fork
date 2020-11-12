@@ -1549,7 +1549,7 @@ class AuthRepo {
     }
 
     return Response(false,
-        message: AppLocalizations.of(context).translate('get_package_fail'));
+        message: AppLocalizations.of(context).translate('no_records_found'));
   }
 
   Future<Response> getPackageDetlList({
@@ -1591,6 +1591,6 @@ class AuthRepo {
     }
 
     return Response(false,
-        message: AppLocalizations.of(context).translate('get_package_fail'));
+        message: AppLocalizations.of(context).translate('no_records_found'));
   }
 }

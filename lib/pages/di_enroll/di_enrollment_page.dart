@@ -116,6 +116,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                               arguments: EnrollConfirmationArguments(
                                 packageCode: snapshot.data[index].packageCode,
                                 packageDesc: snapshot.data[index].packageDesc,
+                                diCode: snapshot.data[index].merchantNo,
                                 termsAndCondition:
                                     snapshot.data[index].termConditionPolicy,
                               ),

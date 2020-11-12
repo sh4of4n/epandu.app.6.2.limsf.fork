@@ -79,11 +79,11 @@ class FpxRepo {
     @required icNo,
     @required startIndex,
     @required noOfRecords,
+    @required diCode,
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
     String userId = await localStorage.getUserId();
-    String diCode = await localStorage.getMerchantDbCode();
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&userId=$userId&icNo=$icNo&startIndex=$startIndex&noOfRecords=$noOfRecords';
@@ -166,12 +166,12 @@ class FpxRepo {
     @required docRef,
     @required bankId,
     @required icNo,
+    @required diCode,
     callbackUrl,
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
     String userId = await localStorage.getUserId();
-    String diCode = await localStorage.getMerchantDbCode();
     String email = await localStorage.getEmail();
 
     String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd' +
@@ -229,6 +229,52 @@ class FpxRepo {
       GetOnlinePaymentListByIcNoResponse getOnlinePaymentListByIcNoResponse =
           GetOnlinePaymentListByIcNoResponse.fromJson(response.data);
       var responseData = getOnlinePaymentListByIcNoResponse.onlinePayment;
+
+      return Response(true, data: responseData);
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message != null && response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message != null &&
+        response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
+    }
+
+    return Response(false,
+        message: AppLocalizations.of(context).translate('get_package_fail'));
+  }
+
+  Future<Response> getOnlinePaymentByOrderNo({
+    @required context,
+    @required diCode,
+    @required icNo,
+    @required docDoc,
+    @required docRef,
+  }) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+    String userId = await localStorage.getUserId();
+
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd' +
+        '&diCode=$diCode&userId=$userId&icNo=$icNo&docDoc=$docDoc&docRef=$docRef';
+
+    var response = await networking.getData(
+      path: 'GetOnlinePaymentByOrderNo?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      print(response.data);
+      GetOnlinePaymentByOrderNoResponse getOnlinePaymentByOrderNoResponse =
+          GetOnlinePaymentByOrderNoResponse.fromJson(response.data);
+      var responseData = getOnlinePaymentByOrderNoResponse.onlinePayment;
 
       return Response(true, data: responseData);
     } else if (response.message != null &&

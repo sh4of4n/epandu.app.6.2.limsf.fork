@@ -17,11 +17,13 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 class EnrollConfirmation extends StatefulWidget {
   final String packageCode;
   final String packageDesc;
+  final String diCode;
   final String termsAndCondition;
 
   EnrollConfirmation({
     this.packageCode,
     this.packageDesc,
+    this.diCode,
     this.termsAndCondition,
   });
 
@@ -143,11 +145,9 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
   }
 
   getPackageDetlList() async {
-    var diCode = await localStorage.getMerchantDbCode();
-
     var result = await authRepo.getPackageDetlList(
       context: context,
-      diCode: diCode,
+      diCode: widget.diCode,
       packageCode: widget.packageCode,
     );
 
@@ -173,11 +173,9 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
         isLoading = true;
       });
 
-      var diCode = await localStorage.getMerchantDbCode();
-
       var result = await authRepo.saveEnrollmentPackageWithParticular(
         context: context,
-        diCode: diCode,
+        diCode: widget.diCode,
         icNo: _icNo,
         name: _name,
         email: _eMail,
@@ -222,7 +220,8 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
           context: context,
           barrierDismissable: false,
           type: DialogType.GENERAL,
-          content: result.message.toString(),
+          content:
+              '${result.message.toString()} You can proceed to your order.',
           customActions: [
             FlatButton(
               child: Text(AppLocalizations.of(context).translate('view_order')),
@@ -250,11 +249,9 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
       isLoading = true;
     });
 
-    var diCode = await localStorage.getMerchantDbCode();
-
     var result = await fpxRepo.createOrder(
       context: context,
-      diCode: diCode,
+      diCode: widget.diCode,
       icNo: _icNo,
       packageCode: packageDetlList[0].packageCode,
     );
@@ -265,6 +262,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
         arguments: OrderListArguments(
           icNo: _icNo,
           packageCode: packageDetlList[0].packageCode,
+          diCode: widget.diCode,
         ),
       );
     } else {

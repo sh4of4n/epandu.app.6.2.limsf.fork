@@ -869,6 +869,8 @@ class GetOrderListSlsTrn {
   String validateRemark;
   String lastValidate;
   String transtamp;
+  String packageCode;
+  String packageDesc;
 
   GetOrderListSlsTrn(
       {this.iD,
@@ -995,7 +997,9 @@ class GetOrderListSlsTrn {
       this.validateFailed,
       this.validateRemark,
       this.lastValidate,
-      this.transtamp});
+      this.transtamp,
+      this.packageCode,
+      this.packageDesc});
 
   GetOrderListSlsTrn.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
@@ -1123,6 +1127,8 @@ class GetOrderListSlsTrn {
     validateRemark = json['validate_remark'];
     lastValidate = json['last_validate'];
     transtamp = json['transtamp'];
+    packageCode = json['package_code'];
+    packageDesc = json['package_desc'];
   }
 
   Map<String, dynamic> toJson() {
@@ -1252,6 +1258,8 @@ class GetOrderListSlsTrn {
     data['validate_remark'] = this.validateRemark;
     data['last_validate'] = this.lastValidate;
     data['transtamp'] = this.transtamp;
+    data['package_code'] = this.packageCode;
+    data['package_desc'] = this.packageDesc;
     return data;
   }
 }
@@ -1320,6 +1328,199 @@ class FpxResponse {
     data['transId'] = this.transId;
     data['sessionId'] = this.sessionId;
     data['signatureString'] = this.signatureString;
+    return data;
+  }
+}
+
+class GetOnlinePaymentByOrderNoResponse {
+  List<OnlinePaymentByOrderNo> onlinePayment;
+
+  GetOnlinePaymentByOrderNoResponse({this.onlinePayment});
+
+  GetOnlinePaymentByOrderNoResponse.fromJson(Map<String, dynamic> json) {
+    if (json['OnlinePayment'] != null) {
+      onlinePayment = new List<OnlinePaymentByOrderNo>();
+      json['OnlinePayment'].forEach((v) {
+        onlinePayment.add(new OnlinePaymentByOrderNo.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.onlinePayment != null) {
+      data['OnlinePayment'] =
+          this.onlinePayment.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class OnlinePaymentByOrderNo {
+  String iD;
+  String merchantNo;
+  String docDoc;
+  String docRef;
+  String paymentDate;
+  String paymentTime;
+  String dbcode;
+  String icNo;
+  String name;
+  String source;
+  String sourceDoc;
+  String sourceRef;
+  String currency;
+  String paidAmt;
+  String gatewayId;
+  String transId;
+  String transDatetime;
+  String gatewayTransId;
+  String bankId;
+  String bankName;
+  String sessionId;
+  String responseCode;
+  String responseData;
+  String status;
+  String createUser;
+  String createDate;
+  String editUser;
+  String editDate;
+  String deleted;
+  String compCode;
+  String branchCode;
+  String rowKey;
+  String lastupload;
+  String duplicateKey;
+  String validateFailed;
+  String validateRemark;
+  String lastValidate;
+  String transtamp;
+  String receiptUrl;
+
+  OnlinePaymentByOrderNo(
+      {this.iD,
+      this.merchantNo,
+      this.docDoc,
+      this.docRef,
+      this.paymentDate,
+      this.paymentTime,
+      this.dbcode,
+      this.icNo,
+      this.name,
+      this.source,
+      this.sourceDoc,
+      this.sourceRef,
+      this.currency,
+      this.paidAmt,
+      this.gatewayId,
+      this.transId,
+      this.transDatetime,
+      this.gatewayTransId,
+      this.bankId,
+      this.bankName,
+      this.sessionId,
+      this.responseCode,
+      this.responseData,
+      this.status,
+      this.createUser,
+      this.createDate,
+      this.editUser,
+      this.editDate,
+      this.deleted,
+      this.compCode,
+      this.branchCode,
+      this.rowKey,
+      this.lastupload,
+      this.duplicateKey,
+      this.validateFailed,
+      this.validateRemark,
+      this.lastValidate,
+      this.transtamp,
+      this.receiptUrl});
+
+  OnlinePaymentByOrderNo.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    merchantNo = json['merchant_no'];
+    docDoc = json['doc_doc'];
+    docRef = json['doc_ref'];
+    paymentDate = json['payment_date'];
+    paymentTime = json['payment_time'];
+    dbcode = json['dbcode'];
+    icNo = json['ic_no'];
+    name = json['name'];
+    source = json['source'];
+    sourceDoc = json['source_doc'];
+    sourceRef = json['source_ref'];
+    currency = json['currency'];
+    paidAmt = json['paid_amt'];
+    gatewayId = json['gateway_id'];
+    transId = json['trans_id'];
+    transDatetime = json['trans_datetime'];
+    gatewayTransId = json['gateway_trans_id'];
+    bankId = json['bank_id'];
+    bankName = json['bank_name'];
+    sessionId = json['session_id'];
+    responseCode = json['response_code'];
+    responseData = json['response_data'];
+    status = json['status'];
+    createUser = json['create_user'];
+    createDate = json['create_date'];
+    editUser = json['edit_user'];
+    editDate = json['edit_date'];
+    deleted = json['deleted'];
+    compCode = json['comp_code'];
+    branchCode = json['branch_code'];
+    rowKey = json['row_key'];
+    lastupload = json['lastupload'];
+    duplicateKey = json['duplicate_key'];
+    validateFailed = json['validate_failed'];
+    validateRemark = json['validate_remark'];
+    lastValidate = json['last_validate'];
+    transtamp = json['transtamp'];
+    receiptUrl = json['receipt_url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['merchant_no'] = this.merchantNo;
+    data['doc_doc'] = this.docDoc;
+    data['doc_ref'] = this.docRef;
+    data['payment_date'] = this.paymentDate;
+    data['payment_time'] = this.paymentTime;
+    data['dbcode'] = this.dbcode;
+    data['ic_no'] = this.icNo;
+    data['name'] = this.name;
+    data['source'] = this.source;
+    data['source_doc'] = this.sourceDoc;
+    data['source_ref'] = this.sourceRef;
+    data['currency'] = this.currency;
+    data['paid_amt'] = this.paidAmt;
+    data['gateway_id'] = this.gatewayId;
+    data['trans_id'] = this.transId;
+    data['trans_datetime'] = this.transDatetime;
+    data['gateway_trans_id'] = this.gatewayTransId;
+    data['bank_id'] = this.bankId;
+    data['bank_name'] = this.bankName;
+    data['session_id'] = this.sessionId;
+    data['response_code'] = this.responseCode;
+    data['response_data'] = this.responseData;
+    data['status'] = this.status;
+    data['create_user'] = this.createUser;
+    data['create_date'] = this.createDate;
+    data['edit_user'] = this.editUser;
+    data['edit_date'] = this.editDate;
+    data['deleted'] = this.deleted;
+    data['comp_code'] = this.compCode;
+    data['branch_code'] = this.branchCode;
+    data['row_key'] = this.rowKey;
+    data['lastupload'] = this.lastupload;
+    data['duplicate_key'] = this.duplicateKey;
+    data['validate_failed'] = this.validateFailed;
+    data['validate_remark'] = this.validateRemark;
+    data['last_validate'] = this.lastValidate;
+    data['transtamp'] = this.transtamp;
+    data['receipt_url'] = this.receiptUrl;
     return data;
   }
 }

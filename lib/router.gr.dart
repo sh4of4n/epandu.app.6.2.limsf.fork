@@ -308,6 +308,7 @@ class Router extends RouterBase {
         builder: (context) => EnrollConfirmation(
           packageCode: args.packageCode,
           packageDesc: args.packageDesc,
+          diCode: args.diCode,
           termsAndCondition: args.termsAndCondition,
         ),
         settings: data,
@@ -321,6 +322,7 @@ class Router extends RouterBase {
         builder: (context) => OrderList(
           icNo: args.icNo,
           packageCode: args.packageCode,
+          diCode: args.diCode,
         ),
         settings: data,
       );
@@ -335,6 +337,7 @@ class Router extends RouterBase {
           docDoc: args.docDoc,
           docRef: args.docRef,
           packageCode: args.packageCode,
+          diCode: args.diCode,
         ),
         settings: data,
       );
@@ -670,16 +673,21 @@ class DiEnrollmentArguments {
 class EnrollConfirmationArguments {
   final String packageCode;
   final String packageDesc;
+  final String diCode;
   final String termsAndCondition;
   EnrollConfirmationArguments(
-      {this.packageCode, this.packageDesc, this.termsAndCondition});
+      {this.packageCode,
+      this.packageDesc,
+      this.diCode,
+      this.termsAndCondition});
 }
 
 /// OrderList arguments holder class
 class OrderListArguments {
   final String icNo;
   final String packageCode;
-  OrderListArguments({this.icNo, this.packageCode});
+  final String diCode;
+  OrderListArguments({this.icNo, this.packageCode, this.diCode});
 }
 
 /// BankList arguments holder class
@@ -688,7 +696,9 @@ class BankListArguments {
   final String docDoc;
   final String docRef;
   final String packageCode;
-  BankListArguments({this.icNo, this.docDoc, this.docRef, this.packageCode});
+  final String diCode;
+  BankListArguments(
+      {this.icNo, this.docDoc, this.docRef, this.packageCode, this.diCode});
 }
 
 /// PaymentStatus arguments holder class
