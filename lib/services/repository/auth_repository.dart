@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:epandu/services/api/model/chat_model.dart';
 import 'package:epandu/services/api/model/kpp_model.dart';
 import 'package:epandu/services/api/networking.dart';
 import 'package:epandu/services/repository/profile_repository.dart';
@@ -410,23 +411,28 @@ class AuthRepo {
     String country,
     String email,
     String icNo,
+    @required String scenario,
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
     String userPhone;
     String defPhone = phone;
 
-    if (countryCode.contains('60')) {
-      if (phone.startsWith('0')) {
-        userPhone = countryCode + phone.substring(1);
-        defPhone = phone.substring(1);
-      } else {
-        userPhone = countryCode + phone;
-        // defPhone = phone;
+    if (scenario == 'INVITE') {
+      if (countryCode.contains('60')) {
+        if (phone.startsWith('0')) {
+          userPhone = countryCode + phone.substring(1);
+          defPhone = phone.substring(1);
+        } else {
+          userPhone = countryCode + phone;
+          // defPhone = phone;
+        }
       }
-    }
 
-    if (userId.isEmpty) userId = 'TBS';
+      if (userId.isEmpty) userId = 'TBS';
+    } else {
+      userPhone = phone;
+    }
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&userPhone=${Uri.encodeComponent(userPhone)}&appCode=${appConfig.appCode}&appId=${appConfig.appId}';
@@ -435,46 +441,83 @@ class AuthRepo {
       path: 'GetUserByUserPhoneAppId?$path',
     );
 
-    if (response.isSuccess && response.data != null) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('registered_lbl'));
-    } else if (response.message != null &&
-        response.message.contains('timeout')) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('timeout_exception'));
-    } else if (response.message != null &&
-        response.message.contains('socket')) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('socket_exception'));
-    } else if (response.message != null && response.message.contains('http')) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('http_exception'));
-    } else if (response.message != null &&
-        response.message.contains('format')) {
-      return Response(false,
-          message: AppLocalizations.of(context).translate('format_exception'));
-    }
-    // Number not registered
-    var result = await createAppAccount(
-      context,
-      countryCode,
-      defPhone,
-      userId,
-      diCode,
-      name,
-      nickName,
-      add1,
-      add2,
-      add3,
-      postcode,
-      city,
-      state,
-      country,
-      email,
-      icNo,
-    );
+    if (scenario == 'INVITE') {
+      if (response.isSuccess && response.data != null) {
+        return Response(false,
+            message: AppLocalizations.of(context).translate('registered_lbl'));
+      } else if (response.message != null &&
+          response.message.contains('timeout')) {
+        return Response(false,
+            message:
+                AppLocalizations.of(context).translate('timeout_exception'));
+      } else if (response.message != null &&
+          response.message.contains('socket')) {
+        return Response(false,
+            message:
+                AppLocalizations.of(context).translate('socket_exception'));
+      } else if (response.message != null &&
+          response.message.contains('http')) {
+        return Response(false,
+            message: AppLocalizations.of(context).translate('http_exception'));
+      } else if (response.message != null &&
+          response.message.contains('format')) {
+        return Response(false,
+            message:
+                AppLocalizations.of(context).translate('format_exception'));
+      }
 
-    return result;
+      // Number not registered
+      var result = await createAppAccount(
+        context,
+        countryCode,
+        defPhone,
+        userId,
+        diCode,
+        name,
+        nickName,
+        add1,
+        add2,
+        add3,
+        postcode,
+        city,
+        state,
+        country,
+        email,
+        icNo,
+      );
+
+      return result;
+    } else {
+      if (response.isSuccess && response.data != null) {
+        GetUserByUserPhoneResponse getUserProfileResponse =
+            GetUserByUserPhoneResponse.fromJson(response.data);
+        var responseData = getUserProfileResponse.user;
+
+        return Response(true, data: responseData);
+      } else if (response.message != null &&
+          response.message.contains('timeout')) {
+        return Response(false,
+            message:
+                AppLocalizations.of(context).translate('timeout_exception'));
+      } else if (response.message != null &&
+          response.message.contains('socket')) {
+        return Response(false,
+            message:
+                AppLocalizations.of(context).translate('socket_exception'));
+      } else if (response.message != null &&
+          response.message.contains('http')) {
+        return Response(false,
+            message: AppLocalizations.of(context).translate('http_exception'));
+      } else if (response.message != null &&
+          response.message.contains('format')) {
+        return Response(false,
+            message:
+                AppLocalizations.of(context).translate('format_exception'));
+      }
+
+      return Response(false,
+          message: AppLocalizations.of(context).translate('get_profile_fail'));
+    }
   }
 
   Future<Response> createAppAccount(

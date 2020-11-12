@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route_annotations.dart';
 import 'package:epandu/coming_soon/coming_soon.dart';
+import 'package:epandu/pages/chat/chat.dart';
 import 'package:epandu/pages/enroll/enroll.dart';
 import 'package:epandu/pages/epandu/add_booking.dart';
 import 'package:epandu/pages/epandu/epandu.dart';
@@ -80,6 +81,7 @@ import 'pages/settings/settings.dart';
     MaterialRoute(page: BillDetail),
     MaterialRoute(page: BillSelection),
     MaterialRoute(page: MerchantList),
+    MaterialRoute(page: ChatHome),
     MaterialRoute(page: Webview),
     MaterialRoute(page: ComingSoon),
   ],

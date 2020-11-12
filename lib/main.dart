@@ -271,6 +271,9 @@ class _MyAppState extends State<MyApp> {
         case 'VCLUB':
           ExtendedNavigator.of(context).push(router.Routes.valueClub);
           break;
+        case 'CHAT':
+          ExtendedNavigator.of(context).push(router.Routes.chatHome);
+          break;
       }
     }
     /* final Item item = _itemForMessage(message);

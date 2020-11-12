@@ -11,6 +11,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 import 'coming_soon/coming_soon.dart';
+import 'pages/chat/chat.dart';
 import 'pages/di_enroll/di_enrollment.dart';
 import 'pages/emergency/emergency.dart';
 import 'pages/enroll/enroll.dart';
@@ -88,6 +89,7 @@ class Routes {
   static const String billDetail = '/bill-detail';
   static const String billSelection = '/bill-selection';
   static const String merchantList = '/merchant-list';
+  static const String chatHome = '/chat-home';
   static const String webview = '/Webview';
   static const String comingSoon = '/coming-soon';
   static const all = <String>{
@@ -145,6 +147,7 @@ class Routes {
     billDetail,
     billSelection,
     merchantList,
+    chatHome,
     webview,
     comingSoon,
   };
@@ -208,6 +211,7 @@ class Router extends RouterBase {
     RouteDef(Routes.billDetail, page: BillDetail),
     RouteDef(Routes.billSelection, page: BillSelection),
     RouteDef(Routes.merchantList, page: MerchantList),
+    RouteDef(Routes.chatHome, page: ChatHome),
     RouteDef(Routes.webview, page: Webview),
     RouteDef(Routes.comingSoon, page: ComingSoon),
   ];
@@ -600,6 +604,12 @@ class Router extends RouterBase {
       final args = data.getArgs<MerchantListArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
         builder: (context) => MerchantList(args.merchantType),
+        settings: data,
+      );
+    },
+    ChatHome: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ChatHome(),
         settings: data,
       );
     },
