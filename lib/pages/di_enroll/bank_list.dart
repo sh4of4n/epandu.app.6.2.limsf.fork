@@ -139,10 +139,12 @@ class _BankListState extends State<BankList> {
                   return ListView.builder(
                     itemCount: bankList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return bankList[index].split('~')[3] == 'A'
+                      return bankList[index].split('~')[4] == 'A'
                           ? ListTile(
                               onTap: () => fpxSendB2CAuthRequest(
                                   bankId: bankList[index].split('~')[0]),
+                              leading:
+                                  Image.network(bankList[index].split('~')[3]),
                               title: Text(bankList[index].split('~')[2]),
                             )
                           : Container();
