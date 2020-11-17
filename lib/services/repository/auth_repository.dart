@@ -1402,7 +1402,7 @@ class AuthRepo {
     context,
     String appVersion,
     // String loginId,
-    @required String bodyTemperature,
+    String bodyTemperature,
     String scannedAppId,
     String scannedAppVer,
     String scannedLoginId,

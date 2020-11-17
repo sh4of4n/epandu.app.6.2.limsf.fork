@@ -45,7 +45,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
   String phoneCountryCode = '';
   String phone = '';
   String appVersion = '';
-  String _bodyTemp = '';
+  // String _bodyTemp = '';
   String _message = '';
   bool _isLoading = false;
 
@@ -188,7 +188,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
 
       var result = await authRepo.registerUserToDI(
         context: context,
-        bodyTemperature: _bodyTemp,
+        // bodyTemperature: _bodyTemp,
         appVersion: appVersion,
         scannedAppId: scanResponse.qRCode[0].appId,
         scannedAppVer: scanResponse.qRCode[0].appVersion,
@@ -355,7 +355,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
                         ),
                       ),
                       SizedBox(height: 50.h), */
-                      TextFormField(
+                      /* TextFormField(
                         autofocus: true,
                         keyboardType:
                             TextInputType.numberWithOptions(decimal: true),
@@ -384,7 +384,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
                             _bodyTemp = value;
                           });
                         },
-                      ),
+                      ), */
                     ],
                   ),
                   _message.isNotEmpty

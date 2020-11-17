@@ -142,8 +142,9 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                         ),
                       ),
                     ),
-                    /* InkWell(
-                      onTap: () => Navigator.push(context, PAY),
+                    InkWell(
+                      onTap: () =>
+                          ExtendedNavigator.of(context).push(Routes.pay),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
@@ -162,7 +163,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                           ],
                         ),
                       ),
-                    ), */
+                    ),
                     InkWell(
                       onTap: () =>
                           ExtendedNavigator.of(context).push(Routes.invite),

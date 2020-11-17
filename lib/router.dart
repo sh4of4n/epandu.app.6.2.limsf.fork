@@ -22,6 +22,7 @@ import 'pages/di_enroll/di_enrollment.dart';
 import 'pages/emergency/emergency.dart';
 import 'pages/home/home.dart';
 import 'pages/login/login.dart';
+import 'pages/pay/pay.dart';
 import 'pages/payment/airtime_transaction.dart';
 import 'pages/settings/settings.dart';
 
@@ -60,6 +61,7 @@ import 'pages/settings/settings.dart';
     MaterialRoute(page: Booking),
     MaterialRoute(page: AddBooking),
     MaterialRoute(page: Records),
+    MaterialRoute(page: Pay),
     MaterialRoute(page: PaymentHistory),
     MaterialRoute(page: PaymentHistoryDetail),
     MaterialRoute(page: RequestPickup),

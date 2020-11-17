@@ -22,6 +22,7 @@ import 'pages/inbox/inbox.dart';
 import 'pages/invite/invite.dart';
 import 'pages/kpp/kpp.dart';
 import 'pages/login/login.dart';
+import 'pages/pay/pay.dart';
 import 'pages/payment/airtime_bill_detail.dart';
 import 'pages/payment/airtime_selection.dart';
 import 'pages/payment/airtime_transaction.dart';
@@ -68,6 +69,7 @@ class Routes {
   static const String booking = '/Booking';
   static const String addBooking = '/add-booking';
   static const String records = '/Records';
+  static const String pay = '/Pay';
   static const String paymentHistory = '/payment-history';
   static const String paymentHistoryDetail = '/payment-history-detail';
   static const String requestPickup = '/request-pickup';
@@ -126,6 +128,7 @@ class Routes {
     booking,
     addBooking,
     records,
+    pay,
     paymentHistory,
     paymentHistoryDetail,
     requestPickup,
@@ -190,6 +193,7 @@ class Router extends RouterBase {
     RouteDef(Routes.booking, page: Booking),
     RouteDef(Routes.addBooking, page: AddBooking),
     RouteDef(Routes.records, page: Records),
+    RouteDef(Routes.pay, page: Pay),
     RouteDef(Routes.paymentHistory, page: PaymentHistory),
     RouteDef(Routes.paymentHistoryDetail, page: PaymentHistoryDetail),
     RouteDef(Routes.requestPickup, page: RequestPickup),
@@ -463,6 +467,12 @@ class Router extends RouterBase {
     Records: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => Records(),
+        settings: data,
+      );
+    },
+    Pay: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => Pay(),
         settings: data,
       );
     },
