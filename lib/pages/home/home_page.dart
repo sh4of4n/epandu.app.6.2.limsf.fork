@@ -339,7 +339,15 @@ class _HomeState extends State<Home> {
           child: Stack(
             children: <Widget>[
               RefreshIndicator(
-                onRefresh: _getActiveFeed,
+                onRefresh: () async {
+                  setState(() {
+                    _startIndex = 0;
+                    items.clear();
+                    _message = '';
+                  });
+
+                  _getActiveFeed();
+                },
                 child: SingleChildScrollView(
                   controller: _scrollController,
                   child: Container(

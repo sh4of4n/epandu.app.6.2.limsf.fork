@@ -11,6 +11,7 @@ import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/device_info.dart';
 import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/utils/uppercase_formatter.dart';
 import 'package:epandu/widgets/loading_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -337,6 +338,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                         ),
                         TextFormField(
                           focusNode: _nameFocus,
+                          inputFormatters: [UpperCaseTextFormatter()],
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                             contentPadding:

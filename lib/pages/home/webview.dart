@@ -88,6 +88,14 @@ class _WebviewState extends State<Webview> {
           _confirmBack(customDialog, context);
         },
       );
+    } else if (widget.backType == 'DI_ENROLLMENT') {
+      return IconButton(
+        icon: Platform.isIOS
+            ? const Icon(Icons.arrow_back_ios)
+            : const Icon(Icons.arrow_back),
+        onPressed: () => ExtendedNavigator.of(context)
+            .popUntil(ModalRoute.withName(Routes.diEnrollment)),
+      );
     } else {
       return NavigationControls(
         webViewControllerFuture: _controller.future,

@@ -75,7 +75,7 @@ class _BankListState extends State<BankList> {
     if (result.isSuccess) {
       ExtendedNavigator.of(context).push(Routes.webview,
           arguments: WebviewArguments(
-              url: result.data[0].responseData, backType: 'HOME'));
+              url: result.data[0].responseData, backType: 'DI_ENROLLMENT'));
       /* launch(
         result.data[0].responseData,
         enableJavaScript: true,

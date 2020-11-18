@@ -278,7 +278,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
           : ButtonTheme(
               minWidth: 420.w,
               padding: EdgeInsets.symmetric(vertical: 11.0),
-              buttonColor: primaryColor,
+              buttonColor: Color(0xffdd0e0e),
               shape: StadiumBorder(),
               child: RaisedButton(
                 onPressed: _submitLogin, // () => localStorage.reset(),

@@ -354,5 +354,9 @@
   "order_paid": "This order is already paid.",
   "terms_and_condition": "Agree to ePandu's Terms & Conditions",
   "agree_to_terms_and_condition": "Please agree to the Terms & Conditions.",
-  "package_includes": "Package Includes"
+  "package_includes": "Package Includes",
+  "payment_for": "Payment For",
+  "pay_by": "Pay By",
+  "payment_for_required_msg": "Payment for is required.",
+  "pay_by_required_msg": "Pay by is required."
 }

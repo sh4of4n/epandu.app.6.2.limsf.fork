@@ -123,11 +123,14 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                             ),
                             child: Column(
                               children: [
-                                Image.network(
-                                  snapshot.data[index].feedMediaFilename
-                                      .replaceAll(removeBracket, '')
-                                      .split('\r\n')[1],
-                                  gaplessPlayback: true,
+                                AspectRatio(
+                                  aspectRatio: 16 / 9,
+                                  child: Image.network(
+                                    snapshot.data[index].feedMediaFilename
+                                        .replaceAll(removeBracket, '')
+                                        .split('\r\n')[1],
+                                    gaplessPlayback: true,
+                                  ),
                                 ),
                                 Text(
                                   snapshot.data[index].packageCode,

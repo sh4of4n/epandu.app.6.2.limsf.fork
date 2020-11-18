@@ -12,6 +12,7 @@ import 'package:epandu/utils/constants.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:epandu/utils/custom_snackbar.dart';
 import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/utils/uppercase_formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -335,7 +336,11 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).requestFocus(FocusNode());
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
       },
       child: Scaffold(
         backgroundColor: Color(0xfffdc013),
@@ -419,6 +424,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                   TextFormField(
                     controller: _nameController,
                     focusNode: _nameFocus,
+                    inputFormatters: [UpperCaseTextFormatter()],
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(vertical: 10.0),
