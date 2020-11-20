@@ -73,7 +73,7 @@ class AuthRepo {
       var data = jsonDecode(jsonData);
 
       GetWsUrlResponse getWsUrlResponse = GetWsUrlResponse.fromJson(data);
-      String wsVer = '5_2';
+      String wsVer = '6_0';
       final wsUrlBox = Hive.box('ws_url');
 
       if (getWsUrlResponse.loginAcctInfo != null) {
@@ -253,7 +253,7 @@ class AuthRepo {
     String diCode = await localStorage.getDiCode();
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&userId=$userId';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appCode=${appConfig.appCode}&appId=${appConfig.appId}&diCode=$diCode&userId=$userId';
 
     var response = await networking.getData(
       path: 'GetUserRegisteredDI?$path',
@@ -262,7 +262,7 @@ class AuthRepo {
     if (response.isSuccess && response.data != null) {
       UserRegisteredDiResponse userRegisteredDiResponse =
           UserRegisteredDiResponse.fromJson(response.data);
-      var responseData = userRegisteredDiResponse.armaster;
+      var responseData = userRegisteredDiResponse.armasterProfile;
 
       var profileResult = await profileRepo.getUserProfile(context: context);
 
@@ -305,7 +305,7 @@ class AuthRepo {
           message: AppLocalizations.of(context).translate('format_exception'));
     }
 
-    localStorage.saveDiCode('TBS');
+    localStorage.saveDiCode('EPANDU');
     return Response(true, data: 'empty');
   }
 
@@ -327,15 +327,16 @@ class AuthRepo {
       instituteLogoResponse = InstituteLogoResponse.fromJson(response.data);
 
       // save merchantDbCode
-      localStorage.saveMerchantDbCode(instituteLogoResponse.armaster[0].dbcode);
+      localStorage
+          .saveMerchantDbCode(instituteLogoResponse.armaster[0].merchantNo);
 
       localStorage.saveInstituteLogo(instituteLogoResponse
-          .armaster[0].appBackgroundPhotoPath
+          .armaster[0].merchantIconFilename
           .replaceAll(removeBracket, '')
           .split('\r\n')[0]);
 
       return Response(true,
-          data: instituteLogoResponse.armaster[0].appBackgroundPhotoPath
+          data: instituteLogoResponse.armaster[0].merchantIconFilename
               .replaceAll(removeBracket, '')
               .split('\r\n')[0]);
     } else if (response.message != null &&
@@ -429,7 +430,7 @@ class AuthRepo {
         }
       }
 
-      if (userId.isEmpty) userId = 'TBS';
+      if (userId.isEmpty) userId = 'EPANDU';
     } else {
       userPhone = phone;
     }
@@ -1218,7 +1219,7 @@ class AuthRepo {
       caUid: caUid,
       caPwd: caPwd,
       diCode: appConfig.diCode,
-      userId: 'TBS',
+      userId: 'EPANDU',
       name: name,
       nickName: nickName,
       icNo: '',

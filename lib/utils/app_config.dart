@@ -5,7 +5,7 @@ class AppConfig {
 
   String wsCodeCrypt = 'EPANDU';
 
-  String diCode = 'TBS';
+  String diCode = 'EPANDU';
 
   String businessTypePass = 'visa2u';
 

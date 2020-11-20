@@ -104,7 +104,44 @@ class _PayState extends State<Pay> {
     });
   }
 
-  /* fpxSendB2CAuthRequest({bankId}) async {
+  /* createOrderWithAmt() async {
+    ExtendedNavigator.of(context).pop();
+
+    setState(() {
+      isLoading = true;
+    });
+
+    var result = await fpxRepo.createOrder(
+      context: context,
+      diCode: widget.diCode,
+      icNo: _icNo,
+      packageCode: packageDetlList[0].packageCode,
+    );
+
+    if (result.isSuccess) {
+      ExtendedNavigator.of(context).push(
+        Routes.orderList,
+        arguments: OrderListArguments(
+          icNo: _icNo,
+          packageCode: packageDetlList[0].packageCode,
+          diCode: widget.diCode,
+        ),
+      );
+    } else {
+      customDialog.show(
+        context: context,
+        type: DialogType.ERROR,
+        content: result.message.toString(),
+        onPressed: () => ExtendedNavigator.of(context).pop(),
+      );
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+  } */
+
+  /* fpxSendB2CAuthRequestWithAmt({bankId}) async {
     // String userId = await localStorage.getUserId();
     // String diCode = await localStorage.getMerchantDbCode();
 
@@ -112,7 +149,7 @@ class _PayState extends State<Pay> {
       isLoading = true;
     });
 
-    var result = await fpxRepo.fpxSendB2CAuthRequest(
+    var result = await fpxRepo.fpxSendB2CAuthRequestWithAmt(
       context: context,
       bankId: Uri.encodeComponent(bankId),
       icNo: widget.icNo,

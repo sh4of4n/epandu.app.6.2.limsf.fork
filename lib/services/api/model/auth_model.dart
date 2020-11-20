@@ -255,441 +255,114 @@ class Table1 {
 
 // UserRegisteredDiResponse
 class UserRegisteredDiResponse {
-  List<Armaster> armaster;
+  List<RegisteredDiArmasterProfile> armasterProfile;
 
-  UserRegisteredDiResponse({this.armaster});
+  UserRegisteredDiResponse({this.armasterProfile});
 
   UserRegisteredDiResponse.fromJson(Map<String, dynamic> json) {
-    if (json['Armaster'] != null) {
-      armaster = new List<Armaster>();
-      json['Armaster'].forEach((v) {
-        armaster.add(new Armaster.fromJson(v));
+    if (json['ArmasterProfile'] != null) {
+      armasterProfile = new List<RegisteredDiArmasterProfile>();
+      json['ArmasterProfile'].forEach((v) {
+        armasterProfile.add(new RegisteredDiArmasterProfile.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.armaster != null) {
-      data['Armaster'] = this.armaster.map((v) => v.toJson()).toList();
+    if (this.armasterProfile != null) {
+      data['ArmasterProfile'] =
+          this.armasterProfile.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class Armaster {
+class RegisteredDiArmasterProfile {
   String iD;
-  String diCode;
-  String distributor;
-  String masterAgent;
+  String appId;
+  String merchantNo;
+  String userId;
   String sponsor;
-  String dbcode;
-  String userType;
-  String level;
-  String inviteSms;
-  String appBackgroundPhoto;
-  String appBackgroundPhotoFilename;
-  String appBackgroundPhotoPath;
-  String playStorePath;
-  String url;
-  String acctUid;
-  String acctPwd;
-  String name;
-  String nickName;
-  String compName;
-  dynamic add;
-  String postcode;
-  String state;
-  String country;
-  String currency;
-  String idType;
-  String icNo;
-  String passportNo;
-  String birthDate;
-  String nationality;
-  String gender;
-  String phone;
-  String phoneCountryCode;
-  String mobilePlan;
-  String telco;
-  String eMail;
-  String authorizationCode;
-  String mobileTopupPin;
-  String remittanceTopupPin;
-  String securityQuestion;
-  String securityAnswer;
-  String securityAnswerAttempt;
-  String authorizationName;
-  String authorizationPhone;
-  String authorizationPhoneCountryCode;
-  String authorizationEmail;
-  String commRate;
-  String commRateUom;
-  String compBrn;
-  String organisationType;
-  String fax;
-  String bankName;
-  String bankAdd;
-  String bankAccNo;
-  String creditCardNo;
-  String creditCardName;
-  String creditCardIssueBank;
-  String creditCardCv;
-  String felmoWalletId;
-  String felmoWalletExpdt;
-  String finexusWalletId;
-  String finexusWalletExpdt;
-  String finexusUrn;
-  String signaturePhotoFilename;
-  String hotWalletId;
-  String hotWalletExpdt;
-  String mpayCardNo;
-  String mpayCardNoToken;
-  String mpayCardNo2;
-  String mpayCardNoToken2;
-  String mpayId;
-  String bankAccType;
-  String ptcName;
-  String ptcPosition;
-  String ptcPhone;
-  String ptcPhoneCountryCode;
-  String ptcOff;
-  String ptcOffCountryCode;
-  String ptcEMail;
-  String districtOperate;
-  String corporateName;
-  String corporateIcNo;
-  String deviceId;
-  String appPw;
-  String lowCreditAlert;
-  String criticalAirtimeAlert;
-  String remindAirtimeAlert;
-  String criticalAirtimePhone;
-  String criticalAirtimePhoneCountryCode;
-  String remindAirtimePhone;
-  String remindAirtimePhoneCountryCode;
-  String airtimeMarkupRate;
-  String finnetMerchantId;
-  String finnetPwd;
-  String remark1;
-  String remark2;
-  String remark3;
-  String createUser;
-  String editUser;
+  String sponsorAppId;
+  String appCode;
+  String appVersion;
   String deleted;
-  String diName;
+  String createUser;
+  String createDate;
+  String editUser;
+  String editDate;
+  String compCode;
+  String branchCode;
+  String transtamp;
+  String appBackgroundPhotoPath;
+  String name;
+  String shortName;
 
-  Armaster(
+  RegisteredDiArmasterProfile(
       {this.iD,
-      this.diCode,
-      this.distributor,
-      this.masterAgent,
+      this.appId,
+      this.merchantNo,
+      this.userId,
       this.sponsor,
-      this.dbcode,
-      this.userType,
-      this.level,
-      this.inviteSms,
-      this.appBackgroundPhoto,
-      this.appBackgroundPhotoFilename,
-      this.appBackgroundPhotoPath,
-      this.playStorePath,
-      this.url,
-      this.acctUid,
-      this.acctPwd,
-      this.name,
-      this.nickName,
-      this.compName,
-      this.add,
-      this.postcode,
-      this.state,
-      this.country,
-      this.currency,
-      this.idType,
-      this.icNo,
-      this.passportNo,
-      this.birthDate,
-      this.nationality,
-      this.gender,
-      this.phone,
-      this.phoneCountryCode,
-      this.mobilePlan,
-      this.telco,
-      this.eMail,
-      this.authorizationCode,
-      this.mobileTopupPin,
-      this.remittanceTopupPin,
-      this.securityQuestion,
-      this.securityAnswer,
-      this.securityAnswerAttempt,
-      this.authorizationName,
-      this.authorizationPhone,
-      this.authorizationPhoneCountryCode,
-      this.authorizationEmail,
-      this.commRate,
-      this.commRateUom,
-      this.compBrn,
-      this.organisationType,
-      this.fax,
-      this.bankName,
-      this.bankAdd,
-      this.bankAccNo,
-      this.creditCardNo,
-      this.creditCardName,
-      this.creditCardIssueBank,
-      this.creditCardCv,
-      this.felmoWalletId,
-      this.felmoWalletExpdt,
-      this.finexusWalletId,
-      this.finexusWalletExpdt,
-      this.finexusUrn,
-      this.signaturePhotoFilename,
-      this.hotWalletId,
-      this.hotWalletExpdt,
-      this.mpayCardNo,
-      this.mpayCardNoToken,
-      this.mpayCardNo2,
-      this.mpayCardNoToken2,
-      this.mpayId,
-      this.bankAccType,
-      this.ptcName,
-      this.ptcPosition,
-      this.ptcPhone,
-      this.ptcPhoneCountryCode,
-      this.ptcOff,
-      this.ptcOffCountryCode,
-      this.ptcEMail,
-      this.districtOperate,
-      this.corporateName,
-      this.corporateIcNo,
-      this.deviceId,
-      this.appPw,
-      this.lowCreditAlert,
-      this.criticalAirtimeAlert,
-      this.remindAirtimeAlert,
-      this.criticalAirtimePhone,
-      this.criticalAirtimePhoneCountryCode,
-      this.remindAirtimePhone,
-      this.remindAirtimePhoneCountryCode,
-      this.airtimeMarkupRate,
-      this.finnetMerchantId,
-      this.finnetPwd,
-      this.remark1,
-      this.remark2,
-      this.remark3,
-      this.createUser,
-      this.editUser,
+      this.sponsorAppId,
+      this.appCode,
+      this.appVersion,
       this.deleted,
-      this.diName});
+      this.createUser,
+      this.createDate,
+      this.editUser,
+      this.editDate,
+      this.compCode,
+      this.branchCode,
+      this.transtamp,
+      this.appBackgroundPhotoPath,
+      this.name,
+      this.shortName});
 
-  Armaster.fromJson(Map<String, dynamic> json) {
+  RegisteredDiArmasterProfile.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
-    diCode = json['di_code'];
-    distributor = json['distributor'];
-    masterAgent = json['master_agent'];
+    appId = json['app_id'];
+    merchantNo = json['merchant_no'];
+    userId = json['user_id'];
     sponsor = json['sponsor'];
-    dbcode = json['dbcode'];
-    userType = json['user_type'];
-    level = json['level'];
-    inviteSms = json['invite_sms'];
-    appBackgroundPhoto = json['app_background_photo'];
-    appBackgroundPhotoFilename = json['app_background_photo_filename'];
-    appBackgroundPhotoPath = json['app_background_photo_path'];
-    playStorePath = json['play_store_path'];
-    url = json['url'];
-    acctUid = json['acct_uid'];
-    acctPwd = json['acct_pwd'];
-    name = json['name'];
-    nickName = json['nick_name'];
-    compName = json['comp_name'];
-    add = json['add'];
-    postcode = json['postcode'];
-    state = json['state'];
-    country = json['country'];
-    currency = json['currency'];
-    idType = json['id_type'];
-    icNo = json['ic_no'];
-    passportNo = json['passport_no'];
-    birthDate = json['birth_date'];
-    nationality = json['nationality'];
-    gender = json['gender'];
-    phone = json['phone'];
-    phoneCountryCode = json['phone_country_code'];
-    mobilePlan = json['mobile_plan'];
-    telco = json['telco'];
-    eMail = json['e_mail'];
-    authorizationCode = json['authorization_code'];
-    mobileTopupPin = json['mobile_topup_pin'];
-    remittanceTopupPin = json['remittance_topup_pin'];
-    securityQuestion = json['security_question'];
-    securityAnswer = json['security_answer'];
-    securityAnswerAttempt = json['security_answer_attempt'];
-    authorizationName = json['authorization_name'];
-    authorizationPhone = json['authorization_phone'];
-    authorizationPhoneCountryCode = json['authorization_phone_country_code'];
-    authorizationEmail = json['authorization_email'];
-    commRate = json['comm_rate'];
-    commRateUom = json['comm_rate_uom'];
-    compBrn = json['comp_brn'];
-    organisationType = json['organisation_type'];
-    fax = json['fax'];
-    bankName = json['bank_name'];
-    bankAdd = json['bank_add'];
-    bankAccNo = json['bank_acc_no'];
-    creditCardNo = json['credit_card_no'];
-    creditCardName = json['credit_card_name'];
-    creditCardIssueBank = json['credit_card_issue_bank'];
-    creditCardCv = json['credit_card_cv'];
-    felmoWalletId = json['felmo_wallet_id'];
-    felmoWalletExpdt = json['felmo_wallet_expdt'];
-    finexusWalletId = json['finexus_wallet_id'];
-    finexusWalletExpdt = json['finexus_wallet_expdt'];
-    finexusUrn = json['finexus_urn'];
-    signaturePhotoFilename = json['signature_photo_filename'];
-    hotWalletId = json['hot_wallet_id'];
-    hotWalletExpdt = json['hot_wallet_expdt'];
-    mpayCardNo = json['mpay_card_no'];
-    mpayCardNoToken = json['mpay_card_no_token'];
-    mpayCardNo2 = json['mpay_card_no2'];
-    mpayCardNoToken2 = json['mpay_card_no_token2'];
-    mpayId = json['mpay_id'];
-    bankAccType = json['bank_acc_type'];
-    ptcName = json['ptc_name'];
-    ptcPosition = json['ptc_position'];
-    ptcPhone = json['ptc_phone'];
-    ptcPhoneCountryCode = json['ptc_phone_country_code'];
-    ptcOff = json['ptc_off'];
-    ptcOffCountryCode = json['ptc_off_country_code'];
-    ptcEMail = json['ptc_e_mail'];
-    districtOperate = json['district_operate'];
-    corporateName = json['corporate_name'];
-    corporateIcNo = json['corporate_ic_no'];
-    deviceId = json['device_id'];
-    appPw = json['app_pw'];
-    lowCreditAlert = json['low_credit_alert'];
-    criticalAirtimeAlert = json['critical_airtime_alert'];
-    remindAirtimeAlert = json['remind_airtime_alert'];
-    criticalAirtimePhone = json['critical_airtime_phone'];
-    criticalAirtimePhoneCountryCode =
-        json['critical_airtime_phone_country_code'];
-    remindAirtimePhone = json['remind_airtime_phone'];
-    remindAirtimePhoneCountryCode = json['remind_airtime_phone_country_code'];
-    airtimeMarkupRate = json['airtime_markup_rate'];
-    finnetMerchantId = json['finnet_merchant_id'];
-    finnetPwd = json['finnet_pwd'];
-    remark1 = json['remark1'];
-    remark2 = json['remark2'];
-    remark3 = json['remark3'];
-    createUser = json['create_user'];
-    editUser = json['edit_user'];
+    sponsorAppId = json['sponsor_app_id'];
+    appCode = json['app_code'];
+    appVersion = json['app_version'];
     deleted = json['deleted'];
-    diName = json['di_name'];
+    createUser = json['create_user'];
+    createDate = json['create_date'];
+    editUser = json['edit_user'];
+    editDate = json['edit_date'];
+    compCode = json['comp_code'];
+    branchCode = json['branch_code'];
+    transtamp = json['transtamp'];
+    appBackgroundPhotoPath = json['app_background_photo_path'];
+    name = json['name'];
+    shortName = json['short_name'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['ID'] = this.iD;
-    data['di_code'] = this.diCode;
-    data['distributor'] = this.distributor;
-    data['master_agent'] = this.masterAgent;
+    data['app_id'] = this.appId;
+    data['merchant_no'] = this.merchantNo;
+    data['user_id'] = this.userId;
     data['sponsor'] = this.sponsor;
-    data['dbcode'] = this.dbcode;
-    data['user_type'] = this.userType;
-    data['level'] = this.level;
-    data['invite_sms'] = this.inviteSms;
-    data['app_background_photo'] = this.appBackgroundPhoto;
-    data['app_background_photo_filename'] = this.appBackgroundPhotoFilename;
-    data['app_background_photo_path'] = this.appBackgroundPhotoPath;
-    data['play_store_path'] = this.playStorePath;
-    data['url'] = this.url;
-    data['acct_uid'] = this.acctUid;
-    data['acct_pwd'] = this.acctPwd;
-    data['name'] = this.name;
-    data['nick_name'] = this.nickName;
-    data['comp_name'] = this.compName;
-    data['add'] = this.add;
-    data['postcode'] = this.postcode;
-    data['state'] = this.state;
-    data['country'] = this.country;
-    data['currency'] = this.currency;
-    data['id_type'] = this.idType;
-    data['ic_no'] = this.icNo;
-    data['passport_no'] = this.passportNo;
-    data['birth_date'] = this.birthDate;
-    data['nationality'] = this.nationality;
-    data['gender'] = this.gender;
-    data['phone'] = this.phone;
-    data['phone_country_code'] = this.phoneCountryCode;
-    data['mobile_plan'] = this.mobilePlan;
-    data['telco'] = this.telco;
-    data['e_mail'] = this.eMail;
-    data['authorization_code'] = this.authorizationCode;
-    data['mobile_topup_pin'] = this.mobileTopupPin;
-    data['remittance_topup_pin'] = this.remittanceTopupPin;
-    data['security_question'] = this.securityQuestion;
-    data['security_answer'] = this.securityAnswer;
-    data['security_answer_attempt'] = this.securityAnswerAttempt;
-    data['authorization_name'] = this.authorizationName;
-    data['authorization_phone'] = this.authorizationPhone;
-    data['authorization_phone_country_code'] =
-        this.authorizationPhoneCountryCode;
-    data['authorization_email'] = this.authorizationEmail;
-    data['comm_rate'] = this.commRate;
-    data['comm_rate_uom'] = this.commRateUom;
-    data['comp_brn'] = this.compBrn;
-    data['organisation_type'] = this.organisationType;
-    data['fax'] = this.fax;
-    data['bank_name'] = this.bankName;
-    data['bank_add'] = this.bankAdd;
-    data['bank_acc_no'] = this.bankAccNo;
-    data['credit_card_no'] = this.creditCardNo;
-    data['credit_card_name'] = this.creditCardName;
-    data['credit_card_issue_bank'] = this.creditCardIssueBank;
-    data['credit_card_cv'] = this.creditCardCv;
-    data['felmo_wallet_id'] = this.felmoWalletId;
-    data['felmo_wallet_expdt'] = this.felmoWalletExpdt;
-    data['finexus_wallet_id'] = this.finexusWalletId;
-    data['finexus_wallet_expdt'] = this.finexusWalletExpdt;
-    data['finexus_urn'] = this.finexusUrn;
-    data['signature_photo_filename'] = this.signaturePhotoFilename;
-    data['hot_wallet_id'] = this.hotWalletId;
-    data['hot_wallet_expdt'] = this.hotWalletExpdt;
-    data['mpay_card_no'] = this.mpayCardNo;
-    data['mpay_card_no_token'] = this.mpayCardNoToken;
-    data['mpay_card_no2'] = this.mpayCardNo2;
-    data['mpay_card_no_token2'] = this.mpayCardNoToken2;
-    data['mpay_id'] = this.mpayId;
-    data['bank_acc_type'] = this.bankAccType;
-    data['ptc_name'] = this.ptcName;
-    data['ptc_position'] = this.ptcPosition;
-    data['ptc_phone'] = this.ptcPhone;
-    data['ptc_phone_country_code'] = this.ptcPhoneCountryCode;
-    data['ptc_off'] = this.ptcOff;
-    data['ptc_off_country_code'] = this.ptcOffCountryCode;
-    data['ptc_e_mail'] = this.ptcEMail;
-    data['district_operate'] = this.districtOperate;
-    data['corporate_name'] = this.corporateName;
-    data['corporate_ic_no'] = this.corporateIcNo;
-    data['device_id'] = this.deviceId;
-    data['app_pw'] = this.appPw;
-    data['low_credit_alert'] = this.lowCreditAlert;
-    data['critical_airtime_alert'] = this.criticalAirtimeAlert;
-    data['remind_airtime_alert'] = this.remindAirtimeAlert;
-    data['critical_airtime_phone'] = this.criticalAirtimePhone;
-    data['critical_airtime_phone_country_code'] =
-        this.criticalAirtimePhoneCountryCode;
-    data['remind_airtime_phone'] = this.remindAirtimePhone;
-    data['remind_airtime_phone_country_code'] =
-        this.remindAirtimePhoneCountryCode;
-    data['airtime_markup_rate'] = this.airtimeMarkupRate;
-    data['finnet_merchant_id'] = this.finnetMerchantId;
-    data['finnet_pwd'] = this.finnetPwd;
-    data['remark1'] = this.remark1;
-    data['remark2'] = this.remark2;
-    data['remark3'] = this.remark3;
-    data['create_user'] = this.createUser;
-    data['edit_user'] = this.editUser;
+    data['sponsor_app_id'] = this.sponsorAppId;
+    data['app_code'] = this.appCode;
+    data['app_version'] = this.appVersion;
     data['deleted'] = this.deleted;
-    data['di_name'] = this.diName;
+    data['create_user'] = this.createUser;
+    data['create_date'] = this.createDate;
+    data['edit_user'] = this.editUser;
+    data['edit_date'] = this.editDate;
+    data['comp_code'] = this.compCode;
+    data['branch_code'] = this.branchCode;
+    data['transtamp'] = this.transtamp;
+    data['app_background_photo_path'] = this.appBackgroundPhotoPath;
+    data['name'] = this.name;
+    data['short_name'] = this.shortName;
     return data;
   }
 }
