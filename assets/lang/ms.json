@@ -358,5 +358,6 @@
   "payment_for": "Bayaran Untuk",
   "pay_by": "Bayar Dengan",
   "payment_for_required_msg": "Bayaran untuk diperlukan.",
-  "pay_by_required_msg": "Bayar dengan diperlukan."
+  "pay_by_required_msg": "Bayar dengan diperlukan.",
+  "fail_message": "Gagal memuatkan data. Sila cuba sebentar lagi."
 }

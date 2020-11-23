@@ -62,6 +62,7 @@ import 'pages/settings/settings.dart';
     MaterialRoute(page: AddBooking),
     MaterialRoute(page: Records),
     MaterialRoute(page: Pay),
+    MaterialRoute(page: PurchaseOrderList),
     MaterialRoute(page: PaymentHistory),
     MaterialRoute(page: PaymentHistoryDetail),
     MaterialRoute(page: RequestPickup),

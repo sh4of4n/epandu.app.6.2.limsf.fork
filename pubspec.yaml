@@ -57,6 +57,7 @@ dependencies:
   auto_route: ^0.6.9
   string_validator: ^0.1.4
   flutter_widget_from_html: ^0.5.1+4
+  supercharged: ^1.11.1
 
   #chat
   rxdart: ^0.24.1

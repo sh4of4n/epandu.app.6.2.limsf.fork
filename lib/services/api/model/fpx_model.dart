@@ -184,6 +184,51 @@ class CreateOrderRequest {
   }
 }
 
+class CreateOrderWithAmtRequest {
+  String wsCodeCrypt;
+  String caUid;
+  String caPwd;
+  String diCode;
+  String userId;
+  String icNo;
+  String packageCode;
+  String amountString;
+
+  CreateOrderWithAmtRequest(
+      {this.wsCodeCrypt,
+      this.caUid,
+      this.caPwd,
+      this.diCode,
+      this.userId,
+      this.icNo,
+      this.packageCode,
+      this.amountString});
+
+  CreateOrderWithAmtRequest.fromJson(Map<String, dynamic> json) {
+    wsCodeCrypt = json['wsCodeCrypt'];
+    caUid = json['caUid'];
+    caPwd = json['caPwd'];
+    diCode = json['diCode'];
+    userId = json['userId'];
+    icNo = json['icNo'];
+    packageCode = json['packageCode'];
+    amountString = json['amountString'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['wsCodeCrypt'] = this.wsCodeCrypt;
+    data['caUid'] = this.caUid;
+    data['caPwd'] = this.caPwd;
+    data['diCode'] = this.diCode;
+    data['userId'] = this.userId;
+    data['icNo'] = this.icNo;
+    data['packageCode'] = this.packageCode;
+    data['amountString'] = this.amountString;
+    return data;
+  }
+}
+
 class CreateOrderResponse {
   List<SlsTrn> slsTrn;
 
@@ -1521,6 +1566,200 @@ class OnlinePaymentByOrderNo {
     data['last_validate'] = this.lastValidate;
     data['transtamp'] = this.transtamp;
     data['receipt_url'] = this.receiptUrl;
+    return data;
+  }
+}
+
+class GetAppPaymentMenuResponse {
+  List<AppPaymentMenu> appPaymentMenu;
+
+  GetAppPaymentMenuResponse({this.appPaymentMenu});
+
+  GetAppPaymentMenuResponse.fromJson(Map<String, dynamic> json) {
+    if (json['AppPaymentMenu'] != null) {
+      appPaymentMenu = new List<AppPaymentMenu>();
+      json['AppPaymentMenu'].forEach((v) {
+        appPaymentMenu.add(new AppPaymentMenu.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.appPaymentMenu != null) {
+      data['AppPaymentMenu'] =
+          this.appPaymentMenu.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class AppPaymentMenu {
+  String iD;
+  String appCode;
+  String menuCode;
+  String codeDesc;
+  String createDate;
+  String createUser;
+  String editDate;
+  String editUser;
+  String lastupload;
+  String transtamp;
+  String compCode;
+  String branchCode;
+  String rowKey;
+  String deleted;
+
+  AppPaymentMenu(
+      {this.iD,
+      this.appCode,
+      this.menuCode,
+      this.codeDesc,
+      this.createDate,
+      this.createUser,
+      this.editDate,
+      this.editUser,
+      this.lastupload,
+      this.transtamp,
+      this.compCode,
+      this.branchCode,
+      this.rowKey,
+      this.deleted});
+
+  AppPaymentMenu.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    appCode = json['app_code'];
+    menuCode = json['menu_code'];
+    codeDesc = json['code_desc'];
+    createDate = json['create_date'];
+    createUser = json['create_user'];
+    editDate = json['edit_date'];
+    editUser = json['edit_user'];
+    lastupload = json['lastupload'];
+    transtamp = json['transtamp'];
+    compCode = json['comp_code'];
+    branchCode = json['branch_code'];
+    rowKey = json['row_key'];
+    deleted = json['deleted'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['app_code'] = this.appCode;
+    data['menu_code'] = this.menuCode;
+    data['code_desc'] = this.codeDesc;
+    data['create_date'] = this.createDate;
+    data['create_user'] = this.createUser;
+    data['edit_date'] = this.editDate;
+    data['edit_user'] = this.editUser;
+    data['lastupload'] = this.lastupload;
+    data['transtamp'] = this.transtamp;
+    data['comp_code'] = this.compCode;
+    data['branch_code'] = this.branchCode;
+    data['row_key'] = this.rowKey;
+    data['deleted'] = this.deleted;
+    return data;
+  }
+}
+
+class GetMerchantPaymentGatewayResponse {
+  List<MerchantPaymentGateway> merchantPaymentGateway;
+
+  GetMerchantPaymentGatewayResponse({this.merchantPaymentGateway});
+
+  GetMerchantPaymentGatewayResponse.fromJson(Map<String, dynamic> json) {
+    if (json['MerchantPaymentGateway'] != null) {
+      merchantPaymentGateway = new List<MerchantPaymentGateway>();
+      json['MerchantPaymentGateway'].forEach((v) {
+        merchantPaymentGateway.add(new MerchantPaymentGateway.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.merchantPaymentGateway != null) {
+      data['MerchantPaymentGateway'] =
+          this.merchantPaymentGateway.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class MerchantPaymentGateway {
+  String iD;
+  String appCode;
+  String merchantNo;
+  String gatewayId;
+  String gatewayDesc;
+  String minAmt;
+  String createDate;
+  String createUser;
+  String editDate;
+  String editUser;
+  String lastupload;
+  String transtamp;
+  String compCode;
+  String branchCode;
+  String rowKey;
+  String deleted;
+
+  MerchantPaymentGateway(
+      {this.iD,
+      this.appCode,
+      this.merchantNo,
+      this.gatewayId,
+      this.gatewayDesc,
+      this.minAmt,
+      this.createDate,
+      this.createUser,
+      this.editDate,
+      this.editUser,
+      this.lastupload,
+      this.transtamp,
+      this.compCode,
+      this.branchCode,
+      this.rowKey,
+      this.deleted});
+
+  MerchantPaymentGateway.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    appCode = json['app_code'];
+    merchantNo = json['merchant_no'];
+    gatewayId = json['gateway_id'];
+    gatewayDesc = json['gateway_desc'];
+    minAmt = json['min_amt'];
+    createDate = json['create_date'];
+    createUser = json['create_user'];
+    editDate = json['edit_date'];
+    editUser = json['edit_user'];
+    lastupload = json['lastupload'];
+    transtamp = json['transtamp'];
+    compCode = json['comp_code'];
+    branchCode = json['branch_code'];
+    rowKey = json['row_key'];
+    deleted = json['deleted'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['app_code'] = this.appCode;
+    data['merchant_no'] = this.merchantNo;
+    data['gateway_id'] = this.gatewayId;
+    data['gateway_desc'] = this.gatewayDesc;
+    data['min_amt'] = this.minAmt;
+    data['create_date'] = this.createDate;
+    data['create_user'] = this.createUser;
+    data['edit_date'] = this.editDate;
+    data['edit_user'] = this.editUser;
+    data['lastupload'] = this.lastupload;
+    data['transtamp'] = this.transtamp;
+    data['comp_code'] = this.compCode;
+    data['branch_code'] = this.branchCode;
+    data['row_key'] = this.rowKey;
+    data['deleted'] = this.deleted;
     return data;
   }
 }

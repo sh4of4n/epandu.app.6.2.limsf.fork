@@ -17,6 +17,89 @@ class FpxRepo {
   final xml2json = Xml2Json();
   final networking = Networking();
 
+  Future<Response> getAppPaymentMenu({@required context}) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appCode=${appConfig.appCode}';
+
+    var response = await networking.getData(
+      path: 'GetAppPaymentMenu?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetAppPaymentMenuResponse getAppPaymentMenuResponse;
+
+      getAppPaymentMenuResponse =
+          GetAppPaymentMenuResponse.fromJson(response.data);
+
+      return Response(true, data: getAppPaymentMenuResponse.appPaymentMenu);
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message != null && response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message != null &&
+        response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
+    }
+
+    return Response(false,
+        message: AppLocalizations.of(context).translate('fail_message'));
+  }
+
+  Future<Response> getMerchantPaymentGateway({
+    @required context,
+    @required diCode,
+    gatewayId,
+  }) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appCode=${appConfig.appCode}&diCode=$diCode&gatewayId=${gatewayId ?? ''}';
+
+    var response = await networking.getData(
+      path: 'GetMerchantPaymentGateway?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetMerchantPaymentGatewayResponse getMerchantPaymentGatewayResponse;
+
+      getMerchantPaymentGatewayResponse =
+          GetMerchantPaymentGatewayResponse.fromJson(response.data);
+
+      return Response(true,
+          data: getMerchantPaymentGatewayResponse.merchantPaymentGateway);
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message != null && response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message != null &&
+        response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
+    }
+
+    return Response(false,
+        message: AppLocalizations.of(context).translate('fail_message'));
+  }
+
   Future<Response> createOrder({
     @required context,
     @required diCode,
@@ -40,6 +123,65 @@ class FpxRepo {
 
     String body = jsonEncode(createOrderRequest);
     String api = 'CreateOrder';
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+
+    var response =
+        await networking.postData(api: api, body: body, headers: headers);
+
+    if (response.isSuccess &&
+        response.data != null &&
+        response.data != 'null') {
+      CreateOrderResponse createOrderResponse =
+          CreateOrderResponse.fromJson(response.data);
+      var responseData = createOrderResponse.slsTrn;
+
+      return Response(true, data: responseData);
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message != null && response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message != null &&
+        response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
+    }
+
+    return Response(false,
+        message: AppLocalizations.of(context).translate('create_order_fail'));
+  }
+
+  Future<Response> createOrderWithAmt({
+    @required context,
+    @required diCode,
+    @required icNo,
+    @required packageCode,
+    @required amountString,
+  }) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+    String userId = await localStorage.getUserId();
+    String diCode = await localStorage.getMerchantDbCode();
+
+    CreateOrderWithAmtRequest createOrderRequest = CreateOrderWithAmtRequest(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      diCode: diCode,
+      userId: userId,
+      icNo: icNo,
+      packageCode: packageCode,
+      amountString: amountString,
+    );
+
+    String body = jsonEncode(createOrderRequest);
+    String api = 'CreateOrderWithAmt';
     Map<String, String> headers = {'Content-Type': 'application/json'};
 
     var response =
@@ -179,6 +321,55 @@ class FpxRepo {
 
     var response = await networking.getData(
       path: 'FPX_SendB2CAuthRequest?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      FpxSendB2CAuthResponse fpxSendB2CAuthResponse =
+          FpxSendB2CAuthResponse.fromJson(response.data);
+      var responseData = fpxSendB2CAuthResponse.response;
+
+      return Response(true, data: responseData);
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message != null && response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message != null &&
+        response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
+    }
+
+    return Response(false,
+        message: AppLocalizations.of(context).translate('get_package_fail'));
+  }
+
+  Future<Response> fpxSendB2CAuthRequestWithAmt({
+    @required context,
+    @required docDoc,
+    @required docRef,
+    @required bankId,
+    @required icNo,
+    @required diCode,
+    @required amountString,
+    callbackUrl,
+  }) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+    String userId = await localStorage.getUserId();
+    String email = await localStorage.getEmail();
+
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd' +
+        '&diCode=$diCode&userId=$userId&icNo=$icNo&docDoc=$docDoc&docRef=$docRef&email=$email&bankId=$bankId&callbackUrl=${callbackUrl ?? ''}&appCode=${appConfig.appCode}&amountString=$amountString';
+
+    var response = await networking.getData(
+      path: 'FPX_SendB2CAuthRequestWithAmt?$path',
     );
 
     if (response.isSuccess && response.data != null) {

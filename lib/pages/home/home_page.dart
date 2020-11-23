@@ -364,7 +364,11 @@ class _HomeState extends State<Home> {
                             // positionStream: positionStream,
                           ),
                         ),
-                        HomeTopMenu(iconText: _iconText),
+                        HomeTopMenu(
+                          iconText: _iconText,
+                          getDiProfile: () => _getDiProfile(),
+                          getActiveFeed: () => _getActiveFeed(),
+                        ),
                         LimitedBox(maxHeight: ScreenUtil().setHeight(30)),
                         Feeds(
                           feed: items,

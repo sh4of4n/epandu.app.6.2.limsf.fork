@@ -13,8 +13,14 @@ import 'package:flutter/services.dart';
 
 class HomeTopMenu extends StatefulWidget {
   final iconText;
+  final getDiProfile;
+  final getActiveFeed;
 
-  HomeTopMenu({this.iconText});
+  HomeTopMenu({
+    this.iconText,
+    this.getDiProfile,
+    this.getActiveFeed,
+  });
 
   @override
   _HomeTopMenuState createState() => _HomeTopMenuState();
@@ -47,8 +53,14 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
     try {
       var barcode = await BarcodeScanner.scan();
       if (barcode.rawContent.isNotEmpty)
-        ExtendedNavigator.of(context).push(Routes.registerUserToDi,
-            arguments: RegisterUserToDiArguments(barcode: barcode.rawContent));
+        ExtendedNavigator.of(context)
+            .push(Routes.registerUserToDi,
+                arguments:
+                    RegisterUserToDiArguments(barcode: barcode.rawContent))
+            .then((value) {
+          widget.getActiveFeed();
+          widget.getDiProfile();
+        });
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {
         customDialog.show(

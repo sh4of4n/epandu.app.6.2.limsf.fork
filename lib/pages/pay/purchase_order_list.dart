@@ -11,22 +11,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../router.gr.dart';
 
-class OrderList extends StatefulWidget {
+class PurchaseOrderList extends StatefulWidget {
   final String icNo;
   final String packageCode;
   final String diCode;
 
-  OrderList({
+  PurchaseOrderList({
     this.icNo,
     this.packageCode,
     this.diCode,
   });
 
   @override
-  _OrderListState createState() => _OrderListState();
+  _PurchaseOrderListState createState() => _PurchaseOrderListState();
 }
 
-class _OrderListState extends State<OrderList> {
+class _PurchaseOrderListState extends State<PurchaseOrderList> {
   final fpxRepo = FpxRepo();
   final localStorage = LocalStorage();
   Future getOrderList;
@@ -125,7 +125,7 @@ class _OrderListState extends State<OrderList> {
                   return ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
-                      if (snapshot.data[index].packageCode != 'PURCHASE')
+                      if (snapshot.data[index].packageCode == 'PURCHASE')
                         return Container(
                           margin: EdgeInsets.symmetric(
                               horizontal: 40.w, vertical: 20.h),
@@ -142,6 +142,7 @@ class _OrderListState extends State<OrderList> {
                                     docRef: snapshot.data[index].docRef,
                                     packageCode: widget.packageCode,
                                     diCode: widget.diCode,
+                                    amountString: snapshot.data[index].tlOrdAmt,
                                   ),
                                 );
                               else {

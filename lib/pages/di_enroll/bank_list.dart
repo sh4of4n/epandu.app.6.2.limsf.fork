@@ -16,6 +16,7 @@ class BankList extends StatefulWidget {
   final String docRef;
   final String packageCode;
   final String diCode;
+  final String amountString;
 
   BankList({
     this.icNo,
@@ -23,6 +24,7 @@ class BankList extends StatefulWidget {
     this.docRef,
     this.packageCode,
     this.diCode,
+    this.amountString,
   });
 
   @override
@@ -61,13 +63,16 @@ class _BankListState extends State<BankList> {
       isLoading = true;
     });
 
-    var result = await fpxRepo.fpxSendB2CAuthRequest(
+    var result;
+
+    result = await fpxRepo.fpxSendB2CAuthRequestWithAmt(
       context: context,
       bankId: Uri.encodeComponent(bankId),
       icNo: widget.icNo,
       docDoc: widget.docDoc,
       docRef: widget.docRef,
       diCode: widget.diCode,
+      amountString: widget.amountString ?? '',
       // callbackUrl: 'https://epandu.com/ePandu.Web2/DEVP/1_1/#/merchant-receipt?' +
       //     'diCode=$diCode&docDoc=${widget.docDoc}&docRef=${widget.docRef}&icNo=${widget.icNo}&packageCode=${widget.packageCode}&bankId=${Uri.encodeComponent(bankId)}&userId=$userId',
     );
@@ -75,7 +80,9 @@ class _BankListState extends State<BankList> {
     if (result.isSuccess) {
       ExtendedNavigator.of(context).push(Routes.webview,
           arguments: WebviewArguments(
-              url: result.data[0].responseData, backType: 'DI_ENROLLMENT'));
+              url: result.data[0].responseData,
+              backType:
+                  widget.amountString == null ? 'DI_ENROLLMENT' : 'HOME'));
       /* launch(
         result.data[0].responseData,
         enableJavaScript: true,

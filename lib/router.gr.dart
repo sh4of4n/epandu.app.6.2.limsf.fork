@@ -70,6 +70,7 @@ class Routes {
   static const String addBooking = '/add-booking';
   static const String records = '/Records';
   static const String pay = '/Pay';
+  static const String purchaseOrderList = '/purchase-order-list';
   static const String paymentHistory = '/payment-history';
   static const String paymentHistoryDetail = '/payment-history-detail';
   static const String requestPickup = '/request-pickup';
@@ -129,6 +130,7 @@ class Routes {
     addBooking,
     records,
     pay,
+    purchaseOrderList,
     paymentHistory,
     paymentHistoryDetail,
     requestPickup,
@@ -194,6 +196,7 @@ class Router extends RouterBase {
     RouteDef(Routes.addBooking, page: AddBooking),
     RouteDef(Routes.records, page: Records),
     RouteDef(Routes.pay, page: Pay),
+    RouteDef(Routes.purchaseOrderList, page: PurchaseOrderList),
     RouteDef(Routes.paymentHistory, page: PaymentHistory),
     RouteDef(Routes.paymentHistoryDetail, page: PaymentHistoryDetail),
     RouteDef(Routes.requestPickup, page: RequestPickup),
@@ -342,6 +345,7 @@ class Router extends RouterBase {
           docRef: args.docRef,
           packageCode: args.packageCode,
           diCode: args.diCode,
+          amountString: args.amountString,
         ),
         settings: data,
       );
@@ -473,6 +477,19 @@ class Router extends RouterBase {
     Pay: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => Pay(),
+        settings: data,
+      );
+    },
+    PurchaseOrderList: (data) {
+      final args = data.getArgs<PurchaseOrderListArguments>(
+        orElse: () => PurchaseOrderListArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => PurchaseOrderList(
+          icNo: args.icNo,
+          packageCode: args.packageCode,
+          diCode: args.diCode,
+        ),
         settings: data,
       );
     },
@@ -707,8 +724,14 @@ class BankListArguments {
   final String docRef;
   final String packageCode;
   final String diCode;
+  final String amountString;
   BankListArguments(
-      {this.icNo, this.docDoc, this.docRef, this.packageCode, this.diCode});
+      {this.icNo,
+      this.docDoc,
+      this.docRef,
+      this.packageCode,
+      this.diCode,
+      this.amountString});
 }
 
 /// PaymentStatus arguments holder class
@@ -776,6 +799,14 @@ class SelectDrivingInstituteArguments {
 class TakeProfilePictureArguments {
   final List<CameraDescription> camera;
   TakeProfilePictureArguments({@required this.camera});
+}
+
+/// PurchaseOrderList arguments holder class
+class PurchaseOrderListArguments {
+  final String icNo;
+  final String packageCode;
+  final String diCode;
+  PurchaseOrderListArguments({this.icNo, this.packageCode, this.diCode});
 }
 
 /// PaymentHistoryDetail arguments holder class
