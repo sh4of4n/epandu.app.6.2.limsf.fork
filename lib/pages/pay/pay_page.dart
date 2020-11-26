@@ -260,7 +260,7 @@ class _PayState extends State<Pay> {
             backgroundColor: Colors.transparent,
             actions: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                padding: EdgeInsets.symmetric(horizontal: 40.w),
                 child: InkWell(
                   onTap: () async {
                     String diCode = await localStorage.getMerchantDbCode();
@@ -274,7 +274,7 @@ class _PayState extends State<Pay> {
                       ),
                     );
                   },
-                  child: Center(child: Text('My Orders')),
+                  child: Center(child: Text('View My Orders')),
                 ),
               ),
             ],
@@ -393,7 +393,7 @@ class _PayState extends State<Pay> {
                     CustomButton(
                       buttonColor: Color(0xffdd0e0e),
                       onPressed: createOrderWithAmt,
-                      title: 'Pay',
+                      title: AppLocalizations.of(context).translate('next_btn'),
                     ),
                   ],
                 ),

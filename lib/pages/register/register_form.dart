@@ -1016,7 +1016,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
           await authRepo.getUserRegisteredDI(context: context, type: 'LOGIN');
 
       if (getRegisteredDi.isSuccess) {
-        localStorage.saveDiCode(getRegisteredDi.data[0].diCode);
+        localStorage.saveDiCode(getRegisteredDi.data[0].merchantNo);
 
         ExtendedNavigator.of(context)
             .pushAndRemoveUntil(Routes.home, (r) => false);
