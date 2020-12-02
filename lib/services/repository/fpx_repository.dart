@@ -258,7 +258,7 @@ class FpxRepo {
     }
 
     return Response(false,
-        message: AppLocalizations.of(context).translate('create_order_fail'));
+        message: AppLocalizations.of(context).translate('no_order_found'));
   }
 
   Future<Response> fpxSendB2CBankEnquiry({

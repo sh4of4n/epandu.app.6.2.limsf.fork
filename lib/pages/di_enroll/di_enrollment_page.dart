@@ -114,6 +114,9 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                             onTap: () => ExtendedNavigator.of(context).push(
                               Routes.enrollConfirmation,
                               arguments: EnrollConfirmationArguments(
+                                banner: snapshot.data[index].feedMediaFilename
+                                    .replaceAll(removeBracket, '')
+                                    .split('\r\n')[1],
                                 packageCode: snapshot.data[index].packageCode,
                                 packageDesc: snapshot.data[index].packageDesc,
                                 diCode: snapshot.data[index].merchantNo,

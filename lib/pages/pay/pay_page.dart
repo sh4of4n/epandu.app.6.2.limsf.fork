@@ -9,6 +9,7 @@ import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/widgets/loading_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:supercharged/supercharged.dart';
 
 import '../../app_localizations.dart';
 import '../../router.gr.dart';
@@ -24,6 +25,7 @@ class _PayState extends State<Pay> {
   final localStorage = LocalStorage();
   final customDialog = CustomDialog();
   final image = ImagesConstant();
+  final _formKey = GlobalKey<FormState>();
   var paymentForData;
   var gatewayData;
   String paymentFor = '';
@@ -144,45 +146,47 @@ class _PayState extends State<Pay> {
   }
 
   createOrderWithAmt() async {
-    if (payBy.isNotEmpty &&
-        paymentFor.isNotEmpty &&
-        double.tryParse(amountController.text) > 0) {
-      setState(() {
-        isLoading = true;
-        message = '';
-      });
+    if (payBy.isNotEmpty && paymentFor.isNotEmpty) {
+      if (_formKey.currentState.validate()) {
+        _formKey.currentState.save();
+        FocusScope.of(context).requestFocus(new FocusNode());
+        setState(() {
+          isLoading = true;
+          message = '';
+        });
 
-      String diCode = await localStorage.getMerchantDbCode();
+        String diCode = await localStorage.getMerchantDbCode();
 
-      var result = await fpxRepo.createOrderWithAmt(
-        context: context,
-        diCode: diCode,
-        icNo: _icNo,
-        packageCode: packageCode,
-        amountString: amountController.text,
-      );
-
-      if (result.isSuccess) {
-        ExtendedNavigator.of(context).push(
-          Routes.purchaseOrderList,
-          arguments: PurchaseOrderListArguments(
-            icNo: _icNo,
-            packageCode: packageCode,
-            diCode: diCode,
-          ),
-        );
-      } else {
-        customDialog.show(
+        var result = await fpxRepo.createOrderWithAmt(
           context: context,
-          type: DialogType.ERROR,
-          content: result.message.toString(),
-          onPressed: () => ExtendedNavigator.of(context).pop(),
+          diCode: diCode,
+          icNo: _icNo,
+          packageCode: packageCode,
+          amountString: amountController.text,
         );
-      }
 
-      setState(() {
-        isLoading = false;
-      });
+        if (result.isSuccess) {
+          ExtendedNavigator.of(context).push(
+            Routes.purchaseOrderList,
+            arguments: PurchaseOrderListArguments(
+              icNo: _icNo,
+              packageCode: packageCode,
+              diCode: diCode,
+            ),
+          );
+        } else {
+          customDialog.show(
+            context: context,
+            type: DialogType.ERROR,
+            content: result.message.toString(),
+            onPressed: () => ExtendedNavigator.of(context).pop(),
+          );
+        }
+
+        setState(() {
+          isLoading = false;
+        });
+      }
     } else {
       setState(() {
         message = 'Please fill in all the fields.';
@@ -281,121 +285,155 @@ class _PayState extends State<Pay> {
           ),
           body: Stack(
             children: [
-              Padding(
+              Container(
                 padding: EdgeInsets.symmetric(horizontal: 80.w),
-                child: Column(
-                  children: [
-                    DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 0.h,
+                // height: ScreenUtil().screenHeight,
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      DropdownButtonFormField<String>(
+                        isExpanded: true,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 0.h,
+                          ),
+                          hintText: AppLocalizations.of(context)
+                              .translate('payment_for'),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.blue[700], width: 1.6),
+                            // borderRadius: BorderRadius.circular(30),
+                          ),
                         ),
-                        hintText: AppLocalizations.of(context)
-                            .translate('payment_for'),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.blue[700], width: 1.6),
-                          // borderRadius: BorderRadius.circular(30),
-                        ),
+                        // disabledHint: Text(
+                        //     AppLocalizations.of(context).translate('payment_for')),
+                        // value: paymentFor.isEmpty ? null : paymentFor,
+                        onChanged: (value) {
+                          setState(() {
+                            paymentFor = value;
+                          });
+                        },
+                        items: paymentForData == null
+                            ? null
+                            : paymentForData
+                                .map<DropdownMenuItem<String>>((dynamic value) {
+                                return DropdownMenuItem<String>(
+                                  value: value.codeDesc,
+                                  child: Text(value.codeDesc),
+                                );
+                              }).toList(),
+                        validator: (value) {
+                          if (value == null) {
+                            return AppLocalizations.of(context)
+                                .translate('payment_for_required_msg');
+                          }
+                          return null;
+                        },
                       ),
-                      // disabledHint: Text(
-                      //     AppLocalizations.of(context).translate('payment_for')),
-                      // value: paymentFor.isEmpty ? null : paymentFor,
-                      onChanged: (value) {
-                        setState(() {
-                          paymentFor = value;
-                        });
-                      },
-                      items: paymentForData == null
-                          ? null
-                          : paymentForData
-                              .map<DropdownMenuItem<String>>((dynamic value) {
-                              return DropdownMenuItem<String>(
-                                value: value.codeDesc,
-                                child: Text(value.codeDesc),
-                              );
-                            }).toList(),
-                      validator: (value) {
-                        if (value == null) {
-                          return AppLocalizations.of(context)
-                              .translate('payment_for_required_msg');
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      cursorWidth: 0,
-                      controller: amountController,
-                      keyboardType:
-                          TextInputType.numberWithOptions(decimal: true),
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(vertical: 10.0),
-                        hintStyle: TextStyle(
-                          color: ColorConstant.primaryColor,
+                      TextFormField(
+                        cursorWidth: 0,
+                        controller: amountController,
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+                          hintStyle: TextStyle(
+                            color: ColorConstant.primaryColor,
+                          ),
+                          labelStyle: TextStyle(
+                            color: Color(0xff808080),
+                          ),
+                          labelText:
+                              AppLocalizations.of(context).translate('amount'),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.blue[700], width: 1.6),
+                            // borderRadius: BorderRadius.circular(30),
+                          ),
+                          suffixIcon: IconButton(
+                            onPressed: () => amountController.text = '0.00',
+                            icon: Icon(Icons.close),
+                          ),
                         ),
-                        labelStyle: TextStyle(
-                          color: Color(0xff808080),
-                        ),
-                        labelText:
-                            AppLocalizations.of(context).translate('amount'),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.blue[700], width: 1.6),
-                          // borderRadius: BorderRadius.circular(30),
-                        ),
-                        suffixIcon: IconButton(
-                          onPressed: () => amountController.text = '0.00',
-                          icon: Icon(Icons.close),
-                        ),
+                        validator: (value) {
+                          if (value.toDouble() <
+                              double.tryParse(gatewayData[0].minAmt)) {
+                            return 'Please enter amount above ${gatewayData[0].minAmt}';
+                          }
+                          return null;
+                        },
                       ),
-                    ),
-                    DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 0.h,
+                      DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 0.h,
+                          ),
+                          hintText:
+                              AppLocalizations.of(context).translate('pay_by'),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.blue[700], width: 1.6),
+                            // borderRadius: BorderRadius.circular(30),
+                          ),
                         ),
-                        hintText:
-                            AppLocalizations.of(context).translate('pay_by'),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.blue[700], width: 1.6),
-                          // borderRadius: BorderRadius.circular(30),
-                        ),
+                        // disabledHint:
+                        //     Text(AppLocalizations.of(context).translate('pay_by')),
+                        // value: payBy.isEmpty ? null : payBy,
+                        onChanged: (value) {
+                          setState(() {
+                            payBy = value;
+                          });
+                        },
+                        items: gatewayData == null
+                            ? null
+                            : gatewayData
+                                .map<DropdownMenuItem<String>>((dynamic value) {
+                                return DropdownMenuItem<String>(
+                                  value: value.gatewayId,
+                                  child: Text(value.gatewayId),
+                                );
+                              }).toList(),
+                        validator: (value) {
+                          if (value == null) {
+                            return AppLocalizations.of(context)
+                                .translate('pay_by_required_msg');
+                          }
+                          return null;
+                        },
                       ),
-                      // disabledHint:
-                      //     Text(AppLocalizations.of(context).translate('pay_by')),
-                      // value: payBy.isEmpty ? null : payBy,
-                      onChanged: (value) {
-                        setState(() {
-                          payBy = value;
-                        });
-                      },
-                      items: gatewayData == null
-                          ? null
-                          : gatewayData
-                              .map<DropdownMenuItem<String>>((dynamic value) {
-                              return DropdownMenuItem<String>(
-                                value: value.gatewayId,
-                                child: Text(value.gatewayId),
-                              );
-                            }).toList(),
-                      validator: (value) {
-                        if (value == null) {
-                          return AppLocalizations.of(context)
-                              .translate('pay_by_required_msg');
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: 20.h),
-                    if (message.isNotEmpty)
-                      Text(message, style: TextStyle(color: Colors.red)),
-                    CustomButton(
-                      buttonColor: Color(0xffdd0e0e),
-                      onPressed: createOrderWithAmt,
-                      title: AppLocalizations.of(context).translate('next_btn'),
-                    ),
-                  ],
+                      SizedBox(height: 20.h),
+                      if (message.isNotEmpty)
+                        Text(message, style: TextStyle(color: Colors.red)),
+                      CustomButton(
+                        buttonColor: Color(0xffdd0e0e),
+                        onPressed: createOrderWithAmt,
+                        title:
+                            AppLocalizations.of(context).translate('next_btn'),
+                      ),
+                      /* Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 30.h),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Powered By',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(width: 10.w),
+                              Image.asset(
+                                image.fpxLogo2,
+                                width: 200.w,
+                                alignment: Alignment.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ), */
+                    ],
+                  ),
                 ),
               ),
               LoadingModel(
