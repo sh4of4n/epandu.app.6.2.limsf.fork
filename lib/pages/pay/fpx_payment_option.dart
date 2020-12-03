@@ -1,5 +1,6 @@
 import 'package:epandu/services/repository/fpx_repository.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:epandu/app_localizations.dart';
@@ -42,7 +43,6 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
   // List<String> paymentOption = ['Online Banking', 'Credit Card', 'Debit Card'];
   String selectedOption = '';
   final image = ImagesConstant();
-  bool _isAgreed = false;
   bool isVisible = false;
   bool isLoading = false;
   Future getBankList;
@@ -208,7 +208,9 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context).translate('payment_lbl')),
+      ),
       body: Stack(
         children: [
           Column(
@@ -235,42 +237,66 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                   children: [
                     TableRow(
                       children: [
-                        Text(AppLocalizations.of(context)
-                            .translate('institute_lbl')),
-                        Text(widget.merchant),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(AppLocalizations.of(context)
+                              .translate('institute_lbl')),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(widget.merchant),
+                        ),
                       ],
                     ),
                     TableRow(
                       children: [
-                        Text(AppLocalizations.of(context)
-                            .translate('package_lbl')),
-                        Text(
-                          widget.packageCode,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(AppLocalizations.of(context)
+                              .translate('package_lbl')),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                            widget.packageCode,
                           ),
                         ),
                       ],
                     ),
                     TableRow(
                       children: [
-                        Text('Desc'),
-                        Text(
-                          widget.packageDesc,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text('Desc'),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                            widget.packageDesc,
                           ),
                         ),
                       ],
                     ),
                     TableRow(
                       children: [
-                        Text(AppLocalizations.of(context)
-                            .translate('total_lbl')),
-                        Text(
-                          widget.totalAmount,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                            AppLocalizations.of(context).translate('total_lbl'),
+                            style: TextStyle(
+                              fontSize: 60.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                            widget.totalAmount,
+                            style: TextStyle(
+                              fontSize: 60.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ],
@@ -279,43 +305,30 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                child: Row(
-                  children: [
-                    Checkbox(
-                      value: _isAgreed,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _isAgreed = value;
-                        });
-                      },
-                    ),
-                    Text(
-                      AppLocalizations.of(context).translate('agree_to') +
-                          ' FPX ',
-                      style: TextStyle(
-                        fontSize: 54.sp,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () => ExtendedNavigator.of(context).push(
-                        Routes.webview,
-                        arguments: WebviewArguments(
-                            url:
-                                'https://www.mepsfpx.com.my/FPXMain/termsAndConditions.jsp'),
-                      ),
-                      child: Text(
-                        AppLocalizations.of(context)
-                            .translate('terms_and_condition_link'),
+                padding: EdgeInsets.symmetric(horizontal: 55.w),
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(color: Color(0xff5c5c5c)),
+                    children: [
+                      TextSpan(
+                          text:
+                              'By clicking on the "Proceed" button, you hereby agree with '),
+                      TextSpan(
+                        text: 'FPX\'s Terms & Conditions',
                         style: TextStyle(
-                          fontSize: 54.sp,
-                          fontWeight: FontWeight.bold,
                           decoration: TextDecoration.underline,
                           color: Colors.blue[900],
                         ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => ExtendedNavigator.of(context).push(
+                                Routes.webview,
+                                arguments: WebviewArguments(
+                                    url:
+                                        'https://www.mepsfpx.com.my/FPXMain/termsAndConditions.jsp'),
+                              ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Padding(
@@ -362,7 +375,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
               Text(message, style: TextStyle(color: Colors.red)),
               CustomButton(
                 onPressed: () {
-                  if (selectedBankId.isNotEmpty && _isAgreed) {
+                  if (selectedBankId.isNotEmpty) {
                     message = '';
                     fpxSendB2CAuthRequest(bankId: selectedBankId);
                   } else {

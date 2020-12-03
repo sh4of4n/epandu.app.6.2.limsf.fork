@@ -378,6 +378,8 @@ class SlsTrn {
   String validateRemark;
   String lastValidate;
   String transtamp;
+  String packageCode;
+  String packageDesc;
 
   SlsTrn(
       {this.iD,
@@ -504,7 +506,9 @@ class SlsTrn {
       this.validateFailed,
       this.validateRemark,
       this.lastValidate,
-      this.transtamp});
+      this.transtamp,
+      this.packageCode,
+      this.packageDesc});
 
   SlsTrn.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
@@ -632,6 +636,8 @@ class SlsTrn {
     validateRemark = json['validate_remark'];
     lastValidate = json['last_validate'];
     transtamp = json['transtamp'];
+    packageCode = json['package_code'];
+    packageDesc = json['package_desc'];
   }
 
   Map<String, dynamic> toJson() {
@@ -761,6 +767,8 @@ class SlsTrn {
     data['validate_remark'] = this.validateRemark;
     data['last_validate'] = this.lastValidate;
     data['transtamp'] = this.transtamp;
+    data['package_code'] = this.packageCode;
+    data['package_desc'] = this.packageDesc;
     return data;
   }
 }
@@ -1305,6 +1313,586 @@ class GetOrderListSlsTrn {
     data['transtamp'] = this.transtamp;
     data['package_code'] = this.packageCode;
     data['package_desc'] = this.packageDesc;
+    return data;
+  }
+}
+
+class GetOrderDetlByOrderNoResponse {
+  List<SlsDetl> slsDetl;
+
+  GetOrderDetlByOrderNoResponse({this.slsDetl});
+
+  GetOrderDetlByOrderNoResponse.fromJson(Map<String, dynamic> json) {
+    if (json['SlsDetl'] != null) {
+      slsDetl = new List<SlsDetl>();
+      json['SlsDetl'].forEach((v) {
+        slsDetl.add(new SlsDetl.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.slsDetl != null) {
+      data['SlsDetl'] = this.slsDetl.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class SlsDetl {
+  String iD;
+  String merchantNo;
+  String docDoc;
+  String docRef;
+  String ordDate;
+  String slsDoc;
+  String slsRef;
+  String key;
+  String mainKey;
+  String subItem;
+  String stkFormula;
+  String itemNo;
+  String locCode;
+  String branch;
+  String packageCode;
+  String packageDesc;
+  String uom;
+  String existQty;
+  String ordQty;
+  String ordUom;
+  String ordPrice;
+  String unitPrice;
+  String itemQty;
+  String itemUom;
+  String itemPrice;
+  String extraQty;
+  String extraUom;
+  String extraPrice;
+  String uom2Qty;
+  String uom2Uom;
+  String focQty;
+  String focUom;
+  String fillQty;
+  String manuQty;
+  String tlmanuQty;
+  String manufQty;
+  String tlManufQty;
+  String packedQty;
+  String priceCode;
+  String priceSource;
+  String allowDisc;
+  String discCode;
+  String discRate;
+  String multiDisc;
+  String discAmt;
+  String locDiscAmt;
+  String serTax;
+  String locSerTax;
+  String inclSlsTax;
+  String slsTax;
+  String locSlsTax;
+  String slsCommRate;
+  String slsComm;
+  String locSlsComm;
+  String nettPrice;
+  String ordAmt;
+  String nettOrdAmt;
+  String locOrdAmt;
+  String mfgUnitPrice;
+  String mfgNettOrdAmt;
+  String mfgLocOrdAmt;
+  String unitCost;
+  String custPoNo;
+  String custPoDate;
+  String expDlvdt;
+  String dueDate;
+  String dueTime;
+  String invDoc;
+  String invRef;
+  String doDoc;
+  String doRef;
+  String invKey;
+  String doKey;
+  String quoDoc;
+  String quoRef;
+  String quoKey;
+  String dlvQty;
+  String dlvIqty;
+  String dlvEqty;
+  String dlvFqty;
+  String woQty;
+  String poQty;
+  String poDoc;
+  String poRef;
+  String poKey;
+  String matrlreqQty;
+  String matrlreqClosed;
+  String billedQty;
+  String projCode;
+  String custBarcode;
+  String custSellPrice;
+  String misc7;
+  String misc8;
+  String misc9;
+  String misc10;
+  String misc11;
+  String misc12;
+  String dlvMisc10;
+  String dlvMisc11;
+  String dlvMisc12;
+  String stkMisc1;
+  String stkMisc2;
+  String stkMisc3;
+  String custRef1;
+  String custRef2;
+  String undrMinpc;
+  String cj5No;
+  String cj5Bgdt;
+  String cj5Enddt;
+  String cj5Totqty;
+  String cj5Balqty;
+  String saleAcct;
+  String saleDept;
+  String remark;
+  String trnStatus;
+  String complete;
+  String completedRemark;
+  String completedUser;
+  String completedDate;
+  String matrlReserved;
+  String cancel;
+  String createUser;
+  String createDate;
+  String editUser;
+  String editDate;
+  String deleted;
+  String compCode;
+  String branchCode;
+  String rowKey;
+  String lastupload;
+  String duplicateKey;
+  String validateFailed;
+  String validateRemark;
+  String lastValidate;
+  String transtamp;
+  String frmStoreQty;
+
+  SlsDetl(
+      {this.iD,
+      this.merchantNo,
+      this.docDoc,
+      this.docRef,
+      this.ordDate,
+      this.slsDoc,
+      this.slsRef,
+      this.key,
+      this.mainKey,
+      this.subItem,
+      this.stkFormula,
+      this.itemNo,
+      this.locCode,
+      this.branch,
+      this.packageCode,
+      this.packageDesc,
+      this.uom,
+      this.existQty,
+      this.ordQty,
+      this.ordUom,
+      this.ordPrice,
+      this.unitPrice,
+      this.itemQty,
+      this.itemUom,
+      this.itemPrice,
+      this.extraQty,
+      this.extraUom,
+      this.extraPrice,
+      this.uom2Qty,
+      this.uom2Uom,
+      this.focQty,
+      this.focUom,
+      this.fillQty,
+      this.manuQty,
+      this.tlmanuQty,
+      this.manufQty,
+      this.tlManufQty,
+      this.packedQty,
+      this.priceCode,
+      this.priceSource,
+      this.allowDisc,
+      this.discCode,
+      this.discRate,
+      this.multiDisc,
+      this.discAmt,
+      this.locDiscAmt,
+      this.serTax,
+      this.locSerTax,
+      this.inclSlsTax,
+      this.slsTax,
+      this.locSlsTax,
+      this.slsCommRate,
+      this.slsComm,
+      this.locSlsComm,
+      this.nettPrice,
+      this.ordAmt,
+      this.nettOrdAmt,
+      this.locOrdAmt,
+      this.mfgUnitPrice,
+      this.mfgNettOrdAmt,
+      this.mfgLocOrdAmt,
+      this.unitCost,
+      this.custPoNo,
+      this.custPoDate,
+      this.expDlvdt,
+      this.dueDate,
+      this.dueTime,
+      this.invDoc,
+      this.invRef,
+      this.doDoc,
+      this.doRef,
+      this.invKey,
+      this.doKey,
+      this.quoDoc,
+      this.quoRef,
+      this.quoKey,
+      this.dlvQty,
+      this.dlvIqty,
+      this.dlvEqty,
+      this.dlvFqty,
+      this.woQty,
+      this.poQty,
+      this.poDoc,
+      this.poRef,
+      this.poKey,
+      this.matrlreqQty,
+      this.matrlreqClosed,
+      this.billedQty,
+      this.projCode,
+      this.custBarcode,
+      this.custSellPrice,
+      this.misc7,
+      this.misc8,
+      this.misc9,
+      this.misc10,
+      this.misc11,
+      this.misc12,
+      this.dlvMisc10,
+      this.dlvMisc11,
+      this.dlvMisc12,
+      this.stkMisc1,
+      this.stkMisc2,
+      this.stkMisc3,
+      this.custRef1,
+      this.custRef2,
+      this.undrMinpc,
+      this.cj5No,
+      this.cj5Bgdt,
+      this.cj5Enddt,
+      this.cj5Totqty,
+      this.cj5Balqty,
+      this.saleAcct,
+      this.saleDept,
+      this.remark,
+      this.trnStatus,
+      this.complete,
+      this.completedRemark,
+      this.completedUser,
+      this.completedDate,
+      this.matrlReserved,
+      this.cancel,
+      this.createUser,
+      this.createDate,
+      this.editUser,
+      this.editDate,
+      this.deleted,
+      this.compCode,
+      this.branchCode,
+      this.rowKey,
+      this.lastupload,
+      this.duplicateKey,
+      this.validateFailed,
+      this.validateRemark,
+      this.lastValidate,
+      this.transtamp,
+      this.frmStoreQty});
+
+  SlsDetl.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    merchantNo = json['merchant_no'];
+    docDoc = json['doc_doc'];
+    docRef = json['doc_ref'];
+    ordDate = json['ord_date'];
+    slsDoc = json['sls_doc'];
+    slsRef = json['sls_ref'];
+    key = json['key'];
+    mainKey = json['main_key'];
+    subItem = json['sub_item'];
+    stkFormula = json['stk_formula'];
+    itemNo = json['item_no'];
+    locCode = json['loc_code'];
+    branch = json['branch'];
+    packageCode = json['package_code'];
+    packageDesc = json['package_desc'];
+    uom = json['uom'];
+    existQty = json['exist_qty'];
+    ordQty = json['ord_qty'];
+    ordUom = json['ord_uom'];
+    ordPrice = json['ord_price'];
+    unitPrice = json['unit_price'];
+    itemQty = json['item_qty'];
+    itemUom = json['item_uom'];
+    itemPrice = json['item_price'];
+    extraQty = json['extra_qty'];
+    extraUom = json['extra_uom'];
+    extraPrice = json['extra_price'];
+    uom2Qty = json['uom2_qty'];
+    uom2Uom = json['uom2_uom'];
+    focQty = json['foc_qty'];
+    focUom = json['foc_uom'];
+    fillQty = json['fill_qty'];
+    manuQty = json['manu_qty'];
+    tlmanuQty = json['tlmanu_qty'];
+    manufQty = json['manuf_qty'];
+    tlManufQty = json['tl_manuf_qty'];
+    packedQty = json['packed_qty'];
+    priceCode = json['price_code'];
+    priceSource = json['price_source'];
+    allowDisc = json['allow_disc'];
+    discCode = json['disc_code'];
+    discRate = json['disc_rate'];
+    multiDisc = json['multi_disc'];
+    discAmt = json['disc_amt'];
+    locDiscAmt = json['loc_disc_amt'];
+    serTax = json['ser_tax'];
+    locSerTax = json['loc_ser_tax'];
+    inclSlsTax = json['incl_sls_tax'];
+    slsTax = json['sls_tax'];
+    locSlsTax = json['loc_sls_tax'];
+    slsCommRate = json['sls_comm_rate'];
+    slsComm = json['sls_comm'];
+    locSlsComm = json['loc_sls_comm'];
+    nettPrice = json['nett_price'];
+    ordAmt = json['ord_amt'];
+    nettOrdAmt = json['nett_ord_amt'];
+    locOrdAmt = json['loc_ord_amt'];
+    mfgUnitPrice = json['mfg_unit_price'];
+    mfgNettOrdAmt = json['mfg_nett_ord_amt'];
+    mfgLocOrdAmt = json['mfg_loc_ord_amt'];
+    unitCost = json['unit_cost'];
+    custPoNo = json['cust_po_no'];
+    custPoDate = json['cust_po_date'];
+    expDlvdt = json['exp_dlvdt'];
+    dueDate = json['due_date'];
+    dueTime = json['due_time'];
+    invDoc = json['inv_doc'];
+    invRef = json['inv_ref'];
+    doDoc = json['do_doc'];
+    doRef = json['do_ref'];
+    invKey = json['inv_key'];
+    doKey = json['do_key'];
+    quoDoc = json['quo_doc'];
+    quoRef = json['quo_ref'];
+    quoKey = json['quo_key'];
+    dlvQty = json['dlv_qty'];
+    dlvIqty = json['dlv_iqty'];
+    dlvEqty = json['dlv_eqty'];
+    dlvFqty = json['dlv_fqty'];
+    woQty = json['wo_qty'];
+    poQty = json['po_qty'];
+    poDoc = json['po_doc'];
+    poRef = json['po_ref'];
+    poKey = json['po_key'];
+    matrlreqQty = json['matrlreq_qty'];
+    matrlreqClosed = json['matrlreq_closed'];
+    billedQty = json['billed_qty'];
+    projCode = json['proj_code'];
+    custBarcode = json['cust_barcode'];
+    custSellPrice = json['cust_sell_price'];
+    misc7 = json['misc7'];
+    misc8 = json['misc8'];
+    misc9 = json['misc9'];
+    misc10 = json['misc10'];
+    misc11 = json['misc11'];
+    misc12 = json['misc12'];
+    dlvMisc10 = json['dlv_misc10'];
+    dlvMisc11 = json['dlv_misc11'];
+    dlvMisc12 = json['dlv_misc12'];
+    stkMisc1 = json['stk_misc1'];
+    stkMisc2 = json['stk_misc2'];
+    stkMisc3 = json['stk_misc3'];
+    custRef1 = json['cust_ref1'];
+    custRef2 = json['cust_ref2'];
+    undrMinpc = json['undr_minpc'];
+    cj5No = json['cj5_no'];
+    cj5Bgdt = json['cj5_bgdt'];
+    cj5Enddt = json['cj5_enddt'];
+    cj5Totqty = json['cj5_totqty'];
+    cj5Balqty = json['cj5_balqty'];
+    saleAcct = json['sale_acct'];
+    saleDept = json['sale_dept'];
+    remark = json['remark'];
+    trnStatus = json['trn_status'];
+    complete = json['complete'];
+    completedRemark = json['completed_remark'];
+    completedUser = json['completed_user'];
+    completedDate = json['completed_date'];
+    matrlReserved = json['matrl_reserved'];
+    cancel = json['cancel'];
+    createUser = json['create_user'];
+    createDate = json['create_date'];
+    editUser = json['edit_user'];
+    editDate = json['edit_date'];
+    deleted = json['deleted'];
+    compCode = json['comp_code'];
+    branchCode = json['branch_code'];
+    rowKey = json['row_key'];
+    lastupload = json['lastupload'];
+    duplicateKey = json['duplicate_key'];
+    validateFailed = json['validate_failed'];
+    validateRemark = json['validate_remark'];
+    lastValidate = json['last_validate'];
+    transtamp = json['transtamp'];
+    frmStoreQty = json['frm_store_qty'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['merchant_no'] = this.merchantNo;
+    data['doc_doc'] = this.docDoc;
+    data['doc_ref'] = this.docRef;
+    data['ord_date'] = this.ordDate;
+    data['sls_doc'] = this.slsDoc;
+    data['sls_ref'] = this.slsRef;
+    data['key'] = this.key;
+    data['main_key'] = this.mainKey;
+    data['sub_item'] = this.subItem;
+    data['stk_formula'] = this.stkFormula;
+    data['item_no'] = this.itemNo;
+    data['loc_code'] = this.locCode;
+    data['branch'] = this.branch;
+    data['package_code'] = this.packageCode;
+    data['package_desc'] = this.packageDesc;
+    data['uom'] = this.uom;
+    data['exist_qty'] = this.existQty;
+    data['ord_qty'] = this.ordQty;
+    data['ord_uom'] = this.ordUom;
+    data['ord_price'] = this.ordPrice;
+    data['unit_price'] = this.unitPrice;
+    data['item_qty'] = this.itemQty;
+    data['item_uom'] = this.itemUom;
+    data['item_price'] = this.itemPrice;
+    data['extra_qty'] = this.extraQty;
+    data['extra_uom'] = this.extraUom;
+    data['extra_price'] = this.extraPrice;
+    data['uom2_qty'] = this.uom2Qty;
+    data['uom2_uom'] = this.uom2Uom;
+    data['foc_qty'] = this.focQty;
+    data['foc_uom'] = this.focUom;
+    data['fill_qty'] = this.fillQty;
+    data['manu_qty'] = this.manuQty;
+    data['tlmanu_qty'] = this.tlmanuQty;
+    data['manuf_qty'] = this.manufQty;
+    data['tl_manuf_qty'] = this.tlManufQty;
+    data['packed_qty'] = this.packedQty;
+    data['price_code'] = this.priceCode;
+    data['price_source'] = this.priceSource;
+    data['allow_disc'] = this.allowDisc;
+    data['disc_code'] = this.discCode;
+    data['disc_rate'] = this.discRate;
+    data['multi_disc'] = this.multiDisc;
+    data['disc_amt'] = this.discAmt;
+    data['loc_disc_amt'] = this.locDiscAmt;
+    data['ser_tax'] = this.serTax;
+    data['loc_ser_tax'] = this.locSerTax;
+    data['incl_sls_tax'] = this.inclSlsTax;
+    data['sls_tax'] = this.slsTax;
+    data['loc_sls_tax'] = this.locSlsTax;
+    data['sls_comm_rate'] = this.slsCommRate;
+    data['sls_comm'] = this.slsComm;
+    data['loc_sls_comm'] = this.locSlsComm;
+    data['nett_price'] = this.nettPrice;
+    data['ord_amt'] = this.ordAmt;
+    data['nett_ord_amt'] = this.nettOrdAmt;
+    data['loc_ord_amt'] = this.locOrdAmt;
+    data['mfg_unit_price'] = this.mfgUnitPrice;
+    data['mfg_nett_ord_amt'] = this.mfgNettOrdAmt;
+    data['mfg_loc_ord_amt'] = this.mfgLocOrdAmt;
+    data['unit_cost'] = this.unitCost;
+    data['cust_po_no'] = this.custPoNo;
+    data['cust_po_date'] = this.custPoDate;
+    data['exp_dlvdt'] = this.expDlvdt;
+    data['due_date'] = this.dueDate;
+    data['due_time'] = this.dueTime;
+    data['inv_doc'] = this.invDoc;
+    data['inv_ref'] = this.invRef;
+    data['do_doc'] = this.doDoc;
+    data['do_ref'] = this.doRef;
+    data['inv_key'] = this.invKey;
+    data['do_key'] = this.doKey;
+    data['quo_doc'] = this.quoDoc;
+    data['quo_ref'] = this.quoRef;
+    data['quo_key'] = this.quoKey;
+    data['dlv_qty'] = this.dlvQty;
+    data['dlv_iqty'] = this.dlvIqty;
+    data['dlv_eqty'] = this.dlvEqty;
+    data['dlv_fqty'] = this.dlvFqty;
+    data['wo_qty'] = this.woQty;
+    data['po_qty'] = this.poQty;
+    data['po_doc'] = this.poDoc;
+    data['po_ref'] = this.poRef;
+    data['po_key'] = this.poKey;
+    data['matrlreq_qty'] = this.matrlreqQty;
+    data['matrlreq_closed'] = this.matrlreqClosed;
+    data['billed_qty'] = this.billedQty;
+    data['proj_code'] = this.projCode;
+    data['cust_barcode'] = this.custBarcode;
+    data['cust_sell_price'] = this.custSellPrice;
+    data['misc7'] = this.misc7;
+    data['misc8'] = this.misc8;
+    data['misc9'] = this.misc9;
+    data['misc10'] = this.misc10;
+    data['misc11'] = this.misc11;
+    data['misc12'] = this.misc12;
+    data['dlv_misc10'] = this.dlvMisc10;
+    data['dlv_misc11'] = this.dlvMisc11;
+    data['dlv_misc12'] = this.dlvMisc12;
+    data['stk_misc1'] = this.stkMisc1;
+    data['stk_misc2'] = this.stkMisc2;
+    data['stk_misc3'] = this.stkMisc3;
+    data['cust_ref1'] = this.custRef1;
+    data['cust_ref2'] = this.custRef2;
+    data['undr_minpc'] = this.undrMinpc;
+    data['cj5_no'] = this.cj5No;
+    data['cj5_bgdt'] = this.cj5Bgdt;
+    data['cj5_enddt'] = this.cj5Enddt;
+    data['cj5_totqty'] = this.cj5Totqty;
+    data['cj5_balqty'] = this.cj5Balqty;
+    data['sale_acct'] = this.saleAcct;
+    data['sale_dept'] = this.saleDept;
+    data['remark'] = this.remark;
+    data['trn_status'] = this.trnStatus;
+    data['complete'] = this.complete;
+    data['completed_remark'] = this.completedRemark;
+    data['completed_user'] = this.completedUser;
+    data['completed_date'] = this.completedDate;
+    data['matrl_reserved'] = this.matrlReserved;
+    data['cancel'] = this.cancel;
+    data['create_user'] = this.createUser;
+    data['create_date'] = this.createDate;
+    data['edit_user'] = this.editUser;
+    data['edit_date'] = this.editDate;
+    data['deleted'] = this.deleted;
+    data['comp_code'] = this.compCode;
+    data['branch_code'] = this.branchCode;
+    data['row_key'] = this.rowKey;
+    data['lastupload'] = this.lastupload;
+    data['duplicate_key'] = this.duplicateKey;
+    data['validate_failed'] = this.validateFailed;
+    data['validate_remark'] = this.validateRemark;
+    data['last_validate'] = this.lastValidate;
+    data['transtamp'] = this.transtamp;
+    data['frm_store_qty'] = this.frmStoreQty;
     return data;
   }
 }

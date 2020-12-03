@@ -367,5 +367,7 @@
   "price": "Harga",
   "service_tax": "Cukai",
   "discount": "Diskaun",
-  "agree_and_select_bank": "Sila bersetuju dengan terma dan syarat dan pilih bank anda."
+  "agree_and_select_bank": "Sila bersetuju dengan terma dan syarat dan pilih bank anda.",
+  "fill_all_fields": "Sila isi semua bidang.",
+  "select_payment_for": "Sila pilih Pembayaran Untuk."
 }

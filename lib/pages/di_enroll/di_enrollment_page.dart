@@ -109,7 +109,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                       itemBuilder: (BuildContext context, int index) {
                         return Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 200.w, vertical: 70.h),
+                              horizontal: 50.w, vertical: 30.h),
                           child: InkWell(
                             onTap: () => ExtendedNavigator.of(context).push(
                               Routes.enrollConfirmation,
@@ -124,25 +124,35 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                                     snapshot.data[index].termConditionPolicy,
                               ),
                             ),
-                            child: Column(
-                              children: [
-                                AspectRatio(
-                                  aspectRatio: 16 / 9,
-                                  child: Image.network(
-                                    snapshot.data[index].feedMediaFilename
-                                        .replaceAll(removeBracket, '')
-                                        .split('\r\n')[1],
-                                    gaplessPlayback: true,
+                            child: Card(
+                              child: Column(
+                                children: [
+                                  AspectRatio(
+                                    aspectRatio: 16 / 9,
+                                    child: Image.network(
+                                      snapshot.data[index].feedMediaFilename
+                                          .replaceAll(removeBracket, '')
+                                          .split('\r\n')[1],
+                                      gaplessPlayback: true,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  snapshot.data[index].packageCode,
-                                  style: TextStyle(
-                                    fontSize: 60.sp,
-                                    fontWeight: FontWeight.w500,
+                                  Text(
+                                    snapshot.data[index].packageCode,
+                                    style: TextStyle(
+                                      fontSize: 60.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  Text(
+                                    snapshot.data[index].packageDesc,
+                                    style: TextStyle(
+                                      fontSize: 56.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  SizedBox(height: 20.h),
+                                ],
+                              ),
                             ),
                           ),
                         );

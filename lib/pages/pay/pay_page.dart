@@ -43,7 +43,6 @@ class _PayState extends State<Pay> {
   String _race = '';
   // String _nationality = '';
   String _gender = '';
-  String packageCode = 'PURCHASE';
 
   String message = '';
 
@@ -161,19 +160,35 @@ class _PayState extends State<Pay> {
           context: context,
           diCode: diCode,
           icNo: _icNo,
-          packageCode: packageCode,
+          packageCode: paymentFor,
           amountString: amountController.text,
         );
 
         if (result.isSuccess) {
           ExtendedNavigator.of(context).push(
+            Routes.fpxPaymentOption,
+            arguments: FpxPaymentOptionArguments(
+              icNo: _icNo,
+              docDoc: result.data[0].docDoc,
+              docRef: result.data[0].docRef,
+              merchant: result.data[0].merchantNo,
+              packageCode: paymentFor,
+              packageDesc: result.data[0].packageDesc,
+              diCode: diCode,
+              totalAmount:
+                  double.tryParse(result.data[0].tlOrdAmt).toStringAsFixed(2),
+              amountString: result.data[0]
+                  .tlOrdAmt, // same with totalAmount but used for different purposes, this is available in pay_page and not di_enrollment
+            ),
+          );
+          /* ExtendedNavigator.of(context).push(
             Routes.purchaseOrderList,
             arguments: PurchaseOrderListArguments(
               icNo: _icNo,
               packageCode: packageCode,
               diCode: diCode,
             ),
-          );
+          ); */
         } else {
           customDialog.show(
             context: context,
@@ -189,50 +204,10 @@ class _PayState extends State<Pay> {
       }
     } else {
       setState(() {
-        message = 'Please fill in all the fields.';
+        message = AppLocalizations.of(context).translate('fill_all_fields');
       });
     }
   }
-
-  /* fpxSendB2CAuthRequestWithAmt({docDoc, docRef, bankId}) async {
-    String diCode = await localStorage.getMerchantDbCode();
-
-    setState(() {
-      isLoading = true;
-    });
-
-    var result = await fpxRepo.fpxSendB2CAuthRequestWithAmt(
-      context: context,
-      bankId: Uri.encodeComponent(bankId),
-      icNo: _icNo,
-      docDoc: docDoc,
-      docRef: docRef,
-      diCode: diCode,
-      amountString: amountController.text,
-      // callbackUrl: 'https://epandu.com/ePandu.Web2/DEVP/1_1/#/merchant-receipt?' +
-      //     'diCode=$diCode&docDoc=${widget.docDoc}&docRef=${widget.docRef}&icNo=${widget.icNo}&packageCode=${widget.packageCode}&bankId=${Uri.encodeComponent(bankId)}&userId=$userId',
-    );
-
-    if (result.isSuccess) {
-      ExtendedNavigator.of(context).push(Routes.webview,
-          arguments: WebviewArguments(
-              url: result.data[0].responseData, backType: 'HOME'));
-      /* launch(
-        result.data[0].responseData,
-        enableJavaScript: true,
-        forceWebView: true,
-      ); */
-    } else {
-      ExtendedNavigator.of(context).push(
-        Routes.paymentStatus,
-        arguments: PaymentStatusArguments(icNo: _icNo),
-      );
-    }
-
-    setState(() {
-      isLoading = false;
-    });
-  } */
 
   @override
   Widget build(BuildContext context) {
@@ -269,14 +244,20 @@ class _PayState extends State<Pay> {
                   onTap: () async {
                     String diCode = await localStorage.getMerchantDbCode();
 
-                    ExtendedNavigator.of(context).push(
-                      Routes.purchaseOrderList,
-                      arguments: PurchaseOrderListArguments(
-                        icNo: _icNo,
-                        packageCode: packageCode,
-                        diCode: diCode,
-                      ),
-                    );
+                    if (paymentFor.isNotEmpty)
+                      ExtendedNavigator.of(context).push(
+                        Routes.purchaseOrderList,
+                        arguments: PurchaseOrderListArguments(
+                          icNo: _icNo,
+                          packageCode: paymentFor,
+                          diCode: diCode,
+                        ),
+                      );
+                    else
+                      setState(() {
+                        message = AppLocalizations.of(context)
+                            .translate('select_payment_for');
+                      });
                   },
                   child: Center(child: Text('View My Orders')),
                 ),
@@ -303,12 +284,8 @@ class _PayState extends State<Pay> {
                           focusedBorder: UnderlineInputBorder(
                             borderSide:
                                 BorderSide(color: Colors.blue[700], width: 1.6),
-                            // borderRadius: BorderRadius.circular(30),
                           ),
                         ),
-                        // disabledHint: Text(
-                        //     AppLocalizations.of(context).translate('payment_for')),
-                        // value: paymentFor.isEmpty ? null : paymentFor,
                         onChanged: (value) {
                           setState(() {
                             paymentFor = value;
@@ -319,7 +296,7 @@ class _PayState extends State<Pay> {
                             : paymentForData
                                 .map<DropdownMenuItem<String>>((dynamic value) {
                                 return DropdownMenuItem<String>(
-                                  value: value.codeDesc,
+                                  value: value.menuCode,
                                   child: Text(value.codeDesc),
                                 );
                               }).toList(),
@@ -377,9 +354,6 @@ class _PayState extends State<Pay> {
                             // borderRadius: BorderRadius.circular(30),
                           ),
                         ),
-                        // disabledHint:
-                        //     Text(AppLocalizations.of(context).translate('pay_by')),
-                        // value: payBy.isEmpty ? null : payBy,
                         onChanged: (value) {
                           setState(() {
                             payBy = value;
@@ -411,27 +385,6 @@ class _PayState extends State<Pay> {
                         title:
                             AppLocalizations.of(context).translate('next_btn'),
                       ),
-                      /* Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 30.h),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                'Powered By',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(width: 10.w),
-                              Image.asset(
-                                image.fpxLogo2,
-                                width: 200.w,
-                                alignment: Alignment.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ), */
                     ],
                   ),
                 ),

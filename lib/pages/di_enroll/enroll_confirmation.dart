@@ -227,7 +227,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
               '${result.message.toString()} You can proceed to your order.',
           customActions: [
             FlatButton(
-              child: Text(AppLocalizations.of(context).translate('view_order')),
+              child: Text(AppLocalizations.of(context).translate('proceed')),
               onPressed: () {
                 ExtendedNavigator.of(context).pop();
                 createOrder();
@@ -261,20 +261,83 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
     );
 
     if (result.isSuccess) {
-      ExtendedNavigator.of(context).push(
+      /* ExtendedNavigator.of(context).push(
         Routes.orderList,
         arguments: OrderListArguments(
           icNo: _icNo,
           packageCode: packageDetlList[0].packageCode,
           diCode: widget.diCode,
         ),
-      );
+      ); */
+      getOrderDetlByOrderNo(result.data);
     } else {
       customDialog.show(
         context: context,
         type: DialogType.ERROR,
         content: result.message.toString(),
         onPressed: () => ExtendedNavigator.of(context).pop(),
+      );
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  getOrderDetlByOrderNo(orderData) async {
+    var result = await fpxRepo.getOrderDetlByOrderNo(
+      context: context,
+      diCode: widget.diCode,
+      docDoc: orderData[0].docDoc,
+      docRef: orderData[0].docRef,
+    );
+
+    if (result.isSuccess) {
+      if (result.data[0].trnStatus.toUpperCase() != 'PAID')
+        ExtendedNavigator.of(context).push(
+          Routes.fpxPaymentOption,
+          arguments: FpxPaymentOptionArguments(
+            icNo: _icNo,
+            docDoc: orderData[0].docDoc,
+            docRef: orderData[0].docRef,
+            merchant: orderData[0].merchantNo,
+            packageCode: packageDetlList[0].packageCode,
+            packageDesc: orderData[0].packageDesc,
+            diCode: widget.diCode,
+            totalAmount:
+                double.tryParse(orderData[0].tlOrdAmt).toStringAsFixed(2),
+          ),
+        );
+      else
+        getOnlinePaymentByOrderNo(
+            docDoc: orderData[0].docDoc, docRef: orderData[0].docRef);
+    } else {
+      customDialog.show(
+        context: context,
+        type: DialogType.ERROR,
+        content: result.message.toString(),
+        onPressed: () => ExtendedNavigator.of(context).pop(),
+      );
+    }
+  }
+
+  getOnlinePaymentByOrderNo({docDoc, docRef}) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    var result = await fpxRepo.getOnlinePaymentByOrderNo(
+      context: context,
+      diCode: widget.diCode,
+      icNo: _icNo,
+      docDoc: docDoc,
+      docRef: docRef,
+    );
+
+    if (result.isSuccess) {
+      ExtendedNavigator.of(context).push(
+        Routes.webview,
+        arguments: WebviewArguments(url: result.data[0].receiptUrl),
       );
     }
 
@@ -291,6 +354,24 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
           AppLocalizations.of(context).translate('enroll_lbl'),
         ),
         actions: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 40.w),
+            child: InkWell(
+              onTap: () async {
+                String diCode = await localStorage.getMerchantDbCode();
+
+                ExtendedNavigator.of(context).push(
+                  Routes.orderList,
+                  arguments: OrderListArguments(
+                    icNo: _icNo,
+                    packageCode: packageDetlList[0].packageCode,
+                    diCode: diCode,
+                  ),
+                );
+              },
+              child: Center(child: Text('View My Orders')),
+            ),
+          ),
           IconButton(
             onPressed: () => ExtendedNavigator.of(context).pushAndRemoveUntil(
               Routes.updateProfile,
