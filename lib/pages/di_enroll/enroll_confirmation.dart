@@ -464,6 +464,9 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                       ),
                       Text(
                         AppLocalizations.of(context).translate('agree_to') +
+                            ' ' +
+                            AppLocalizations.of(context)
+                                .translate('epandu_title') +
                             ' ',
                         style: TextStyle(
                           fontSize: 54.sp,

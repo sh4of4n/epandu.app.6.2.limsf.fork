@@ -674,6 +674,7 @@ class Router extends RouterBase {
           packageDesc: args.packageDesc,
           diCode: args.diCode,
           totalAmount: args.totalAmount,
+          amountString: args.amountString,
         ),
         settings: data,
       );
@@ -929,6 +930,7 @@ class FpxPaymentOptionArguments {
   final String packageDesc;
   final String diCode;
   final String totalAmount;
+  final String amountString;
   FpxPaymentOptionArguments(
       {this.icNo,
       this.docDoc,
@@ -937,7 +939,8 @@ class FpxPaymentOptionArguments {
       this.packageCode,
       this.packageDesc,
       this.diCode,
-      this.totalAmount});
+      this.totalAmount,
+      this.amountString});
 }
 
 /// Webview arguments holder class

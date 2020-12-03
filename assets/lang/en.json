@@ -354,7 +354,7 @@
   "order_paid": "This order is already paid.",
   "terms_and_condition": "Agree to ePandu's Terms & Conditions",
   "terms_and_condition_link": "Terms & Conditions",
-  "agree_to": "Agree to ePandu's",
+  "agree_to": "Agree to",
   "agree_to_terms_and_condition": "Please agree to the Terms & Conditions.",
   "package_includes": "Package Includes",
   "payment_for": "Payment For",
@@ -366,5 +366,6 @@
   "order": "Order",
   "price": "Price",
   "service_tax": "Service Tax",
-  "discount": "Discount"
+  "discount": "Discount",
+  "agree_and_select_bank": "Please agree to terms and conditions and select your bank."
 }

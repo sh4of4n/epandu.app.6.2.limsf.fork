@@ -366,5 +366,6 @@
   "order": "Pesanan",
   "price": "Harga",
   "service_tax": "Cukai",
-  "discount": "Diskaun"
+  "discount": "Diskaun",
+  "agree_and_select_bank": "Sila bersetuju dengan terma dan syarat dan pilih bank anda."
 }
