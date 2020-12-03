@@ -87,6 +87,9 @@ class ImagesConstant {
   String comingSoon = 'assets/images/coming-soon.png';
   String advertBanner = 'assets/images/advert-banner.png';
   String profileRed = 'assets/images/profile-red-flag.png';
+  String fpxLogo = 'assets/images/fpx-logo-1.jpg';
+  String fpxLogo2 = 'assets/images/fpx-logo-2.png';
+  String fpxLogo3 = 'assets/images/fpx-logo-3.png';
 
   // emergency
   String ambulanceIcon = 'assets/images/ambulance.png';

@@ -15,6 +15,7 @@ import 'services/api/model/bill_model.dart';
 import 'services/api/model/kpp_model.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/services.dart';
 // import 'package:logging/logging.dart';
 
 /* final Map<String, Item> _items = <String, Item>{};
@@ -75,6 +76,9 @@ void main() async {
   Hive.registerAdapter(BillAdapter());
   // _setupLogging();
   await Hive.openBox('ws_url');
+
+  await SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   runApp(
     MultiProvider(

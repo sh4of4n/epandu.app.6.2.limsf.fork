@@ -5,6 +5,7 @@ import 'package:epandu/utils/local_storage.dart';
 import 'package:epandu/widgets/loading_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:url_launcher/url_launcher.dart';
 
 import '../../app_localizations.dart';
@@ -36,6 +37,7 @@ class _BankListState extends State<BankList> {
   final removeBracket = RemoveBracket.remove;
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
+  final image = ImagesConstant();
   Future getBankList;
   bool isLoading = false;
 
@@ -143,19 +145,61 @@ class _BankListState extends State<BankList> {
 
                   var bankList = snapshot.data[1].bankList.split(',');
 
-                  return ListView.builder(
-                    itemCount: bankList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return bankList[index].split('~')[4] == 'A'
-                          ? ListTile(
-                              onTap: () => fpxSendB2CAuthRequest(
-                                  bankId: bankList[index].split('~')[0]),
-                              leading:
-                                  Image.network(bankList[index].split('~')[3]),
-                              title: Text(bankList[index].split('~')[2]),
-                            )
-                          : Container();
-                    },
+                  return ListView(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 55.w, vertical: 30.h),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Pay with',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 70.sp,
+                              ),
+                            ),
+                            SizedBox(width: 10.w),
+                            Image.asset(image.fpxLogo2, width: 250.w),
+                          ],
+                        ),
+                      ),
+                      ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: bankList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return bankList[index].split('~')[4] == 'A'
+                              ? ListTile(
+                                  onTap: () => fpxSendB2CAuthRequest(
+                                      bankId: bankList[index].split('~')[0]),
+                                  leading: Image.network(
+                                      bankList[index].split('~')[3]),
+                                  title: Text(bankList[index].split('~')[2]),
+                                )
+                              : Container();
+                        },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 30.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              'Powered By',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(width: 10.w),
+                            Image.asset(
+                              image.fpxLogo2,
+                              width: 200.w,
+                              alignment: Alignment.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   );
                 default:
                   return Center(

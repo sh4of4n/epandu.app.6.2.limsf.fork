@@ -93,6 +93,8 @@ class Routes {
   static const String billSelection = '/bill-selection';
   static const String merchantList = '/merchant-list';
   static const String chatHome = '/chat-home';
+  static const String termsAndCondition = '/terms-and-condition';
+  static const String fpxPaymentOption = '/fpx-payment-option';
   static const String webview = '/Webview';
   static const String comingSoon = '/coming-soon';
   static const all = <String>{
@@ -153,6 +155,8 @@ class Routes {
     billSelection,
     merchantList,
     chatHome,
+    termsAndCondition,
+    fpxPaymentOption,
     webview,
     comingSoon,
   };
@@ -219,6 +223,8 @@ class Router extends RouterBase {
     RouteDef(Routes.billSelection, page: BillSelection),
     RouteDef(Routes.merchantList, page: MerchantList),
     RouteDef(Routes.chatHome, page: ChatHome),
+    RouteDef(Routes.termsAndCondition, page: TermsAndCondition),
+    RouteDef(Routes.fpxPaymentOption, page: FpxPaymentOption),
     RouteDef(Routes.webview, page: Webview),
     RouteDef(Routes.comingSoon, page: ComingSoon),
   ];
@@ -313,6 +319,7 @@ class Router extends RouterBase {
       );
       return MaterialPageRoute<dynamic>(
         builder: (context) => EnrollConfirmation(
+          banner: args.banner,
           packageCode: args.packageCode,
           packageDesc: args.packageDesc,
           diCode: args.diCode,
@@ -643,6 +650,35 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    TermsAndCondition: (data) {
+      final args = data.getArgs<TermsAndConditionArguments>(
+        orElse: () => TermsAndConditionArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) =>
+            TermsAndCondition(termsAndCondition: args.termsAndCondition),
+        settings: data,
+      );
+    },
+    FpxPaymentOption: (data) {
+      final args = data.getArgs<FpxPaymentOptionArguments>(
+        orElse: () => FpxPaymentOptionArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => FpxPaymentOption(
+          icNo: args.icNo,
+          docDoc: args.docDoc,
+          docRef: args.docRef,
+          merchant: args.merchant,
+          packageCode: args.packageCode,
+          packageDesc: args.packageDesc,
+          diCode: args.diCode,
+          totalAmount: args.totalAmount,
+          amountString: args.amountString,
+        ),
+        settings: data,
+      );
+    },
     Webview: (data) {
       final args = data.getArgs<WebviewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
@@ -698,12 +734,14 @@ class DiEnrollmentArguments {
 
 /// EnrollConfirmation arguments holder class
 class EnrollConfirmationArguments {
+  final String banner;
   final String packageCode;
   final String packageDesc;
   final String diCode;
   final String termsAndCondition;
   EnrollConfirmationArguments(
-      {this.packageCode,
+      {this.banner,
+      this.packageCode,
       this.packageDesc,
       this.diCode,
       this.termsAndCondition});
@@ -874,6 +912,35 @@ class BillDetailArguments {
 class MerchantListArguments {
   final dynamic merchantType;
   MerchantListArguments({@required this.merchantType});
+}
+
+/// TermsAndCondition arguments holder class
+class TermsAndConditionArguments {
+  final String termsAndCondition;
+  TermsAndConditionArguments({this.termsAndCondition});
+}
+
+/// FpxPaymentOption arguments holder class
+class FpxPaymentOptionArguments {
+  final String icNo;
+  final String docDoc;
+  final String docRef;
+  final String merchant;
+  final String packageCode;
+  final String packageDesc;
+  final String diCode;
+  final String totalAmount;
+  final String amountString;
+  FpxPaymentOptionArguments(
+      {this.icNo,
+      this.docDoc,
+      this.docRef,
+      this.merchant,
+      this.packageCode,
+      this.packageDesc,
+      this.diCode,
+      this.totalAmount,
+      this.amountString});
 }
 
 /// Webview arguments holder class

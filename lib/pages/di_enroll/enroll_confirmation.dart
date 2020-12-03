@@ -12,15 +12,16 @@ import 'package:epandu/services/repository/fpx_repository.dart';
 
 import '../../app_localizations.dart';
 import '../../router.gr.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class EnrollConfirmation extends StatefulWidget {
+  final String banner;
   final String packageCode;
   final String packageDesc;
   final String diCode;
   final String termsAndCondition;
 
   EnrollConfirmation({
+    this.banner,
     this.packageCode,
     this.packageDesc,
     this.diCode,
@@ -37,6 +38,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
   final profileRepo = ProfileRepo();
   final localStorage = LocalStorage();
   final customDialog = CustomDialog();
+  final image = ImagesConstant();
   final removeBracket = RemoveBracket.remove;
 
   String _icNo = '';
@@ -188,7 +190,8 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
       );
 
       if (result.isSuccess) {
-        customDialog.show(
+        createOrder();
+        /* customDialog.show(
           context: context,
           barrierDismissable: false,
           title: Center(
@@ -214,7 +217,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
               onPressed: createOrder,
             ),
           ],
-        );
+        ); */
       } else {
         customDialog.show(
           context: context,
@@ -224,8 +227,11 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
               '${result.message.toString()} You can proceed to your order.',
           customActions: [
             FlatButton(
-              child: Text(AppLocalizations.of(context).translate('view_order')),
-              onPressed: createOrder,
+              child: Text(AppLocalizations.of(context).translate('proceed')),
+              onPressed: () {
+                ExtendedNavigator.of(context).pop();
+                createOrder();
+              },
             ),
           ],
         );
@@ -243,8 +249,6 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
   }
 
   createOrder() async {
-    ExtendedNavigator.of(context).pop();
-
     setState(() {
       isLoading = true;
     });
@@ -257,20 +261,83 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
     );
 
     if (result.isSuccess) {
-      ExtendedNavigator.of(context).push(
+      /* ExtendedNavigator.of(context).push(
         Routes.orderList,
         arguments: OrderListArguments(
           icNo: _icNo,
           packageCode: packageDetlList[0].packageCode,
           diCode: widget.diCode,
         ),
-      );
+      ); */
+      getOrderDetlByOrderNo(result.data);
     } else {
       customDialog.show(
         context: context,
         type: DialogType.ERROR,
         content: result.message.toString(),
         onPressed: () => ExtendedNavigator.of(context).pop(),
+      );
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  getOrderDetlByOrderNo(orderData) async {
+    var result = await fpxRepo.getOrderDetlByOrderNo(
+      context: context,
+      diCode: widget.diCode,
+      docDoc: orderData[0].docDoc,
+      docRef: orderData[0].docRef,
+    );
+
+    if (result.isSuccess) {
+      if (result.data[0].trnStatus.toUpperCase() != 'PAID')
+        ExtendedNavigator.of(context).push(
+          Routes.fpxPaymentOption,
+          arguments: FpxPaymentOptionArguments(
+            icNo: _icNo,
+            docDoc: orderData[0].docDoc,
+            docRef: orderData[0].docRef,
+            merchant: orderData[0].merchantNo,
+            packageCode: packageDetlList[0].packageCode,
+            packageDesc: orderData[0].packageDesc,
+            diCode: widget.diCode,
+            totalAmount:
+                double.tryParse(orderData[0].tlOrdAmt).toStringAsFixed(2),
+          ),
+        );
+      else
+        getOnlinePaymentByOrderNo(
+            docDoc: orderData[0].docDoc, docRef: orderData[0].docRef);
+    } else {
+      customDialog.show(
+        context: context,
+        type: DialogType.ERROR,
+        content: result.message.toString(),
+        onPressed: () => ExtendedNavigator.of(context).pop(),
+      );
+    }
+  }
+
+  getOnlinePaymentByOrderNo({docDoc, docRef}) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    var result = await fpxRepo.getOnlinePaymentByOrderNo(
+      context: context,
+      diCode: widget.diCode,
+      icNo: _icNo,
+      docDoc: docDoc,
+      docRef: docRef,
+    );
+
+    if (result.isSuccess) {
+      ExtendedNavigator.of(context).push(
+        Routes.webview,
+        arguments: WebviewArguments(url: result.data[0].receiptUrl),
       );
     }
 
@@ -287,6 +354,24 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
           AppLocalizations.of(context).translate('enroll_lbl'),
         ),
         actions: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 40.w),
+            child: InkWell(
+              onTap: () async {
+                String diCode = await localStorage.getMerchantDbCode();
+
+                ExtendedNavigator.of(context).push(
+                  Routes.orderList,
+                  arguments: OrderListArguments(
+                    icNo: _icNo,
+                    packageCode: packageDetlList[0].packageCode,
+                    diCode: diCode,
+                  ),
+                );
+              },
+              child: Center(child: Text('View My Orders')),
+            ),
+          ),
           IconButton(
             onPressed: () => ExtendedNavigator.of(context).pushAndRemoveUntil(
               Routes.updateProfile,
@@ -301,6 +386,13 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
           SingleChildScrollView(
             child: Column(
               children: [
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Image.network(
+                    widget.banner,
+                    gaplessPlayback: true,
+                  ),
+                ),
                 Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 100.w, vertical: 50.h),
@@ -405,7 +497,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                     ),
                   ),
                 SizedBox(height: 40.h),
-                Container(
+                /* Container(
                   width: 1300.w,
                   height: 1000.h,
                   decoration: BoxDecoration(
@@ -427,8 +519,8 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                       ),
                     ],
                   ),
-                ),
-                LabeledCheckbox(
+                ), */
+                /* LabeledCheckbox(
                   label: AppLocalizations.of(context)
                       .translate('terms_and_condition'),
                   padding: EdgeInsets.symmetric(horizontal: 50.w),
@@ -438,6 +530,70 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                       _isAgreed = value;
                     });
                   },
+                ), */
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 50.w),
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: _isAgreed,
+                        onChanged: (bool value) {
+                          setState(() {
+                            _isAgreed = value;
+                          });
+                        },
+                      ),
+                      Text(
+                        AppLocalizations.of(context).translate('agree_to') +
+                            ' ' +
+                            AppLocalizations.of(context)
+                                .translate('epandu_title') +
+                            ' ',
+                        style: TextStyle(
+                          fontSize: 54.sp,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () => ExtendedNavigator.of(context).push(
+                            Routes.termsAndCondition,
+                            arguments: TermsAndConditionArguments(
+                                termsAndCondition: widget.termsAndCondition)),
+                        child: Text(
+                          AppLocalizations.of(context)
+                              .translate('terms_and_condition_link'),
+                          style: TextStyle(
+                            fontSize: 54.sp,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline,
+                            color: Colors.blue[900],
+                          ),
+                        ),
+                      ),
+                      /* RichText(
+                        text: TextSpan(
+                          style: TextStyle(
+                            color: Color(0xff5c5c5c),
+                          ),
+                          children: [
+                            TextSpan(
+                              text: AppLocalizations.of(context)
+                                      .translate('agree_to') +
+                                  ' ',
+                            ),
+                            TextSpan(
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline,
+                                color: Colors.blue[900],
+                              ),
+                              text: AppLocalizations.of(context)
+                                  .translate('terms_and_condition_link'),
+                            ),
+                          ],
+                        ),
+                      ), */
+                    ],
+                  ),
                 ),
                 if (message.isNotEmpty)
                   Text(
@@ -447,8 +603,10 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                 CustomButton(
                   onPressed: saveEnrollmentPackageWithParticular,
                   buttonColor: Color(0xffdd0e0e),
-                  title: AppLocalizations.of(context).translate('enroll_lbl'),
+                  title: AppLocalizations.of(context).translate('pay_online'),
                 ),
+                SizedBox(height: 30.h),
+                Image.asset(image.fpxLogo3, width: 1100.w),
               ],
             ),
           ),

@@ -85,6 +85,8 @@ import 'pages/settings/settings.dart';
     MaterialRoute(page: BillSelection),
     MaterialRoute(page: MerchantList),
     MaterialRoute(page: ChatHome),
+    MaterialRoute(page: TermsAndCondition),
+    MaterialRoute(page: FpxPaymentOption),
     MaterialRoute(page: Webview),
     MaterialRoute(page: ComingSoon),
   ],

@@ -258,7 +258,51 @@ class FpxRepo {
     }
 
     return Response(false,
-        message: AppLocalizations.of(context).translate('create_order_fail'));
+        message: AppLocalizations.of(context).translate('no_order_found'));
+  }
+
+  Future<Response> getOrderDetlByOrderNo({
+    @required context,
+    @required diCode,
+    @required docDoc,
+    @required docRef,
+  }) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+    String userId = await localStorage.getUserId();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&userId=$userId&docDoc=$docDoc&docRef=$docRef';
+
+    var response = await networking.getData(
+      path: 'GetOrderDetlByOrderNo?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetOrderDetlByOrderNoResponse getOrderDetlByOrderNoResponse =
+          GetOrderDetlByOrderNoResponse.fromJson(response.data);
+      var responseData = getOrderDetlByOrderNoResponse.slsDetl;
+
+      return Response(true, data: responseData);
+    } else if (response.message != null &&
+        response.message.contains('timeout')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('timeout_exception'));
+    } else if (response.message != null &&
+        response.message.contains('socket')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('socket_exception'));
+    } else if (response.message != null && response.message.contains('http')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('http_exception'));
+    } else if (response.message != null &&
+        response.message.contains('format')) {
+      return Response(false,
+          message: AppLocalizations.of(context).translate('format_exception'));
+    }
+
+    return Response(false,
+        message: AppLocalizations.of(context).translate('no_order_found'));
   }
 
   Future<Response> fpxSendB2CBankEnquiry({

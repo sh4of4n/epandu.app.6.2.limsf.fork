@@ -135,13 +135,19 @@ class _PurchaseOrderListState extends State<PurchaseOrderList> {
                                       .toUpperCase() !=
                                   'PAID')
                                 ExtendedNavigator.of(context).push(
-                                  Routes.bankList,
-                                  arguments: BankListArguments(
+                                  Routes.fpxPaymentOption,
+                                  arguments: FpxPaymentOptionArguments(
                                     icNo: widget.icNo,
                                     docDoc: snapshot.data[index].docDoc,
                                     docRef: snapshot.data[index].docRef,
+                                    merchant: snapshot.data[index].merchantNo,
                                     packageCode: widget.packageCode,
+                                    packageDesc:
+                                        snapshot.data[index].packageDesc,
                                     diCode: widget.diCode,
+                                    totalAmount: double.tryParse(
+                                            snapshot.data[index].tlOrdAmt)
+                                        .toStringAsFixed(2),
                                     amountString: snapshot.data[index].tlOrdAmt,
                                   ),
                                 );
