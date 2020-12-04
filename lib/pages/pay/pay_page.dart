@@ -259,7 +259,12 @@ class _PayState extends State<Pay> {
                             .translate('select_payment_for');
                       });
                   },
-                  child: Center(child: Text('View My Orders')),
+                  child: Center(
+                    child: Text(
+                      AppLocalizations.of(context).translate('orders'),
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
               ),
             ],

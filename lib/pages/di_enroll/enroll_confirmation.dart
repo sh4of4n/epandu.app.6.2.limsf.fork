@@ -219,7 +219,8 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
           ],
         ); */
       } else {
-        customDialog.show(
+        createOrder();
+        /* customDialog.show(
           context: context,
           barrierDismissable: false,
           type: DialogType.GENERAL,
@@ -234,7 +235,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
               },
             ),
           ],
-        );
+        ); */
       }
 
       setState(() {
@@ -369,7 +370,12 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                   ),
                 );
               },
-              child: Center(child: Text('View My Orders')),
+              child: Center(
+                child: Text(
+                  AppLocalizations.of(context).translate('orders'),
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
           ),
           IconButton(

@@ -369,5 +369,6 @@
   "discount": "Discount",
   "agree_and_select_bank": "Please agree to terms and conditions and select your bank.",
   "fill_all_fields": "Please fill in all the fields.",
-  "select_payment_for": "Please select Payment For."
+  "select_payment_for": "Please select Payment For.",
+  "orders": "Orders"
 }

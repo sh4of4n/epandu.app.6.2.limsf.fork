@@ -331,6 +331,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                   ),
                 ),
               ),
+              SizedBox(height: 30.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 55.w),
                 child: InkWell(
@@ -357,22 +358,19 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                       hintText: selectedBankName.isNotEmpty
                           ? selectedBankName
                           : 'Select Bank',
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.blue[700], width: 1.6),
-                      ),
-                      disabledBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.blue[700], width: 1.6),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey, width: 1.5),
                       ),
                     ),
                     onChanged: null,
                     items: null,
+                    iconDisabledColor: Colors.grey[900],
                   ),
                 ),
               ),
-              SizedBox(height: 10.h),
-              Text(message, style: TextStyle(color: Colors.red)),
+              SizedBox(height: 20.h),
+              if (message.isNotEmpty)
+                Text(message, style: TextStyle(color: Colors.red)),
               CustomButton(
                 onPressed: () {
                   if (selectedBankId.isNotEmpty) {
