@@ -238,9 +238,9 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
         ); */
       }
 
-      setState(() {
+      /* setState(() {
         isLoading = false;
-      });
+      }); */
     } else {
       setState(() {
         message = AppLocalizations.of(context)
@@ -279,10 +279,6 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
         onPressed: () => ExtendedNavigator.of(context).pop(),
       );
     }
-
-    setState(() {
-      isLoading = false;
-    });
   }
 
   getOrderDetlByOrderNo(orderData) async {
@@ -294,7 +290,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
     );
 
     if (result.isSuccess) {
-      if (result.data[0].trnStatus.toUpperCase() != 'PAID')
+      if (result.data[0].trnStatus.toUpperCase() != 'PAID') {
         ExtendedNavigator.of(context).push(
           Routes.fpxPaymentOption,
           arguments: FpxPaymentOptionArguments(
@@ -309,7 +305,11 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                 double.tryParse(orderData[0].tlOrdAmt).toStringAsFixed(2),
           ),
         );
-      else
+
+        setState(() {
+          isLoading = false;
+        });
+      } else
         getOnlinePaymentByOrderNo(
             docDoc: orderData[0].docDoc, docRef: orderData[0].docRef);
     } else {
@@ -323,10 +323,6 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
   }
 
   getOnlinePaymentByOrderNo({docDoc, docRef}) async {
-    setState(() {
-      isLoading = true;
-    });
-
     var result = await fpxRepo.getOnlinePaymentByOrderNo(
       context: context,
       diCode: widget.diCode,

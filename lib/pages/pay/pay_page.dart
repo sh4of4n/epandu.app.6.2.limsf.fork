@@ -339,10 +339,12 @@ class _PayState extends State<Pay> {
                           ),
                         ),
                         validator: (value) {
-                          if (value.toDouble() <
+                          if (value.replaceAll(',', '').toDouble() <
                               double.tryParse(gatewayData[0].minAmt)) {
                             return 'Please enter amount above ${gatewayData[0].minAmt}';
-                          }
+                          } else if (value.replaceAll(',', '').toDouble() >
+                              1000000.00)
+                            return 'Maximum Transaction Limit Exceeded';
                           return null;
                         },
                       ),
