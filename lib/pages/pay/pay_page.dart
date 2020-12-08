@@ -392,6 +392,8 @@ class _PayState extends State<Pay> {
                         title:
                             AppLocalizations.of(context).translate('next_btn'),
                       ),
+                      SizedBox(height: 30.h),
+                      Image.asset(image.fpxLogo3, width: 1100.w),
                     ],
                   ),
                 ),
