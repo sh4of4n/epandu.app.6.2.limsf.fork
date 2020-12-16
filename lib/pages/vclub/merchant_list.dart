@@ -30,6 +30,9 @@ class _MerchantListState extends State<MerchantList> {
 
   ScrollController _scrollController = new ScrollController();
 
+  final RegExp removeBracket =
+      RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
+
   @override
   void initState() {
     super.initState();
@@ -152,7 +155,11 @@ class _MerchantListState extends State<MerchantList> {
             MerchantCard(
               name: item.name ?? '',
               desc: item.merchantDesc ?? '',
-              imageLink: item.merchantIconFilename ?? '',
+              imageLink: item.merchantIconFilename != null
+                  ? item.merchantIconFilename
+                      .replaceAll(removeBracket, '')
+                      .split('\r\n')[0]
+                  : '',
               cityName: item.cityName ?? '',
               distance: item.distance != null
                   ? double.tryParse(item.distance).toStringAsFixed(2)

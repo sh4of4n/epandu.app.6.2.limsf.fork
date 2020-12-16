@@ -177,7 +177,12 @@ class _BankListState extends State<BankList> {
                                       bankList[index].split('~')[3]),
                                   title: Text(bankList[index].split('~')[2]),
                                 )
-                              : Container();
+                              : ListTile(
+                                  leading: Image.network(
+                                      bankList[index].split('~')[3]),
+                                  title: Text(bankList[index].split('~')[2] +
+                                      ' (offline)'),
+                                );
                         },
                       ),
                       Padding(
