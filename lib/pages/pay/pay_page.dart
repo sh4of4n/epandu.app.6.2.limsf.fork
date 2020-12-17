@@ -161,7 +161,7 @@ class _PayState extends State<Pay> {
           diCode: diCode,
           icNo: _icNo,
           packageCode: paymentFor,
-          amountString: amountController.text,
+          amountString: amountController.text.replaceAll(',', ''),
         );
 
         if (result.isSuccess) {
