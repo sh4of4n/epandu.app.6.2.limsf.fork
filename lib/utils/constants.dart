@@ -137,6 +137,11 @@ class ImagesConstant {
   String westlake = 'assets/images/westlake.jpg';
   String jrd = 'assets/images/jrd.jpg';
   String total = 'assets/images/total.jpg';
+
+  // brand logo
+  String carserLogo = 'assets/images/carser.png';
+  String eSalesLogo = 'assets/images/eSales.png';
+  String mobileWarehouseLogo = 'assets/images/warehouse.png';
 }
 
 /* class Common {

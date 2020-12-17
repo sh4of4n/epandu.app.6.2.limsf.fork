@@ -57,7 +57,8 @@ class ProductsRepo {
 
     var response = await Networking(
             customUrl:
-                'https://tbsweb.tbsdns.com/TbsErp.MainService/DEVP/3_8/MainService.svc/webapi')
+                'https://tbsweb.tbsdns.com/TbsErp.MainService/DEVP/3_8/MainService.svc/webapi',
+            milliseconds: 50000)
         .getData(
       path: 'GetStock?$path',
     );

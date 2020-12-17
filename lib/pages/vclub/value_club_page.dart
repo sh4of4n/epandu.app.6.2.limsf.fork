@@ -1,3 +1,5 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:badges/badges.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/services/provider/cart_status.dart';
@@ -6,9 +8,12 @@ import 'package:epandu/services/repository/sales_order_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import '../../router.gr.dart';
 
 class ValueClub extends StatefulWidget {
   @override
@@ -17,6 +22,7 @@ class ValueClub extends StatefulWidget {
 
 class _ValueClubState extends State<ValueClub> {
   static final myImage = ImagesConstant();
+  final formatter = NumberFormat('#,##0.00');
 
   final productsRepo = ProductsRepo();
   final salesOrderRepo = SalesOrderRepo();
@@ -72,12 +78,21 @@ class _ValueClubState extends State<ValueClub> {
     myImage.westlake,
   ];
 
+  final brands = [
+    myImage.carserLogo,
+    myImage.eSalesLogo,
+    myImage.mobileWarehouseLogo,
+  ];
+
   @override
   void initState() {
     super.initState();
 
-    _mostPopular('WL-%20LT', 6);
-    _recommended('WL-OTR', 9);
+    Future.wait([
+      _mostPopular('WL-%20LT', 6),
+      _recommended('WL-OTR', 9),
+    ]);
+
     _getActiveSlsTrnByDb();
   }
 
@@ -121,7 +136,7 @@ class _ValueClubState extends State<ValueClub> {
     }
   }
 
-  _mostPopular(stkCat, endLimit) async {
+  Future<void> _mostPopular(stkCat, endLimit) async {
     setState(() {
       mostPopularLoading = true;
     });
@@ -144,7 +159,7 @@ class _ValueClubState extends State<ValueClub> {
     });
   }
 
-  _recommended(stkCat, endLimit) async {
+  Future<void> _recommended(stkCat, endLimit) async {
     setState(() {
       recommendedLoading = true;
     });
@@ -201,7 +216,13 @@ class _ValueClubState extends State<ValueClub> {
                     textAlign: TextAlign.start,
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () => ExtendedNavigator.of(context).push(
+                      Routes.productList,
+                      arguments: ProductListArguments(
+                        stkCat: 'WL- LT',
+                        keywordSearch: '',
+                      ),
+                    ),
                     child: Text('Shop More >', style: shopMore),
                   ),
                 ],
@@ -220,7 +241,30 @@ class _ValueClubState extends State<ValueClub> {
                 itemCount: mostPopularProducts.length,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
-                    onTap: () {},
+                    onTap: () => ExtendedNavigator.of(context).push(
+                      Routes.product,
+                      arguments: ProductArguments(
+                        image: mostPopularProducts[index].stkpicturePath != null
+                            ? mostPopularProducts[index]
+                                .stkpicturePath
+                                .replaceAll(removeBracket, '')
+                                .split('\r\n')[0]
+                            : '',
+                        price: mostPopularProducts[index].stkpriceUnitPrice,
+                        qty: double.tryParse(mostPopularProducts[index]
+                                    .stkqtyYtdAvailableQty) !=
+                                null
+                            ? formatter.format(double.tryParse(
+                                mostPopularProducts[index]
+                                    .stkqtyYtdAvailableQty))
+                            : mostPopularProducts[index].stkqtyYtdAvailableQty,
+                        stkCode: mostPopularProducts[index].stkCode,
+                        stkDesc1: mostPopularProducts[index].stkDesc1,
+                        stkDesc2: mostPopularProducts[index].stkDesc2,
+                        uom: mostPopularProducts[index].uom,
+                        products: mostPopularProducts,
+                      ),
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -276,7 +320,13 @@ class _ValueClubState extends State<ValueClub> {
                     textAlign: TextAlign.start,
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () => ExtendedNavigator.of(context).push(
+                      Routes.productList,
+                      arguments: ProductListArguments(
+                        stkCat: 'WL- OTR',
+                        keywordSearch: '',
+                      ),
+                    ),
                     child: Text('Shop More >', style: shopMore),
                   ),
                 ],
@@ -294,7 +344,30 @@ class _ValueClubState extends State<ValueClub> {
                 itemCount: recommendedProducts.length,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
-                    onTap: () {},
+                    onTap: () => ExtendedNavigator.of(context).push(
+                      Routes.product,
+                      arguments: ProductArguments(
+                        image: recommendedProducts[index].stkpicturePath != null
+                            ? recommendedProducts[index]
+                                .stkpicturePath
+                                .replaceAll(removeBracket, '')
+                                .split('\r\n')[0]
+                            : '',
+                        price: recommendedProducts[index].stkpriceUnitPrice,
+                        qty: double.tryParse(recommendedProducts[index]
+                                    .stkqtyYtdAvailableQty) !=
+                                null
+                            ? formatter.format(double.tryParse(
+                                recommendedProducts[index]
+                                    .stkqtyYtdAvailableQty))
+                            : recommendedProducts[index].stkqtyYtdAvailableQty,
+                        stkCode: recommendedProducts[index].stkCode,
+                        stkDesc1: recommendedProducts[index].stkDesc1,
+                        stkDesc2: recommendedProducts[index].stkDesc2,
+                        uom: recommendedProducts[index].uom,
+                        products: recommendedProducts,
+                      ),
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -331,263 +404,341 @@ class _ValueClubState extends State<ValueClub> {
     return Container();
   }
 
+  brandList() {
+    return CarouselSlider(
+      options: CarouselOptions(
+        height: 500.h,
+        aspectRatio: 16 / 9,
+        viewportFraction: 0.5,
+        initialPage: _carouselIndex,
+        enableInfiniteScroll: true,
+        reverse: false,
+        autoPlay: true,
+        autoPlayInterval: Duration(seconds: 10),
+        autoPlayAnimationDuration: Duration(milliseconds: 800),
+        autoPlayCurve: Curves.fastOutSlowIn,
+        enlargeCenterPage: true,
+        scrollDirection: Axis.horizontal,
+        onPageChanged: (index, reason) {
+          setState(() {
+            _carouselIndex = index;
+          });
+        },
+      ),
+      items: brands.map((banner) {
+        return Builder(
+          builder: (BuildContext context) {
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              // margin: EdgeInsets.symmetric(horizontal: 5.0),
+              child: Image.asset(banner),
+            );
+          },
+        );
+      }).toList(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('value_club')),
-        elevation: 0,
-        backgroundColor: Colors.transparent,
+    bool showBadge = context.watch<CartStatus>().showBadge;
+    int badgeNo = context.watch<CartStatus>().cartItem;
+
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Colors.white,
+            ColorConstant.primaryColor,
+          ],
+          stops: [0.45, 0.65],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
       ),
-      // bottomNavigationBar: BottomMenu(),
-      body: ListView(
-        children: <Widget>[
-          Stack(
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: CarouselSlider(
-                  options: CarouselOptions(
-                    height: 800.h,
-                    aspectRatio: 16 / 9,
-                    viewportFraction: 0.8,
-                    initialPage: _carouselIndex,
-                    enableInfiniteScroll: true,
-                    reverse: false,
-                    autoPlay: true,
-                    autoPlayInterval: Duration(seconds: 10),
-                    autoPlayAnimationDuration: Duration(milliseconds: 800),
-                    autoPlayCurve: Curves.fastOutSlowIn,
-                    enlargeCenterPage: true,
-                    scrollDirection: Axis.horizontal,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        _carouselIndex = index;
-                      });
-                    },
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context).translate('value_club')),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          actions: [
+            InkWell(
+              onTap: () => ExtendedNavigator.of(context).push(
+                Routes.cart,
+                arguments: CartArguments(
+                  dbcode: 'TBS',
+                  name: 'TBS',
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(top: 30.h, right: 50.w, bottom: 20.h),
+                child: Badge(
+                  badgeColor: Colors.redAccent[700],
+                  animationType: BadgeAnimationType.fade,
+                  showBadge: showBadge,
+                  badgeContent: Text(
+                    '$badgeNo',
+                    style: TextStyle(color: Colors.white),
                   ),
-                  items: banners.map((banner) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                          width: MediaQuery.of(context).size.width,
-                          // margin: EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Image.asset(banner),
-                        );
+                  child: Icon(Icons.shopping_cart),
+                ),
+              ),
+            ),
+          ],
+        ),
+        // bottomNavigationBar: BottomMenu(),
+        body: ListView(
+          children: <Widget>[
+            Stack(
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: CarouselSlider(
+                    options: CarouselOptions(
+                      height: 800.h,
+                      aspectRatio: 16 / 9,
+                      viewportFraction: 0.8,
+                      initialPage: _carouselIndex,
+                      enableInfiniteScroll: true,
+                      reverse: false,
+                      autoPlay: true,
+                      autoPlayInterval: Duration(seconds: 10),
+                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      enlargeCenterPage: true,
+                      scrollDirection: Axis.horizontal,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          _carouselIndex = index;
+                        });
                       },
-                    );
-                  }).toList(),
-                ),
-              ),
-              Positioned(
-                bottom: 20,
-                left: 90,
-                child: AnimatedSmoothIndicator(
-                  activeIndex: _carouselIndex,
-                  count: banners.length,
-                  effect: ExpandingDotsEffect(),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 30.h),
-          mostPopularList(),
-          SizedBox(height: 70.h),
-          recommendedList(),
-          SizedBox(height: 150.h),
-          /* Container(
-            margin: EdgeInsets.symmetric(horizontal: 60.w),
-            child: FadeInImage(
-              alignment: Alignment.center,
-              placeholder: MemoryImage(kTransparentImage),
-              // height: ScreenUtil().setHeight(100),
-              image: AssetImage(
-                myImage.vClubBanner,
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 60.h,
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: Color(0xffbfd730),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
-              ),
-            ),
-            padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 30.w),
-            margin: EdgeInsets.symmetric(horizontal: 60.w),
-            child: GridView(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                // childAspectRatio: MediaQuery.of(context).size.height / 530,
-              ),
-              shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
-              children: <Widget>[
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
-                  child: InkWell(
-                    onTap: () => ExtendedNavigator.of(context)
-                        .push(Routes.billSelection),
-                    child: FadeInImage(
-                      alignment: Alignment.center,
-                      placeholder: MemoryImage(kTransparentImage),
-                      // height: ScreenUtil().setHeight(100),
-                      image: AssetImage(
-                        myImage.billPayment,
-                      ),
                     ),
+                    items: banners.map((banner) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            // margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            child: Image.asset(banner),
+                          );
+                        },
+                      );
+                    }).toList(),
                   ),
                 ),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
-                  child: InkWell(
-                    onTap: () => ExtendedNavigator.of(context)
-                        .push(Routes.airtimeSelection),
-                    child: FadeInImage(
-                      alignment: Alignment.center,
-                      placeholder: MemoryImage(kTransparentImage),
-                      // height: ScreenUtil().setHeight(100),
-                      image: AssetImage(
-                        myImage.airtime,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
-                  child: InkWell(
-                    onTap: () => ExtendedNavigator.of(context).push(
-                        Routes.merchantList,
-                        arguments:
-                            MerchantListArguments(merchantType: 'TOUR')),
-                    child: FadeInImage(
-                      alignment: Alignment.center,
-                      placeholder: MemoryImage(kTransparentImage),
-                      // height: ScreenUtil().setHeight(100),
-                      image: AssetImage(
-                        myImage.tourism,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
-                  child: InkWell(
-                    onTap: () => ExtendedNavigator.of(context).push(
-                        Routes.merchantList,
-                        arguments:
-                            MerchantListArguments(merchantType: 'HOCHIAK')),
-                    child: FadeInImage(
-                      alignment: Alignment.center,
-                      placeholder: MemoryImage(kTransparentImage),
-                      // height: ScreenUtil().setHeight(100),
-                      image: AssetImage(
-                        myImage.hochiak,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
-                  child: InkWell(
-                    onTap: () => ExtendedNavigator.of(context).push(
-                        Routes.merchantList,
-                        arguments:
-                            MerchantListArguments(merchantType: 'HIGHEDU')),
-                    child: FadeInImage(
-                      alignment: Alignment.center,
-                      placeholder: MemoryImage(kTransparentImage),
-                      // height: ScreenUtil().setHeight(100),
-                      image: AssetImage(
-                        myImage.higherEducation,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
-                  child: InkWell(
-                    onTap: () => ExtendedNavigator.of(context).push(
-                        Routes.merchantList,
-                        arguments:
-                            MerchantListArguments(merchantType: 'JOB')),
-                    child: FadeInImage(
-                      alignment: Alignment.center,
-                      placeholder: MemoryImage(kTransparentImage),
-                      // height: ScreenUtil().setHeight(100),
-                      image: AssetImage(
-                        myImage.jobs,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
-                  child: InkWell(
-                    onTap: () => ExtendedNavigator.of(context).push(
-                        Routes.merchantList,
-                        arguments:
-                            MerchantListArguments(merchantType: 'RIDE')),
-                    child: FadeInImage(
-                      alignment: Alignment.center,
-                      placeholder: MemoryImage(kTransparentImage),
-                      // height: ScreenUtil().setHeight(100),
-                      image: AssetImage(
-                        myImage.rideSharing,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
-                  child: InkWell(
-                    onTap: () => ExtendedNavigator.of(context).push(
-                        Routes.merchantList,
-                        arguments: MerchantListArguments(merchantType: 'DI')),
-                    child: FadeInImage(
-                      alignment: Alignment.center,
-                      placeholder: MemoryImage(kTransparentImage),
-                      // height: ScreenUtil().setHeight(100),
-                      image: AssetImage(
-                        myImage.drivingSchools,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
-                  child: InkWell(
-                    onTap: () => ExtendedNavigator.of(context).push(
-                        Routes.merchantList,
-                        arguments:
-                            MerchantListArguments(merchantType: 'WORKSHOP')),
-                    child: FadeInImage(
-                      alignment: Alignment.center,
-                      placeholder: MemoryImage(kTransparentImage),
-                      // height: ScreenUtil().setHeight(100),
-                      image: AssetImage(
-                        myImage.workshops,
-                      ),
-                    ),
+                Positioned(
+                  bottom: 20,
+                  left: 90,
+                  child: AnimatedSmoothIndicator(
+                    activeIndex: _carouselIndex,
+                    count: banners.length,
+                    effect: ExpandingDotsEffect(),
                   ),
                 ),
               ],
             ),
-          ), */
-        ],
+            SizedBox(height: 30.h),
+            mostPopularList(),
+            SizedBox(height: 70.h),
+            recommendedList(),
+            SizedBox(height: 150.h),
+            brandList(),
+            SizedBox(height: 70.h),
+            /* Container(
+              margin: EdgeInsets.symmetric(horizontal: 60.w),
+              child: FadeInImage(
+                alignment: Alignment.center,
+                placeholder: MemoryImage(kTransparentImage),
+                // height: ScreenUtil().setHeight(100),
+                image: AssetImage(
+                  myImage.vClubBanner,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 60.h,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: Color(0xffbfd730),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  topRight: Radius.circular(20.0),
+                ),
+              ),
+              padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 30.w),
+              margin: EdgeInsets.symmetric(horizontal: 60.w),
+              child: GridView(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  // childAspectRatio: MediaQuery.of(context).size.height / 530,
+                ),
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+                children: <Widget>[
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
+                    child: InkWell(
+                      onTap: () => ExtendedNavigator.of(context)
+                          .push(Routes.billSelection),
+                      child: FadeInImage(
+                        alignment: Alignment.center,
+                        placeholder: MemoryImage(kTransparentImage),
+                        // height: ScreenUtil().setHeight(100),
+                        image: AssetImage(
+                          myImage.billPayment,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
+                    child: InkWell(
+                      onTap: () => ExtendedNavigator.of(context)
+                          .push(Routes.airtimeSelection),
+                      child: FadeInImage(
+                        alignment: Alignment.center,
+                        placeholder: MemoryImage(kTransparentImage),
+                        // height: ScreenUtil().setHeight(100),
+                        image: AssetImage(
+                          myImage.airtime,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
+                    child: InkWell(
+                      onTap: () => ExtendedNavigator.of(context).push(
+                          Routes.merchantList,
+                          arguments:
+                              MerchantListArguments(merchantType: 'TOUR')),
+                      child: FadeInImage(
+                        alignment: Alignment.center,
+                        placeholder: MemoryImage(kTransparentImage),
+                        // height: ScreenUtil().setHeight(100),
+                        image: AssetImage(
+                          myImage.tourism,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
+                    child: InkWell(
+                      onTap: () => ExtendedNavigator.of(context).push(
+                          Routes.merchantList,
+                          arguments:
+                              MerchantListArguments(merchantType: 'HOCHIAK')),
+                      child: FadeInImage(
+                        alignment: Alignment.center,
+                        placeholder: MemoryImage(kTransparentImage),
+                        // height: ScreenUtil().setHeight(100),
+                        image: AssetImage(
+                          myImage.hochiak,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
+                    child: InkWell(
+                      onTap: () => ExtendedNavigator.of(context).push(
+                          Routes.merchantList,
+                          arguments:
+                              MerchantListArguments(merchantType: 'HIGHEDU')),
+                      child: FadeInImage(
+                        alignment: Alignment.center,
+                        placeholder: MemoryImage(kTransparentImage),
+                        // height: ScreenUtil().setHeight(100),
+                        image: AssetImage(
+                          myImage.higherEducation,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
+                    child: InkWell(
+                      onTap: () => ExtendedNavigator.of(context).push(
+                          Routes.merchantList,
+                          arguments:
+                              MerchantListArguments(merchantType: 'JOB')),
+                      child: FadeInImage(
+                        alignment: Alignment.center,
+                        placeholder: MemoryImage(kTransparentImage),
+                        // height: ScreenUtil().setHeight(100),
+                        image: AssetImage(
+                          myImage.jobs,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
+                    child: InkWell(
+                      onTap: () => ExtendedNavigator.of(context).push(
+                          Routes.merchantList,
+                          arguments:
+                              MerchantListArguments(merchantType: 'RIDE')),
+                      child: FadeInImage(
+                        alignment: Alignment.center,
+                        placeholder: MemoryImage(kTransparentImage),
+                        // height: ScreenUtil().setHeight(100),
+                        image: AssetImage(
+                          myImage.rideSharing,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
+                    child: InkWell(
+                      onTap: () => ExtendedNavigator.of(context).push(
+                          Routes.merchantList,
+                          arguments: MerchantListArguments(merchantType: 'DI')),
+                      child: FadeInImage(
+                        alignment: Alignment.center,
+                        placeholder: MemoryImage(kTransparentImage),
+                        // height: ScreenUtil().setHeight(100),
+                        image: AssetImage(
+                          myImage.drivingSchools,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
+                    child: InkWell(
+                      onTap: () => ExtendedNavigator.of(context).push(
+                          Routes.merchantList,
+                          arguments:
+                              MerchantListArguments(merchantType: 'WORKSHOP')),
+                      child: FadeInImage(
+                        alignment: Alignment.center,
+                        placeholder: MemoryImage(kTransparentImage),
+                        // height: ScreenUtil().setHeight(100),
+                        image: AssetImage(
+                          myImage.workshops,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ), */
+          ],
+        ),
       ),
     );
   }

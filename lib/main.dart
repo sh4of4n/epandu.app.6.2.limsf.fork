@@ -16,6 +16,8 @@ import 'services/api/model/kpp_model.dart';
 import 'package:epandu/utils/custom_dialog.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
+
+import 'services/provider/cart_status.dart';
 // import 'package:logging/logging.dart';
 
 /* final Map<String, Item> _items = <String, Item>{};
@@ -91,6 +93,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => FeedsLoadingModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CartStatus(),
         ),
       ],
       child: MyApp(),

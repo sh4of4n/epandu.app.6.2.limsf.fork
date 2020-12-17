@@ -25,6 +25,7 @@ import 'pages/login/login.dart';
 import 'pages/pay/pay.dart';
 import 'pages/payment/airtime_transaction.dart';
 import 'pages/settings/settings.dart';
+import 'utils/image_viewer.dart';
 
 @MaterialAutoRouter(
   routes: <AutoRoute>[
@@ -50,6 +51,11 @@ import 'pages/settings/settings.dart';
     MaterialRoute(page: KppModule),
     MaterialRoute(page: PinActivation),
     MaterialRoute(page: ValueClub),
+    MaterialRoute(page: Product),
+    MaterialRoute(page: ProductList),
+    MaterialRoute(page: Cart),
+    MaterialRoute(page: CartItemEdit),
+    MaterialRoute(page: Checkout),
     MaterialRoute(page: EpanduCategory),
     MaterialRoute(page: EmergencyDirectory),
     MaterialRoute(page: DirectoryList),
@@ -87,6 +93,7 @@ import 'pages/settings/settings.dart';
     MaterialRoute(page: ChatHome),
     MaterialRoute(page: TermsAndCondition),
     MaterialRoute(page: FpxPaymentOption),
+    MaterialRoute(page: ImageViewer),
     MaterialRoute(page: Webview),
     MaterialRoute(page: ComingSoon),
   ],
