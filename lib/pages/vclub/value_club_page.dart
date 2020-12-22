@@ -31,6 +31,15 @@ class _ValueClubState extends State<ValueClub> {
 
   var mostPopularProducts;
   var recommendedProducts;
+  List<String> categoryItems = [
+    'Women\'s Clothing',
+    'Electronics',
+    'Toys',
+    'Beauty',
+    'Home Appliances',
+    'Sports',
+    'Gaming'
+  ];
 
   bool mostPopularLoading = false;
   bool recommendedLoading = false;
@@ -404,6 +413,126 @@ class _ValueClubState extends State<ValueClub> {
     return Container();
   }
 
+  categories() {
+    if (mostPopularProducts != null)
+      return Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              offset: Offset(0.0, 5.0),
+              blurRadius: 7.0,
+            ),
+            BoxShadow(
+              color: Colors.black12,
+              offset: Offset(0.0, -5.0),
+              blurRadius: 5.0,
+            ),
+          ],
+        ),
+        width: ScreenUtil().screenWidth,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 60.w, top: 40.h, right: 60.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Categories',
+                    style: headerBubble,
+                    textAlign: TextAlign.start,
+                  ),
+                  InkWell(
+                    onTap: () => ExtendedNavigator.of(context).push(
+                      Routes.productList,
+                      arguments: ProductListArguments(
+                        stkCat: 'WL- LT',
+                        keywordSearch: '',
+                      ),
+                    ),
+                    child: Text('Shop More >', style: shopMore),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: 1200.h,
+              padding: EdgeInsets.all(8),
+              child: GridView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  // childAspectRatio: MediaQuery.of(context).size.height / 530,
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 40.w),
+                // physics: BouncingScrollPhysics(),
+                itemCount: categoryItems.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    /* onTap: () => ExtendedNavigator.of(context).push(
+                      Routes.product,
+                      arguments: ProductArguments(
+                        image: mostPopularProducts[index].stkpicturePath != null
+                            ? mostPopularProducts[index]
+                                .stkpicturePath
+                                .replaceAll(removeBracket, '')
+                                .split('\r\n')[0]
+                            : '',
+                        price: mostPopularProducts[index].stkpriceUnitPrice,
+                        qty: double.tryParse(mostPopularProducts[index]
+                                    .stkqtyYtdAvailableQty) !=
+                                null
+                            ? formatter.format(double.tryParse(
+                                mostPopularProducts[index]
+                                    .stkqtyYtdAvailableQty))
+                            : mostPopularProducts[index].stkqtyYtdAvailableQty,
+                        stkCode: mostPopularProducts[index].stkCode,
+                        stkDesc1: mostPopularProducts[index].stkDesc1,
+                        stkDesc2: mostPopularProducts[index].stkDesc2,
+                        uom: mostPopularProducts[index].uom,
+                        products: mostPopularProducts,
+                      ),
+                    ), */
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        // loadImage(mostPopularProducts[index].stkpicturePath),
+                        SizedBox(height: 20.h),
+                        Container(
+                            width: 220.w,
+                            child: Text(
+                              categoryItems[index],
+                              maxLines: 1,
+                            )),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+    else if (mostPopularProducts == null && mostPopularLoading == true)
+      return Padding(
+        padding: EdgeInsets.all(8),
+        child: Shimmer.fromColors(
+          baseColor: Colors.grey[300],
+          highlightColor: Colors.white,
+          child: Container(
+            width: ScreenUtil().setWidth(1400),
+            height: ScreenUtil().setHeight(700),
+            color: Colors.grey[300],
+          ),
+        ),
+      );
+    return Container();
+  }
+
   brandList() {
     return CarouselSlider(
       options: CarouselOptions(
@@ -542,10 +671,19 @@ class _ValueClubState extends State<ValueClub> {
             mostPopularList(),
             SizedBox(height: 70.h),
             recommendedList(),
+            SizedBox(height: 70.h),
+            categories(),
             SizedBox(height: 150.h),
             brandList(),
             SizedBox(height: 70.h),
-            /* Container(
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/* Container(
               margin: EdgeInsets.symmetric(horizontal: 60.w),
               child: FadeInImage(
                 alignment: Alignment.center,
@@ -737,9 +875,3 @@ class _ValueClubState extends State<ValueClub> {
                 ],
               ),
             ), */
-          ],
-        ),
-      ),
-    );
-  }
-}
