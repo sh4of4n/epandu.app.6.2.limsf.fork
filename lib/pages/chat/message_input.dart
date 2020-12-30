@@ -1,7 +1,7 @@
 import 'package:epandu/pages/chat/chat_bloc.dart';
 import 'package:epandu/services/database/chat_db.dart';
 import 'package:flutter/material.dart';
-import 'package:epandu/services/api/model/chat_model.dart';
+import 'package:epandu/common_library/services/model/chat_model.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:uuid/uuid.dart';

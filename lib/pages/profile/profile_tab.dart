@@ -2,11 +2,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/pages/profile/profile_page.dart';
 import 'package:epandu/pages/settings/settings.dart';
-import 'package:epandu/services/api/model/profile_model.dart';
-import 'package:epandu/services/repository/profile_repository.dart';
-import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/custom_dialog.dart';
-import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/common_library/services/model/profile_model.dart';
+import 'package:epandu/common_library/services/repository/profile_repository.dart';
+import 'package:epandu/common_library/utils/constants.dart';
+import 'package:epandu/common_library/utils/custom_dialog.dart';
+import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../app_localizations.dart';

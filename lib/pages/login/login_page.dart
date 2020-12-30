@@ -1,6 +1,6 @@
-import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/custom_dialog.dart';
-import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/common_library/utils/constants.dart';
+import 'package:epandu/common_library/utils/custom_dialog.dart';
+import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'login_bottom_card.dart';

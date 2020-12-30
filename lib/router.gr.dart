@@ -10,6 +10,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
+import 'common_library/utils/image_viewer.dart';
 import 'coming_soon/coming_soon.dart';
 import 'pages/chat/chat.dart';
 import 'pages/di_enroll/di_enrollment.dart';
@@ -34,7 +35,6 @@ import 'pages/promotions/promotions.dart';
 import 'pages/register/register.dart';
 import 'pages/settings/settings.dart';
 import 'pages/vclub/value_club.dart';
-import 'utils/image_viewer.dart';
 
 class Routes {
   static const String authentication = '/';

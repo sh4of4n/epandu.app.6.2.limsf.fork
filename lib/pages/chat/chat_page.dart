@@ -4,17 +4,17 @@ import 'package:epandu/pages/chat/chat_bloc.dart';
 import 'package:epandu/services/database/chat_db.dart';
 import 'package:epandu/pages/chat/socket_helper.dart';
 import 'package:epandu/pages/chat/contact_list.dart';
-import 'package:epandu/services/api/model/profile_model.dart';
-import 'package:epandu/services/repository/auth_repository.dart';
-import 'package:epandu/services/repository/profile_repository.dart';
-import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/common_library/services/model/profile_model.dart';
+import 'package:epandu/common_library/services/repository/auth_repository.dart';
+import 'package:epandu/common_library/services/repository/profile_repository.dart';
+import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 // import 'package:shimmer/shimmer.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:uuid/uuid.dart';
-import 'package:epandu/services/api/model/chat_model.dart';
+import 'package:epandu/common_library/services/model/chat_model.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class ChatHome extends StatefulWidget {

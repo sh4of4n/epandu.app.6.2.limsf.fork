@@ -1,8 +1,8 @@
-import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 // import 'package:provider/provider.dart';
-import 'package:epandu/services/api/model/chat_model.dart';
+import 'package:epandu/common_library/services/model/chat_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MessageItem extends StatelessWidget {

@@ -5,17 +5,17 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:html_unescape/html_unescape_small.dart';
 import 'package:epandu/services/provider/cart_status.dart';
-import 'package:epandu/services/repository/sales_order_repository.dart';
-import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/custom_dialog.dart';
+import 'package:epandu/common_library/services/repository/sales_order_repository.dart';
+import 'package:epandu/common_library/utils/constants.dart';
+import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:epandu/utils/custom_snackbar.dart';
+import 'package:epandu/common_library/utils/custom_snackbar.dart';
 import 'package:provider/provider.dart';
 
 import '../../router.gr.dart';
-import '../../services/repository/products_repository.dart';
+import 'package:epandu/common_library/services/repository/products_repository.dart';
 
 class Product extends StatefulWidget {
   final String stkCode;

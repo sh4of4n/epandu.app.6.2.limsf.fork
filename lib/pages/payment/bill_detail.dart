@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/pages/payment/top_up_button.dart';
-import 'package:epandu/services/api/model/bill_model.dart';
-import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/common_library/services/model/bill_model.dart';
+import 'package:epandu/common_library/utils/constants.dart';
+import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';

@@ -2,14 +2,14 @@ import 'dart:async';
 import 'dart:io' show Platform;
 
 import 'package:auto_route/auto_route.dart';
-import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/custom_dialog.dart';
+import 'package:epandu/common_library/utils/constants.dart';
+import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:provider/provider.dart';
-import 'package:epandu/services/api/model/provider_model.dart';
+import 'package:epandu/common_library/services/model/provider_model.dart';
 
 import '../../app_localizations.dart';
 // import '../../router.gr.dart';

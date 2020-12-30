@@ -25,7 +25,7 @@ import 'pages/login/login.dart';
 import 'pages/pay/pay.dart';
 import 'pages/payment/airtime_transaction.dart';
 import 'pages/settings/settings.dart';
-import 'utils/image_viewer.dart';
+import 'package:epandu/common_library/utils/image_viewer.dart';
 
 @MaterialAutoRouter(
   routes: <AutoRoute>[

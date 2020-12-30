@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/pages/home/home.dart';
-import 'package:epandu/services/api/model/provider_model.dart';
+import 'package:epandu/common_library/services/model/provider_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:epandu/utils/custom_dialog.dart';
+import 'package:epandu/common_library/utils/custom_dialog.dart';
 
 import '../../app_localizations.dart';
 import '../../router.gr.dart';

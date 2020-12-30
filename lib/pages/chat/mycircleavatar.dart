@@ -1,4 +1,4 @@
-import 'package:epandu/services/api/model/profile_model.dart';
+import 'package:epandu/common_library/services/model/profile_model.dart';
 import 'package:flutter/material.dart';
 
 class MyCircleAvatar extends StatelessWidget {

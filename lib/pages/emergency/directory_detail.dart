@@ -1,14 +1,14 @@
 import 'package:epandu/app_localizations.dart';
-import 'package:epandu/services/location.dart';
-import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/custom_snackbar.dart';
-import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/common_library/services/location.dart';
+import 'package:epandu/common_library/utils/constants.dart';
+import 'package:epandu/common_library/utils/custom_snackbar.dart';
+import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:map_launcher/map_launcher.dart';
-// import 'package:epandu/utils/map_launcher.dart';
+// import 'package:epandu/common_library/utils/map_launcher.dart';
 
 class DirectoryDetail extends StatefulWidget {
   final snapshot;

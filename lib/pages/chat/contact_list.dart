@@ -1,6 +1,6 @@
 import 'package:epandu/pages/chat/chat_screen.dart';
-import 'package:epandu/services/api/model/profile_model.dart';
-import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/common_library/services/model/profile_model.dart';
+import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';

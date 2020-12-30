@@ -1,6 +1,6 @@
-import 'package:epandu/services/location.dart';
-import 'package:epandu/services/repository/vclub_repository.dart';
-import 'package:epandu/utils/constants.dart';
+import 'package:epandu/common_library/services/location.dart';
+import 'package:epandu/common_library/services/repository/vclub_repository.dart';
+import 'package:epandu/common_library/utils/constants.dart';
 import 'package:shimmer/shimmer.dart';
 import 'merchant_card.dart';
 import 'package:flutter/material.dart';

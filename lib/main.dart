@@ -1,8 +1,8 @@
 // import 'dart:io';
 import 'package:auto_route/auto_route.dart';
-import 'package:epandu/services/api/model/provider_model.dart';
-import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/common_library/services/model/provider_model.dart';
+import 'package:epandu/common_library/utils/constants.dart';
+import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
@@ -11,9 +11,9 @@ import 'package:provider/provider.dart';
 import 'app_localizations_delegate.dart';
 import 'application.dart';
 import 'router.gr.dart' as router;
-import 'services/api/model/bill_model.dart';
-import 'services/api/model/kpp_model.dart';
-import 'package:epandu/utils/custom_dialog.dart';
+import 'package:epandu/common_library/services/model/bill_model.dart';
+import 'package:epandu/common_library/services/model/kpp_model.dart';
+import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 

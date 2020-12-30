@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io' as io;
-import 'package:epandu/services/api/model/chat_model.dart';
-import 'package:epandu/services/api/model/profile_model.dart';
+import 'package:epandu/common_library/services/model/chat_model.dart';
+import 'package:epandu/common_library/services/model/profile_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';

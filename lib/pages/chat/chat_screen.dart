@@ -5,11 +5,11 @@ import 'package:epandu/pages/chat/chat_bloc.dart';
 import 'package:epandu/services/database/chat_db.dart';
 import 'package:epandu/pages/chat/message_item.dart';
 import 'package:epandu/pages/chat/socket_helper.dart';
-import 'package:epandu/services/api/model/profile_model.dart';
-import 'package:epandu/services/repository/meeting_repository.dart';
-import 'package:epandu/services/repository/profile_repository.dart';
-import 'package:epandu/utils/constants.dart';
-import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/common_library/services/model/profile_model.dart';
+import 'package:epandu/common_library/services/repository/meeting_repository.dart';
+import 'package:epandu/common_library/services/repository/profile_repository.dart';
+import 'package:epandu/common_library/utils/constants.dart';
+import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +17,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 // import 'package:epandu/pages/chat/message_input.dart';
-import 'package:epandu/services/api/model/chat_model.dart';
+import 'package:epandu/common_library/services/model/chat_model.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:uuid/uuid.dart';
 

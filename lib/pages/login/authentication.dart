@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/app_localizations.dart';
 import 'package:epandu/router.gr.dart';
-import 'package:epandu/services/api/model/provider_model.dart';
-import 'package:epandu/services/repository/auth_repository.dart';
-import 'package:epandu/utils/app_config.dart';
-import 'package:epandu/utils/constants.dart';
+import 'package:epandu/common_library/services/model/provider_model.dart';
+import 'package:epandu/common_library/services/repository/auth_repository.dart';
+import 'package:epandu/common_library/utils/app_config.dart';
+import 'package:epandu/common_library/utils/constants.dart';
 
-import 'package:epandu/utils/device_info.dart';
-import 'package:epandu/utils/local_storage.dart';
+import 'package:epandu/common_library/utils/device_info.dart';
+import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
