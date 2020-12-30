@@ -34,6 +34,7 @@ import 'pages/promotions/promotions.dart';
 import 'pages/register/register.dart';
 import 'pages/settings/settings.dart';
 import 'pages/vclub/value_club.dart';
+import 'utils/image_viewer.dart';
 
 class Routes {
   static const String authentication = '/';
@@ -58,6 +59,11 @@ class Routes {
   static const String kppModule = '/kpp-module';
   static const String pinActivation = '/pin-activation';
   static const String valueClub = '/value-club';
+  static const String product = '/Product';
+  static const String productList = '/product-list';
+  static const String cart = '/Cart';
+  static const String cartItemEdit = '/cart-item-edit';
+  static const String checkout = '/Checkout';
   static const String epanduCategory = '/epandu-category';
   static const String emergencyDirectory = '/emergency-directory';
   static const String directoryList = '/directory-list';
@@ -95,6 +101,7 @@ class Routes {
   static const String chatHome = '/chat-home';
   static const String termsAndCondition = '/terms-and-condition';
   static const String fpxPaymentOption = '/fpx-payment-option';
+  static const String imageViewer = '/image-viewer';
   static const String webview = '/Webview';
   static const String comingSoon = '/coming-soon';
   static const all = <String>{
@@ -120,6 +127,11 @@ class Routes {
     kppModule,
     pinActivation,
     valueClub,
+    product,
+    productList,
+    cart,
+    cartItemEdit,
+    checkout,
     epanduCategory,
     emergencyDirectory,
     directoryList,
@@ -157,6 +169,7 @@ class Routes {
     chatHome,
     termsAndCondition,
     fpxPaymentOption,
+    imageViewer,
     webview,
     comingSoon,
   };
@@ -188,6 +201,11 @@ class Router extends RouterBase {
     RouteDef(Routes.kppModule, page: KppModule),
     RouteDef(Routes.pinActivation, page: PinActivation),
     RouteDef(Routes.valueClub, page: ValueClub),
+    RouteDef(Routes.product, page: Product),
+    RouteDef(Routes.productList, page: ProductList),
+    RouteDef(Routes.cart, page: Cart),
+    RouteDef(Routes.cartItemEdit, page: CartItemEdit),
+    RouteDef(Routes.checkout, page: Checkout),
     RouteDef(Routes.epanduCategory, page: EpanduCategory),
     RouteDef(Routes.emergencyDirectory, page: EmergencyDirectory),
     RouteDef(Routes.directoryList, page: DirectoryList),
@@ -225,6 +243,7 @@ class Router extends RouterBase {
     RouteDef(Routes.chatHome, page: ChatHome),
     RouteDef(Routes.termsAndCondition, page: TermsAndCondition),
     RouteDef(Routes.fpxPaymentOption, page: FpxPaymentOption),
+    RouteDef(Routes.imageViewer, page: ImageViewer),
     RouteDef(Routes.webview, page: Webview),
     RouteDef(Routes.comingSoon, page: ComingSoon),
   ];
@@ -406,6 +425,87 @@ class Router extends RouterBase {
     ValueClub: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => ValueClub(),
+        settings: data,
+      );
+    },
+    Product: (data) {
+      final args = data.getArgs<ProductArguments>(
+        orElse: () => ProductArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => Product(
+          stkCode: args.stkCode,
+          stkDesc1: args.stkDesc1,
+          stkDesc2: args.stkDesc2,
+          qty: args.qty,
+          price: args.price,
+          image: args.image,
+          uom: args.uom,
+          products: args.products,
+        ),
+        settings: data,
+      );
+    },
+    ProductList: (data) {
+      final args = data.getArgs<ProductListArguments>(
+        orElse: () => ProductListArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ProductList(
+          stkCat: args.stkCat,
+          keywordSearch: args.keywordSearch,
+        ),
+        settings: data,
+      );
+    },
+    Cart: (data) {
+      final args = data.getArgs<CartArguments>(
+        orElse: () => CartArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => Cart(
+          name: args.name,
+          dbcode: args.dbcode,
+        ),
+        settings: data,
+      );
+    },
+    CartItemEdit: (data) {
+      final args = data.getArgs<CartItemEditArguments>(
+        orElse: () => CartItemEditArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => CartItemEdit(
+          stkCode: args.stkCode,
+          stkDesc1: args.stkDesc1,
+          stkDesc2: args.stkDesc2,
+          qty: args.qty,
+          price: args.price,
+          discRate: args.discRate,
+          isOfferedItem: args.isOfferedItem,
+          scheduledDeliveryDate: args.scheduledDeliveryDate,
+          uom: args.uom,
+          batchNo: args.batchNo,
+          slsKey: args.slsKey,
+        ),
+        settings: data,
+      );
+    },
+    Checkout: (data) {
+      final args = data.getArgs<CheckoutArguments>(
+        orElse: () => CheckoutArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => Checkout(
+          slsDetailData: args.slsDetailData,
+          name: args.name,
+          dbcode: args.dbcode,
+          date: args.date,
+          docDoc: args.docDoc,
+          docRef: args.docRef,
+          qty: args.qty,
+          totalAmount: args.totalAmount,
+        ),
         settings: data,
       );
     },
@@ -679,6 +779,18 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    ImageViewer: (data) {
+      final args = data.getArgs<ImageViewerArguments>(
+        orElse: () => ImageViewerArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ImageViewer(
+          title: args.title,
+          image: args.image,
+        ),
+        settings: data,
+      );
+    },
     Webview: (data) {
       final args = data.getArgs<WebviewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
@@ -801,6 +913,89 @@ class KppModuleArguments {
 class PinActivationArguments {
   final String data;
   PinActivationArguments({@required this.data});
+}
+
+/// Product arguments holder class
+class ProductArguments {
+  final String stkCode;
+  final String stkDesc1;
+  final String stkDesc2;
+  final String qty;
+  final String price;
+  final String image;
+  final String uom;
+  final dynamic products;
+  ProductArguments(
+      {this.stkCode,
+      this.stkDesc1,
+      this.stkDesc2,
+      this.qty,
+      this.price,
+      this.image,
+      this.uom,
+      this.products});
+}
+
+/// ProductList arguments holder class
+class ProductListArguments {
+  final String stkCat;
+  final String keywordSearch;
+  ProductListArguments({this.stkCat, this.keywordSearch});
+}
+
+/// Cart arguments holder class
+class CartArguments {
+  final String name;
+  final String dbcode;
+  CartArguments({this.name, this.dbcode});
+}
+
+/// CartItemEdit arguments holder class
+class CartItemEditArguments {
+  final String stkCode;
+  final String stkDesc1;
+  final String stkDesc2;
+  final String qty;
+  final String price;
+  final String discRate;
+  final String isOfferedItem;
+  final String scheduledDeliveryDate;
+  final String uom;
+  final String batchNo;
+  final String slsKey;
+  CartItemEditArguments(
+      {this.stkCode,
+      this.stkDesc1,
+      this.stkDesc2,
+      this.qty,
+      this.price,
+      this.discRate,
+      this.isOfferedItem,
+      this.scheduledDeliveryDate,
+      this.uom,
+      this.batchNo,
+      this.slsKey});
+}
+
+/// Checkout arguments holder class
+class CheckoutArguments {
+  final dynamic slsDetailData;
+  final String name;
+  final String dbcode;
+  final String date;
+  final String docDoc;
+  final String docRef;
+  final String qty;
+  final String totalAmount;
+  CheckoutArguments(
+      {this.slsDetailData,
+      this.name,
+      this.dbcode,
+      this.date,
+      this.docDoc,
+      this.docRef,
+      this.qty,
+      this.totalAmount});
 }
 
 /// DirectoryList arguments holder class
@@ -941,6 +1136,13 @@ class FpxPaymentOptionArguments {
       this.diCode,
       this.totalAmount,
       this.amountString});
+}
+
+/// ImageViewer arguments holder class
+class ImageViewerArguments {
+  final String title;
+  final NetworkImage image;
+  ImageViewerArguments({this.title, this.image});
 }
 
 /// Webview arguments holder class

@@ -76,7 +76,7 @@ class MerchantCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    RatingBar(
+                    RatingBar.builder(
                       initialRating: 4,
                       onRatingUpdate: null,
                       direction: Axis.horizontal,

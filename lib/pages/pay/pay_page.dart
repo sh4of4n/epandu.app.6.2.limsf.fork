@@ -161,7 +161,7 @@ class _PayState extends State<Pay> {
           diCode: diCode,
           icNo: _icNo,
           packageCode: paymentFor,
-          amountString: amountController.text,
+          amountString: amountController.text.replaceAll(',', ''),
         );
 
         if (result.isSuccess) {
@@ -345,7 +345,7 @@ class _PayState extends State<Pay> {
                             return 'Transaction amount is Lower than the Minimum Limit RM${gatewayData[0].minAmt}';
                           } else if (value.replaceAll(',', '').toDouble() >
                               30000.00)
-                            return 'Maximum Transaction Limit Exceeded';
+                            return 'Maximum Transaction Limit Exceeded RM30,000';
                           return null;
                         },
                       ),

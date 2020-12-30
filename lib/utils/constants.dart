@@ -127,6 +127,21 @@ class ImagesConstant {
   String profileIcon = 'assets/images/profile-icon.png';
   String productsIcon = 'assets/images/products-icon.png';
   String reviewIcon = 'assets/images/review-icon.png';
+
+  // banners
+  String amaron = 'assets/images/amaron.jpg';
+  String apollo = 'assets/images/apollo.jpg';
+  String century = 'assets/images/century.jpg';
+  String bhl = 'assets/images/bhl.jpg';
+  String castrol = 'assets/images/castrol.jpg';
+  String westlake = 'assets/images/westlake.jpg';
+  String jrd = 'assets/images/jrd.jpg';
+  String total = 'assets/images/total.jpg';
+
+  // brand logo
+  String carserLogo = 'assets/images/carser.png';
+  String eSalesLogo = 'assets/images/eSales.png';
+  String mobileWarehouseLogo = 'assets/images/warehouse.png';
 }
 
 /* class Common {

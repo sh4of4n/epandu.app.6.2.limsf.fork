@@ -8,6 +8,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:epandu/utils/custom_button.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:epandu/widgets/loading_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../router.gr.dart';
 
@@ -186,7 +187,12 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                                     bankList[index].split('~')[3]),
                                 title: Text(bankList[index].split('~')[2]),
                               )
-                            : Container();
+                            : ListTile(
+                                leading: Image.network(
+                                    bankList[index].split('~')[3]),
+                                title: Text(bankList[index].split('~')[2] +
+                                    ' (offline)'),
+                              );
                       },
                     ),
                   );
@@ -320,12 +326,15 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                           color: Colors.blue[900],
                         ),
                         recognizer: TapGestureRecognizer()
+                          ..onTap = () async => await launch(
+                              'https://www.mepsfpx.com.my/FPXMain/termsAndConditions.jsp'),
+                        /* recognizer: TapGestureRecognizer()
                           ..onTap = () => ExtendedNavigator.of(context).push(
                                 Routes.webview,
                                 arguments: WebviewArguments(
                                     url:
                                         'https://www.mepsfpx.com.my/FPXMain/termsAndConditions.jsp'),
-                              ),
+                              ), */
                       ),
                     ],
                   ),
