@@ -8,7 +8,7 @@ import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/pages/enroll/enroll.dart';
 import 'package:epandu/common_library/services/repository/auth_repository.dart';
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
-import 'package:epandu/common_library/utils/constants.dart';
+import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/common_library/utils/custom_snackbar.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';

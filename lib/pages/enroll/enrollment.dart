@@ -9,7 +9,7 @@ import 'package:epandu/common_library/services/model/auth_model.dart';
 import 'package:epandu/common_library/services/repository/auth_repository.dart';
 import 'package:epandu/common_library/services/repository/epandu_repository.dart';
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
-import 'package:epandu/common_library/utils/constants.dart';
+import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/common_library/utils/custom_snackbar.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';

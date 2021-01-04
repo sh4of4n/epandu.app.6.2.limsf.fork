@@ -8,7 +8,7 @@ import 'package:epandu/pages/chat/socket_helper.dart';
 import 'package:epandu/common_library/services/model/profile_model.dart';
 import 'package:epandu/common_library/services/repository/meeting_repository.dart';
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
-import 'package:epandu/common_library/utils/constants.dart';
+import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

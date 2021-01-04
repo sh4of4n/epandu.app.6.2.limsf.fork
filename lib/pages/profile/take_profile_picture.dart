@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
-import 'package:epandu/common_library/utils/constants.dart';
+import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/custom_snackbar.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';

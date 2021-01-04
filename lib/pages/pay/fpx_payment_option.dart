@@ -1,5 +1,5 @@
 import 'package:epandu/common_library/services/repository/fpx_repository.dart';
-import 'package:epandu/common_library/utils/constants.dart';
+import 'package:epandu/utils/constants.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';

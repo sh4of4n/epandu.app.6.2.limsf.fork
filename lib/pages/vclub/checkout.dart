@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/provider/cart_status.dart';
 import 'package:epandu/common_library/services/repository/sales_order_repository.dart';
-import 'package:epandu/common_library/utils/constants.dart';
+import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

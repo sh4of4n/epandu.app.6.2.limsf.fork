@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/repository/fpx_repository.dart';
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
-import 'package:epandu/common_library/utils/constants.dart';
+import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/currency_input_controller.dart';
 import 'package:epandu/common_library/utils/custom_button.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';

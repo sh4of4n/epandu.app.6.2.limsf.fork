@@ -7,7 +7,7 @@ import 'package:epandu/common_library/services/model/provider_model.dart';
 // import 'package:epandu/common_library/services/location.dart';
 import 'package:epandu/common_library/services/repository/auth_repository.dart';
 import 'package:epandu/common_library/services/repository/kpp_repository.dart';
-import 'package:epandu/common_library/utils/constants.dart';
+import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:epandu/widgets/loading_model.dart';
 import 'package:flutter/material.dart';

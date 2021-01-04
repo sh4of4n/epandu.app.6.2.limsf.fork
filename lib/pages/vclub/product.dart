@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:html_unescape/html_unescape_small.dart';
 import 'package:epandu/services/provider/cart_status.dart';
 import 'package:epandu/common_library/services/repository/sales_order_repository.dart';
-import 'package:epandu/common_library/utils/constants.dart';
+import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

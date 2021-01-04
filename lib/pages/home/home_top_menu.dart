@@ -4,7 +4,7 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
 import 'package:epandu/router.gr.dart';
-import 'package:epandu/common_library/utils/constants.dart';
+import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
