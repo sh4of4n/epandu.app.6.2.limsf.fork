@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../app_localizations.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 
 class AddBooking extends StatefulWidget {
   @override

@@ -8,7 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../../app_localizations.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
 class SelectClass extends StatefulWidget {

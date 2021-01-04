@@ -21,7 +21,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-import '../../app_localizations.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
 enum AppState { free, picked, cropped }

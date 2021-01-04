@@ -10,7 +10,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 
-import '../../app_localizations.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 
 class TakeProfilePicture extends StatefulWidget {
   final List<CameraDescription> camera;

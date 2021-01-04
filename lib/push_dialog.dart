@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:flutter/material.dart';
 
-import 'app_localizations.dart';
+import 'common_library/utils/app_localizations.dart';
 
 class PushDialog extends StatelessWidget {
   final String message;

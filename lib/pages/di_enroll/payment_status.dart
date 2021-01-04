@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../../app_localizations.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
 class PaymentStatus extends StatefulWidget {

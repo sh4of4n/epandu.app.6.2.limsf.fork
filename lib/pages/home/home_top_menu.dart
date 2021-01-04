@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:badges/badges.dart';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:epandu/app_localizations.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:epandu/common_library/utils/constants.dart';

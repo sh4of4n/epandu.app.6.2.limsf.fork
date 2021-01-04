@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
-import '../../app_localizations.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
 class RegisteredCourse extends StatefulWidget {

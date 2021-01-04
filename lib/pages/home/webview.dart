@@ -11,7 +11,7 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:provider/provider.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 
-import '../../app_localizations.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 // import '../../router.gr.dart';
 import '../../router.gr.dart';
 import 'navigation_controls.dart';

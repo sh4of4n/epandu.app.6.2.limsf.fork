@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:epandu/app_localizations.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/pages/kpp/exam_template.dart';
 import 'package:epandu/common_library/services/model/kpp_model.dart';
 import 'package:epandu/common_library/services/repository/kpp_repository.dart';

@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:badges/badges.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:epandu/app_localizations.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/services/provider/cart_status.dart';
 import 'package:epandu/common_library/services/repository/products_repository.dart';
 import 'package:epandu/common_library/services/repository/sales_order_repository.dart';

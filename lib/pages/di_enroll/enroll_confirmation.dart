@@ -10,7 +10,7 @@ import 'package:epandu/common_library/utils/custom_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:epandu/common_library/services/repository/fpx_repository.dart';
 
-import '../../app_localizations.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
 class EnrollConfirmation extends StatefulWidget {

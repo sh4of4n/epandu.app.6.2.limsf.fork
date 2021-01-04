@@ -3,7 +3,7 @@ import 'package:epandu/common_library/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../../app_localizations.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 
 class MerchantProfile extends StatefulWidget {
   final data;

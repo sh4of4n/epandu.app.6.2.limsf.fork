@@ -19,7 +19,7 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 // import 'package:epandu/common_library/utils/custom_dialog.dart';
 
-// import '../../app_localizations.dart';
+// import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'bottom_menu.dart';
 import 'feeds.dart';
 import 'home_page_header.dart';

@@ -1,4 +1,4 @@
-import 'package:epandu/app_localizations.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class EnrollEnquiry extends StatelessWidget {

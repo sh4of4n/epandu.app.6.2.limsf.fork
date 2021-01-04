@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:epandu/app_localizations.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/common_library/services/repository/pickup_repository.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';

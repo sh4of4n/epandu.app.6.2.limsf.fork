@@ -1,4 +1,4 @@
-import 'package:epandu/app_localizations.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
 import 'package:epandu/common_library/utils/constants.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';

@@ -19,7 +19,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
 
-import '../../app_localizations.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 
 class RegisterUserToDi extends StatefulWidget {
   final barcode;

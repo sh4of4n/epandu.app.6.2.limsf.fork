@@ -15,7 +15,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:string_validator/string_validator.dart';
 // import 'package:url_launcher/url_launcher.dart';
 
-import '../../app_localizations.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
 class Feeds extends StatefulWidget {
