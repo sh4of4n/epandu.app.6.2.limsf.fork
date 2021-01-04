@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:badges/badges.dart';
-import 'package:epandu/widgets/loading_model.dart';
+import 'package:epandu/common_library/utils/loading_model.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:html_unescape/html_unescape_small.dart';

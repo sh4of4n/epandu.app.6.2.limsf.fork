@@ -6,7 +6,7 @@ import 'package:epandu/common_library/utils/currency_input_controller.dart';
 import 'package:epandu/common_library/utils/custom_button.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
-import 'package:epandu/widgets/loading_model.dart';
+import 'package:epandu/common_library/utils/loading_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supercharged/supercharged.dart';

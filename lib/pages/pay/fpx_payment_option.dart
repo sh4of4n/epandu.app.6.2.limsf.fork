@@ -7,7 +7,7 @@ import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/utils/custom_button.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:epandu/widgets/loading_model.dart';
+import 'package:epandu/common_library/utils/loading_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../router.gr.dart';

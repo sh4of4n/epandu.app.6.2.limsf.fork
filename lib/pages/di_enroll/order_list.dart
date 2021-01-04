@@ -4,7 +4,7 @@ import 'package:epandu/common_library/services/repository/fpx_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
-import 'package:epandu/widgets/loading_model.dart';
+import 'package:epandu/common_library/utils/loading_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
