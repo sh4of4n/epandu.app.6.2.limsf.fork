@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../model/kpp_model.dart';
 
-import '../../utils/app_config.dart';
+import '../../../utils/app_config.dart';
 import '../../utils/local_storage.dart';
 import '../model/auth_model.dart';
 import '../model/chat_model.dart';

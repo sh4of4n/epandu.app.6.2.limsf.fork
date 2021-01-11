@@ -3,7 +3,7 @@ import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 import 'package:epandu/common_library/services/repository/auth_repository.dart';
-import 'package:epandu/common_library/utils/app_config.dart';
+import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/constants.dart';
 
 import 'package:epandu/common_library/utils/device_info.dart';

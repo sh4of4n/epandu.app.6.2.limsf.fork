@@ -1,4 +1,4 @@
-import 'local_storage.dart';
+import '../common_library/utils/local_storage.dart';
 
 class AppConfig {
   final LocalStorage localStorage = LocalStorage();

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../utils/app_config.dart';
+import '../../utils/app_config.dart';
 import '../utils/custom_snackbar.dart';
 import 'repository/base_repository.dart';
 import 'response.dart';

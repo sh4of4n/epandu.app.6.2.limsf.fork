@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import '../model/products_model.dart';
-import '../../utils/app_config.dart';
+import '../../../utils/app_config.dart';
 import 'package:flutter/material.dart';
 import '../../utils/local_storage.dart';
 

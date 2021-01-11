@@ -1,5 +1,5 @@
 import 'package:epandu/common_library/utils/app_localizations.dart';
-import 'package:epandu/common_library/utils/app_config.dart';
+import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';

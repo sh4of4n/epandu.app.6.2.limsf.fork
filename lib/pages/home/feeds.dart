@@ -4,7 +4,7 @@ import 'package:epandu/common_library/services/model/provider_model.dart';
 import 'package:epandu/common_library/services/location.dart';
 import 'package:epandu/common_library/services/repository/fpx_repository.dart';
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
-import 'package:epandu/common_library/utils/app_config.dart';
+import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';

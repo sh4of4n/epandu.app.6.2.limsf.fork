@@ -3,7 +3,7 @@ import 'dart:convert';
 import '../model/profile_model.dart';
 import '../networking.dart';
 import '../response.dart';
-import '../../utils/app_config.dart';
+import '../../../utils/app_config.dart';
 import '../../utils/local_storage.dart';
 
 class ProfileRepo {

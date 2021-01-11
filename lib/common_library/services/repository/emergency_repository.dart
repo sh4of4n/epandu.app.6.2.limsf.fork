@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/app_config.dart';
+import '../../../utils/app_config.dart';
 import '../../utils/local_storage.dart';
 import '../model/emergency_model.dart';
 import '../networking.dart';

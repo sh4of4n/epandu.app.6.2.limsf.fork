@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import '../../utils/app_config.dart';
+import '../../../utils/app_config.dart';
 import '../../utils/local_storage.dart';
 import '../model/epandu_model.dart';
 import '../networking.dart';
