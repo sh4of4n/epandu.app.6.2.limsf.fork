@@ -39,11 +39,13 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   final _formKey = GlobalKey<FormState>();
 
   final FocusNode _phoneFocus = FocusNode();
+  final FocusNode _icFocus = FocusNode();
   final FocusNode _nameFocus = FocusNode();
   final FocusNode _nickNameFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
   final FocusNode _confirmPasswordFocus = FocusNode();
+  final FocusNode _postcodeFocus = FocusNode();
 
   final primaryColor = ColorConstant.primaryColor;
 
@@ -55,9 +57,11 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   final image = ImagesConstant();
 
   String _phone = '';
+  String _icNo = '';
   String _name = '';
   String _nickName = '';
   String _email = '';
+  String _postcode = '';
   String _password = '';
   String _confirmPassword = '';
   String _message = '';
@@ -337,6 +341,47 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                           height: ScreenUtil().setHeight(70),
                         ),
                         TextFormField(
+                          focusNode: _icFocus,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: 10.0),
+                            hintStyle: TextStyle(
+                              color: primaryColor,
+                            ),
+                            labelStyle: TextStyle(
+                              color: Color(0xff808080),
+                            ),
+                            labelText: AppLocalizations.of(context)
+                                .translate('ic_required_lbl'),
+                            fillColor: Colors.white,
+                            filled: true,
+                            prefixIcon: Icon(Icons.featured_video),
+                          ),
+                          onFieldSubmitted: (term) {
+                            fieldFocusChange(
+                              context,
+                              _icFocus,
+                              _nameFocus,
+                            );
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return AppLocalizations.of(context)
+                                  .translate('ic_required_msg');
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              _icNo = value;
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(70),
+                        ),
+                        TextFormField(
                           focusNode: _nameFocus,
                           inputFormatters: [UpperCaseTextFormatter()],
                           textInputAction: TextInputAction.next,
@@ -428,7 +473,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                           ),
                           onFieldSubmitted: (term) {
                             fieldFocusChange(
-                                context, _emailFocus, _passwordFocus);
+                                context, _emailFocus, _postcodeFocus);
                           },
                           /* validator: (value) {
                             if (value.isEmpty) {
@@ -439,6 +484,45 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                             if (value != _email) {
                               _email = value;
                             }
+                          },
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(70),
+                        ),
+                        TextFormField(
+                          focusNode: _postcodeFocus,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(vertical: 10.0),
+                            hintStyle: TextStyle(
+                              color: primaryColor,
+                            ),
+                            labelStyle: TextStyle(
+                              color: Color(0xff808080),
+                            ),
+                            labelText: AppLocalizations.of(context)
+                                .translate('postcode_lbl'),
+                            prefixIcon: Icon(Icons.home),
+                          ),
+                          onFieldSubmitted: (term) {
+                            fieldFocusChange(
+                              context,
+                              _postcodeFocus,
+                              _passwordFocus,
+                            );
+                          },
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return AppLocalizations.of(context)
+                                  .translate('postcode_required_msg');
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              _postcode = value;
+                            });
                           },
                         ),
                         SizedBox(
@@ -934,10 +1018,12 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
           context: context,
           countryCode: widget.data.phoneCountryCode,
           phone: widget.data.phone,
+          icNo: _icNo.replaceAll('-', ''),
           name: _name,
           nickName: _nickName,
           signUpPwd: _password,
           email: _email,
+          postcode: _postcode,
           userProfileImageBase64String: profilePic,
           latitude: _latitude,
           longitude: _longitude,
