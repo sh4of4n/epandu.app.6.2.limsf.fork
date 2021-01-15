@@ -282,7 +282,7 @@ class _FeedsState extends State<Feeds> {
       int startIndex = udf.indexOf('{');
       int endIndex = udf.indexOf(']}');
 
-      String packages = udf.substring(startIndex, endIndex);
+      String packages = udf.substring(startIndex);
 
       print(packages);
 
