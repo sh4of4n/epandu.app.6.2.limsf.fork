@@ -101,6 +101,7 @@
   "attendance_title": "Attendance",
   "location_lbl": "Location",
   "no_email": "No email registered.",
+  "no_postcode": "No postcode.",
   "no_location": "No address registered.",
   "class_lbl": "Class",
   "no_class": "No class",

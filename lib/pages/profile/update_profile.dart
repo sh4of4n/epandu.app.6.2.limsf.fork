@@ -47,11 +47,13 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   final FocusNode _dobFocus = FocusNode();
   final FocusNode _icFocus = FocusNode();
   final FocusNode _nickNameFocus = FocusNode();
+  final FocusNode _postcodeFocus = FocusNode();
   final _dobController = TextEditingController();
   final format = DateFormat("yyyy-MM-dd");
   String imagePath;
   String _getName = '';
   String _getEmail = '';
+  String _getPostcode = '';
   String _getUserIc = '';
   String _getBirthDate = '';
   String _getNickName = '';
@@ -62,6 +64,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   String _name = '';
   String _nickName = '';
   String _email = '';
+  String _postcode = '';
   String _message = '';
   bool _isLoading = false;
   String _potentialDob = '';
@@ -85,6 +88,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   final _emailController = TextEditingController();
   final _icController = TextEditingController();
   final _nickNameController = TextEditingController();
+  final _postcodeController = TextEditingController();
 
   @override
   void initState() {
@@ -95,6 +99,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
     _dobController.addListener(_dobValue);
     _icController.addListener(_icValue);
     _nickNameController.addListener(_nickNameValue);
+    _postcodeController.addListener(_postcodeValue);
 
     _getUserInfo();
     _getAvailableCameras();
@@ -107,12 +112,20 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
     _dobController.dispose();
     _icController.dispose();
     _nickNameController.dispose();
+    _postcodeController.dispose();
+    _nameFocus.dispose();
+    _nickNameFocus.dispose();
+    _emailFocus.dispose();
+    _dobFocus.dispose();
+    _icFocus.dispose();
+    _postcodeFocus.dispose();
     super.dispose();
   }
 
   _getUserInfo() async {
     _getName = await localStorage.getName();
     _getEmail = await localStorage.getEmail();
+    _getPostcode = await localStorage.getPostCode();
     _getBirthDate = await localStorage.getBirthDate();
     _getUserIc = await localStorage.getStudentIc();
     _getNickName = await localStorage.getNickName();
@@ -121,6 +134,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
 
     _nameController.text = _getName;
     _emailController.text = _getEmail;
+    _postcodeController.text = _getPostcode;
     _dobController.text =
         _getBirthDate.isNotEmpty ? _getBirthDate.substring(0, 10) : '';
     _icController.text = _getUserIc;
@@ -173,6 +187,12 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   _dobValue() {
     setState(() {
       _dob = _dobController.text;
+    });
+  }
+
+  _postcodeValue() {
+    setState(() {
+      _postcode = _postcodeController.text;
     });
   }
 
@@ -575,13 +595,13 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                         borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    /* onFieldSubmitted: (term) {
+                    onFieldSubmitted: (term) {
                       fieldFocusChange(
                         context,
                         _emailFocus,
-                        _dobFocus,
+                        _postcodeFocus,
                       );
-                    }, */
+                    },
                     /* validator: (value) {
                       if (value.isEmpty) {
                         return AppLocalizations.of(context)
@@ -594,6 +614,54 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                         _email = value;
                       });
                     }, */
+                  ),
+                  SizedBox(height: 60.h),
+                  TextFormField(
+                    controller: _postcodeController,
+                    focusNode: _postcodeFocus,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+                      hintStyle: TextStyle(
+                        color: primaryColor,
+                      ),
+                      labelStyle: TextStyle(
+                        color: Color(0xff808080),
+                      ),
+                      labelText: AppLocalizations.of(context)
+                          .translate('postcode_lbl'),
+                      prefixIcon: Icon(Icons.home),
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.cancel),
+                        onPressed: () {
+                          WidgetsBinding.instance.addPostFrameCallback(
+                              (_) => _postcodeController.clear());
+                        },
+                      ),
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.blue[700], width: 1.6),
+                        // borderRadius: BorderRadius.circular(0),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return AppLocalizations.of(context)
+                            .translate('postcode_required_msg');
+                      }
+                      return null;
+                    },
                   ),
                   SizedBox(height: 60.h),
                   _dobField(),
@@ -888,6 +956,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         context: context,
         name: _name.isNotEmpty ? _name : _getName,
         email: _email.isNotEmpty ? _email : _getEmail,
+        postcode: _postcode.isNotEmpty ? _postcode : _getPostcode,
         icNo: _ic.isNotEmpty ? _ic.replaceAll('-', '') : _getUserIc,
         dateOfBirthString: _dob.isNotEmpty ? _dob : _getBirthDate,
         gender: _genderValue,

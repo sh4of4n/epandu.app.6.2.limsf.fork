@@ -169,6 +169,17 @@ class _ProfileState extends State<Profile>
                         : AppLocalizations.of(context).translate('no_email'),
                     style: _subtitleStyle),
               ),
+            if (widget.userProfile?.postcode != null)
+              ListTile(
+                leading: Icon(Icons.home),
+                title: Text(
+                    AppLocalizations.of(context).translate('postcode_lbl')),
+                subtitle: Text(
+                    widget.userProfile?.postcode != null
+                        ? '${widget.userProfile?.postcode}'
+                        : AppLocalizations.of(context).translate('no_postcode'),
+                    style: _subtitleStyle),
+              ),
             if (widget.userProfile?.birthDate != null)
               ListTile(
                 leading: Icon(Icons.date_range),

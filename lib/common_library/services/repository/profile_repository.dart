@@ -97,6 +97,7 @@ class ProfileRepo {
       localStorage.saveStudentIc(icNo ?? '');
       localStorage.saveName(name ?? '');
       localStorage.saveEmail(email ?? '');
+      localStorage.savePostCode(postcode ?? '');
       localStorage.saveNickName(nickName ?? '');
 
       return Response(true, message: 'Profile updated successfully.');

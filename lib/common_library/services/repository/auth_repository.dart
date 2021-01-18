@@ -243,6 +243,7 @@ class AuthRepo {
         localStorage.saveName(profileResult.data[0].name);
         localStorage.saveNickName(profileResult.data[0].nickName);
         localStorage.saveEmail(profileResult.data[0].eMail);
+        localStorage.savePostCode(profileResult.data[0].postcode);
         localStorage.saveUserPhone(profileResult.data[0].phone);
         localStorage.saveCountry(profileResult.data[0].countryName);
         localStorage.saveState(profileResult.data[0].stateName);
@@ -288,15 +289,18 @@ class AuthRepo {
       localStorage
           .saveMerchantDbCode(instituteLogoResponse.armaster[0].merchantNo);
 
-      localStorage.saveInstituteLogo(instituteLogoResponse
-          .armaster[0].merchantIconFilename
-          .replaceAll(removeBracket, '')
-          .split('\r\n')[0]);
+      if (instituteLogoResponse.armaster[0].merchantIconFilename != null) {
+        localStorage.saveInstituteLogo(instituteLogoResponse
+            .armaster[0].merchantIconFilename
+            .replaceAll(removeBracket, '')
+            .split('\r\n')[0]);
 
-      return Response(true,
-          data: instituteLogoResponse.armaster[0].merchantIconFilename
-              .replaceAll(removeBracket, '')
-              .split('\r\n')[0]);
+        return Response(true,
+            data: instituteLogoResponse.armaster[0].merchantIconFilename
+                .replaceAll(removeBracket, '')
+                .split('\r\n')[0]);
+      }
+      return Response(false);
     }
 
     return Response(false);

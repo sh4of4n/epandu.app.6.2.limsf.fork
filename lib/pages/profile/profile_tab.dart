@@ -95,6 +95,7 @@ class _ProfileTabState extends State<ProfileTab>
           name: result.data[0].name,
           nickName: result.data[0].nickName,
           eMail: result.data[0].eMail,
+          postcode: result.data[0].postcode,
           phone: result.data[0].phone,
           countryName: result.data[0].countryName,
           stateName: result.data[0].stateName,
@@ -144,6 +145,7 @@ class _ProfileTabState extends State<ProfileTab>
     String _getName = await localStorage.getName();
     String _getNickName = await localStorage.getNickName();
     String _getEmail = await localStorage.getEmail();
+    String _getPostcode = await localStorage.getPostCode();
     String _getPhone = await localStorage.getUserPhone();
     String _getCountry = await localStorage.getCountry();
     String _getState = await localStorage.getState();
@@ -159,6 +161,7 @@ class _ProfileTabState extends State<ProfileTab>
         name: _getName,
         nickName: _getNickName,
         eMail: _getEmail,
+        postcode: _getPostcode,
         phone: _getPhone,
         countryName: _getCountry,
         stateName: _getState,
