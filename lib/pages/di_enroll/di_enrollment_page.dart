@@ -116,7 +116,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                               arguments: EnrollConfirmationArguments(
                                 banner: snapshot.data[index].feedMediaFilename
                                     .replaceAll(removeBracket, '')
-                                    .split('\r\n')[1],
+                                    .split('\r\n')[0],
                                 packageCode: snapshot.data[index].packageCode,
                                 packageDesc: snapshot.data[index].packageDesc,
                                 diCode: snapshot.data[index].merchantNo,
@@ -132,7 +132,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                                     child: Image.network(
                                       snapshot.data[index].feedMediaFilename
                                           .replaceAll(removeBracket, '')
-                                          .split('\r\n')[1],
+                                          .split('\r\n')[0],
                                       gaplessPlayback: true,
                                     ),
                                   ),
