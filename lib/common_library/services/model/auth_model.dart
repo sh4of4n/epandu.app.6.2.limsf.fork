@@ -2253,6 +2253,10 @@ class RegisterRequest {
   String bdProduct;
   String pfDeviceId;
   String regId;
+  String enqLdlGroup;
+  String cdlGroup;
+  String langCode;
+  bool findDrvJobs;
 
   RegisterRequest(
       {this.wsCodeCrypt,
@@ -2302,7 +2306,11 @@ class RegisterRequest {
       this.bdModel,
       this.bdProduct,
       this.pfDeviceId,
-      this.regId});
+      this.regId,
+      this.enqLdlGroup,
+      this.cdlGroup,
+      this.langCode,
+      this.findDrvJobs});
 
   RegisterRequest.fromJson(Map<String, dynamic> json) {
     wsCodeCrypt = json['wsCodeCrypt'];
@@ -2329,7 +2337,7 @@ class RegisterRequest {
     country = json['country'];
     email = json['email'];
     signUpPwd = json['signUpPwd'];
-    userProfileImage = json['userProfileImage'];
+    userProfileImage = json['userProfileImage'].cast<int>();
     userProfileImageBase64String = json['userProfileImageBase64String'];
     removeUserProfileImage = json['removeUserProfileImage'];
     latitude = json['latitude'];
@@ -2353,6 +2361,10 @@ class RegisterRequest {
     bdProduct = json['bdProduct'];
     pfDeviceId = json['pfDeviceId'];
     regId = json['regId'];
+    enqLdlGroup = json['enqLdlGroup'];
+    cdlGroup = json['cdlGroup'];
+    langCode = json['langCode'];
+    findDrvJobs = json['findDrvJobs'];
   }
 
   Map<String, dynamic> toJson() {
@@ -2405,6 +2417,10 @@ class RegisterRequest {
     data['bdProduct'] = this.bdProduct;
     data['pfDeviceId'] = this.pfDeviceId;
     data['regId'] = this.regId;
+    data['enqLdlGroup'] = this.enqLdlGroup;
+    data['cdlGroup'] = this.cdlGroup;
+    data['langCode'] = this.langCode;
+    data['findDrvJobs'] = this.findDrvJobs;
     return data;
   }
 }
@@ -2984,6 +3000,408 @@ class PackageDetl {
     data['row_key'] = this.rowKey;
     data['deleted'] = this.deleted;
     data['prod_desc'] = this.prodDesc;
+    return data;
+  }
+}
+
+class GetAuthorizationStatusListResponse {
+  List<AuthzStatus> authzStatus;
+
+  GetAuthorizationStatusListResponse({this.authzStatus});
+
+  GetAuthorizationStatusListResponse.fromJson(Map<String, dynamic> json) {
+    if (json['AuthzStatus'] != null) {
+      authzStatus = new List<AuthzStatus>();
+      json['AuthzStatus'].forEach((v) {
+        authzStatus.add(new AuthzStatus.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.authzStatus != null) {
+      data['AuthzStatus'] = this.authzStatus.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class AuthzStatus {
+  String authzStatus;
+
+  AuthzStatus({this.authzStatus});
+
+  AuthzStatus.fromJson(Map<String, dynamic> json) {
+    authzStatus = json['authz_status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['authz_status'] = this.authzStatus;
+    return data;
+  }
+}
+
+// GetDeviceRequestList
+class GetDeviceRequestListResponse {
+  List<UserDevice> userDevice;
+
+  GetDeviceRequestListResponse({this.userDevice});
+
+  GetDeviceRequestListResponse.fromJson(Map<String, dynamic> json) {
+    if (json['UserDevice'] != null) {
+      userDevice = new List<UserDevice>();
+      json['UserDevice'].forEach((v) {
+        userDevice.add(new UserDevice.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.userDevice != null) {
+      data['UserDevice'] = this.userDevice.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class UserDevice {
+  String iD;
+  String merchantNo;
+  String userId;
+  String loginId;
+  String deviceId;
+  String deviceRegDatetime;
+  String authzStatus;
+  String lastAuthzDatetime;
+  String lastAuthzBy;
+  String appCode;
+  String appId;
+  String appVersion;
+  String deviceName;
+  String latitude;
+  String longitude;
+  String createUser;
+  String createDate;
+  String editUser;
+  String compCode;
+  String branchCode;
+  String rowKey;
+  String lastupload;
+  String transtamp;
+  String editDate;
+  String deleted;
+  String nickName;
+  String name;
+  String authzName;
+  String authzNickName;
+  String lastEditedBy;
+  String createdBy;
+
+  UserDevice(
+      {this.iD,
+      this.merchantNo,
+      this.userId,
+      this.loginId,
+      this.deviceId,
+      this.deviceRegDatetime,
+      this.authzStatus,
+      this.lastAuthzDatetime,
+      this.lastAuthzBy,
+      this.appCode,
+      this.appId,
+      this.appVersion,
+      this.deviceName,
+      this.latitude,
+      this.longitude,
+      this.createUser,
+      this.createDate,
+      this.editUser,
+      this.compCode,
+      this.branchCode,
+      this.rowKey,
+      this.lastupload,
+      this.transtamp,
+      this.editDate,
+      this.deleted,
+      this.nickName,
+      this.name,
+      this.authzName,
+      this.authzNickName,
+      this.lastEditedBy,
+      this.createdBy});
+
+  UserDevice.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    merchantNo = json['merchant_no'];
+    userId = json['user_id'];
+    loginId = json['login_id'];
+    deviceId = json['device_id'];
+    deviceRegDatetime = json['device_reg_datetime'];
+    authzStatus = json['authz_status'];
+    lastAuthzDatetime = json['last_authz_datetime'];
+    lastAuthzBy = json['last_authz_by'];
+    appCode = json['app_code'];
+    appId = json['app_id'];
+    appVersion = json['app_version'];
+    deviceName = json['device_name'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+    createUser = json['create_user'];
+    createDate = json['create_date'];
+    editUser = json['edit_user'];
+    compCode = json['comp_code'];
+    branchCode = json['branch_code'];
+    rowKey = json['row_key'];
+    lastupload = json['lastupload'];
+    transtamp = json['transtamp'];
+    editDate = json['edit_date'];
+    deleted = json['deleted'];
+    nickName = json['nick_name'];
+    name = json['name'];
+    authzName = json['authz_name'];
+    authzNickName = json['authz_nick_name'];
+    lastEditedBy = json['last_edited_by'];
+    createdBy = json['created_by'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['merchant_no'] = this.merchantNo;
+    data['user_id'] = this.userId;
+    data['login_id'] = this.loginId;
+    data['device_id'] = this.deviceId;
+    data['device_reg_datetime'] = this.deviceRegDatetime;
+    data['authz_status'] = this.authzStatus;
+    data['last_authz_datetime'] = this.lastAuthzDatetime;
+    data['last_authz_by'] = this.lastAuthzBy;
+    data['app_code'] = this.appCode;
+    data['app_id'] = this.appId;
+    data['app_version'] = this.appVersion;
+    data['device_name'] = this.deviceName;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
+    data['create_user'] = this.createUser;
+    data['create_date'] = this.createDate;
+    data['edit_user'] = this.editUser;
+    data['comp_code'] = this.compCode;
+    data['branch_code'] = this.branchCode;
+    data['row_key'] = this.rowKey;
+    data['lastupload'] = this.lastupload;
+    data['transtamp'] = this.transtamp;
+    data['edit_date'] = this.editDate;
+    data['deleted'] = this.deleted;
+    data['nick_name'] = this.nickName;
+    data['name'] = this.name;
+    data['authz_name'] = this.authzName;
+    data['authz_nick_name'] = this.authzNickName;
+    data['last_edited_by'] = this.lastEditedBy;
+    data['created_by'] = this.createdBy;
+    return data;
+  }
+}
+
+// UpdateUserDeviceStatus
+
+class UpdateUserDeviceStatusRequest {
+  String wsCodeCrypt;
+  String caUid;
+  String caPwd;
+  String merchantNo;
+  String userId;
+  String appCode;
+  String appId;
+  String deviceId;
+  String deviceMerchantNo;
+  String deviceUserId;
+  String deviceAppCode;
+  String deviceAppId;
+  String deviceDeviceId;
+  String deviceAuthzStatus;
+  String authzUser;
+
+  UpdateUserDeviceStatusRequest(
+      {this.wsCodeCrypt,
+      this.caUid,
+      this.caPwd,
+      this.merchantNo,
+      this.userId,
+      this.appCode,
+      this.appId,
+      this.deviceId,
+      this.deviceMerchantNo,
+      this.deviceUserId,
+      this.deviceAppCode,
+      this.deviceAppId,
+      this.deviceDeviceId,
+      this.deviceAuthzStatus,
+      this.authzUser});
+
+  UpdateUserDeviceStatusRequest.fromJson(Map<String, dynamic> json) {
+    wsCodeCrypt = json['wsCodeCrypt'];
+    caUid = json['caUid'];
+    caPwd = json['caPwd'];
+    merchantNo = json['merchantNo'];
+    userId = json['userId'];
+    appCode = json['appCode'];
+    appId = json['appId'];
+    deviceId = json['deviceId'];
+    deviceMerchantNo = json['deviceMerchantNo'];
+    deviceUserId = json['deviceUserId'];
+    deviceAppCode = json['deviceAppCode'];
+    deviceAppId = json['deviceAppId'];
+    deviceDeviceId = json['deviceDeviceId'];
+    deviceAuthzStatus = json['deviceAuthzStatus'];
+    authzUser = json['authzUser'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['wsCodeCrypt'] = this.wsCodeCrypt;
+    data['caUid'] = this.caUid;
+    data['caPwd'] = this.caPwd;
+    data['merchantNo'] = this.merchantNo;
+    data['userId'] = this.userId;
+    data['appCode'] = this.appCode;
+    data['appId'] = this.appId;
+    data['deviceId'] = this.deviceId;
+    data['deviceMerchantNo'] = this.deviceMerchantNo;
+    data['deviceUserId'] = this.deviceUserId;
+    data['deviceAppCode'] = this.deviceAppCode;
+    data['deviceAppId'] = this.deviceAppId;
+    data['deviceDeviceId'] = this.deviceDeviceId;
+    data['deviceAuthzStatus'] = this.deviceAuthzStatus;
+    data['authzUser'] = this.authzUser;
+    return data;
+  }
+}
+
+class GetLdlkEnqGroupListResponse {
+  List<LdlEnqGroupList> ldlEnqGroupList;
+
+  GetLdlkEnqGroupListResponse({this.ldlEnqGroupList});
+
+  GetLdlkEnqGroupListResponse.fromJson(Map<String, dynamic> json) {
+    if (json['LdlEnqGroupList'] != null) {
+      ldlEnqGroupList = new List<LdlEnqGroupList>();
+      json['LdlEnqGroupList'].forEach((v) {
+        ldlEnqGroupList.add(new LdlEnqGroupList.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.ldlEnqGroupList != null) {
+      data['LdlEnqGroupList'] =
+          this.ldlEnqGroupList.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class LdlEnqGroupList {
+  String groupId;
+  String groupDesc;
+
+  LdlEnqGroupList({this.groupId, this.groupDesc});
+
+  LdlEnqGroupList.fromJson(Map<String, dynamic> json) {
+    groupId = json['group_id'];
+    groupDesc = json['group_desc'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['group_id'] = this.groupId;
+    data['group_desc'] = this.groupDesc;
+    return data;
+  }
+}
+
+class GetCdlListResponse {
+  List<CdlList> cdlList;
+
+  GetCdlListResponse({this.cdlList});
+
+  GetCdlListResponse.fromJson(Map<String, dynamic> json) {
+    if (json['CdlList'] != null) {
+      cdlList = new List<CdlList>();
+      json['CdlList'].forEach((v) {
+        cdlList.add(new CdlList.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.cdlList != null) {
+      data['CdlList'] = this.cdlList.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class CdlList {
+  String groupId;
+  String groupDesc;
+
+  CdlList({this.groupId, this.groupDesc});
+
+  CdlList.fromJson(Map<String, dynamic> json) {
+    groupId = json['group_id'];
+    groupDesc = json['group_desc'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['group_id'] = this.groupId;
+    data['group_desc'] = this.groupDesc;
+    return data;
+  }
+}
+
+class GetLanguageListResponse {
+  List<LanguageList> languageList;
+
+  GetLanguageListResponse({this.languageList});
+
+  GetLanguageListResponse.fromJson(Map<String, dynamic> json) {
+    if (json['LanguageList'] != null) {
+      languageList = new List<LanguageList>();
+      json['LanguageList'].forEach((v) {
+        languageList.add(new LanguageList.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.languageList != null) {
+      data['LanguageList'] = this.languageList.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class LanguageList {
+  String langCode;
+  String langDesc;
+
+  LanguageList({this.langCode, this.langDesc});
+
+  LanguageList.fromJson(Map<String, dynamic> json) {
+    langCode = json['lang_code'];
+    langDesc = json['lang_desc'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['lang_code'] = this.langCode;
+    data['lang_desc'] = this.langDesc;
     return data;
   }
 }

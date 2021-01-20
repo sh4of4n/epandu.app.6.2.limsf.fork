@@ -137,5 +137,94 @@ class EmergencyRepo {
   }
 
   // SendGpsSos
+  // ----------------
 
+  Future<Response> getPandemicTrack({
+    @required context,
+    dateFromString,
+    dateToString,
+    phone,
+    startIndex,
+    noOfRecords,
+  }) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+    String diCode = await localStorage.getDiCode();
+    String merchantNo = await localStorage.getMerchantDbCode();
+    String userId = await localStorage.getUserId();
+    String deviceId = await localStorage.getLoginDeviceId();
+    // String phoneCountryCode = await localStorage.getCountryCode();
+    // String phone = await localStorage.getUserPhone();
+
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
+        '&caUid=$caUid' +
+        '&caPwd=$caPwd' +
+        '&diCode=$diCode' +
+        '&phone=$phone' +
+        '&dateFromString=$dateFromString' +
+        '&dateToString=$dateToString' +
+        '&startIndex=$startIndex' +
+        '&noOfRecords=$noOfRecords' +
+        '&merchantNo=$merchantNo' +
+        '&userId=$userId' +
+        '&appCode=${appConfig.appCode}' +
+        '&appId=${appConfig.appId}' +
+        '&deviceId=$deviceId';
+
+    var response = await networking.getData(
+      path: 'GetPandemicTrack?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetPandemicTrackResponse getPandemicTrackResponse =
+          GetPandemicTrackResponse.fromJson(response.data);
+
+      return Response(true, data: getPandemicTrackResponse.pandemicTrack);
+    }
+
+    return Response(false,
+        message: 'Failed to load pandemic track list. Please try again later.');
+  }
+
+  Future<Response> getPandemicPDFReport({
+    context,
+    String diCode,
+    String phone,
+    String dateFromString,
+    String dateToString,
+  }) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+    String merchantNo = await localStorage.getMerchantDbCode();
+    String userId = await localStorage.getUserId();
+    String deviceId = await localStorage.getLoginDeviceId();
+
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
+        '&caUid=$caUid' +
+        '&caPwd=$caPwd' +
+        '&diCode=$diCode' +
+        '&phone=$phone' +
+        '&dateFromString=$dateFromString' +
+        '&dateToString=$dateToString' +
+        '&merchantNo=$merchantNo' +
+        '&userId=$userId' +
+        '&appCode=${appConfig.appCode}' +
+        '&appId=${appConfig.appId}' +
+        '&deviceId=$deviceId';
+
+    var response = await networking.getData(
+      path: 'GetPandemicPDFReport?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetPandemicPDFReportResponse getTemporaryReceiptPdfResponse =
+          GetPandemicPDFReportResponse.fromJson(response.data);
+
+      return Response(true,
+          data: getTemporaryReceiptPdfResponse.pDF[0].fileName);
+    }
+
+    return Response(false,
+        message: 'Failed to load pdf, please try again later.');
+  }
 }

@@ -82,6 +82,11 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   File _image;
   File _croppedImage;
   var imageState;
+  var ldlList;
+  var cdlList;
+
+  String ldlItem = '';
+  String cdlItem = '';
 
   TextStyle _messageStyle = TextStyle(color: Colors.red);
   final _nameController = TextEditingController();
@@ -103,6 +108,8 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
 
     _getUserInfo();
     _getAvailableCameras();
+    _getLdlkEnqGroupList();
+    _getCdlList();
   }
 
   @override
@@ -120,6 +127,26 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
     _icFocus.dispose();
     _postcodeFocus.dispose();
     super.dispose();
+  }
+
+  Future<void> _getLdlkEnqGroupList() async {
+    var result = await authRepo.getLdlkEnqGroupList();
+
+    if (result.isSuccess) {
+      setState(() {
+        ldlList = result.data;
+      });
+    }
+  }
+
+  Future<void> _getCdlList() async {
+    var result = await authRepo.getCdlList();
+
+    if (result.isSuccess) {
+      setState(() {
+        cdlList = result.data;
+      });
+    }
   }
 
   _getUserInfo() async {
@@ -663,6 +690,108 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       return null;
                     },
                   ),
+                  SizedBox(
+                    height: 60.h,
+                  ),
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 0.h,
+                      ),
+                      labelText: AppLocalizations.of(context).translate('ldl'),
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.blue[700], width: 1.6),
+                        // borderRadius: BorderRadius.circular(0),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      prefixIcon: Icon(Icons.badge),
+                    ),
+                    disabledHint:
+                        Text(AppLocalizations.of(context).translate('ldl')),
+                    onChanged: (value) {
+                      setState(() {
+                        ldlItem = value;
+                      });
+                    },
+                    items: ldlList == null
+                        ? null
+                        : ldlList
+                            .map<DropdownMenuItem<String>>((dynamic value) {
+                            return DropdownMenuItem<String>(
+                              value: value.groupId,
+                              child: Text(value.groupId),
+                            );
+                          }).toList(),
+                    validator: (value) {
+                      if (value == null) {
+                        return AppLocalizations.of(context)
+                            .translate('ldl_required_msg');
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(
+                    height: ScreenUtil().setHeight(70),
+                  ),
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 0.h,
+                      ),
+                      labelText: AppLocalizations.of(context).translate('cdl'),
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.blue[700], width: 1.6),
+                        // borderRadius: BorderRadius.circular(0),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      prefixIcon: Icon(Icons.badge),
+                    ),
+                    disabledHint:
+                        Text(AppLocalizations.of(context).translate('cdl')),
+                    onChanged: (value) {
+                      setState(() {
+                        cdlItem = value;
+                      });
+                    },
+                    items: cdlList == null
+                        ? null
+                        : cdlList
+                            .map<DropdownMenuItem<String>>((dynamic value) {
+                            return DropdownMenuItem<String>(
+                              value: value.groupId,
+                              child: Text(value.groupId),
+                            );
+                          }).toList(),
+                    validator: (value) {
+                      if (value == null) {
+                        return AppLocalizations.of(context)
+                            .translate('cdl_required_msg');
+                      }
+                      return null;
+                    },
+                  ),
                   SizedBox(height: 60.h),
                   _dobField(),
                   SizedBox(height: 60.h),
@@ -964,6 +1093,9 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         userProfileImageBase64String: profilePicBase64,
         removeUserProfileImage: false,
         race: _raceParam,
+        enqLdlGroup: ldlItem,
+        cdlGroup: cdlItem,
+        findDrvJobs: false,
       );
 
       if (result.isSuccess) {

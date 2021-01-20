@@ -186,6 +186,10 @@ class SaveProfileRequest {
   List<int> userProfileImage;
   String userProfileImageBase64String;
   bool removeUserProfileImage;
+  String enqLdlGroup;
+  String cdlGroup;
+  String langCode;
+  bool findDrvJobs;
 
   SaveProfileRequest(
       {this.wsCodeCrypt,
@@ -209,7 +213,11 @@ class SaveProfileRequest {
       this.email,
       this.userProfileImage,
       this.userProfileImageBase64String,
-      this.removeUserProfileImage});
+      this.removeUserProfileImage,
+      this.enqLdlGroup,
+      this.cdlGroup,
+      this.langCode,
+      this.findDrvJobs});
 
   SaveProfileRequest.fromJson(Map<String, dynamic> json) {
     wsCodeCrypt = json['wsCodeCrypt'];
@@ -234,6 +242,10 @@ class SaveProfileRequest {
     userProfileImage = json['userProfileImage'].cast<int>();
     userProfileImageBase64String = json['userProfileImageBase64String'];
     removeUserProfileImage = json['removeUserProfileImage'];
+    enqLdlGroup = json['enqLdlGroup'];
+    cdlGroup = json['cdlGroup'];
+    langCode = json['langCode'];
+    findDrvJobs = json['findDrvJobs'];
   }
 
   Map<String, dynamic> toJson() {
@@ -260,6 +272,10 @@ class SaveProfileRequest {
     data['userProfileImage'] = this.userProfileImage;
     data['userProfileImageBase64String'] = this.userProfileImageBase64String;
     data['removeUserProfileImage'] = this.removeUserProfileImage;
+    data['enqLdlGroup'] = this.enqLdlGroup;
+    data['cdlGroup'] = this.cdlGroup;
+    data['langCode'] = this.langCode;
+    data['findDrvJobs'] = this.findDrvJobs;
     return data;
   }
 }

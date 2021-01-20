@@ -72,7 +72,7 @@ class AuthRepo {
       var data = jsonDecode(jsonData);
 
       GetWsUrlResponse getWsUrlResponse = GetWsUrlResponse.fromJson(data);
-      String wsVer = '6_0';
+      String wsVer = '6_1';
       final wsUrlBox = Hive.box('ws_url');
 
       if (getWsUrlResponse.loginAcctInfo != null) {
@@ -300,7 +300,6 @@ class AuthRepo {
                 .replaceAll(removeBracket, '')
                 .split('\r\n')[0]);
       }
-      return Response(false);
     }
 
     return Response(false);
@@ -850,6 +849,75 @@ class AuthRepo {
         message: 'Failed to load promotions. Please try again later.');
   }
 
+  Future<Response> getLdlkEnqGroupList() async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd';
+
+    var response = await networking.getData(
+      path: 'GetLdlkEnqGroupList?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetLdlkEnqGroupListResponse getLdlkEnqGroupListResponse =
+          GetLdlkEnqGroupListResponse.fromJson(response.data);
+      var responseData = getLdlkEnqGroupListResponse.ldlEnqGroupList;
+
+      return Response(true, data: responseData);
+    }
+
+    return Response(false,
+        message: 'Failed to load LDL list. Please try again later.');
+  }
+
+  Future<Response> getCdlList() async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd';
+
+    var response = await networking.getData(
+      path: 'GetCdlList?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetCdlListResponse getCdlListResponse =
+          GetCdlListResponse.fromJson(response.data);
+      var responseData = getCdlListResponse.cdlList;
+
+      return Response(true, data: responseData);
+    }
+
+    return Response(false,
+        message: 'Failed to load CDL list. Please try again later.');
+  }
+
+  Future<Response> getLanguageList() async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd';
+
+    var response = await networking.getData(
+      path: 'GetLanguageList?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetLanguageListResponse getLanguageListResponse =
+          GetLanguageListResponse.fromJson(response.data);
+      var responseData = getLanguageListResponse.languageList;
+
+      return Response(true, data: responseData);
+    }
+
+    return Response(false,
+        message: 'Failed to load CDL list. Please try again later.');
+  }
+
   Future<Response> deleteAppMemberAccount({context}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
@@ -931,6 +999,10 @@ class AuthRepo {
     List<int> userProfileImage,
     String userProfileImageBase64String,
     bool removeUserProfileImage,
+    @required String enqLdlGroup,
+    @required String cdlGroup,
+    String langCode,
+    @required bool findDrvJobs,
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
@@ -986,6 +1058,10 @@ class AuthRepo {
       bdProduct: '',
       pfDeviceId: '',
       regId: pushToken,
+      enqLdlGroup: enqLdlGroup,
+      cdlGroup: cdlGroup,
+      langCode: langCode ?? 'en-MY',
+      findDrvJobs: findDrvJobs, //bool set to false
     );
 
     String body = jsonEncode(params);
@@ -1254,5 +1330,136 @@ class AuthRepo {
     }
 
     return Response(false, message: 'No records found.');
+  }
+
+  Future getAuthorizationStatusList({
+    context,
+  }) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+    String userId = await localStorage.getUserId();
+    String merchantNo = await localStorage.getMerchantDbCode();
+    String deviceId = await localStorage.getLoginDeviceId();
+
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
+        '&caUid=$caUid' +
+        '&caPwd=$caPwd' +
+        '&merchantNo=$merchantNo' +
+        '&userId=$userId' +
+        '&appCode=${appConfig.appCode}' +
+        '&appId=${appConfig.appId}' +
+        '&deviceId=$deviceId';
+
+    var response = await networking.getData(
+      path: 'GetAuthorizationStatusList?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetAuthorizationStatusListResponse getAuthorizationStatusListResponse =
+          GetAuthorizationStatusListResponse.fromJson(response.data);
+
+      return Response(true,
+          data: getAuthorizationStatusListResponse.authzStatus);
+    }
+
+    return Response(false,
+        message: 'Failed to load authorization list. Please try again later.');
+  }
+
+  Future getDeviceRequestList({
+    context,
+    @required phone,
+    @required authzStatus,
+    @required startIndex,
+    @required noOfRecords,
+  }) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+    String userId = await localStorage.getUserId();
+    String merchantNo = await localStorage.getMerchantDbCode();
+    String deviceId = await localStorage.getLoginDeviceId();
+    // String phoneCountryCode = await localStorage.getCountryCode();
+    // String phone = await localStorage.getUserPhone();
+    // String loginId = (phoneCountryCode + phone).replaceAll('+6', '');
+
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
+        '&caUid=$caUid' +
+        '&caPwd=$caPwd' +
+        '&merchantNo=$merchantNo' +
+        '&userId=$userId' +
+        '&appCode=${appConfig.appCode}' +
+        '&appId=${appConfig.appId}' +
+        '&deviceId=$deviceId' +
+        '&searchMerchantNo=$merchantNo' +
+        '&searchUserId=' +
+        '&searchAppCode=' +
+        '&searchAppId=' +
+        '&searchDeviceId=' +
+        '&searchAuthzStatus=$authzStatus' +
+        '&searchLoginId=$phone' +
+        '&startIndex=$startIndex' +
+        '&noOfRecords=$noOfRecords';
+
+    var response = await networking.getData(
+      path: 'GetDeviceRequestList?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetDeviceRequestListResponse getDeviceRequestListResponse =
+          GetDeviceRequestListResponse.fromJson(response.data);
+
+      return Response(true, data: getDeviceRequestListResponse.userDevice);
+    }
+
+    return Response(false,
+        message: 'Failed to load approval list. Please try again later.');
+  }
+
+  Future updateUserDeviceStatus({
+    context,
+    deviceId,
+    deviceMerchantNo,
+    deviceUserId,
+    deviceAppCode,
+    deviceAppId,
+    deviceDeviceId,
+    deviceAuthzStatus,
+    authzUser,
+  }) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+    String userId = await localStorage.getUserId();
+    String merchantNo = await localStorage.getMerchantDbCode();
+
+    UpdateUserDeviceStatusRequest params = UpdateUserDeviceStatusRequest(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      merchantNo: merchantNo,
+      userId: userId,
+      appCode: appConfig.appCode,
+      appId: appConfig.appId,
+      deviceId: deviceId,
+      deviceMerchantNo: deviceMerchantNo,
+      deviceUserId: deviceUserId,
+      deviceAppCode: deviceAppCode,
+      deviceAppId: deviceAppId,
+      deviceDeviceId: deviceDeviceId,
+      deviceAuthzStatus: deviceAuthzStatus,
+      authzUser: authzUser,
+    );
+
+    String body = jsonEncode(params);
+    String api = 'UpdateUserDeviceStatus';
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+
+    var response =
+        await networking.postData(api: api, body: body, headers: headers);
+
+    if (response.isSuccess && response.data != null) {
+      return Response(true, message: 'Success');
+    }
+
+    return Response(false, message: 'Update failed, please try again later.');
   }
 }

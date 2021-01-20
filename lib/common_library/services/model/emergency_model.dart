@@ -420,3 +420,152 @@ class SosContact {
     return data;
   }
 }
+
+class GetPandemicPDFReportResponse {
+  List<PDF> pDF;
+
+  GetPandemicPDFReportResponse({this.pDF});
+
+  GetPandemicPDFReportResponse.fromJson(Map<String, dynamic> json) {
+    if (json['PDF'] != null) {
+      pDF = new List<PDF>();
+      json['PDF'].forEach((v) {
+        pDF.add(new PDF.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.pDF != null) {
+      data['PDF'] = this.pDF.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class PDF {
+  String fileName;
+
+  PDF({this.fileName});
+
+  PDF.fromJson(Map<String, dynamic> json) {
+    fileName = json['file_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['file_name'] = this.fileName;
+    return data;
+  }
+}
+
+// GetPandemicTrack
+class GetPandemicTrackResponse {
+  List<PandemicTrack> pandemicTrack;
+
+  GetPandemicTrackResponse({this.pandemicTrack});
+
+  GetPandemicTrackResponse.fromJson(Map<String, dynamic> json) {
+    if (json['PandemicTrack'] != null) {
+      pandemicTrack = new List<PandemicTrack>();
+      json['PandemicTrack'].forEach((v) {
+        pandemicTrack.add(new PandemicTrack.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.pandemicTrack != null) {
+      data['PandemicTrack'] =
+          this.pandemicTrack.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class PandemicTrack {
+  String id;
+  String merchantNo;
+  String phone;
+  String name;
+  String trackingDate;
+  String trackingTime;
+  String bodyTemperature;
+  String scanCode;
+  String deleted;
+  String createUser;
+  String createDate;
+  String editUser;
+  String editDate;
+  String compCode;
+  String branchCode;
+  String rowKey;
+  String transtamp;
+  String lastupload;
+
+  PandemicTrack(
+      {this.id,
+      this.merchantNo,
+      this.phone,
+      this.name,
+      this.trackingDate,
+      this.trackingTime,
+      this.bodyTemperature,
+      this.scanCode,
+      this.deleted,
+      this.createUser,
+      this.createDate,
+      this.editUser,
+      this.editDate,
+      this.compCode,
+      this.branchCode,
+      this.rowKey,
+      this.transtamp,
+      this.lastupload});
+
+  PandemicTrack.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    merchantNo = json['merchant_no'];
+    phone = json['phone'];
+    name = json['name'];
+    trackingDate = json['tracking_date'];
+    trackingTime = json['tracking_time'];
+    bodyTemperature = json['body_temperature'];
+    scanCode = json['scan_code'];
+    deleted = json['deleted'];
+    createUser = json['create_user'];
+    createDate = json['create_date'];
+    editUser = json['edit_user'];
+    editDate = json['edit_date'];
+    compCode = json['comp_code'];
+    branchCode = json['branch_code'];
+    rowKey = json['row_key'];
+    transtamp = json['transtamp'];
+    lastupload = json['lastupload'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['merchant_no'] = this.merchantNo;
+    data['phone'] = this.phone;
+    data['name'] = this.name;
+    data['tracking_date'] = this.trackingDate;
+    data['tracking_time'] = this.trackingTime;
+    data['body_temperature'] = this.bodyTemperature;
+    data['scan_code'] = this.scanCode;
+    data['deleted'] = this.deleted;
+    data['create_user'] = this.createUser;
+    data['create_date'] = this.createDate;
+    data['edit_user'] = this.editUser;
+    data['edit_date'] = this.editDate;
+    data['comp_code'] = this.compCode;
+    data['branch_code'] = this.branchCode;
+    data['row_key'] = this.rowKey;
+    data['transtamp'] = this.transtamp;
+    data['lastupload'] = this.lastupload;
+    return data;
+  }
+}

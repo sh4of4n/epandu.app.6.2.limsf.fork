@@ -84,6 +84,11 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   File _image;
   File _croppedImage;
   var imageState;
+  var ldlList;
+  var cdlList;
+
+  String ldlItem = '';
+  String cdlItem = '';
 
   TextStyle inputStyle = TextStyle(
     fontSize: 35.sp,
@@ -100,6 +105,28 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
     // _getCurrentLocation();
     _getDeviceInfo();
     _getAvailableCameras();
+    _getLdlkEnqGroupList();
+    _getCdlList();
+  }
+
+  Future<void> _getLdlkEnqGroupList() async {
+    var result = await authRepo.getLdlkEnqGroupList();
+
+    if (result.isSuccess) {
+      setState(() {
+        ldlList = result.data;
+      });
+    }
+  }
+
+  Future<void> _getCdlList() async {
+    var result = await authRepo.getCdlList();
+
+    if (result.isSuccess) {
+      setState(() {
+        cdlList = result.data;
+      });
+    }
   }
 
   /* _getCurrentLocation() async {
@@ -353,7 +380,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                               color: Color(0xff808080),
                             ),
                             labelText: AppLocalizations.of(context)
-                                .translate('ic_required_lbl'),
+                                .translate('ic_lbl'),
                             fillColor: Colors.white,
                             filled: true,
                             prefixIcon: Icon(Icons.featured_video),
@@ -523,6 +550,78 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                             setState(() {
                               _postcode = value;
                             });
+                          },
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(70),
+                        ),
+                        DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 0.h,
+                            ),
+                            labelText:
+                                AppLocalizations.of(context).translate('ldl'),
+                            prefixIcon: Icon(Icons.badge),
+                          ),
+                          disabledHint: Text(
+                              AppLocalizations.of(context).translate('ldl')),
+                          onChanged: (value) {
+                            setState(() {
+                              ldlItem = value;
+                            });
+                          },
+                          items: ldlList == null
+                              ? null
+                              : ldlList.map<DropdownMenuItem<String>>(
+                                  (dynamic value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value.groupId,
+                                    child: Text(value.groupId),
+                                  );
+                                }).toList(),
+                          validator: (value) {
+                            if (value == null) {
+                              return AppLocalizations.of(context)
+                                  .translate('ldl_required_msg');
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(70),
+                        ),
+                        DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 0.h,
+                            ),
+                            labelText:
+                                AppLocalizations.of(context).translate('cdl'),
+                            prefixIcon: Icon(Icons.badge),
+                          ),
+                          disabledHint: Text(
+                              AppLocalizations.of(context).translate('cdl')),
+                          onChanged: (value) {
+                            setState(() {
+                              cdlItem = value;
+                            });
+                          },
+                          items: cdlList == null
+                              ? null
+                              : cdlList.map<DropdownMenuItem<String>>(
+                                  (dynamic value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value.groupId,
+                                    child: Text(value.groupId),
+                                  );
+                                }).toList(),
+                          validator: (value) {
+                            if (value == null) {
+                              return AppLocalizations.of(context)
+                                  .translate('cdl_required_msg');
+                            }
+                            return null;
                           },
                         ),
                         SizedBox(
@@ -777,7 +876,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                               color: Color(0xff808080),
                             ),
                             labelText: AppLocalizations.of(context)
-                                .translate('ic_required_lbl'),
+                                .translate('ic_lbl'),
                             fillColor: Colors.white,
                             filled: true,
                             prefixIcon: Icon(Icons.featured_video),
@@ -937,6 +1036,78 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                             setState(() {
                               _postcode = value;
                             });
+                          },
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(70),
+                        ),
+                        DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 0.h,
+                            ),
+                            labelText:
+                                AppLocalizations.of(context).translate('ldl'),
+                            prefixIcon: Icon(Icons.badge),
+                          ),
+                          disabledHint: Text(
+                              AppLocalizations.of(context).translate('ldl')),
+                          onChanged: (value) {
+                            setState(() {
+                              ldlItem = value;
+                            });
+                          },
+                          items: ldlList == null
+                              ? null
+                              : ldlList.map<DropdownMenuItem<String>>(
+                                  (dynamic value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value.groupId,
+                                    child: Text(value.groupId),
+                                  );
+                                }).toList(),
+                          validator: (value) {
+                            if (value == null) {
+                              return AppLocalizations.of(context)
+                                  .translate('ldl_required_msg');
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(
+                          height: ScreenUtil().setHeight(70),
+                        ),
+                        DropdownButtonFormField<String>(
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 0.h,
+                            ),
+                            labelText:
+                                AppLocalizations.of(context).translate('cdl'),
+                            prefixIcon: Icon(Icons.badge),
+                          ),
+                          disabledHint: Text(
+                              AppLocalizations.of(context).translate('cdl')),
+                          onChanged: (value) {
+                            setState(() {
+                              cdlItem = value;
+                            });
+                          },
+                          items: cdlList == null
+                              ? null
+                              : cdlList.map<DropdownMenuItem<String>>(
+                                  (dynamic value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value.groupId,
+                                    child: Text(value.groupId),
+                                  );
+                                }).toList(),
+                          validator: (value) {
+                            if (value == null) {
+                              return AppLocalizations.of(context)
+                                  .translate('cdl_required_msg');
+                            }
+                            return null;
                           },
                         ),
                         SizedBox(
@@ -1111,6 +1282,9 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
           deviceBrand: _deviceBrand,
           deviceModel: Uri.encodeComponent(_deviceModel),
           deviceVersion: '$_deviceOs $_deviceVersion',
+          enqLdlGroup: ldlItem,
+          cdlGroup: cdlItem,
+          findDrvJobs: false,
         );
 
         if (result.isSuccess) {

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import '../model/profile_model.dart';
 import '../networking.dart';
 import '../response.dart';
@@ -53,6 +54,10 @@ class ProfileRepo {
     List<int> userProfileImage,
     String userProfileImageBase64String,
     bool removeUserProfileImage,
+    @required String enqLdlGroup,
+    @required String cdlGroup,
+    String langCode,
+    @required bool findDrvJobs,
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
@@ -82,6 +87,10 @@ class ProfileRepo {
       userProfileImage: userProfileImage,
       userProfileImageBase64String: userProfileImageBase64String ?? '',
       removeUserProfileImage: removeUserProfileImage ?? false,
+      enqLdlGroup: enqLdlGroup,
+      cdlGroup: cdlGroup,
+      langCode: langCode ?? 'en-MY',
+      findDrvJobs: findDrvJobs, //bool set to false
     );
 
     String body = jsonEncode(params);

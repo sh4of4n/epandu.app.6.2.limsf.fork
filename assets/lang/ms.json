@@ -371,5 +371,9 @@
   "agree_and_select_bank": "Sila bersetuju dengan terma dan syarat dan pilih bank anda.",
   "fill_all_fields": "Sila isi semua bidang.",
   "select_payment_for": "Sila pilih Pembayaran Untuk.",
-  "orders": "Pesanan"
+  "orders": "Pesanan",
+  "ldl": "LDL",
+  "ldl_required_msg": "LDL diperlukan.",
+  "cdl": "CDL",
+  "cdl_required_msg": "CDL diperlukan."
 }

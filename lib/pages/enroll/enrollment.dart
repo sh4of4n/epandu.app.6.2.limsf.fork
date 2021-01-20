@@ -56,6 +56,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   // final FocusNode _nearbyDiFocus = FocusNode();
   // final FocusNode _nationalityFocus = FocusNode();
   final FocusNode _nickNameFocus = FocusNode();
+  final FocusNode _postcodeFocus = FocusNode();
 
   // final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
@@ -63,6 +64,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   final _icNoController = TextEditingController();
   final _dobController = TextEditingController();
   final _nickNameController = TextEditingController();
+  final _postcodeController = TextEditingController();
 
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
@@ -70,6 +72,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   String _icNo = '';
   String _icName = '';
   String _email = '';
+  String _postcode = '';
   // String _address = '';
   // String _postcode = '';
   String _dob = '';
@@ -110,6 +113,11 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   File _image;
   File _croppedImage;
   var imageState;
+  var ldlList;
+  var cdlList;
+
+  String ldlItem = '';
+  String cdlItem = '';
 
   String cupertinoDob = '';
 
@@ -123,9 +131,33 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     _idNameController.addListener(_idNameValue);
     _icNoController.addListener(_icNoValue);
     _dobController.addListener(_dobValue);
+    _postcodeController.addListener(_postcodeValue);
+
     _getEnrollHistory();
     _getParticulars();
     _getAvailableCameras();
+    _getLdlkEnqGroupList();
+    _getCdlList();
+  }
+
+  Future<void> _getLdlkEnqGroupList() async {
+    var result = await authRepo.getLdlkEnqGroupList();
+
+    if (result.isSuccess) {
+      setState(() {
+        ldlList = result.data;
+      });
+    }
+  }
+
+  Future<void> _getCdlList() async {
+    var result = await authRepo.getCdlList();
+
+    if (result.isSuccess) {
+      setState(() {
+        cdlList = result.data;
+      });
+    }
   }
 
   Future<dynamic> _getEnrollHistory() async {
@@ -228,6 +260,12 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   _dobValue() {
     setState(() {
       _dob = _dobController.text;
+    });
+  }
+
+  _postcodeValue() {
+    setState(() {
+      _postcode = _postcodeController.text;
     });
   }
 
@@ -1001,6 +1039,164 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                       SizedBox(
                         height: ScreenUtil().setHeight(60),
                       ), */
+                    SizedBox(height: 60.h),
+                    TextFormField(
+                      controller: _postcodeController,
+                      focusNode: _postcodeFocus,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+                        hintStyle: TextStyle(
+                          color: primaryColor,
+                        ),
+                        labelStyle: TextStyle(
+                          color: Color(0xff808080),
+                        ),
+                        labelText: AppLocalizations.of(context)
+                            .translate('postcode_lbl'),
+                        prefixIcon: Icon(Icons.home),
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.cancel),
+                          onPressed: () {
+                            WidgetsBinding.instance.addPostFrameCallback(
+                                (_) => _postcodeController.clear());
+                          },
+                        ),
+                        fillColor: Colors.white,
+                        filled: true,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.blue, width: 1.3),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.blue, width: 1.3),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.blue[700], width: 1.6),
+                          // borderRadius: BorderRadius.circular(0),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return AppLocalizations.of(context)
+                              .translate('postcode_required_msg');
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: 60.h,
+                    ),
+                    DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 0.h,
+                        ),
+                        labelText:
+                            AppLocalizations.of(context).translate('ldl'),
+                        fillColor: Colors.white,
+                        filled: true,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.blue, width: 1.3),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.blue, width: 1.3),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.blue[700], width: 1.6),
+                          // borderRadius: BorderRadius.circular(0),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        prefixIcon: Icon(Icons.badge),
+                      ),
+                      disabledHint:
+                          Text(AppLocalizations.of(context).translate('ldl')),
+                      onChanged: (value) {
+                        setState(() {
+                          ldlItem = value;
+                        });
+                      },
+                      items: ldlList == null
+                          ? null
+                          : ldlList
+                              .map<DropdownMenuItem<String>>((dynamic value) {
+                              return DropdownMenuItem<String>(
+                                value: value.groupId,
+                                child: Text(value.groupId),
+                              );
+                            }).toList(),
+                      validator: (value) {
+                        if (value == null) {
+                          return AppLocalizations.of(context)
+                              .translate('ldl_required_msg');
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(70),
+                    ),
+                    DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 0.h,
+                        ),
+                        labelText:
+                            AppLocalizations.of(context).translate('cdl'),
+                        fillColor: Colors.white,
+                        filled: true,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.blue, width: 1.3),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.blue, width: 1.3),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.blue[700], width: 1.6),
+                          // borderRadius: BorderRadius.circular(0),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        prefixIcon: Icon(Icons.badge),
+                      ),
+                      disabledHint:
+                          Text(AppLocalizations.of(context).translate('cdl')),
+                      onChanged: (value) {
+                        setState(() {
+                          cdlItem = value;
+                        });
+                      },
+                      items: cdlList == null
+                          ? null
+                          : cdlList
+                              .map<DropdownMenuItem<String>>((dynamic value) {
+                              return DropdownMenuItem<String>(
+                                value: value.groupId,
+                                child: Text(value.groupId),
+                              );
+                            }).toList(),
+                      validator: (value) {
+                        if (value == null) {
+                          return AppLocalizations.of(context)
+                              .translate('cdl_required_msg');
+                        }
+                        return null;
+                      },
+                    ),
                     _dobField(),
                     SizedBox(
                       height: ScreenUtil().setHeight(60),
@@ -1270,6 +1466,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
             context: context,
             name: _icName,
             email: _email,
+            postcode: _postcode,
             icNo: _icNo,
             dateOfBirthString: _dob,
             gender: _genderValue,
@@ -1277,6 +1474,9 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
             userProfileImageBase64String: profilePicBase64,
             removeUserProfileImage: false,
             race: _raceParam,
+            enqLdlGroup: ldlItem,
+            cdlGroup: cdlItem,
+            findDrvJobs: false,
           );
 
           if (result.isSuccess) {
