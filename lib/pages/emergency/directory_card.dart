@@ -52,7 +52,7 @@ class DirectoryCard extends StatelessWidget {
                 child: Container(
                   child: Image.asset(
                     phoneIcon,
-                    height: 180.h,
+                    height: 150.h,
                   ),
                 ),
               ),
@@ -66,7 +66,7 @@ class DirectoryCard extends StatelessWidget {
                 child: Container(
                   child: Image.asset(
                     directoryIcon,
-                    height: 180.h,
+                    height: 150.h,
                   ),
                 ),
               ),
