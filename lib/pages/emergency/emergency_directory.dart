@@ -112,7 +112,31 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         _getSosContact('BIKEWORKSHOP'),
       ]);
     } else {
-      ExtendedNavigator.of(context).pop();
+      customDialog.show(
+        context: context,
+        barrierDismissable: false,
+        title: Text(
+            AppLocalizations.of(context).translate('loc_permission_title')),
+        content: AppLocalizations.of(context).translate('loc_permission_desc'),
+        customActions: <Widget>[
+          FlatButton(
+            child: Text(AppLocalizations.of(context).translate('yes_lbl')),
+            onPressed: () {
+              ExtendedNavigator.of(context).pop();
+              ExtendedNavigator.of(context).pop();
+              AppSettings.openLocationSettings();
+            },
+          ),
+          FlatButton(
+            child: Text(AppLocalizations.of(context).translate('no_lbl')),
+            onPressed: () {
+              ExtendedNavigator.of(context).pop();
+              ExtendedNavigator.of(context).pop();
+            },
+          ),
+        ],
+        type: DialogType.GENERAL,
+      );
     }
   }
 
