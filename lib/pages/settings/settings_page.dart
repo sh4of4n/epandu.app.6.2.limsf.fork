@@ -225,6 +225,12 @@ class _SettingsState extends State<Settings> {
                 title: Text('Reg ID'),
                 subtitle: SelectableText(_regId),
               ),
+              Divider(),
+              ListTile(
+                leading: Icon(Icons.code, size: _defIconSize),
+                title: Text('Model'),
+                subtitle: SelectableText('$_deviceBrand $_deviceModel'),
+              ),
             ],
           ),
         ),
