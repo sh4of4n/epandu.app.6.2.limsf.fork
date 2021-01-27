@@ -1,12 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 import 'package:epandu/common_library/services/repository/auth_repository.dart';
+import 'package:epandu/common_library/utils/device_info.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/common_library/utils/language_options.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:epandu/common_library/utils/loading_model.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
@@ -22,6 +24,15 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  DeviceInfo deviceInfo = DeviceInfo();
+  String _deviceBrand = '';
+  String _deviceModel = '';
+  String _deviceVersion = '';
+  String _deviceId = '';
+  String _deviceOs = '';
+
+  String _regId = '';
+
   String appVersion = '';
   int count = 0;
   final authRepo = AuthRepo();
@@ -38,6 +49,7 @@ class _SettingsState extends State<Settings> {
     super.initState();
 
     _getPackageInfo();
+    _getDeviceInfo();
   }
 
   _getPackageInfo() async {
@@ -48,6 +60,21 @@ class _SettingsState extends State<Settings> {
     setState(() {
       appVersion = packageInfo.version;
     });
+  }
+
+  _getDeviceInfo() async {
+    // get device info
+    await deviceInfo.getDeviceInfo();
+
+    _regId = await Hive.box('ws_url').get('push_token');
+
+    _deviceBrand = deviceInfo.manufacturer;
+    _deviceModel = deviceInfo.model;
+    _deviceVersion = deviceInfo.version;
+    _deviceId = deviceInfo.id;
+    _deviceOs = deviceInfo.os;
+
+    // print('deviceId: ' + deviceId);
   }
 
   @override
@@ -185,6 +212,18 @@ class _SettingsState extends State<Settings> {
                       );
                     }
                   }, */
+              ),
+              Divider(),
+              ListTile(
+                leading: Icon(Icons.code, size: _defIconSize),
+                title: Text('Device ID'),
+                subtitle: SelectableText(_deviceId),
+              ),
+              Divider(),
+              ListTile(
+                leading: Icon(Icons.code, size: _defIconSize),
+                title: Text('Reg ID'),
+                subtitle: SelectableText(_regId),
               ),
             ],
           ),
