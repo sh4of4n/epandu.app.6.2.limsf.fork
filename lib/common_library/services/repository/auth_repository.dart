@@ -513,17 +513,24 @@ class AuthRepo {
     String userId = await localStorage.getUserId();
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&userId=$userId&userPwd=$currentPassword';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appCode=${appConfig.appCode}&appId=${appConfig.appId}&userId=$userId&userPwd=$currentPassword';
 
     var response = await networking.getData(
       path: 'GetUserByUserIdPwd?$path',
     );
 
-    if (response.isSuccess && response.data.contains('Valid user.')) {
-      var result = await saveUserPassword(
-          context: context, userId: userId, password: newPassword);
+    if (response.isSuccess && response.data != null) {
+      GetUserByUserIdPwdResponse getUserByUserIdPwdResponse =
+          GetUserByUserIdPwdResponse.fromJson(response.data);
 
-      return result;
+      print(getUserByUserIdPwdResponse.table1[0].result);
+
+      if (getUserByUserIdPwdResponse.table1[0].result == 'Valid user.') {
+        var result = await saveUserPassword(
+            context: context, userId: userId, password: newPassword);
+
+        return result;
+      }
     }
 
     return Response(false, message: response.message);

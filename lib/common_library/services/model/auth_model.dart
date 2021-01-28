@@ -3405,3 +3405,43 @@ class LanguageList {
     return data;
   }
 }
+
+// Change password
+class GetUserByUserIdPwdResponse {
+  List<GetUserByUserIdPwdTable1> table1;
+
+  GetUserByUserIdPwdResponse({this.table1});
+
+  GetUserByUserIdPwdResponse.fromJson(Map<String, dynamic> json) {
+    if (json['Table1'] != null) {
+      table1 = new List<GetUserByUserIdPwdTable1>();
+      json['Table1'].forEach((v) {
+        table1.add(new GetUserByUserIdPwdTable1.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.table1 != null) {
+      data['Table1'] = this.table1.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class GetUserByUserIdPwdTable1 {
+  String result;
+
+  GetUserByUserIdPwdTable1({this.result});
+
+  GetUserByUserIdPwdTable1.fromJson(Map<String, dynamic> json) {
+    result = json['result'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['result'] = this.result;
+    return data;
+  }
+}
