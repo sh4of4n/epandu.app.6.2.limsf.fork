@@ -115,6 +115,63 @@ class ProfileRepo {
     return Response(false,
         message: 'Failed to update profile. Please try again later.');
   }
+
+  Future getTrainerList() async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+    String merchantNo = await localStorage.getMerchantDbCode();
+    // String phoneCountryCode = await localStorage.getCountryCode();
+    // String phone = await localStorage.getUserPhone();
+    // String loginId = (phoneCountryCode + phone).replaceAll('+6', '');
+
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
+        '&caUid=$caUid' +
+        '&caPwd=$caPwd' +
+        '&diCode=$merchantNo';
+
+    var response = await networking.getData(
+      path: 'GetTrainerList?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetTrainerListResponse getTrainerListResponse =
+          GetTrainerListResponse.fromJson(response.data);
+
+      return Response(true, data: getTrainerListResponse.trainer);
+    }
+
+    return Response(false,
+        message: 'Failed to load trainer list. Please try again later.');
+  }
+
+  Future getVehicleList() async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+    String merchantNo = await localStorage.getMerchantDbCode();
+    // String phoneCountryCode = await localStorage.getCountryCode();
+    // String phone = await localStorage.getUserPhone();
+    // String loginId = (phoneCountryCode + phone).replaceAll('+6', '');
+
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
+        '&caUid=$caUid' +
+        '&caPwd=$caPwd' +
+        '&diCode=$merchantNo';
+
+    var response = await networking.getData(
+      path: 'GetVehicleList?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetVehicleListResponse getVehicleListResponse =
+          GetVehicleListResponse.fromJson(response.data);
+
+      return Response(true, data: getVehicleListResponse.vehicle);
+    }
+
+    return Response(false,
+        message: 'Failed to load vehicle list. Please try again later.');
+  }
+
   /* Future getStudentProfile() async {
     String userId = await localStorage.getUserId();
     String diCode = await localStorage.getDiCode();

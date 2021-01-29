@@ -523,8 +523,6 @@ class AuthRepo {
       GetUserByUserIdPwdResponse getUserByUserIdPwdResponse =
           GetUserByUserIdPwdResponse.fromJson(response.data);
 
-      print(getUserByUserIdPwdResponse.table1[0].result);
-
       if (getUserByUserIdPwdResponse.table1[0].result == 'Valid user.') {
         var result = await saveUserPassword(
             context: context, userId: userId, password: newPassword);
@@ -1064,7 +1062,7 @@ class AuthRepo {
       bdModel: deviceModel,
       bdProduct: '',
       pfDeviceId: '',
-      regId: pushToken,
+      regId: pushToken ?? '',
       enqLdlGroup: enqLdlGroup,
       cdlGroup: cdlGroup,
       langCode: langCode ?? 'en-MY',
