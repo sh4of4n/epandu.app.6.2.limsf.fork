@@ -33,6 +33,8 @@ class LocalStorage {
   static const String kProfilePic = 'PROFILE_PIC';
   static const String kLoginDeviceId = 'LOGIN_DEVICE_ID';
   static const String kMerchantName = 'MERCHANT_NAME';
+  static const String kMsgDoc = 'MSG_DOC';
+  static const String kMsgRef = 'MSG_REF';
 
   Future<void> saveNickName(String nickName) {
     return Preference.setString(kNickName, nickName);
@@ -290,6 +292,22 @@ class LocalStorage {
     return Preference.setString(kLoginDeviceId, deviceId);
   }
 
+  Future<String> getMsgDoc() async {
+    return Preference.getString(kMsgDoc, def: '');
+  }
+
+  Future<void> saveMsgDoc(String msgDoc) async {
+    return Preference.setString(kMsgDoc, msgDoc);
+  }
+
+  Future<String> getMsgRef() async {
+    return Preference.getString(kMsgRef, def: '');
+  }
+
+  Future<void> saveMsgRef(String msgRef) async {
+    return Preference.setString(kMsgRef, msgRef);
+  }
+
   Future<void> reset() async {
     // await Preference.removeAll();
     await Preference.remove(kWsUrl);
@@ -323,5 +341,7 @@ class LocalStorage {
     await Preference.remove(kMerchantDbCode);
     await Preference.remove(kProfilePic);
     await Preference.remove(kMerchantName);
+    await Preference.remove(kMsgDoc);
+    await Preference.remove(kMsgRef);
   }
 }

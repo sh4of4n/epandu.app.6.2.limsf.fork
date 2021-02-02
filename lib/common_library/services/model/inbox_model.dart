@@ -1,131 +1,91 @@
-class GetNotificationListByUserIdResponse {
-  List<MsgOutbox> msgOutbox;
+import 'package:hive/hive.dart';
 
-  GetNotificationListByUserIdResponse({this.msgOutbox});
+part 'inbox_model.g.dart';
+
+class GetNotificationListByUserIdResponse {
+  List<MsgOutBox> table1;
+
+  GetNotificationListByUserIdResponse({this.table1});
 
   GetNotificationListByUserIdResponse.fromJson(Map<String, dynamic> json) {
-    if (json['MsgOutbox'] != null) {
-      msgOutbox = new List<MsgOutbox>();
-      json['MsgOutbox'].forEach((v) {
-        msgOutbox.add(new MsgOutbox.fromJson(v));
+    if (json['Table1'] != null) {
+      table1 = new List<MsgOutBox>();
+      json['Table1'].forEach((v) {
+        table1.add(new MsgOutBox.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.msgOutbox != null) {
-      data['MsgOutbox'] = this.msgOutbox.map((v) => v.toJson()).toList();
+    if (this.table1 != null) {
+      data['Table1'] = this.table1.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
-class MsgOutbox {
-  String id;
-  String acctNo;
-  String sendType;
-  String msgFrom;
-  String mobileNo;
-  String appId;
-  String acctUid;
-  String deviceId;
-  String location;
+@HiveType(typeId: 4, adapterName: 'MsgOutboxAdapter')
+class MsgOutBox {
+  @HiveField(0)
+  String msgDoc;
+  @HiveField(1)
+  String msgRef;
+  @HiveField(2)
   String sendMsg;
-  String credit;
-  String creditAmt;
-  String apiId;
-  String inTime;
-  String inDate;
-  String priority;
-  String status;
-  String statusMsg;
-  String sessionId;
-  String refNo;
-  String createUser;
-  String createDate;
-  String timeLog;
-  String transtamp;
 
-  MsgOutbox(
-      {this.id,
-      this.acctNo,
-      this.sendType,
-      this.msgFrom,
-      this.mobileNo,
-      this.appId,
-      this.acctUid,
-      this.deviceId,
-      this.location,
-      this.sendMsg,
-      this.credit,
-      this.creditAmt,
-      this.apiId,
-      this.inTime,
-      this.inDate,
-      this.priority,
-      this.status,
-      this.statusMsg,
-      this.sessionId,
-      this.refNo,
-      this.createUser,
-      this.createDate,
-      this.timeLog,
-      this.transtamp});
+  MsgOutBox({this.msgDoc, this.msgRef, this.sendMsg});
 
-  MsgOutbox.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    acctNo = json['acct_no'];
-    sendType = json['send_type'];
-    msgFrom = json['msg_from'];
-    mobileNo = json['mobile_no'];
-    appId = json['app_id'];
-    acctUid = json['acct_uid'];
-    deviceId = json['device_id'];
-    location = json['location'];
+  MsgOutBox.fromJson(Map<String, dynamic> json) {
+    msgDoc = json['msg_doc'];
+    msgRef = json['msg_ref'];
     sendMsg = json['send_msg'];
-    credit = json['credit'];
-    creditAmt = json['credit_amt'];
-    apiId = json['api_id'];
-    inTime = json['in_time'];
-    inDate = json['in_date'];
-    priority = json['priority'];
-    status = json['status'];
-    statusMsg = json['status_msg'];
-    sessionId = json['session_id'];
-    refNo = json['ref_no'];
-    createUser = json['create_user'];
-    createDate = json['create_date'];
-    timeLog = json['time_log'];
-    transtamp = json['transtamp'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['acct_no'] = this.acctNo;
-    data['send_type'] = this.sendType;
-    data['msg_from'] = this.msgFrom;
-    data['mobile_no'] = this.mobileNo;
-    data['app_id'] = this.appId;
-    data['acct_uid'] = this.acctUid;
-    data['device_id'] = this.deviceId;
-    data['location'] = this.location;
+    data['msg_doc'] = this.msgDoc;
+    data['msg_ref'] = this.msgRef;
     data['send_msg'] = this.sendMsg;
-    data['credit'] = this.credit;
-    data['credit_amt'] = this.creditAmt;
-    data['api_id'] = this.apiId;
-    data['in_time'] = this.inTime;
-    data['in_date'] = this.inDate;
-    data['priority'] = this.priority;
-    data['status'] = this.status;
-    data['status_msg'] = this.statusMsg;
-    data['session_id'] = this.sessionId;
-    data['ref_no'] = this.refNo;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['time_log'] = this.timeLog;
-    data['transtamp'] = this.transtamp;
+    return data;
+  }
+}
+
+class GetUnreadNotificationCountResponse {
+  List<MsgCount> msgCount;
+
+  GetUnreadNotificationCountResponse({this.msgCount});
+
+  GetUnreadNotificationCountResponse.fromJson(Map<String, dynamic> json) {
+    if (json['MsgCount'] != null) {
+      msgCount = new List<MsgCount>();
+      json['MsgCount'].forEach((v) {
+        msgCount.add(new MsgCount.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.msgCount != null) {
+      data['MsgCount'] = this.msgCount.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class MsgCount {
+  String msgCount;
+
+  MsgCount({this.msgCount});
+
+  MsgCount.fromJson(Map<String, dynamic> json) {
+    msgCount = json['msg_count'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['msg_count'] = this.msgCount;
     return data;
   }
 }

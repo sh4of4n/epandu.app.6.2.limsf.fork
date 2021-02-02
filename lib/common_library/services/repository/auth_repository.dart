@@ -327,6 +327,8 @@ class AuthRepo {
     if (type == 'CLEAR') {
       Hive.box('telcoList').clear();
       Hive.box('serviceList').clear();
+      // Hive.box('ws_url').delete('show_badge');
+      Hive.box('inboxStorage').clear();
     }
     // Hive.box('emergencyContact').clear();
 

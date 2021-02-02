@@ -1,11 +1,17 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/repository/inbox_repository.dart';
+import 'package:epandu/common_library/services/model/inbox_model.dart';
+import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:hive/hive.dart';
-// import 'package:hive/hive.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:hive/hive.dart';
+
+import '../../router.gr.dart';
 
 class Inbox extends StatefulWidget {
   @override
@@ -16,6 +22,9 @@ class _InboxState extends State<Inbox> {
   Future _getInboxList;
   final primaryColor = ColorConstant.primaryColor;
   final inboxRepo = InboxRepo();
+  final inboxStorage = Hive.box('inboxStorage');
+  final localStorage = LocalStorage();
+  MsgOutBox msgOutBox;
 
   @override
   void initState() {
@@ -26,15 +35,54 @@ class _InboxState extends State<Inbox> {
   }
 
   _getNotificationListByUserId() async {
-    var result = await inboxRepo.getNotificationListByUserId(context: context);
+    var result = await inboxRepo.getNotificationListByUserId();
 
     if (result.isSuccess) {
-      setState(() {
-        Hive.box('ws_url').put('show_badge', false);
-      });
+      for (int i = 0; i < result.data.length; i += 1) {
+        // save msgDoc and msgRef
+
+        localStorage.saveMsgDoc(result.data[0].msgDoc);
+        localStorage.saveMsgRef(result.data[0].msgRef);
+      }
+      // setState(() {
+      //   Hive.box('ws_url').put('show_badge', false);
+      // });
       return result.data;
     }
     return result.message;
+  }
+
+  getInboxStorageMessage(index) {
+    final data = inboxStorage.getAt(index) as MsgOutBox;
+
+    return SelectableLinkify(
+        onOpen: (link) {
+          ExtendedNavigator.of(context)
+              .push(Routes.webview, arguments: WebviewArguments(url: link.url));
+        },
+        text: data.sendMsg);
+  }
+
+  displayInboxMessage(msgData) {
+    if (msgData != null) {
+      // save inbox message
+      msgOutBox = MsgOutBox(
+        sendMsg: msgData.sendMsg,
+        msgDoc: msgData.msgDoc,
+        msgRef: msgData.msgRef,
+      );
+
+      inboxStorage.add(msgOutBox);
+      // end save inbox message
+    }
+
+    return SelectableLinkify(
+      onOpen: (link) {
+        ExtendedNavigator.of(context)
+            .push(Routes.webview, arguments: WebviewArguments(url: link.url));
+      },
+      text: msgData.sendMsg,
+    );
   }
 
   @override
@@ -46,39 +94,72 @@ class _InboxState extends State<Inbox> {
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
-      body: FutureBuilder(
-        future: _getInboxList,
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return Center(
-                child: SpinKitFoldingCube(
-                  color: Colors.blue,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            if (inboxStorage.isNotEmpty)
+              Container(
+                color: Color(0xfff5f2e9),
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: inboxStorage.length,
+                  separatorBuilder: (BuildContext context, int index) =>
+                      Divider(color: Colors.grey[400]),
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      leading: Icon(Icons.mail, color: Color(0xff808080)),
+                      title: getInboxStorageMessage(index),
+                    );
+                  },
                 ),
-              );
-            case ConnectionState.done:
-              if (snapshot.data is String) {
-                return Center(child: Text(snapshot.data));
-              }
-              return ListView.separated(
-                itemCount: snapshot.data.length,
-                separatorBuilder: (BuildContext context, int index) =>
-                    Divider(),
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    leading: Icon(Icons.mail, color: Color(0xff808080)),
-                    title: Text(snapshot.data[index].sendMsg),
-                  );
-                },
-              );
-            default:
-              return Center(
-                child: Text(
-                  AppLocalizations.of(context).translate('inbox_list_fail'),
-                ),
-              );
-          }
-        },
+              ),
+            FutureBuilder(
+              future: _getInboxList,
+              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return Center(
+                      child: SpinKitFoldingCube(
+                        color: Colors.blue,
+                      ),
+                    );
+                  case ConnectionState.done:
+                    if (snapshot.data is String) {
+                      if (inboxStorage.isEmpty &&
+                          snapshot.data == 'No records found.') {
+                        return Center(child: Text(snapshot.data));
+                      }
+                      return Container();
+                    }
+                    return Container(
+                      color: Color(0xfff5f2e9),
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: snapshot.data.length,
+                        separatorBuilder: (BuildContext context, int index) =>
+                            Divider(color: Colors.grey[400]),
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListTile(
+                            leading: Icon(Icons.mail, color: Color(0xff808080)),
+                            title: displayInboxMessage(snapshot.data[index]),
+                          );
+                        },
+                      ),
+                    );
+                  default:
+                    return Center(
+                      child: Text(
+                        AppLocalizations.of(context)
+                            .translate('inbox_list_fail'),
+                      ),
+                    );
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,9 @@
 // import 'dart:io';
 import 'package:auto_route/auto_route.dart';
+import 'package:epandu/common_library/services/model/inbox_model.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
+import 'package:epandu/common_library/services/repository/inbox_repository.dart';
+import 'package:epandu/services/provider/notification_count.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
@@ -76,6 +79,7 @@ void main() async {
   // Hive.registerAdapter(EmergencyContactAdapter());
   Hive.registerAdapter(TelcoAdapter());
   Hive.registerAdapter(BillAdapter());
+  Hive.registerAdapter(MsgOutboxAdapter());
   // _setupLogging();
   await Hive.openBox('ws_url');
 
@@ -96,6 +100,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => CartStatus(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => NotificationCount(),
         ),
       ],
       child: MyApp(),
@@ -119,6 +126,7 @@ class _MyAppState extends State<MyApp> {
   AppLocalizationsDelegate _newLocaleDelegate;
   final localStorage = LocalStorage();
   final image = ImagesConstant();
+  final inboxRepo = InboxRepo();
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   String _homeScreenText = "Waiting for token...";
@@ -132,9 +140,12 @@ class _MyAppState extends State<MyApp> {
       // app is in foreground
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-        setState(() {
-          Hive.box('ws_url').put('show_badge', true);
-        });
+        // setState(() {
+        //   Hive.box('ws_url').put('show_badge', true);
+        // });
+
+        getUnreadNotificationCount();
+
         // await Hive.box('ws_url').put('show_badge', true);
         // Provider.of<NotificationModel>(context, listen: false)
         //     .setNotification(true);
@@ -144,9 +155,11 @@ class _MyAppState extends State<MyApp> {
       // app is terminated
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
-        setState(() {
-          Hive.box('ws_url').put('show_badge', true);
-        });
+        // setState(() {
+        //   Hive.box('ws_url').put('show_badge', true);
+        // });
+
+        getUnreadNotificationCount();
 
         // Provider.of<NotificationModel>(context, listen: false)
         //     .setNotification(true);
@@ -156,9 +169,9 @@ class _MyAppState extends State<MyApp> {
       // app is in background
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
-        setState(() {
-          Hive.box('ws_url').put('show_badge', true);
-        });
+        // setState(() {
+        //   Hive.box('ws_url').put('show_badge', true);
+        // });
         // await Hive.box('ws_url').put('show_badge', true);
         // Provider.of<NotificationModel>(context, listen: false)
         //     .setNotification(true);
@@ -200,6 +213,30 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _newLocaleDelegate = AppLocalizationsDelegate(newLocale: locale);
     });
+  }
+
+  getUnreadNotificationCount() async {
+    var result = await inboxRepo.getUnreadNotificationCount();
+
+    if (result.isSuccess) {
+      if (result.data[0].msgCount > 0) {
+        Provider.of<NotificationCount>(context, listen: false).setShowBadge(
+          showBadge: true,
+        );
+
+        Provider.of<NotificationCount>(context, listen: false)
+            .updateNotificationBadge(
+          notificationBadge: result.data[0].msgCount,
+        );
+      } else
+        Provider.of<NotificationCount>(context, listen: false).setShowBadge(
+          showBadge: false,
+        );
+    } else {
+      Provider.of<NotificationCount>(context, listen: false).setShowBadge(
+        showBadge: false,
+      );
+    }
   }
 
   /* static Future<dynamic> myBackgroundMessageHandler(

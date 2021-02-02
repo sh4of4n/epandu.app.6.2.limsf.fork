@@ -4,12 +4,13 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
 import 'package:epandu/router.gr.dart';
+import 'package:epandu/services/provider/notification_count.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class HomeTopMenu extends StatefulWidget {
   final iconText;
@@ -29,25 +30,7 @@ class HomeTopMenu extends StatefulWidget {
 class _HomeTopMenuState extends State<HomeTopMenu> {
   final myImage = ImagesConstant();
   final customDialog = CustomDialog();
-  bool _showBadge = false;
   String barcode = "";
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    _getBadge();
-  }
-
-  _getBadge() async {
-    var badgeValue = await Hive.box('ws_url').get('show_badge');
-
-    if (badgeValue != null) {
-      setState(() {
-        _showBadge = badgeValue;
-      });
-    }
-  }
 
   Future _scan() async {
     try {
@@ -122,6 +105,9 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
 
   @override
   Widget build(BuildContext context) {
+    bool showBadge = context.watch<NotificationCount>().showBadge;
+    int badgeNo = context.watch<NotificationCount>().notificationBadge;
+
     return Container(
       height: ScreenUtil().setHeight(350),
       child: Stack(
@@ -241,7 +227,11 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                         child: Column(
                           children: <Widget>[
                             Badge(
-                              showBadge: _showBadge,
+                              showBadge: showBadge,
+                              badgeContent: Text(
+                                '$badgeNo',
+                                style: TextStyle(color: Colors.white),
+                              ),
                               child: Icon(
                                 MyCustomIcons.inbox_icon,
                                 size: 26,

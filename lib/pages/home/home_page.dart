@@ -2,11 +2,13 @@ import 'dart:async';
 
 // import 'package:app_settings/app_settings.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:epandu/common_library/services/repository/inbox_repository.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 // import 'package:epandu/common_library/services/location.dart';
 import 'package:epandu/common_library/services/repository/auth_repository.dart';
 import 'package:epandu/common_library/services/repository/kpp_repository.dart';
+import 'package:epandu/services/provider/notification_count.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:epandu/common_library/utils/loading_model.dart';
@@ -35,6 +37,7 @@ class _HomeState extends State<Home> {
 
   final authRepo = AuthRepo();
   final kppRepo = KppRepo();
+  final inboxRepo = InboxRepo();
   // final customDialog = CustomDialog();
   final localStorage = LocalStorage();
   final primaryColor = ColorConstant.primaryColor;
@@ -79,6 +82,7 @@ class _HomeState extends State<Home> {
     _getDiProfile();
     _getActiveFeed();
     _getAppVersion();
+    getUnreadNotificationCount();
 
     _scrollController
       ..addListener(() {
@@ -97,6 +101,30 @@ class _HomeState extends State<Home> {
           }
         }
       });
+  }
+
+  getUnreadNotificationCount() async {
+    var result = await inboxRepo.getUnreadNotificationCount();
+
+    if (result.isSuccess) {
+      if (result.data[0].msgCount > 0) {
+        Provider.of<NotificationCount>(context, listen: false).setShowBadge(
+          showBadge: true,
+        );
+
+        Provider.of<NotificationCount>(context, listen: false)
+            .updateNotificationBadge(
+          notificationBadge: result.data[0].msgCount,
+        );
+      } else
+        Provider.of<NotificationCount>(context, listen: false).setShowBadge(
+          showBadge: false,
+        );
+    } else {
+      Provider.of<NotificationCount>(context, listen: false).setShowBadge(
+        showBadge: false,
+      );
+    }
   }
 
   _getAppVersion() async {
@@ -272,6 +300,7 @@ class _HomeState extends State<Home> {
   _openHiveBoxes() async {
     await Hive.openBox('telcoList');
     await Hive.openBox('serviceList');
+    await Hive.openBox('inboxStorage');
     // await Hive.openBox('emergencyContact');
   }
 

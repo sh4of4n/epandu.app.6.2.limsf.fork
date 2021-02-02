@@ -10,8 +10,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
-import 'common_library/utils/image_viewer.dart';
 import 'coming_soon/coming_soon.dart';
+import 'common_library/utils/image_viewer.dart';
 import 'pages/chat/chat.dart';
 import 'pages/di_enroll/di_enrollment.dart';
 import 'pages/emergency/emergency.dart';

@@ -71,7 +71,8 @@ class _SettingsState extends State<Settings> {
     _deviceBrand = deviceInfo.manufacturer;
     _deviceModel = deviceInfo.model;
     _deviceVersion = deviceInfo.version;
-    _deviceId = deviceInfo.id;
+    // _deviceId = deviceInfo.id;
+    _deviceId = await localStorage.getLoginDeviceId();
     _deviceOs = deviceInfo.os;
 
     // print('deviceId: ' + deviceId);
