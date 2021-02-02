@@ -97,31 +97,17 @@ class _InboxState extends State<Inbox> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            if (inboxStorage.isNotEmpty)
-              Container(
-                color: Color(0xfff5f2e9),
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: inboxStorage.length,
-                  separatorBuilder: (BuildContext context, int index) =>
-                      Divider(color: Colors.grey[400]),
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      leading: Icon(Icons.mail, color: Color(0xff808080)),
-                      title: getInboxStorageMessage(index),
-                    );
-                  },
-                ),
-              ),
             FutureBuilder(
               future: _getInboxList,
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
-                    return Center(
-                      child: SpinKitFoldingCube(
-                        color: Colors.blue,
+                    return Container(
+                      height: ScreenUtil().screenHeight,
+                      child: Center(
+                        child: SpinKitFoldingCube(
+                          color: Colors.blue,
+                        ),
                       ),
                     );
                   case ConnectionState.done:
@@ -158,6 +144,23 @@ class _InboxState extends State<Inbox> {
                 }
               },
             ),
+            if (inboxStorage.isNotEmpty)
+              Container(
+                color: Color(0xfff5f2e9),
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: inboxStorage.length,
+                  separatorBuilder: (BuildContext context, int index) =>
+                      Divider(color: Colors.grey[400]),
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      leading: Icon(Icons.mail, color: Color(0xff808080)),
+                      title: getInboxStorageMessage(index),
+                    );
+                  },
+                ),
+              ),
           ],
         ),
       ),
