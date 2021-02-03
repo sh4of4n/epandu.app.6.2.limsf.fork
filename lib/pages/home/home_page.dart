@@ -107,14 +107,14 @@ class _HomeState extends State<Home> {
     var result = await inboxRepo.getUnreadNotificationCount();
 
     if (result.isSuccess) {
-      if (result.data[0].msgCount > 0) {
+      if (int.tryParse(result.data[0].msgCount) > 0) {
         Provider.of<NotificationCount>(context, listen: false).setShowBadge(
           showBadge: true,
         );
 
         Provider.of<NotificationCount>(context, listen: false)
             .updateNotificationBadge(
-          notificationBadge: result.data[0].msgCount,
+          notificationBadge: int.tryParse(result.data[0].msgCount),
         );
       } else
         Provider.of<NotificationCount>(context, listen: false).setShowBadge(

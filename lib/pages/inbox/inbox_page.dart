@@ -25,6 +25,7 @@ class _InboxState extends State<Inbox> {
   final inboxStorage = Hive.box('inboxStorage');
   final localStorage = LocalStorage();
   MsgOutBox msgOutBox;
+  List<MsgOutBox> sortedInboxData = [];
 
   @override
   void initState() {
@@ -53,7 +54,16 @@ class _InboxState extends State<Inbox> {
   }
 
   getInboxStorageMessage(index) {
-    final data = inboxStorage.getAt(index) as MsgOutBox;
+    MsgOutBox data = inboxStorage.getAt(index) as MsgOutBox;
+
+    sortedInboxData.add(data);
+
+    sortedInboxData.sort(
+        (b, a) => int.tryParse(a.msgRef).compareTo(int.tryParse(b.msgRef)));
+
+    // final sortedIndex = sortedInboxData[index];
+    print(sortedInboxData[index].sendMsg);
+    // print(inboxStorage.getAt[sortedIndex].sendMsg);
 
     return SelectableLinkify(
         onOpen: (link) {
@@ -71,6 +81,8 @@ class _InboxState extends State<Inbox> {
         msgDoc: msgData.msgDoc,
         msgRef: msgData.msgRef,
       );
+
+      // print(int.tryParse(msgData.msgRef));
 
       inboxStorage.add(msgOutBox);
       // end save inbox message
@@ -151,6 +163,7 @@ class _InboxState extends State<Inbox> {
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: inboxStorage.length,
+                  // reverse: true,
                   separatorBuilder: (BuildContext context, int index) =>
                       Divider(color: Colors.grey[400]),
                   itemBuilder: (BuildContext context, int index) {

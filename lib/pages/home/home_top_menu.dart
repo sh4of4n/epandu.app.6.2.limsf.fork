@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:badges/badges.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:epandu/common_library/services/repository/inbox_repository.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
 import 'package:epandu/router.gr.dart';
@@ -31,6 +32,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
   final myImage = ImagesConstant();
   final customDialog = CustomDialog();
   String barcode = "";
+  final inboxRepo = InboxRepo();
 
   Future _scan() async {
     try {
@@ -73,6 +75,30 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
         onPressed: () => Navigator.pop(context),
         type: DialogType.ERROR,
       ); */
+    }
+  }
+
+  getUnreadNotificationCount() async {
+    var result = await inboxRepo.getUnreadNotificationCount();
+
+    if (result.isSuccess) {
+      if (int.tryParse(result.data[0].msgCount) > 0) {
+        Provider.of<NotificationCount>(context, listen: false).setShowBadge(
+          showBadge: true,
+        );
+
+        Provider.of<NotificationCount>(context, listen: false)
+            .updateNotificationBadge(
+          notificationBadge: int.tryParse(result.data[0].msgCount),
+        );
+      } else
+        Provider.of<NotificationCount>(context, listen: false).setShowBadge(
+          showBadge: false,
+        );
+    } else {
+      Provider.of<NotificationCount>(context, listen: false).setShowBadge(
+        showBadge: false,
+      );
     }
   }
 
@@ -219,8 +245,9 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                       ),
                     ),
                     InkWell(
-                      onTap: () =>
-                          ExtendedNavigator.of(context).push(Routes.inbox),
+                      onTap: () => ExtendedNavigator.of(context)
+                          .push(Routes.inbox)
+                          .then((value) => getUnreadNotificationCount()),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
