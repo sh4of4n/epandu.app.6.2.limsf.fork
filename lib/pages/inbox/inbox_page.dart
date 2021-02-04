@@ -53,24 +53,43 @@ class _InboxState extends State<Inbox> {
     return result.message;
   }
 
-  getInboxStorageMessage(index) {
-    MsgOutBox data = inboxStorage.getAt(index) as MsgOutBox;
+  getInboxStorageMessage() {
+    MsgOutBox data;
 
-    sortedInboxData.add(data);
+    for (int index = 0; index < inboxStorage.length; index += 1) {
+      data = inboxStorage.getAt(index) as MsgOutBox;
 
-    sortedInboxData.sort(
-        (b, a) => int.tryParse(a.msgRef).compareTo(int.tryParse(b.msgRef)));
+      sortedInboxData.add(data);
 
-    // final sortedIndex = sortedInboxData[index];
-    print(sortedInboxData[index].sendMsg);
-    // print(inboxStorage.getAt[sortedIndex].sendMsg);
+      sortedInboxData.sort(
+          (b, a) => int.tryParse(a.msgRef).compareTo(int.tryParse(b.msgRef)));
 
-    return SelectableLinkify(
-        onOpen: (link) {
-          ExtendedNavigator.of(context)
-              .push(Routes.webview, arguments: WebviewArguments(url: link.url));
+      // final sortedIndex = sortedInboxData[index];
+      // print(sortedInboxData[index].sendMsg);
+      // print(sortedInboxData[index].msgRef);
+    }
+
+    return Container(
+      color: Color(0xfff5f2e9),
+      child: ListView.separated(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: sortedInboxData.length,
+        // reverse: true,
+        separatorBuilder: (BuildContext context, int index) =>
+            Divider(color: Colors.grey[400]),
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+              leading: Icon(Icons.mail, color: Color(0xff808080)),
+              title: SelectableLinkify(
+                  onOpen: (link) {
+                    ExtendedNavigator.of(context).push(Routes.webview,
+                        arguments: WebviewArguments(url: link.url));
+                  },
+                  text: sortedInboxData[index].sendMsg));
         },
-        text: data.sendMsg);
+      ),
+    );
   }
 
   displayInboxMessage(msgData) {
@@ -126,7 +145,13 @@ class _InboxState extends State<Inbox> {
                     if (snapshot.data is String) {
                       if (inboxStorage.isEmpty &&
                           snapshot.data == 'No records found.') {
-                        return Center(child: Text(snapshot.data));
+                        return Container(
+                            height: ScreenUtil().screenHeight,
+                            child: Center(
+                              child: Text(
+                                snapshot.data,
+                              ),
+                            ));
                       }
                       return Container();
                     }
@@ -156,24 +181,7 @@ class _InboxState extends State<Inbox> {
                 }
               },
             ),
-            if (inboxStorage.isNotEmpty)
-              Container(
-                color: Color(0xfff5f2e9),
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: inboxStorage.length,
-                  // reverse: true,
-                  separatorBuilder: (BuildContext context, int index) =>
-                      Divider(color: Colors.grey[400]),
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      leading: Icon(Icons.mail, color: Color(0xff808080)),
-                      title: getInboxStorageMessage(index),
-                    );
-                  },
-                ),
-              ),
+            if (inboxStorage.isNotEmpty) getInboxStorageMessage(),
           ],
         ),
       ),
