@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:readmore/readmore.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:string_validator/string_validator.dart';
 // import 'package:url_launcher/url_launcher.dart';
@@ -32,7 +33,7 @@ class Feeds extends StatefulWidget {
 class _FeedsState extends State<Feeds> {
   final adText = TextStyle(
     fontSize: ScreenUtil().setSp(70),
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w600,
     color: Color(0xff231f20),
   );
 
@@ -445,6 +446,27 @@ class _FeedsState extends State<Feeds> {
                             ),
                           ),
                           Container(
+                            // height: ScreenUtil().setHeight(180),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 70.w, vertical: 30.h),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(12),
+                                bottomRight: Radius.circular(12),
+                              ),
+                            ),
+                            alignment: Alignment.centerLeft,
+                            child: ReadMoreText(
+                              item.feedText ?? '',
+                              trimLines: 3,
+                              colorClickableText: Colors.blue[900],
+                              trimMode: TrimMode.Line,
+                              trimCollapsedText: 'Read more',
+                              trimExpandedText: ' Read less',
+                              style: adText,
+                            ),
+                          ),
+                          /* Container(
                             height: ScreenUtil().setHeight(180),
                             padding: EdgeInsets.symmetric(
                               horizontal: ScreenUtil().setWidth(70),
@@ -466,7 +488,7 @@ class _FeedsState extends State<Feeds> {
                                   ),
                               ],
                             ),
-                          ),
+                          ), */
                         ],
                       ),
                     ),
@@ -595,6 +617,27 @@ class _FeedsState extends State<Feeds> {
                             ),
                           ),
                           Container(
+                            // height: ScreenUtil().setHeight(180),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 70.w, vertical: 30.h),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(12),
+                                bottomRight: Radius.circular(12),
+                              ),
+                            ),
+                            alignment: Alignment.centerLeft,
+                            child: ReadMoreText(
+                              item.feedText ?? '',
+                              trimLines: 3,
+                              colorClickableText: Colors.blue[900],
+                              trimMode: TrimMode.Line,
+                              trimCollapsedText: 'Read more',
+                              trimExpandedText: ' Read less',
+                              style: adText,
+                            ),
+                          ),
+                          /* Container(
                             height: ScreenUtil().setHeight(180),
                             padding: EdgeInsets.symmetric(
                               horizontal: ScreenUtil().setWidth(70),
@@ -616,7 +659,7 @@ class _FeedsState extends State<Feeds> {
                                   ),
                               ],
                             ),
-                          ),
+                          ), */
                         ],
                       ),
                     ),

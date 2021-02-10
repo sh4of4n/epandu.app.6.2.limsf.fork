@@ -1314,7 +1314,6 @@ class AuthRepo {
   }
 
   Future<Response> getPackageDetlList({
-    @required context,
     @required diCode,
     @required packageCode,
   }) async {

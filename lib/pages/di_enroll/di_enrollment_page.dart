@@ -6,6 +6,7 @@ import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 
 import '../../router.gr.dart';
 
@@ -20,6 +21,7 @@ class DiEnrollment extends StatefulWidget {
 
 class _DiEnrollmentState extends State<DiEnrollment> {
   final authRepo = AuthRepo();
+  final formatter = NumberFormat('#,##0.00');
   Future getPackages;
   final localStorage = LocalStorage();
   final primaryColor = ColorConstant.primaryColor;
@@ -122,6 +124,10 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                                 diCode: snapshot.data[index].merchantNo,
                                 termsAndCondition:
                                     snapshot.data[index].termConditionPolicy,
+                                groupIdGrouping: snapshot.data[index]
+                                    .groupIdGrouping, //package class
+                                amount: formatter.format(double.tryParse(
+                                    snapshot.data[index].amt)), //package price
                               ),
                             ),
                             child: Card(
@@ -136,7 +142,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                                       gaplessPlayback: true,
                                     ),
                                   ),
-                                  Text(
+                                  /* Text(
                                     snapshot.data[index].packageCode,
                                     style: TextStyle(
                                       fontSize: 60.sp,
@@ -148,6 +154,27 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                                     style: TextStyle(
                                       fontSize: 56.sp,
                                       fontWeight: FontWeight.w500,
+                                    ),
+                                  ), */
+                                  Text(
+                                    AppLocalizations.of(context)
+                                            .translate('class_lbl') +
+                                        ': ' +
+                                        snapshot.data[index].groupIdGrouping,
+                                    style: TextStyle(
+                                      fontSize: 60.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Text(
+                                    AppLocalizations.of(context)
+                                            .translate('amount') +
+                                        ': RM' +
+                                        formatter.format(double.tryParse(
+                                            snapshot.data[index].amt)),
+                                    style: TextStyle(
+                                      fontSize: 60.sp,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                   SizedBox(height: 20.h),

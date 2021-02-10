@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:epandu/common_library/services/repository/fpx_repository.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
+import 'package:readmore/readmore.dart';
 import '../../router.gr.dart';
 
 class EnrollConfirmation extends StatefulWidget {
@@ -19,6 +20,8 @@ class EnrollConfirmation extends StatefulWidget {
   final String packageDesc;
   final String diCode;
   final String termsAndCondition;
+  final String groupIdGrouping; //Package class
+  final String amount; //Package price
 
   EnrollConfirmation({
     this.banner,
@@ -26,6 +29,8 @@ class EnrollConfirmation extends StatefulWidget {
     this.packageDesc,
     this.diCode,
     this.termsAndCondition,
+    this.groupIdGrouping,
+    this.amount,
   });
 
   @override
@@ -148,7 +153,6 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
 
   getPackageDetlList() async {
     var result = await authRepo.getPackageDetlList(
-      context: context,
       diCode: widget.diCode,
       packageCode: widget.packageCode,
     );
@@ -400,6 +404,55 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                       EdgeInsets.symmetric(horizontal: 100.w, vertical: 50.h),
                   child: Table(
                     children: [
+                      TableRow(
+                        children: [
+                          Text(
+                              AppLocalizations.of(context)
+                                  .translate('class_lbl'),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              )),
+                          Text(widget.groupIdGrouping,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red,
+                                fontSize: 60.sp,
+                              )),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          Text(AppLocalizations.of(context).translate('amount'),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              )),
+                          RichText(
+                            text: TextSpan(
+                              style: TextStyle(
+                                color: Color(0xff5c5c5c),
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'RM',
+                                  style: TextStyle(
+                                    color: Colors.blue[900],
+                                    fontSize: 60.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                TextSpan(
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red,
+                                    fontSize: 60.sp,
+                                  ),
+                                  text: widget.amount,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                       if (_icNo != null)
                         TableRow(
                           children: [
@@ -437,15 +490,22 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                                 )),
                           ],
                         ),
-                      /* if (packageDetlList != null &&
+                      if (packageDetlList != null &&
                           packageDetlList[0].prodDesc != null)
                         TableRow(
                           children: [
                             Text(AppLocalizations.of(context)
                                 .translate('description')),
-                            Text(packageDetlList[0].prodDesc),
+                            ReadMoreText(
+                              widget.packageDesc,
+                              trimLines: 3,
+                              colorClickableText: Colors.blue[900],
+                              trimMode: TrimMode.Line,
+                              trimCollapsedText: 'Read more',
+                              trimExpandedText: ' Read less',
+                            ),
                           ],
-                        ), */
+                        ),
                       /* if (packageDetlList != null &&
                           packageDetlList[0].amt != null)
                         TableRow(

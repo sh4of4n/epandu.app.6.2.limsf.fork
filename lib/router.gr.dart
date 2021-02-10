@@ -343,6 +343,8 @@ class Router extends RouterBase {
           packageDesc: args.packageDesc,
           diCode: args.diCode,
           termsAndCondition: args.termsAndCondition,
+          groupIdGrouping: args.groupIdGrouping,
+          amount: args.amount,
         ),
         settings: data,
       );
@@ -851,12 +853,16 @@ class EnrollConfirmationArguments {
   final String packageDesc;
   final String diCode;
   final String termsAndCondition;
+  final String groupIdGrouping;
+  final String amount;
   EnrollConfirmationArguments(
       {this.banner,
       this.packageCode,
       this.packageDesc,
       this.diCode,
-      this.termsAndCondition});
+      this.termsAndCondition,
+      this.groupIdGrouping,
+      this.amount});
 }
 
 /// OrderList arguments holder class
