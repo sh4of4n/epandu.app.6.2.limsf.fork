@@ -33,13 +33,13 @@ class Feeds extends StatefulWidget {
 class _FeedsState extends State<Feeds> {
   final adText = TextStyle(
     fontSize: ScreenUtil().setSp(70),
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w500,
     color: Color(0xff231f20),
   );
 
   final adTabText = TextStyle(
     fontSize: ScreenUtil().setSp(60),
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w500,
     color: Color(0xff231f20),
   );
 
@@ -634,7 +634,7 @@ class _FeedsState extends State<Feeds> {
                               trimMode: TrimMode.Line,
                               trimCollapsedText: 'Read more',
                               trimExpandedText: ' Read less',
-                              style: adText,
+                              style: adTabText,
                             ),
                           ),
                           /* Container(
