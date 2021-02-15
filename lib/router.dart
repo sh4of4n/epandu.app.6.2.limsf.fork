@@ -95,6 +95,7 @@ import 'package:epandu/common_library/utils/image_viewer.dart';
     MaterialRoute(page: FpxPaymentOption),
     MaterialRoute(page: ImageViewer),
     MaterialRoute(page: Webview),
+    MaterialRoute(page: ReadMore),
     MaterialRoute(page: ComingSoon),
   ],
 )

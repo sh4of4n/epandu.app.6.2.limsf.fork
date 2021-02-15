@@ -11,7 +11,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:epandu/common_library/services/repository/fpx_repository.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
-import 'package:readmore/readmore.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+// import 'package:readmore/readmore.dart';
 import '../../router.gr.dart';
 
 class EnrollConfirmation extends StatefulWidget {
@@ -509,22 +510,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                           Text(widget.packageName),
                         ],
                       ),
-                      if (packageDetlList != null &&
-                          packageDetlList[0].prodDesc != null)
-                        TableRow(
-                          children: [
-                            Text(AppLocalizations.of(context)
-                                .translate('description')),
-                            ReadMoreText(
-                              widget.packageDesc,
-                              trimLines: 3,
-                              colorClickableText: Colors.blue[900],
-                              trimMode: TrimMode.Line,
-                              trimCollapsedText: 'Read more',
-                              trimExpandedText: ' Read less',
-                            ),
-                          ],
-                        ),
+
                       /* if (packageDetlList != null &&
                           packageDetlList[0].amt != null)
                         TableRow(
@@ -557,6 +543,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                         ),
                         SizedBox(height: 20.h),
                         ListView.builder(
+                          padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: packageDetlList.length,
@@ -577,7 +564,59 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                       ],
                     ),
                   ),
-                SizedBox(height: 40.h),
+                Container(
+                  margin: EdgeInsets.fromLTRB(100.w, 50.h, 100.w, 0),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 30.h, horizontal: 30.w),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey, width: 1.0),
+                  ),
+                  child: Table(
+                    children: [
+                      TableRow(
+                        children: [
+                          Text(AppLocalizations.of(context)
+                              .translate('description')),
+                          // ReadMoreText(
+                          //   widget.packageDesc,
+                          //   trimLines: 3,
+                          //   colorClickableText: Colors.blue[900],
+                          //   trimMode: TrimMode.Line,
+                          //   trimCollapsedText: 'Read more',
+                          //   trimExpandedText: ' Read less',
+                          // ),
+                          Column(
+                            children: [
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: LimitedBox(
+                                  maxHeight: 300.h,
+                                  child: HtmlWidget(widget.packageDesc),
+                                ),
+                              ),
+                              if (widget.packageDesc.length > 100)
+                                Container(
+                                  alignment: Alignment.centerRight,
+                                  child: InkWell(
+                                    onTap: () =>
+                                        ExtendedNavigator.of(context).push(
+                                      Routes.readMore,
+                                      arguments: ReadMoreArguments(
+                                        packageDesc: widget.packageDesc,
+                                      ),
+                                    ),
+                                    child: Text('Read More',
+                                        style:
+                                            TextStyle(color: Colors.blue[900])),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
                 /* Container(
                   width: 1300.w,
                   height: 1000.h,

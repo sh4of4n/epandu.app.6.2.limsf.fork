@@ -32,13 +32,13 @@ class Feeds extends StatefulWidget {
 
 class _FeedsState extends State<Feeds> {
   final adText = TextStyle(
-    fontSize: ScreenUtil().setSp(70),
+    fontSize: ScreenUtil().setSp(55),
     fontWeight: FontWeight.w500,
     color: Color(0xff231f20),
   );
 
   final adTabText = TextStyle(
-    fontSize: ScreenUtil().setSp(60),
+    fontSize: ScreenUtil().setSp(45),
     fontWeight: FontWeight.w500,
     color: Color(0xff231f20),
   );

@@ -5,3 +5,4 @@ export 'bank_list.dart';
 export 'payment_status.dart';
 export 'order_list.dart';
 export 'terms_and_condition.dart';
+export 'read_more.dart';

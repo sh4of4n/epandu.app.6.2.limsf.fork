@@ -103,6 +103,7 @@ class Routes {
   static const String fpxPaymentOption = '/fpx-payment-option';
   static const String imageViewer = '/image-viewer';
   static const String webview = '/Webview';
+  static const String readMore = '/read-more';
   static const String comingSoon = '/coming-soon';
   static const all = <String>{
     authentication,
@@ -171,6 +172,7 @@ class Routes {
     fpxPaymentOption,
     imageViewer,
     webview,
+    readMore,
     comingSoon,
   };
 }
@@ -245,6 +247,7 @@ class Router extends RouterBase {
     RouteDef(Routes.fpxPaymentOption, page: FpxPaymentOption),
     RouteDef(Routes.imageViewer, page: ImageViewer),
     RouteDef(Routes.webview, page: Webview),
+    RouteDef(Routes.readMore, page: ReadMore),
     RouteDef(Routes.comingSoon, page: ComingSoon),
   ];
   @override
@@ -804,6 +807,15 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    ReadMore: (data) {
+      final args = data.getArgs<ReadMoreArguments>(
+        orElse: () => ReadMoreArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ReadMore(packageDesc: args.packageDesc),
+        settings: data,
+      );
+    },
     ComingSoon: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => ComingSoon(),
@@ -1159,4 +1171,10 @@ class WebviewArguments {
   final String url;
   final String backType;
   WebviewArguments({@required this.url, this.backType});
+}
+
+/// ReadMore arguments holder class
+class ReadMoreArguments {
+  final String packageDesc;
+  ReadMoreArguments({this.packageDesc});
 }
