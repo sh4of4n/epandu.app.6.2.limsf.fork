@@ -342,6 +342,7 @@
   "select_enrollment_package": "Select enrollment package",
   "institute_lbl": "Institute",
   "package_lbl": "Package",
+  "package_name": "Package Name",
   "pay_at_institute": "Pay at Institute",
   "pay_online": "Pay Online",
   "amount": "Amount",

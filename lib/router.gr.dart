@@ -339,6 +339,7 @@ class Router extends RouterBase {
       return MaterialPageRoute<dynamic>(
         builder: (context) => EnrollConfirmation(
           banner: args.banner,
+          packageName: args.packageName,
           packageCode: args.packageCode,
           packageDesc: args.packageDesc,
           diCode: args.diCode,
@@ -849,6 +850,7 @@ class DiEnrollmentArguments {
 /// EnrollConfirmation arguments holder class
 class EnrollConfirmationArguments {
   final String banner;
+  final String packageName;
   final String packageCode;
   final String packageDesc;
   final String diCode;
@@ -857,6 +859,7 @@ class EnrollConfirmationArguments {
   final String amount;
   EnrollConfirmationArguments(
       {this.banner,
+      this.packageName,
       this.packageCode,
       this.packageDesc,
       this.diCode,

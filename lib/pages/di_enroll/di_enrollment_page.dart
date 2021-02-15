@@ -57,7 +57,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context).translate('enroll_lbl'),
+          'Package',
         ),
       ),
       body: FutureBuilder(
@@ -119,6 +119,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                                 banner: snapshot.data[index].feedMediaFilename
                                     .replaceAll(removeBracket, '')
                                     .split('\r\n')[0],
+                                packageName: snapshot.data[index].packageName,
                                 packageCode: snapshot.data[index].packageCode,
                                 packageDesc: snapshot.data[index].packageDesc,
                                 diCode: snapshot.data[index].merchantNo,

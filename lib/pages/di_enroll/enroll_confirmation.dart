@@ -16,6 +16,7 @@ import '../../router.gr.dart';
 
 class EnrollConfirmation extends StatefulWidget {
   final String banner;
+  final String packageName;
   final String packageCode;
   final String packageDesc;
   final String diCode;
@@ -25,6 +26,7 @@ class EnrollConfirmation extends StatefulWidget {
 
   EnrollConfirmation({
     this.banner,
+    this.packageName,
     this.packageCode,
     this.packageDesc,
     this.diCode,
@@ -406,27 +408,20 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                     children: [
                       TableRow(
                         children: [
-                          Text(
-                              AppLocalizations.of(context)
-                                  .translate('class_lbl'),
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              )),
-                          Text(widget.groupIdGrouping,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red,
-                                fontSize: 60.sp,
-                              )),
-                        ],
-                      ),
-                      TableRow(
-                        children: [
                           Text(AppLocalizations.of(context).translate('amount'),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
+                                fontSize: 80.sp,
                               )),
-                          RichText(
+                          Text(
+                            'RM' + widget.amount,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red,
+                              fontSize: 80.sp,
+                            ),
+                          ),
+                          /* RichText(
                             text: TextSpan(
                               style: TextStyle(
                                 color: Color(0xff5c5c5c),
@@ -450,7 +445,24 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                                 ),
                               ],
                             ),
-                          ),
+                          ), */
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          Text(
+                              AppLocalizations.of(context)
+                                  .translate('class_lbl'),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 80.sp,
+                              )),
+                          Text(widget.groupIdGrouping,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red,
+                                fontSize: 80.sp,
+                              )),
                         ],
                       ),
                       if (_icNo != null)
@@ -490,6 +502,13 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                                 )),
                           ],
                         ),
+                      TableRow(
+                        children: [
+                          Text(AppLocalizations.of(context)
+                              .translate('package_name')),
+                          Text(widget.packageName),
+                        ],
+                      ),
                       if (packageDetlList != null &&
                           packageDetlList[0].prodDesc != null)
                         TableRow(

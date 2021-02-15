@@ -2788,6 +2788,7 @@ class Package {
   String merchantNo;
   String packageCode;
   String packageDesc;
+  String packageName;
   String groupIdGrouping;
   String amt;
   String termConditionPolicy;
@@ -2814,6 +2815,7 @@ class Package {
       this.merchantNo,
       this.packageCode,
       this.packageDesc,
+      this.packageName,
       this.groupIdGrouping,
       this.amt,
       this.termConditionPolicy,
@@ -2840,6 +2842,7 @@ class Package {
     merchantNo = json['merchant_no'];
     packageCode = json['package_code'];
     packageDesc = json['package_desc'];
+    packageName = json['package_name'];
     groupIdGrouping = json['group_id_grouping'];
     amt = json['amt'];
     termConditionPolicy = json['term_condition_policy'];
@@ -2868,6 +2871,7 @@ class Package {
     data['merchant_no'] = this.merchantNo;
     data['package_code'] = this.packageCode;
     data['package_desc'] = this.packageDesc;
+    data['package_name'] = this.packageName;
     data['group_id_grouping'] = this.groupIdGrouping;
     data['amt'] = this.amt;
     data['term_condition_policy'] = this.termConditionPolicy;
