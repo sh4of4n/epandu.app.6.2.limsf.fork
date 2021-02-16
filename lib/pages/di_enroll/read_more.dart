@@ -16,9 +16,11 @@ class ReadMore extends StatelessWidget {
           AppLocalizations.of(context).translate('enroll_lbl'),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 30.h),
-        child: HtmlWidget(packageDesc),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 30.h),
+          child: HtmlWidget(packageDesc),
+        ),
       ),
     );
   }

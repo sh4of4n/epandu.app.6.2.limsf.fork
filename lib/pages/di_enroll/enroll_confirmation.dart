@@ -564,56 +564,45 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                       ],
                     ),
                   ),
+                SizedBox(height: 50.h),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 100.w),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    AppLocalizations.of(context).translate('description'),
+                    style:
+                        TextStyle(fontSize: 56.sp, fontWeight: FontWeight.bold),
+                  ),
+                ),
                 Container(
                   margin: EdgeInsets.fromLTRB(100.w, 50.h, 100.w, 0),
                   padding:
                       EdgeInsets.symmetric(vertical: 30.h, horizontal: 30.w),
+                  height: 400.h,
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey, width: 1.0),
                   ),
-                  child: Table(
+                  child: Column(
                     children: [
-                      TableRow(
-                        children: [
-                          Text(AppLocalizations.of(context)
-                              .translate('description')),
-                          // ReadMoreText(
-                          //   widget.packageDesc,
-                          //   trimLines: 3,
-                          //   colorClickableText: Colors.blue[900],
-                          //   trimMode: TrimMode.Line,
-                          //   trimCollapsedText: 'Read more',
-                          //   trimExpandedText: ' Read less',
-                          // ),
-                          Column(
-                            children: [
-                              Container(
-                                alignment: Alignment.centerLeft,
-                                child: LimitedBox(
-                                  maxHeight: 300.h,
-                                  child: HtmlWidget(widget.packageDesc),
-                                ),
-                              ),
-                              if (widget.packageDesc.length > 100)
-                                Container(
-                                  alignment: Alignment.centerRight,
-                                  child: InkWell(
-                                    onTap: () =>
-                                        ExtendedNavigator.of(context).push(
-                                      Routes.readMore,
-                                      arguments: ReadMoreArguments(
-                                        packageDesc: widget.packageDesc,
-                                      ),
-                                    ),
-                                    child: Text('Read More',
-                                        style:
-                                            TextStyle(color: Colors.blue[900])),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ],
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        child: HtmlWidget(widget.packageDesc),
                       ),
+                      if (widget.packageDesc.length > 100)
+                        Container(
+                          alignment: Alignment.centerRight,
+                          child: InkWell(
+                            onTap: () => ExtendedNavigator.of(context).push(
+                              Routes.readMore,
+                              arguments: ReadMoreArguments(
+                                packageDesc: widget.packageDesc,
+                              ),
+                            ),
+                            child: Text('Read More',
+                                style: TextStyle(color: Colors.blue[900])),
+                          ),
+                        ),
                     ],
                   ),
                 ),
