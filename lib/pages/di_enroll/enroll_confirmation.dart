@@ -279,6 +279,10 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
       ); */
       getOrderDetlByOrderNo(result.data);
     } else {
+      setState(() {
+        isLoading = false;
+      });
+
       customDialog.show(
         context: context,
         type: DialogType.ERROR,
@@ -320,6 +324,10 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
         getOnlinePaymentByOrderNo(
             docDoc: orderData[0].docDoc, docRef: orderData[0].docRef);
     } else {
+      setState(() {
+        isLoading = false;
+      });
+
       customDialog.show(
         context: context,
         type: DialogType.ERROR,
