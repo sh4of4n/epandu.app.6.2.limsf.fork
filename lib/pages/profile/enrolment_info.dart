@@ -44,7 +44,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
   }
 
   _getdata() async {
-    var response = await authRepo.getEnrollHistory();
+    var response = await epanduRepo.getEnrollByCode();
 
     if (response.isSuccess) {
       return response.data;
@@ -154,9 +154,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
                       );
                     case ConnectionState.done:
                       if (snapshot.data is String) {
-                        return Center(
-                            child: Text(AppLocalizations.of(context)
-                                .translate('no_classes_desc')));
+                        return Center(child: Text(snapshot.data));
                       }
                       return ListView.builder(
                         shrinkWrap: true,

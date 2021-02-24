@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/repository/auth_repository.dart';
+import 'package:epandu/common_library/services/repository/epandu_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -17,6 +18,7 @@ class EnrolmentInfoDetail extends StatefulWidget {
 }
 
 class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
+  final epanduRepo = EpanduRepo();
   final authRepo = AuthRepo();
   var _enrollHistoryData;
   bool _isLoading = true;
@@ -29,7 +31,7 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
   }
 
   Future<dynamic> _getEnrollHistory() async {
-    var result = await authRepo.getEnrollHistory(
+    var result = await epanduRepo.getEnrollByCode(
       groupId: widget.groupId,
     );
 
