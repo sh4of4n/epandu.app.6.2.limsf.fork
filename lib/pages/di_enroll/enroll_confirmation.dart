@@ -294,7 +294,6 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
 
   getOrderDetlByOrderNo(orderData) async {
     var result = await fpxRepo.getOrderDetlByOrderNo(
-      context: context,
       diCode: widget.diCode,
       docDoc: orderData[0].docDoc,
       docRef: orderData[0].docRef,
@@ -339,7 +338,6 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
 
   getOnlinePaymentByOrderNo({docDoc, docRef}) async {
     var result = await fpxRepo.getOnlinePaymentByOrderNo(
-      context: context,
       diCode: widget.diCode,
       icNo: _icNo,
       docDoc: docDoc,

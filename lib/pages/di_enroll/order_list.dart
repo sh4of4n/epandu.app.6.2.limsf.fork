@@ -62,7 +62,6 @@ class _OrderListState extends State<OrderList> {
     });
 
     var result = await fpxRepo.getOnlinePaymentByOrderNo(
-      context: context,
       diCode: widget.diCode,
       icNo: widget.icNo,
       docDoc: docDoc,

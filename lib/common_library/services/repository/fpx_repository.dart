@@ -182,7 +182,6 @@ class FpxRepo {
   }
 
   Future<Response> getOrderDetlByOrderNo({
-    @required context,
     @required diCode,
     @required docDoc,
     @required docRef,
@@ -332,7 +331,6 @@ class FpxRepo {
   }
 
   Future<Response> getOnlinePaymentByOrderNo({
-    @required context,
     @required diCode,
     @required icNo,
     @required docDoc,

@@ -649,7 +649,7 @@ class AuthRepo {
     return Response(false, message: 'No records found.');
   }
 
-  Future<Response> getEnrollHistory({context, groupId}) async {
+  Future<Response> getEnrollHistory({groupId}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
     String diCode = await localStorage.getDiCode();
@@ -1464,6 +1464,83 @@ class AuthRepo {
 
     if (response.isSuccess && response.data != null) {
       return Response(true, message: 'Success');
+    }
+
+    return Response(false, message: 'Update failed, please try again later.');
+  }
+
+  Future getOrderListByDateRange({
+    @required String dateFromString,
+    @required String dateToString,
+    String orderNo,
+    String icNo,
+    @required String orderStatus,
+    @required String paymentStatus,
+    @required int startIndex,
+    @required int noOfRecords,
+  }) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+    String userId = await localStorage.getUserId();
+    String merchantNo = await localStorage.getMerchantDbCode();
+
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
+        '&caUid=$caUid' +
+        '&caPwd=$caPwd' +
+        '&diCode=$merchantNo' +
+        '&userId=$userId' +
+        '&dateFromString=$dateFromString' +
+        '&dateToString=$dateToString' +
+        '&orderNo=${orderNo ?? ''}' +
+        '&icNo=${icNo ?? ''}' +
+        '&orderStatus=$orderStatus' +
+        '&paymentStatus=$paymentStatus' +
+        '&startIndex=$startIndex' +
+        '&noOfRecords=$noOfRecords';
+
+    var response = await networking.getData(
+      path: 'GetOrderListByDateRange?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetOrderListByDateRangeResponse getOrderListByDateRangeResponse =
+          GetOrderListByDateRangeResponse.fromJson(response.data);
+
+      return Response(true, data: getOrderListByDateRangeResponse.slsTrn);
+    }
+
+    return Response(false, message: 'No enrolment statuses found.');
+  }
+
+  Future acceptOrder({docDoc, docRef}) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+    String userId = await localStorage.getUserId();
+    String merchantNo = await localStorage.getMerchantDbCode();
+
+    AcceptOrderRequest params = AcceptOrderRequest(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      diCode: merchantNo,
+      userId: userId,
+      docDoc: docDoc,
+      docRef: docRef,
+    );
+
+    String body = jsonEncode(params);
+    String api = 'AcceptOrder';
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+
+    var response =
+        await networking.postData(api: api, body: body, headers: headers);
+
+    if (response.isSuccess && response.data != null) {
+      AcceptOrderResponse acceptOrderResponse =
+          AcceptOrderResponse.fromJson(response.data);
+      var responseData = acceptOrderResponse.slsTrn;
+
+      return Response(true, data: responseData);
     }
 
     return Response(false, message: 'Update failed, please try again later.');

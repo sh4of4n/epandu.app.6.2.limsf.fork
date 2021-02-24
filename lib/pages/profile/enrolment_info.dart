@@ -12,12 +12,12 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
-class RegisteredCourse extends StatefulWidget {
+class EnrolmentInfo extends StatefulWidget {
   @override
-  _RegisteredCourseState createState() => _RegisteredCourseState();
+  _EnrolmentInfoState createState() => _EnrolmentInfoState();
 }
 
-class _RegisteredCourseState extends State<RegisteredCourse> {
+class _EnrolmentInfoState extends State<EnrolmentInfo> {
   final primaryColor = ColorConstant.primaryColor;
 
   /* final TextStyle _titleStyle = TextStyle(
@@ -73,7 +73,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(
-            AppLocalizations.of(context).translate('registered_class_lbl'),
+            AppLocalizations.of(context).translate('enrolled_class'),
           ),
         ),
         body: SingleChildScrollView(
@@ -165,8 +165,8 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
                             onTap: () => ExtendedNavigator.of(context).push(
-                              Routes.registeredCourseDetail,
-                              arguments: RegisteredCourseDetailArguments(
+                              Routes.enrolmentInfoDetail,
+                              arguments: EnrolmentInfoDetailArguments(
                                   groupId: snapshot.data[index].groupId),
                             ),
                             child: Container(
@@ -219,12 +219,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                                             ),
                                           ),
                                           Text(
-                                            'RM' +
-                                                    NumberFormat('#,##0.00')
-                                                        .format(double.tryParse(
-                                                            snapshot.data[index]
-                                                                .fee)) ??
-                                                '0.00',
+                                            'RM${snapshot.data[index].fee != null ? NumberFormat("#,##0.00").format(double.tryParse(snapshot.data[index].fee)) : '0.00'}',
                                             style: TextStyle(
                                               color: Color(
                                                 0xff666666,

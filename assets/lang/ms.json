@@ -376,5 +376,6 @@
   "ldl": "LDL",
   "ldl_required_msg": "LDL diperlukan.",
   "cdl": "CDL",
-  "cdl_required_msg": "CDL diperlukan."
+  "cdl_required_msg": "CDL diperlukan.",
+  "enrolled_class": "Kelas berdaftar"
 }

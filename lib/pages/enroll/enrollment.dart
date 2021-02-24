@@ -162,9 +162,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
 
   Future<dynamic> _getEnrollHistory() async {
     // return _memoizer.runOnce(() async {
-    var result = await authRepo.getEnrollHistory(
-      context: context,
-    );
+    var result = await authRepo.getEnrollHistory();
 
     if (result.isSuccess) {
       setState(() {

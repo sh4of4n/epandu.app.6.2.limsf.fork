@@ -376,5 +376,6 @@
   "ldl": "LDL",
   "ldl_required_msg": "LDL is required.",
   "cdl": "CDL",
-  "cdl_required_msg": "CDL is required."
+  "cdl_required_msg": "CDL is required.",
+  "enrolled_class": "Enrolled class"
 }

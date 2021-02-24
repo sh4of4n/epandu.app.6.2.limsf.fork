@@ -81,6 +81,8 @@ import 'package:epandu/common_library/utils/image_viewer.dart';
     MaterialRoute(page: UpdateProfile),
     MaterialRoute(page: RegisterUserToDi),
     MaterialRoute(page: IdentityBarcode),
+    MaterialRoute(page: EnrolmentInfo),
+    MaterialRoute(page: EnrolmentInfoDetail),
     MaterialRoute(page: Inbox),
     MaterialRoute(page: Invite),
     MaterialRoute(page: AirtimeTransaction),

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
 import 'package:epandu/utils/constants.dart';
@@ -5,12 +6,16 @@ import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:epandu/common_library/utils/loading_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:transparent_image/transparent_image.dart';
+
+import '../../router.gr.dart';
 
 class Profile extends StatefulWidget {
   final userProfile;
+  final enrollData;
   final isLoading;
 
-  Profile({this.userProfile, this.isLoading});
+  Profile({this.userProfile, this.enrollData, this.isLoading});
 
   @override
   _ProfileState createState() => _ProfileState();
@@ -34,6 +39,11 @@ class _ProfileState extends State<Profile>
     fontSize: 18,
     fontWeight: FontWeight.w600,
     color: Colors.grey.shade700,
+  );
+
+  final iconText = TextStyle(
+    fontSize: ScreenUtil().setSp(60),
+    color: Colors.black,
   );
 
   final primaryColor = ColorConstant.primaryColor;
@@ -195,6 +205,31 @@ class _ProfileState extends State<Profile>
                     AppLocalizations.of(context).translate('nationality_lbl')),
                 subtitle: Text('$_nationality', style: _subtitleStyle),
               ), */
+            SizedBox(height: ScreenUtil().setHeight(20)),
+            InkWell(
+              onTap: () =>
+                  ExtendedNavigator.of(context).push(Routes.enrolmentInfo),
+              child: Column(
+                children: <Widget>[
+                  FadeInImage(
+                    alignment: Alignment.center,
+                    height: ScreenUtil().setHeight(350),
+                    placeholder: MemoryImage(kTransparentImage),
+                    image: AssetImage(
+                      image.classIcon,
+                    ),
+                  ),
+                  SizedBox(
+                    height: ScreenUtil().setHeight(20),
+                  ),
+                  Text(
+                    AppLocalizations.of(context).translate('enrolled_class'),
+                    style: iconText,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
             SizedBox(height: ScreenUtil().setHeight(20)),
             /* if (_state != null && _country != null)
               ListTile(

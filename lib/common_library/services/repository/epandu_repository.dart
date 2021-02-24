@@ -13,9 +13,7 @@ class EpanduRepo {
   final networking = Networking();
   final unescape = HtmlUnescape();
 
-  Future<Response> getEnrollByCode({context, groupId}) async {
-    assert(context != null);
-
+  Future<Response> getEnrollByCode({groupId}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
     //  Temporarily use TBS as diCode
@@ -25,7 +23,7 @@ class EpanduRepo {
     String icNo = await localStorage.getStudentIc();
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo&groupId=$groupId';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo&groupId=${groupId ?? ''}';
 
     var response = await networking.getData(
       path: 'GetEnrollByCode?$path',
@@ -37,8 +35,8 @@ class EpanduRepo {
       getEnrollmentResponse = GetEnrollmentResponse.fromJson(response.data);
 
       // not relevant anymore as there could be more than one enrollment
-      localStorage.saveEnrolledGroupId(getEnrollmentResponse.enroll[0].groupId);
-      localStorage.saveBlacklisted(getEnrollmentResponse.enroll[0].blacklisted);
+      // localStorage.saveEnrolledGroupId(getEnrollmentResponse.enroll[0].groupId);
+      // localStorage.saveBlacklisted(getEnrollmentResponse.enroll[0].blacklisted);
 
       return Response(true, data: getEnrollmentResponse.enroll);
     }

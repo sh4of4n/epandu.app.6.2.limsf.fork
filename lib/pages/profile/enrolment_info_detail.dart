@@ -7,16 +7,16 @@ import 'package:intl/intl.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
 
-class RegisteredCourseDetail extends StatefulWidget {
+class EnrolmentInfoDetail extends StatefulWidget {
   final groupId;
 
-  RegisteredCourseDetail(this.groupId);
+  EnrolmentInfoDetail(this.groupId);
 
   @override
-  _RegisteredCourseDetailState createState() => _RegisteredCourseDetailState();
+  _EnrolmentInfoDetailState createState() => _EnrolmentInfoDetailState();
 }
 
-class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
+class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
   final authRepo = AuthRepo();
   var _enrollHistoryData;
   bool _isLoading = true;
@@ -241,7 +241,7 @@ class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: Text(
-          AppLocalizations.of(context).translate('registered_class_lbl'),
+          AppLocalizations.of(context).translate('enrolled_class'),
         ),
       ),
       body: _loadHistoryData(),

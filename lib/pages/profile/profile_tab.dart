@@ -1,5 +1,6 @@
 // import 'package:epandu/pages/edompet/edompet.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:epandu/common_library/services/repository/epandu_repository.dart';
 import 'package:epandu/pages/profile/profile_page.dart';
 import 'package:epandu/pages/settings/settings.dart';
 import 'package:epandu/common_library/services/model/profile_model.dart';
@@ -48,6 +49,7 @@ class _ProfileTabState extends State<ProfileTab>
   TabController _tabController;
   int _tabIndex = 0;
   final profileRepo = ProfileRepo();
+  final epanduRepo = EpanduRepo();
   final localStorage = LocalStorage();
   final primaryColor = ColorConstant.primaryColor;
   final customDialog = CustomDialog();
@@ -66,6 +68,7 @@ class _ProfileTabState extends State<ProfileTab>
   String attendanceMessage = '';
 
   UserProfile userProfile;
+  var enrollData;
   bool isLoading = false;
 
   @override
@@ -136,6 +139,7 @@ class _ProfileTabState extends State<ProfileTab>
       ); */
     }
 
+    // _getEnrollByCode();
     setState(() {
       isLoading = false;
     });
@@ -175,6 +179,18 @@ class _ProfileTabState extends State<ProfileTab>
       );
     });
   }
+
+  // _getEnrollByCode() async {
+  //   var result = await epanduRepo.getEnrollByCode();
+
+  //   if (result.isSuccess) {
+  //     enrollData = result.data;
+  //   }
+
+  //   setState(() {
+  //     isLoading = false;
+  //   });
+  // }
 
   _getTabSelection() {
     setState(() {
@@ -256,6 +272,7 @@ class _ProfileTabState extends State<ProfileTab>
           body: TabBarView(controller: _tabController, children: [
             Profile(
               userProfile: userProfile,
+              enrollData: enrollData,
               isLoading: isLoading,
             ),
             // Edompet(),

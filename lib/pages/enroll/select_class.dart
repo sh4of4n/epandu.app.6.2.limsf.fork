@@ -40,7 +40,6 @@ class _SelectClassState extends State<SelectClass> {
   Future<dynamic> _getEnrollHistory(groupId) async {
     // return _memoizer.runOnce(() async {
     var result = await authRepo.getEnrollHistory(
-      context: context,
       groupId: groupId,
     );
 

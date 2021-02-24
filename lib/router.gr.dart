@@ -89,6 +89,8 @@ class Routes {
   static const String updateProfile = '/update-profile';
   static const String registerUserToDi = '/register-user-to-di';
   static const String identityBarcode = '/identity-barcode';
+  static const String enrolmentInfo = '/enrolment-info';
+  static const String enrolmentInfoDetail = '/enrolment-info-detail';
   static const String inbox = '/Inbox';
   static const String invite = '/Invite';
   static const String airtimeTransaction = '/airtime-transaction';
@@ -158,6 +160,8 @@ class Routes {
     updateProfile,
     registerUserToDi,
     identityBarcode,
+    enrolmentInfo,
+    enrolmentInfoDetail,
     inbox,
     invite,
     airtimeTransaction,
@@ -233,6 +237,8 @@ class Router extends RouterBase {
     RouteDef(Routes.updateProfile, page: UpdateProfile),
     RouteDef(Routes.registerUserToDi, page: RegisterUserToDi),
     RouteDef(Routes.identityBarcode, page: IdentityBarcode),
+    RouteDef(Routes.enrolmentInfo, page: EnrolmentInfo),
+    RouteDef(Routes.enrolmentInfoDetail, page: EnrolmentInfoDetail),
     RouteDef(Routes.inbox, page: Inbox),
     RouteDef(Routes.invite, page: Invite),
     RouteDef(Routes.airtimeTransaction, page: AirtimeTransaction),
@@ -660,6 +666,7 @@ class Router extends RouterBase {
       return MaterialPageRoute<dynamic>(
         builder: (context) => Profile(
           userProfile: args.userProfile,
+          enrollData: args.enrollData,
           isLoading: args.isLoading,
         ),
         settings: data,
@@ -688,6 +695,19 @@ class Router extends RouterBase {
     IdentityBarcode: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => IdentityBarcode(),
+        settings: data,
+      );
+    },
+    EnrolmentInfo: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => EnrolmentInfo(),
+        settings: data,
+      );
+    },
+    EnrolmentInfoDetail: (data) {
+      final args = data.getArgs<EnrolmentInfoDetailArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => EnrolmentInfoDetail(args.groupId),
         settings: data,
       );
     },
@@ -1084,8 +1104,9 @@ class PromotionsArguments {
 /// Profile arguments holder class
 class ProfileArguments {
   final dynamic userProfile;
+  final dynamic enrollData;
   final dynamic isLoading;
-  ProfileArguments({this.userProfile, this.isLoading});
+  ProfileArguments({this.userProfile, this.enrollData, this.isLoading});
 }
 
 /// ProfileTab arguments holder class
@@ -1098,6 +1119,12 @@ class ProfileTabArguments {
 class RegisterUserToDiArguments {
   final dynamic barcode;
   RegisterUserToDiArguments({@required this.barcode});
+}
+
+/// EnrolmentInfoDetail arguments holder class
+class EnrolmentInfoDetailArguments {
+  final dynamic groupId;
+  EnrolmentInfoDetailArguments({@required this.groupId});
 }
 
 /// AirtimeTransaction arguments holder class
