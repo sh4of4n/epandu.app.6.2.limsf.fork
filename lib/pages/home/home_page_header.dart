@@ -21,7 +21,7 @@ class HomePageHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Table(
-        columnWidths: {1: FractionColumnWidth(.43)},
+        columnWidths: {1: FractionColumnWidth(.20)},
         defaultVerticalAlignment: TableCellVerticalAlignment.top,
         // border: TableBorder.all(),
         children: [
@@ -31,14 +31,28 @@ class HomePageHeader extends StatelessWidget {
                 margin: EdgeInsets.only(
                   top: ScreenUtil().setHeight(20),
                 ),
-                child: FadeInImage(
-                  alignment: Alignment.center,
-                  height: ScreenUtil().setHeight(350),
-                  placeholder: MemoryImage(kTransparentImage),
-                  image: instituteLogo.isNotEmpty
-                      ? NetworkImage(instituteLogo)
-                      : MemoryImage(kTransparentImage),
+                child: AspectRatio(
+                  aspectRatio: 28 / 9,
+                  child: FadeInImage(
+                    alignment: Alignment.center,
+                    height: 350.h,
+                    fit: BoxFit.fitWidth,
+                    placeholder: MemoryImage(kTransparentImage),
+                    image: instituteLogo.isNotEmpty
+                        ? NetworkImage(instituteLogo)
+                        : MemoryImage(kTransparentImage),
+                  ),
                 ),
+                // child: AspectRatio(
+                //   aspectRatio: 28 / 9,
+                //   child: FadeInImage(
+                //     alignment: Alignment.centerLeft,
+                //     height: 350.h,
+                //     fit: BoxFit.fitWidth,
+                //     placeholder: MemoryImage(kTransparentImage),
+                //     image: AssetImage(image.test),
+                //   ),
+                // ),
               ),
               /* Opacity(
                     opacity: 0.5,
@@ -48,9 +62,9 @@ class HomePageHeader extends StatelessWidget {
                       size: 30,
                     ),
                   ), */
-              Container(
+              /* Container(
                   // height: ScreenUtil().setHeight(400),
-                  /* alignment: Alignment.centerRight,
+                  alignment: Alignment.centerRight,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,8 +111,8 @@ class HomePageHeader extends StatelessWidget {
                       ),
                     ),
                   ],
-                ), */
-                  ),
+                ),
+                  ), */
               Container(
                 alignment: Alignment.topRight,
                 // margin: EdgeInsets.only(top: ScreenUtil().setHeight(30)),

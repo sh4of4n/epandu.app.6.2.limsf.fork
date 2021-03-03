@@ -209,8 +209,7 @@ class _PayState extends State<Pay> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
+  defaultLayout() {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -428,6 +427,254 @@ class _PayState extends State<Pay> {
           ), */
         ),
       ),
+    );
+  }
+
+  tabLayout() {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Colors.white,
+            Color(0xffffd225),
+          ],
+          stops: [0.75, 1.2],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
+      child: GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: Text(AppLocalizations.of(context).translate('pay_lbl')),
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            actions: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40.w),
+                child: InkWell(
+                  onTap: () async {
+                    String diCode = await localStorage.getMerchantDbCode();
+
+                    if (paymentFor.isNotEmpty)
+                      ExtendedNavigator.of(context).push(
+                        Routes.purchaseOrderList,
+                        arguments: PurchaseOrderListArguments(
+                          icNo: _icNo,
+                          packageCode: paymentFor,
+                          diCode: diCode,
+                        ),
+                      );
+                    else
+                      setState(() {
+                        message = AppLocalizations.of(context)
+                            .translate('select_payment_for');
+                      });
+                  },
+                  child: Center(
+                    child: Text(
+                      AppLocalizations.of(context).translate('orders'),
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          body: Stack(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 80.w),
+                // height: ScreenUtil().screenHeight,
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      DropdownButtonFormField<String>(
+                        isExpanded: true,
+                        style: TextStyle(
+                            color: Color(0xff5c5c5c), fontSize: 42.sp),
+                        decoration: InputDecoration(
+                          hintStyle: TextStyle(
+                            fontSize: 42.sp,
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 0.h,
+                          ),
+                          hintText: AppLocalizations.of(context)
+                              .translate('payment_for'),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.blue[700], width: 1.6),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            paymentFor = value;
+                          });
+                        },
+                        items: paymentForData == null
+                            ? null
+                            : paymentForData
+                                .map<DropdownMenuItem<String>>((dynamic value) {
+                                return DropdownMenuItem<String>(
+                                  value: value.menuCode,
+                                  child: Text(value.codeDesc),
+                                );
+                              }).toList(),
+                        validator: (value) {
+                          if (value == null) {
+                            return AppLocalizations.of(context)
+                                .translate('payment_for_required_msg');
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        cursorWidth: 0,
+                        controller: amountController,
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+                          hintStyle: TextStyle(
+                            color: ColorConstant.primaryColor,
+                          ),
+                          labelStyle: TextStyle(
+                            color: Color(0xff808080),
+                            fontSize: 44.sp,
+                          ),
+                          labelText:
+                              AppLocalizations.of(context).translate('amount'),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.blue[700], width: 1.6),
+                            // borderRadius: BorderRadius.circular(30),
+                          ),
+                          suffixIcon: IconButton(
+                            onPressed: () => amountController.text = '0.00',
+                            icon: Icon(Icons.close),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value.replaceAll(',', '').toDouble() <
+                              double.tryParse(gatewayData[0].minAmt)) {
+                            // return 'Please enter amount above ${gatewayData[0].minAmt}';
+                            return 'Transaction amount is Lower than the Minimum Limit RM${gatewayData[0].minAmt}';
+                          } else if (value.replaceAll(',', '').toDouble() >
+                              30000.00)
+                            return 'Maximum Transaction Limit Exceeded RM30,000';
+                          return null;
+                        },
+                      ),
+                      DropdownButtonFormField<String>(
+                        style: TextStyle(
+                          color: Color(0xff5c5c5c),
+                          fontSize: 42.sp,
+                        ),
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 0.h,
+                          ),
+                          hintStyle: TextStyle(
+                            fontSize: 42.sp,
+                          ),
+                          hintText:
+                              AppLocalizations.of(context).translate('pay_by'),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.blue[700], width: 1.6),
+                            // borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            payBy = value;
+                          });
+                        },
+                        items: gatewayData == null
+                            ? null
+                            : gatewayData
+                                .map<DropdownMenuItem<String>>((dynamic value) {
+                                return DropdownMenuItem<String>(
+                                  value: value.gatewayId,
+                                  child: Text(value.gatewayId),
+                                );
+                              }).toList(),
+                        validator: (value) {
+                          if (value == null) {
+                            return AppLocalizations.of(context)
+                                .translate('pay_by_required_msg');
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 20.h),
+                      if (message.isNotEmpty)
+                        Text(message, style: TextStyle(color: Colors.red)),
+                      CustomButton(
+                        minWidth: 250.w,
+                        height: 140.h,
+                        buttonColor: Color(0xffdd0e0e),
+                        onPressed: createOrderWithAmt,
+                        title:
+                            AppLocalizations.of(context).translate('next_btn'),
+                      ),
+                      SizedBox(height: 30.h),
+                      Image.asset(image.fpxLogo3, width: 1100.w),
+                    ],
+                  ),
+                ),
+              ),
+              LoadingModel(
+                isVisible: isLoading,
+              ),
+            ],
+          ),
+          /* body: Container(
+            width: ScreenUtil().screenWidth,
+            height: ScreenUtil().screenHeight,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Image.asset(
+                  image.comingSoon,
+                  height: 600.h,
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(top: 80.h),
+                  width: 1300.w,
+                  child: Text(
+                    AppLocalizations.of(context).translate('coming_soon_msg'),
+                  ),
+                ),
+              ],
+            ),
+          ), */
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        if (constraints.maxWidth < 600) {
+          return defaultLayout();
+        }
+        return tabLayout();
+      },
     );
   }
 }

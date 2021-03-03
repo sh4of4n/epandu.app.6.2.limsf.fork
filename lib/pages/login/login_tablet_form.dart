@@ -350,7 +350,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
           ExtendedNavigator.of(context).replace(Routes.selectDrivingInstitute,
               arguments: SelectDrivingInstituteArguments(diList: result.data));
         } else {
-          localStorage.saveDiCode(result.data[0].diCode);
+          localStorage.saveDiCode(result.data[0].merchantNo);
 
           ExtendedNavigator.of(context).replace(Routes.home);
         }

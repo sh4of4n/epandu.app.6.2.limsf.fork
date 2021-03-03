@@ -54,6 +54,8 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
 
   String message = '';
 
+  final tabTextStyle = TextStyle(fontSize: 40.sp);
+
   @override
   void initState() {
     super.initState();
@@ -211,8 +213,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
+  defaultLayout() {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).translate('payment_lbl')),
@@ -425,5 +426,239 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
         ],
       ),
     );
+  }
+
+  tabLayout() {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context).translate('payment_lbl')),
+      ),
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 55.w, vertical: 30.h),
+                child: Row(
+                  children: [
+                    Text(
+                      'Pay with',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 70.sp,
+                      ),
+                    ),
+                    SizedBox(width: 10.w),
+                    Image.asset(image.fpxLogo2, width: 250.w),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 55.w, vertical: 30.h),
+                child: Table(
+                  children: [
+                    TableRow(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                              AppLocalizations.of(context)
+                                  .translate('institute_lbl'),
+                              style: tabTextStyle),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(widget.merchant, style: tabTextStyle),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                              AppLocalizations.of(context)
+                                  .translate('package_lbl'),
+                              style: tabTextStyle),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                            widget.packageCode,
+                            style: tabTextStyle,
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text('Desc', style: tabTextStyle),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                            widget.packageDesc,
+                            style: tabTextStyle,
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                            AppLocalizations.of(context).translate('total_lbl'),
+                            style: TextStyle(
+                              fontSize: 60.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Text(
+                            widget.totalAmount,
+                            style: TextStyle(
+                              fontSize: 60.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 55.w),
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(color: Color(0xff5c5c5c), fontSize: 45.sp),
+                    children: [
+                      TextSpan(
+                          text:
+                              'By clicking on the "Proceed" button, you hereby agree with '),
+                      TextSpan(
+                        text: 'FPX\'s Terms & Conditions',
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.blue[900],
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () async => await launch(
+                              'https://www.mepsfpx.com.my/FPXMain/termsAndConditions.jsp'),
+                        /* recognizer: TapGestureRecognizer()
+                          ..onTap = () => ExtendedNavigator.of(context).push(
+                                Routes.webview,
+                                arguments: WebviewArguments(
+                                    url:
+                                        'https://www.mepsfpx.com.my/FPXMain/termsAndConditions.jsp'),
+                              ), */
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 30.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 55.w),
+                child: InkWell(
+                  /* onTap: () => ExtendedNavigator.of(context).push(
+                  Routes.bankList,
+                  arguments: BankListArguments(
+                    icNo: widget.icNo,
+                    docDoc: widget.docDoc,
+                    docRef: widget.docRef,
+                    packageCode: widget.packageCode,
+                    diCode: widget.diCode,
+                  ),
+                ), */
+                  onTap: () {
+                    setState(() {
+                      isVisible = true;
+                    });
+                  },
+                  child: DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 0.h,
+                      ),
+                      hintText: selectedBankName.isNotEmpty
+                          ? selectedBankName
+                          : 'Select Bank',
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey, width: 1.5),
+                      ),
+                    ),
+                    onChanged: null,
+                    items: null,
+                    iconDisabledColor: Colors.grey[900],
+                  ),
+                ),
+              ),
+              SizedBox(height: 20.h),
+              if (message.isNotEmpty)
+                Text(message, style: TextStyle(color: Colors.red)),
+              CustomButton(
+                minWidth: 340.w,
+                height: 150.h,
+                onPressed: () {
+                  if (selectedBankId.isNotEmpty) {
+                    message = '';
+                    fpxSendB2CAuthRequest(bankId: selectedBankId);
+                  } else {
+                    setState(() {
+                      message = AppLocalizations.of(context)
+                          .translate('agree_and_select_bank');
+                    });
+                  }
+                },
+                buttonColor: Color(0xffdd0e0e),
+                title: AppLocalizations.of(context).translate('proceed'),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 30.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Powered By',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(width: 10.w),
+                      Image.asset(
+                        image.fpxLogo2,
+                        width: 200.w,
+                        alignment: Alignment.center,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          bankList(),
+          LoadingModel(
+            isVisible: isLoading,
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      if (constraints.maxWidth < 600) {
+        return defaultLayout();
+      }
+      return tabLayout();
+    });
   }
 }

@@ -41,6 +41,17 @@ class _ProfileState extends State<Profile>
     color: Colors.grey.shade700,
   );
 
+  TextStyle _tabTitleStyle = TextStyle(
+    fontSize: 60.sp,
+    fontWeight: FontWeight.w800,
+  );
+
+  TextStyle _tabSubtitleStyle = TextStyle(
+    fontSize: 45.sp,
+    fontWeight: FontWeight.w600,
+    color: Colors.grey.shade700,
+  );
+
   final iconText = TextStyle(
     fontSize: ScreenUtil().setSp(60),
     color: Colors.black,
@@ -68,10 +79,7 @@ class _ProfileState extends State<Profile>
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-
+  defaultLayout() {
     return Stack(
       children: <Widget>[
         SingleChildScrollView(
@@ -273,5 +281,220 @@ class _ProfileState extends State<Profile>
         ),
       ),
     );
+  }
+
+  tabLayout() {
+    return Stack(
+      children: <Widget>[
+        SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              /* Container(
+                    height: ScreenUtil().setHeight(300),
+                    width: ScreenUtil.screenWidth,
+                    color: Colors.blue), */
+              /*Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.symmetric(
+                  vertical: ScreenUtil().setHeight(140.0),
+                  horizontal: ScreenUtil().setWidth(35.0)),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(0, 8.0),
+                    blurRadius: 10.0,
+                  )
+                ],
+              ),
+            ),*/
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 20.h),
+                margin: EdgeInsets.symmetric(horizontal: 150.w),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  child: Container(
+                    width: ScreenUtil().screenWidth,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(height: ScreenUtil().setHeight(40)),
+                        _profileImage(),
+                        _tabUserInfo(),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        LoadingModel(
+          isVisible: widget.isLoading,
+          // opacity: 0.8,
+          color: primaryColor,
+        ),
+      ],
+    );
+  }
+
+  _tabUserInfo() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 220.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          if (widget.userProfile?.name != null)
+            Text('${widget.userProfile?.name}', style: _tabTitleStyle),
+          if (widget.userProfile?.name != null)
+            ListTile(
+              leading: Icon(Icons.account_box),
+              title:
+                  Text(AppLocalizations.of(context).translate('ic_name_lbl')),
+              subtitle:
+                  Text('${widget.userProfile?.name}', style: _tabSubtitleStyle),
+            ),
+          if (widget.userProfile?.nickName != null)
+            ListTile(
+              leading: Icon(Icons.account_box),
+              title:
+                  Text(AppLocalizations.of(context).translate('nick_name_lbl')),
+              subtitle: Text('${widget.userProfile?.nickName}',
+                  style: _tabSubtitleStyle),
+            ),
+          if (widget.userProfile?.icNo != null)
+            ListTile(
+              leading: Icon(Icons.perm_identity),
+              title: Text(AppLocalizations.of(context).translate('ic_lbl')),
+              subtitle:
+                  Text('${widget.userProfile?.icNo}', style: _tabSubtitleStyle),
+            ),
+          if (widget.userProfile?.phone != null)
+            ListTile(
+              leading: Icon(Icons.phone),
+              title: Text(AppLocalizations.of(context).translate('contact_no')),
+              subtitle: Text('${widget.userProfile?.phone}',
+                  style: _tabSubtitleStyle),
+            ),
+          if (widget.userProfile?.eMail != null)
+            ListTile(
+              leading: Icon(Icons.email),
+              title: Text(AppLocalizations.of(context).translate('email_lbl')),
+              subtitle: Text(
+                  widget.userProfile?.eMail != null
+                      ? '${widget.userProfile?.eMail}'
+                      : AppLocalizations.of(context).translate('no_email'),
+                  style: _tabSubtitleStyle),
+            ),
+          if (widget.userProfile?.postcode != null)
+            ListTile(
+              leading: Icon(Icons.home),
+              title:
+                  Text(AppLocalizations.of(context).translate('postcode_lbl')),
+              subtitle: Text(
+                  widget.userProfile?.postcode != null
+                      ? '${widget.userProfile?.postcode}'
+                      : AppLocalizations.of(context).translate('no_postcode'),
+                  style: _tabSubtitleStyle),
+            ),
+          if (widget.userProfile?.birthDate != null)
+            ListTile(
+              leading: Icon(Icons.date_range),
+              title: Text(AppLocalizations.of(context).translate('dob_lbl')),
+              subtitle: Text(
+                  '${widget.userProfile.birthDate.isNotEmpty ? widget.userProfile.birthDate.substring(0, 10) : ''}',
+                  style: _tabSubtitleStyle),
+            ),
+          /* if (_nationality != null)
+            ListTile(
+              leading: Icon(Icons.flag),
+              title: Text(
+                  AppLocalizations.of(context).translate('nationality_lbl')),
+              subtitle: Text('$_nationality', style: _subtitleStyle),
+            ), */
+          SizedBox(height: ScreenUtil().setHeight(20)),
+          InkWell(
+            onTap: () =>
+                ExtendedNavigator.of(context).push(Routes.enrolmentInfo),
+            child: Column(
+              children: <Widget>[
+                FadeInImage(
+                  alignment: Alignment.center,
+                  height: ScreenUtil().setHeight(350),
+                  placeholder: MemoryImage(kTransparentImage),
+                  image: AssetImage(
+                    image.classIcon,
+                  ),
+                ),
+                SizedBox(
+                  height: ScreenUtil().setHeight(20),
+                ),
+                Text(
+                  AppLocalizations.of(context).translate('enrolled_class'),
+                  style: iconText,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: ScreenUtil().setHeight(20)),
+          /* if (_state != null && _country != null)
+            ListTile(
+              leading: Icon(Icons.location_on),
+              title:
+                  Text(AppLocalizations.of(context).translate('location_lbl')),
+              subtitle: Text(
+                  _state.isNotEmpty && _country.isNotEmpty
+                      ? '${_state != "null" ? _state : ""}${_country != "null" ? ", $_country" : ""}'
+                      : AppLocalizations.of(context).translate('no_location'),
+                  style: _subtitleStyle),
+            ), */
+          /* ButtonTheme(
+            padding: EdgeInsets.all(0.0),
+            shape: StadiumBorder(),
+            child: RaisedButton(
+              onPressed: () => Navigator.push(context, ENROLL),
+              textColor: Colors.white,
+              padding: const EdgeInsets.all(0.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25.0),
+                  gradient: LinearGradient(
+                    colors: [Colors.blueAccent.shade700, Colors.blue],
+                  ),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 40.0,
+                  vertical: 15.0,
+                ),
+                child: Text(
+                  AppLocalizations.of(context).translate('enroll_lbl'),
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(56),
+                  ),
+                ),
+              ),
+            ),
+          ), */
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      if (constraints.maxWidth < 600) {
+        return defaultLayout();
+      }
+      return tabLayout();
+    });
   }
 }

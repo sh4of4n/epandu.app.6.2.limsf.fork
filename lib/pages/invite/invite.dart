@@ -264,10 +264,10 @@ class _InviteState extends State<Invite> with PageBaseClass {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(
-                        height: ScreenUtil().setHeight(35),
+                        height: 35.h,
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 100.w),
+                        padding: EdgeInsets.symmetric(horizontal: 105.w),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -289,7 +289,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                               ),
                             ),
                             Container(
-                              width: 880.w,
+                              width: 865.w,
                               margin: EdgeInsets.only(left: 10.w),
                               child: TextFormField(
                                 style: TextStyle(
