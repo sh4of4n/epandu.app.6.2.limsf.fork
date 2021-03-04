@@ -9,6 +9,7 @@
   "invalid_login": "Invalid phone and/or password.",
   "invalid_phone": "Invalid phone number.",
   "epandu_title": "ePandu",
+  "connected_url": "Connected URL",
   "connected_ca": "Connected CA",
   "client_acc": "Client Account",
   "client_acc_id_lbl": "Client Account ID",
