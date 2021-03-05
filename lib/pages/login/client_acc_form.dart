@@ -318,9 +318,11 @@ class _ClientAccountFormState extends State<ClientAccountForm>
               padding: EdgeInsets.symmetric(vertical: 11.0),
               buttonColor: primaryColor,
               shape: StadiumBorder(),
-              child: RaisedButton(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  textStyle: TextStyle(color: Colors.white),
+                ),
                 onPressed: _submit,
-                textColor: Colors.white,
                 child: Text(
                   AppLocalizations.of(context).translate('save_btn'),
                   style: TextStyle(

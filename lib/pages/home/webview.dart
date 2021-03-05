@@ -52,7 +52,7 @@ _confirmBack(customDialog, context) {
     context: context,
     content: AppLocalizations.of(context).translate('confirm_back'),
     customActions: <Widget>[
-      FlatButton(
+      TextButton(
           child: Text(AppLocalizations.of(context).translate('yes_lbl')),
           onPressed: () {
             Provider.of<CallStatusModel>(context, listen: false)
@@ -61,7 +61,7 @@ _confirmBack(customDialog, context) {
               ModalRoute.withName(Routes.home),
             );
           }),
-      FlatButton(
+      TextButton(
         child: Text(AppLocalizations.of(context).translate('no_lbl')),
         onPressed: () {
           ExtendedNavigator.of(context).pop();
@@ -162,7 +162,7 @@ class _WebviewState extends State<Webview> {
     return JavascriptChannel(
         name: 'Toaster',
         onMessageReceived: (JavascriptMessage message) {
-          Scaffold.of(context).showSnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(message.message)),
           );
         });

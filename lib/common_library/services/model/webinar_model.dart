@@ -8,7 +8,7 @@ class GetUserMeetingAccountResponse {
 
   GetUserMeetingAccountResponse.fromJson(Map<String, dynamic> json) {
     if (json['ZmMeetingUser'] != null) {
-      zmMeetingUser = new List<ZmMeetingUser>();
+      zmMeetingUser = new List<ZmMeetingUser>.empty(growable: true);
       json['ZmMeetingUser'].forEach((v) {
         zmMeetingUser.add(new ZmMeetingUser.fromJson(v));
       });
@@ -225,7 +225,7 @@ class GetMeetingByStatusResponse {
 
   GetMeetingByStatusResponse.fromJson(Map<String, dynamic> json) {
     if (json['Meeting'] != null) {
-      zoomMeeting = new List<ZoomMeeting>();
+      zoomMeeting = new List<ZoomMeeting>.empty(growable: true);
       json['Meeting'].forEach((v) {
         zoomMeeting.add(new ZoomMeeting.fromJson(v));
       });
@@ -318,7 +318,7 @@ class GetUserRegisteredDIResponse {
 
   GetUserRegisteredDIResponse.fromJson(Map<String, dynamic> json) {
     if (json['ArmasterProfile'] != null) {
-      zoomUser = new List<ZmUser>();
+      zoomUser = new List<ZmUser>.empty(growable: true);
       json['ArmasterProfile'].forEach((v) {
         zoomUser.add(new ZmUser.fromJson(v));
       });

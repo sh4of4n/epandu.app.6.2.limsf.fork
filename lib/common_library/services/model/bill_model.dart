@@ -9,7 +9,7 @@ class GetTelcoResponse {
 
   GetTelcoResponse.fromJson(Map<String, dynamic> json) {
     if (json['TelcoComm'] != null) {
-      telcoComm = new List<TelcoComm>();
+      telcoComm = new List<TelcoComm>.empty(growable: true);
       json['TelcoComm'].forEach((v) {
         telcoComm.add(new TelcoComm.fromJson(v));
       });
@@ -91,7 +91,7 @@ class GetServiceResponse {
 
   GetServiceResponse.fromJson(Map<String, dynamic> json) {
     if (json['ServiceComm'] != null) {
-      serviceComm = new List<ServiceComm>();
+      serviceComm = new List<ServiceComm>.empty(growable: true);
       json['ServiceComm'].forEach((v) {
         serviceComm.add(new ServiceComm.fromJson(v));
       });

@@ -330,9 +330,13 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
               padding: EdgeInsets.symmetric(vertical: 20.h),
               buttonColor: primaryColor,
               shape: StadiumBorder(),
-              child: RaisedButton(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 onPressed: _submit,
-                textColor: Colors.white,
                 child: Text(
                   AppLocalizations.of(context).translate('save_btn'),
                   style: TextStyle(

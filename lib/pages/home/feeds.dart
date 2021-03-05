@@ -80,7 +80,7 @@ class _FeedsState extends State<Feeds> {
             AppLocalizations.of(context).translate('loc_permission_title')),
         content: AppLocalizations.of(context).translate('loc_permission_desc'),
         customActions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () {
               Provider.of<FeedsLoadingModel>(context, listen: false)
@@ -89,7 +89,7 @@ class _FeedsState extends State<Feeds> {
               AppSettings.openLocationSettings();
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
               Provider.of<FeedsLoadingModel>(context, listen: false)
@@ -207,7 +207,7 @@ class _FeedsState extends State<Feeds> {
           barrierDismissable: false,
           content: result.message,
           customActions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text(AppLocalizations.of(context).translate('ok_btn')),
               onPressed: () {
                 ExtendedNavigator.of(context).pop();
@@ -309,7 +309,7 @@ class _FeedsState extends State<Feeds> {
         content:
             'Paid Amount: ${result.data[0].paidAmt}\nTransaction status: ${result.data[0].status}',
         customActions: <Widget>[
-          FlatButton(
+          TextButton(
               child: Text(AppLocalizations.of(context).translate('ok_btn')),
               onPressed: () {
                 ExtendedNavigator.of(context).pop();

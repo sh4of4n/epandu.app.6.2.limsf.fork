@@ -5,7 +5,7 @@ class GetEnrollmentResponse {
 
   GetEnrollmentResponse.fromJson(Map<String, dynamic> json) {
     if (json['Enroll'] != null) {
-      enroll = new List<Enroll>();
+      enroll = new List<Enroll>.empty(growable: true);
       json['Enroll'].forEach((v) {
         enroll.add(new Enroll.fromJson(v));
       });
@@ -259,7 +259,7 @@ class EnrolledClassesResponse {
 
   EnrolledClassesResponse.fromJson(Map<String, dynamic> json) {
     if (json['StuPrac'] != null) {
-      stuPrac = new List<StuPrac>();
+      stuPrac = new List<StuPrac>.empty(growable: true);
       json['StuPrac'].forEach((v) {
         stuPrac.add(new StuPrac.fromJson(v));
       });
@@ -541,7 +541,7 @@ class StudentPaymentResponse {
 
   StudentPaymentResponse.fromJson(Map<String, dynamic> json) {
     if (json['CollectTrn'] != null) {
-      collectTrn = new List<CollectTrn>();
+      collectTrn = new List<CollectTrn>.empty(growable: true);
       json['CollectTrn'].forEach((v) {
         collectTrn.add(new CollectTrn.fromJson(v));
       });
@@ -936,7 +936,7 @@ class GetDTestByCodeResponse {
 
   GetDTestByCodeResponse.fromJson(Map<String, dynamic> json) {
     if (json['DTest'] != null) {
-      dTest = new List<DTest>();
+      dTest = new List<DTest>.empty(growable: true);
       json['DTest'].forEach((v) {
         dTest.add(new DTest.fromJson(v));
       });
@@ -1221,7 +1221,7 @@ class GetCollectionDetailByRecpNoResponse {
 
   GetCollectionDetailByRecpNoResponse.fromJson(Map<String, dynamic> json) {
     if (json['CollectDetail'] != null) {
-      collectDetail = new List<CollectDetail>();
+      collectDetail = new List<CollectDetail>.empty(growable: true);
       json['CollectDetail'].forEach((v) {
         collectDetail.add(new CollectDetail.fromJson(v));
       });
@@ -1423,7 +1423,7 @@ class GetCourseSectionListResponse {
 
   GetCourseSectionListResponse.fromJson(Map<String, dynamic> json) {
     if (json['CourseSection'] != null) {
-      courseSection = new List<CourseSection>();
+      courseSection = new List<CourseSection>.empty(growable: true);
       json['CourseSection'].forEach((v) {
         courseSection.add(new CourseSection.fromJson(v));
       });
@@ -1505,7 +1505,7 @@ class GetTestListGroupIdResponse {
 
   GetTestListGroupIdResponse.fromJson(Map<String, dynamic> json) {
     if (json['Test'] != null) {
-      test = new List<GroupIdTest>();
+      test = new List<GroupIdTest>.empty(growable: true);
       json['Test'].forEach((v) {
         test.add(new GroupIdTest.fromJson(v));
       });
@@ -1598,7 +1598,7 @@ class GetTestListTestTypeResponse {
 
   GetTestListTestTypeResponse.fromJson(Map<String, dynamic> json) {
     if (json['Test'] != null) {
-      test = new List<TestTypeTest>();
+      test = new List<TestTypeTest>.empty(growable: true);
       json['Test'].forEach((v) {
         test.add(new TestTypeTest.fromJson(v));
       });
@@ -1691,7 +1691,7 @@ class GetTestListResponse {
 
   GetTestListResponse.fromJson(Map<String, dynamic> json) {
     if (json['Test'] != null) {
-      test = new List<Test>();
+      test = new List<Test>.empty(growable: true);
       json['Test'].forEach((v) {
         test.add(new Test.fromJson(v));
       });

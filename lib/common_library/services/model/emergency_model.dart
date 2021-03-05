@@ -6,7 +6,7 @@ class DefaultEmergencyContactResponse {
 
   DefaultEmergencyContactResponse.fromJson(Map<String, dynamic> json) {
     if (json['SosContactHelpDesk'] != null) {
-      sosContactHelpDesk = new List<SosContactHelpDesk>();
+      sosContactHelpDesk = new List<SosContactHelpDesk>.empty(growable: true);
       json['SosContactHelpDesk'].forEach((v) {
         sosContactHelpDesk.add(new SosContactHelpDesk.fromJson(v));
       });
@@ -292,7 +292,7 @@ class GetSosContactSortByNearestResponse {
 
   GetSosContactSortByNearestResponse.fromJson(Map<String, dynamic> json) {
     if (json['SosContact'] != null) {
-      sosContact = new List<SosContact>();
+      sosContact = new List<SosContact>.empty(growable: true);
       json['SosContact'].forEach((v) {
         sosContact.add(new SosContact.fromJson(v));
       });
@@ -428,7 +428,7 @@ class GetPandemicPDFReportResponse {
 
   GetPandemicPDFReportResponse.fromJson(Map<String, dynamic> json) {
     if (json['PDF'] != null) {
-      pDF = new List<PDF>();
+      pDF = new List<PDF>.empty(growable: true);
       json['PDF'].forEach((v) {
         pDF.add(new PDF.fromJson(v));
       });
@@ -468,7 +468,7 @@ class GetPandemicTrackResponse {
 
   GetPandemicTrackResponse.fromJson(Map<String, dynamic> json) {
     if (json['PandemicTrack'] != null) {
-      pandemicTrack = new List<PandemicTrack>();
+      pandemicTrack = new List<PandemicTrack>.empty(growable: true);
       json['PandemicTrack'].forEach((v) {
         pandemicTrack.add(new PandemicTrack.fromJson(v));
       });

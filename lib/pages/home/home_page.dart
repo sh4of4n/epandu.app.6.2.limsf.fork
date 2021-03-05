@@ -242,7 +242,7 @@ class _HomeState extends State<Home> {
             AppLocalizations.of(context).translate('loc_permission_title')),
         content: AppLocalizations.of(context).translate('loc_permission_desc'),
         customActions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () {
               ExtendedNavigator.of(context).pop();
@@ -250,7 +250,7 @@ class _HomeState extends State<Home> {
               AppSettings.openLocationSettings();
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
               ExtendedNavigator.of(context).pop();

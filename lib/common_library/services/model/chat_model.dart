@@ -5,7 +5,7 @@ class GetUserByUserPhoneResponse {
 
   GetUserByUserPhoneResponse.fromJson(Map<String, dynamic> json) {
     if (json['User'] != null) {
-      user = new List<User>();
+      user = new List<User>.empty(growable: true);
       json['User'].forEach((v) {
         user.add(new User.fromJson(v));
       });

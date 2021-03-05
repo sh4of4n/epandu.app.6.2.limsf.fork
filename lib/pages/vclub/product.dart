@@ -107,6 +107,18 @@ class _ProductState extends State<Product> {
   // bool _showBadge = false;
   // int cartItems = 0;
 
+  Color getColor(Set<MaterialState> states) {
+    const Set<MaterialState> interactiveStates = <MaterialState>{
+      MaterialState.pressed,
+      MaterialState.hovered,
+      MaterialState.focused,
+    };
+    if (states.any(interactiveStates.contains)) {
+      return Colors.white;
+    }
+    return Colors.white;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -184,9 +196,10 @@ class _ProductState extends State<Product> {
           borderRadius: BorderRadius.circular(5),
           side: BorderSide(color: Color(0xffdd0e0e)),
         ),
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: () {},
-          textColor: Colors.white,
+          style: ElevatedButton.styleFrom(
+              textStyle: TextStyle(color: Colors.white)),
           child: Text(
             'Add To Cart',
             style: TextStyle(

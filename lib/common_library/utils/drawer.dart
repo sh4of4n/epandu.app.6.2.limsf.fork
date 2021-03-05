@@ -62,7 +62,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
         title: Text(AppLocalizations.of(context).translate('confirm_lbl')),
         content: AppLocalizations.of(context).translate('confirm_log_out'),
         customActions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () async {
               ExtendedNavigator.of(context)
@@ -70,7 +70,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
               await authRepo.logout();
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
               ExtendedNavigator.of(context).pop();

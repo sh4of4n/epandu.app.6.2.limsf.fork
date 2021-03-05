@@ -91,7 +91,7 @@ class _PayState extends State<Pay> {
         content:
             AppLocalizations.of(context).translate('complete_your_profile'),
         customActions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text(AppLocalizations.of(context).translate('ok_btn')),
             onPressed: () => ExtendedNavigator.of(context).pushAndRemoveUntil(
               Routes.updateProfile,

@@ -292,10 +292,12 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
           ),
           iconSize: 70,
         ),
-        OutlineButton(
-          borderSide: BorderSide(
-            color: Colors.blue,
-            width: 1.5,
+        OutlinedButton(
+          style: OutlinedButton.styleFrom(
+            side: BorderSide(
+              color: Colors.blue,
+              width: 1.5,
+            ),
           ),
           onPressed: _profilePicOption,
           child: Text(AppLocalizations.of(context).translate('edit')),
@@ -1047,10 +1049,12 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
           : ButtonTheme(
               padding: EdgeInsets.all(0.0),
               shape: StadiumBorder(),
-              child: RaisedButton(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xffdd0e0e),
+                  textStyle: TextStyle(color: Colors.white),
+                ),
                 onPressed: _submit,
-                color: Color(0xffdd0e0e),
-                textColor: Colors.white,
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(18.0),

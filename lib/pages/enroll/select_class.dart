@@ -387,7 +387,7 @@ class _SelectClassState extends State<SelectClass> {
         content: AppLocalizations.of(context).translate('enroll_success'),
         type: DialogType.GENERAL,
         customActions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text(AppLocalizations.of(context).translate('ok_btn')),
             onPressed: () async {
               await authRepo.getUserRegisteredDI(

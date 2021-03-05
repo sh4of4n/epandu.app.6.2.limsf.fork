@@ -295,9 +295,11 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                     : ButtonTheme(
                         padding: EdgeInsets.all(0.0),
                         shape: StadiumBorder(),
-                        child: RaisedButton(
-                          color: Color(0xffdd0e0e),
-                          textColor: Colors.white,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Color(0xffdd0e0e),
+                            textStyle: TextStyle(color: Colors.white),
+                          ),
                           onPressed: _submit,
                           child: Text(
                             AppLocalizations.of(context)
@@ -347,7 +349,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
           content: AppLocalizations.of(context).translate('pickup_added'),
           type: DialogType.GENERAL,
           customActions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text(AppLocalizations.of(context).translate('ok_btn')),
               onPressed: () => ExtendedNavigator.of(context)
                   .pushAndRemoveUntil(Routes.home, (r) => false),

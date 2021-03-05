@@ -5,7 +5,7 @@ class GetMerchantTypeResponse {
 
   GetMerchantTypeResponse.fromJson(Map<String, dynamic> json) {
     if (json['MerchantType'] != null) {
-      merchantType = new List<MerchantType>();
+      merchantType = new List<MerchantType>.empty(growable: true);
       json['MerchantType'].forEach((v) {
         merchantType.add(new MerchantType.fromJson(v));
       });
@@ -90,7 +90,7 @@ class GetMerchantResponse {
 
   GetMerchantResponse.fromJson(Map<String, dynamic> json) {
     if (json['Merchant'] != null) {
-      merchant = new List<Merchant>();
+      merchant = new List<Merchant>.empty(growable: true);
       json['Merchant'].forEach((v) {
         merchant.add(new Merchant.fromJson(v));
       });

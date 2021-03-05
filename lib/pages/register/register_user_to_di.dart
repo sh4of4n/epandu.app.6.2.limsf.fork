@@ -217,7 +217,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
           content: result.message.toString(),
           barrierDismissable: false,
           customActions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text(AppLocalizations.of(context).translate('ok_btn')),
               onPressed: () => Navigator.popUntil(
                 context,

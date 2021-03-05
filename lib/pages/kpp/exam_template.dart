@@ -111,7 +111,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   Text(AppLocalizations.of(context).translate('expired_title')),
               content: AppLocalizations.of(context).translate('exam_expired'),
               customActions: <Widget>[
-                FlatButton(
+                TextButton(
                   child: Text(AppLocalizations.of(context).translate('ok_btn')),
                   onPressed: () {
                     // Hive box must be cleared here
@@ -428,7 +428,11 @@ class _ExamTemplateState extends State<ExamTemplate> {
           ButtonTheme(
             padding: EdgeInsets.all(0.0),
             shape: StadiumBorder(),
-            child: RaisedButton(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                textStyle: TextStyle(color: Colors.white),
+                padding: const EdgeInsets.all(0.0),
+              ),
               onPressed: () {
                 if (index != 0) {
                   setState(() {
@@ -447,8 +451,6 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   );
                 }
               },
-              textColor: Colors.white,
-              padding: const EdgeInsets.all(0.0),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25.0),
@@ -483,7 +485,11 @@ class _ExamTemplateState extends State<ExamTemplate> {
           ButtonTheme(
             padding: EdgeInsets.all(0.0),
             shape: StadiumBorder(),
-            child: RaisedButton(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                textStyle: TextStyle(color: Colors.white),
+                padding: const EdgeInsets.all(0.0),
+              ),
               onPressed: () {
                 if (selected) {
                   setState(() {
@@ -520,8 +526,6 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   );
                 }
               },
-              textColor: Colors.white,
-              padding: const EdgeInsets.all(0.0),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25.0),
@@ -565,7 +569,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
       title: Text(AppLocalizations.of(context).translate('warning_title')),
       content: AppLocalizations.of(context).translate('confirm_exit_desc'),
       customActions: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text(AppLocalizations.of(context).translate('yes_lbl')),
           onPressed: () {
             ExtendedNavigator.of(context).pop();
@@ -577,7 +581,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
             examDataBox.clear();
           },
         ),
-        FlatButton(
+        TextButton(
           child: Text(AppLocalizations.of(context).translate('no_lbl')),
           onPressed: () {
             ExtendedNavigator.of(context).pop();

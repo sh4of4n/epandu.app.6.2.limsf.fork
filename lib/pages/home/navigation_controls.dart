@@ -35,7 +35,7 @@ class NavigationControls extends StatelessWidget {
           context: context,
           content: AppLocalizations.of(context).translate('confirm_back'),
           customActions: <Widget>[
-            FlatButton(
+            TextButton(
                 child: Text(AppLocalizations.of(context).translate('yes_lbl')),
                 onPressed: () {
                   Provider.of<CallStatusModel>(context, listen: false)
@@ -44,7 +44,7 @@ class NavigationControls extends StatelessWidget {
                     ModalRoute.withName(Routes.home),
                   );
                 }),
-            FlatButton(
+            TextButton(
               child: Text(AppLocalizations.of(context).translate('no_lbl')),
               onPressed: () {
                 ExtendedNavigator.of(context).pop();
@@ -61,7 +61,7 @@ class NavigationControls extends StatelessWidget {
             context: context,
             content: AppLocalizations.of(context).translate('confirm_back'),
             customActions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text(AppLocalizations.of(context).translate('yes_lbl')),
                 onPressed: () {
                   Provider.of<CallStatusModel>(context, listen: false)
@@ -73,7 +73,7 @@ class NavigationControls extends StatelessWidget {
                   ); */
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text(AppLocalizations.of(context).translate('no_lbl')),
                 onPressed: () {
                   ExtendedNavigator.of(context).pop();

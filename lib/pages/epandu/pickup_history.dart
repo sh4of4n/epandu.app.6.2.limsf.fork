@@ -62,11 +62,13 @@ class _PickupHistoryState extends State<PickupHistory> {
         ),
         bottomNavigationBar: Container(
           margin: EdgeInsets.only(top: 20.h, bottom: 60.h),
-          child: RaisedButton(
-            shape: CircleBorder(),
-            color: Color(0xffdd0e0e),
-            textColor: Colors.white,
-            padding: EdgeInsets.all(12),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: CircleBorder(),
+              primary: Color(0xffdd0e0e),
+              textStyle: TextStyle(color: Colors.white),
+              padding: EdgeInsets.all(12),
+            ),
             onPressed: () =>
                 ExtendedNavigator.of(context).push(Routes.requestPickup),
             child: Icon(

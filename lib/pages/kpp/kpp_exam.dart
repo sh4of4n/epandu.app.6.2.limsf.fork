@@ -57,7 +57,7 @@ class _KppExamState extends State<KppExam> {
         content:
             '${AppLocalizations.of(context).translate("existing_session")} ${data.groupId} ${data.paperNo}. ${AppLocalizations.of(context).translate("existing_session_two")}',
         customActions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () {
               groupId = data.groupId;
@@ -68,7 +68,7 @@ class _KppExamState extends State<KppExam> {
               _getTheoryQuestionByPaper();
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
               groupId = widget.groupId;

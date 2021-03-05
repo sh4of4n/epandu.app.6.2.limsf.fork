@@ -231,12 +231,14 @@ class _ProfileTabState extends State<ProfileTab>
           ? EdgeInsets.symmetric(vertical: 70.h)
           : EdgeInsets.symmetric(vertical: 40.h),
       margin: EdgeInsets.only(right: 15.w),
-      child: OutlineButton(
-        borderSide: BorderSide(
-          color: Colors.blue,
-          width: 1.5,
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          side: BorderSide(
+            color: Colors.blue,
+            width: 1.5,
+          ),
+          shape: StadiumBorder(),
         ),
-        shape: StadiumBorder(),
         onPressed: () async {
           await ExtendedNavigator.of(context)
               .push(Routes.updateProfile)

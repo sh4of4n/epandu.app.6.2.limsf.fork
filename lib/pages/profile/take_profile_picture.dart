@@ -97,7 +97,7 @@ class TakeProfilePictureState extends State<TakeProfilePicture> {
       appBar: AppBar(
         title: Text('Take a picture'),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             onPressed: () {
               if (cameraDescription == widget.camera[1]) {
                 setState(() {

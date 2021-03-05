@@ -177,9 +177,11 @@ class _ForgotPasswordTabletFormState extends State<ForgotPasswordTabletForm>
               padding: EdgeInsets.symmetric(vertical: 20.h),
               buttonColor: primaryColor,
               shape: StadiumBorder(),
-              child: RaisedButton(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  textStyle: TextStyle(color: Colors.white),
+                ),
                 onPressed: _submit,
-                textColor: Colors.white,
                 child: Text(
                   AppLocalizations.of(context).translate('submit_btn'),
                   style: TextStyle(

@@ -17,7 +17,7 @@ class PushDialog extends StatelessWidget {
       context: context,
       content: message,
       customActions: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text(AppLocalizations.of(context).translate('ok_btn')),
           onPressed: () => ExtendedNavigator.of(context).pop(),
         ),

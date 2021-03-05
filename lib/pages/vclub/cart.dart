@@ -149,7 +149,7 @@ class _CartState extends State<Cart> {
       context: context,
       content: Text('Do you want to remove this product?'),
       customActions: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text('Yes'),
           onPressed: () async {
             Provider.of<CartStatus>(context, listen: false)
@@ -177,7 +177,7 @@ class _CartState extends State<Cart> {
             _getActiveSlsTrnByDb();
           },
         ),
-        FlatButton(
+        TextButton(
           child: Text('No'),
           onPressed: () => ExtendedNavigator.of(context).pop(context),
         ),
@@ -398,9 +398,11 @@ class _CartState extends State<Cart> {
               padding: EdgeInsets.symmetric(vertical: 11.0),
               buttonColor: primaryColor,
               shape: StadiumBorder(),
-              child: RaisedButton(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  textStyle: TextStyle(color: Colors.white),
+                ),
                 onPressed: _checkout,
-                textColor: Colors.white,
                 child: Text(
                   'Checkout',
                   style: TextStyle(

@@ -293,7 +293,7 @@ class _ProductListState extends State<ProductList> {
       ),
       customActions: <Widget>[
         Center(
-          child: FlatButton(
+          child: TextButton(
             child: Text(
               'Close',
               style: TextStyle(fontSize: ScreenUtil().setSp(60)),

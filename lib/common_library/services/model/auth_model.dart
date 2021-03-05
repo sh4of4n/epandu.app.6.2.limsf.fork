@@ -181,7 +181,7 @@ class LoginResponse {
 
   LoginResponse.fromJson(Map<String, dynamic> json) {
     if (json['Table1'] != null) {
-      table1 = new List<Table1>();
+      table1 = new List<Table1>.empty(growable: true);
       json['Table1'].forEach((v) {
         table1.add(new Table1.fromJson(v));
       });
@@ -261,7 +261,8 @@ class UserRegisteredDiResponse {
 
   UserRegisteredDiResponse.fromJson(Map<String, dynamic> json) {
     if (json['ArmasterProfile'] != null) {
-      armasterProfile = new List<RegisteredDiArmasterProfile>();
+      armasterProfile =
+          new List<RegisteredDiArmasterProfile>.empty(growable: true);
       json['ArmasterProfile'].forEach((v) {
         armasterProfile.add(new RegisteredDiArmasterProfile.fromJson(v));
       });
@@ -642,7 +643,7 @@ class GetDiListResponse {
 
   GetDiListResponse.fromJson(Map<String, dynamic> json) {
     if (json['Armaster'] != null) {
-      armasterProfile = new List<ArmasterProfile>();
+      armasterProfile = new List<ArmasterProfile>.empty(growable: true);
       json['Armaster'].forEach((v) {
         armasterProfile.add(new ArmasterProfile.fromJson(v));
       });
@@ -1071,7 +1072,7 @@ class GetDiNearMeResponse {
 
   GetDiNearMeResponse.fromJson(Map<String, dynamic> json) {
     if (json['Merchant'] != null) {
-      merchant = new List<Merchant>();
+      merchant = new List<Merchant>.empty(growable: true);
       json['Merchant'].forEach((v) {
         merchant.add(new Merchant.fromJson(v));
       });
@@ -1361,7 +1362,7 @@ class GetGroupIdByDiCodeForOnlineResponse {
 
   GetGroupIdByDiCodeForOnlineResponse.fromJson(Map<String, dynamic> json) {
     if (json['Dgroup'] != null) {
-      dgroup = new List<Dgroup>();
+      dgroup = new List<Dgroup>.empty(growable: true);
       json['Dgroup'].forEach((v) {
         dgroup.add(new Dgroup.fromJson(v));
       });
@@ -1760,7 +1761,7 @@ class GetActiveFeedResponse {
 
   GetActiveFeedResponse.fromJson(Map<String, dynamic> json) {
     if (json['Feed'] != null) {
-      feed = new List<Feed>();
+      feed = new List<Feed>.empty(growable: true);
       json['Feed'].forEach((v) {
         feed.add(new Feed.fromJson(v));
       });
@@ -1897,7 +1898,7 @@ class GetEnrollHistoryResponse {
 
   GetEnrollHistoryResponse.fromJson(Map<String, dynamic> json) {
     if (json['Enroll'] != null) {
-      enroll = new List<Enroll>();
+      enroll = new List<Enroll>.empty(growable: true);
       json['Enroll'].forEach((v) {
         enroll.add(new Enroll.fromJson(v));
       });
@@ -2696,7 +2697,7 @@ class ScanResponse {
 
   ScanResponse.fromJson(Map<String, dynamic> json) {
     if (json['QRCode'] != null) {
-      qRCode = new List<QRCode>();
+      qRCode = new List<QRCode>.empty(growable: true);
       json['QRCode'].forEach((v) {
         qRCode.add(new QRCode.fromJson(v));
       });
@@ -2767,7 +2768,7 @@ class GetPackageListByPackageCodeListResponse {
 
   GetPackageListByPackageCodeListResponse.fromJson(Map<String, dynamic> json) {
     if (json['Package'] != null) {
-      package = new List<Package>();
+      package = new List<Package>.empty(growable: true);
       json['Package'].forEach((v) {
         package.add(new Package.fromJson(v));
       });
@@ -2903,7 +2904,7 @@ class GetPackageDetlListResponse {
 
   GetPackageDetlListResponse.fromJson(Map<String, dynamic> json) {
     if (json['PackageDetl'] != null) {
-      packageDetl = new List<PackageDetl>();
+      packageDetl = new List<PackageDetl>.empty(growable: true);
       json['PackageDetl'].forEach((v) {
         packageDetl.add(new PackageDetl.fromJson(v));
       });
@@ -3015,7 +3016,7 @@ class GetAuthorizationStatusListResponse {
 
   GetAuthorizationStatusListResponse.fromJson(Map<String, dynamic> json) {
     if (json['AuthzStatus'] != null) {
-      authzStatus = new List<AuthzStatus>();
+      authzStatus = new List<AuthzStatus>.empty(growable: true);
       json['AuthzStatus'].forEach((v) {
         authzStatus.add(new AuthzStatus.fromJson(v));
       });
@@ -3055,7 +3056,7 @@ class GetDeviceRequestListResponse {
 
   GetDeviceRequestListResponse.fromJson(Map<String, dynamic> json) {
     if (json['UserDevice'] != null) {
-      userDevice = new List<UserDevice>();
+      userDevice = new List<UserDevice>.empty(growable: true);
       json['UserDevice'].forEach((v) {
         userDevice.add(new UserDevice.fromJson(v));
       });
@@ -3290,7 +3291,7 @@ class GetLdlkEnqGroupListResponse {
 
   GetLdlkEnqGroupListResponse.fromJson(Map<String, dynamic> json) {
     if (json['LdlEnqGroupList'] != null) {
-      ldlEnqGroupList = new List<LdlEnqGroupList>();
+      ldlEnqGroupList = new List<LdlEnqGroupList>.empty(growable: true);
       json['LdlEnqGroupList'].forEach((v) {
         ldlEnqGroupList.add(new LdlEnqGroupList.fromJson(v));
       });
@@ -3333,7 +3334,7 @@ class GetCdlListResponse {
 
   GetCdlListResponse.fromJson(Map<String, dynamic> json) {
     if (json['CdlList'] != null) {
-      cdlList = new List<CdlList>();
+      cdlList = new List<CdlList>.empty(growable: true);
       json['CdlList'].forEach((v) {
         cdlList.add(new CdlList.fromJson(v));
       });
@@ -3375,7 +3376,7 @@ class GetLanguageListResponse {
 
   GetLanguageListResponse.fromJson(Map<String, dynamic> json) {
     if (json['LanguageList'] != null) {
-      languageList = new List<LanguageList>();
+      languageList = new List<LanguageList>.empty(growable: true);
       json['LanguageList'].forEach((v) {
         languageList.add(new LanguageList.fromJson(v));
       });
@@ -3418,7 +3419,7 @@ class GetUserByUserIdPwdResponse {
 
   GetUserByUserIdPwdResponse.fromJson(Map<String, dynamic> json) {
     if (json['Table1'] != null) {
-      table1 = new List<GetUserByUserIdPwdTable1>();
+      table1 = new List<GetUserByUserIdPwdTable1>.empty(growable: true);
       json['Table1'].forEach((v) {
         table1.add(new GetUserByUserIdPwdTable1.fromJson(v));
       });
@@ -3457,7 +3458,7 @@ class GetOrderListByDateRangeResponse {
 
   GetOrderListByDateRangeResponse.fromJson(Map<String, dynamic> json) {
     if (json['SlsTrn'] != null) {
-      slsTrn = new List<SlsTrn>();
+      slsTrn = new List<SlsTrn>.empty(growable: true);
       json['SlsTrn'].forEach((v) {
         slsTrn.add(new SlsTrn.fromJson(v));
       });
@@ -4050,7 +4051,7 @@ class AcceptOrderResponse {
 
   AcceptOrderResponse.fromJson(Map<String, dynamic> json) {
     if (json['SlsTrn'] != null) {
-      slsTrn = new List<AcceptOrderSlsTrn>();
+      slsTrn = new List<AcceptOrderSlsTrn>.empty(growable: true);
       json['SlsTrn'].forEach((v) {
         slsTrn.add(new AcceptOrderSlsTrn.fromJson(v));
       });

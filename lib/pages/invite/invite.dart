@@ -191,10 +191,12 @@ class _InviteState extends State<Invite> with PageBaseClass {
                             : ButtonTheme(
                                 padding: EdgeInsets.all(0.0),
                                 shape: StadiumBorder(),
-                                child: RaisedButton(
-                                  color: Color(0xffdd0e0e),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Color(0xffdd0e0e),
+                                    textStyle: TextStyle(color: Colors.white),
+                                  ),
                                   onPressed: _submit,
-                                  textColor: Colors.white,
                                   child: Container(
                                     /* decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(0),
@@ -397,10 +399,12 @@ class _InviteState extends State<Invite> with PageBaseClass {
                               )
                             : ButtonTheme(
                                 shape: StadiumBorder(),
-                                child: RaisedButton(
-                                  color: Color(0xffdd0e0e),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Color(0xffdd0e0e),
+                                    textStyle: TextStyle(color: Colors.white),
+                                  ),
                                   onPressed: _submit,
-                                  textColor: Colors.white,
                                   child: Container(
                                     /* decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(0),

@@ -23,7 +23,7 @@ class CustomDialog {
     onPressed,
   }) {
     List<Widget> actions = <Widget>[
-      FlatButton(
+      TextButton(
         child: Text("Ok"),
         onPressed: onPressed ?? () => ExtendedNavigator.of(context).pop(),
       )

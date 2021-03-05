@@ -7,7 +7,7 @@ class GetCategoryResponse {
 
   GetCategoryResponse.fromJson(Map<String, dynamic> json) {
     if (json['StkCat'] != null) {
-      stkCat = new List<StkCat>();
+      stkCat = new List<StkCat>.empty(growable: true);
       json['StkCat'].forEach((v) {
         stkCat.add(new StkCat.fromJson(v));
       });
@@ -228,7 +228,7 @@ class GetStockResponse {
 
   GetStockResponse.fromJson(Map<String, dynamic> json) {
     if (json['Stkmst'] != null) {
-      stkmst = new List<Stkmst>();
+      stkmst = new List<Stkmst>.empty(growable: true);
       json['Stkmst'].forEach((v) {
         stkmst.add(new Stkmst.fromJson(v));
       });
@@ -1089,7 +1089,7 @@ class GetCategoryByPagingResponse {
 
   GetCategoryByPagingResponse.fromJson(Map<String, dynamic> json) {
     if (json['StkCat'] != null) {
-      stkCat = new List<GetCategoryByPagingStkCat>();
+      stkCat = new List<GetCategoryByPagingStkCat>.empty(growable: true);
       json['StkCat'].forEach((v) {
         stkCat.add(new GetCategoryByPagingStkCat.fromJson(v));
       });
@@ -1335,7 +1335,7 @@ class GetGroupByPagingResponse {
 
   GetGroupByPagingResponse.fromJson(Map<String, dynamic> json) {
     if (json['StkGrp'] != null) {
-      stkGrp = new List<StkGrp>();
+      stkGrp = new List<StkGrp>.empty(growable: true);
       json['StkGrp'].forEach((v) {
         stkGrp.add(new StkGrp.fromJson(v));
       });
@@ -1544,7 +1544,7 @@ class GetUOMByPagingResponse {
 
   GetUOMByPagingResponse.fromJson(Map<String, dynamic> json) {
     if (json['UOM'] != null) {
-      uOM = new List<UOM>();
+      uOM = new List<UOM>.empty(growable: true);
       json['UOM'].forEach((v) {
         uOM.add(new UOM.fromJson(v));
       });
@@ -1777,7 +1777,7 @@ class GetStockPictureListResponse {
 
   GetStockPictureListResponse.fromJson(Map<String, dynamic> json) {
     if (json['StkmstFileAttach'] != null) {
-      stkmstFileAttach = new List<StkmstFileAttach>();
+      stkmstFileAttach = new List<StkmstFileAttach>.empty(growable: true);
       json['StkmstFileAttach'].forEach((v) {
         stkmstFileAttach.add(new StkmstFileAttach.fromJson(v));
       });
@@ -1957,7 +1957,7 @@ class GetStkUomResponse {
 
   GetStkUomResponse.fromJson(Map<String, dynamic> json) {
     if (json['PackingUOM'] != null) {
-      packingUOM = new List<PackingUOM>();
+      packingUOM = new List<PackingUOM>.empty(growable: true);
       json['PackingUOM'].forEach((v) {
         packingUOM.add(new PackingUOM.fromJson(v));
       });

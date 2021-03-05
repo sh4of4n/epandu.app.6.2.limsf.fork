@@ -118,7 +118,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
         content:
             AppLocalizations.of(context).translate('complete_your_profile'),
         customActions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text(AppLocalizations.of(context).translate('ok_btn')),
             onPressed: () => ExtendedNavigator.of(context).pushAndRemoveUntil(
               Routes.updateProfile,
@@ -212,14 +212,14 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
               AppLocalizations.of(context).translate('select_payment_method'),
           type: DialogType.GENERAL,
           customActions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text(
                   AppLocalizations.of(context).translate('pay_at_institute')),
               onPressed: () => ExtendedNavigator.of(context).popUntil(
                 ModalRoute.withName(Routes.home),
               ),
             ),
-            FlatButton(
+            TextButton(
               child: Text(AppLocalizations.of(context).translate('pay_online')),
               onPressed: createOrder,
             ),
@@ -234,7 +234,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
           content:
               '${result.message.toString()} You can proceed to your order.',
           customActions: [
-            FlatButton(
+            TextButton(
               child: Text(AppLocalizations.of(context).translate('proceed')),
               onPressed: () {
                 ExtendedNavigator.of(context).pop();

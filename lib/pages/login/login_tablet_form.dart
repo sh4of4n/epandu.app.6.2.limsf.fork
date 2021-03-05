@@ -286,9 +286,12 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
               padding: EdgeInsets.symmetric(vertical: 20.h),
               buttonColor: primaryColor,
               shape: StadiumBorder(),
-              child: RaisedButton(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  textStyle: TextStyle(color: Colors.white),
+                ),
                 onPressed: _submitLogin, // () => localStorage.reset(),
-                textColor: Colors.white,
+
                 child: Text(
                   AppLocalizations.of(context).translate('login_btn'),
                   style: TextStyle(

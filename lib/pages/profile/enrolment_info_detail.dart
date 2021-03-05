@@ -215,9 +215,11 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
               child: ButtonTheme(
                 padding: EdgeInsets.all(0.0),
                 shape: StadiumBorder(),
-                child: RaisedButton(
-                  color: Color(0xffdd0e0e),
-                  textColor: Colors.white,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xffdd0e0e),
+                    textStyle: TextStyle(color: Colors.white),
+                  ),
                   onPressed: () => ExtendedNavigator.of(context).pop(),
                   child: Text(
                     AppLocalizations.of(context).translate('back_btn'),

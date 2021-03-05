@@ -188,10 +188,12 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
             ),
             iconSize: 80,
           ),
-          OutlineButton(
-            borderSide: BorderSide(
-              color: Colors.blue,
-              width: 1.5,
+          OutlinedButton(
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(
+                color: Colors.blue,
+                width: 1.5,
+              ),
             ),
             onPressed: _profilePicOption,
             child: Text(AppLocalizations.of(context).translate('edit')),
@@ -730,27 +732,28 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                                   ? SpinKitFoldingCube(
                                       color: Colors.blue,
                                     )
-                                  : ButtonTheme(
-                                      padding: EdgeInsets.all(0.0),
-                                      shape: StadiumBorder(),
-                                      child: RaisedButton(
-                                        onPressed: _submit,
-                                        color: Color(0xffdd0e0e),
-                                        textColor: Colors.white,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(18.0),
-                                          ),
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 30.0,
-                                          ),
-                                          child: Text(
-                                            AppLocalizations.of(context)
-                                                .translate('sign_up_btn'),
-                                            style: TextStyle(
-                                              fontSize: 56.sp,
-                                            ),
+                                  : ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Color(0xffdd0e0e),
+                                        textStyle:
+                                            TextStyle(color: Colors.white),
+                                        shape: StadiumBorder(),
+                                        padding: EdgeInsets.all(0.0),
+                                      ),
+                                      onPressed: _submit,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(18.0),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 30.0,
+                                        ),
+                                        child: Text(
+                                          AppLocalizations.of(context)
+                                              .translate('sign_up_btn'),
+                                          style: TextStyle(
+                                            fontSize: 56.sp,
                                           ),
                                         ),
                                       ),
@@ -1214,10 +1217,13 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                                     )
                                   : ButtonTheme(
                                       shape: StadiumBorder(),
-                                      child: RaisedButton(
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          primary: Color(0xffdd0e0e),
+                                          textStyle:
+                                              TextStyle(color: Colors.white),
+                                        ),
                                         onPressed: _submit,
-                                        color: Color(0xffdd0e0e),
-                                        textColor: Colors.white,
                                         child: Container(
                                           child: Text(
                                             AppLocalizations.of(context)
@@ -1301,7 +1307,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
             barrierDismissable: false,
             customActions: <Widget>[
               _loginLoading == false
-                  ? FlatButton(
+                  ? TextButton(
                       child: Text(
                           AppLocalizations.of(context).translate('ok_btn')),
                       onPressed: _login,

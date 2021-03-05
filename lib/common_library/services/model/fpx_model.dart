@@ -5,7 +5,7 @@ class FpxSendB2CBankEnquiryResponse {
 
   FpxSendB2CBankEnquiryResponse.fromJson(Map<String, dynamic> json) {
     if (json['Response'] != null) {
-      response = new List<BankEnquiryResponse>();
+      response = new List<BankEnquiryResponse>.empty(growable: true);
       json['Response'].forEach((v) {
         response.add(new BankEnquiryResponse.fromJson(v));
       });
@@ -101,7 +101,7 @@ class GetOnlinePaymentListByIcNoResponse {
 
   GetOnlinePaymentListByIcNoResponse.fromJson(Map<String, dynamic> json) {
     if (json['OnlinePayment'] != null) {
-      onlinePayment = new List<OnlinePayment>();
+      onlinePayment = new List<OnlinePayment>.empty(growable: true);
       json['OnlinePayment'].forEach((v) {
         onlinePayment.add(new OnlinePayment.fromJson(v));
       });
@@ -236,7 +236,7 @@ class CreateOrderResponse {
 
   CreateOrderResponse.fromJson(Map<String, dynamic> json) {
     if (json['SlsTrn'] != null) {
-      slsTrn = new List<SlsTrn>();
+      slsTrn = new List<SlsTrn>.empty(growable: true);
       json['SlsTrn'].forEach((v) {
         slsTrn.add(new SlsTrn.fromJson(v));
       });
@@ -780,7 +780,7 @@ class GetOrderListByIcNoResponse {
 
   GetOrderListByIcNoResponse.fromJson(Map<String, dynamic> json) {
     if (json['SlsTrn'] != null) {
-      slsTrn = new List<GetOrderListSlsTrn>();
+      slsTrn = new List<GetOrderListSlsTrn>.empty(growable: true);
       json['SlsTrn'].forEach((v) {
         slsTrn.add(new GetOrderListSlsTrn.fromJson(v));
       });
@@ -1324,7 +1324,7 @@ class GetOrderDetlByOrderNoResponse {
 
   GetOrderDetlByOrderNoResponse.fromJson(Map<String, dynamic> json) {
     if (json['SlsDetl'] != null) {
-      slsDetl = new List<SlsDetl>();
+      slsDetl = new List<SlsDetl>.empty(growable: true);
       json['SlsDetl'].forEach((v) {
         slsDetl.add(new SlsDetl.fromJson(v));
       });
@@ -1904,7 +1904,7 @@ class FpxSendB2CAuthResponse {
 
   FpxSendB2CAuthResponse.fromJson(Map<String, dynamic> json) {
     if (json['Response'] != null) {
-      response = new List<FpxResponse>();
+      response = new List<FpxResponse>.empty(growable: true);
       json['Response'].forEach((v) {
         response.add(new FpxResponse.fromJson(v));
       });
@@ -1972,7 +1972,7 @@ class GetOnlinePaymentByOrderNoResponse {
 
   GetOnlinePaymentByOrderNoResponse.fromJson(Map<String, dynamic> json) {
     if (json['OnlinePayment'] != null) {
-      onlinePayment = new List<OnlinePaymentByOrderNo>();
+      onlinePayment = new List<OnlinePaymentByOrderNo>.empty(growable: true);
       json['OnlinePayment'].forEach((v) {
         onlinePayment.add(new OnlinePaymentByOrderNo.fromJson(v));
       });
@@ -2165,7 +2165,7 @@ class GetAppPaymentMenuResponse {
 
   GetAppPaymentMenuResponse.fromJson(Map<String, dynamic> json) {
     if (json['AppPaymentMenu'] != null) {
-      appPaymentMenu = new List<AppPaymentMenu>();
+      appPaymentMenu = new List<AppPaymentMenu>.empty(growable: true);
       json['AppPaymentMenu'].forEach((v) {
         appPaymentMenu.add(new AppPaymentMenu.fromJson(v));
       });
@@ -2258,7 +2258,8 @@ class GetMerchantPaymentGatewayResponse {
 
   GetMerchantPaymentGatewayResponse.fromJson(Map<String, dynamic> json) {
     if (json['MerchantPaymentGateway'] != null) {
-      merchantPaymentGateway = new List<MerchantPaymentGateway>();
+      merchantPaymentGateway =
+          new List<MerchantPaymentGateway>.empty(growable: true);
       json['MerchantPaymentGateway'].forEach((v) {
         merchantPaymentGateway.add(new MerchantPaymentGateway.fromJson(v));
       });

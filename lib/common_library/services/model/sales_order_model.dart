@@ -6,7 +6,7 @@ class GetBackOrderListResponse {
 
   GetBackOrderListResponse.fromJson(Map<String, dynamic> json) {
     if (json['SalesOrderDetail'] != null) {
-      salesOrderDetail = new List<SalesOrderDetail>();
+      salesOrderDetail = new List<SalesOrderDetail>.empty(growable: true);
       json['SalesOrderDetail'].forEach((v) {
         salesOrderDetail.add(new SalesOrderDetail.fromJson(v));
       });
@@ -847,7 +847,7 @@ class SaveCartToSalesOrderResponse {
 
   SaveCartToSalesOrderResponse.fromJson(Map<String, dynamic> json) {
     if (json['SalesOrderTrn'] != null) {
-      salesOrderTrn = new List<SalesOrderTrn>();
+      salesOrderTrn = new List<SalesOrderTrn>.empty(growable: true);
       json['SalesOrderTrn'].forEach((v) {
         salesOrderTrn.add(new SalesOrderTrn.fromJson(v));
       });
@@ -898,7 +898,7 @@ class GetSlsTrnByDateAndDbResponse {
 
   GetSlsTrnByDateAndDbResponse.fromJson(Map<String, dynamic> json) {
     if (json['SalesOrderHeader'] != null) {
-      salesOrderHeader = new List<SalesOrderHeader>();
+      salesOrderHeader = new List<SalesOrderHeader>.empty(growable: true);
       json['SalesOrderHeader'].forEach((v) {
         salesOrderHeader.add(new SalesOrderHeader.fromJson(v));
       });
@@ -1525,7 +1525,8 @@ class GetSlsDetailByDocNoResponse {
 
   GetSlsDetailByDocNoResponse.fromJson(Map<String, dynamic> json) {
     if (json['SalesOrderDetail'] != null) {
-      salesOrderDetail = new List<GetSlsDetailByDocNoSalesOrderDetail>();
+      salesOrderDetail =
+          new List<GetSlsDetailByDocNoSalesOrderDetail>.empty(growable: true);
       json['SalesOrderDetail'].forEach((v) {
         salesOrderDetail
             .add(new GetSlsDetailByDocNoSalesOrderDetail.fromJson(v));
@@ -2233,7 +2234,8 @@ class GetActiveSlsTrnByDbResponse {
 
   GetActiveSlsTrnByDbResponse.fromJson(Map<String, dynamic> json) {
     if (json['SalesOrderHeader'] != null) {
-      salesOrderHeader = new List<GetActiveSlsTrnByDbSalesOrderHeader>();
+      salesOrderHeader =
+          new List<GetActiveSlsTrnByDbSalesOrderHeader>.empty(growable: true);
       json['SalesOrderHeader'].forEach((v) {
         salesOrderHeader
             .add(new GetActiveSlsTrnByDbSalesOrderHeader.fromJson(v));
@@ -2808,7 +2810,7 @@ class GetSalesOrderPDFResponse {
 
   GetSalesOrderPDFResponse.fromJson(Map<String, dynamic> json) {
     if (json['PDF'] != null) {
-      pDF = new List<PDF>();
+      pDF = new List<PDF>.empty(growable: true);
       json['PDF'].forEach((v) {
         pDF.add(new PDF.fromJson(v));
       });
@@ -2847,7 +2849,7 @@ class GetCustomerCreditLimitResponse {
 
   GetCustomerCreditLimitResponse.fromJson(Map<String, dynamic> json) {
     if (json['ArCtrl'] != null) {
-      arCtrl = new List<ArCtrl>();
+      arCtrl = new List<ArCtrl>.empty(growable: true);
       json['ArCtrl'].forEach((v) {
         arCtrl.add(new ArCtrl.fromJson(v));
       });
@@ -2984,7 +2986,7 @@ class GetPurchaseHistoryForStockResponse {
 
   GetPurchaseHistoryForStockResponse.fromJson(Map<String, dynamic> json) {
     if (json['SalesInvoiceDetail'] != null) {
-      salesInvoiceDetail = new List<SalesInvoiceDetail>();
+      salesInvoiceDetail = new List<SalesInvoiceDetail>.empty(growable: true);
       json['SalesInvoiceDetail'].forEach((v) {
         salesInvoiceDetail.add(new SalesInvoiceDetail.fromJson(v));
       });

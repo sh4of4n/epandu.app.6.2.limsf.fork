@@ -297,10 +297,12 @@ class _AirtimeBillDetailState extends State<AirtimeBillDetail> {
                           ButtonTheme(
                             padding: EdgeInsets.all(0.0),
                             shape: StadiumBorder(),
-                            child: RaisedButton(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                textStyle: TextStyle(color: Colors.white),
+                                padding: const EdgeInsets.all(0.0),
+                              ),
                               onPressed: _submitDetails,
-                              textColor: Colors.white,
-                              padding: const EdgeInsets.all(0.0),
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(25.0),

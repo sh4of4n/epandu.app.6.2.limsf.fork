@@ -180,10 +180,13 @@ class _RegisterMobileState extends State<RegisterMobile> {
                                 : ButtonTheme(
                                     padding: EdgeInsets.all(0.0),
                                     shape: StadiumBorder(),
-                                    child: RaisedButton(
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Color(0xffdd0e0e),
+                                        textStyle:
+                                            TextStyle(color: Colors.white),
+                                      ),
                                       onPressed: _next,
-                                      color: Color(0xffdd0e0e),
-                                      textColor: Colors.white,
                                       child: Container(
                                         decoration: BoxDecoration(
                                           borderRadius:
@@ -362,10 +365,13 @@ class _RegisterMobileState extends State<RegisterMobile> {
                                 : ButtonTheme(
                                     // padding: EdgeInsets.all(0.0),
                                     shape: StadiumBorder(),
-                                    child: RaisedButton(
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Color(0xffdd0e0e),
+                                        textStyle:
+                                            TextStyle(color: Colors.white),
+                                      ),
                                       onPressed: _next,
-                                      color: Color(0xffdd0e0e),
-                                      textColor: Colors.white,
                                       child: Text(
                                         AppLocalizations.of(context)
                                             .translate('next_btn'),

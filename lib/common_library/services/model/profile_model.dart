@@ -42,7 +42,7 @@ class GetUserProfileResponse {
 
   GetUserProfileResponse.fromJson(Map<String, dynamic> json) {
     if (json['UserProfile'] != null) {
-      userProfile = new List<UserProfile>();
+      userProfile = new List<UserProfile>.empty(growable: true);
       json['UserProfile'].forEach((v) {
         userProfile.add(new UserProfile.fromJson(v));
       });
@@ -287,7 +287,7 @@ class GetTrainerListResponse {
 
   GetTrainerListResponse.fromJson(Map<String, dynamic> json) {
     if (json['Trainer'] != null) {
-      trainer = new List<Trainer>();
+      trainer = new List<Trainer>.empty(growable: true);
       json['Trainer'].forEach((v) {
         trainer.add(new Trainer.fromJson(v));
       });
@@ -515,7 +515,7 @@ class GetVehicleListResponse {
 
   GetVehicleListResponse.fromJson(Map<String, dynamic> json) {
     if (json['Vehicle'] != null) {
-      vehicle = new List<GetVehicleListVehicle>();
+      vehicle = new List<GetVehicleListVehicle>.empty(growable: true);
       json['Vehicle'].forEach((v) {
         vehicle.add(new GetVehicleListVehicle.fromJson(v));
       });

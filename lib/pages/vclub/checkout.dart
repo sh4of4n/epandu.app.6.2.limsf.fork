@@ -182,7 +182,7 @@ class _CheckoutState extends State<Checkout> {
         ),
         content: Text('Your item has been checked out.'),
         customActions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text('Done'),
             onPressed: () {
               Provider.of<CartStatus>(context, listen: false).setShowBadge(
@@ -346,9 +346,11 @@ class _CheckoutState extends State<Checkout> {
                             padding: EdgeInsets.symmetric(vertical: 10.h),
                             buttonColor: primaryColor,
                             shape: StadiumBorder(),
-                            child: RaisedButton(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                textStyle: TextStyle(color: Colors.white),
+                              ),
                               onPressed: () => _checkout(context),
-                              textColor: Colors.white,
                               child: Text(
                                 'Checkout',
                                 style: TextStyle(

@@ -5,7 +5,7 @@ class GetPickUpByIcNoResponse {
 
   GetPickUpByIcNoResponse.fromJson(Map<String, dynamic> json) {
     if (json['Pickup'] != null) {
-      pickup = new List<Pickup>();
+      pickup = new List<Pickup>.empty(growable: true);
       json['Pickup'].forEach((v) {
         pickup.add(new Pickup.fromJson(v));
       });

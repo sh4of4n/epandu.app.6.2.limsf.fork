@@ -426,13 +426,13 @@ class _ChatScreenState extends State<ChatScreen> {
             child: Center(
               child: new Row(
                 children: <Widget>[
-                  FlatButton(
+                  TextButton(
                       onPressed: null,
                       child: Container(
                           child: Column(
                         children: <Widget>[Icon(Icons.image), Text("image")],
                       ))),
-                  FlatButton(
+                  TextButton(
                     onPressed: null,
                     child: Container(
                       child: Column(

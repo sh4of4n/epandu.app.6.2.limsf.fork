@@ -9,7 +9,7 @@ class GetNotificationListByUserIdResponse {
 
   GetNotificationListByUserIdResponse.fromJson(Map<String, dynamic> json) {
     if (json['Table1'] != null) {
-      table1 = new List<MsgOutBox>();
+      table1 = new List<MsgOutBox>.empty(growable: true);
       json['Table1'].forEach((v) {
         table1.add(new MsgOutBox.fromJson(v));
       });
@@ -58,7 +58,7 @@ class GetUnreadNotificationCountResponse {
 
   GetUnreadNotificationCountResponse.fromJson(Map<String, dynamic> json) {
     if (json['MsgCount'] != null) {
-      msgCount = new List<MsgCount>();
+      msgCount = new List<MsgCount>.empty(growable: true);
       json['MsgCount'].forEach((v) {
         msgCount.add(new MsgCount.fromJson(v));
       });

@@ -59,7 +59,7 @@ class _AddBookingState extends State<AddBooking> {
         content: AppLocalizations.of(context).translate('no_enrolled_class'),
         barrierDismissable: false,
         customActions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text(AppLocalizations.of(context).translate('ok_btn')),
             onPressed: () => ExtendedNavigator.of(context).popUntil(
               ModalRoute.withName(Routes.epanduCategory),
@@ -407,10 +407,12 @@ class _AddBookingState extends State<AddBooking> {
           : ButtonTheme(
               padding: EdgeInsets.all(0.0),
               shape: StadiumBorder(),
-              child: RaisedButton(
-                color: Color(0xffdd0e0e),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xffdd0e0e),
+                  textStyle: TextStyle(color: Colors.white),
+                ),
                 onPressed: _submit,
-                textColor: Colors.white,
                 child: Container(
                   /* decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(0),
@@ -466,7 +468,7 @@ class _AddBookingState extends State<AddBooking> {
           content: AppLocalizations.of(context).translate('booking_success'),
           type: DialogType.GENERAL,
           customActions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text(AppLocalizations.of(context).translate('ok_btn')),
               onPressed: () => ExtendedNavigator.of(context)
                   .pushAndRemoveUntil(Routes.home, (r) => false),

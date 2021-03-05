@@ -262,13 +262,13 @@ class _MyAppState extends State<MyApp> {
     return AlertDialog(
       content: Text(item.messageBody),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           child: const Text('CLOSE'),
           onPressed: () {
             Navigator.pop(context, false);
           },
         ),
-        FlatButton(
+        TextButton(
           child: const Text('SHOW'),
           onPressed: () {
             Navigator.pop(context, true);
@@ -284,7 +284,7 @@ class _MyAppState extends State<MyApp> {
       title: message['notification']['title'],
       content: Text(message['notification']['data']),
       customActions: [
-        FlatButton(
+        TextButton(
           child: Text(AppLocalizations.of(context).translate('ok_btn')),
           onPressed: () => Navigator.pop(context),
         ),

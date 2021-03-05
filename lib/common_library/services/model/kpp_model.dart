@@ -9,7 +9,7 @@ class InstituteLogoResponse {
 
   InstituteLogoResponse.fromJson(Map<String, dynamic> json) {
     if (json['Armaster'] != null) {
-      armaster = new List<Armaster>();
+      armaster = new List<Armaster>.empty(growable: true);
       json['Armaster'].forEach((v) {
         armaster.add(new Armaster.fromJson(v));
       });
@@ -357,7 +357,7 @@ class GetPaperNoResponse {
 
   GetPaperNoResponse.fromJson(Map<String, dynamic> json) {
     if (json['PaperNo'] != null) {
-      paperNo = new List<PaperNo>();
+      paperNo = new List<PaperNo>.empty(growable: true);
       json['PaperNo'].forEach((v) {
         paperNo.add(new PaperNo.fromJson(v));
       });
@@ -396,7 +396,7 @@ class GetTheoryQuestionByPaperResponse {
 
   GetTheoryQuestionByPaperResponse.fromJson(Map<String, dynamic> json) {
     if (json['TheoryQuestion'] != null) {
-      theoryQuestion = new List<TheoryQuestion>();
+      theoryQuestion = new List<TheoryQuestion>.empty(growable: true);
       json['TheoryQuestion'].forEach((v) {
         theoryQuestion.add(new TheoryQuestion.fromJson(v));
       });

@@ -177,12 +177,14 @@ class _KppModuleState extends State<KppModule> {
               ),
               shape: StadiumBorder(),
               buttonColor: Colors.amber[700],
-              child: RaisedButton(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  textStyle: TextStyle(color: Colors.white),
+                ),
                 onPressed: () => ExtendedNavigator.of(context).push(
                   Routes.pinActivation,
                   arguments: PinActivationArguments(data: widget.data),
                 ),
-                textColor: Colors.white,
                 child: Text(
                   AppLocalizations.of(context).translate('more_question_lbl'),
                   style: TextStyle(
