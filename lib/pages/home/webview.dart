@@ -162,7 +162,7 @@ class _WebviewState extends State<Webview> {
     return JavascriptChannel(
         name: 'Toaster',
         onMessageReceived: (JavascriptMessage message) {
-          ScaffoldMessenger.of(context).showSnackBar(
+          Scaffold.of(context).showSnackBar(
             SnackBar(content: Text(message.message)),
           );
         });
