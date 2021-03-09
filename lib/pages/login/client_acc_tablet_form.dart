@@ -355,6 +355,11 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
         urlController.text.replaceAll('_wsver_', '6_1'),
       );
 
+      await Hive.box('ws_url').put(
+        'getWsUrl',
+        '0',
+      );
+
       localStorage.saveCaUid(caUidController.text.replaceAll(' ', ''));
       localStorage.saveCaPwd(caPwdController.text.replaceAll(' ', ''));
       localStorage.saveCaPwdEncode(
@@ -368,6 +373,11 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
       if (_formKey.currentState.validate()) {
         _formKey.currentState.save();
         FocusScope.of(context).requestFocus(new FocusNode());
+
+        await Hive.box('ws_url').put(
+          'getWsUrl',
+          '1',
+        );
 
         setState(() {
           _message = '';

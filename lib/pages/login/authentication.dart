@@ -11,6 +11,7 @@ import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 class Authentication extends StatefulWidget {
@@ -47,12 +48,14 @@ class _AuthenticationState extends State<Authentication> {
     String caPwd = await localStorage.getCaPwd();
 
     // if (wsUrl == null) {
-    await authRepo.getWsUrl(
-      context: context,
-      acctUid: caUid,
-      acctPwd: caPwd,
-      loginType: appConfig.wsCodeCrypt,
-    );
+    if (Hive.box('ws_url').get('getWsUrl') == '1') {
+      await authRepo.getWsUrl(
+        context: context,
+        acctUid: caUid,
+        acctPwd: caPwd,
+        loginType: appConfig.wsCodeCrypt,
+      );
+    }
     // }
 
     _checkExistingLogin();
