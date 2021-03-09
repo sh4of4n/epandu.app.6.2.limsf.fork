@@ -119,35 +119,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
               SizedBox(
                 height: 35.h,
               ),
-              TextFormField(
-                controller: urlController,
-                maxLines: 5,
-                focusNode: _urlFocus,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 40.h),
-                  hintStyle: TextStyle(
-                    color: primaryColor,
-                  ),
-                  labelText: 'URL',
-                  fillColor: Colors.grey.withOpacity(.25),
-                  filled: true,
-                  prefixIcon: Icon(Icons.public, size: 32),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                onFieldSubmitted: (term) {
-                  fieldFocusChange(context, _urlFocus, _caUidFocus);
-                },
-              ),
-              SizedBox(
-                height: 50.h,
-              ),
+
               TextFormField(
                 controller: caUidController,
                 style: TextStyle(
@@ -232,8 +204,37 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
               SizedBox(
                 height: 40.h,
               ),
-              _showConnectedUrl(),
+              // _showConnectedUrl(),
               _showConnectedCa(),
+              TextFormField(
+                controller: urlController,
+                maxLines: 5,
+                focusNode: _urlFocus,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 40.h),
+                  hintStyle: TextStyle(
+                    color: primaryColor,
+                  ),
+                  labelText: 'URL',
+                  fillColor: Colors.grey.withOpacity(.25),
+                  filled: true,
+                  prefixIcon: Icon(Icons.public, size: 32),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                onFieldSubmitted: (term) {
+                  fieldFocusChange(context, _urlFocus, _caUidFocus);
+                },
+              ),
+              SizedBox(
+                height: 50.h,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
