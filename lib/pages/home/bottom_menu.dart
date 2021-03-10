@@ -60,7 +60,7 @@ class BottomMenu extends StatelessWidget {
                   ),
                 ),
               ), */
-              InkWell(
+              /* InkWell(
                 onTap: () =>
                     ExtendedNavigator.of(context).push(Routes.valueClub),
                 borderRadius: BorderRadius.circular(10.0),
@@ -70,11 +70,11 @@ class BottomMenu extends StatelessWidget {
                   ),
                   child: Column(
                     children: <Widget>[
-                      /* Icon(
-                                  MyCustomIcons.v_club_icon,
-                                  size: 18,
-                                  color: Color(0xff808080),
-                                ), */
+                      // Icon(
+                      //             MyCustomIcons.v_club_icon,
+                      //             size: 18,
+                      //             color: Color(0xff808080),
+                      //           ),
                       Image.asset(
                         myImage.vClub,
                         height: 18,
@@ -85,7 +85,7 @@ class BottomMenu extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
+              ), */
               Column(
                 children: <Widget>[
                   Image.memory(
