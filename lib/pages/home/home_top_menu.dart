@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:badges/badges.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:epandu/common_library/services/model/auth_model.dart';
+import 'package:epandu/common_library/services/repository/epandu_repository.dart';
 import 'package:epandu/common_library/services/repository/inbox_repository.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
@@ -29,6 +33,7 @@ class HomeTopMenu extends StatefulWidget {
 }
 
 class _HomeTopMenuState extends State<HomeTopMenu> {
+  final epanduRepo = EpanduRepo();
   final myImage = ImagesConstant();
   final customDialog = CustomDialog();
   String barcode = "";
@@ -37,15 +42,44 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
   Future _scan() async {
     try {
       var barcode = await BarcodeScanner.scan();
-      if (barcode.rawContent.isNotEmpty)
-        ExtendedNavigator.of(context)
-            .push(Routes.registerUserToDi,
-                arguments:
-                    RegisterUserToDiArguments(barcode: barcode.rawContent))
-            .then((value) {
-          widget.getActiveFeed();
-          widget.getDiProfile();
-        });
+      if (barcode.rawContent.isNotEmpty) {
+        CheckInScanResponse checkInScanResponse =
+            CheckInScanResponse.fromJson(jsonDecode(barcode.rawContent));
+
+        switch (checkInScanResponse.qRCode[0].action) {
+          case 'JPJ_PART2_CHECK_IN':
+            final result = await epanduRepo.verifyScanCode(
+              qrcodeJson: barcode.rawContent,
+            );
+
+            if (result.isSuccess) {
+              customDialog.show(
+                context: context,
+                content:
+                    'You have checked in successfully. Queue number is ${result.data[0].queueNo}',
+                onPressed: () => ExtendedNavigator.of(context).pop(),
+                type: DialogType.SUCCESS,
+              );
+            } else {
+              customDialog.show(
+                context: context,
+                content: result.message,
+                onPressed: () => ExtendedNavigator.of(context).pop(),
+                type: DialogType.WARNING,
+              );
+            }
+            break;
+          default:
+            ExtendedNavigator.of(context)
+                .push(Routes.registerUserToDi,
+                    arguments:
+                        RegisterUserToDiArguments(barcode: barcode.rawContent))
+                .then((value) {
+              widget.getActiveFeed();
+              widget.getDiProfile();
+            });
+        }
+      }
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {
         customDialog.show(

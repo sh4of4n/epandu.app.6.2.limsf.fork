@@ -74,7 +74,7 @@ import 'package:epandu/common_library/utils/image_viewer.dart';
     MaterialRoute(page: RequestPickup),
     MaterialRoute(page: RegisteredCourse),
     MaterialRoute(page: RegisteredCourseDetail),
-    MaterialRoute(page: AttendanceRecord),
+    MaterialRoute(page: AttendanceTab),
     MaterialRoute(page: Promotions),
     MaterialRoute(page: Profile),
     MaterialRoute(page: ProfileTab),

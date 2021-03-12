@@ -1,11 +1,7 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
-
-import 'package:epandu/common_library/utils/app_localizations.dart';
-import '../../router.gr.dart';
 
 class BottomMenu extends StatelessWidget {
   final iconText;

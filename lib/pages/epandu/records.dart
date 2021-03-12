@@ -116,7 +116,7 @@ class Records extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () => ExtendedNavigator.of(context)
-                              .push(Routes.attendanceRecord),
+                              .push(Routes.attendanceTab),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(

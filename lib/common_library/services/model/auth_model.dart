@@ -2689,7 +2689,7 @@ class RegisterUserToDIRequest {
   }
 }
 
-// Scan response
+// Old Scan response
 class ScanResponse {
   List<QRCode> qRCode;
 
@@ -2750,6 +2750,56 @@ class QRCode {
     data['userId'] = this.userId;
     data['merchantDbCode'] = this.merchantDbCode;
     data['merchantName'] = this.merchantName;
+    return data;
+  }
+}
+
+// Scan Response
+class CheckInScanResponse {
+  List<CheckInQRCode> qRCode;
+
+  CheckInScanResponse({this.qRCode});
+
+  CheckInScanResponse.fromJson(Map<String, dynamic> json) {
+    if (json['QRCode'] != null) {
+      qRCode = new List<CheckInQRCode>.empty(growable: true);
+      json['QRCode'].forEach((v) {
+        qRCode.add(new CheckInQRCode.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.qRCode != null) {
+      data['QRCode'] = this.qRCode.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class CheckInQRCode {
+  String merchantNo;
+  String action;
+  String datetime;
+
+  CheckInQRCode({
+    this.merchantNo,
+    this.action,
+    this.datetime,
+  });
+
+  CheckInQRCode.fromJson(Map<String, dynamic> json) {
+    merchantNo = json['merchant_no'];
+    action = json['action'];
+    datetime = json['datetime'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['merchant_no'] = this.merchantNo;
+    data['action'] = this.action;
+    data['datetime'] = this.datetime;
     return data;
   }
 }

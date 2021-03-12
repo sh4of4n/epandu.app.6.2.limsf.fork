@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
-class AttendanceRecord extends StatefulWidget {
-  final attendanceData;
+class CheckInRecord extends StatefulWidget {
+  final checkInData;
 
-  AttendanceRecord({@required this.attendanceData});
+  CheckInRecord({@required this.checkInData});
 
   @override
-  _AttendanceRecordState createState() => _AttendanceRecordState();
+  _CheckInRecordState createState() => _CheckInRecordState();
 }
 
-class _AttendanceRecordState extends State<AttendanceRecord> {
+class _CheckInRecordState extends State<CheckInRecord> {
   final primaryColor = ColorConstant.primaryColor;
   final format = DateFormat("yyyy-MM-dd");
 
@@ -51,7 +51,7 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
         padding: EdgeInsets.symmetric(horizontal: 40.w),
         child: ListView.builder(
           shrinkWrap: true,
-          itemCount: widget.attendanceData.length,
+          itemCount: widget.checkInData.length,
           itemBuilder: (BuildContext context, int index) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,11 +61,12 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
                     TableRow(
                       children: [
                         Text(
-                          '${widget.attendanceData[index].testDate.substring(0, 10)}',
+                          'Date',
                           style: _subtitleStyle,
                         ),
                         Text(
-                          'Test type: ${widget.attendanceData[index].testType ?? ''}',
+                          widget.checkInData[index].regDate.substring(0, 10) ??
+                              '',
                           style: _subtitleStyle,
                           textAlign: TextAlign.right,
                         ),
@@ -76,27 +77,17 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: Text(
-                            '${widget.attendanceData[index].bookNo ?? ''}',
+                            'Queue No',
                             style: _subtitleStyle,
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: Text(
-                            'Status: ${widget.attendanceData[index].apprvBooking ?? ''}',
+                            widget.checkInData[index].queueNo ?? '',
                             style: _subtitleStyle,
                             textAlign: TextAlign.right,
                           ),
-                        ),
-                      ],
-                    ),
-                    TableRow(
-                      children: [
-                        Container(),
-                        Text(
-                          'Time: ${widget.attendanceData[index].time ?? '00:00'}',
-                          style: _subtitleStyle,
-                          textAlign: TextAlign.right,
                         ),
                       ],
                     ),

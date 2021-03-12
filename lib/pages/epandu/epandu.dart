@@ -9,3 +9,5 @@ export 'records.dart';
 export 'pickup_history.dart';
 export 'request_pickup.dart';
 export 'add_booking.dart';
+export 'attendance_tab.dart';
+export 'check_in_record.dart';

@@ -82,7 +82,7 @@ class Routes {
   static const String requestPickup = '/request-pickup';
   static const String registeredCourse = '/registered-course';
   static const String registeredCourseDetail = '/registered-course-detail';
-  static const String attendanceRecord = '/attendance-record';
+  static const String attendanceTab = '/attendance-tab';
   static const String promotions = '/Promotions';
   static const String profile = '/Profile';
   static const String profileTab = '/profile-tab';
@@ -153,7 +153,7 @@ class Routes {
     requestPickup,
     registeredCourse,
     registeredCourseDetail,
-    attendanceRecord,
+    attendanceTab,
     promotions,
     profile,
     profileTab,
@@ -230,7 +230,7 @@ class Router extends RouterBase {
     RouteDef(Routes.requestPickup, page: RequestPickup),
     RouteDef(Routes.registeredCourse, page: RegisteredCourse),
     RouteDef(Routes.registeredCourseDetail, page: RegisteredCourseDetail),
-    RouteDef(Routes.attendanceRecord, page: AttendanceRecord),
+    RouteDef(Routes.attendanceTab, page: AttendanceTab),
     RouteDef(Routes.promotions, page: Promotions),
     RouteDef(Routes.profile, page: Profile),
     RouteDef(Routes.profileTab, page: ProfileTab),
@@ -644,9 +644,9 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    AttendanceRecord: (data) {
+    AttendanceTab: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => AttendanceRecord(),
+        builder: (context) => AttendanceTab(),
         settings: data,
       );
     },

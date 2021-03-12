@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import '../../../utils/app_config.dart';
 import '../../utils/local_storage.dart';
 import '../model/epandu_model.dart';
@@ -370,6 +371,69 @@ class EpanduRepo {
 
     if (response.isSuccess && response.data == 'True') {
       return Response(true);
+    }
+
+    return Response(false,
+        message: response.message.replaceAll(r'\u000d\u000a', ''));
+  }
+
+  Future<Response> getJpjTestCheckIn() async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+    String icNo = await localStorage.getStudentIc();
+    String userId = await localStorage.getUserId();
+
+    String diCode = await localStorage.getDiCode();
+    // String groupId = await localStorage.getEnrolledGroupId();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&userId=$userId&icNo=$icNo';
+
+    var response = await networking.getData(
+      path: 'GetJpjTestCheckIn?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      VerifyScanCodeResponse getJpjTestCheckInResponse;
+
+      getJpjTestCheckInResponse =
+          VerifyScanCodeResponse.fromJson(response.data);
+
+      return Response(true, data: getJpjTestCheckInResponse.jpjTestTrn);
+    }
+
+    return Response(false, message: 'No records found.');
+  }
+
+  Future<Response> verifyScanCode({
+    @required qrcodeJson,
+  }) async {
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+    String diCode = await localStorage.getDiCode();
+    String userId = await localStorage.getUserId();
+
+    VerifyScanCodeRequest verifyScanCodeRequest = VerifyScanCodeRequest(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      diCode: diCode,
+      userId: userId,
+      qrcodeJson: qrcodeJson,
+    );
+
+    String body = jsonEncode(verifyScanCodeRequest);
+    String api = 'VerifyScanCode';
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+
+    var response =
+        await networking.postData(api: api, body: body, headers: headers);
+
+    if (response.isSuccess && response.data == 'True') {
+      VerifyScanCodeResponse verifyScanCodeResponse =
+          VerifyScanCodeResponse.fromJson(response.data);
+
+      return Response(true, data: verifyScanCodeResponse.jpjTestTrn);
     }
 
     return Response(false,

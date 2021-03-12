@@ -1838,3 +1838,82 @@ class SaveBookingTestRequest {
     return data;
   }
 }
+
+class VerifyScanCodeRequest {
+  String wsCodeCrypt;
+  String caUid;
+  String caPwd;
+  String diCode;
+  String userId;
+  String qrcodeJson;
+
+  VerifyScanCodeRequest(
+      {this.wsCodeCrypt,
+      this.caUid,
+      this.caPwd,
+      this.diCode,
+      this.userId,
+      this.qrcodeJson});
+
+  VerifyScanCodeRequest.fromJson(Map<String, dynamic> json) {
+    wsCodeCrypt = json['wsCodeCrypt'];
+    caUid = json['caUid'];
+    caPwd = json['caPwd'];
+    diCode = json['diCode'];
+    userId = json['userId'];
+    qrcodeJson = json['qrcodeJson'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['wsCodeCrypt'] = this.wsCodeCrypt;
+    data['caUid'] = this.caUid;
+    data['caPwd'] = this.caPwd;
+    data['diCode'] = this.diCode;
+    data['userId'] = this.userId;
+    data['qrcodeJson'] = this.qrcodeJson;
+    return data;
+  }
+}
+
+class VerifyScanCodeResponse {
+  List<JpjTestTrn> jpjTestTrn;
+
+  VerifyScanCodeResponse({this.jpjTestTrn});
+
+  VerifyScanCodeResponse.fromJson(Map<String, dynamic> json) {
+    if (json['JpjTestTrn'] != null) {
+      jpjTestTrn = new List<JpjTestTrn>();
+      json['JpjTestTrn'].forEach((v) {
+        jpjTestTrn.add(new JpjTestTrn.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.jpjTestTrn != null) {
+      data['JpjTestTrn'] = this.jpjTestTrn.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class JpjTestTrn {
+  String regDate;
+  String queueNo;
+
+  JpjTestTrn({this.regDate, this.queueNo});
+
+  JpjTestTrn.fromJson(Map<String, dynamic> json) {
+    regDate = json['reg_date'];
+    queueNo = json['queue_no'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['reg_date'] = this.regDate;
+    data['queue_no'] = this.queueNo;
+    return data;
+  }
+}

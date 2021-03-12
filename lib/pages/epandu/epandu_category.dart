@@ -44,7 +44,7 @@ class EpanduCategory extends StatelessWidget {
             height: 110.h,
             placeholder: MemoryImage(kTransparentImage),
             image: AssetImage(
-              myImage.logo2,
+              myImage.logo3,
             ),
           ),
           elevation: 0,
