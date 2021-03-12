@@ -368,7 +368,7 @@ class _FeedsState extends State<Feeds> {
                           // Navigation
                           if (!isUrl) {
                             switch (feedValue) {
-                              case 'EPANDU':
+                              case 'EDRIVING':
                                 ExtendedNavigator.of(context)
                                     .push(Routes.epanduCategory);
                                 break;
@@ -544,7 +544,7 @@ class _FeedsState extends State<Feeds> {
                           // Navigation
                           if (!isUrl) {
                             switch (feedValue) {
-                              case 'EPANDU':
+                              case 'EDRIVING':
                                 ExtendedNavigator.of(context)
                                     .push(Routes.epanduCategory);
                                 break;
