@@ -46,7 +46,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
         CheckInScanResponse checkInScanResponse =
             CheckInScanResponse.fromJson(jsonDecode(barcode.rawContent));
 
-        switch (checkInScanResponse.qRCode[0].action) {
+        switch (checkInScanResponse.table1[0].action) {
           case 'JPJ_PART2_CHECK_IN':
             final result = await epanduRepo.verifyScanCode(
               qrcodeJson: barcode.rawContent,
@@ -65,7 +65,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                 context: context,
                 content: result.message,
                 onPressed: () => ExtendedNavigator.of(context).pop(),
-                type: DialogType.WARNING,
+                type: DialogType.INFO,
               );
             }
             break;
@@ -102,13 +102,13 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
       setState(() => this.barcode =
           'null (User returned using the "back"-button before scanning anything. Result)');
     } catch (e) {
-      setState(() => this.barcode = 'Error $e');
-      /* customDialog.show(
+      // setState(() => this.barcode = 'Error $e');
+      customDialog.show(
         context: context,
         content: 'Error $e',
         onPressed: () => Navigator.pop(context),
         type: DialogType.ERROR,
-      ); */
+      );
     }
   }
 

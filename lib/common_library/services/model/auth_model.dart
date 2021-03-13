@@ -2756,23 +2756,23 @@ class QRCode {
 
 // Scan Response
 class CheckInScanResponse {
-  List<CheckInQRCode> qRCode;
+  List<CheckInQRCode> table1;
 
-  CheckInScanResponse({this.qRCode});
+  CheckInScanResponse({this.table1});
 
   CheckInScanResponse.fromJson(Map<String, dynamic> json) {
-    if (json['QRCode'] != null) {
-      qRCode = new List<CheckInQRCode>.empty(growable: true);
-      json['QRCode'].forEach((v) {
-        qRCode.add(new CheckInQRCode.fromJson(v));
+    if (json['Table1'] != null) {
+      table1 = new List<CheckInQRCode>();
+      json['Table1'].forEach((v) {
+        table1.add(new CheckInQRCode.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.qRCode != null) {
-      data['QRCode'] = this.qRCode.map((v) => v.toJson()).toList();
+    if (this.table1 != null) {
+      data['Table1'] = this.table1.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -2783,11 +2783,7 @@ class CheckInQRCode {
   String action;
   String datetime;
 
-  CheckInQRCode({
-    this.merchantNo,
-    this.action,
-    this.datetime,
-  });
+  CheckInQRCode({this.merchantNo, this.action, this.datetime});
 
   CheckInQRCode.fromJson(Map<String, dynamic> json) {
     merchantNo = json['merchant_no'];

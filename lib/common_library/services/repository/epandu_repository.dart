@@ -429,7 +429,7 @@ class EpanduRepo {
     var response =
         await networking.postData(api: api, body: body, headers: headers);
 
-    if (response.isSuccess && response.data == 'True') {
+    if (response.isSuccess && response.data != 'null') {
       VerifyScanCodeResponse verifyScanCodeResponse =
           VerifyScanCodeResponse.fromJson(response.data);
 
@@ -437,6 +437,8 @@ class EpanduRepo {
     }
 
     return Response(false,
-        message: response.message.replaceAll(r'\u000d\u000a', ''));
+        message: response.message == null
+            ? 'Queue number not created. Please try again with latest QR code.'
+            : response.message.replaceAll(r'\u000d\u000a', ''));
   }
 }
