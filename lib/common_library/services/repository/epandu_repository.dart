@@ -378,6 +378,9 @@ class EpanduRepo {
   }
 
   Future<Response> getJpjTestCheckIn() async {
+    String customUrl =
+        '192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
+
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
     String icNo = await localStorage.getStudentIc();
@@ -389,7 +392,7 @@ class EpanduRepo {
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&userId=$userId&icNo=$icNo';
 
-    var response = await networking.getData(
+    var response = await Networking(customUrl: customUrl).getData(
       path: 'GetJpjTestCheckIn?$path',
     );
 
@@ -408,28 +411,33 @@ class EpanduRepo {
   Future<Response> verifyScanCode({
     @required qrcodeJson,
   }) async {
+    String customUrl =
+        '192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
+
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
     String diCode = await localStorage.getDiCode();
     String userId = await localStorage.getUserId();
+    String icNo = await localStorage.getStudentIc();
 
     VerifyScanCodeRequest verifyScanCodeRequest = VerifyScanCodeRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
+      icNo: icNo,
       diCode: diCode,
       userId: userId,
       qrcodeJson: qrcodeJson,
     );
 
     String body = jsonEncode(verifyScanCodeRequest);
-    String api = 'VerifyScanCode';
+    String api = 'VerifyScanCodeByIcNo';
     Map<String, String> headers = {'Content-Type': 'application/json'};
 
-    var response =
-        await networking.postData(api: api, body: body, headers: headers);
+    var response = await Networking(customUrl: customUrl)
+        .postData(api: api, body: body, headers: headers);
 
-    if (response.isSuccess && response.data != 'null') {
+    if (response.isSuccess && response.data != null) {
       VerifyScanCodeResponse verifyScanCodeResponse =
           VerifyScanCodeResponse.fromJson(response.data);
 
@@ -437,7 +445,7 @@ class EpanduRepo {
     }
 
     return Response(false,
-        message: response.message == null
+        message: response.message == null || response.message.isEmpty
             ? 'Queue number not created. Please try again with latest QR code.'
             : response.message.replaceAll(r'\u000d\u000a', ''));
   }

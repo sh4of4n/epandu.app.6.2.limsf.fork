@@ -17,4 +17,6 @@ class AppConfig {
 
   String appCode = 'EPANDU';
   String appId = 'ePandu.App';
+
+  String wsVer = '6_1';
 }

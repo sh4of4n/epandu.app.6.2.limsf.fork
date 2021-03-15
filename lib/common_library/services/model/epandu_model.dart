@@ -1843,6 +1843,7 @@ class VerifyScanCodeRequest {
   String wsCodeCrypt;
   String caUid;
   String caPwd;
+  String icNo;
   String diCode;
   String userId;
   String qrcodeJson;
@@ -1851,6 +1852,7 @@ class VerifyScanCodeRequest {
       {this.wsCodeCrypt,
       this.caUid,
       this.caPwd,
+      this.icNo,
       this.diCode,
       this.userId,
       this.qrcodeJson});
@@ -1859,6 +1861,7 @@ class VerifyScanCodeRequest {
     wsCodeCrypt = json['wsCodeCrypt'];
     caUid = json['caUid'];
     caPwd = json['caPwd'];
+    icNo = json['icNo'];
     diCode = json['diCode'];
     userId = json['userId'];
     qrcodeJson = json['qrcodeJson'];
@@ -1869,6 +1872,7 @@ class VerifyScanCodeRequest {
     data['wsCodeCrypt'] = this.wsCodeCrypt;
     data['caUid'] = this.caUid;
     data['caPwd'] = this.caPwd;
+    data['icNo'] = this.icNo;
     data['diCode'] = this.diCode;
     data['userId'] = this.userId;
     data['qrcodeJson'] = this.qrcodeJson;

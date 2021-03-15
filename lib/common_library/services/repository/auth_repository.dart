@@ -72,15 +72,14 @@ class AuthRepo {
       var data = jsonDecode(jsonData);
 
       GetWsUrlResponse getWsUrlResponse = GetWsUrlResponse.fromJson(data);
-      String wsVer = '6_1';
       final wsUrlBox = Hive.box('ws_url');
 
       if (getWsUrlResponse.loginAcctInfo != null) {
         await wsUrlBox.put(
           'wsUrl',
           getWsUrlResponse.loginAcctInfo.loginAcct.wsUrl
-              .replaceAll('1_2', wsVer)
-              .replaceAll('_wsver_', wsVer),
+              .replaceAll('1_2', appConfig.wsVer)
+              .replaceAll('_wsver_', appConfig.wsVer),
         );
 
         localStorage.saveCaUid(acctUid);
@@ -89,7 +88,7 @@ class AuthRepo {
 
         return Response(true,
             data: getWsUrlResponse.loginAcctInfo.loginAcct.wsUrl
-                .replaceAll('1_2', wsVer),
+                .replaceAll('1_2', appConfig.wsVer),
             message: '');
       }
     } else if (response.message != null &&
