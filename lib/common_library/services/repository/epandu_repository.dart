@@ -397,12 +397,44 @@ class EpanduRepo {
     );
 
     if (response.isSuccess && response.data != null) {
-      VerifyScanCodeResponse getJpjTestCheckInResponse;
+      GetJpjTestCheckInResponse getJpjTestCheckInResponse;
 
       getJpjTestCheckInResponse =
-          VerifyScanCodeResponse.fromJson(response.data);
+          GetJpjTestCheckInResponse.fromJson(response.data);
 
       return Response(true, data: getJpjTestCheckInResponse.jpjTestTrn);
+    }
+
+    return Response(false, message: 'No records found.');
+  }
+
+  Future<Response> getLastJpjTestCheckInByInterval({
+    String intervalInSeconds,
+  }) async {
+    String customUrl =
+        '192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
+
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+    String diCode = await localStorage.getDiCode();
+    // String groupId = await localStorage.getEnrolledGroupId();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&intervalInSeconds=${intervalInSeconds ?? ''}';
+
+    var response = await Networking(customUrl: customUrl).getData(
+      path: 'GetLastJpjTestCheckInByInterval?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetLastJpjTestCheckInByIntervalResponse
+          getLastJpjTestCheckInByIntervalResponse;
+
+      getLastJpjTestCheckInByIntervalResponse =
+          GetLastJpjTestCheckInByIntervalResponse.fromJson(response.data);
+
+      return Response(true,
+          data: getLastJpjTestCheckInByIntervalResponse.jpjTestTrn);
     }
 
     return Response(false, message: 'No records found.');
@@ -447,6 +479,47 @@ class EpanduRepo {
     return Response(false,
         message: response.message == null || response.message.isEmpty
             ? 'Queue number not created. Please try again with latest QR code.'
+            : response.message.replaceAll(r'\u000d\u000a', ''));
+  }
+
+  Future<Response> getScanCodeByAction() async {
+    String customUrl =
+        '192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
+
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwd();
+    String diCode = await localStorage.getDiCode();
+    String userId = await localStorage.getUserId();
+    String icNo = await localStorage.getStudentIc();
+
+    GetScanCodeByActionRequest getScanCodeByActionRequest =
+        GetScanCodeByActionRequest(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      icNo: icNo,
+      diCode: diCode,
+      userId: userId,
+      action: 'JPJ_PART2_CHECK_IN',
+    );
+
+    String body = jsonEncode(getScanCodeByActionRequest);
+    String api = 'VerifyScanCodeByIcNo';
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+
+    var response = await Networking(customUrl: customUrl)
+        .postData(api: api, body: body, headers: headers);
+
+    if (response.isSuccess && response.data != null) {
+      GetScanCodeByActionResponse getScanCodeByActionResponse =
+          GetScanCodeByActionResponse.fromJson(response.data);
+
+      return Response(true, data: getScanCodeByActionResponse.table1);
+    }
+
+    return Response(false,
+        message: response.message == null || response.message.isEmpty
+            ? 'Failed to receive QR code data. Please try again.'
             : response.message.replaceAll(r'\u000d\u000a', ''));
   }
 }

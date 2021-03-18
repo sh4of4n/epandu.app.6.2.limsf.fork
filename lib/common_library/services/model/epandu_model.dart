@@ -1839,57 +1839,16 @@ class SaveBookingTestRequest {
   }
 }
 
-class VerifyScanCodeRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String icNo;
-  String diCode;
-  String userId;
-  String qrcodeJson;
+class GetJpjTestCheckInResponse {
+  List<GetJpjTestTrn> jpjTestTrn;
 
-  VerifyScanCodeRequest(
-      {this.wsCodeCrypt,
-      this.caUid,
-      this.caPwd,
-      this.icNo,
-      this.diCode,
-      this.userId,
-      this.qrcodeJson});
+  GetJpjTestCheckInResponse({this.jpjTestTrn});
 
-  VerifyScanCodeRequest.fromJson(Map<String, dynamic> json) {
-    wsCodeCrypt = json['wsCodeCrypt'];
-    caUid = json['caUid'];
-    caPwd = json['caPwd'];
-    icNo = json['icNo'];
-    diCode = json['diCode'];
-    userId = json['userId'];
-    qrcodeJson = json['qrcodeJson'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['wsCodeCrypt'] = this.wsCodeCrypt;
-    data['caUid'] = this.caUid;
-    data['caPwd'] = this.caPwd;
-    data['icNo'] = this.icNo;
-    data['diCode'] = this.diCode;
-    data['userId'] = this.userId;
-    data['qrcodeJson'] = this.qrcodeJson;
-    return data;
-  }
-}
-
-class VerifyScanCodeResponse {
-  List<JpjTestTrn> jpjTestTrn;
-
-  VerifyScanCodeResponse({this.jpjTestTrn});
-
-  VerifyScanCodeResponse.fromJson(Map<String, dynamic> json) {
+  GetJpjTestCheckInResponse.fromJson(Map<String, dynamic> json) {
     if (json['JpjTestTrn'] != null) {
-      jpjTestTrn = new List<JpjTestTrn>();
+      jpjTestTrn = new List<GetJpjTestTrn>.empty(growable: true);
       json['JpjTestTrn'].forEach((v) {
-        jpjTestTrn.add(new JpjTestTrn.fromJson(v));
+        jpjTestTrn.add(new GetJpjTestTrn.fromJson(v));
       });
     }
   }
@@ -1903,7 +1862,7 @@ class VerifyScanCodeResponse {
   }
 }
 
-class JpjTestTrn {
+class GetJpjTestTrn {
   String iD;
   String testDate;
   String courseCode;
@@ -1941,7 +1900,7 @@ class JpjTestTrn {
   String branchCode;
   String deleted;
 
-  JpjTestTrn(
+  GetJpjTestTrn(
       {this.iD,
       this.testDate,
       this.courseCode,
@@ -1979,7 +1938,7 @@ class JpjTestTrn {
       this.branchCode,
       this.deleted});
 
-  JpjTestTrn.fromJson(Map<String, dynamic> json) {
+  GetJpjTestTrn.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
     testDate = json['test_date'];
     courseCode = json['course_code'];
@@ -2056,6 +2015,355 @@ class JpjTestTrn {
     data['comp_code'] = this.compCode;
     data['branch_code'] = this.branchCode;
     data['deleted'] = this.deleted;
+    return data;
+  }
+}
+
+class GetLastJpjTestCheckInByIntervalResponse {
+  List<GetJpjTestTrnByInterval> jpjTestTrn;
+
+  GetLastJpjTestCheckInByIntervalResponse({this.jpjTestTrn});
+
+  GetLastJpjTestCheckInByIntervalResponse.fromJson(Map<String, dynamic> json) {
+    if (json['JpjTestTrn'] != null) {
+      jpjTestTrn = new List<GetJpjTestTrnByInterval>.empty(growable: true);
+      json['JpjTestTrn'].forEach((v) {
+        jpjTestTrn.add(new GetJpjTestTrnByInterval.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.jpjTestTrn != null) {
+      data['JpjTestTrn'] = this.jpjTestTrn.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class GetJpjTestTrnByInterval {
+  String iD;
+  String testDate;
+  String courseCode;
+  String groupId;
+  String nricNo;
+  String fullname;
+  String sex;
+  String race;
+  String nationality;
+  String birthDate;
+  String add1;
+  String add2;
+  String add3;
+  String postcode;
+  String cityName;
+  String stateName;
+  String icPhoto;
+  String queueNo;
+  String regDate;
+  String registerPhoto;
+  String testCode;
+  String startDate;
+  String startTime;
+  String endTime;
+  String printed;
+  String prnCount;
+  String printLog;
+  String createUser;
+  String createDate;
+  String editUser;
+  String editDate;
+  String transtamp;
+  String lastupload;
+  String compCode;
+  String branchCode;
+  String deleted;
+
+  GetJpjTestTrnByInterval(
+      {this.iD,
+      this.testDate,
+      this.courseCode,
+      this.groupId,
+      this.nricNo,
+      this.fullname,
+      this.sex,
+      this.race,
+      this.nationality,
+      this.birthDate,
+      this.add1,
+      this.add2,
+      this.add3,
+      this.postcode,
+      this.cityName,
+      this.stateName,
+      this.icPhoto,
+      this.queueNo,
+      this.regDate,
+      this.registerPhoto,
+      this.testCode,
+      this.startDate,
+      this.startTime,
+      this.endTime,
+      this.printed,
+      this.prnCount,
+      this.printLog,
+      this.createUser,
+      this.createDate,
+      this.editUser,
+      this.editDate,
+      this.transtamp,
+      this.lastupload,
+      this.compCode,
+      this.branchCode,
+      this.deleted});
+
+  GetJpjTestTrnByInterval.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    testDate = json['test_date'];
+    courseCode = json['course_code'];
+    groupId = json['group_id'];
+    nricNo = json['nric_no'];
+    fullname = json['fullname'];
+    sex = json['sex'];
+    race = json['race'];
+    nationality = json['nationality'];
+    birthDate = json['birth_date'];
+    add1 = json['add1'];
+    add2 = json['add2'];
+    add3 = json['add3'];
+    postcode = json['postcode'];
+    cityName = json['city_name'];
+    stateName = json['state_name'];
+    icPhoto = json['ic_photo'];
+    queueNo = json['queue_no'];
+    regDate = json['reg_date'];
+    registerPhoto = json['register_photo'];
+    testCode = json['test_code'];
+    startDate = json['start_date'];
+    startTime = json['start_time'];
+    endTime = json['end_time'];
+    printed = json['printed'];
+    prnCount = json['prn_count'];
+    printLog = json['print_log'];
+    createUser = json['create_user'];
+    createDate = json['create_date'];
+    editUser = json['edit_user'];
+    editDate = json['edit_date'];
+    transtamp = json['transtamp'];
+    lastupload = json['lastupload'];
+    compCode = json['comp_code'];
+    branchCode = json['branch_code'];
+    deleted = json['deleted'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['test_date'] = this.testDate;
+    data['course_code'] = this.courseCode;
+    data['group_id'] = this.groupId;
+    data['nric_no'] = this.nricNo;
+    data['fullname'] = this.fullname;
+    data['sex'] = this.sex;
+    data['race'] = this.race;
+    data['nationality'] = this.nationality;
+    data['birth_date'] = this.birthDate;
+    data['add1'] = this.add1;
+    data['add2'] = this.add2;
+    data['add3'] = this.add3;
+    data['postcode'] = this.postcode;
+    data['city_name'] = this.cityName;
+    data['state_name'] = this.stateName;
+    data['ic_photo'] = this.icPhoto;
+    data['queue_no'] = this.queueNo;
+    data['reg_date'] = this.regDate;
+    data['register_photo'] = this.registerPhoto;
+    data['test_code'] = this.testCode;
+    data['start_date'] = this.startDate;
+    data['start_time'] = this.startTime;
+    data['end_time'] = this.endTime;
+    data['printed'] = this.printed;
+    data['prn_count'] = this.prnCount;
+    data['print_log'] = this.printLog;
+    data['create_user'] = this.createUser;
+    data['create_date'] = this.createDate;
+    data['edit_user'] = this.editUser;
+    data['edit_date'] = this.editDate;
+    data['transtamp'] = this.transtamp;
+    data['lastupload'] = this.lastupload;
+    data['comp_code'] = this.compCode;
+    data['branch_code'] = this.branchCode;
+    data['deleted'] = this.deleted;
+    return data;
+  }
+}
+
+class VerifyScanCodeRequest {
+  String wsCodeCrypt;
+  String caUid;
+  String caPwd;
+  String icNo;
+  String diCode;
+  String userId;
+  String qrcodeJson;
+
+  VerifyScanCodeRequest(
+      {this.wsCodeCrypt,
+      this.caUid,
+      this.caPwd,
+      this.icNo,
+      this.diCode,
+      this.userId,
+      this.qrcodeJson});
+
+  VerifyScanCodeRequest.fromJson(Map<String, dynamic> json) {
+    wsCodeCrypt = json['wsCodeCrypt'];
+    caUid = json['caUid'];
+    caPwd = json['caPwd'];
+    icNo = json['icNo'];
+    diCode = json['diCode'];
+    userId = json['userId'];
+    qrcodeJson = json['qrcodeJson'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['wsCodeCrypt'] = this.wsCodeCrypt;
+    data['caUid'] = this.caUid;
+    data['caPwd'] = this.caPwd;
+    data['icNo'] = this.icNo;
+    data['diCode'] = this.diCode;
+    data['userId'] = this.userId;
+    data['qrcodeJson'] = this.qrcodeJson;
+    return data;
+  }
+}
+
+class VerifyScanCodeResponse {
+  List<JpjTestTrn> jpjTestTrn;
+
+  VerifyScanCodeResponse({this.jpjTestTrn});
+
+  VerifyScanCodeResponse.fromJson(Map<String, dynamic> json) {
+    if (json['JpjTestTrn'] != null) {
+      jpjTestTrn = new List<JpjTestTrn>.empty(growable: true);
+      json['JpjTestTrn'].forEach((v) {
+        jpjTestTrn.add(new JpjTestTrn.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.jpjTestTrn != null) {
+      data['JpjTestTrn'] = this.jpjTestTrn.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class JpjTestTrn {
+  String regDate;
+  String queueNo;
+
+  JpjTestTrn({this.regDate, this.queueNo});
+
+  JpjTestTrn.fromJson(Map<String, dynamic> json) {
+    regDate = json['reg_date'];
+    queueNo = json['queue_no'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['reg_date'] = this.regDate;
+    data['queue_no'] = this.queueNo;
+    return data;
+  }
+}
+
+class GetScanCodeByActionRequest {
+  String wsCodeCrypt;
+  String caUid;
+  String caPwd;
+  String icNo;
+  String diCode;
+  String userId;
+  String action;
+
+  GetScanCodeByActionRequest(
+      {this.wsCodeCrypt,
+      this.caUid,
+      this.caPwd,
+      this.icNo,
+      this.diCode,
+      this.userId,
+      this.action});
+
+  GetScanCodeByActionRequest.fromJson(Map<String, dynamic> json) {
+    wsCodeCrypt = json['wsCodeCrypt'];
+    caUid = json['caUid'];
+    caPwd = json['caPwd'];
+    icNo = json['icNo'];
+    diCode = json['diCode'];
+    userId = json['userId'];
+    action = json['action'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['wsCodeCrypt'] = this.wsCodeCrypt;
+    data['caUid'] = this.caUid;
+    data['caPwd'] = this.caPwd;
+    data['icNo'] = this.icNo;
+    data['diCode'] = this.diCode;
+    data['userId'] = this.userId;
+    data['action'] = this.action;
+    return data;
+  }
+}
+
+class GetScanCodeByActionResponse {
+  List<Table1> table1;
+
+  GetScanCodeByActionResponse({this.table1});
+
+  GetScanCodeByActionResponse.fromJson(Map<String, dynamic> json) {
+    if (json['Table1'] != null) {
+      table1 = new List<Table1>.empty(growable: true);
+      json['Table1'].forEach((v) {
+        table1.add(new Table1.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.table1 != null) {
+      data['Table1'] = this.table1.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Table1 {
+  String merchantNo;
+  String action;
+  String datetime;
+
+  Table1({this.merchantNo, this.action, this.datetime});
+
+  Table1.fromJson(Map<String, dynamic> json) {
+    merchantNo = json['merchant_no'];
+    action = json['action'];
+    datetime = json['datetime'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['merchant_no'] = this.merchantNo;
+    data['action'] = this.action;
+    data['datetime'] = this.datetime;
     return data;
   }
 }
