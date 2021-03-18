@@ -413,22 +413,25 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                       EdgeInsets.symmetric(horizontal: 100.w, vertical: 50.h),
                   child: Table(
                     children: [
-                      TableRow(
-                        children: [
-                          Text(AppLocalizations.of(context).translate('amount'),
+                      if (widget.amount != null)
+                        TableRow(
+                          children: [
+                            Text(
+                                AppLocalizations.of(context)
+                                    .translate('amount'),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 80.sp,
+                                )),
+                            Text(
+                              'RM' + widget.amount,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
+                                color: Colors.red,
                                 fontSize: 80.sp,
-                              )),
-                          Text(
-                            'RM' + widget.amount,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red,
-                              fontSize: 80.sp,
+                              ),
                             ),
-                          ),
-                          /* RichText(
+                            /* RichText(
                             text: TextSpan(
                               style: TextStyle(
                                 color: Color(0xff5c5c5c),
@@ -453,25 +456,26 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                               ],
                             ),
                           ), */
-                        ],
-                      ),
-                      TableRow(
-                        children: [
-                          Text(
-                              AppLocalizations.of(context)
-                                  .translate('class_lbl'),
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 80.sp,
-                              )),
-                          Text(widget.groupIdGrouping,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red,
-                                fontSize: 80.sp,
-                              )),
-                        ],
-                      ),
+                          ],
+                        ),
+                      if (widget.groupIdGrouping != null)
+                        TableRow(
+                          children: [
+                            Text(
+                                AppLocalizations.of(context)
+                                    .translate('class_lbl'),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 80.sp,
+                                )),
+                            Text(widget.groupIdGrouping,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                  fontSize: 80.sp,
+                                )),
+                          ],
+                        ),
                       if (_icNo != null)
                         TableRow(
                           children: [
@@ -509,13 +513,14 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                                 )),
                           ],
                         ),
-                      TableRow(
-                        children: [
-                          Text(AppLocalizations.of(context)
-                              .translate('package_name')),
-                          Text(widget.packageName),
-                        ],
-                      ),
+                      if (widget.packageName != null)
+                        TableRow(
+                          children: [
+                            Text(AppLocalizations.of(context)
+                                .translate('package_name')),
+                            Text(widget.packageName),
+                          ],
+                        ),
 
                       /* if (packageDetlList != null &&
                           packageDetlList[0].amt != null)
@@ -589,7 +594,8 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey, width: 1.0),
                   ),
-                  child: Column(
+                  child: ListView(
+                    shrinkWrap: true,
                     children: [
                       Container(
                         alignment: Alignment.centerLeft,
