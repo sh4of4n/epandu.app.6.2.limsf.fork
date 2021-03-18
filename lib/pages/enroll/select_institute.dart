@@ -5,6 +5,7 @@ import 'package:epandu/common_library/services/model/auth_model.dart';
 // import 'package:epandu/common_library/services/model/auth_model.dart';
 import 'package:epandu/common_library/services/location.dart';
 import 'package:epandu/common_library/services/repository/auth_repository.dart';
+import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,6 +24,7 @@ class SelectInstitute extends StatefulWidget {
 
 class _SelectInstituteState extends State<SelectInstitute> {
   final authRepo = AuthRepo();
+  final appConfig = AppConfig();
 
   final primaryColor = ColorConstant.primaryColor;
   // Future _getInstitutes;
@@ -87,7 +89,7 @@ class _SelectInstituteState extends State<SelectInstitute> {
   Future<dynamic> _getDiNearMe() async {
     var result = await authRepo.getDiNearMe(
       context: context,
-      merchantNo: 'TBS',
+      merchantNo: appConfig.diCode,
       startIndex: _startIndex,
       noOfRecords: 10,
       latitude:
