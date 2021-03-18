@@ -490,21 +490,19 @@ class EpanduRepo {
     String caPwd = await localStorage.getCaPwd();
     String diCode = await localStorage.getDiCode();
     String userId = await localStorage.getUserId();
-    String icNo = await localStorage.getStudentIc();
 
     GetScanCodeByActionRequest getScanCodeByActionRequest =
         GetScanCodeByActionRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
       caUid: caUid,
       caPwd: caPwd,
-      icNo: icNo,
       diCode: diCode,
       userId: userId,
       action: 'JPJ_PART2_CHECK_IN',
     );
 
     String body = jsonEncode(getScanCodeByActionRequest);
-    String api = 'VerifyScanCodeByIcNo';
+    String api = 'GetScanCodeByAction';
     Map<String, String> headers = {'Content-Type': 'application/json'};
 
     var response = await Networking(customUrl: customUrl)

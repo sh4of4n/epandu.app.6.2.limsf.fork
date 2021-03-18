@@ -55,8 +55,10 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
             if (result.isSuccess) {
               customDialog.show(
                 context: context,
-                content:
-                    'You have checked in successfully. Queue number is ${result.data[0].queueNo}',
+                title: Text('${result.data[0].regDate.substring(0, 10)}'),
+                content: AppLocalizations.of(context)
+                        .translate('check_in_successful') +
+                    '${result.data[0].queueNo}',
                 onPressed: () => ExtendedNavigator.of(context).pop(),
                 type: DialogType.SUCCESS,
               );

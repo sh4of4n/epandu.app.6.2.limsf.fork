@@ -378,5 +378,6 @@
   "ldl_required_msg": "LDL diperlukan.",
   "cdl": "CDL",
   "cdl_required_msg": "CDL diperlukan.",
-  "enrolled_class": "Kelas berdaftar"
+  "enrolled_class": "Kelas berdaftar",
+  "check_in_successful": "Anda berjaya mendaftar masuk. Nombor giliran anda adalah "
 }
