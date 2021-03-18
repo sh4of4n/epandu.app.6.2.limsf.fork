@@ -119,7 +119,6 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
               SizedBox(
                 height: 35.h,
               ),
-
               TextFormField(
                 controller: caUidController,
                 style: TextStyle(
@@ -204,7 +203,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
               SizedBox(
                 height: 40.h,
               ),
-              // _showConnectedUrl(),
+              _showConnectedUrl(),
               _showConnectedCa(),
               TextFormField(
                 controller: urlController,

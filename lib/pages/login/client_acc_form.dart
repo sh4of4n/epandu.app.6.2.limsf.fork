@@ -117,7 +117,6 @@ class _ClientAccountFormState extends State<ClientAccountForm>
               SizedBox(
                 height: 35.h,
               ),
-
               TextFormField(
                 controller: caUidController,
                 focusNode: _caUidFocus,
@@ -196,7 +195,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
               SizedBox(
                 height: 60.h,
               ),
-              // _showConnectedUrl(),
+              _showConnectedUrl(),
               _showConnectedCa(),
               TextFormField(
                 controller: urlController,
