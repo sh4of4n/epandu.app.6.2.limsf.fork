@@ -48,7 +48,8 @@ class _AuthenticationState extends State<Authentication> {
     String caPwd = await localStorage.getCaPwd();
 
     // if (wsUrl == null) {
-    if (Hive.box('ws_url').get('getWsUrl') == '1') {
+    if (Hive.box('ws_url').get('getWsUrl') == '1' ||
+        Hive.box('ws_url').get('getWsUrl') == null) {
       await authRepo.getWsUrl(
         context: context,
         acctUid: caUid,
