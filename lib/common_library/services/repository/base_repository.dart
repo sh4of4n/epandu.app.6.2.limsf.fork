@@ -17,6 +17,6 @@ class BaseRepo {
     } else if (error is HttpException) {
       return Response(false, message: 'Please verify your client account.');
     }
-    return Response(false, message: '');
+    return Response(false, message: error.message);
   }
 }

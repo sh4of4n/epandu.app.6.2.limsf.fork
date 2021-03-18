@@ -73,7 +73,7 @@ class SelectDrivingInstitute extends StatelessWidget {
                     children: <Widget>[
                       InkWell(
                         onTap: () {
-                          localStorage.saveDiCode(diList[index].diCode);
+                          localStorage.saveDiCode(diList[index].merchantNo);
 
                           ExtendedNavigator.of(context).replace(Routes.home);
                         },
