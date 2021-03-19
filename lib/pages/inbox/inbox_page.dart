@@ -10,6 +10,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:hive/hive.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../router.gr.dart';
 
@@ -82,9 +83,15 @@ class _InboxState extends State<Inbox> {
           return ListTile(
               leading: Icon(Icons.mail, color: Color(0xff808080)),
               title: SelectableLinkify(
-                  onOpen: (link) {
+                  /* onOpen: (link) {
                     ExtendedNavigator.of(context).push(Routes.webview,
                         arguments: WebviewArguments(url: link.url));
+                  }, */
+                  onOpen: (link) {
+                    launch(
+                      link.url,
+                      enableJavaScript: true,
+                    );
                   },
                   text: sortedInboxData[index].sendMsg));
         },

@@ -61,15 +61,30 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
               customDialog.show(
                 context: context,
                 title: Text(
-                  '${AppLocalizations.of(context).translate('checked_in_on')}: ${result.data[0].regDate.substring(0, 10)}',
+                  '${AppLocalizations.of(context).translate('checked_in_on')}: ' +
+                      '${result.data[0].regDate.substring(0, 10)}:' +
+                      '${result.data[0].regDate.substring(11, 20)}',
                   style: TextStyle(
                     color: Colors.green[800],
                   ),
                 ),
                 content: AppLocalizations.of(context)
                         .translate('check_in_successful') +
-                    '${result.data[0].queueNo}',
-                onPressed: () => ExtendedNavigator.of(context).pop(),
+                    '${result.data[0].queueNo}' +
+                    '\n' +
+                    AppLocalizations.of(context).translate('name_lbl') +
+                    ': ${result.data[0].fullname}' +
+                    '\nNRIC: ${result.data[0].nricNo}' +
+                    '\n' +
+                    AppLocalizations.of(context).translate('group_id') +
+                    ': ${result.data[0].groupId}',
+                customActions: [
+                  TextButton(
+                    child:
+                        Text(AppLocalizations.of(context).translate('ok_btn')),
+                    onPressed: () => ExtendedNavigator.of(context).pop(),
+                  ),
+                ],
                 type: DialogType.GENERAL,
               );
             } else {
