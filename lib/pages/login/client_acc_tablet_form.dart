@@ -73,6 +73,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
     String savedUrl = await Hive.box('ws_url').get('userDefinedUrl');
 
     setState(() {
+      urlController.text = savedUrl ?? '';
       _connectedUrl = savedUrl;
     });
   }
@@ -201,7 +202,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
               SizedBox(
                 height: 40.h,
               ),
-              _showConnectedUrl(),
+              // _showConnectedUrl(),
               _showConnectedCa(),
               TextFormField(
                 controller: urlController,
