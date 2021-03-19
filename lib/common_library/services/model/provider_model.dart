@@ -20,7 +20,7 @@ class CallStatusModel extends ChangeNotifier {
   }
 }
 
-class FeedsLoadingModel extends ChangeNotifier {
+class HomeLoadingModel extends ChangeNotifier {
   bool isLoading = false;
 
   void loadingStatus(bool isLoading) {

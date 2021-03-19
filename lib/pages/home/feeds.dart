@@ -60,7 +60,7 @@ class _FeedsState extends State<Feeds> {
   final appConfig = AppConfig();
 
   _checkLocationPermission(feed, context) async {
-    Provider.of<FeedsLoadingModel>(context, listen: false).loadingStatus(true);
+    Provider.of<HomeLoadingModel>(context, listen: false).loadingStatus(true);
     // contactBox = Hive.box('emergencyContact');
 
     // await location.getCurrentLocation();
@@ -83,7 +83,7 @@ class _FeedsState extends State<Feeds> {
           TextButton(
             child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () {
-              Provider.of<FeedsLoadingModel>(context, listen: false)
+              Provider.of<HomeLoadingModel>(context, listen: false)
                   .loadingStatus(false);
               ExtendedNavigator.of(context).pop();
               AppSettings.openLocationSettings();
@@ -92,7 +92,7 @@ class _FeedsState extends State<Feeds> {
           TextButton(
             child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
-              Provider.of<FeedsLoadingModel>(context, listen: false)
+              Provider.of<HomeLoadingModel>(context, listen: false)
                   .loadingStatus(false);
 
               ExtendedNavigator.of(context).pop();
@@ -131,7 +131,7 @@ class _FeedsState extends State<Feeds> {
 
         loadUrl(feed, context);
       } else {
-        Provider.of<FeedsLoadingModel>(context, listen: false)
+        Provider.of<HomeLoadingModel>(context, listen: false)
             .loadingStatus(false);
 
         customDialog.show(
@@ -196,7 +196,7 @@ class _FeedsState extends State<Feeds> {
         ExtendedNavigator.of(context)
             .push(Routes.webview, arguments: WebviewArguments(url: url));
 
-        Provider.of<FeedsLoadingModel>(context, listen: false)
+        Provider.of<HomeLoadingModel>(context, listen: false)
             .loadingStatus(false);
 
         /* launch(url,
@@ -211,7 +211,7 @@ class _FeedsState extends State<Feeds> {
               child: Text(AppLocalizations.of(context).translate('ok_btn')),
               onPressed: () {
                 ExtendedNavigator.of(context).pop();
-                Provider.of<FeedsLoadingModel>(context, listen: false)
+                Provider.of<HomeLoadingModel>(context, listen: false)
                     .loadingStatus(false);
               },
             ),

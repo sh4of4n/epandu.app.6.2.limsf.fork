@@ -30,9 +30,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
   final _formKey = GlobalKey<FormState>();
 
   final FocusNode _urlFocus = FocusNode();
-
   final FocusNode _caUidFocus = FocusNode();
-
   final FocusNode _caPwdFocus = FocusNode();
 
   final primaryColor = ColorConstant.primaryColor;
@@ -72,7 +70,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
   }
 
   _getConnectedUrl() async {
-    String savedUrl = await Hive.box('ws_url').get('wsUrl');
+    String savedUrl = await Hive.box('ws_url').get('userDefinedUrl');
 
     setState(() {
       _connectedUrl = savedUrl;
@@ -280,7 +278,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
   }
 
   _showConnectedUrl() {
-    if (_connectedUrl.isNotEmpty) {
+    if (_connectedUrl != null && _connectedUrl.isNotEmpty) {
       return Column(
         children: <Widget>[
           Padding(
@@ -351,7 +349,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
   _submit() async {
     if (urlController.text.isNotEmpty) {
       await Hive.box('ws_url').put(
-        'wsUrl',
+        'userDefinedUrl',
         urlController.text.replaceAll('_wsver_', '6_1'),
       );
 
@@ -392,6 +390,8 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
         );
 
         if (result.isSuccess) {
+          await Hive.box('ws_url').delete('userDefinedUrl');
+
           if (widget.data == 'SETTINGS')
             ExtendedNavigator.of(context).replace(Routes.login);
           else

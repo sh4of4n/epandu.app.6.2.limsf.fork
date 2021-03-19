@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:auto_route/auto_route.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
+import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/app_config.dart';
 import '../../utils/local_storage.dart';
@@ -13,6 +16,7 @@ class EpanduRepo {
   final localStorage = LocalStorage();
   final networking = Networking();
   final unescape = HtmlUnescape();
+  final customDialog = CustomDialog();
 
   Future<Response> getEnrollByCode({groupId}) async {
     String caUid = await localStorage.getCaUid();
@@ -441,6 +445,7 @@ class EpanduRepo {
   }
 
   Future<Response> verifyScanCode({
+    context,
     @required qrcodeJson,
   }) async {
     String customUrl =
@@ -462,6 +467,20 @@ class EpanduRepo {
       qrcodeJson: qrcodeJson,
     );
 
+    /* customDialog.show(
+      context: context,
+      title: Text('$customUrl'),
+      content:
+          'wsCodeCrypt: ${appConfig.wsCodeCrypt}, caUid: $caUid, caPwd: $caPwd, icNo: $icNo, merchantNo: $diCode, userId: $userId, qrCodeJson: $qrcodeJson',
+      customActions: [
+        TextButton(
+          child: Text(AppLocalizations.of(context).translate('ok_btn')),
+          onPressed: () => ExtendedNavigator.of(context).pop(),
+        ),
+      ],
+      type: DialogType.GENERAL,
+    ); */
+
     String body = jsonEncode(verifyScanCodeRequest);
     String api = 'VerifyScanCodeByIcNo';
     Map<String, String> headers = {'Content-Type': 'application/json'};
@@ -478,7 +497,7 @@ class EpanduRepo {
 
     return Response(false,
         message: response.message == null || response.message.isEmpty
-            ? 'Queue number not created. Please try again with latest QR code.'
+            ? 'Queue number not created. Please try again.'
             : response.message.replaceAll(r'\u000d\u000a', ''));
   }
 

@@ -96,7 +96,7 @@ void main() async {
           create: (context) => CallStatusModel(),
         ),
         ChangeNotifierProvider(
-          create: (context) => FeedsLoadingModel(),
+          create: (context) => HomeLoadingModel(),
         ),
         ChangeNotifierProvider(
           create: (context) => CartStatus(),

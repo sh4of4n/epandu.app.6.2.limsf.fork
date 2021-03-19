@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:badges/badges.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:epandu/common_library/services/model/auth_model.dart';
+import 'package:epandu/common_library/services/model/provider_model.dart';
 import 'package:epandu/common_library/services/repository/epandu_repository.dart';
 import 'package:epandu/common_library/services/repository/inbox_repository.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
@@ -48,7 +49,11 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
 
         switch (checkInScanResponse.table1[0].action) {
           case 'JPJ_PART2_CHECK_IN':
+            Provider.of<HomeLoadingModel>(context, listen: false)
+                .loadingStatus(true);
+
             final result = await epanduRepo.verifyScanCode(
+              context: context,
               qrcodeJson: barcode.rawContent,
             );
 
@@ -70,6 +75,9 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                 type: DialogType.INFO,
               );
             }
+
+            Provider.of<HomeLoadingModel>(context, listen: false)
+                .loadingStatus(false);
             break;
           default:
             ExtendedNavigator.of(context)

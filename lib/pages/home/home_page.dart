@@ -410,7 +410,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              Consumer<FeedsLoadingModel>(
+              Consumer<HomeLoadingModel>(
                 builder: (BuildContext context, loadingModel, child) {
                   return LoadingModel(
                     isVisible: loadingModel.isLoading,
