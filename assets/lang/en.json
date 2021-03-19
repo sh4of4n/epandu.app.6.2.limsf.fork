@@ -379,5 +379,6 @@
   "cdl": "CDL",
   "cdl_required_msg": "CDL is required.",
   "enrolled_class": "Enrolled class",
-  "check_in_successful": "You have checked in successfully. Your queue number is "
+  "check_in_successful": "You have checked in successfully. Your queue number is ",
+  "checked_in_on": "Checked in on"
 }

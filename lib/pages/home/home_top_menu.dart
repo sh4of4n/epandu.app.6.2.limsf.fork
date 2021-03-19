@@ -60,12 +60,17 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
             if (result.isSuccess) {
               customDialog.show(
                 context: context,
-                title: Text('${result.data[0].regDate.substring(0, 10)}'),
+                title: Text(
+                  '${AppLocalizations.of(context).translate('checked_in_on')}: ${result.data[0].regDate.substring(0, 10)}',
+                  style: TextStyle(
+                    color: Colors.green[800],
+                  ),
+                ),
                 content: AppLocalizations.of(context)
                         .translate('check_in_successful') +
                     '${result.data[0].queueNo}',
                 onPressed: () => ExtendedNavigator.of(context).pop(),
-                type: DialogType.SUCCESS,
+                type: DialogType.GENERAL,
               );
             } else {
               customDialog.show(
