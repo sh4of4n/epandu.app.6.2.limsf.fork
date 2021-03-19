@@ -469,7 +469,7 @@ class EpanduRepo {
 
     customDialog.show(
       context: context,
-      title: Text('$customUrl'),
+      title: Text('$customUrl/webapi/VerifyScanCodeByIcNo'),
       content:
           'wsCodeCrypt: ${appConfig.wsCodeCrypt}, caUid: $caUid, caPwd: $caPwd, icNo: $icNo, merchantNo: $diCode, userId: $userId, qrCodeJson: $qrcodeJson',
       customActions: [
