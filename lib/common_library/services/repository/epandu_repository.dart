@@ -383,7 +383,7 @@ class EpanduRepo {
 
   Future<Response> getJpjTestCheckIn() async {
     String customUrl =
-        'https://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
+        'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
 
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
@@ -416,7 +416,7 @@ class EpanduRepo {
     String intervalInSeconds,
   }) async {
     String customUrl =
-        'https://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
+        'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
 
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
@@ -449,7 +449,7 @@ class EpanduRepo {
     @required qrcodeJson,
   }) async {
     String customUrl =
-        'https://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
+        'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
 
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
@@ -467,7 +467,7 @@ class EpanduRepo {
       qrcodeJson: qrcodeJson,
     );
 
-    /* customDialog.show(
+    customDialog.show(
       context: context,
       title: Text('$customUrl'),
       content:
@@ -479,7 +479,7 @@ class EpanduRepo {
         ),
       ],
       type: DialogType.GENERAL,
-    ); */
+    );
 
     String body = jsonEncode(verifyScanCodeRequest);
     String api = 'VerifyScanCodeByIcNo';
@@ -503,7 +503,7 @@ class EpanduRepo {
 
   Future<Response> getScanCodeByAction() async {
     String customUrl =
-        'https://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
+        'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
 
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
