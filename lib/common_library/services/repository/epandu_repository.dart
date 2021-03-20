@@ -467,7 +467,7 @@ class EpanduRepo {
       qrcodeJson: qrcodeJson,
     );
 
-    customDialog.show(
+    /* customDialog.show(
       context: context,
       title: Text('$customUrl/webapi/VerifyScanCodeByIcNo'),
       content:
@@ -479,7 +479,7 @@ class EpanduRepo {
         ),
       ],
       type: DialogType.GENERAL,
-    );
+    ); */
 
     String body = jsonEncode(verifyScanCodeRequest);
     String api = 'VerifyScanCodeByIcNo';
