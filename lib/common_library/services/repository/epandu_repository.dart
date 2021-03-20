@@ -447,6 +447,7 @@ class EpanduRepo {
   Future<Response> verifyScanCode({
     context,
     @required qrcodeJson,
+    @required icNo,
   }) async {
     String customUrl =
         'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
@@ -455,7 +456,6 @@ class EpanduRepo {
     String caPwd = await localStorage.getCaPwd();
     String diCode = await localStorage.getDiCode();
     String userId = await localStorage.getUserId();
-    String icNo = await localStorage.getStudentIc();
 
     VerifyScanCodeRequest verifyScanCodeRequest = VerifyScanCodeRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,

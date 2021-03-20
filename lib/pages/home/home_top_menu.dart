@@ -8,6 +8,7 @@ import 'package:epandu/common_library/services/model/provider_model.dart';
 import 'package:epandu/common_library/services/repository/epandu_repository.dart';
 import 'package:epandu/common_library/services/repository/inbox_repository.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
+import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:epandu/services/provider/notification_count.dart';
@@ -39,6 +40,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
   final customDialog = CustomDialog();
   String barcode = "";
   final inboxRepo = InboxRepo();
+  final localStorage = LocalStorage();
 
   Future _scan() async {
     try {
@@ -52,47 +54,69 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
             Provider.of<HomeLoadingModel>(context, listen: false)
                 .loadingStatus(true);
 
-            final result = await epanduRepo.verifyScanCode(
-              context: context,
-              qrcodeJson: barcode.rawContent,
-            );
+            String icNo = await localStorage.getStudentIc();
 
-            if (result.isSuccess) {
-              customDialog.show(
+            if (icNo != null) {
+              final result = await epanduRepo.verifyScanCode(
                 context: context,
-                title: Text(
-                  '${AppLocalizations.of(context).translate('checked_in_on')}: ' +
-                      '${result.data[0].regDate.substring(0, 10)}:' +
-                      '${result.data[0].regDate.substring(11, 20)}',
-                  style: TextStyle(
-                    color: Colors.green[800],
-                  ),
-                ),
-                content: AppLocalizations.of(context)
-                        .translate('check_in_successful') +
-                    '${result.data[0].queueNo}' +
-                    '\n' +
-                    AppLocalizations.of(context).translate('name_lbl') +
-                    ': ${result.data[0].fullname}' +
-                    '\nNRIC: ${result.data[0].nricNo}' +
-                    '\n' +
-                    AppLocalizations.of(context).translate('group_id') +
-                    ': ${result.data[0].groupId}',
-                customActions: [
-                  TextButton(
-                    child:
-                        Text(AppLocalizations.of(context).translate('ok_btn')),
-                    onPressed: () => ExtendedNavigator.of(context).pop(),
-                  ),
-                ],
-                type: DialogType.GENERAL,
+                qrcodeJson: barcode.rawContent,
+                icNo: icNo,
               );
+
+              if (result.isSuccess) {
+                customDialog.show(
+                  context: context,
+                  title: Text(
+                    '${AppLocalizations.of(context).translate('checked_in_on')}: ' +
+                        '${result.data[0].regDate.substring(0, 10)}:' +
+                        '${result.data[0].regDate.substring(11, 20)}',
+                    style: TextStyle(
+                      color: Colors.green[800],
+                    ),
+                  ),
+                  content: AppLocalizations.of(context)
+                          .translate('check_in_successful') +
+                      '${result.data[0].queueNo}' +
+                      '\n' +
+                      AppLocalizations.of(context).translate('name_lbl') +
+                      ': ${result.data[0].fullname}' +
+                      '\nNRIC: ${result.data[0].nricNo}' +
+                      '\n' +
+                      AppLocalizations.of(context).translate('group_id') +
+                      ': ${result.data[0].groupId}',
+                  customActions: [
+                    TextButton(
+                      child: Text(
+                          AppLocalizations.of(context).translate('ok_btn')),
+                      onPressed: () => ExtendedNavigator.of(context).pop(),
+                    ),
+                  ],
+                  type: DialogType.GENERAL,
+                );
+              } else {
+                customDialog.show(
+                  context: context,
+                  content: result.message,
+                  onPressed: () => ExtendedNavigator.of(context).pop(),
+                  type: DialogType.INFO,
+                );
+              }
             } else {
               customDialog.show(
                 context: context,
-                content: result.message,
-                onPressed: () => ExtendedNavigator.of(context).pop(),
-                type: DialogType.INFO,
+                barrierDismissable: false,
+                content: AppLocalizations.of(context)
+                    .translate('complete_your_profile'),
+                customActions: <Widget>[
+                  TextButton(
+                    child:
+                        Text(AppLocalizations.of(context).translate('ok_btn')),
+                    onPressed: () => ExtendedNavigator.of(context).push(
+                      Routes.updateProfile,
+                    ),
+                  ),
+                ],
+                type: DialogType.GENERAL,
               );
             }
 
