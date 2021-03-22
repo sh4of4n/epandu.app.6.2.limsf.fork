@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/app_config.dart';
@@ -526,6 +525,6 @@ class EpanduRepo {
     return Response(false,
         message: response.message == null || response.message.isEmpty
             ? 'Failed to receive QR code data. Please try again.'
-            : response.message!.replaceAll(r'\u000d\u000a', ''));
+            : response.message.replaceAll(r'\u000d\u000a', ''));
   }
 }
