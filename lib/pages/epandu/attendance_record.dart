@@ -1,4 +1,5 @@
 import 'package:epandu/common_library/services/repository/epandu_repository.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,21 +34,9 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
 
   final epanduRepo = EpanduRepo();
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.white,
-            primaryColor,
-          ],
-          stops: [0.45, 0.95],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-      ),
-      child: Padding(
+  attendanceList() {
+    if (widget.attendanceData != null) {
+      return Padding(
         padding: EdgeInsets.symmetric(horizontal: 40.w),
         child: ListView.builder(
           shrinkWrap: true,
@@ -114,7 +103,30 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
             );
           },
         ),
+      );
+    }
+    return Center(
+      child: Text(
+        AppLocalizations.of(context).translate('no_records_found'),
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Colors.white,
+            primaryColor,
+          ],
+          stops: [0.45, 0.95],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
+      child: attendanceList(),
     );
   }
 }

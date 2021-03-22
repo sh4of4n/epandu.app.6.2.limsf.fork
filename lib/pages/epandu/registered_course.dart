@@ -218,19 +218,19 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                                               ],
                                             ),
                                           ),
-                                          Text(
-                                            'RM' +
-                                                    NumberFormat('#,##0.00')
-                                                        .format(double.tryParse(
-                                                            snapshot.data[index]
-                                                                .fee)) ??
-                                                '0.00',
-                                            style: TextStyle(
-                                              color: Color(
-                                                0xff666666,
+                                          if (snapshot.data[index].fee != null)
+                                            Text(
+                                              'RM' +
+                                                  NumberFormat('#,##0.00')
+                                                      .format(double.tryParse(
+                                                          snapshot.data[index]
+                                                              .fee)),
+                                              style: TextStyle(
+                                                color: Color(
+                                                  0xff666666,
+                                                ),
                                               ),
                                             ),
-                                          ),
                                           Text(
                                             snapshot.data[index].totalTime !=
                                                     null

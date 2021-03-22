@@ -201,10 +201,10 @@ class EpanduCategory extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () =>
-                              // Navigator.push(context, PICKUP_HISTORY),
-                              ExtendedNavigator.of(context)
-                                  .push(Routes.comingSoon),
+                          onTap: () => ExtendedNavigator.of(context)
+                              .push(Routes.requestPickup),
+                          // ExtendedNavigator.of(context)
+                          //     .push(Routes.comingSoon),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(
@@ -255,7 +255,7 @@ class EpanduCategory extends StatelessWidget {
                     ),
                     TableRow(
                       children: [
-                        InkWell(
+                        /* InkWell(
                           onTap: () => ExtendedNavigator.of(context)
                               .push(Routes.comingSoon),
                           child: Column(
@@ -279,7 +279,7 @@ class EpanduCategory extends StatelessWidget {
                               ),
                             ],
                           ),
-                        ),
+                        ), */
                         InkWell(
                           onTap: () => ExtendedNavigator.of(context)
                               .push(Routes.comingSoon),
@@ -329,6 +329,7 @@ class EpanduCategory extends StatelessWidget {
                             ],
                           ),
                         ),
+                        Container(),
                       ],
                     ),
                   ],
