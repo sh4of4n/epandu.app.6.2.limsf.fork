@@ -30,7 +30,12 @@ class Networking extends BaseRepo {
     if (customUrl != null) {
       url = customUrl;
     } else {
-      url = await wsUrlBox.get('wsUrl');
+      if (await Hive.box('ws_url').get('userDefinedUrl') != null &&
+          await Hive.box('ws_url').get('userDefinedUrl') != '') {
+        url = await Hive.box('ws_url').get('userDefinedUrl');
+      } else {
+        url = await wsUrlBox.get('wsUrl');
+      }
     }
 
     try {
@@ -86,7 +91,12 @@ class Networking extends BaseRepo {
       if (customUrl != null) {
         url = customUrl;
       } else {
-        url = await wsUrlBox.get('wsUrl');
+        if (await Hive.box('ws_url').get('userDefinedUrl') != null &&
+            await Hive.box('ws_url').get('userDefinedUrl') != '') {
+          url = await Hive.box('ws_url').get('userDefinedUrl');
+        } else {
+          url = await wsUrlBox.get('wsUrl');
+        }
       }
 
       print('$url/webapi/$api${path ?? ""}');

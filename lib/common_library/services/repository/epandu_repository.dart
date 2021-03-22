@@ -502,30 +502,19 @@ class EpanduRepo {
   }
 
   Future<Response> getScanCodeByAction() async {
-    String customUrl =
-        'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
+    // String customUrl =
+    //     'https://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
 
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
-    String diCode = await localStorage.getDiCode();
-    String userId = await localStorage.getUserId();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
+    // String? diCode = await localStorage.getDiCode();
 
-    GetScanCodeByActionRequest getScanCodeByActionRequest =
-        GetScanCodeByActionRequest(
-      wsCodeCrypt: appConfig.wsCodeCrypt,
-      caUid: caUid,
-      caPwd: caPwd,
-      diCode: diCode,
-      userId: userId,
-      action: 'JPJ_PART2_CHECK_IN',
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=W1007&userId=&action=JPJ_PART2_CHECK_IN';
+
+    var response = await networking.getData(
+      path: 'GetScanCodeByAction?$path',
     );
-
-    String body = jsonEncode(getScanCodeByActionRequest);
-    String api = 'GetScanCodeByAction';
-    Map<String, String> headers = {'Content-Type': 'application/json'};
-
-    var response = await Networking(customUrl: customUrl)
-        .postData(api: api, body: body, headers: headers);
 
     if (response.isSuccess && response.data != null) {
       GetScanCodeByActionResponse getScanCodeByActionResponse =
@@ -537,6 +526,6 @@ class EpanduRepo {
     return Response(false,
         message: response.message == null || response.message.isEmpty
             ? 'Failed to receive QR code data. Please try again.'
-            : response.message.replaceAll(r'\u000d\u000a', ''));
+            : response.message!.replaceAll(r'\u000d\u000a', ''));
   }
 }
