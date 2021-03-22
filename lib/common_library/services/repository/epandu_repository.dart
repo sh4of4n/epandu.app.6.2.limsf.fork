@@ -505,8 +505,8 @@ class EpanduRepo {
     // String customUrl =
     //     'https://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
 
-    String? caUid = await localStorage.getCaUid();
-    String? caPwd = await localStorage.getCaPwdEncode();
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
     // String? diCode = await localStorage.getDiCode();
 
     String path =
