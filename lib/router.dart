@@ -4,6 +4,7 @@ import 'package:epandu/pages/chat/chat.dart';
 import 'package:epandu/pages/enroll/enroll.dart';
 import 'package:epandu/pages/epandu/add_booking.dart';
 import 'package:epandu/pages/epandu/epandu.dart';
+import 'package:epandu/pages/etesting/etesting.dart';
 import 'package:epandu/pages/forgot_password/forgot_password.dart';
 import 'package:epandu/pages/inbox/inbox.dart';
 import 'package:epandu/pages/invite/invite.dart';
@@ -59,6 +60,7 @@ import 'package:epandu/common_library/utils/image_viewer.dart';
     MaterialRoute(page: CartItemEdit),
     MaterialRoute(page: Checkout),
     MaterialRoute(page: EpanduCategory),
+    MaterialRoute(page: EtestingCategory),
     MaterialRoute(page: EmergencyDirectory),
     MaterialRoute(page: DirectoryList),
     MaterialRoute(page: DirectoryDetail),

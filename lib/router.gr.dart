@@ -17,6 +17,7 @@ import 'pages/di_enroll/di_enrollment.dart';
 import 'pages/emergency/emergency.dart';
 import 'pages/enroll/enroll.dart';
 import 'pages/epandu/epandu.dart';
+import 'pages/etesting/etesting.dart';
 import 'pages/forgot_password/forgot_password.dart';
 import 'pages/home/home.dart';
 import 'pages/inbox/inbox.dart';
@@ -67,6 +68,7 @@ class Routes {
   static const String cartItemEdit = '/cart-item-edit';
   static const String checkout = '/Checkout';
   static const String epanduCategory = '/epandu-category';
+  static const String etestingCategory = '/etesting-category';
   static const String emergencyDirectory = '/emergency-directory';
   static const String directoryList = '/directory-list';
   static const String directoryDetail = '/directory-detail';
@@ -140,6 +142,7 @@ class Routes {
     cartItemEdit,
     checkout,
     epanduCategory,
+    etestingCategory,
     emergencyDirectory,
     directoryList,
     directoryDetail,
@@ -219,6 +222,7 @@ class Router extends RouterBase {
     RouteDef(Routes.cartItemEdit, page: CartItemEdit),
     RouteDef(Routes.checkout, page: Checkout),
     RouteDef(Routes.epanduCategory, page: EpanduCategory),
+    RouteDef(Routes.etestingCategory, page: EtestingCategory),
     RouteDef(Routes.emergencyDirectory, page: EmergencyDirectory),
     RouteDef(Routes.directoryList, page: DirectoryList),
     RouteDef(Routes.directoryDetail, page: DirectoryDetail),
@@ -538,6 +542,12 @@ class Router extends RouterBase {
     EpanduCategory: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => EpanduCategory(),
+        settings: data,
+      );
+    },
+    EtestingCategory: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => EtestingCategory(),
         settings: data,
       );
     },
