@@ -24,6 +24,7 @@ import 'pages/home/home.dart';
 import 'pages/login/login.dart';
 import 'pages/pay/pay.dart';
 import 'pages/payment/airtime_transaction.dart';
+import 'pages/pdf/view_pdf.dart';
 import 'pages/settings/settings.dart';
 import 'package:epandu/common_library/utils/image_viewer.dart';
 
@@ -38,6 +39,7 @@ import 'package:epandu/common_library/utils/image_viewer.dart';
     MaterialRoute(page: RegisterVerification),
     MaterialRoute(page: RegisterForm),
     MaterialRoute(page: Home),
+    MaterialRoute(page: QueueNumber),
     MaterialRoute(page: Settings),
     MaterialRoute(page: Enrollment),
     MaterialRoute(page: DiEnrollment),
@@ -99,6 +101,7 @@ import 'package:epandu/common_library/utils/image_viewer.dart';
     MaterialRoute(page: Webview),
     MaterialRoute(page: ReadMore),
     MaterialRoute(page: ComingSoon),
+    MaterialRoute(page: ViewPdf),
   ],
 )
 class $Router {}

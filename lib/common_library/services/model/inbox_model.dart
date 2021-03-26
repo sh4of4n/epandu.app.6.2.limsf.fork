@@ -32,13 +32,16 @@ class MsgOutBox {
   @HiveField(1)
   String msgRef;
   @HiveField(2)
+  String msgType;
+  @HiveField(3)
   String sendMsg;
 
-  MsgOutBox({this.msgDoc, this.msgRef, this.sendMsg});
+  MsgOutBox({this.msgDoc, this.msgRef, this.msgType, this.sendMsg});
 
   MsgOutBox.fromJson(Map<String, dynamic> json) {
     msgDoc = json['msg_doc'];
     msgRef = json['msg_ref'];
+    msgType = json['msg_type'];
     sendMsg = json['send_msg'];
   }
 
@@ -46,6 +49,7 @@ class MsgOutBox {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['msg_doc'] = this.msgDoc;
     data['msg_ref'] = this.msgRef;
+    data['msg_type'] = this.msgType;
     data['send_msg'] = this.sendMsg;
     return data;
   }

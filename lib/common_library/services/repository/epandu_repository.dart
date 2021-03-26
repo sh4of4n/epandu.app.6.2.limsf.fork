@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/app_config.dart';
@@ -525,6 +526,50 @@ class EpanduRepo {
     return Response(false,
         message: response.message == null || response.message.isEmpty
             ? 'Failed to receive QR code data. Please try again.'
+            : response.message.replaceAll(r'\u000d\u000a', ''));
+  }
+
+  Future<Response> getLastCallingJpjTestQueueNumber({context}) async {
+    String customUrl =
+        'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
+
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+    // String diCode = await localStorage.getDiCode();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=W1007';
+
+    customDialog.show(
+      context: context,
+      title: Text('GetLastCallingJpjTestQueueNumber'),
+      content:
+          '$customUrl/webapi/GetLastCallingJpjTestQueueNumber?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=W1007',
+      customActions: [
+        TextButton(
+          child: Text(AppLocalizations.of(context).translate('ok_btn')),
+          onPressed: () => ExtendedNavigator.of(context).pop(),
+        ),
+      ],
+      type: DialogType.GENERAL,
+    );
+
+    var response = await Networking(customUrl: customUrl).getData(
+      path: 'GetLastCallingJpjTestQueueNumber?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetLastCallingJpjTestQueueNumberResponse
+          getLastCallingJpjTestQueueNumberResponse =
+          GetLastCallingJpjTestQueueNumberResponse.fromJson(response.data);
+
+      return Response(true,
+          data: getLastCallingJpjTestQueueNumberResponse.jpjTestTrn);
+    }
+
+    return Response(false,
+        message: response.message == null || response.message.isEmpty
+            ? 'Gagal mendapatkan nombor giliran sekarang.'
             : response.message.replaceAll(r'\u000d\u000a', ''));
   }
 }

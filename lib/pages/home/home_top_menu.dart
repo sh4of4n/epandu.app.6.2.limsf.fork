@@ -64,7 +64,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
               );
 
               if (result.isSuccess) {
-                customDialog.show(
+                /* customDialog.show(
                   context: context,
                   title: Text(
                     '${AppLocalizations.of(context).translate('checked_in_on')}: ' +
@@ -92,6 +92,10 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                     ),
                   ],
                   type: DialogType.GENERAL,
+                ); */
+                ExtendedNavigator.of(context).push(
+                  Routes.queueNumber,
+                  arguments: QueueNumberArguments(data: result.data),
                 );
               } else {
                 customDialog.show(

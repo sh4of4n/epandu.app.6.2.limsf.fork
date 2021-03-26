@@ -53,7 +53,7 @@ class EpanduCategory extends StatelessWidget {
         // bottomNavigationBar: BottomMenu(),
         body: SingleChildScrollView(
           child: Column(
-            children: <Widget>[
+            children: [
               FadeInImage(
                 alignment: Alignment.center,
                 placeholder: MemoryImage(kTransparentImage),
@@ -64,276 +64,73 @@ class EpanduCategory extends StatelessWidget {
               SizedBox(
                 height: 60.h,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 60.w),
-                child: Table(
-                  // defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                  // border: TableBorder.all(),
-                  children: [
-                    TableRow(
-                      children: [
-                        InkWell(
-                          onTap: () => ExtendedNavigator.of(context)
-                              .push(Routes.comingSoon),
-                          child: Column(
-                            children: <Widget>[
-                              FadeInImage(
-                                alignment: Alignment.center,
-                                height: 330.h,
-                                placeholder: MemoryImage(kTransparentImage),
-                                image: AssetImage(
-                                  myImage.infoIcon,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              Text(
-                                AppLocalizations.of(context).translate('info'),
-                                style: iconText,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () => ExtendedNavigator.of(context)
-                              .push(Routes.enrollment),
-                          child: Column(
-                            children: <Widget>[
-                              FadeInImage(
-                                alignment: Alignment.center,
-                                height: 330.h,
-                                placeholder: MemoryImage(kTransparentImage),
-                                image: AssetImage(
-                                  myImage.enrollIcon,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('enroll_lbl'),
-                                style: iconText,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () => ExtendedNavigator.of(context)
-                              .push(Routes.booking),
-                          child: Column(
-                            children: <Widget>[
-                              FadeInImage(
-                                alignment: Alignment.center,
-                                height: 330.h,
-                                placeholder: MemoryImage(kTransparentImage),
-                                image: AssetImage(
-                                  myImage.bookingIcon,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('booking_lbl'),
-                                style: iconText,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    TableRow(
-                      children: [
-                        InkWell(
-                          onTap: () => ExtendedNavigator.of(context)
-                              .push(Routes.kppCategory),
-                          child: Column(
-                            children: <Widget>[
-                              FadeInImage(
-                                alignment: Alignment.center,
-                                height: 330.h,
-                                placeholder: MemoryImage(kTransparentImage),
-                                image: AssetImage(
-                                  myImage.classIcon,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('elearning'),
-                                style: iconText,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () => ExtendedNavigator.of(context)
-                              .push(Routes.records),
-                          child: Column(
-                            children: <Widget>[
-                              FadeInImage(
-                                alignment: Alignment.center,
-                                height: 330.h,
-                                placeholder: MemoryImage(kTransparentImage),
-                                image: AssetImage(
-                                  myImage.attendanceIcon,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('records'),
-                                style: iconText,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () => ExtendedNavigator.of(context)
-                              .push(Routes.requestPickup),
-                          // ExtendedNavigator.of(context)
-                          //     .push(Routes.comingSoon),
-                          child: Column(
-                            children: <Widget>[
-                              FadeInImage(
-                                alignment: Alignment.center,
-                                height: 330.h,
-                                placeholder: MemoryImage(kTransparentImage),
-                                image: AssetImage(
-                                  myImage.pickupIcon,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('pickup'),
-                                style: iconText,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                        /* InkWell(
-                          onTap: () {},
-                          child: Column(
-                            children: <Widget>[
-                              FadeInImage(
-                                alignment: Alignment.center,
-                                height: 330.h,
-                                placeholder: MemoryImage(kTransparentImage),
-                                image: AssetImage(
-                                  myImage.driverJob,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('driver_jobs'),
-                                style: iconText,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ), */
-                      ],
-                    ),
-                    TableRow(
-                      children: [
-                        /* InkWell(
-                          onTap: () => ExtendedNavigator.of(context)
-                              .push(Routes.comingSoon),
-                          child: Column(
-                            children: <Widget>[
-                              FadeInImage(
-                                alignment: Alignment.center,
-                                height: 330.h,
-                                placeholder: MemoryImage(kTransparentImage),
-                                image: AssetImage(
-                                  myImage.pickupIcon,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('pickup'),
-                                style: iconText,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ), */
-                        InkWell(
-                          onTap: () => ExtendedNavigator.of(context)
-                              .push(Routes.comingSoon),
-                          child: Column(
-                            children: <Widget>[
-                              FadeInImage(
-                                alignment: Alignment.center,
-                                height: 330.h,
-                                placeholder: MemoryImage(kTransparentImage),
-                                image: AssetImage(
-                                  myImage.webinarIcon,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              Text(
-                                AppLocalizations.of(context)
-                                    .translate('webinar'),
-                                style: iconText,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () => ExtendedNavigator.of(context)
-                              .push(Routes.chatHome),
-                          child: Column(
-                            children: <Widget>[
-                              FadeInImage(
-                                alignment: Alignment.center,
-                                height: 330.h,
-                                placeholder: MemoryImage(kTransparentImage),
-                                image: AssetImage(
-                                  myImage.chatIcon,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              Text(
-                                AppLocalizations.of(context).translate('chat'),
-                                style: iconText,
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(),
-                      ],
-                    ),
-                  ],
-                ),
+              ListView(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                children: [
+                  ListTile(
+                    onTap: () =>
+                        ExtendedNavigator.of(context).push(Routes.comingSoon),
+                    title: Text(AppLocalizations.of(context).translate('info'),
+                        style: iconText),
+                  ),
+                  Divider(color: Colors.grey[400]),
+                  ListTile(
+                    onTap: () =>
+                        ExtendedNavigator.of(context).push(Routes.enrollment),
+                    title: Text(
+                        AppLocalizations.of(context).translate('enroll_lbl'),
+                        style: iconText),
+                  ),
+                  Divider(color: Colors.grey[400]),
+                  ListTile(
+                    onTap: () =>
+                        ExtendedNavigator.of(context).push(Routes.booking),
+                    title: Text(
+                        AppLocalizations.of(context).translate('booking_lbl'),
+                        style: iconText),
+                  ),
+                  Divider(color: Colors.grey[400]),
+                  ListTile(
+                    onTap: () =>
+                        ExtendedNavigator.of(context).push(Routes.kppCategory),
+                    title: Text(
+                        AppLocalizations.of(context).translate('elearning'),
+                        style: iconText),
+                  ),
+                  Divider(color: Colors.grey[400]),
+                  ListTile(
+                    onTap: () =>
+                        ExtendedNavigator.of(context).push(Routes.records),
+                    title: Text(
+                        AppLocalizations.of(context).translate('records'),
+                        style: iconText),
+                  ),
+                  Divider(color: Colors.grey[400]),
+                  ListTile(
+                    onTap: () => ExtendedNavigator.of(context)
+                        .push(Routes.requestPickup),
+                    title: Text(
+                        AppLocalizations.of(context).translate('pickup'),
+                        style: iconText),
+                  ),
+                  Divider(color: Colors.grey[400]),
+                  ListTile(
+                    onTap: () =>
+                        ExtendedNavigator.of(context).push(Routes.comingSoon),
+                    title: Text(
+                        AppLocalizations.of(context).translate('webinar'),
+                        style: iconText),
+                  ),
+                  Divider(color: Colors.grey[400]),
+                  ListTile(
+                    onTap: () =>
+                        ExtendedNavigator.of(context).push(Routes.chatHome),
+                    title: Text(AppLocalizations.of(context).translate('chat'),
+                        style: iconText),
+                  ),
+                  Divider(color: Colors.grey[400]),
+                ],
               ),
             ],
           ),

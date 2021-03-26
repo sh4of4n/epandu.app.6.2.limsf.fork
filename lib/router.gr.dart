@@ -30,6 +30,7 @@ import 'pages/payment/airtime_transaction.dart';
 import 'pages/payment/bill_detail.dart';
 import 'pages/payment/bill_selection.dart';
 import 'pages/payment/bill_transaction.dart';
+import 'pages/pdf/view_pdf.dart';
 import 'pages/profile/profile.dart';
 import 'pages/promotions/promotions.dart';
 import 'pages/register/register.dart';
@@ -46,6 +47,7 @@ class Routes {
   static const String registerVerification = '/register-verification';
   static const String registerForm = '/register-form';
   static const String home = '/Home';
+  static const String queueNumber = '/queue-number';
   static const String settings = '/Settings';
   static const String enrollment = '/Enrollment';
   static const String diEnrollment = '/di-enrollment';
@@ -107,6 +109,7 @@ class Routes {
   static const String webview = '/Webview';
   static const String readMore = '/read-more';
   static const String comingSoon = '/coming-soon';
+  static const String viewPdf = '/view-pdf';
   static const all = <String>{
     authentication,
     clientAccount,
@@ -117,6 +120,7 @@ class Routes {
     registerVerification,
     registerForm,
     home,
+    queueNumber,
     settings,
     enrollment,
     diEnrollment,
@@ -178,6 +182,7 @@ class Routes {
     webview,
     readMore,
     comingSoon,
+    viewPdf,
   };
 }
 
@@ -194,6 +199,7 @@ class Router extends RouterBase {
     RouteDef(Routes.registerVerification, page: RegisterVerification),
     RouteDef(Routes.registerForm, page: RegisterForm),
     RouteDef(Routes.home, page: Home),
+    RouteDef(Routes.queueNumber, page: QueueNumber),
     RouteDef(Routes.settings, page: Settings),
     RouteDef(Routes.enrollment, page: Enrollment),
     RouteDef(Routes.diEnrollment, page: DiEnrollment),
@@ -255,6 +261,7 @@ class Router extends RouterBase {
     RouteDef(Routes.webview, page: Webview),
     RouteDef(Routes.readMore, page: ReadMore),
     RouteDef(Routes.comingSoon, page: ComingSoon),
+    RouteDef(Routes.viewPdf, page: ViewPdf),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -315,6 +322,13 @@ class Router extends RouterBase {
     Home: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => Home(),
+        settings: data,
+      );
+    },
+    QueueNumber: (data) {
+      final args = data.getArgs<QueueNumberArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => QueueNumber(data: args.data),
         settings: data,
       );
     },
@@ -842,6 +856,16 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    ViewPdf: (data) {
+      final args = data.getArgs<ViewPdfArguments>(nullOk: false);
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ViewPdf(
+          title: args.title,
+          pdfLink: args.pdfLink,
+        ),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -865,6 +889,12 @@ class RegisterVerificationArguments {
 class RegisterFormArguments {
   final dynamic data;
   RegisterFormArguments({@required this.data});
+}
+
+/// QueueNumber arguments holder class
+class QueueNumberArguments {
+  final dynamic data;
+  QueueNumberArguments({@required this.data});
 }
 
 /// Settings arguments holder class
@@ -1204,4 +1234,11 @@ class WebviewArguments {
 class ReadMoreArguments {
   final String packageDesc;
   ReadMoreArguments({this.packageDesc});
+}
+
+/// ViewPdf arguments holder class
+class ViewPdfArguments {
+  final String title;
+  final String pdfLink;
+  ViewPdfArguments({@required this.title, @required this.pdfLink});
 }

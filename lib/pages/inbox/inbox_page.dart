@@ -80,20 +80,36 @@ class _InboxState extends State<Inbox> {
         separatorBuilder: (BuildContext context, int index) =>
             Divider(color: Colors.grey[400]),
         itemBuilder: (BuildContext context, int index) {
-          return ListTile(
+          if (sortedInboxData[index].msgType == 'PDF')
+            return ListTile(
               leading: Icon(Icons.mail, color: Color(0xff808080)),
               title: SelectableLinkify(
-                  /* onOpen: (link) {
+                onOpen: (link) => ExtendedNavigator.of(context).push(
+                  Routes.viewPdf,
+                  arguments: ViewPdfArguments(
+                    title: 'PDF',
+                    pdfLink: link.url,
+                  ),
+                ),
+                text: sortedInboxData[index].sendMsg,
+              ),
+            );
+          return ListTile(
+            leading: Icon(Icons.mail, color: Color(0xff808080)),
+            title: SelectableLinkify(
+              /* onOpen: (link) {
                     ExtendedNavigator.of(context).push(Routes.webview,
                         arguments: WebviewArguments(url: link.url));
                   }, */
-                  onOpen: (link) {
-                    launch(
-                      link.url,
-                      enableJavaScript: true,
-                    );
-                  },
-                  text: sortedInboxData[index].sendMsg));
+              onOpen: (link) {
+                launch(
+                  link.url,
+                  enableJavaScript: true,
+                );
+              },
+              text: sortedInboxData[index].sendMsg,
+            ),
+          );
         },
       ),
     );
@@ -106,6 +122,7 @@ class _InboxState extends State<Inbox> {
         sendMsg: msgData.sendMsg,
         msgDoc: msgData.msgDoc,
         msgRef: msgData.msgRef,
+        msgType: msgData.msgType,
       );
 
       // print(int.tryParse(msgData.msgRef));
@@ -114,6 +131,18 @@ class _InboxState extends State<Inbox> {
       // end save inbox message
     }
 
+    if (msgData.msgType == 'PDF') {
+      return SelectableLinkify(
+        onOpen: (link) => ExtendedNavigator.of(context).push(
+          Routes.viewPdf,
+          arguments: ViewPdfArguments(
+            title: 'PDF',
+            pdfLink: link.url,
+          ),
+        ),
+        text: msgData.sendMsg,
+      );
+    }
     return SelectableLinkify(
       onOpen: (link) {
         ExtendedNavigator.of(context)
