@@ -540,7 +540,7 @@ class EpanduRepo {
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=W1007';
 
-    customDialog.show(
+    /* customDialog.show(
       context: context,
       title: Text('GetLastCallingJpjTestQueueNumber'),
       content:
@@ -552,7 +552,7 @@ class EpanduRepo {
         ),
       ],
       type: DialogType.GENERAL,
-    );
+    ); */
 
     var response = await Networking(customUrl: customUrl).getData(
       path: 'GetLastCallingJpjTestQueueNumber?$path',
@@ -569,7 +569,7 @@ class EpanduRepo {
 
     return Response(false,
         message: response.message == null || response.message.isEmpty
-            ? 'Gagal mendapatkan nombor giliran sekarang.'
+            ? 'Tiada nombor giliran.'
             : response.message.replaceAll(r'\u000d\u000a', ''));
   }
 }
