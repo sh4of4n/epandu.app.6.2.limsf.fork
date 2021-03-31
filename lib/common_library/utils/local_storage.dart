@@ -77,7 +77,7 @@ class LocalStorage {
   }
 
   Future<String> getCaUid() async {
-    return Preference.getString(kCaUid, def: 'epandu_prod');
+    return Preference.getString(kCaUid, def: 'surfine_etesting_prod');
   }
 
   Future<void> saveCaUid(String caUid) async {
@@ -85,7 +85,7 @@ class LocalStorage {
   }
 
   Future<String> getCaPwd() async {
-    return Preference.getString(kCaPwd, def: 'vWh7SmgDRJ%TW4xa');
+    return Preference.getString(kCaPwd, def: 'surfinel0g!n');
   }
 
   Future<void> saveCaPwd(String caPwd) async {
@@ -93,7 +93,7 @@ class LocalStorage {
   }
 
   Future<String> getCaPwdEncode() async {
-    return Preference.getString(kCaPwdEncode, def: 'vWh7SmgDRJ%25TW4xa');
+    return Preference.getString(kCaPwdEncode, def: 'surfinel0g%21n');
   }
 
   Future<void> saveCaPwdEncode(String caPwdEncode) async {

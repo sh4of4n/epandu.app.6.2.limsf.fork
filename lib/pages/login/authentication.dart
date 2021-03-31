@@ -39,16 +39,18 @@ class _AuthenticationState extends State<Authentication> {
   }
 
   _getWsUrl() async {
-    // final wsUrlBox = Hive.box('ws_url');
+    final wsUrlBox = Hive.box('ws_url');
 
     // localStorage.reset();
 
     // String wsUrl = wsUrlBox.get('wsUrl');
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
+    // String caUid = await localStorage.getCaUid();
+    // String caPwd = await localStorage.getCaPwd();
 
     // if (wsUrl == null) {
-    if (Hive.box('ws_url').get('getWsUrl') == '1' ||
+    wsUrlBox.put(
+        'wsUrl', 'http://192.168.168.2/ePandu.MainService/6_1/MainService.svc');
+    /* if (Hive.box('ws_url').get('getWsUrl') == '1' ||
         Hive.box('ws_url').get('getWsUrl') == null) {
       await authRepo.getWsUrl(
         context: context,
@@ -56,7 +58,7 @@ class _AuthenticationState extends State<Authentication> {
         acctPwd: caPwd,
         loginType: appConfig.wsCodeCrypt,
       );
-    }
+    } */
     // }
 
     _checkExistingLogin();

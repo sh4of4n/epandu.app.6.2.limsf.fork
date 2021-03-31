@@ -68,27 +68,28 @@ class _LoginBottomCardState extends State<LoginBottomCard> {
             ),
             SizedBox(height: 5.0),
             GestureDetector(
-              onTap: () async {
-                count += 1;
+              onTap: () {},
+              // onTap: () async {
+              //   count += 1;
 
-                if (count == 4) {
-                  customDialog.show(
-                    context: context,
-                    title: AppLocalizations.of(context)
-                        .translate('client_acc_title'),
-                    content: AppLocalizations.of(context)
-                        .translate('client_acc_desc'),
-                    type: DialogType.SUCCESS,
-                    barrierDismissable: false,
-                    onPressed: () async {
-                      count = 0;
-                      ExtendedNavigator.of(context).pop();
-                      ExtendedNavigator.of(context).push(Routes.clientAccount,
-                          arguments: ClientAccountArguments(data: ''));
-                    },
-                  );
-                }
-              },
+              //   if (count == 4) {
+              //     customDialog.show(
+              //       context: context,
+              //       title: AppLocalizations.of(context)
+              //           .translate('client_acc_title'),
+              //       content: AppLocalizations.of(context)
+              //           .translate('client_acc_desc'),
+              //       type: DialogType.SUCCESS,
+              //       barrierDismissable: false,
+              //       onPressed: () async {
+              //         count = 0;
+              //         ExtendedNavigator.of(context).pop();
+              //         ExtendedNavigator.of(context).push(Routes.clientAccount,
+              //             arguments: ClientAccountArguments(data: ''));
+              //       },
+              //     );
+              //   }
+              // },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
