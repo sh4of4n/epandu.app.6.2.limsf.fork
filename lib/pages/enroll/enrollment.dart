@@ -1197,6 +1197,9 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                         return null;
                       },
                     ),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(70),
+                    ),
                     _dobField(),
                     SizedBox(
                       height: ScreenUtil().setHeight(60),
