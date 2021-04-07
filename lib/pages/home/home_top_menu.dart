@@ -56,7 +56,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
 
             String icNo = await localStorage.getStudentIc();
 
-            if (icNo != null) {
+            if (icNo != null && icNo.isNotEmpty) {
               final result = await epanduRepo.verifyScanCode(
                 context: context,
                 qrcodeJson: barcode.rawContent,
