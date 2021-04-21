@@ -382,8 +382,8 @@ class EpanduRepo {
   }
 
   Future<Response> getJpjTestCheckIn() async {
-    String customUrl =
-        'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
+    // String customUrl =
+    //     'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
 
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
@@ -396,7 +396,7 @@ class EpanduRepo {
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&userId=$userId&icNo=$icNo';
 
-    var response = await Networking(customUrl: customUrl).getData(
+    var response = await networking.getData(
       path: 'GetJpjTestCheckIn?$path',
     );
 
@@ -415,8 +415,8 @@ class EpanduRepo {
   Future<Response> getLastJpjTestCheckInByInterval({
     String intervalInSeconds,
   }) async {
-    String customUrl =
-        'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
+    // String customUrl =
+    //     'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
 
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
@@ -426,7 +426,7 @@ class EpanduRepo {
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&intervalInSeconds=${intervalInSeconds ?? ''}';
 
-    var response = await Networking(customUrl: customUrl).getData(
+    var response = await networking.getData(
       path: 'GetLastJpjTestCheckInByInterval?$path',
     );
 
@@ -449,8 +449,8 @@ class EpanduRepo {
     @required qrcodeJson,
     @required icNo,
   }) async {
-    String customUrl =
-        'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
+    // String customUrl =
+    //     'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
 
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
@@ -485,8 +485,8 @@ class EpanduRepo {
     String api = 'VerifyScanCodeByIcNo';
     Map<String, String> headers = {'Content-Type': 'application/json'};
 
-    var response = await Networking(customUrl: customUrl)
-        .postData(api: api, body: body, headers: headers);
+    var response =
+        await networking.postData(api: api, body: body, headers: headers);
 
     if (response.isSuccess && response.data != null) {
       VerifyScanCodeResponse verifyScanCodeResponse =
@@ -530,8 +530,8 @@ class EpanduRepo {
   }
 
   Future<Response> getLastCallingJpjTestQueueNumber({context}) async {
-    String customUrl =
-        'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
+    // String customUrl =
+    //     'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
 
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
@@ -554,7 +554,7 @@ class EpanduRepo {
       type: DialogType.GENERAL,
     ); */
 
-    var response = await Networking(customUrl: customUrl).getData(
+    var response = await networking.getData(
       path: 'GetLastCallingJpjTestQueueNumber?$path',
     );
 
