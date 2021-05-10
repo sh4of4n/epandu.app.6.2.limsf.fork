@@ -1890,6 +1890,146 @@ class Feed {
   }
 }
 
+class GetActiveFeedByLevelResponse {
+  List<FeedByLevel> feed;
+
+  GetActiveFeedByLevelResponse({this.feed});
+
+  GetActiveFeedByLevelResponse.fromJson(Map<String, dynamic> json) {
+    if (json['Feed'] != null) {
+      feed = new List<FeedByLevel>();
+      json['Feed'].forEach((v) {
+        feed.add(new FeedByLevel.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.feed != null) {
+      data['Feed'] = this.feed.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class FeedByLevel {
+  String iD;
+  String docDoc;
+  String docRef;
+  String feedDoc;
+  String feedRef;
+  String feedDesc;
+  String feedType;
+  String bgDate;
+  String durationDay;
+  String seqNo;
+  String active;
+  String rowKey;
+  String feedText;
+  String feedMedia;
+  String feedMediaFilename;
+  String feedNavigate;
+  String udfReturnParameter;
+  String merchantNo;
+  String localFeed;
+  String remark;
+  String createUser;
+  String createDate;
+  String editUser;
+  String editDate;
+  String deleted;
+  String transtamp;
+
+  FeedByLevel(
+      {this.iD,
+      this.docDoc,
+      this.docRef,
+      this.feedDoc,
+      this.feedRef,
+      this.feedDesc,
+      this.feedType,
+      this.bgDate,
+      this.durationDay,
+      this.seqNo,
+      this.active,
+      this.rowKey,
+      this.feedText,
+      this.feedMedia,
+      this.feedMediaFilename,
+      this.feedNavigate,
+      this.udfReturnParameter,
+      this.merchantNo,
+      this.localFeed,
+      this.remark,
+      this.createUser,
+      this.createDate,
+      this.editUser,
+      this.editDate,
+      this.deleted,
+      this.transtamp});
+
+  FeedByLevel.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    docDoc = json['doc_doc'];
+    docRef = json['doc_ref'];
+    feedDoc = json['feed_doc'];
+    feedRef = json['feed_ref'];
+    feedDesc = json['feed_desc'];
+    feedType = json['feed_type'];
+    bgDate = json['bg_date'];
+    durationDay = json['duration_day'];
+    seqNo = json['seq_no'];
+    active = json['active'];
+    rowKey = json['row_key'];
+    feedText = json['feed_text'];
+    feedMedia = json['feed_media'];
+    feedMediaFilename = json['feed_media_filename'];
+    feedNavigate = json['feed_navigate'];
+    udfReturnParameter = json['udf_return_parameter'];
+    merchantNo = json['merchant_no'];
+    localFeed = json['local_feed'];
+    remark = json['remark'];
+    createUser = json['create_user'];
+    createDate = json['create_date'];
+    editUser = json['edit_user'];
+    editDate = json['edit_date'];
+    deleted = json['deleted'];
+    transtamp = json['transtamp'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['doc_doc'] = this.docDoc;
+    data['doc_ref'] = this.docRef;
+    data['feed_doc'] = this.feedDoc;
+    data['feed_ref'] = this.feedRef;
+    data['feed_desc'] = this.feedDesc;
+    data['feed_type'] = this.feedType;
+    data['bg_date'] = this.bgDate;
+    data['duration_day'] = this.durationDay;
+    data['seq_no'] = this.seqNo;
+    data['active'] = this.active;
+    data['row_key'] = this.rowKey;
+    data['feed_text'] = this.feedText;
+    data['feed_media'] = this.feedMedia;
+    data['feed_media_filename'] = this.feedMediaFilename;
+    data['feed_navigate'] = this.feedNavigate;
+    data['udf_return_parameter'] = this.udfReturnParameter;
+    data['merchant_no'] = this.merchantNo;
+    data['local_feed'] = this.localFeed;
+    data['remark'] = this.remark;
+    data['create_user'] = this.createUser;
+    data['create_date'] = this.createDate;
+    data['edit_user'] = this.editUser;
+    data['edit_date'] = this.editDate;
+    data['deleted'] = this.deleted;
+    data['transtamp'] = this.transtamp;
+    return data;
+  }
+}
+
 // GetEnrollHistoryResponse
 class GetEnrollHistoryResponse {
   List<Enroll> enroll;

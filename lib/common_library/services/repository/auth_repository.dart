@@ -832,20 +832,24 @@ class AuthRepo {
     @required feedType,
     @required startIndex,
     @required noOfRecords,
+    String sourceDocDoc,
+    String sourceDocRef,
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
+    String merchantNo = await localStorage.getMerchantDbCode();
 
-    String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&feedType=${feedType ?? ''}&startIndex=$startIndex&noOfRecords=$noOfRecords';
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd' +
+        '&feedType=${feedType ?? ''}&merchantNo=$merchantNo&sourceDocDoc=${sourceDocDoc ?? ''}&sourceDocRef=${sourceDocRef ?? ''}' +
+        '&startIndex=$startIndex&noOfRecords=$noOfRecords';
 
     var response = await networking.getData(
-      path: 'GetActiveFeedByType?$path',
+      path: 'GetActiveFeedByLevel?$path',
     );
 
     if (response.isSuccess && response.data != null) {
-      GetActiveFeedResponse getActiveFeedResponse =
-          GetActiveFeedResponse.fromJson(response.data);
+      GetActiveFeedByLevelResponse getActiveFeedResponse =
+          GetActiveFeedByLevelResponse.fromJson(response.data);
       var responseData = getActiveFeedResponse.feed;
 
       return Response(true, data: responseData);
