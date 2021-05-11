@@ -47,7 +47,8 @@ class _AttendanceTabState extends State<AttendanceTab>
   String attendanceMessage = '';
 
   var enrollData;
-  bool isLoading = false;
+  bool stuPracIsLoading = false;
+  bool checkInLoading = false;
 
   @override
   bool get wantKeepAlive => true;
@@ -59,15 +60,18 @@ class _AttendanceTabState extends State<AttendanceTab>
     _tabController = TabController(vsync: this, length: myTabs.length);
     _tabController.addListener(_getTabSelection);
 
-    _getDTestByCode();
+    Future.wait([
+      _getStuPracByCode(),
+      _getJpjTestCheckIn(),
+    ]);
   }
 
-  Future<void> _getDTestByCode() async {
+  Future<void> _getStuPracByCode() async {
     setState(() {
-      isLoading = true;
+      stuPracIsLoading = true;
     });
 
-    var response = await epanduRepo.getDTestByCode(context: context);
+    var response = await epanduRepo.getStuPracByCode(context: context);
 
     if (response.isSuccess) {
       setState(() {
@@ -75,10 +79,16 @@ class _AttendanceTabState extends State<AttendanceTab>
       });
     }
 
-    getJpjTestCheckIn();
+    setState(() {
+      stuPracIsLoading = false;
+    });
   }
 
-  getJpjTestCheckIn() async {
+  Future<void> _getJpjTestCheckIn() async {
+    setState(() {
+      checkInLoading = true;
+    });
+
     var result = await epanduRepo.getJpjTestCheckIn();
 
     if (result.isSuccess) {
@@ -86,7 +96,7 @@ class _AttendanceTabState extends State<AttendanceTab>
     }
 
     setState(() {
-      isLoading = false;
+      checkInLoading = false;
     });
   }
 
@@ -131,10 +141,12 @@ class _AttendanceTabState extends State<AttendanceTab>
           body: TabBarView(controller: _tabController, children: [
             AttendanceRecord(
               attendanceData: attendanceData,
+              isLoading: stuPracIsLoading,
             ),
             // Edompet(),
             CheckInRecord(
               checkInData: checkInData,
+              isLoading: checkInLoading,
             ),
           ]),
           bottomNavigationBar: Container(

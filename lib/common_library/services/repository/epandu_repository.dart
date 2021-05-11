@@ -20,8 +20,8 @@ class EpanduRepo {
   Future<Response> getEnrollByCode({groupId}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
-    //  Temporarily use TBS as diCode
-    String diCode = appConfig.diCode;
+
+    String diCode = await localStorage.getMerchantDbCode();
     // String diCode = await localStorage.getDiCode();
     // String groupId = '';
     String icNo = await localStorage.getStudentIc();
@@ -54,8 +54,7 @@ class EpanduRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
 
-    //  Temporarily use TBS as diCode
-    String diCode = appConfig.diCode;
+    String diCode = await localStorage.getMerchantDbCode();
     // String diCode = await localStorage.getDiCode();
     String icNo = await localStorage.getStudentIc();
 
@@ -83,8 +82,7 @@ class EpanduRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
 
-    //  Temporarily use TBS as diCode
-    String diCode = appConfig.diCode;
+    String diCode = await localStorage.getMerchantDbCode();
     // String diCode = await localStorage.getDiCode();
 
     String path =
@@ -113,8 +111,7 @@ class EpanduRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
 
-    //  Temporarily use TBS as diCode
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
     // String diCode = await localStorage.getDiCode();
     // String groupId = await localStorage.getEnrolledGroupId();
     String icNo = await localStorage.getStudentIc();
@@ -135,6 +132,37 @@ class EpanduRepo {
     }
 
     return Response(false, message: 'You have no booking.');
+  }
+
+  // attendance
+  Future<Response> getStuPracByCode({context}) async {
+    assert(context != null);
+
+    String caUid = await localStorage.getCaUid();
+    String caPwd = await localStorage.getCaPwdEncode();
+
+    String diCode = await localStorage.getMerchantDbCode();
+    // String diCode = await localStorage.getDiCode();
+    // String groupId = await localStorage.getEnrolledGroupId();
+    String icNo = await localStorage.getStudentIc();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&groupId=&icNo=$icNo';
+
+    var response = await networking.getData(
+      path: 'GetStuPracByCode?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetStuPracByCodeResponse getStuPracByCodeResponse;
+
+      getStuPracByCodeResponse =
+          GetStuPracByCodeResponse.fromJson(response.data);
+
+      return Response(true, data: getStuPracByCodeResponse.stuPrac);
+    }
+
+    return Response(false, message: 'You have no attendance record.');
   }
 
   // booking

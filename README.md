@@ -1,3 +1,8 @@
+2.0.146
+
+- Change using default diCode to enrolled Merchant Code
+- Fix attendance record return data
+
 2.0.145
 
 - Update merchant no value for getting feeds

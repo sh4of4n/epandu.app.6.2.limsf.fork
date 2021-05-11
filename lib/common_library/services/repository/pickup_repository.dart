@@ -14,7 +14,7 @@ class PickupRepo {
   Future<Response> getPickUpByIcNo({context}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
     String icNo = await localStorage.getStudentIc();
 
     String path =
@@ -42,7 +42,7 @@ class PickupRepo {
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
     String icNo = await localStorage.getStudentIc();
     String userId = await localStorage.getUserId();
 

@@ -3,12 +3,14 @@ import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
 class CheckInRecord extends StatefulWidget {
   final checkInData;
+  final bool isLoading;
 
-  CheckInRecord({@required this.checkInData});
+  CheckInRecord({@required this.checkInData, @required this.isLoading});
 
   @override
   _CheckInRecordState createState() => _CheckInRecordState();
@@ -35,7 +37,7 @@ class _CheckInRecordState extends State<CheckInRecord> {
   final epanduRepo = EpanduRepo();
 
   checkInList() {
-    if (widget.checkInData != null) {
+    if (widget.checkInData != null && !widget.isLoading) {
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 40.w),
         child: ListView.builder(
@@ -93,6 +95,12 @@ class _CheckInRecordState extends State<CheckInRecord> {
               ],
             );
           },
+        ),
+      );
+    } else if (widget.isLoading) {
+      return Center(
+        child: SpinKitChasingDots(
+          color: primaryColor,
         ),
       );
     }

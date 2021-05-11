@@ -252,258 +252,6 @@ class EnrolledClassesRequest {
   }
 }
 
-class EnrolledClassesResponse {
-  List<StuPrac> stuPrac;
-
-  EnrolledClassesResponse({this.stuPrac});
-
-  EnrolledClassesResponse.fromJson(Map<String, dynamic> json) {
-    if (json['StuPrac'] != null) {
-      stuPrac = new List<StuPrac>.empty(growable: true);
-      json['StuPrac'].forEach((v) {
-        stuPrac.add(new StuPrac.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.stuPrac != null) {
-      data['StuPrac'] = this.stuPrac.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class StuPrac {
-  String id;
-  String icNo;
-  String stuNo;
-  String trandate;
-  String vehNo;
-  String trnCode;
-  String slipNo;
-  String sm4No;
-  String certNo;
-  String kpp02CertNo;
-  String groupId;
-  String kppGroupId;
-  String kppGroupId2;
-  String kppGroupId3;
-  String classes;
-  String bgTime;
-  String endTime;
-  String employeNo;
-  String remark;
-  String dsCode;
-  String pracType;
-  String sysTime;
-  String closeUser;
-  String closeDate;
-  String epretCode;
-  String epretReqid;
-  String ekppCode;
-  String ekppReqid;
-  String transtamp;
-  String actBgTime;
-  String actEndTime;
-  String byFingerprn;
-  String adminId1;
-  String actBgTime2;
-  String actEndTime2;
-  String classCode;
-  String verifyTrncode;
-  String entryType;
-  String ej2aTick;
-  String ej2aInd;
-  String ej2aStat;
-  String ej2bTick;
-  String ej2bInd;
-  String ej2bStat;
-  String location;
-  String courseCode;
-  String theoryType;
-  String sessionTotalTime;
-  String totalTime;
-  String compCode;
-  String branchCode;
-  String lastupload;
-  String deleted;
-  String diCode;
-
-  StuPrac(
-      {this.id,
-      this.icNo,
-      this.stuNo,
-      this.trandate,
-      this.vehNo,
-      this.trnCode,
-      this.slipNo,
-      this.sm4No,
-      this.certNo,
-      this.kpp02CertNo,
-      this.groupId,
-      this.kppGroupId,
-      this.kppGroupId2,
-      this.kppGroupId3,
-      this.classes,
-      this.bgTime,
-      this.endTime,
-      this.employeNo,
-      this.remark,
-      this.dsCode,
-      this.pracType,
-      this.sysTime,
-      this.closeUser,
-      this.closeDate,
-      this.epretCode,
-      this.epretReqid,
-      this.ekppCode,
-      this.ekppReqid,
-      this.transtamp,
-      this.actBgTime,
-      this.actEndTime,
-      this.byFingerprn,
-      this.adminId1,
-      this.actBgTime2,
-      this.actEndTime2,
-      this.classCode,
-      this.verifyTrncode,
-      this.entryType,
-      this.ej2aTick,
-      this.ej2aInd,
-      this.ej2aStat,
-      this.ej2bTick,
-      this.ej2bInd,
-      this.ej2bStat,
-      this.location,
-      this.courseCode,
-      this.theoryType,
-      this.sessionTotalTime,
-      this.totalTime,
-      this.compCode,
-      this.branchCode,
-      this.lastupload,
-      this.deleted,
-      this.diCode});
-
-  StuPrac.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    icNo = json['ic_no'];
-    stuNo = json['stu_no'];
-    trandate = json['trandate'];
-    vehNo = json['veh_no'];
-    trnCode = json['trn_code'];
-    slipNo = json['slip_no'];
-    sm4No = json['sm4_no'];
-    certNo = json['cert_no'];
-    kpp02CertNo = json['kpp02_cert_no'];
-    groupId = json['group_id'];
-    kppGroupId = json['kpp_group_id'];
-    kppGroupId2 = json['kpp_group_id_2'];
-    kppGroupId3 = json['kpp_group_id_3'];
-    classes = json['class'];
-    bgTime = json['bg_time'];
-    endTime = json['end_time'];
-    employeNo = json['employe_no'];
-    remark = json['remark'];
-    dsCode = json['ds_code'];
-    pracType = json['prac_type'];
-    sysTime = json['sys_time'];
-    closeUser = json['close_user'];
-    closeDate = json['close_date'];
-    epretCode = json['epret_code'];
-    epretReqid = json['epret_reqid'];
-    ekppCode = json['ekpp_code'];
-    ekppReqid = json['ekpp_reqid'];
-    transtamp = json['transtamp'];
-    actBgTime = json['act_bg_time'];
-    actEndTime = json['act_end_time'];
-    byFingerprn = json['by_fingerprn'];
-    adminId1 = json['admin_id1'];
-    actBgTime2 = json['act_bg_time2'];
-    actEndTime2 = json['act_end_time2'];
-    classCode = json['class_code'];
-    verifyTrncode = json['verify_trncode'];
-    entryType = json['entry_type'];
-    ej2aTick = json['ej2a_tick'];
-    ej2aInd = json['ej2a_ind'];
-    ej2aStat = json['ej2a_stat'];
-    ej2bTick = json['ej2b_tick'];
-    ej2bInd = json['ej2b_ind'];
-    ej2bStat = json['ej2b_stat'];
-    location = json['location'];
-    courseCode = json['course_code'];
-    theoryType = json['theory_type'];
-    sessionTotalTime = json['session_total_time'];
-    totalTime = json['total_time'];
-    compCode = json['comp_code'];
-    branchCode = json['branch_code'];
-    lastupload = json['lastupload'];
-    deleted = json['deleted'];
-    diCode = json['di_code'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['ic_no'] = this.icNo;
-    data['stu_no'] = this.stuNo;
-    data['trandate'] = this.trandate;
-    data['veh_no'] = this.vehNo;
-    data['trn_code'] = this.trnCode;
-    data['slip_no'] = this.slipNo;
-    data['sm4_no'] = this.sm4No;
-    data['cert_no'] = this.certNo;
-    data['kpp02_cert_no'] = this.kpp02CertNo;
-    data['group_id'] = this.groupId;
-    data['kpp_group_id'] = this.kppGroupId;
-    data['kpp_group_id_2'] = this.kppGroupId2;
-    data['kpp_group_id_3'] = this.kppGroupId3;
-    data['class'] = this.classes;
-    data['bg_time'] = this.bgTime;
-    data['end_time'] = this.endTime;
-    data['employe_no'] = this.employeNo;
-    data['remark'] = this.remark;
-    data['ds_code'] = this.dsCode;
-    data['prac_type'] = this.pracType;
-    data['sys_time'] = this.sysTime;
-    data['close_user'] = this.closeUser;
-    data['close_date'] = this.closeDate;
-    data['epret_code'] = this.epretCode;
-    data['epret_reqid'] = this.epretReqid;
-    data['ekpp_code'] = this.ekppCode;
-    data['ekpp_reqid'] = this.ekppReqid;
-    data['transtamp'] = this.transtamp;
-    data['act_bg_time'] = this.actBgTime;
-    data['act_end_time'] = this.actEndTime;
-    data['by_fingerprn'] = this.byFingerprn;
-    data['admin_id1'] = this.adminId1;
-    data['act_bg_time2'] = this.actBgTime2;
-    data['act_end_time2'] = this.actEndTime2;
-    data['class_code'] = this.classCode;
-    data['verify_trncode'] = this.verifyTrncode;
-    data['entry_type'] = this.entryType;
-    data['ej2a_tick'] = this.ej2aTick;
-    data['ej2a_ind'] = this.ej2aInd;
-    data['ej2a_stat'] = this.ej2aStat;
-    data['ej2b_tick'] = this.ej2bTick;
-    data['ej2b_ind'] = this.ej2bInd;
-    data['ej2b_stat'] = this.ej2bStat;
-    data['location'] = this.location;
-    data['course_code'] = this.courseCode;
-    data['theory_type'] = this.theoryType;
-    data['session_total_time'] = this.sessionTotalTime;
-    data['total_time'] = this.totalTime;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['lastupload'] = this.lastupload;
-    data['deleted'] = this.deleted;
-    data['di_code'] = this.diCode;
-    return data;
-  }
-}
-
 // get student payment
 /* class StudentPaymentRequest {
   String wsCodeCrypt;
@@ -2682,6 +2430,294 @@ class LastCallingQueueJpjTestTrn {
     data['comp_code'] = this.compCode;
     data['branch_code'] = this.branchCode;
     data['deleted'] = this.deleted;
+    return data;
+  }
+}
+
+class GetStuPracByCodeResponse {
+  List<StuPrac> stuPrac;
+
+  GetStuPracByCodeResponse({this.stuPrac});
+
+  GetStuPracByCodeResponse.fromJson(Map<String, dynamic> json) {
+    if (json['StuPrac'] != null) {
+      stuPrac = new List<StuPrac>();
+      json['StuPrac'].forEach((v) {
+        stuPrac.add(new StuPrac.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.stuPrac != null) {
+      data['StuPrac'] = this.stuPrac.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class StuPrac {
+  String id;
+  String icNo;
+  String stuNo;
+  String trandate;
+  String vehNo;
+  String trnCode;
+  String slipNo;
+  String sm4No;
+  String certNo;
+  String groupId;
+  String kppGroupId;
+  String kppGroupId2;
+  String kppGroupId3;
+  String kClass;
+  String bgTime;
+  String endTime;
+  String employeNo;
+  String remark;
+  String dsCode;
+  String pracType;
+  String sysTime;
+  String closeUser;
+  String closeDate;
+  String epretCode;
+  String epretReqid;
+  String ekppCode;
+  String ekppReqid;
+  String transtamp;
+  String actBgTime;
+  String actEndTime;
+  String byFingerprn;
+  String ej2aTick;
+  String ej2aInd;
+  String ej2aStat;
+  String ej2bInd;
+  String ej2bTick;
+  String ej2bStat;
+  String snoBkpp;
+  String adminId1;
+  String actBgTime2;
+  String classCode;
+  String verifyTrncode;
+  String actEndTime2;
+  String ej2aRemark;
+  String ej2bRemark;
+  String entryType;
+  String sjlprndate;
+  String issueSjDate;
+  String courseCode;
+  String location;
+  String theoryType;
+  String totalTime;
+  String kpp02CertNo;
+  String kpp02IssueSjDate;
+  String kpp02Sjlprndate;
+  String sessionTotalTime;
+  String compCode;
+  String branchCode;
+  String rowKey;
+  String lastupload;
+  String deleted;
+  String diCode;
+  String merchantNo;
+
+  StuPrac(
+      {this.id,
+      this.icNo,
+      this.stuNo,
+      this.trandate,
+      this.vehNo,
+      this.trnCode,
+      this.slipNo,
+      this.sm4No,
+      this.certNo,
+      this.groupId,
+      this.kppGroupId,
+      this.kppGroupId2,
+      this.kppGroupId3,
+      this.kClass,
+      this.bgTime,
+      this.endTime,
+      this.employeNo,
+      this.remark,
+      this.dsCode,
+      this.pracType,
+      this.sysTime,
+      this.closeUser,
+      this.closeDate,
+      this.epretCode,
+      this.epretReqid,
+      this.ekppCode,
+      this.ekppReqid,
+      this.transtamp,
+      this.actBgTime,
+      this.actEndTime,
+      this.byFingerprn,
+      this.ej2aTick,
+      this.ej2aInd,
+      this.ej2aStat,
+      this.ej2bInd,
+      this.ej2bTick,
+      this.ej2bStat,
+      this.snoBkpp,
+      this.adminId1,
+      this.actBgTime2,
+      this.classCode,
+      this.verifyTrncode,
+      this.actEndTime2,
+      this.ej2aRemark,
+      this.ej2bRemark,
+      this.entryType,
+      this.sjlprndate,
+      this.issueSjDate,
+      this.courseCode,
+      this.location,
+      this.theoryType,
+      this.totalTime,
+      this.kpp02CertNo,
+      this.kpp02IssueSjDate,
+      this.kpp02Sjlprndate,
+      this.sessionTotalTime,
+      this.compCode,
+      this.branchCode,
+      this.rowKey,
+      this.lastupload,
+      this.deleted,
+      this.diCode,
+      this.merchantNo});
+
+  StuPrac.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    icNo = json['ic_no'];
+    stuNo = json['stu_no'];
+    trandate = json['trandate'];
+    vehNo = json['veh_no'];
+    trnCode = json['trn_code'];
+    slipNo = json['slip_no'];
+    sm4No = json['sm4_no'];
+    certNo = json['cert_no'];
+    groupId = json['group_id'];
+    kppGroupId = json['kpp_group_id'];
+    kppGroupId2 = json['kpp_group_id_2'];
+    kppGroupId3 = json['kpp_group_id_3'];
+    kClass = json['class'];
+    bgTime = json['bg_time'];
+    endTime = json['end_time'];
+    employeNo = json['employe_no'];
+    remark = json['remark'];
+    dsCode = json['ds_code'];
+    pracType = json['prac_type'];
+    sysTime = json['sys_time'];
+    closeUser = json['close_user'];
+    closeDate = json['close_date'];
+    epretCode = json['epret_code'];
+    epretReqid = json['epret_reqid'];
+    ekppCode = json['ekpp_code'];
+    ekppReqid = json['ekpp_reqid'];
+    transtamp = json['transtamp'];
+    actBgTime = json['act_bg_time'];
+    actEndTime = json['act_end_time'];
+    byFingerprn = json['by_fingerprn'];
+    ej2aTick = json['ej2a_tick'];
+    ej2aInd = json['ej2a_ind'];
+    ej2aStat = json['ej2a_stat'];
+    ej2bInd = json['ej2b_ind'];
+    ej2bTick = json['ej2b_tick'];
+    ej2bStat = json['ej2b_stat'];
+    snoBkpp = json['sno_bkpp'];
+    adminId1 = json['admin_id1'];
+    actBgTime2 = json['act_bg_time2'];
+    classCode = json['class_code'];
+    verifyTrncode = json['verify_trncode'];
+    actEndTime2 = json['act_end_time2'];
+    ej2aRemark = json['ej2a_remark'];
+    ej2bRemark = json['ej2b_remark'];
+    entryType = json['entry_type'];
+    sjlprndate = json['sjlprndate'];
+    issueSjDate = json['issue_sj_date'];
+    courseCode = json['course_code'];
+    location = json['location'];
+    theoryType = json['theory_type'];
+    totalTime = json['total_time'];
+    kpp02CertNo = json['kpp02_cert_no'];
+    kpp02IssueSjDate = json['kpp02_issue_sj_date'];
+    kpp02Sjlprndate = json['kpp02_sjlprndate'];
+    sessionTotalTime = json['session_total_time'];
+    compCode = json['comp_code'];
+    branchCode = json['branch_code'];
+    rowKey = json['row_key'];
+    lastupload = json['lastupload'];
+    deleted = json['deleted'];
+    diCode = json['di_code'];
+    merchantNo = json['merchant_no'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['ic_no'] = this.icNo;
+    data['stu_no'] = this.stuNo;
+    data['trandate'] = this.trandate;
+    data['veh_no'] = this.vehNo;
+    data['trn_code'] = this.trnCode;
+    data['slip_no'] = this.slipNo;
+    data['sm4_no'] = this.sm4No;
+    data['cert_no'] = this.certNo;
+    data['group_id'] = this.groupId;
+    data['kpp_group_id'] = this.kppGroupId;
+    data['kpp_group_id_2'] = this.kppGroupId2;
+    data['kpp_group_id_3'] = this.kppGroupId3;
+    data['class'] = this.kClass;
+    data['bg_time'] = this.bgTime;
+    data['end_time'] = this.endTime;
+    data['employe_no'] = this.employeNo;
+    data['remark'] = this.remark;
+    data['ds_code'] = this.dsCode;
+    data['prac_type'] = this.pracType;
+    data['sys_time'] = this.sysTime;
+    data['close_user'] = this.closeUser;
+    data['close_date'] = this.closeDate;
+    data['epret_code'] = this.epretCode;
+    data['epret_reqid'] = this.epretReqid;
+    data['ekpp_code'] = this.ekppCode;
+    data['ekpp_reqid'] = this.ekppReqid;
+    data['transtamp'] = this.transtamp;
+    data['act_bg_time'] = this.actBgTime;
+    data['act_end_time'] = this.actEndTime;
+    data['by_fingerprn'] = this.byFingerprn;
+    data['ej2a_tick'] = this.ej2aTick;
+    data['ej2a_ind'] = this.ej2aInd;
+    data['ej2a_stat'] = this.ej2aStat;
+    data['ej2b_ind'] = this.ej2bInd;
+    data['ej2b_tick'] = this.ej2bTick;
+    data['ej2b_stat'] = this.ej2bStat;
+    data['sno_bkpp'] = this.snoBkpp;
+    data['admin_id1'] = this.adminId1;
+    data['act_bg_time2'] = this.actBgTime2;
+    data['class_code'] = this.classCode;
+    data['verify_trncode'] = this.verifyTrncode;
+    data['act_end_time2'] = this.actEndTime2;
+    data['ej2a_remark'] = this.ej2aRemark;
+    data['ej2b_remark'] = this.ej2bRemark;
+    data['entry_type'] = this.entryType;
+    data['sjlprndate'] = this.sjlprndate;
+    data['issue_sj_date'] = this.issueSjDate;
+    data['course_code'] = this.courseCode;
+    data['location'] = this.location;
+    data['theory_type'] = this.theoryType;
+    data['total_time'] = this.totalTime;
+    data['kpp02_cert_no'] = this.kpp02CertNo;
+    data['kpp02_issue_sj_date'] = this.kpp02IssueSjDate;
+    data['kpp02_sjlprndate'] = this.kpp02Sjlprndate;
+    data['session_total_time'] = this.sessionTotalTime;
+    data['comp_code'] = this.compCode;
+    data['branch_code'] = this.branchCode;
+    data['row_key'] = this.rowKey;
+    data['lastupload'] = this.lastupload;
+    data['deleted'] = this.deleted;
+    data['di_code'] = this.diCode;
+    data['merchant_no'] = this.merchantNo;
     return data;
   }
 }
