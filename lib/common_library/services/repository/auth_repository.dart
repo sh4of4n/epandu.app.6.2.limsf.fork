@@ -840,7 +840,7 @@ class AuthRepo {
     String merchantNo = await localStorage.getMerchantDbCode();
 
     String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd' +
-        '&feedType=${feedType ?? ''}&merchantNo=${merchantNo == 'EPANDU' ? '' : merchantNo}&sourceDocDoc=${sourceDocDoc ?? ''}&sourceDocRef=${sourceDocRef ?? ''}' +
+        '&feedType=${feedType ?? ''}&merchantNo=$merchantNo&sourceDocDoc=${sourceDocDoc ?? ''}&sourceDocRef=${sourceDocRef ?? ''}' +
         '&startIndex=$startIndex&noOfRecords=$noOfRecords';
 
     var response = await networking.getData(

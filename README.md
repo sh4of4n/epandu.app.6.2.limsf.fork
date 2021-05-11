@@ -1,6 +1,11 @@
+2.0.145
+
+- Update merchant no value for getting feeds
+
 2.0.144
 
 - Multilevel banner
+- Use "MULTILVL" key on UDF to enable multilevel on banner
 
 V.2.0.143
 
