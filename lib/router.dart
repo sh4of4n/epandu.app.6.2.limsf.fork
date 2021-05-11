@@ -80,6 +80,7 @@ import 'package:epandu/common_library/utils/image_viewer.dart';
     MaterialRoute(page: RegisteredCourseDetail),
     MaterialRoute(page: AttendanceTab),
     MaterialRoute(page: Promotions),
+    MaterialRoute(page: Multilevel),
     MaterialRoute(page: Profile),
     MaterialRoute(page: ProfileTab),
     MaterialRoute(page: UpdateProfile),

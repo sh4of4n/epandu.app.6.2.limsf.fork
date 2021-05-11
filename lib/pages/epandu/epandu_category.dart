@@ -115,7 +115,7 @@ class EpanduCategory extends StatelessWidget {
                         style: iconText),
                   ),
                   Divider(color: Colors.grey[400]),
-                  ListTile(
+                  /* ListTile(
                     onTap: () =>
                         ExtendedNavigator.of(context).push(Routes.comingSoon),
                     title: Text(
@@ -129,7 +129,7 @@ class EpanduCategory extends StatelessWidget {
                     title: Text(AppLocalizations.of(context).translate('chat'),
                         style: iconText),
                   ),
-                  Divider(color: Colors.grey[400]),
+                  Divider(color: Colors.grey[400]), */
                 ],
               ),
             ],

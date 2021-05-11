@@ -402,6 +402,13 @@ class _FeedsState extends State<Feeds> {
                                 ExtendedNavigator.of(context)
                                     .push(Routes.valueClub);
                                 break;
+                              case 'MULTILVL':
+                                ExtendedNavigator.of(context)
+                                    .push(Routes.multilevel,
+                                        arguments: MultilevelArguments(
+                                          feed: item,
+                                        ));
+                                break;
                               default:
                                 break;
                             }
@@ -581,6 +588,13 @@ class _FeedsState extends State<Feeds> {
                               case 'VCLUB':
                                 ExtendedNavigator.of(context)
                                     .push(Routes.valueClub);
+                                break;
+                              case 'MULTILVL':
+                                ExtendedNavigator.of(context)
+                                    .push(Routes.multilevel,
+                                        arguments: MultilevelArguments(
+                                          feed: item,
+                                        ));
                                 break;
                               default:
                                 break;

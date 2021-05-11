@@ -88,6 +88,7 @@ class Routes {
   static const String registeredCourseDetail = '/registered-course-detail';
   static const String attendanceTab = '/attendance-tab';
   static const String promotions = '/Promotions';
+  static const String multilevel = '/Multilevel';
   static const String profile = '/Profile';
   static const String profileTab = '/profile-tab';
   static const String updateProfile = '/update-profile';
@@ -162,6 +163,7 @@ class Routes {
     registeredCourseDetail,
     attendanceTab,
     promotions,
+    multilevel,
     profile,
     profileTab,
     updateProfile,
@@ -242,6 +244,7 @@ class Router extends RouterBase {
     RouteDef(Routes.registeredCourseDetail, page: RegisteredCourseDetail),
     RouteDef(Routes.attendanceTab, page: AttendanceTab),
     RouteDef(Routes.promotions, page: Promotions),
+    RouteDef(Routes.multilevel, page: Multilevel),
     RouteDef(Routes.profile, page: Profile),
     RouteDef(Routes.profileTab, page: ProfileTab),
     RouteDef(Routes.updateProfile, page: UpdateProfile),
@@ -680,6 +683,15 @@ class Router extends RouterBase {
       );
       return MaterialPageRoute<dynamic>(
         builder: (context) => Promotions(feed: args.feed),
+        settings: data,
+      );
+    },
+    Multilevel: (data) {
+      final args = data.getArgs<MultilevelArguments>(
+        orElse: () => MultilevelArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => Multilevel(feed: args.feed),
         settings: data,
       );
     },
@@ -1139,6 +1151,12 @@ class RegisteredCourseDetailArguments {
 class PromotionsArguments {
   final dynamic feed;
   PromotionsArguments({this.feed});
+}
+
+/// Multilevel arguments holder class
+class MultilevelArguments {
+  final dynamic feed;
+  MultilevelArguments({this.feed});
 }
 
 /// Profile arguments holder class
