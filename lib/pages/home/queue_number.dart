@@ -228,7 +228,7 @@ class _QueueNumberState extends State<QueueNumber> {
                     size: Size(40, 40),
                   ),
                   data:
-                      '{"QRCode":[{"group_id": "${checkInData[0].groupId}", "test_code": "${checkInData[0].testCode}", "nric_no": "${checkInData[0].nricNo}"}]}',
+                      '{"Table1":[{"group_id": "${checkInData[0].groupId}", "test_code": "${checkInData[0].testCode}", "nric_no": "${checkInData[0].nricNo}"}]}',
                   version: QrVersions.auto,
                   size: 250.0,
                 )
