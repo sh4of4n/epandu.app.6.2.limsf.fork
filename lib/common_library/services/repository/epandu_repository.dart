@@ -596,7 +596,7 @@ class EpanduRepo {
 
     return Response(false,
         message: response.message == null || response.message.isEmpty
-            ? 'Tiada nombor giliran.'
+            ? 'Tiada nombor giliran semasa.'
             : response.message.replaceAll(r'\u000d\u000a', ''));
   }
 }

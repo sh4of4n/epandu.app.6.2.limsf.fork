@@ -1,3 +1,7 @@
+2.0.149
+
+- Update last calling queue number message
+
 2.0.148
 
 - Fix QR format in queue number page
