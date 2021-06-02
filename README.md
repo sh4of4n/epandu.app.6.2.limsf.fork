@@ -1,3 +1,7 @@
+2.0.147
+
+- Generate QR code in queue number page
+
 2.0.146
 
 - Change using default diCode to enrolled Merchant Code

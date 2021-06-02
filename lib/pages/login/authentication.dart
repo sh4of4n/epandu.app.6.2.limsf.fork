@@ -76,7 +76,7 @@ class _AuthenticationState extends State<Authentication> {
 
   _checkExistingLogin() async {
     String userId = await localStorage.getUserId();
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
 
     if (userId.isNotEmpty && diCode.isNotEmpty) {
       ExtendedNavigator.of(context).replace(Routes.home);

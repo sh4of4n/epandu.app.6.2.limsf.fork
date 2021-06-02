@@ -222,7 +222,7 @@ class AuthRepo {
     String caPwd = await localStorage.getCaPwdEncode();
 
     String userId = await localStorage.getUserId();
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appCode=${appConfig.appCode}&appId=${appConfig.appId}&diCode=$diCode&userId=$userId';
@@ -258,19 +258,19 @@ class AuthRepo {
       }
 
       // save empty on DiCode for user to choose
-      if (type == 'LOGIN') localStorage.saveDiCode('');
+      if (type == 'LOGIN') localStorage.saveMerchantDbCode('');
 
       return Response(true, data: responseData);
     }
 
-    localStorage.saveDiCode('EPANDU');
+    localStorage.saveMerchantDbCode('EPANDU');
     return Response(true, data: 'empty');
   }
 
   Future<Response> getDiProfile({context}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode';
@@ -311,7 +311,7 @@ class AuthRepo {
     String userId = await localStorage.getUserId();
     //  Temporarily use TBS as diCode
     String diCode = appConfig.diCode;
-    // String diCode = await localStorage.getDiCode();
+    // String diCode = await localStorage.getMerchantDbCode();
     String sessionId = await localStorage.getSessionId();
 
     String path =
@@ -651,7 +651,7 @@ class AuthRepo {
   Future<Response> getEnrollHistory({groupId}) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
     String icNo = await localStorage.getStudentIc();
 
     String path =
@@ -736,7 +736,7 @@ class AuthRepo {
         await networking.postData(api: api, body: body, headers: headers);
 
     if (response.data == 'True') {
-      localStorage.saveDiCode(diCode);
+      localStorage.saveMerchantDbCode(diCode);
       localStorage.saveStudentIc(icNo);
 
       return Response(true, message: 'Your enrollment is successful.');
@@ -813,7 +813,7 @@ class AuthRepo {
         await networking.postData(api: api, body: body, headers: headers);
 
     if (response.data == 'True') {
-      localStorage.saveDiCode(diCode);
+      localStorage.saveMerchantDbCode(diCode);
       localStorage.saveStudentIc(icNo);
 
       return Response(true, message: 'Your enrollment is successful.');
@@ -1126,7 +1126,7 @@ class AuthRepo {
     String name = await localStorage.getName();
     String phoneCountryCode = await localStorage.getCountryCode();
     String phone = await localStorage.getUserPhone();
-    // String diCode = await localStorage.getDiCode();
+    // String diCode = await localStorage.getMerchantDbCode();
 
     RegisterUserToDIRequest params = RegisterUserToDIRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
@@ -1224,7 +1224,7 @@ class AuthRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
     String userId = await localStorage.getUserId();
-    // String diCode = await localStorage.getDiCode();
+    // String diCode = await localStorage.getMerchantDbCode();
 
     String countryCode = await localStorage.getCountryCode();
     String phone = await localStorage.getUserPhone();

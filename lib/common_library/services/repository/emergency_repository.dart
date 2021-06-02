@@ -149,7 +149,7 @@ class EmergencyRepo {
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
     String merchantNo = await localStorage.getMerchantDbCode();
     String userId = await localStorage.getUserId();
     String deviceId = await localStorage.getLoginDeviceId();

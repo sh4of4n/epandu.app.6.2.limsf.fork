@@ -42,7 +42,7 @@ class _IdentityBarcodeState extends State<IdentityBarcode> {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
     String appId = appConfig.appId;
-    String getDiCode = await localStorage.getDiCode();
+    String getDiCode = await localStorage.getMerchantDbCode();
     String getIcNo = await localStorage.getStudentIc();
     String getUserId = await localStorage.getUserId();
     String getPhoneCountryCode = await localStorage.getCountryCode();

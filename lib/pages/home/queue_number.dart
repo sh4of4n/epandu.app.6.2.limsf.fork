@@ -1,7 +1,9 @@
 import 'package:epandu/common_library/services/repository/epandu_repository.dart';
+import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,15 +18,19 @@ class QueueNumber extends StatefulWidget {
 
 class _QueueNumberState extends State<QueueNumber> {
   final epanduRepo = EpanduRepo();
-  final myImage = ImagesConstant();
   final primaryColor = ColorConstant.primaryColor;
+  final image = ImagesConstant();
+  final customDialog = CustomDialog();
   Future getCurrentQueue;
+  bool isLoading = false;
+  var checkInData;
 
   @override
   void initState() {
     super.initState();
 
     getCurrentQueue = getLastCallingJpjTestQueueNumber();
+    _getJpjTestCheckIn();
   }
 
   getLastCallingJpjTestQueueNumber() async {
@@ -38,6 +44,28 @@ class _QueueNumberState extends State<QueueNumber> {
     }
   }
 
+  Future<void> _getJpjTestCheckIn() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    var result = await epanduRepo.getJpjTestCheckIn();
+
+    if (result.isSuccess) {
+      checkInData = result.data;
+    } else {
+      customDialog.show(
+        context: context,
+        content: result.message,
+        type: DialogType.WARNING,
+      );
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +75,7 @@ class _QueueNumberState extends State<QueueNumber> {
           height: 110.h,
           placeholder: MemoryImage(kTransparentImage),
           image: AssetImage(
-            myImage.logo3,
+            image.logo3,
           ),
         ),
         elevation: 0,
@@ -192,6 +220,21 @@ class _QueueNumberState extends State<QueueNumber> {
                 fontSize: 65.sp,
               ),
             ),
+          SizedBox(height: 20.h),
+          !isLoading
+              ? QrImage(
+                  embeddedImage: AssetImage(image.ePanduIcon),
+                  embeddedImageStyle: QrEmbeddedImageStyle(
+                    size: Size(40, 40),
+                  ),
+                  data:
+                      '{"QRCode":[{"group_id": "${checkInData[0].groupId}", "test_code": "${checkInData[0].testCode}", "nric_no": "${checkInData[0].nricNo}"}]}',
+                  version: QrVersions.auto,
+                  size: 250.0,
+                )
+              : SpinKitFoldingCube(
+                  color: ColorConstant.primaryColor,
+                ),
         ],
       ),
     );

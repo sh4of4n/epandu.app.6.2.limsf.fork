@@ -336,7 +336,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
               context: context, type: 'LOGIN');
 
           if (getRegisteredDi.isSuccess) {
-            localStorage.saveDiCode(getRegisteredDi.data[0].diCode);
+            localStorage.saveMerchantDbCode(getRegisteredDi.data[0].diCode);
 
             ExtendedNavigator.of(context).replace(Routes.home);
           } else {
@@ -353,7 +353,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
           ExtendedNavigator.of(context).replace(Routes.selectDrivingInstitute,
               arguments: SelectDrivingInstituteArguments(diList: result.data));
         } else {
-          localStorage.saveDiCode(result.data[0].merchantNo);
+          localStorage.saveMerchantDbCode(result.data[0].merchantNo);
 
           ExtendedNavigator.of(context).replace(Routes.home);
         }

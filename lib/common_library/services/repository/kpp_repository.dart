@@ -52,7 +52,7 @@ class KppRepo {
     String langCode = 'ms-MY';
 
     String userId = await localStorage.getUserId();
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
     String userPhone =
         await localStorage.getCountryCode() + await localStorage.getUserPhone();
     String phone = userPhone.substring(2);
@@ -113,7 +113,7 @@ class KppRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
     String userId = await localStorage.getUserId();
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
     String userPhone =
         await localStorage.getCountryCode() + await localStorage.getUserPhone();
 

@@ -332,7 +332,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
               context: context, type: 'LOGIN');
 
           if (getRegisteredDi.isSuccess) {
-            localStorage.saveDiCode(getRegisteredDi.data[0].merchantNo);
+            localStorage.saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
 
             ExtendedNavigator.of(context).replace(Routes.home);
           } else {
@@ -349,7 +349,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
           ExtendedNavigator.of(context).replace(Routes.selectDrivingInstitute,
               arguments: SelectDrivingInstituteArguments(diList: result.data));
         } else {
-          localStorage.saveDiCode(result.data[0].merchantNo);
+          localStorage.saveMerchantDbCode(result.data[0].merchantNo);
 
           ExtendedNavigator.of(context).replace(Routes.home);
         }

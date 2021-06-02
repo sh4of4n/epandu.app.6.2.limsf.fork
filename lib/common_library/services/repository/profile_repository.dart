@@ -61,7 +61,7 @@ class ProfileRepo {
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
     String userId = await localStorage.getUserId();
 
     SaveProfileRequest params = SaveProfileRequest(
@@ -174,7 +174,7 @@ class ProfileRepo {
 
   /* Future getStudentProfile() async {
     String userId = await localStorage.getUserId();
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
 
     String params =
         'GetUserRegisteredDI?wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=${credentials.caUid}&caPwd=${credentials.caPwdUrlEncode}&diCode=$diCode&userId=$userId';
@@ -191,7 +191,7 @@ class ProfileRepo {
 
     //  Temporarily use TBS as diCode
     String diCode = appConfig.diCode;
-    // String diCode = await localStorage.getDiCode();
+    // String diCode = await localStorage.getMerchantDbCode();
     String icNo = await localStorage.getStudentIc();
 
     Map<String, String> param = {
@@ -216,7 +216,7 @@ class ProfileRepo {
 
     //  Temporarily use TBS as diCode
     String diCode = appConfig.diCode;
-    // String diCode = await localStorage.getDiCode();
+    // String diCode = await localStorage.getMerchantDbCode();
     String groupId = await localStorage.getEnrolledGroupId();
     String icNo = await localStorage.getStudentIc();
 

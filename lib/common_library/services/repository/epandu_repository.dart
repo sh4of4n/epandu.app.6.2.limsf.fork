@@ -22,7 +22,7 @@ class EpanduRepo {
     String caPwd = await localStorage.getCaPwdEncode();
 
     String diCode = await localStorage.getMerchantDbCode();
-    // String diCode = await localStorage.getDiCode();
+    // String diCode = await localStorage.getMerchantDbCode();
     // String groupId = '';
     String icNo = await localStorage.getStudentIc();
 
@@ -55,7 +55,7 @@ class EpanduRepo {
     String caPwd = await localStorage.getCaPwdEncode();
 
     String diCode = await localStorage.getMerchantDbCode();
-    // String diCode = await localStorage.getDiCode();
+    // String diCode = await localStorage.getMerchantDbCode();
     String icNo = await localStorage.getStudentIc();
 
     String path =
@@ -83,7 +83,7 @@ class EpanduRepo {
     String caPwd = await localStorage.getCaPwdEncode();
 
     String diCode = await localStorage.getMerchantDbCode();
-    // String diCode = await localStorage.getDiCode();
+    // String diCode = await localStorage.getMerchantDbCode();
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&recpNo=$recpNo';
@@ -112,7 +112,7 @@ class EpanduRepo {
     String caPwd = await localStorage.getCaPwdEncode();
 
     String diCode = await localStorage.getMerchantDbCode();
-    // String diCode = await localStorage.getDiCode();
+    // String diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
     String icNo = await localStorage.getStudentIc();
 
@@ -142,7 +142,7 @@ class EpanduRepo {
     String caPwd = await localStorage.getCaPwdEncode();
 
     String diCode = await localStorage.getMerchantDbCode();
-    // String diCode = await localStorage.getDiCode();
+    // String diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
     String icNo = await localStorage.getStudentIc();
 
@@ -176,7 +176,7 @@ class EpanduRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
 
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
     String icNo = await localStorage.getStudentIc();
 
@@ -222,7 +222,7 @@ class EpanduRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
 
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
 
     String path =
@@ -252,7 +252,7 @@ class EpanduRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
     String icNo = await localStorage.getStudentIc();
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
 
     String path =
@@ -283,7 +283,7 @@ class EpanduRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
 
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
 
     String path =
@@ -315,7 +315,7 @@ class EpanduRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
 
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
 
     String path =
@@ -345,7 +345,7 @@ class EpanduRepo {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
 
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
 
     String path =
@@ -377,7 +377,7 @@ class EpanduRepo {
   }) async {
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
     String icNo = await localStorage.getStudentIc();
 
     SaveBookingTestRequest saveUserPasswordRequest = SaveBookingTestRequest(
@@ -417,7 +417,7 @@ class EpanduRepo {
     String icNo = await localStorage.getStudentIc();
     String userId = await localStorage.getUserId();
 
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
 
     String path =
@@ -447,7 +447,7 @@ class EpanduRepo {
 
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
 
     String path =
@@ -481,7 +481,7 @@ class EpanduRepo {
 
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwd();
-    String diCode = await localStorage.getDiCode();
+    String diCode = await localStorage.getMerchantDbCode();
     String userId = await localStorage.getUserId();
 
     VerifyScanCodeRequest verifyScanCodeRequest = VerifyScanCodeRequest(
@@ -534,7 +534,7 @@ class EpanduRepo {
 
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
-    // String? diCode = await localStorage.getDiCode();
+    // String? diCode = await localStorage.getMerchantDbCode();
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=W1007&userId=&action=JPJ_PART2_CHECK_IN';
@@ -562,7 +562,7 @@ class EpanduRepo {
 
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
-    // String diCode = await localStorage.getDiCode();
+    // String diCode = await localStorage.getMerchantDbCode();
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=W1007';
