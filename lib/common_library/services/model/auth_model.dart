@@ -261,8 +261,7 @@ class UserRegisteredDiResponse {
 
   UserRegisteredDiResponse.fromJson(Map<String, dynamic> json) {
     if (json['ArmasterProfile'] != null) {
-      armasterProfile =
-          new List<RegisteredDiArmasterProfile>.empty(growable: true);
+      armasterProfile = new List<RegisteredDiArmasterProfile>();
       json['ArmasterProfile'].forEach((v) {
         armasterProfile.add(new RegisteredDiArmasterProfile.fromJson(v));
       });
@@ -297,6 +296,9 @@ class RegisteredDiArmasterProfile {
   String branchCode;
   String transtamp;
   String appBackgroundPhotoPath;
+  String merchantIconFilename;
+  String merchantBannerFilename;
+  String merchantProfilePhotoFilename;
   String name;
   String shortName;
 
@@ -318,6 +320,9 @@ class RegisteredDiArmasterProfile {
       this.branchCode,
       this.transtamp,
       this.appBackgroundPhotoPath,
+      this.merchantIconFilename,
+      this.merchantBannerFilename,
+      this.merchantProfilePhotoFilename,
       this.name,
       this.shortName});
 
@@ -339,6 +344,9 @@ class RegisteredDiArmasterProfile {
     branchCode = json['branch_code'];
     transtamp = json['transtamp'];
     appBackgroundPhotoPath = json['app_background_photo_path'];
+    merchantIconFilename = json['merchant_icon_filename'];
+    merchantBannerFilename = json['merchant_banner_filename'];
+    merchantProfilePhotoFilename = json['merchant_profile_photo_filename'];
     name = json['name'];
     shortName = json['short_name'];
   }
@@ -362,6 +370,9 @@ class RegisteredDiArmasterProfile {
     data['branch_code'] = this.branchCode;
     data['transtamp'] = this.transtamp;
     data['app_background_photo_path'] = this.appBackgroundPhotoPath;
+    data['merchant_icon_filename'] = this.merchantIconFilename;
+    data['merchant_banner_filename'] = this.merchantBannerFilename;
+    data['merchant_profile_photo_filename'] = this.merchantProfilePhotoFilename;
     data['name'] = this.name;
     data['short_name'] = this.shortName;
     return data;

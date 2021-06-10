@@ -20,6 +20,27 @@ class SelectDrivingInstitute extends StatelessWidget {
   final RegExp exp =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
 
+  loadImage(diList) {
+    if (diList.merchantBannerFilename != null)
+      return AspectRatio(
+        aspectRatio: 16 / 9,
+        child: Image.network(
+          diList.merchantBannerFilename.replaceAll(exp, '').split('\r\n')[0],
+        ),
+      );
+    return AspectRatio(
+      aspectRatio: 16 / 9,
+      child: Container(
+        color: Colors.white,
+        child: Icon(
+          Icons.broken_image,
+          size: 80,
+          color: Colors.grey[800],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +58,7 @@ class SelectDrivingInstitute extends StatelessWidget {
         backgroundColor: Colors.transparent,
         body: Padding(
           padding: EdgeInsets.symmetric(vertical: 25.0),
-          child: Column(
+          child: ListView(
             children: <Widget>[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,53 +81,58 @@ class SelectDrivingInstitute extends StatelessWidget {
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
               ),
-              GridView.builder(
+              ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: diList.length,
                 shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  // mainAxisSpacing: 15.0,
-                ),
+                // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                //   crossAxisCount: 2,
+                //   // mainAxisSpacing: 15.0,
+                // ),
                 itemBuilder: (BuildContext context, int index) {
-                  return Column(
-                    children: <Widget>[
-                      InkWell(
-                        onTap: () {
-                          localStorage
-                              .saveMerchantDbCode(diList[index].merchantNo);
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: ListTile(
+                      onTap: () {
+                        localStorage
+                            .saveMerchantDbCode(diList[index].merchantNo);
 
-                          ExtendedNavigator.of(context).replace(Routes.home);
-                        },
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10.0),
-                          padding: EdgeInsets.symmetric(vertical: 5.0),
-                          width: ScreenUtil().setWidth(600),
-                          height: ScreenUtil().setHeight(700),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child:
-                              /* Image.memory(
-                            base64Decode(
-                              diList[index].appBackgroundPhoto,
-                            ),
-                            width: ScreenUtil().setWidth(300),
-                            height: ScreenUtil().setHeight(300),
-                          ), */
-                              Image.network(
-                            diList[index]
-                                .appBackgroundPhotoPath
-                                .replaceAll(exp, '')
-                                .split('\r\n')[0],
-                            width: ScreenUtil().setWidth(300),
-                            height: ScreenUtil().setHeight(300),
-                          ),
-                        ),
-                      ),
-                    ],
+                        ExtendedNavigator.of(context).replace(Routes.home);
+                      },
+                      title: loadImage(diList[index]),
+                    ),
                   );
+                  // return Column(
+                  //   children: <Widget>[
+                  //     InkWell(
+                  //       onTap: () {
+                  //         localStorage
+                  //             .saveMerchantDbCode(diList[index].merchantNo);
+
+                  //         ExtendedNavigator.of(context).replace(Routes.home);
+                  //       },
+                  //       child: Container(
+                  //         margin: EdgeInsets.symmetric(horizontal: 10.0),
+                  //         padding: EdgeInsets.symmetric(vertical: 5.0),
+                  //         width: ScreenUtil().setWidth(600),
+                  //         height: ScreenUtil().setHeight(600),
+                  //         decoration: BoxDecoration(
+                  //           color: Colors.white,
+                  //           borderRadius: BorderRadius.circular(15.0),
+                  //         ),
+                  //         child:
+                  //             /* Image.memory(
+                  //           base64Decode(
+                  //             diList[index].appBackgroundPhoto,
+                  //           ),
+                  //           width: ScreenUtil().setWidth(300),
+                  //           height: ScreenUtil().setHeight(300),
+                  //         ), */
+                  //             loadImage(diList[index]),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // );
                 },
               ),
             ],
