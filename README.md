@@ -1,3 +1,11 @@
+V.2.0.151
+
+- Select DI and home page logo now uses merchant_banner_filename
+
+V.2.0.150
+
+- Select DI screen UI now displays banner
+
 2.0.149
 
 - Update last calling queue number message

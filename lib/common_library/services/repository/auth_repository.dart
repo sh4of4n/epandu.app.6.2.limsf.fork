@@ -288,14 +288,14 @@ class AuthRepo {
       localStorage
           .saveMerchantDbCode(instituteLogoResponse.armaster[0].merchantNo);
 
-      if (instituteLogoResponse.armaster[0].merchantIconFilename != null) {
+      if (instituteLogoResponse.armaster[0].merchantBannerFilename != null) {
         localStorage.saveInstituteLogo(instituteLogoResponse
-            .armaster[0].merchantIconFilename
+            .armaster[0].merchantBannerFilename
             .replaceAll(removeBracket, '')
             .split('\r\n')[0]);
 
         return Response(true,
-            data: instituteLogoResponse.armaster[0].merchantIconFilename
+            data: instituteLogoResponse.armaster[0].merchantBannerFilename
                 .replaceAll(removeBracket, '')
                 .split('\r\n')[0]);
       }
