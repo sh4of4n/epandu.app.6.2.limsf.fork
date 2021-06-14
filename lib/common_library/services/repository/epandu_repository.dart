@@ -45,7 +45,12 @@ class EpanduRepo {
       return Response(true, data: getEnrollmentResponse.enroll);
     }
 
-    return Response(false, message: 'You have no class enrolled.');
+    return Response(
+      false,
+      message: response.message == null || response.message.isEmpty
+          ? 'You have no class enrolled.'
+          : response.message.replaceAll(r'\u000d\u000a', ''),
+    );
   }
 
   Future<Response> getCollectionByStudent({context, startIndex}) async {
@@ -73,7 +78,10 @@ class EpanduRepo {
       return Response(true, data: studentPaymentResponse.collectTrn);
     }
 
-    return Response(false, message: 'You have no payment history');
+    return Response(false,
+        message: response.message == null || response.message.isEmpty
+            ? 'You have no payment history'
+            : response.message.replaceAll(r'\u000d\u000a', ''));
   }
 
   Future<Response> getCollectionDetailByRecpNo({context, recpNo}) async {
@@ -131,7 +139,10 @@ class EpanduRepo {
       return Response(true, data: getDTestByCodeResponse.dTest);
     }
 
-    return Response(false, message: 'You have no booking.');
+    return Response(false,
+        message: response.message == null || response.message.isEmpty
+            ? 'You have no booking.'
+            : response.message.replaceAll(r'\u000d\u000a', ''));
   }
 
   // attendance
@@ -162,7 +173,10 @@ class EpanduRepo {
       return Response(true, data: getStuPracByCodeResponse.stuPrac);
     }
 
-    return Response(false, message: 'You have no attendance record.');
+    return Response(false,
+        message: response.message == null || response.message.isEmpty
+            ? 'You have no attendance record.'
+            : response.message.replaceAll(r'\u000d\u000a', ''));
   }
 
   // booking

@@ -1,3 +1,7 @@
+import 'package:hive/hive.dart';
+
+part 'auth_model.g.dart';
+
 class GetWsUrlResponse {
   LoginAcctInfo loginAcctInfo;
 
@@ -278,28 +282,51 @@ class UserRegisteredDiResponse {
   }
 }
 
+@HiveType(typeId: 5, adapterName: 'DiListAdapter')
 class RegisteredDiArmasterProfile {
+  @HiveField(0)
   String iD;
+  @HiveField(1)
   String appId;
+  @HiveField(2)
   String merchantNo;
+  @HiveField(3)
   String userId;
+  @HiveField(4)
   String sponsor;
+  @HiveField(5)
   String sponsorAppId;
+  @HiveField(6)
   String appCode;
+  @HiveField(7)
   String appVersion;
+  @HiveField(8)
   String deleted;
+  @HiveField(9)
   String createUser;
+  @HiveField(10)
   String createDate;
+  @HiveField(11)
   String editUser;
+  @HiveField(12)
   String editDate;
+  @HiveField(13)
   String compCode;
+  @HiveField(14)
   String branchCode;
+  @HiveField(15)
   String transtamp;
+  @HiveField(16)
   String appBackgroundPhotoPath;
+  @HiveField(17)
   String merchantIconFilename;
+  @HiveField(18)
   String merchantBannerFilename;
+  @HiveField(19)
   String merchantProfilePhotoFilename;
+  @HiveField(20)
   String name;
+  @HiveField(21)
   String shortName;
 
   RegisteredDiArmasterProfile(

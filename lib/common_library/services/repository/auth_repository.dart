@@ -328,6 +328,7 @@ class AuthRepo {
       Hive.box('serviceList').clear();
       // Hive.box('ws_url').delete('show_badge');
       Hive.box('inboxStorage').clear();
+      Hive.box('di_list').clear();
     }
     // Hive.box('emergencyContact').clear();
 

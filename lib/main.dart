@@ -11,6 +11,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'common_library/services/model/auth_model.dart';
 import 'common_library/utils/app_localizations_delegate.dart';
 import 'common_library/utils/application.dart';
 import 'router.gr.dart' as router;
@@ -80,8 +81,10 @@ void main() async {
   Hive.registerAdapter(TelcoAdapter());
   Hive.registerAdapter(BillAdapter());
   Hive.registerAdapter(MsgOutboxAdapter());
+  Hive.registerAdapter(DiListAdapter());
   // _setupLogging();
   await Hive.openBox('ws_url');
+  await Hive.openBox('di_list');
 
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);

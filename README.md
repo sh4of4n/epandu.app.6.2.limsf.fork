@@ -1,3 +1,9 @@
+V.2.0.152
+
+- Set select driving institute ratio to 28/9
+- Add option to switch merchant in home page
+- Additional error message "massage"
+
 V.2.0.151
 
 - Select DI and home page logo now uses merchant_banner_filename

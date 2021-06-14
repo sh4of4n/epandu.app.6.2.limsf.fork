@@ -1,8 +1,10 @@
 // import 'package:epandu/custom_icon/my_custom_icons_icons.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:epandu/common_library/services/model/auth_model.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -17,130 +19,70 @@ class HomePageHeader extends StatelessWidget {
   final formatter = NumberFormat('#,##0.00');
   final image = ImagesConstant();
 
+  enableSelectDi(context) {
+    List<RegisteredDiArmasterProfile> diList = [];
+
+    for (int i = 0; i < Hive.box('di_list').length; i += 1) {
+      diList.add(Hive.box('di_list').getAt(i) as RegisteredDiArmasterProfile);
+    }
+
+    if (Hive.box('di_list') != null && Hive.box('di_list').length > 1)
+      return Expanded(
+        flex: 1,
+        child: InkWell(
+          onTap: () => selectDi(context, diList),
+          child: Icon(Icons.keyboard_arrow_down),
+        ),
+      );
+    else
+      return Expanded(
+        flex: 1,
+        child: Container(),
+      );
+  }
+
+  selectDi(context, diList) {
+    ExtendedNavigator.of(context).replace(
+      Routes.selectDrivingInstitute,
+      arguments: SelectDrivingInstituteArguments(diList: diList),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Table(
-        columnWidths: {1: FractionColumnWidth(.20)},
-        defaultVerticalAlignment: TableCellVerticalAlignment.top,
-        // border: TableBorder.all(),
-        children: [
-          TableRow(
-            children: [
-              Container(
-                margin: EdgeInsets.only(
-                  top: ScreenUtil().setHeight(20),
-                ),
-                child: AspectRatio(
-                  aspectRatio: 28 / 9,
-                  child: FadeInImage(
-                    alignment: Alignment.center,
-                    height: 350.h,
-                    fit: BoxFit.fitWidth,
-                    placeholder: MemoryImage(kTransparentImage),
-                    image: instituteLogo.isNotEmpty
-                        ? NetworkImage(instituteLogo)
-                        : MemoryImage(kTransparentImage),
-                  ),
-                ),
-                // child: AspectRatio(
-                //   aspectRatio: 28 / 9,
-                //   child: FadeInImage(
-                //     alignment: Alignment.centerLeft,
-                //     height: 350.h,
-                //     fit: BoxFit.fitWidth,
-                //     placeholder: MemoryImage(kTransparentImage),
-                //     image: AssetImage(image.test),
-                //   ),
-                // ),
-              ),
-              /* Opacity(
-                    opacity: 0.5,
-                    child: Icon(
-                      MyCustomIcons.touch_me_icon,
-                      color: Color(0xff808080),
-                      size: 30,
-                    ),
-                  ), */
-              /* Container(
-                  // height: ScreenUtil().setHeight(400),
-                  alignment: Alignment.centerRight,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Text(
-                      AppLocalizations.of(context).translate('wallet_balance'),
-                      style: TextStyle(fontSize: ScreenUtil().setSp(55)),
-                    ),
-                    SizedBox(
-                      height: ScreenUtil().setHeight(10),
-                    ),
-                    Text(
-                      'RM' + formatter.format(0),
-                      style: TextStyle(
-                          letterSpacing: 0.5,
-                          fontSize: ScreenUtil().setSp(76),
-                          fontWeight: FontWeight.w800),
-                    ),
-                    SizedBox(
-                      height: ScreenUtil().setHeight(10),
-                    ),
-                    InkWell(
-                      borderRadius: BorderRadius.circular(13),
-                      onTap: () {},
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: ScreenUtil().setWidth(25),
-                          vertical: ScreenUtil().setHeight(14),
-                        ),
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Color(0xff231f20), width: 1.2),
-                          borderRadius: BorderRadius.circular(13),
-                        ),
-                        child: Text(
-                          AppLocalizations.of(context).translate('reload_lbl'),
-                          style: TextStyle(
-                            fontSize: ScreenUtil().setSp(48),
-                            letterSpacing: -0.6,
-                            color: Color(0xff231f20),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                  ), */
-              Container(
-                alignment: Alignment.topRight,
-                // margin: EdgeInsets.only(top: ScreenUtil().setHeight(30)),
-                child: InkWell(
-                  onTap: () => ExtendedNavigator.of(context).push(
-                    Routes.profileTab,
-                    arguments:
-                        ProfileTabArguments(positionStream: positionStream),
-                  ),
-                  child: Image.asset(
-                    image.profileRed,
-                    width: 150.w,
-                  ),
-                ),
-                /* child: IconButton(
-                  iconSize: 36,
-                  icon: Icon(
-                    MyCustomIcons.account_icon,
-                    color: Color(0xffb3b3b3),
-                  ),
-                  onPressed: () => Navigator.push(context, PROFILE_TAB,
-                      arguments: positionStream),
-                ), */
-              ),
-            ],
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: 8,
+          child: AspectRatio(
+            aspectRatio: 28 / 9,
+            child: FadeInImage(
+              alignment: Alignment.center,
+              height: 350.h,
+              fit: BoxFit.fitWidth,
+              placeholder: MemoryImage(kTransparentImage),
+              image: instituteLogo.isNotEmpty
+                  ? NetworkImage(instituteLogo)
+                  : MemoryImage(kTransparentImage),
+            ),
           ),
-        ],
-      ),
+        ),
+        enableSelectDi(context),
+        Expanded(
+          flex: 1,
+          child: InkWell(
+            onTap: () => ExtendedNavigator.of(context).push(
+              Routes.profileTab,
+              arguments: ProfileTabArguments(positionStream: positionStream),
+            ),
+            child: Image.asset(
+              image.profileRed,
+              width: 150.w,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

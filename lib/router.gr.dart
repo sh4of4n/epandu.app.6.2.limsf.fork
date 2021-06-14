@@ -691,7 +691,10 @@ class Router extends RouterBase {
         orElse: () => MultilevelArguments(),
       );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => Multilevel(feed: args.feed),
+        builder: (context) => Multilevel(
+          feed: args.feed,
+          appVersion: args.appVersion,
+        ),
         settings: data,
       );
     },
@@ -1156,7 +1159,8 @@ class PromotionsArguments {
 /// Multilevel arguments holder class
 class MultilevelArguments {
   final dynamic feed;
-  MultilevelArguments({this.feed});
+  final String appVersion;
+  MultilevelArguments({this.feed, this.appVersion});
 }
 
 /// Profile arguments holder class
