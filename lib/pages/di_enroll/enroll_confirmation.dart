@@ -99,6 +99,9 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
       localStorage.saveRace(result.data[0].race);
       localStorage.saveNationality(result.data[0].nationality);
       localStorage.saveGender(result.data[0].gender);
+      localStorage.saveCdl(result.data[0].cdlGroup);
+      localStorage.saveLdl(result.data[0].enqLdlGroup);
+
       if (result.data[0].picturePath != null)
         localStorage.saveProfilePic(result.data[0].picturePath
             .replaceAll(removeBracket, '')

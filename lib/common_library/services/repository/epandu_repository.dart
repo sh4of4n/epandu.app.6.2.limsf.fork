@@ -110,7 +110,12 @@ class EpanduRepo {
           data: getCollectionDetailByRecpNoResponse.collectDetail);
     }
 
-    return Response(false, message: 'No records found.');
+    return Response(
+      false,
+      message: response.message == null || response.message.isEmpty
+          ? 'No records found.'
+          : response.message.replaceAll(r'\u000d\u000a', ''),
+    );
   }
 
   Future<Response> getDTestByCode({context}) async {
@@ -255,7 +260,12 @@ class EpanduRepo {
       return Response(true, data: getTestListGroupIdResponse.test);
     }
 
-    return Response(false, message: 'No records found.');
+    return Response(
+      false,
+      message: response.message == null || response.message.isEmpty
+          ? 'No records found.'
+          : response.message.replaceAll(r'\u000d\u000a', ''),
+    );
   }
 
   Future<Response> getTestListGroupIdByIcNo({
@@ -285,7 +295,12 @@ class EpanduRepo {
       return Response(true, data: getTestListGroupIdResponse.test);
     }
 
-    return Response(false, message: 'No records found.');
+    return Response(
+      false,
+      message: response.message == null || response.message.isEmpty
+          ? 'No records found.'
+          : response.message.replaceAll(r'\u000d\u000a', ''),
+    );
   }
 
   Future<Response> getTestListTestType({
@@ -316,7 +331,12 @@ class EpanduRepo {
       return Response(true, data: getTestListTestTypeResponse.test);
     }
 
-    return Response(false, message: 'No records found.');
+    return Response(
+      false,
+      message: response.message == null || response.message.isEmpty
+          ? 'No records found.'
+          : response.message.replaceAll(r'\u000d\u000a', ''),
+    );
   }
 
   Future<Response> getTestList({
@@ -347,7 +367,12 @@ class EpanduRepo {
       return Response(true, data: getTestListResponse.test);
     }
 
-    return Response(false, message: 'No records found.');
+    return Response(
+      false,
+      message: response.message == null || response.message.isEmpty
+          ? 'No records found.'
+          : response.message.replaceAll(r'\u000d\u000a', ''),
+    );
   }
 
   Future<Response> getCourseSectionList({
@@ -378,7 +403,12 @@ class EpanduRepo {
       return Response(true, data: getCourseSectionListResponse.courseSection);
     }
 
-    return Response(false, message: 'No records found.');
+    return Response(
+      false,
+      message: response.message == null || response.message.isEmpty
+          ? 'No records found.'
+          : response.message.replaceAll(r'\u000d\u000a', ''),
+    );
   }
 
   Future<Response> saveBookingTest({
@@ -450,7 +480,12 @@ class EpanduRepo {
       return Response(true, data: getJpjTestCheckInResponse.jpjTestTrn);
     }
 
-    return Response(false, message: 'No records found.');
+    return Response(
+      false,
+      message: response.message == null || response.message.isEmpty
+          ? 'Found no check in result. Unable to generate QR.'
+          : response.message.replaceAll(r'\u000d\u000a', ''),
+    );
   }
 
   Future<Response> getLastJpjTestCheckInByInterval({
@@ -482,7 +517,12 @@ class EpanduRepo {
           data: getLastJpjTestCheckInByIntervalResponse.jpjTestTrn);
     }
 
-    return Response(false, message: 'No records found.');
+    return Response(
+      false,
+      message: response.message == null || response.message.isEmpty
+          ? 'No records found.'
+          : response.message.replaceAll(r'\u000d\u000a', ''),
+    );
   }
 
   Future<Response> verifyScanCode({
@@ -548,10 +588,10 @@ class EpanduRepo {
 
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
-    // String? diCode = await localStorage.getMerchantDbCode();
+    String diCode = await localStorage.getMerchantDbCode();
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=W1007&userId=&action=JPJ_PART2_CHECK_IN';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&userId=&action=JPJ_PART2_CHECK_IN';
 
     var response = await networking.getData(
       path: 'GetScanCodeByAction?$path',
@@ -576,10 +616,10 @@ class EpanduRepo {
 
     String caUid = await localStorage.getCaUid();
     String caPwd = await localStorage.getCaPwdEncode();
-    // String diCode = await localStorage.getMerchantDbCode();
+    String diCode = await localStorage.getMerchantDbCode();
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=W1007';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode';
 
     /* customDialog.show(
       context: context,

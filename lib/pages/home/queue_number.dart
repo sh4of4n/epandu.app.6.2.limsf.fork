@@ -66,6 +66,26 @@ class _QueueNumberState extends State<QueueNumber> {
     });
   }
 
+  renderQr() {
+    if (!isLoading && checkInData != null)
+      return QrImage(
+        embeddedImage: AssetImage(image.ePanduIcon),
+        embeddedImageStyle: QrEmbeddedImageStyle(
+          size: Size(40, 40),
+        ),
+        data:
+            '{"Table1":[{"group_id": "${checkInData[0].groupId}", "test_code": "${checkInData[0].testCode}", "nric_no": "${checkInData[0].nricNo}"}]}',
+        version: QrVersions.auto,
+        size: 250.0,
+      );
+    else if (checkInData == null) {
+      return Container();
+    }
+    SpinKitFoldingCube(
+      color: ColorConstant.primaryColor,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,9 +116,9 @@ class _QueueNumberState extends State<QueueNumber> {
                     ),
                   ),
                 if (widget.data != null &&
-                    widget.data[0].regDate.substring(11, 20) != null)
+                    widget.data[0].regDate.substring(11, 19) != null)
                   Text(
-                    widget.data[0].regDate.substring(11, 20),
+                    widget.data[0].regDate.substring(11, 19),
                     style: TextStyle(
                       fontSize: 60.sp,
                     ),
@@ -221,20 +241,7 @@ class _QueueNumberState extends State<QueueNumber> {
               ),
             ),
           SizedBox(height: 20.h),
-          !isLoading
-              ? QrImage(
-                  embeddedImage: AssetImage(image.ePanduIcon),
-                  embeddedImageStyle: QrEmbeddedImageStyle(
-                    size: Size(40, 40),
-                  ),
-                  data:
-                      '{"Table1":[{"group_id": "${checkInData[0].groupId}", "test_code": "${checkInData[0].testCode}", "nric_no": "${checkInData[0].nricNo}"}]}',
-                  version: QrVersions.auto,
-                  size: 250.0,
-                )
-              : SpinKitFoldingCube(
-                  color: ColorConstant.primaryColor,
-                ),
+          renderQr(),
         ],
       ),
     );

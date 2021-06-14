@@ -1,4 +1,9 @@
-V.2.0.152
+V.2.0.154
+
+- Fix cdl and ldl saving in update profile
+- Fix issue found on check in scan
+
+V.2.0.153
 
 - Set select driving institute ratio to 28/9
 - Add option to switch merchant in home page

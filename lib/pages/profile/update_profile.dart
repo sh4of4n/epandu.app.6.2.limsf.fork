@@ -58,6 +58,8 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   String _getBirthDate = '';
   String _getNickName = '';
   String _getRace = '';
+  String _getCdl = '';
+  String _getLdl = '';
 
   String _dob = '';
   String _ic = '';
@@ -158,6 +160,8 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
     _getNickName = await localStorage.getNickName();
     _getRace = await localStorage.getRace();
     profilePicUrl = await localStorage.getProfilePic();
+    _getCdl = await localStorage.getCdl();
+    _getLdl = await localStorage.getLdl();
 
     _nameController.text = _getName;
     _emailController.text = _getEmail;
@@ -166,6 +170,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         _getBirthDate.isNotEmpty ? _getBirthDate.substring(0, 10) : '';
     _icController.text = _getUserIc;
     _nickNameController.text = _getNickName;
+
     if (_getRace == 'MALAY' || _getRace == 'M') {
       _race = 'Malay';
       _raceParam = 'M';
@@ -179,6 +184,9 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
       _race = 'Others';
       _raceParam = 'O';
     }
+
+    cdlItem = _getCdl;
+    ldlItem = _getLdl;
   }
 
   _getAvailableCameras() async {
@@ -726,6 +734,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                         ldlItem = value;
                       });
                     },
+                    value: ldlItem.isEmpty ? null : ldlItem,
                     items: ldlList == null
                         ? null
                         : ldlList
@@ -777,6 +786,8 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                         cdlItem = value;
                       });
                     },
+                    value:
+                        cdlItem.isEmpty ? null : cdlItem.replaceAll('%20', ' '),
                     items: cdlList == null
                         ? null
                         : cdlList

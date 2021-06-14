@@ -87,8 +87,8 @@ class ProfileRepo {
       userProfileImage: userProfileImage,
       userProfileImageBase64String: userProfileImageBase64String ?? '',
       removeUserProfileImage: removeUserProfileImage ?? false,
-      enqLdlGroup: Uri.encodeComponent(enqLdlGroup),
-      cdlGroup: Uri.encodeComponent(cdlGroup),
+      ldlEnqGroup: enqLdlGroup,
+      cdlGroup: cdlGroup,
       langCode: langCode ?? 'en-MY',
       findDrvJobs: findDrvJobs, //bool set to false
     );

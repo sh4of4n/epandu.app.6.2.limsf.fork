@@ -113,12 +113,13 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                     .translate('complete_your_profile'),
                 customActions: <Widget>[
                   TextButton(
-                    child:
-                        Text(AppLocalizations.of(context).translate('ok_btn')),
-                    onPressed: () => ExtendedNavigator.of(context).push(
-                      Routes.updateProfile,
-                    ),
-                  ),
+                      child: Text(
+                          AppLocalizations.of(context).translate('ok_btn')),
+                      onPressed: () {
+                        ExtendedNavigator.of(context).pop();
+                        ExtendedNavigator.of(context)
+                            .push(Routes.updateProfile);
+                      }),
                 ],
                 type: DialogType.GENERAL,
               );

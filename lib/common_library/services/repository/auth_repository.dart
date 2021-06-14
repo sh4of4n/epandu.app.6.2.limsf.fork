@@ -251,6 +251,8 @@ class AuthRepo {
         localStorage.saveRace(profileResult.data[0].race);
         localStorage.saveNationality(profileResult.data[0].nationality);
         localStorage.saveGender(profileResult.data[0].gender);
+        localStorage.saveCdl(profileResult.data[0].cdlGroup);
+        localStorage.saveLdl(profileResult.data[0].enqLdlGroup);
         if (profileResult.data[0].picturePath != null)
           localStorage.saveProfilePic(profileResult.data[0].picturePath
               .replaceAll(removeBracket, '')

@@ -112,6 +112,8 @@ class _ProfileTabState extends State<ProfileTab>
                   .replaceAll(removeBracket, '')
                   .split('\r\n')[0]
               : '',
+          cdlGroup: result.data[0].cdlGroup,
+          enqLdlGroup: result.data[0].enqLdlGroup,
         );
       });
 
@@ -126,6 +128,9 @@ class _ProfileTabState extends State<ProfileTab>
       localStorage.saveRace(result.data[0].race);
       localStorage.saveNationality(result.data[0].nationality);
       localStorage.saveGender(result.data[0].gender);
+      localStorage.saveCdl(result.data[0].cdlGroup);
+      localStorage.saveLdl(result.data[0].enqLdlGroup);
+
       if (result.data[0].picturePath != null)
         localStorage.saveProfilePic(result.data[0].picturePath
             .replaceAll(removeBracket, '')
@@ -159,6 +164,8 @@ class _ProfileTabState extends State<ProfileTab>
     String _getRace = await localStorage.getRace();
     String _getNationality = await localStorage.getNationality();
     String _getProfilePic = await localStorage.getProfilePic();
+    String _getCdl = await localStorage.getCdl();
+    String _getLdl = await localStorage.getLdl();
 
     setState(() {
       userProfile = UserProfile(
@@ -176,6 +183,8 @@ class _ProfileTabState extends State<ProfileTab>
         picturePath: _getProfilePic != null && _getProfilePic.isNotEmpty
             ? _getProfilePic.replaceAll(removeBracket, '').split('\r\n')[0]
             : '',
+        cdlGroup: _getCdl,
+        enqLdlGroup: _getLdl,
       );
     });
   }

@@ -42,7 +42,7 @@ class GetUserProfileResponse {
 
   GetUserProfileResponse.fromJson(Map<String, dynamic> json) {
     if (json['UserProfile'] != null) {
-      userProfile = new List<UserProfile>.empty(growable: true);
+      userProfile = new List<UserProfile>();
       json['UserProfile'].forEach((v) {
         userProfile.add(new UserProfile.fromJson(v));
       });
@@ -78,6 +78,8 @@ class UserProfile {
   String nationality;
   String race;
   String gender;
+  String enqLdlGroup;
+  String cdlGroup;
   String userPhoto;
   String userPhotoFilename;
   String editDate;
@@ -103,6 +105,8 @@ class UserProfile {
       this.nationality,
       this.race,
       this.gender,
+      this.enqLdlGroup,
+      this.cdlGroup,
       this.userPhoto,
       this.userPhotoFilename,
       this.editDate,
@@ -128,6 +132,8 @@ class UserProfile {
     nationality = json['nationality'];
     race = json['race'];
     gender = json['gender'];
+    enqLdlGroup = json['enq_ldl_group'];
+    cdlGroup = json['cdl_group'];
     userPhoto = json['user_photo'];
     userPhotoFilename = json['user_photo_filename'];
     editDate = json['edit_date'];
@@ -155,6 +161,8 @@ class UserProfile {
     data['nationality'] = this.nationality;
     data['race'] = this.race;
     data['gender'] = this.gender;
+    data['enq_ldl_group'] = this.enqLdlGroup;
+    data['cdl_group'] = this.cdlGroup;
     data['user_photo'] = this.userPhoto;
     data['user_photo_filename'] = this.userPhotoFilename;
     data['edit_date'] = this.editDate;
@@ -186,7 +194,7 @@ class SaveProfileRequest {
   List<int> userProfileImage;
   String userProfileImageBase64String;
   bool removeUserProfileImage;
-  String enqLdlGroup;
+  String ldlEnqGroup;
   String cdlGroup;
   String langCode;
   bool findDrvJobs;
@@ -214,7 +222,7 @@ class SaveProfileRequest {
       this.userProfileImage,
       this.userProfileImageBase64String,
       this.removeUserProfileImage,
-      this.enqLdlGroup,
+      this.ldlEnqGroup,
       this.cdlGroup,
       this.langCode,
       this.findDrvJobs});
@@ -242,7 +250,7 @@ class SaveProfileRequest {
     userProfileImage = json['userProfileImage'].cast<int>();
     userProfileImageBase64String = json['userProfileImageBase64String'];
     removeUserProfileImage = json['removeUserProfileImage'];
-    enqLdlGroup = json['enqLdlGroup'];
+    ldlEnqGroup = json['ldlEnqGroup'];
     cdlGroup = json['cdlGroup'];
     langCode = json['langCode'];
     findDrvJobs = json['findDrvJobs'];
@@ -272,7 +280,7 @@ class SaveProfileRequest {
     data['userProfileImage'] = this.userProfileImage;
     data['userProfileImageBase64String'] = this.userProfileImageBase64String;
     data['removeUserProfileImage'] = this.removeUserProfileImage;
-    data['enqLdlGroup'] = this.enqLdlGroup;
+    data['ldlEnqGroup'] = this.ldlEnqGroup;
     data['cdlGroup'] = this.cdlGroup;
     data['langCode'] = this.langCode;
     data['findDrvJobs'] = this.findDrvJobs;

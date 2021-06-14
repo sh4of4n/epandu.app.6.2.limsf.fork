@@ -8,7 +8,6 @@ import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
-import 'package:sqflite/sqflite.dart';
 
 import '../../router.gr.dart';
 
