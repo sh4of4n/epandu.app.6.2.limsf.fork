@@ -1,10 +1,5 @@
-import 'dart:convert';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:badges/badges.dart';
-import 'package:barcode_scan/barcode_scan.dart';
-import 'package:epandu/common_library/services/model/auth_model.dart';
-import 'package:epandu/common_library/services/model/provider_model.dart';
 import 'package:epandu/common_library/services/repository/epandu_repository.dart';
 import 'package:epandu/common_library/services/repository/inbox_repository.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
@@ -16,7 +11,6 @@ import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class HomeTopMenu extends StatefulWidget {
@@ -41,135 +35,6 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
   String barcode = "";
   final inboxRepo = InboxRepo();
   final localStorage = LocalStorage();
-
-  Future _scan() async {
-    try {
-      var barcode = await BarcodeScanner.scan();
-      if (barcode.rawContent.isNotEmpty) {
-        CheckInScanResponse checkInScanResponse =
-            CheckInScanResponse.fromJson(jsonDecode(barcode.rawContent));
-
-        switch (checkInScanResponse.table1[0].action) {
-          case 'JPJ_PART2_CHECK_IN':
-            Provider.of<HomeLoadingModel>(context, listen: false)
-                .loadingStatus(true);
-
-            String icNo = await localStorage.getStudentIc();
-
-            if (icNo != null && icNo.isNotEmpty) {
-              final result = await epanduRepo.verifyScanCode(
-                context: context,
-                qrcodeJson: barcode.rawContent,
-                icNo: icNo,
-              );
-
-              if (result.isSuccess) {
-                /* customDialog.show(
-                  context: context,
-                  title: Text(
-                    '${AppLocalizations.of(context).translate('checked_in_on')}: ' +
-                        '${result.data[0].regDate.substring(0, 10)}:' +
-                        '${result.data[0].regDate.substring(11, 20)}',
-                    style: TextStyle(
-                      color: Colors.green[800],
-                    ),
-                  ),
-                  content: AppLocalizations.of(context)
-                          .translate('check_in_successful') +
-                      '${result.data[0].queueNo}' +
-                      '\n' +
-                      AppLocalizations.of(context).translate('name_lbl') +
-                      ': ${result.data[0].fullname}' +
-                      '\nNRIC: ${result.data[0].nricNo}' +
-                      '\n' +
-                      AppLocalizations.of(context).translate('group_id') +
-                      ': ${result.data[0].groupId}',
-                  customActions: [
-                    TextButton(
-                      child: Text(
-                          AppLocalizations.of(context).translate('ok_btn')),
-                      onPressed: () => ExtendedNavigator.of(context).pop(),
-                    ),
-                  ],
-                  type: DialogType.GENERAL,
-                ); */
-                ExtendedNavigator.of(context).push(
-                  Routes.queueNumber,
-                  arguments: QueueNumberArguments(data: result.data),
-                );
-              } else {
-                customDialog.show(
-                  context: context,
-                  content: result.message,
-                  onPressed: () => ExtendedNavigator.of(context).pop(),
-                  type: DialogType.INFO,
-                );
-              }
-            } else {
-              customDialog.show(
-                context: context,
-                barrierDismissable: false,
-                content: AppLocalizations.of(context)
-                    .translate('complete_your_profile'),
-                customActions: <Widget>[
-                  TextButton(
-                      child: Text(
-                          AppLocalizations.of(context).translate('ok_btn')),
-                      onPressed: () {
-                        ExtendedNavigator.of(context).pop();
-                        ExtendedNavigator.of(context)
-                            .push(Routes.updateProfile);
-                      }),
-                ],
-                type: DialogType.GENERAL,
-              );
-            }
-
-            Provider.of<HomeLoadingModel>(context, listen: false)
-                .loadingStatus(false);
-            break;
-          default:
-            ExtendedNavigator.of(context)
-                .push(Routes.registerUserToDi,
-                    arguments:
-                        RegisterUserToDiArguments(barcode: barcode.rawContent))
-                .then((value) {
-              widget.getActiveFeed();
-              widget.getDiProfile();
-            });
-        }
-      }
-    } on PlatformException catch (e) {
-      if (e.code == BarcodeScanner.cameraAccessDenied) {
-        customDialog.show(
-          context: context,
-          content: AppLocalizations.of(context).translate('camera_permission'),
-          onPressed: () => ExtendedNavigator.of(context).pop(),
-          type: DialogType.WARNING,
-        );
-      } else {
-        setState(() => this.barcode =
-            AppLocalizations.of(context).translate('unknown_error') + '$e');
-        /* customDialog.show(
-          context: context,
-          content: 'Error $e',
-          onPressed: () => Navigator.pop(context),
-          type: DialogType.ERROR,
-        ); */
-      }
-    } on FormatException {
-      setState(() => this.barcode =
-          'null (User returned using the "back"-button before scanning anything. Result)');
-    } catch (e) {
-      // setState(() => this.barcode = 'Error $e');
-      customDialog.show(
-        context: context,
-        content: 'Error $e',
-        onPressed: () => Navigator.pop(context),
-        type: DialogType.ERROR,
-      );
-    }
-  }
 
   getUnreadNotificationCount() async {
     var result = await inboxRepo.getUnreadNotificationCount();
@@ -239,7 +104,13 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                 TableRow(
                   children: [
                     InkWell(
-                      onTap: _scan,
+                      onTap: () => ExtendedNavigator.of(context).push(
+                        Routes.scan,
+                        arguments: ScanArguments(
+                          getActiveFeed: widget.getActiveFeed,
+                          getDiProfile: widget.getDiProfile,
+                        ),
+                      ),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),

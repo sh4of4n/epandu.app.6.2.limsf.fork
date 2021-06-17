@@ -26,7 +26,8 @@ dependencies:
   country_code_picker: ^1.4.0
   badges: ^1.1.4
   qr_flutter: ^3.2.0
-  barcode_scan: ^3.0.1
+  # barcode_scan: ^3.0.1
+  qr_code_scanner: ^0.3.5
   expandable: ^4.1.4
   image_picker: ^0.6.7+12
   image_cropper: ^1.3.1

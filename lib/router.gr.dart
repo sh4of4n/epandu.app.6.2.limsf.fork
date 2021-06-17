@@ -113,6 +113,7 @@ class Routes {
   static const String readMore = '/read-more';
   static const String comingSoon = '/coming-soon';
   static const String viewPdf = '/view-pdf';
+  static const String scan = '/Scan';
   static const all = <String>{
     authentication,
     clientAccount,
@@ -188,6 +189,7 @@ class Routes {
     readMore,
     comingSoon,
     viewPdf,
+    scan,
   };
 }
 
@@ -269,6 +271,7 @@ class Router extends RouterBase {
     RouteDef(Routes.readMore, page: ReadMore),
     RouteDef(Routes.comingSoon, page: ComingSoon),
     RouteDef(Routes.viewPdf, page: ViewPdf),
+    RouteDef(Routes.scan, page: Scan),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -891,6 +894,19 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    Scan: (data) {
+      final args = data.getArgs<ScanArguments>(
+        orElse: () => ScanArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => Scan(
+          getActiveFeed: args.getActiveFeed,
+          getDiProfile: args.getDiProfile,
+          key: args.key,
+        ),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -1273,4 +1289,12 @@ class ViewPdfArguments {
   final String title;
   final String pdfLink;
   ViewPdfArguments({@required this.title, @required this.pdfLink});
+}
+
+/// Scan arguments holder class
+class ScanArguments {
+  final dynamic getActiveFeed;
+  final dynamic getDiProfile;
+  final Key key;
+  ScanArguments({this.getActiveFeed, this.getDiProfile, this.key});
 }

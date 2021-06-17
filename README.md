@@ -1,3 +1,7 @@
+2.0.155
+
+- New barcode scanning module
+
 V.2.0.154
 
 - Fix cdl and ldl saving in update profile
