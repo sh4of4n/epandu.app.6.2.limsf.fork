@@ -7,6 +7,7 @@ import 'package:epandu/common_library/services/repository/epandu_repository.dart
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
+import 'package:epandu/common_library/utils/loading_model.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,8 @@ class _ScanState extends State<Scan> {
   final customDialog = CustomDialog();
   final localStorage = LocalStorage();
 
+  bool _isLoading = false;
+
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
   @override
@@ -51,9 +54,16 @@ class _ScanState extends State<Scan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Expanded(child: _buildQrView(context)),
+      body: Stack(
+        children: [
+          Column(
+            children: <Widget>[
+              Expanded(child: _buildQrView(context)),
+            ],
+          ),
+          LoadingModel(
+            isVisible: _isLoading,
+          ),
         ],
       ),
     );
@@ -123,6 +133,10 @@ class _ScanState extends State<Scan> {
         String icNo = await localStorage.getStudentIc();
 
         if (icNo != null && icNo.isNotEmpty) {
+          setState(() {
+            _isLoading = true;
+          });
+
           final result = await epanduRepo.verifyScanCode(
             context: context,
             qrcodeJson: scanData.code,
@@ -167,10 +181,18 @@ class _ScanState extends State<Scan> {
             customDialog.show(
               context: context,
               content: result.message,
-              onPressed: () => ExtendedNavigator.of(context).pop(),
+              onPressed: () {
+                ExtendedNavigator.of(context).pop();
+
+                controller.resumeCamera();
+              },
               type: DialogType.INFO,
             );
           }
+
+          setState(() {
+            _isLoading = false;
+          });
         } else {
           customDialog.show(
             context: context,

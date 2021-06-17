@@ -1,6 +1,11 @@
+V.2.0.156
+
+- Fix barcode scanning not responding
+
 2.0.155
 
 - New barcode scanning module
+- Check condition if scan invalid QR
 
 V.2.0.154
 
