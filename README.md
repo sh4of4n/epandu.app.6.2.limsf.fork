@@ -1,3 +1,7 @@
+V.2.0.158
+
+- Hyperlink text for inbox pdf link
+
 V.2.0.157
 
 - Disable invalid barcode QR from being dismissable

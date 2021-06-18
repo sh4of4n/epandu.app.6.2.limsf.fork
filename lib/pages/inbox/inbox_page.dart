@@ -70,6 +70,17 @@ class _InboxState extends State<Inbox> {
       // print(sortedInboxData[index].msgRef);
     }
 
+    String getInboxText(text) {
+      if (text.contains('-B2.pdf')) {
+        return '1. Borang Penilaian Bahagian II';
+      } else if (text.contains('-B3.pdf')) {
+        return '2. Borang Penilaian Bahagian III';
+      } else if (text.contains('-SIJIL.pdf')) {
+        return '3. Sijil Kepututusan';
+      }
+      return text;
+    }
+
     return Container(
       color: Color(0xfff5f2e9),
       child: ListView.separated(
@@ -91,7 +102,7 @@ class _InboxState extends State<Inbox> {
                     pdfLink: link.url,
                   ),
                 ),
-                text: sortedInboxData[index].sendMsg,
+                text: getInboxText(sortedInboxData[index].sendMsg),
               ),
             );
           return ListTile(
