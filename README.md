@@ -1,3 +1,7 @@
+V.2.0.157
+
+- Disable invalid barcode QR from being dismissable
+
 V.2.0.156
 
 - Fix barcode scanning not responding

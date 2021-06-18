@@ -104,7 +104,7 @@ class _ScanState extends State<Scan> {
             checkInScanResponse: checkInScanResponse, scanData: scanData);
       } catch (e) {
         customDialog.show(
-          barrierDismissable: true,
+          barrierDismissable: false,
           context: context,
           content: 'Invalid Qr Code.',
           customActions: [
