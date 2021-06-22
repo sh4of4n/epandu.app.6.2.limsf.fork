@@ -3,6 +3,7 @@ import 'package:epandu/common_library/services/repository/inbox_repository.dart'
 import 'package:epandu/common_library/services/model/inbox_model.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:epandu/utils/constants.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -70,15 +71,101 @@ class _InboxState extends State<Inbox> {
       // print(sortedInboxData[index].msgRef);
     }
 
-    String getInboxText(text) {
-      if (text.contains('-B2.pdf')) {
-        return '1. Borang Penilaian Bahagian II';
-      } else if (text.contains('-B3.pdf')) {
-        return '2. Borang Penilaian Bahagian III';
-      } else if (text.contains('-SIJIL.pdf')) {
-        return '3. Sijil Kepututusan';
+    Widget parseInboxMessage(String text) {
+      if (text.contains('-B2.pdf') &&
+          text.contains('-B3.pdf') &&
+          text.contains('-SIJIL.pdf')) {
+        RegExp exp = RegExp(
+          r'(?:(?:https?|ftp?|192):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+',
+          multiLine: true,
+          caseSensitive: true,
+        );
+
+        Iterable<RegExpMatch> matches = exp.allMatches(text);
+
+        List items = text.split(exp);
+        List links = [];
+
+        // print(items);
+
+        matches.forEach((match) {
+          links.add(text.substring(match.start, match.end));
+          // print(text.substring(match.start, match.end));
+        });
+
+        // print(links);
+
+        // return Text(text);
+
+        return RichText(
+          text: TextSpan(
+            style: TextStyle(color: Color(0xff5c5c5c)),
+            children: [
+              TextSpan(
+                text: items[0],
+              ),
+              TextSpan(
+                style: TextStyle(color: Colors.blue[600]),
+                text: '1. Borang Penilaian Bahagian II',
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    ExtendedNavigator.of(context).push(
+                      Routes.viewPdf,
+                      arguments: ViewPdfArguments(
+                        title: 'PDF',
+                        pdfLink: links[0],
+                      ),
+                    );
+                  },
+              ),
+              TextSpan(
+                text: items[1],
+              ),
+              TextSpan(
+                style: TextStyle(color: Colors.blue[600]),
+                text: '2. Borang Penilaian Bahagian III',
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    ExtendedNavigator.of(context).push(
+                      Routes.viewPdf,
+                      arguments: ViewPdfArguments(
+                        title: 'PDF',
+                        pdfLink: links[1],
+                      ),
+                    );
+                  },
+              ),
+              TextSpan(
+                text: items[2],
+              ),
+              TextSpan(
+                style: TextStyle(color: Colors.blue[600]),
+                text: '3. Sijil Kepututusan',
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    ExtendedNavigator.of(context).push(
+                      Routes.viewPdf,
+                      arguments: ViewPdfArguments(
+                        title: 'PDF',
+                        pdfLink: links[2],
+                      ),
+                    );
+                  },
+              ),
+            ],
+          ),
+        );
       }
-      return text;
+      return SelectableLinkify(
+        onOpen: (link) => ExtendedNavigator.of(context).push(
+          Routes.viewPdf,
+          arguments: ViewPdfArguments(
+            title: 'PDF',
+            pdfLink: link.url,
+          ),
+        ),
+        text: text,
+      );
     }
 
     return Container(
@@ -94,16 +181,7 @@ class _InboxState extends State<Inbox> {
           if (sortedInboxData[index].msgType == 'PDF')
             return ListTile(
               leading: Icon(Icons.mail, color: Color(0xff808080)),
-              title: SelectableLinkify(
-                onOpen: (link) => ExtendedNavigator.of(context).push(
-                  Routes.viewPdf,
-                  arguments: ViewPdfArguments(
-                    title: 'PDF',
-                    pdfLink: link.url,
-                  ),
-                ),
-                text: getInboxText(sortedInboxData[index].sendMsg),
-              ),
+              title: parseInboxMessage(sortedInboxData[index].sendMsg),
             );
           return ListTile(
             leading: Icon(Icons.mail, color: Color(0xff808080)),
