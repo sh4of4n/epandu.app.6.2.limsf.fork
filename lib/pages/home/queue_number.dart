@@ -21,7 +21,7 @@ class _QueueNumberState extends State<QueueNumber> {
   final primaryColor = ColorConstant.primaryColor;
   final image = ImagesConstant();
   final customDialog = CustomDialog();
-  Future getCurrentQueue;
+  // Future getCurrentQueue;
   bool isLoading = false;
   var checkInData;
 
@@ -29,7 +29,7 @@ class _QueueNumberState extends State<QueueNumber> {
   void initState() {
     super.initState();
 
-    getCurrentQueue = getLastCallingJpjTestQueueNumber();
+    // getCurrentQueue = getLastCallingJpjTestQueueNumber();
     _getJpjTestCheckIn();
   }
 
@@ -158,72 +158,72 @@ class _QueueNumberState extends State<QueueNumber> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-          FutureBuilder(
-            future: getCurrentQueue,
-            builder: (BuildContext conext, AsyncSnapshot<dynamic> snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                  return Container(
-                    padding: EdgeInsets.all(15.0),
-                    margin:
-                        EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(0, 8.0),
-                          blurRadius: 10.0,
-                        ),
-                      ],
-                    ),
-                    child: Center(
-                      child: SpinKitFoldingCube(
-                        color: primaryColor,
-                      ),
-                    ),
-                  );
-                case ConnectionState.done:
-                  if (snapshot.data is String) {
-                    return Center(
-                      child: Text(snapshot.data),
-                    );
-                  }
-                  return ListView.builder(
-                    itemCount: snapshot.data.length,
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        children: [
-                          SizedBox(height: 40.h),
-                          Text(
-                            'Nombor Giliran Sekarang',
-                            style: TextStyle(
-                              fontSize: 70.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            snapshot.data[index].queueNo,
-                            style: TextStyle(
-                              fontSize: 120.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                default:
-                  return Center(
-                    child: Text('Gagal mendapatkan nombor giliran sekarang.'),
-                  );
-              }
-            },
-          ),
+          // FutureBuilder(
+          //   future: getCurrentQueue,
+          //   builder: (BuildContext conext, AsyncSnapshot<dynamic> snapshot) {
+          //     switch (snapshot.connectionState) {
+          //       case ConnectionState.waiting:
+          //         return Container(
+          //           padding: EdgeInsets.all(15.0),
+          //           margin:
+          //               EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
+          //           decoration: BoxDecoration(
+          //             color: Colors.white,
+          //             borderRadius: BorderRadius.circular(15.0),
+          //             boxShadow: [
+          //               BoxShadow(
+          //                 color: Colors.black26,
+          //                 offset: Offset(0, 8.0),
+          //                 blurRadius: 10.0,
+          //               ),
+          //             ],
+          //           ),
+          //           child: Center(
+          //             child: SpinKitFoldingCube(
+          //               color: primaryColor,
+          //             ),
+          //           ),
+          //         );
+          //       case ConnectionState.done:
+          //         if (snapshot.data is String) {
+          //           return Center(
+          //             child: Text(snapshot.data),
+          //           );
+          //         }
+          //         return ListView.builder(
+          //           itemCount: snapshot.data.length,
+          //           padding: EdgeInsets.zero,
+          //           shrinkWrap: true,
+          //           physics: NeverScrollableScrollPhysics(),
+          //           itemBuilder: (BuildContext context, int index) {
+          //             return Column(
+          //               children: [
+          //                 SizedBox(height: 40.h),
+          //                 Text(
+          //                   'Nombor Giliran Sekarang',
+          //                   style: TextStyle(
+          //                     fontSize: 70.sp,
+          //                     fontWeight: FontWeight.bold,
+          //                   ),
+          //                 ),
+          //                 Text(
+          //                   snapshot.data[index].queueNo,
+          //                   style: TextStyle(
+          //                     fontSize: 120.sp,
+          //                     fontWeight: FontWeight.bold,
+          //                   ),
+          //                 ),
+          //               ],
+          //             );
+          //           },
+          //         );
+          //       default:
+          //         return Center(
+          //           child: Text('Gagal mendapatkan nombor giliran sekarang.'),
+          //         );
+          //     }
+          //   },
+          // ),
           SizedBox(height: 40.h),
           if (widget.data != null && widget.data[0].fullname != null)
             Text(

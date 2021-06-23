@@ -114,6 +114,7 @@ class Routes {
   static const String comingSoon = '/coming-soon';
   static const String viewPdf = '/view-pdf';
   static const String scan = '/Scan';
+  static const String checkInSlip = '/check-in-slip';
   static const all = <String>{
     authentication,
     clientAccount,
@@ -190,6 +191,7 @@ class Routes {
     comingSoon,
     viewPdf,
     scan,
+    checkInSlip,
   };
 }
 
@@ -272,6 +274,7 @@ class Router extends RouterBase {
     RouteDef(Routes.comingSoon, page: ComingSoon),
     RouteDef(Routes.viewPdf, page: ViewPdf),
     RouteDef(Routes.scan, page: Scan),
+    RouteDef(Routes.checkInSlip, page: CheckInSlip),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -904,6 +907,12 @@ class Router extends RouterBase {
           getDiProfile: args.getDiProfile,
           key: args.key,
         ),
+        settings: data,
+      );
+    },
+    CheckInSlip: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => CheckInSlip(),
         settings: data,
       );
     },

@@ -75,7 +75,7 @@ class EtestingCategory extends StatelessWidget {
                   Divider(color: Colors.grey[400]),
                   ListTile(
                     onTap: () =>
-                        ExtendedNavigator.of(context).push(Routes.comingSoon),
+                        ExtendedNavigator.of(context).push(Routes.checkInSlip),
                     title: Text('Rekod Ujian Memandu', style: iconText),
                   ),
                   Divider(color: Colors.grey[400]),

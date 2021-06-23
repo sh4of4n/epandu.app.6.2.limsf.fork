@@ -106,6 +106,7 @@ import 'package:epandu/common_library/utils/image_viewer.dart';
     MaterialRoute(page: ComingSoon),
     MaterialRoute(page: ViewPdf),
     MaterialRoute(page: Scan),
+    MaterialRoute(page: CheckInSlip),
   ],
 )
 class $Router {}
