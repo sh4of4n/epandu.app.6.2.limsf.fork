@@ -1,3 +1,7 @@
+V.2.0.163
+
+- Check in now compares scanned QR merchant code with acc merchant code
+
 V.2.0.162
 
 - Fix inbox message not showing hyperlink for -B2.pdf, -B3.pdf, -SIJIL.pdf

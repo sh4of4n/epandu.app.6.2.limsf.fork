@@ -98,30 +98,23 @@ class _ScanState extends State<Scan> {
     });
     controller.scannedDataStream.listen((scanData) async {
       await controller.pauseCamera();
+      String merchantNo = await localStorage.getMerchantDbCode();
 
       try {
         CheckInScanResponse checkInScanResponse =
             CheckInScanResponse.fromJson(jsonDecode(scanData.code));
 
-        _scanResult(
-            checkInScanResponse: checkInScanResponse, scanData: scanData);
-      } catch (e) {
-        customDialog.show(
-          barrierDismissable: false,
-          context: context,
-          content: 'Invalid Qr Code.',
-          customActions: [
-            TextButton(
-              onPressed: () {
-                ExtendedNavigator.of(context).pop();
+        print(jsonDecode(scanData.code)['Table1'][0]['merchant_no']);
 
-                controller.resumeCamera();
-              },
-              child: Text('Ok'),
-            ),
-          ],
-          type: DialogType.GENERAL,
-        );
+        if (merchantNo ==
+            jsonDecode(scanData.code)['Table1'][0]['merchant_no']) {
+          _scanResult(
+              checkInScanResponse: checkInScanResponse, scanData: scanData);
+        } else {
+          invalidQr(type: 'MISMATCH');
+        }
+      } catch (e) {
+        invalidQr();
       }
     });
   }
@@ -176,13 +169,14 @@ class _ScanState extends State<Scan> {
                   ],
                   type: DialogType.GENERAL,
                 ); */
-            ExtendedNavigator.of(context).push(
+            ExtendedNavigator.of(context).replace(
               Routes.queueNumber,
               arguments: QueueNumberArguments(data: result.data),
             );
           } else {
             customDialog.show(
               context: context,
+              barrierDismissable: false,
               content: result.message,
               onPressed: () {
                 ExtendedNavigator.of(context).pop();
@@ -219,7 +213,7 @@ class _ScanState extends State<Scan> {
         break;
       default:
         ExtendedNavigator.of(context)
-            .push(
+            .replace(
           Routes.registerUserToDi,
           arguments: RegisterUserToDiArguments(
             barcode: scanData.code,
@@ -236,5 +230,44 @@ class _ScanState extends State<Scan> {
   void dispose() {
     controller?.dispose();
     super.dispose();
+  }
+
+  invalidQr({String type}) {
+    if (type == 'MISMATCH') {
+      return customDialog.show(
+        barrierDismissable: false,
+        context: context,
+        content: AppLocalizations.of(context).translate('mismatch_di'),
+        title: Icon(Icons.warning, size: 120, color: Colors.yellow[700]),
+        customActions: [
+          TextButton(
+            onPressed: () {
+              ExtendedNavigator.of(context).pop();
+
+              controller.resumeCamera();
+            },
+            child: Text('Ok'),
+          ),
+        ],
+        type: DialogType.GENERAL,
+      );
+    }
+    return customDialog.show(
+      barrierDismissable: false,
+      context: context,
+      content: AppLocalizations.of(context).translate('invalid_qr'),
+      title: Icon(Icons.warning, size: 120, color: Colors.red[700]),
+      customActions: [
+        TextButton(
+          onPressed: () {
+            ExtendedNavigator.of(context).pop();
+
+            controller.resumeCamera();
+          },
+          child: Text('Ok'),
+        ),
+      ],
+      type: DialogType.GENERAL,
+    );
   }
 }

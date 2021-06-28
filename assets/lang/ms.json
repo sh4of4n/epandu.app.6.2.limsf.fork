@@ -380,5 +380,7 @@
   "cdl_required_msg": "CDL diperlukan.",
   "enrolled_class": "Kelas berdaftar",
   "check_in_successful": "Anda berjaya mendaftar masuk. Nombor giliran anda adalah ",
-  "checked_in_on": "Tarikh dafter masuk"
+  "checked_in_on": "Tarikh dafter masuk",
+  "invalid_qr": "Kod QR tidak sah.",
+  "mismatch_di": "Kod QR institut memandu tidak sama."
 }

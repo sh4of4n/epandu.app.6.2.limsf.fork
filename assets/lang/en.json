@@ -380,5 +380,7 @@
   "cdl_required_msg": "CDL is required.",
   "enrolled_class": "Enrolled class",
   "check_in_successful": "You have checked in successfully. Your queue number is ",
-  "checked_in_on": "Checked in on"
+  "checked_in_on": "Checked in on",
+  "invalid_qr": "Invalid QR code.",
+  "mismatch_di": "Different driving institute barcode detected."
 }
