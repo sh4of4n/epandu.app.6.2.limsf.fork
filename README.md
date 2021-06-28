@@ -1,3 +1,17 @@
+V.2.0.162
+
+- Fix inbox message not showing hyperlink for -B2.pdf, -B3.pdf, -SIJIL.pdf
+
+V.2.0.161
+
+- Add view check in slip
+- Remove current queue number from check in slip
+
+V.2.0.160
+
+- Add view check in slip
+- Remove current queue number from check in slip
+
 V.2.0.159
 
 - Inbox now checks for -B2.pdf, -B3.pdf, -SIJIL.pdf before converting to hyperlink text

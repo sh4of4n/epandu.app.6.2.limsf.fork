@@ -55,6 +55,103 @@ class _InboxState extends State<Inbox> {
     return result.message;
   }
 
+  Widget parseInboxMessage(String text) {
+    if (text.contains('-B2.pdf') &&
+        text.contains('-B3.pdf') &&
+        text.contains('-SIJIL.pdf')) {
+      RegExp exp = RegExp(
+        r'(?:(?:https?|ftp?|192):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+',
+        multiLine: true,
+        caseSensitive: true,
+      );
+
+      Iterable<RegExpMatch> matches = exp.allMatches(text);
+
+      List items = text.split(exp);
+      List links = [];
+
+      // print(items);
+
+      matches.forEach((match) {
+        links.add(text.substring(match.start, match.end));
+        // print(text.substring(match.start, match.end));
+      });
+
+      // print(links);
+
+      // return Text(text);
+
+      return RichText(
+        text: TextSpan(
+          style: TextStyle(color: Color(0xff5c5c5c)),
+          children: [
+            TextSpan(
+              text: items[0],
+            ),
+            TextSpan(
+              style: TextStyle(color: Colors.blue[600]),
+              text: '1. Borang Penilaian Bahagian II',
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  ExtendedNavigator.of(context).push(
+                    Routes.viewPdf,
+                    arguments: ViewPdfArguments(
+                      title: 'PDF',
+                      pdfLink: links[0],
+                    ),
+                  );
+                },
+            ),
+            TextSpan(
+              text: items[1],
+            ),
+            TextSpan(
+              style: TextStyle(color: Colors.blue[600]),
+              text: '2. Borang Penilaian Bahagian III',
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  ExtendedNavigator.of(context).push(
+                    Routes.viewPdf,
+                    arguments: ViewPdfArguments(
+                      title: 'PDF',
+                      pdfLink: links[1],
+                    ),
+                  );
+                },
+            ),
+            TextSpan(
+              text: items[2],
+            ),
+            TextSpan(
+              style: TextStyle(color: Colors.blue[600]),
+              text: '3. Sijil Kepututusan',
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  ExtendedNavigator.of(context).push(
+                    Routes.viewPdf,
+                    arguments: ViewPdfArguments(
+                      title: 'PDF',
+                      pdfLink: links[2],
+                    ),
+                  );
+                },
+            ),
+          ],
+        ),
+      );
+    }
+    return SelectableLinkify(
+      onOpen: (link) => ExtendedNavigator.of(context).push(
+        Routes.viewPdf,
+        arguments: ViewPdfArguments(
+          title: 'PDF',
+          pdfLink: link.url,
+        ),
+      ),
+      text: text,
+    );
+  }
+
   getInboxStorageMessage() {
     MsgOutBox data;
 
@@ -69,103 +166,6 @@ class _InboxState extends State<Inbox> {
       // final sortedIndex = sortedInboxData[index];
       // print(sortedInboxData[index].sendMsg);
       // print(sortedInboxData[index].msgRef);
-    }
-
-    Widget parseInboxMessage(String text) {
-      if (text.contains('-B2.pdf') &&
-          text.contains('-B3.pdf') &&
-          text.contains('-SIJIL.pdf')) {
-        RegExp exp = RegExp(
-          r'(?:(?:https?|ftp?|192):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+',
-          multiLine: true,
-          caseSensitive: true,
-        );
-
-        Iterable<RegExpMatch> matches = exp.allMatches(text);
-
-        List items = text.split(exp);
-        List links = [];
-
-        // print(items);
-
-        matches.forEach((match) {
-          links.add(text.substring(match.start, match.end));
-          // print(text.substring(match.start, match.end));
-        });
-
-        // print(links);
-
-        // return Text(text);
-
-        return RichText(
-          text: TextSpan(
-            style: TextStyle(color: Color(0xff5c5c5c)),
-            children: [
-              TextSpan(
-                text: items[0],
-              ),
-              TextSpan(
-                style: TextStyle(color: Colors.blue[600]),
-                text: '1. Borang Penilaian Bahagian II',
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    ExtendedNavigator.of(context).push(
-                      Routes.viewPdf,
-                      arguments: ViewPdfArguments(
-                        title: 'PDF',
-                        pdfLink: links[0],
-                      ),
-                    );
-                  },
-              ),
-              TextSpan(
-                text: items[1],
-              ),
-              TextSpan(
-                style: TextStyle(color: Colors.blue[600]),
-                text: '2. Borang Penilaian Bahagian III',
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    ExtendedNavigator.of(context).push(
-                      Routes.viewPdf,
-                      arguments: ViewPdfArguments(
-                        title: 'PDF',
-                        pdfLink: links[1],
-                      ),
-                    );
-                  },
-              ),
-              TextSpan(
-                text: items[2],
-              ),
-              TextSpan(
-                style: TextStyle(color: Colors.blue[600]),
-                text: '3. Sijil Kepututusan',
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    ExtendedNavigator.of(context).push(
-                      Routes.viewPdf,
-                      arguments: ViewPdfArguments(
-                        title: 'PDF',
-                        pdfLink: links[2],
-                      ),
-                    );
-                  },
-              ),
-            ],
-          ),
-        );
-      }
-      return SelectableLinkify(
-        onOpen: (link) => ExtendedNavigator.of(context).push(
-          Routes.viewPdf,
-          arguments: ViewPdfArguments(
-            title: 'PDF',
-            pdfLink: link.url,
-          ),
-        ),
-        text: text,
-      );
     }
 
     return Container(
@@ -221,16 +221,7 @@ class _InboxState extends State<Inbox> {
     }
 
     if (msgData.msgType == 'PDF') {
-      return SelectableLinkify(
-        onOpen: (link) => ExtendedNavigator.of(context).push(
-          Routes.viewPdf,
-          arguments: ViewPdfArguments(
-            title: 'PDF',
-            pdfLink: link.url,
-          ),
-        ),
-        text: msgData.sendMsg,
-      );
+      return parseInboxMessage(msgData.sendMsg);
     }
     return SelectableLinkify(
       onOpen: (link) {
