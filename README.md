@@ -1,6 +1,7 @@
 V.2.0.163
 
 - Check in now compares scanned QR merchant code with acc merchant code
+- Add condition for bahagian 2 and 3 inbox PDF hyperlink
 
 V.2.0.162
 

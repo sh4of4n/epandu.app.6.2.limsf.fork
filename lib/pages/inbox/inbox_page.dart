@@ -56,17 +56,17 @@ class _InboxState extends State<Inbox> {
   }
 
   Widget parseInboxMessage(String text) {
+    RegExp exp = RegExp(
+      r'(?:(?:https?|ftp?|192):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+',
+      multiLine: true,
+      caseSensitive: true,
+    );
+
+    Iterable<RegExpMatch> matches = exp.allMatches(text);
+
     if (text.contains('-B2.pdf') &&
         text.contains('-B3.pdf') &&
         text.contains('-SIJIL.pdf')) {
-      RegExp exp = RegExp(
-        r'(?:(?:https?|ftp?|192):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+',
-        multiLine: true,
-        caseSensitive: true,
-      );
-
-      Iterable<RegExpMatch> matches = exp.allMatches(text);
-
       List items = text.split(exp);
       List links = [];
 
@@ -132,6 +132,104 @@ class _InboxState extends State<Inbox> {
                     arguments: ViewPdfArguments(
                       title: 'PDF',
                       pdfLink: links[2],
+                    ),
+                  );
+                },
+            ),
+          ],
+        ),
+      );
+    } else if (text.contains('-B2.pdf') && text.contains('-SIJIL.pdf')) {
+      List items = text.split(exp);
+      List links = [];
+
+      matches.forEach((match) {
+        links.add(text.substring(match.start, match.end));
+      });
+
+      return RichText(
+        text: TextSpan(
+          style: TextStyle(color: Color(0xff5c5c5c)),
+          children: [
+            TextSpan(
+              text: items[0],
+            ),
+            TextSpan(
+              style: TextStyle(color: Colors.blue[600]),
+              text: '1. Borang Penilaian Bahagian II',
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  ExtendedNavigator.of(context).push(
+                    Routes.viewPdf,
+                    arguments: ViewPdfArguments(
+                      title: 'PDF',
+                      pdfLink: links[0],
+                    ),
+                  );
+                },
+            ),
+            TextSpan(
+              text: items[1],
+            ),
+            TextSpan(
+              style: TextStyle(color: Colors.blue[600]),
+              text: '2. Sijil Kepututusan',
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  ExtendedNavigator.of(context).push(
+                    Routes.viewPdf,
+                    arguments: ViewPdfArguments(
+                      title: 'PDF',
+                      pdfLink: links[1],
+                    ),
+                  );
+                },
+            ),
+          ],
+        ),
+      );
+    } else if (text.contains('-B3.pdf') && text.contains('-SIJIL.pdf')) {
+      List items = text.split(exp);
+      List links = [];
+
+      matches.forEach((match) {
+        links.add(text.substring(match.start, match.end));
+      });
+
+      return RichText(
+        text: TextSpan(
+          style: TextStyle(color: Color(0xff5c5c5c)),
+          children: [
+            TextSpan(
+              text: items[0],
+            ),
+            TextSpan(
+              style: TextStyle(color: Colors.blue[600]),
+              text: '1. Borang Penilaian Bahagian III',
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  ExtendedNavigator.of(context).push(
+                    Routes.viewPdf,
+                    arguments: ViewPdfArguments(
+                      title: 'PDF',
+                      pdfLink: links[0],
+                    ),
+                  );
+                },
+            ),
+            TextSpan(
+              text: items[1],
+            ),
+            TextSpan(
+              style: TextStyle(color: Colors.blue[600]),
+              text: '2. Sijil Kepututusan',
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  ExtendedNavigator.of(context).push(
+                    Routes.viewPdf,
+                    arguments: ViewPdfArguments(
+                      title: 'PDF',
+                      pdfLink: links[1],
                     ),
                   );
                 },
