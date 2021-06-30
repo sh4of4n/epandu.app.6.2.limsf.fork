@@ -21,13 +21,17 @@ class MsgOutboxAdapter extends TypeAdapter<MsgOutBox> {
       msgRef: fields[1] as String,
       msgType: fields[2] as String,
       sendMsg: fields[3] as String,
+      merchantNo: fields[4] as String,
+      merchantName: fields[5] as String,
+      merchantShortName: fields[6] as String,
+      createDate: fields[7] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, MsgOutBox obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.msgDoc)
       ..writeByte(1)
@@ -35,7 +39,15 @@ class MsgOutboxAdapter extends TypeAdapter<MsgOutBox> {
       ..writeByte(2)
       ..write(obj.msgType)
       ..writeByte(3)
-      ..write(obj.sendMsg);
+      ..write(obj.sendMsg)
+      ..writeByte(4)
+      ..write(obj.merchantNo)
+      ..writeByte(5)
+      ..write(obj.merchantName)
+      ..writeByte(6)
+      ..write(obj.merchantShortName)
+      ..writeByte(7)
+      ..write(obj.createDate);
   }
 
   @override

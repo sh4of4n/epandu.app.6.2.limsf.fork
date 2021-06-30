@@ -1,3 +1,7 @@
+V.2.0.164
+
+- Add date and sender name to inbox messages
+
 V.2.0.163
 
 - Check in now compares scanned QR merchant code with acc merchant code

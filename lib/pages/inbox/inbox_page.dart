@@ -277,24 +277,51 @@ class _InboxState extends State<Inbox> {
             Divider(color: Colors.grey[400]),
         itemBuilder: (BuildContext context, int index) {
           if (sortedInboxData[index].msgType == 'PDF')
-            return ListTile(
+            /* return ListTile(
               leading: Icon(Icons.mail, color: Color(0xff808080)),
               title: parseInboxMessage(sortedInboxData[index].sendMsg),
+            ); */
+            return Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  parseInboxMessage(sortedInboxData[index].sendMsg),
+                  SizedBox(height: 5),
+                  if (sortedInboxData[index].createDate != null)
+                    Text(sortedInboxData[index].createDate),
+                  if (sortedInboxData[index].merchantName != null)
+                    Text(sortedInboxData[index].merchantName),
+                ],
+              ),
             );
           return ListTile(
             leading: Icon(Icons.mail, color: Color(0xff808080)),
-            title: SelectableLinkify(
-              /* onOpen: (link) {
-                    ExtendedNavigator.of(context).push(Routes.webview,
-                        arguments: WebviewArguments(url: link.url));
-                  }, */
-              onOpen: (link) {
-                launch(
-                  link.url,
-                  enableJavaScript: true,
-                );
-              },
-              text: sortedInboxData[index].sendMsg,
+            title: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SelectableLinkify(
+                    /* onOpen: (link) {
+                          ExtendedNavigator.of(context).push(Routes.webview,
+                              arguments: WebviewArguments(url: link.url));
+                        }, */
+                    onOpen: (link) {
+                      launch(
+                        link.url,
+                        enableJavaScript: true,
+                      );
+                    },
+                    text: sortedInboxData[index].sendMsg,
+                  ),
+                  SizedBox(height: 5),
+                  if (sortedInboxData[index].createDate != null)
+                    Text(sortedInboxData[index].createDate),
+                  if (sortedInboxData[index].merchantName != null)
+                    Text(sortedInboxData[index].merchantName),
+                ],
+              ),
             ),
           );
         },
@@ -310,6 +337,10 @@ class _InboxState extends State<Inbox> {
         msgDoc: msgData.msgDoc,
         msgRef: msgData.msgRef,
         msgType: msgData.msgType,
+        merchantName: msgData.merchantName,
+        createDate: msgData.createDate,
+        merchantShortName: msgData.merchantShortName,
+        merchantNo: msgData.merchantNo,
       );
 
       // print(int.tryParse(msgData.msgRef));
@@ -319,14 +350,37 @@ class _InboxState extends State<Inbox> {
     }
 
     if (msgData.msgType == 'PDF') {
-      return parseInboxMessage(msgData.sendMsg);
+      return Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            parseInboxMessage(msgData.sendMsg),
+            SizedBox(height: 5),
+            if (msgData.createDate != null) Text(msgData.createDate),
+            if (msgData.merchantName != null) Text(msgData.merchantName),
+          ],
+        ),
+      );
+      // return parseInboxMessage(msgData.sendMsg);
     }
-    return SelectableLinkify(
-      onOpen: (link) {
-        ExtendedNavigator.of(context)
-            .push(Routes.webview, arguments: WebviewArguments(url: link.url));
-      },
-      text: msgData.sendMsg,
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SelectableLinkify(
+            onOpen: (link) {
+              ExtendedNavigator.of(context).push(Routes.webview,
+                  arguments: WebviewArguments(url: link.url));
+            },
+            text: msgData.sendMsg,
+          ),
+          SizedBox(height: 5),
+          if (msgData.createDate != null) Text(msgData.createDate),
+          if (msgData.merchantName != null) Text(msgData.merchantName),
+        ],
+      ),
     );
   }
 

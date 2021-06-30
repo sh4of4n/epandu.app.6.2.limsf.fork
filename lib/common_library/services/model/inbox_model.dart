@@ -35,14 +35,34 @@ class MsgOutBox {
   String msgType;
   @HiveField(3)
   String sendMsg;
+  @HiveField(4)
+  String merchantNo;
+  @HiveField(5)
+  String merchantName;
+  @HiveField(6)
+  String merchantShortName;
+  @HiveField(7)
+  String createDate;
 
-  MsgOutBox({this.msgDoc, this.msgRef, this.msgType, this.sendMsg});
+  MsgOutBox(
+      {this.msgDoc,
+      this.msgRef,
+      this.msgType,
+      this.sendMsg,
+      this.merchantNo,
+      this.merchantName,
+      this.merchantShortName,
+      this.createDate});
 
   MsgOutBox.fromJson(Map<String, dynamic> json) {
     msgDoc = json['msg_doc'];
     msgRef = json['msg_ref'];
     msgType = json['msg_type'];
     sendMsg = json['send_msg'];
+    merchantNo = json['merchant_no'];
+    merchantName = json['merchant_name'];
+    merchantShortName = json['merchant_short_name'];
+    createDate = json['create_date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +71,10 @@ class MsgOutBox {
     data['msg_ref'] = this.msgRef;
     data['msg_type'] = this.msgType;
     data['send_msg'] = this.sendMsg;
+    data['merchant_no'] = this.merchantNo;
+    data['merchant_name'] = this.merchantName;
+    data['merchant_short_name'] = this.merchantShortName;
+    data['create_date'] = this.createDate;
     return data;
   }
 }
