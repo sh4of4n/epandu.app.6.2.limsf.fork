@@ -1,3 +1,7 @@
+V.2.0.165
+
+- Fix error on huawei device
+
 V.2.0.164
 
 - Add date and sender name to inbox messages

@@ -218,19 +218,19 @@ class _SettingsState extends State<Settings> {
               ListTile(
                 leading: Icon(Icons.code, size: _defIconSize),
                 title: Text('Device ID'),
-                subtitle: SelectableText(_deviceId),
+                subtitle: SelectableText(_deviceId ?? ''),
               ),
               Divider(),
               ListTile(
                 leading: Icon(Icons.code, size: _defIconSize),
                 title: Text('Reg ID'),
-                subtitle: SelectableText(_regId),
+                subtitle: SelectableText(_regId ?? ''),
               ),
               Divider(),
               ListTile(
                 leading: Icon(Icons.code, size: _defIconSize),
                 title: Text('Model'),
-                subtitle: SelectableText('$_deviceBrand $_deviceModel'),
+                subtitle: SelectableText('$_deviceBrand $_deviceModel' ?? ''),
               ),
             ],
           ),
