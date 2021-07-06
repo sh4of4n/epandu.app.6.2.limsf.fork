@@ -77,16 +77,16 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
           TextButton(
             child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () {
-              ExtendedNavigator.of(context).pop();
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
+              context.router.pop();
               AppSettings.openLocationSettings();
             },
           ),
           TextButton(
             child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
-              ExtendedNavigator.of(context).pop();
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
+              context.router.pop();
             },
           ),
         ],
@@ -122,16 +122,16 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
           TextButton(
             child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () {
-              ExtendedNavigator.of(context).pop();
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
+              context.router.pop();
               AppSettings.openLocationSettings();
             },
           ),
           TextButton(
             child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
-              ExtendedNavigator.of(context).pop();
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
+              context.router.pop();
             },
           ),
         ],
@@ -366,9 +366,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                   directoryIcon: myImage.directoryButton,
                   iconText: iconText,
                   phoneAction: _callPoliceNumber,
-                  directoryName: Routes.directoryList,
-                  directoryType:
-                      DirectoryListArguments(directoryType: 'POLICE'),
+                  directory: DirectoryList(directoryType: 'POLICE'),
                 ),
                 DirectoryCard(
                   title:
@@ -378,9 +376,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                   directoryIcon: myImage.directoryButton,
                   iconText: iconText,
                   phoneAction: _callEmergencyNumber,
-                  directoryName: Routes.directoryList,
-                  directoryType:
-                      DirectoryListArguments(directoryType: 'AMBULANCE'),
+                  directory: DirectoryList(directoryType: 'AMBULANCE'),
                 ),
               ],
             ),
@@ -393,8 +389,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                   directoryIcon: myImage.directoryButton,
                   iconText: iconText,
                   phoneAction: _callBombaNumber,
-                  directoryName: Routes.directoryList,
-                  directoryType: DirectoryListArguments(directoryType: 'BOMBA'),
+                  directory: DirectoryList(directoryType: 'BOMBA'),
                 ),
                 DirectoryCard(
                   title:
@@ -412,9 +407,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                       type: MessageType.INFO,
                     ),
                   },
-                  directoryName: Routes.directoryList,
-                  directoryType:
-                      DirectoryListArguments(directoryType: 'INSURANCE'),
+                  directory: DirectoryList(directoryType: 'INSURANCE'),
                 ),
               ],
             ),
@@ -428,9 +421,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                   directoryIcon: myImage.directoryButton,
                   iconText: iconText,
                   phoneAction: _callCarWorkshopNumber,
-                  directoryName: Routes.directoryList,
-                  directoryType:
-                      DirectoryListArguments(directoryType: 'WORKSHOP'),
+                  directory: DirectoryList(directoryType: 'WORKSHOP'),
                 ),
                 DirectoryCard(
                   title:
@@ -440,9 +431,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                   directoryIcon: myImage.directoryButton,
                   iconText: iconText,
                   phoneAction: _callBikeWorkshopNumber,
-                  directoryName: Routes.directoryList,
-                  directoryType:
-                      DirectoryListArguments(directoryType: 'BIKEWORKSHOP'),
+                  directory: DirectoryList(directoryType: 'BIKEWORKSHOP'),
                 ),
               ],
             ),

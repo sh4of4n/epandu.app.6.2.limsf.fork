@@ -288,7 +288,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
           );
 
           if (result.isSuccess) {
-            ExtendedNavigator.of(context).pop();
+            context.router.pop();
 
             CustomSnackbar().show(
               context,

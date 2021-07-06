@@ -61,8 +61,8 @@ class _AddBookingState extends State<AddBooking> {
         customActions: <Widget>[
           TextButton(
             child: Text(AppLocalizations.of(context).translate('ok_btn')),
-            onPressed: () => ExtendedNavigator.of(context).popUntil(
-              ModalRoute.withName(Routes.epanduCategory),
+            onPressed: () => context.router.popUntil(
+              ModalRoute.withName('/epanduCategory'),
             ),
           )
         ],
@@ -470,8 +470,8 @@ class _AddBookingState extends State<AddBooking> {
           customActions: <Widget>[
             TextButton(
               child: Text(AppLocalizations.of(context).translate('ok_btn')),
-              onPressed: () => ExtendedNavigator.of(context)
-                  .pushAndRemoveUntil(Routes.home, (r) => false),
+              onPressed: () => context.router
+                  .pushAndPopUntil(Home(), predicate: (r) => false),
             ),
           ],
         );
@@ -480,7 +480,7 @@ class _AddBookingState extends State<AddBooking> {
           context: context,
           type: DialogType.ERROR,
           content: result.message.toString(),
-          onPressed: () => ExtendedNavigator.of(context).pop(),
+          onPressed: () => context.router.pop(),
         );
       }
 

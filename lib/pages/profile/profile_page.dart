@@ -215,8 +215,7 @@ class _ProfileState extends State<Profile>
               ), */
             SizedBox(height: ScreenUtil().setHeight(20)),
             InkWell(
-              onTap: () =>
-                  ExtendedNavigator.of(context).push(Routes.enrolmentInfo),
+              onTap: () => context.router.push(EnrolmentInfo()),
               child: Column(
                 children: <Widget>[
                   FadeInImage(
@@ -418,8 +417,7 @@ class _ProfileState extends State<Profile>
             ), */
           SizedBox(height: ScreenUtil().setHeight(20)),
           InkWell(
-            onTap: () =>
-                ExtendedNavigator.of(context).push(Routes.enrolmentInfo),
+            onTap: () => context.router.push(EnrolmentInfo()),
             child: Column(
               children: <Widget>[
                 FadeInImage(

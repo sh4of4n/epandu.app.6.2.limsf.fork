@@ -8,7 +8,6 @@ class KppCategoryIcon extends StatelessWidget {
   final borderWidth;
   final borderColor;
   final component;
-  final argument;
 
   KppCategoryIcon({
     this.image,
@@ -17,16 +16,13 @@ class KppCategoryIcon extends StatelessWidget {
     this.borderWidth,
     this.borderColor,
     this.component,
-    this.argument,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        component != null
-            ? ExtendedNavigator.of(context).push(component, arguments: argument)
-            : SizedBox.shrink();
+        component != null ? context.router.push(component) : SizedBox.shrink();
       },
       child: Container(
         decoration: BoxDecoration(

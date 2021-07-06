@@ -140,7 +140,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      ExtendedNavigator.of(context).pop();
+                      context.router.pop();
                     },
                     child: Text(
                       AppLocalizations.of(context).translate('go_back_lbl'),
@@ -219,7 +219,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
           phDeviceId: '');
 
       if (result.isSuccess) {
-        ExtendedNavigator.of(context).pop();
+        context.router.pop();
         CustomSnackbar().show(
           context,
           message: result.message.toString(),

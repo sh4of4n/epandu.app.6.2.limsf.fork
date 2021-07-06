@@ -147,7 +147,7 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
                         localStorage.saveMerchantDbCode(
                             widget.diList[index].merchantNo);
 
-                        ExtendedNavigator.of(context).replace(Routes.home);
+                        context.router.replace(Home());
                       },
                       title: loadImage(widget.diList[index]),
                     ),
@@ -159,7 +159,7 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
                   //         localStorage
                   //             .saveMerchantDbCode(diList[index].merchantNo);
 
-                  //         ExtendedNavigator.of(context).replace(Routes.home);
+                  //         context.router.replace(Routes.home);
                   //       },
                   //       child: Container(
                   //         margin: EdgeInsets.symmetric(horizontal: 10.0),

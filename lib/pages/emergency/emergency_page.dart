@@ -74,16 +74,16 @@ class _EmergencyState extends State<Emergency> {
           TextButton(
             child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () {
-              ExtendedNavigator.of(context).pop();
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
+              context.router.pop();
               AppSettings.openLocationSettings();
             },
           ),
           TextButton(
             child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
-              ExtendedNavigator.of(context).pop();
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
+              context.router.pop();
             },
           ),
         ],
@@ -121,8 +121,7 @@ class _EmergencyState extends State<Emergency> {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.view_list),
-              onPressed: () =>
-                  ExtendedNavigator.of(context).push(Routes.emergencyDirectory),
+              onPressed: () => context.router.push(EmergencyDirectory()),
             )
           ],
         ),

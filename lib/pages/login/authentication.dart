@@ -79,13 +79,13 @@ class _AuthenticationState extends State<Authentication> {
     String diCode = await localStorage.getMerchantDbCode();
 
     if (userId.isNotEmpty && diCode.isNotEmpty) {
-      ExtendedNavigator.of(context).replace(Routes.home);
+      context.router.replace(Home());
     } else if (userId.isNotEmpty && diCode.isEmpty) {
       await authRepo.logout(context: context, type: '');
 
-      ExtendedNavigator.of(context).replace(Routes.login);
+      context.router.replace(Login());
     } else {
-      ExtendedNavigator.of(context).replace(Routes.login);
+      context.router.replace(Login());
     }
   }
 

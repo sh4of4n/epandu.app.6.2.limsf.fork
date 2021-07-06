@@ -401,8 +401,9 @@ class _RegisterVerificationState extends State<RegisterVerification> {
       FocusScope.of(context).requestFocus(new FocusNode());
 
       if (_verificationCode == _correctVerificationCode) {
-        ExtendedNavigator.of(context).push(Routes.registerForm,
-            arguments: RegisterFormArguments(data: widget.data));
+        context.router.push(
+          RegisterForm(data: widget.data),
+        );
 
         setState(() {
           _message = '';

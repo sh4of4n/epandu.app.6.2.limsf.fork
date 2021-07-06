@@ -65,8 +65,7 @@ class Records extends StatelessWidget {
                     TableRow(
                       children: [
                         InkWell(
-                          onTap: () => ExtendedNavigator.of(context)
-                              .push(Routes.registeredCourse),
+                          onTap: () => context.router.push(RegisteredCourse()),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(
@@ -90,8 +89,7 @@ class Records extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () => ExtendedNavigator.of(context)
-                              .push(Routes.paymentHistory),
+                          onTap: () => context.router.push(PaymentHistory()),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(
@@ -115,8 +113,7 @@ class Records extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () => ExtendedNavigator.of(context)
-                              .push(Routes.attendanceTab),
+                          onTap: () => context.router.push(AttendanceTab()),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(

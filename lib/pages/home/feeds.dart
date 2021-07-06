@@ -85,7 +85,7 @@ class _FeedsState extends State<Feeds> {
             onPressed: () {
               Provider.of<HomeLoadingModel>(context, listen: false)
                   .loadingStatus(false);
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
               AppSettings.openLocationSettings();
             },
           ),
@@ -95,7 +95,7 @@ class _FeedsState extends State<Feeds> {
               Provider.of<HomeLoadingModel>(context, listen: false)
                   .loadingStatus(false);
 
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
 
               customDialog.show(
                   context: context,
@@ -193,8 +193,9 @@ class _FeedsState extends State<Feeds> {
             _getLongitude(udf: feed.udfReturnParameter) +
             _getPackageCode(udf: feed.udfReturnParameter);
 
-        ExtendedNavigator.of(context)
-            .push(Routes.webview, arguments: WebviewArguments(url: url));
+        context.router.push(
+          Webview(url: url),
+        );
 
         Provider.of<HomeLoadingModel>(context, listen: false)
             .loadingStatus(false);
@@ -210,7 +211,7 @@ class _FeedsState extends State<Feeds> {
             TextButton(
               child: Text(AppLocalizations.of(context).translate('ok_btn')),
               onPressed: () {
-                ExtendedNavigator.of(context).pop();
+                context.router.pop();
                 Provider.of<HomeLoadingModel>(context, listen: false)
                     .loadingStatus(false);
               },
@@ -312,7 +313,7 @@ class _FeedsState extends State<Feeds> {
           TextButton(
               child: Text(AppLocalizations.of(context).translate('ok_btn')),
               onPressed: () {
-                ExtendedNavigator.of(context).pop();
+                context.router.pop();
               }),
         ],
         type: DialogType.GENERAL,
@@ -369,25 +370,21 @@ class _FeedsState extends State<Feeds> {
                           if (!isUrl) {
                             switch (feedValue) {
                               case 'ETESTING':
-                                ExtendedNavigator.of(context)
-                                    .push(Routes.etestingCategory);
+                                context.router.push(EtestingCategory());
                                 break;
                               case 'EDRIVING':
-                                ExtendedNavigator.of(context)
-                                    .push(Routes.epanduCategory);
+                                context.router.push(EpanduCategory());
                                 break;
                               case 'ENROLLMENT':
-                                ExtendedNavigator.of(context)
-                                    .push(Routes.enrollment);
+                                context.router.push(Enrollment());
                                 break;
                               case 'DI_ENROLLMENT':
                                 String packageCodeJson = _getPackageCode(
                                     udf: item.udfReturnParameter);
 
-                                ExtendedNavigator.of(context)
+                                context.router
                                     .push(
-                                      Routes.diEnrollment,
-                                      arguments: DiEnrollmentArguments(
+                                      DiEnrollment(
                                           packageCodeJson: packageCodeJson
                                               .replaceAll('&package=', '')),
                                     )
@@ -395,19 +392,17 @@ class _FeedsState extends State<Feeds> {
                                         getOnlinePaymentListByIcNo());
                                 break;
                               case 'KPP':
-                                ExtendedNavigator.of(context)
-                                    .push(Routes.kppCategory);
+                                context.router.push(KppCategory());
                                 break;
                               case 'VCLUB':
-                                ExtendedNavigator.of(context)
-                                    .push(Routes.valueClub);
+                                context.router.push(ValueClub());
                                 break;
                               case 'MULTILVL':
-                                ExtendedNavigator.of(context)
-                                    .push(Routes.multilevel,
-                                        arguments: MultilevelArguments(
-                                          feed: item,
-                                        ));
+                                context.router.push(
+                                  Multilevel(
+                                    feed: item,
+                                  ),
+                                );
                                 break;
                               default:
                                 break;
@@ -417,7 +412,7 @@ class _FeedsState extends State<Feeds> {
                           }
                         }
                         /* else {
-                          ExtendedNavigator.of(context)
+                          context.router
                               .push(Routes.promotions);
                         } */
                       },
@@ -556,45 +551,40 @@ class _FeedsState extends State<Feeds> {
                           if (!isUrl) {
                             switch (feedValue) {
                               case 'ETESTING':
-                                ExtendedNavigator.of(context)
-                                    .push(Routes.etestingCategory);
+                                context.router.push(EtestingCategory());
                                 break;
                               case 'EDRIVING':
-                                ExtendedNavigator.of(context)
-                                    .push(Routes.epanduCategory);
+                                context.router.push(EpanduCategory());
                                 break;
                               case 'ENROLLMENT':
-                                ExtendedNavigator.of(context)
-                                    .push(Routes.enrollment);
+                                context.router.push(Enrollment());
                                 break;
                               case 'DI_ENROLLMENT':
                                 String packageCodeJson = _getPackageCode(
                                     udf: item.udfReturnParameter);
 
-                                ExtendedNavigator.of(context)
+                                context.router
                                     .push(
-                                      Routes.diEnrollment,
-                                      arguments: DiEnrollmentArguments(
-                                          packageCodeJson: packageCodeJson
-                                              .replaceAll('&package=', '')),
+                                      DiEnrollment(
+                                        packageCodeJson: packageCodeJson
+                                            .replaceAll('&package=', ''),
+                                      ),
                                     )
                                     .then((value) =>
                                         getOnlinePaymentListByIcNo());
                                 break;
                               case 'KPP':
-                                ExtendedNavigator.of(context)
-                                    .push(Routes.kppCategory);
+                                context.router.push(KppCategory());
                                 break;
                               case 'VCLUB':
-                                ExtendedNavigator.of(context)
-                                    .push(Routes.valueClub);
+                                context.router.push(ValueClub());
                                 break;
                               case 'MULTILVL':
-                                ExtendedNavigator.of(context)
-                                    .push(Routes.multilevel,
-                                        arguments: MultilevelArguments(
-                                          feed: item,
-                                        ));
+                                context.router.push(
+                                  Multilevel(
+                                    feed: item,
+                                  ),
+                                );
                                 break;
                               default:
                                 break;
@@ -604,7 +594,7 @@ class _FeedsState extends State<Feeds> {
                           }
                         }
                         /* else {
-                        ExtendedNavigator.of(context)
+                        context.router
                             .push(Routes.promotions);
                       } */
                       },

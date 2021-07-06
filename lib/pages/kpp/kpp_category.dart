@@ -94,8 +94,7 @@ class _KppCategoryState extends State<KppCategory> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     KppCategoryIcon(
-                      component: Routes.kppModule,
-                      argument: KppModuleArguments(data: 'KPP-D'),
+                      component: KppModule(data: 'KPP-D'),
                       width: ScreenUtil().setWidth(600),
                       height: ScreenUtil().setHeight(500),
                       borderWidth: 5.0,
@@ -103,8 +102,7 @@ class _KppCategoryState extends State<KppCategory> {
                       image: image.car,
                     ),
                     KppCategoryIcon(
-                      component: Routes.kppModule,
-                      argument: KppModuleArguments(data: 'KPP-B'),
+                      component: KppModule(data: 'KPP-B'),
                       width: ScreenUtil().setWidth(600),
                       height: ScreenUtil().setHeight(500),
                       borderWidth: 5.0,

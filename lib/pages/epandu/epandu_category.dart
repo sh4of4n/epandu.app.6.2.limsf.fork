@@ -69,47 +69,41 @@ class EpanduCategory extends StatelessWidget {
                 shrinkWrap: true,
                 children: [
                   ListTile(
-                    onTap: () =>
-                        ExtendedNavigator.of(context).push(Routes.comingSoon),
+                    onTap: () => context.router.push(ComingSoon()),
                     title: Text(AppLocalizations.of(context).translate('info'),
                         style: iconText),
                   ),
                   Divider(color: Colors.grey[400]),
                   ListTile(
-                    onTap: () =>
-                        ExtendedNavigator.of(context).push(Routes.enrollment),
+                    onTap: () => context.router.push(Enrollment()),
                     title: Text(
                         AppLocalizations.of(context).translate('enroll_lbl'),
                         style: iconText),
                   ),
                   Divider(color: Colors.grey[400]),
                   ListTile(
-                    onTap: () =>
-                        ExtendedNavigator.of(context).push(Routes.booking),
+                    onTap: () => context.router.push(Booking()),
                     title: Text(
                         AppLocalizations.of(context).translate('booking_lbl'),
                         style: iconText),
                   ),
                   Divider(color: Colors.grey[400]),
                   ListTile(
-                    onTap: () =>
-                        ExtendedNavigator.of(context).push(Routes.kppCategory),
+                    onTap: () => context.router.push(KppCategory()),
                     title: Text(
                         AppLocalizations.of(context).translate('elearning'),
                         style: iconText),
                   ),
                   Divider(color: Colors.grey[400]),
                   ListTile(
-                    onTap: () =>
-                        ExtendedNavigator.of(context).push(Routes.records),
+                    onTap: () => context.router.push(Records()),
                     title: Text(
                         AppLocalizations.of(context).translate('records'),
                         style: iconText),
                   ),
                   Divider(color: Colors.grey[400]),
                   ListTile(
-                    onTap: () => ExtendedNavigator.of(context)
-                        .push(Routes.requestPickup),
+                    onTap: () => context.router.push(RequestPickup()),
                     title: Text(
                         AppLocalizations.of(context).translate('pickup'),
                         style: iconText),
@@ -117,7 +111,7 @@ class EpanduCategory extends StatelessWidget {
                   Divider(color: Colors.grey[400]),
                   /* ListTile(
                     onTap: () =>
-                        ExtendedNavigator.of(context).push(Routes.comingSoon),
+                        context.router.push(Routes.comingSoon),
                     title: Text(
                         AppLocalizations.of(context).translate('webinar'),
                         style: iconText),
@@ -125,7 +119,7 @@ class EpanduCategory extends StatelessWidget {
                   Divider(color: Colors.grey[400]),
                   ListTile(
                     onTap: () =>
-                        ExtendedNavigator.of(context).push(Routes.chatHome),
+                        context.router.push(Routes.chatHome),
                     title: Text(AppLocalizations.of(context).translate('chat'),
                         style: iconText),
                   ),

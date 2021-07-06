@@ -69,9 +69,8 @@ class _OrderListState extends State<OrderList> {
     );
 
     if (result.isSuccess) {
-      ExtendedNavigator.of(context).push(
-        Routes.webview,
-        arguments: WebviewArguments(url: result.data[0].receiptUrl),
+      context.router.push(
+        Webview(url: result.data[0].receiptUrl),
       );
     }
 
@@ -133,9 +132,8 @@ class _OrderListState extends State<OrderList> {
                               if (snapshot.data[index].trnStatus
                                       .toUpperCase() !=
                                   'PAID')
-                                ExtendedNavigator.of(context).push(
-                                  Routes.fpxPaymentOption,
-                                  arguments: FpxPaymentOptionArguments(
+                                context.router.push(
+                                  FpxPaymentOption(
                                     icNo: widget.icNo,
                                     docDoc: snapshot.data[index].docDoc,
                                     docRef: snapshot.data[index].docRef,

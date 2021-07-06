@@ -42,9 +42,8 @@ class HomePageHeader extends StatelessWidget {
   }
 
   selectDi(context, diList) {
-    ExtendedNavigator.of(context).replace(
-      Routes.selectDrivingInstitute,
-      arguments: SelectDrivingInstituteArguments(diList: diList),
+    context.router.replace(
+      SelectDrivingInstitute(diList: diList),
     );
   }
 
@@ -72,9 +71,8 @@ class HomePageHeader extends StatelessWidget {
         Expanded(
           flex: 1,
           child: InkWell(
-            onTap: () => ExtendedNavigator.of(context).push(
-              Routes.profileTab,
-              arguments: ProfileTabArguments(positionStream: positionStream),
+            onTap: () => context.router.push(
+              ProfileTab(positionStream: positionStream),
             ),
             child: Image.asset(
               image.profileRed,

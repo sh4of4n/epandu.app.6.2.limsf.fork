@@ -123,9 +123,9 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
         customActions: <Widget>[
           TextButton(
             child: Text(AppLocalizations.of(context).translate('ok_btn')),
-            onPressed: () => ExtendedNavigator.of(context).pushAndRemoveUntil(
-              Routes.updateProfile,
-              ModalRoute.withName(Routes.home),
+            onPressed: () => context.router.pushAndPopUntil(
+              UpdateProfile(),
+              predicate: ModalRoute.withName('/home'),
             ),
           ),
         ],
@@ -290,7 +290,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
         context: context,
         type: DialogType.ERROR,
         content: result.message.toString(),
-        onPressed: () => ExtendedNavigator.of(context).pop(),
+        onPressed: () => context.router.pop(),
       );
     }
   }
@@ -304,9 +304,8 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
 
     if (result.isSuccess) {
       if (result.data[0].trnStatus.toUpperCase() != 'PAID') {
-        ExtendedNavigator.of(context).push(
-          Routes.fpxPaymentOption,
-          arguments: FpxPaymentOptionArguments(
+        context.router.push(
+          FpxPaymentOption(
             icNo: _icNo,
             docDoc: orderData[0].docDoc,
             docRef: orderData[0].docRef,
@@ -334,7 +333,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
         context: context,
         type: DialogType.ERROR,
         content: result.message.toString(),
-        onPressed: () => ExtendedNavigator.of(context).pop(),
+        onPressed: () => context.router.pop(),
       );
     }
   }
@@ -348,9 +347,8 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
     );
 
     if (result.isSuccess) {
-      ExtendedNavigator.of(context).push(
-        Routes.webview,
-        arguments: WebviewArguments(url: result.data[0].receiptUrl),
+      context.router.push(
+        Webview(url: result.data[0].receiptUrl),
       );
     }
 
@@ -373,9 +371,8 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
               onTap: () async {
                 String diCode = await localStorage.getMerchantDbCode();
 
-                ExtendedNavigator.of(context).push(
-                  Routes.orderList,
-                  arguments: OrderListArguments(
+                context.router.push(
+                  OrderList(
                     icNo: _icNo,
                     packageCode: packageDetlList[0].packageCode,
                     diCode: diCode,
@@ -391,9 +388,9 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
             ),
           ),
           IconButton(
-            onPressed: () => ExtendedNavigator.of(context).pushAndRemoveUntil(
-              Routes.updateProfile,
-              ModalRoute.withName(Routes.home),
+            onPressed: () => context.router.pushAndPopUntil(
+              UpdateProfile(),
+              predicate: ModalRoute.withName('/home'),
             ),
             icon: Icon(Icons.edit),
           ),
@@ -608,9 +605,8 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                         Container(
                           alignment: Alignment.centerRight,
                           child: InkWell(
-                            onTap: () => ExtendedNavigator.of(context).push(
-                              Routes.readMore,
-                              arguments: ReadMoreArguments(
+                            onTap: () => context.router.push(
+                              ReadMore(
                                 packageDesc: widget.packageDesc,
                               ),
                             ),
@@ -678,10 +674,10 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                         ),
                       ),
                       InkWell(
-                        onTap: () => ExtendedNavigator.of(context).push(
-                            Routes.termsAndCondition,
-                            arguments: TermsAndConditionArguments(
-                                termsAndCondition: widget.termsAndCondition)),
+                        onTap: () => context.router.push(
+                          TermsAndCondition(
+                              termsAndCondition: widget.termsAndCondition),
+                        ),
                         child: Text(
                           AppLocalizations.of(context)
                               .translate('terms_and_condition_link'),

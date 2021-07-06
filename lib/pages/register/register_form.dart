@@ -211,10 +211,10 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
         SimpleDialogOption(
           child: Text(AppLocalizations.of(context).translate('take_photo')),
           onPressed: () async {
-            ExtendedNavigator.of(context).pop();
-            var newProfilePic = await ExtendedNavigator.of(context).push(
-                Routes.takeProfilePicture,
-                arguments: TakeProfilePictureArguments(camera: cameras));
+            context.router.pop();
+            var newProfilePic = await context.router.push(
+              TakeProfilePicture(camera: cameras),
+            );
 
             if (newProfilePic != null)
               setState(() {
@@ -230,7 +230,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
             child: Text(AppLocalizations.of(context)
                 .translate('choose_existing_photo')),
             onPressed: () {
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
               _getImageGallery();
             }),
       ],
@@ -1341,7 +1341,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   }
 
   _login() async {
-    ExtendedNavigator.of(context).pop();
+    context.router.pop();
 
     setState(() {
       _loginLoading = true;
@@ -1364,15 +1364,12 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
       if (getRegisteredDi.isSuccess) {
         localStorage.saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
 
-        ExtendedNavigator.of(context)
-            .pushAndRemoveUntil(Routes.home, (r) => false);
+        context.router.pushAndPopUntil(Home(), predicate: (r) => false);
       } else {
-        ExtendedNavigator.of(context)
-            .pushAndRemoveUntil(Routes.login, (r) => false);
+        context.router.pushAndPopUntil(Login(), predicate: (r) => false);
       }
     } else {
-      ExtendedNavigator.of(context)
-          .pushAndRemoveUntil(Routes.login, (r) => false);
+      context.router.pushAndPopUntil(Login(), predicate: (r) => false);
     }
 
     setState(() {

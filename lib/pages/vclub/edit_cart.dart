@@ -299,14 +299,14 @@ class _CartItemEditState extends State<CartItemEdit> with PageBaseClass {
             _saveBtnIsLoading = false;
           });
 
-          /* ExtendedNavigator.of(context).push(
+          /* context.router.push(
             Routes.cart,
             arguments: CartArguments(
               name: customerName,
               dbcode: dbcode,
             ),
           ); */
-          ExtendedNavigator.of(context).pop();
+          context.router.pop();
         } else {
           setState(() {
             _message = 'Failed to save sales order. Please try again later.';

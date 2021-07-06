@@ -93,9 +93,9 @@ class _PayState extends State<Pay> {
         customActions: <Widget>[
           TextButton(
             child: Text(AppLocalizations.of(context).translate('ok_btn')),
-            onPressed: () => ExtendedNavigator.of(context).pushAndRemoveUntil(
-              Routes.updateProfile,
-              ModalRoute.withName(Routes.home),
+            onPressed: () => context.router.pushAndPopUntil(
+              UpdateProfile(),
+              predicate: ModalRoute.withName('/home'),
             ),
           ),
         ],
@@ -165,9 +165,8 @@ class _PayState extends State<Pay> {
         );
 
         if (result.isSuccess) {
-          ExtendedNavigator.of(context).push(
-            Routes.fpxPaymentOption,
-            arguments: FpxPaymentOptionArguments(
+          context.router.push(
+            FpxPaymentOption(
               icNo: _icNo,
               docDoc: result.data[0].docDoc,
               docRef: result.data[0].docRef,
@@ -178,10 +177,10 @@ class _PayState extends State<Pay> {
               totalAmount:
                   double.tryParse(result.data[0].tlOrdAmt).toStringAsFixed(2),
               amountString: result.data[0]
-                  .tlOrdAmt, // same with totalAmount but used for different purposes, this is available in pay_page and not di_enrollment
+                  .tlOrdAmt, // same with totalAmount but used for different purposes, this is available in pay_page and not di_enrollment),
             ),
           );
-          /* ExtendedNavigator.of(context).push(
+          /* context.router.push(
             Routes.purchaseOrderList,
             arguments: PurchaseOrderListArguments(
               icNo: _icNo,
@@ -194,7 +193,7 @@ class _PayState extends State<Pay> {
             context: context,
             type: DialogType.ERROR,
             content: result.message.toString(),
-            onPressed: () => ExtendedNavigator.of(context).pop(),
+            onPressed: () => context.router.pop(),
           );
         }
 
@@ -244,9 +243,8 @@ class _PayState extends State<Pay> {
                     String diCode = await localStorage.getMerchantDbCode();
 
                     if (paymentFor.isNotEmpty)
-                      ExtendedNavigator.of(context).push(
-                        Routes.purchaseOrderList,
-                        arguments: PurchaseOrderListArguments(
+                      context.router.push(
+                        PurchaseOrderList(
                           icNo: _icNo,
                           packageCode: paymentFor,
                           diCode: diCode,
@@ -465,9 +463,8 @@ class _PayState extends State<Pay> {
                     String diCode = await localStorage.getMerchantDbCode();
 
                     if (paymentFor.isNotEmpty)
-                      ExtendedNavigator.of(context).push(
-                        Routes.purchaseOrderList,
-                        arguments: PurchaseOrderListArguments(
+                      context.router.push(
+                        PurchaseOrderList(
                           icNo: _icNo,
                           packageCode: paymentFor,
                           diCode: diCode,

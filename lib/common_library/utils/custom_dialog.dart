@@ -25,7 +25,7 @@ class CustomDialog {
     List<Widget> actions = <Widget>[
       TextButton(
         child: Text("Ok"),
-        onPressed: onPressed ?? () => ExtendedNavigator.of(context).pop(),
+        onPressed: onPressed ?? () => context.router.pop(),
       )
     ];
 

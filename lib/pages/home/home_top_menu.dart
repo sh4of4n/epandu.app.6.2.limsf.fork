@@ -104,9 +104,8 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                 TableRow(
                   children: [
                     InkWell(
-                      onTap: () => ExtendedNavigator.of(context).push(
-                        Routes.scan,
-                        arguments: ScanArguments(
+                      onTap: () => context.router.push(
+                        Scan(
                           getActiveFeed: widget.getActiveFeed,
                           getDiProfile: widget.getDiProfile,
                         ),
@@ -131,8 +130,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                       ),
                     ),
                     InkWell(
-                      onTap: () =>
-                          ExtendedNavigator.of(context).push(Routes.pay),
+                      onTap: () => context.router.push(Pay()),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
@@ -153,8 +151,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                       ),
                     ),
                     InkWell(
-                      onTap: () =>
-                          ExtendedNavigator.of(context).push(Routes.invite),
+                      onTap: () => context.router.push(Invite()),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
@@ -187,8 +184,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                       ),
                     ), */
                     InkWell(
-                      onTap: () => ExtendedNavigator.of(context)
-                          .push(Routes.identityBarcode),
+                      onTap: () => context.router.push(IdentityBarcode()),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
@@ -209,8 +205,8 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                       ),
                     ),
                     InkWell(
-                      onTap: () => ExtendedNavigator.of(context)
-                          .push(Routes.inbox)
+                      onTap: () => context.router
+                          .push(Inbox())
                           .then((value) => getUnreadNotificationCount()),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
@@ -247,7 +243,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
             alignment: Alignment.center,
             child: InkWell(
               onTap: () =>
-                  ExtendedNavigator.of(context).push(Routes.epanduCategory),
+                  context.router.push(Routes.epanduCategory),
               borderRadius: BorderRadius.circular(10.0),
               child: Container(
                 padding: EdgeInsets.only(

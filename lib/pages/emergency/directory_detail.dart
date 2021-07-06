@@ -97,7 +97,7 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
                         },
                         title: Text(map.mapName),
                         leading: Image(
-                          image: map.icon,
+                          image: AssetImage(map.icon),
                           height: 30.0,
                           width: 30.0,
                         ),

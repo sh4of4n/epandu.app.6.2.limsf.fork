@@ -82,9 +82,10 @@ class _LoginBottomCardState extends State<LoginBottomCard> {
                     barrierDismissable: false,
                     onPressed: () async {
                       count = 0;
-                      ExtendedNavigator.of(context).pop();
-                      ExtendedNavigator.of(context).push(Routes.clientAccount,
-                          arguments: ClientAccountArguments(data: ''));
+                      context.router.pop();
+                      context.router.push(
+                        ClientAccount(data: ''),
+                      );
                     },
                   );
                 }

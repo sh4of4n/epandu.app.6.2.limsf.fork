@@ -175,9 +175,8 @@ class _SelectInstituteState extends State<SelectInstitute> {
         children: <Widget>[
           for (var item in items)
             InkWell(
-              onTap: () => ExtendedNavigator.of(context).push(
-                Routes.selectClass,
-                arguments: SelectClassArguments(
+              onTap: () => context.router.push(
+                SelectClass(
                   data: EnrollmentData(
                     icNo: widget.data.icNo,
                     name: widget.data.name,

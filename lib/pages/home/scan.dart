@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:epandu/common_library/services/model/auth_model.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 import 'package:epandu/common_library/services/repository/epandu_repository.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/common_library/utils/loading_model.dart';
@@ -13,7 +12,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-
+import 'package:auto_route/auto_route.dart';
 import '../../router.gr.dart';
 
 class Scan extends StatefulWidget {
@@ -120,7 +119,8 @@ class _ScanState extends State<Scan> {
   }
 
   Future _scanResult(
-      {CheckInScanResponse checkInScanResponse, Barcode scanData}) async {
+      {@required CheckInScanResponse checkInScanResponse,
+      @required Barcode scanData}) async {
     switch (checkInScanResponse.table1[0].action) {
       case 'JPJ_PART2_CHECK_IN':
         Provider.of<HomeLoadingModel>(context, listen: false)
@@ -169,9 +169,8 @@ class _ScanState extends State<Scan> {
                   ],
                   type: DialogType.GENERAL,
                 ); */
-            ExtendedNavigator.of(context).replace(
-              Routes.queueNumber,
-              arguments: QueueNumberArguments(data: result.data),
+            context.router.replace(
+              QueueNumber(data: result.data),
             );
           } else {
             customDialog.show(
@@ -179,7 +178,7 @@ class _ScanState extends State<Scan> {
               barrierDismissable: false,
               content: result.message,
               onPressed: () {
-                ExtendedNavigator.of(context).pop();
+                context.router.pop();
 
                 controller.resumeCamera();
               },
@@ -199,8 +198,8 @@ class _ScanState extends State<Scan> {
             customActions: <Widget>[
               TextButton(
                 child: Text(AppLocalizations.of(context).translate('ok_btn')),
-                onPressed: () => ExtendedNavigator.of(context).push(
-                  Routes.updateProfile,
+                onPressed: () => context.router.push(
+                  UpdateProfile(),
                 ),
               ),
             ],
@@ -212,10 +211,9 @@ class _ScanState extends State<Scan> {
             .loadingStatus(false);
         break;
       default:
-        ExtendedNavigator.of(context)
+        context.router
             .replace(
-          Routes.registerUserToDi,
-          arguments: RegisterUserToDiArguments(
+          RegisterUserToDi(
             barcode: scanData.code,
           ),
         )
@@ -242,7 +240,7 @@ class _ScanState extends State<Scan> {
         customActions: [
           TextButton(
             onPressed: () {
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
 
               controller.resumeCamera();
             },
@@ -260,7 +258,7 @@ class _ScanState extends State<Scan> {
       customActions: [
         TextButton(
           onPressed: () {
-            ExtendedNavigator.of(context).pop();
+            context.router.pop();
 
             controller.resumeCamera();
           },

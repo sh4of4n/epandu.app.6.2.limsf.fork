@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:flutter_geocoder/geocoder.dart';
+
 import '../utils/local_storage.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:geocoder/geocoder.dart';
 
 class Location {
   final locationOptions = LocationOptions(
@@ -41,11 +43,12 @@ class Location {
     places = first.adminArea;
   }
 
-  Future<double> getDistance({double locLatitude, double locLongitude}) async {
+  Future<double> getDistance(
+      {@required double locLatitude, @required double locLongitude}) async {
     double _savedLatitude =
-        double.tryParse(await localStorage.getUserLatitude());
+        double.tryParse((await localStorage.getUserLatitude()));
     double _savedLongitude =
-        double.tryParse(await localStorage.getUserLongitude());
+        double.tryParse((await localStorage.getUserLongitude()));
 
     double distance;
 

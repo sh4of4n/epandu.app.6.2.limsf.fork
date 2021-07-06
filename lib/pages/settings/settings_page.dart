@@ -102,15 +102,12 @@ class _SettingsState extends State<Settings> {
                     );
                   },
                 ),
-                onTap: () {
-                  // Navigator.pop(context);
-                  return showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return LanguageOptions();
-                    },
-                  );
-                },
+                onTap: () => showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return LanguageOptions();
+                  },
+                ),
               ),
               Divider(),
               ListTile(
@@ -118,7 +115,7 @@ class _SettingsState extends State<Settings> {
                 title: Text(AppLocalizations.of(context)
                     .translate('change_password_lbl')),
                 onTap: () {
-                  ExtendedNavigator.of(context).push(Routes.changePassword);
+                  context.router.push(ChangePassword());
                 },
               ),
               Divider(),
@@ -151,7 +148,7 @@ class _SettingsState extends State<Settings> {
                               AppLocalizations.of(context).translate('no_lbl')),
                           onPressed: () {
                             count = 0;
-                            ExtendedNavigator.of(context).pop();
+                            context.router.pop();
                           },
                         ),
                       ],
@@ -255,10 +252,9 @@ class _SettingsState extends State<Settings> {
                 _isLoading = true;
               });
 
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
               await authRepo.logout(context: context, type: 'CLEAR');
-              ExtendedNavigator.of(context)
-                  .pushAndRemoveUntil(Routes.login, (r) => false);
+              context.router.pushAndPopUntil(Login(), predicate: (r) => false);
 
               setState(() {
                 _isLoading = false;
@@ -268,7 +264,7 @@ class _SettingsState extends State<Settings> {
           TextButton(
             child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
             },
           ),
         ],
@@ -276,7 +272,7 @@ class _SettingsState extends State<Settings> {
   }
 
   _deleteAccount() async {
-    ExtendedNavigator.of(context).pop();
+    context.router.pop();
 
     setState(() {
       _isLoading = true;
@@ -285,14 +281,13 @@ class _SettingsState extends State<Settings> {
     var result = await authRepo.deleteAppMemberAccount(context: context);
 
     if (result.isSuccess) {
-      ExtendedNavigator.of(context)
-          .pushAndRemoveUntil(Routes.login, (r) => false);
+      context.router.pushAndPopUntil(Login(), predicate: (r) => false);
     } else {
       customDialog.show(
         context: context,
         type: DialogType.ERROR,
         content: result.message.toString(),
-        onPressed: () => ExtendedNavigator.of(context).pop(),
+        onPressed: () => context.router.pop(),
       );
     }
 

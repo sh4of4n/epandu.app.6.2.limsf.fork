@@ -44,8 +44,8 @@ class _CheckInSlipState extends State<CheckInSlip> {
         barrierDismissable: false,
         content: result.message,
         onPressed: () {
-          ExtendedNavigator.of(context).pop();
-          ExtendedNavigator.of(context).pop();
+          context.router.pop();
+          context.router.pop();
         },
         type: DialogType.WARNING,
       );

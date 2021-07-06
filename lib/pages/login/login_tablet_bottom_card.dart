@@ -82,8 +82,8 @@ class _LoginTabletBottomCardState extends State<LoginTabletBottomCard> {
                     barrierDismissable: false,
                     onPressed: () async {
                       count = 0;
-                      ExtendedNavigator.of(context).pop();
-                      ExtendedNavigator.of(context).push(Routes.clientAccount);
+                      context.router.pop();
+                      context.router.push(ClientAccount());
                     },
                   );
                 }

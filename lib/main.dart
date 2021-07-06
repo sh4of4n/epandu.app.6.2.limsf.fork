@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/model/inbox_model.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 import 'package:epandu/common_library/services/repository/inbox_repository.dart';
+import 'package:epandu/router.gr.dart';
 import 'package:epandu/services/provider/notification_count.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
@@ -131,7 +132,7 @@ class _MyAppState extends State<MyApp> {
   final image = ImagesConstant();
   final inboxRepo = InboxRepo();
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   String _homeScreenText = "Waiting for token...";
   final customDialog = CustomDialog();
 
@@ -139,57 +140,36 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    _firebaseMessaging.configure(
-      // app is in foreground
-      onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
-        // setState(() {
-        //   Hive.box('ws_url').put('show_badge', true);
-        // });
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("onMessage: $message");
 
-        getUnreadNotificationCount();
+      getUnreadNotificationCount();
+    });
 
-        // await Hive.box('ws_url').put('show_badge', true);
-        // Provider.of<NotificationModel>(context, listen: false)
-        //     .setNotification(true);
-        // _showItemDialog(message);
-      },
-      // onBackgroundMessage: Platform.isIOS ? null : myBackgroundMessageHandler,
-      // app is terminated
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
-        // setState(() {
-        //   Hive.box('ws_url').put('show_badge', true);
-        // });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print("onMessageOpenedApp: $message");
 
-        getUnreadNotificationCount();
+      getUnreadNotificationCount();
 
-        // Provider.of<NotificationModel>(context, listen: false)
-        //     .setNotification(true);
-        _navigateToItemDetail(message);
-        // _showItemDialog(message);
-      },
-      // app is in background
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-        // setState(() {
-        //   Hive.box('ws_url').put('show_badge', true);
-        // });
-        // await Hive.box('ws_url').put('show_badge', true);
-        // Provider.of<NotificationModel>(context, listen: false)
-        //     .setNotification(true);
-        _navigateToItemDetail(message);
-        // _showItemDialog(message);
-      },
+      _navigateToItemDetail(message);
+    });
+
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+    _firebaseMessaging.requestPermission(
+      sound: true,
+      badge: true,
+      alert: true,
+      provisional: true,
+      announcement: false,
+      criticalAlert: false,
+      carPlay: false,
     );
 
-    _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(
-            sound: true, badge: true, alert: true, provisional: true));
-    _firebaseMessaging.onIosSettingsRegistered
+    /* _firebaseMessaging.onIosSettingsRegistered
         .listen((IosNotificationSettings settings) {
       print("Settings registered: $settings");
-    });
+    }); */
     _firebaseMessaging.getToken().then((String token) {
       assert(token != null);
       setState(() {
@@ -199,7 +179,7 @@ class _MyAppState extends State<MyApp> {
       print(_homeScreenText);
     });
 
-    _firebaseMessaging.requestNotificationPermissions();
+    // _firebaseMessaging.requestPermission();
 
     _newLocaleDelegate = AppLocalizationsDelegate(newLocale: null);
     application.onLocaleChanged = onLocaleChange;
@@ -218,7 +198,16 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  getUnreadNotificationCount() async {
+  Future<void> _firebaseMessagingBackgroundHandler(
+      RemoteMessage message) async {
+    print('Handling a background message ${message.messageId}');
+
+    getUnreadNotificationCount();
+
+    _navigateToItemDetail(message);
+  }
+
+  Future<void> getUnreadNotificationCount() async {
     var result = await inboxRepo.getUnreadNotificationCount();
 
     if (result.isSuccess) {
@@ -305,23 +294,28 @@ class _MyAppState extends State<MyApp> {
     }); */
   } */
 
-  void _navigateToItemDetail(Map<String, dynamic> message) {
-    var notificationData = message['data'];
+  void _navigateToItemDetail(RemoteMessage message) {
+    var notificationData = message.data;
     var view = notificationData['view'];
+    StackRouter router = AutoRouter.of(context);
 
     if (view != null) {
       switch (view) {
         case 'ENROLLMENT':
-          ExtendedNavigator.of(context).push(router.Routes.enrollment);
+          // ExtendedNavigator.of(context).push(router.enrollment);
+          router.push(Enrollment());
           break;
         case 'KPP':
-          ExtendedNavigator.of(context).push(router.Routes.kppCategory);
+          // ExtendedNavigator.of(context).push(router.kppCategory);
+          router.push(KppCategory());
           break;
         case 'VCLUB':
-          ExtendedNavigator.of(context).push(router.Routes.valueClub);
+          // ExtendedNavigator.of(context).push(router.Routes.valueClub);
+          router.push(ValueClub());
           break;
         case 'CHAT':
-          ExtendedNavigator.of(context).push(router.Routes.chatHome);
+          // ExtendedNavigator.of(context).push(router.Routes.chatHome);
+          router.push(ChatHome());
           break;
       }
     }

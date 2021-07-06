@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:epandu/router.gr.dart';
+// import 'package:epandu/router.gr.dart';
 import 'package:epandu/common_library/services/model/auth_model.dart';
 import 'package:epandu/common_library/services/location.dart';
 import 'package:epandu/common_library/utils/custom_button.dart';
@@ -203,8 +203,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
       );
 
       if (result.isSuccess) {
-        ExtendedNavigator.of(context)
-            .popUntil(ModalRoute.withName(Routes.home));
+        context.router.popUntil(ModalRoute.withName('/home'));
         /* customDialog.show(
           context: context,
           title: Center(
@@ -231,7 +230,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
         customDialog.show(
           context: context,
           content: result.message.toString(),
-          onPressed: () => ExtendedNavigator.of(context).pop(),
+          onPressed: () => context.router.pop(),
           type: DialogType.ERROR,
         );
       }

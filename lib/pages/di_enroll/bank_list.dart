@@ -80,20 +80,19 @@ class _BankListState extends State<BankList> {
     );
 
     if (result.isSuccess) {
-      ExtendedNavigator.of(context).push(Routes.webview,
-          arguments: WebviewArguments(
-              url: result.data[0].responseData,
-              backType:
-                  widget.amountString == null ? 'DI_ENROLLMENT' : 'HOME'));
+      context.router.push(
+        Webview(
+            url: result.data[0].responseData,
+            backType: widget.amountString == null ? 'DI_ENROLLMENT' : 'HOME'),
+      );
       /* launch(
         result.data[0].responseData,
         enableJavaScript: true,
         forceWebView: true,
       ); */
     } else {
-      ExtendedNavigator.of(context).push(
-        Routes.paymentStatus,
-        arguments: PaymentStatusArguments(icNo: widget.icNo),
+      context.router.push(
+        PaymentStatus(icNo: widget.icNo),
       );
     }
 

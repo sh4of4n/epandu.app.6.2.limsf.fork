@@ -19,7 +19,7 @@ class PushDialog extends StatelessWidget {
       customActions: <Widget>[
         TextButton(
           child: Text(AppLocalizations.of(context).translate('ok_btn')),
-          onPressed: () => ExtendedNavigator.of(context).pop(),
+          onPressed: () => context.router.pop(),
         ),
       ],
       type: DialogType.GENERAL,

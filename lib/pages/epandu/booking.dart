@@ -79,8 +79,7 @@ class _BookingState extends State<Booking> {
               textStyle: TextStyle(color: Colors.white),
               padding: EdgeInsets.all(12),
             ),
-            onPressed: () =>
-                ExtendedNavigator.of(context).push(Routes.addBooking),
+            onPressed: () => context.router.push(AddBooking()),
             child: Icon(
               Icons.add,
             ),

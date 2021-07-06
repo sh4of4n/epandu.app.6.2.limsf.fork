@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../utils/app_config.dart';
@@ -24,6 +25,8 @@ class Networking extends BaseRepo {
     return htmlText.replaceAll(exp, '');
   }
 
+  Uri uri;
+
   Networking({this.customUrl, this.milliseconds});
 
   Future<Response> getData({path}) async {
@@ -43,15 +46,17 @@ class Networking extends BaseRepo {
       // for getWsUrl
       if (url == customUrl) {
         print('$url/${path ?? ""}');
+        uri = Uri.parse('$url/${path ?? ""}');
 
         response = await http
-            .get('$url/${path ?? ""}')
+            .get(uri)
             .timeout(Duration(milliseconds: milliseconds ?? 10000));
       } else {
         print('$url/webapi/${path ?? ""}');
+        uri = Uri.parse('$url/webapi/${path ?? ""}');
 
         response = await http
-            .get('$url/webapi/${path ?? ""}')
+            .get(uri)
             .timeout(Duration(milliseconds: milliseconds ?? 30000));
       }
 
@@ -86,7 +91,8 @@ class Networking extends BaseRepo {
     }
   }
 
-  Future<Response> postData({String api, String path, body, headers}) async {
+  Future<Response> postData(
+      {String api, String path, @required body, headers}) async {
     try {
       if (customUrl != null) {
         url = customUrl;
@@ -103,8 +109,10 @@ class Networking extends BaseRepo {
 
       print('body: ' + body);
 
+      uri = Uri.parse('$url/webapi/$api${path ?? ""}');
+
       http.Response response = await http
-          .post('$url/webapi/$api${path ?? ""}', body: body, headers: headers)
+          .post(uri, body: body, headers: headers)
           .timeout(const Duration(seconds: 30));
 
       if (response.statusCode == 200) {
@@ -140,9 +148,7 @@ class Networking extends BaseRepo {
     var stream =
         new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
-
     var uri = Uri.parse(url);
-
     var request = new http.MultipartRequest("POST", uri);
     var multipartFile = new http.MultipartFile(
       'picture',
@@ -151,11 +157,9 @@ class Networking extends BaseRepo {
       filename: basename(imageFile.path),
       contentType: new MediaType('image', 'jpg'),
     );
-
     request.files.add(multipartFile);
     http.Response response =
         await http.Response.fromStream(await request.send());
-
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     }

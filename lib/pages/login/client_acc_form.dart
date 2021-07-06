@@ -250,9 +250,9 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                   InkWell(
                     onTap: () {
                       if (widget.data == 'SETTINGS')
-                        ExtendedNavigator.of(context).replace(Routes.login);
+                        context.router.replace(Login());
                       else
-                        ExtendedNavigator.of(context).pop();
+                        context.router.pop();
                     },
                     child: Text(
                       AppLocalizations.of(context).translate('go_back_lbl'),
@@ -351,9 +351,9 @@ class _ClientAccountFormState extends State<ClientAccountForm>
           Uri.encodeQueryComponent(caPwdController.text.replaceAll(' ', '')));
 
       if (widget.data == 'SETTINGS')
-        ExtendedNavigator.of(context).replace(Routes.login);
+        context.router.replace(Login());
       else
-        ExtendedNavigator.of(context).pop();
+        context.router.pop();
     } else {
       if (_formKey.currentState.validate()) {
         _formKey.currentState.save();
@@ -380,9 +380,9 @@ class _ClientAccountFormState extends State<ClientAccountForm>
           await Hive.box('ws_url').delete('userDefinedUrl');
 
           if (widget.data == 'SETTINGS')
-            ExtendedNavigator.of(context).replace(Routes.login);
+            context.router.replace(Login());
           else
-            ExtendedNavigator.of(context).pop();
+            context.router.pop();
         } else {
           setState(() {
             _message = result.message.toString();

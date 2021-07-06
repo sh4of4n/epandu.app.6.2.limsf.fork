@@ -93,9 +93,8 @@ class _InboxState extends State<Inbox> {
               text: '1. Borang Penilaian Bahagian II',
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  ExtendedNavigator.of(context).push(
-                    Routes.viewPdf,
-                    arguments: ViewPdfArguments(
+                  context.router.push(
+                    ViewPdf(
                       title: 'PDF',
                       pdfLink: links[0],
                     ),
@@ -110,9 +109,8 @@ class _InboxState extends State<Inbox> {
               text: '2. Borang Penilaian Bahagian III',
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  ExtendedNavigator.of(context).push(
-                    Routes.viewPdf,
-                    arguments: ViewPdfArguments(
+                  context.router.push(
+                    ViewPdf(
                       title: 'PDF',
                       pdfLink: links[1],
                     ),
@@ -127,9 +125,8 @@ class _InboxState extends State<Inbox> {
               text: '3. Sijil Kepututusan',
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  ExtendedNavigator.of(context).push(
-                    Routes.viewPdf,
-                    arguments: ViewPdfArguments(
+                  context.router.push(
+                    ViewPdf(
                       title: 'PDF',
                       pdfLink: links[2],
                     ),
@@ -159,9 +156,8 @@ class _InboxState extends State<Inbox> {
               text: '1. Borang Penilaian Bahagian II',
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  ExtendedNavigator.of(context).push(
-                    Routes.viewPdf,
-                    arguments: ViewPdfArguments(
+                  context.router.push(
+                    ViewPdf(
                       title: 'PDF',
                       pdfLink: links[0],
                     ),
@@ -176,9 +172,8 @@ class _InboxState extends State<Inbox> {
               text: '2. Sijil Kepututusan',
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  ExtendedNavigator.of(context).push(
-                    Routes.viewPdf,
-                    arguments: ViewPdfArguments(
+                  context.router.push(
+                    ViewPdf(
                       title: 'PDF',
                       pdfLink: links[1],
                     ),
@@ -208,9 +203,8 @@ class _InboxState extends State<Inbox> {
               text: '1. Borang Penilaian Bahagian III',
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  ExtendedNavigator.of(context).push(
-                    Routes.viewPdf,
-                    arguments: ViewPdfArguments(
+                  context.router.push(
+                    ViewPdf(
                       title: 'PDF',
                       pdfLink: links[0],
                     ),
@@ -225,9 +219,8 @@ class _InboxState extends State<Inbox> {
               text: '2. Sijil Kepututusan',
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  ExtendedNavigator.of(context).push(
-                    Routes.viewPdf,
-                    arguments: ViewPdfArguments(
+                  context.router.push(
+                    ViewPdf(
                       title: 'PDF',
                       pdfLink: links[1],
                     ),
@@ -239,9 +232,8 @@ class _InboxState extends State<Inbox> {
       );
     }
     return SelectableLinkify(
-      onOpen: (link) => ExtendedNavigator.of(context).push(
-        Routes.viewPdf,
-        arguments: ViewPdfArguments(
+      onOpen: (link) => context.router.push(
+        ViewPdf(
           title: 'PDF',
           pdfLink: link.url,
         ),
@@ -276,7 +268,7 @@ class _InboxState extends State<Inbox> {
         separatorBuilder: (BuildContext context, int index) =>
             Divider(color: Colors.grey[400]),
         itemBuilder: (BuildContext context, int index) {
-          if (sortedInboxData[index].msgType == 'PDF')
+          if (sortedInboxData[index]?.msgType == 'PDF')
             /* return ListTile(
               leading: Icon(Icons.mail, color: Color(0xff808080)),
               title: parseInboxMessage(sortedInboxData[index].sendMsg),
@@ -371,8 +363,9 @@ class _InboxState extends State<Inbox> {
         children: [
           SelectableLinkify(
             onOpen: (link) {
-              ExtendedNavigator.of(context).push(Routes.webview,
-                  arguments: WebviewArguments(url: link.url));
+              context.router.push(
+                Webview(url: link.url),
+              );
             },
             text: msgData.sendMsg,
           ),

@@ -245,16 +245,16 @@ class _HomeState extends State<Home> {
           TextButton(
             child: Text(AppLocalizations.of(context).translate('yes_lbl')),
             onPressed: () {
-              ExtendedNavigator.of(context).pop();
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
+              context.router.pop();
               AppSettings.openLocationSettings();
             },
           ),
           TextButton(
             child: Text(AppLocalizations.of(context).translate('no_lbl')),
             onPressed: () {
-              ExtendedNavigator.of(context).pop();
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
+              context.router.pop();
             },
           ),
         ],
@@ -351,7 +351,7 @@ class _HomeState extends State<Home> {
           width: 450.w,
           child: FloatingActionButton(
             onPressed: () {
-              ExtendedNavigator.of(context).push(Routes.emergencyDirectory);
+              context.router.push(EmergencyDirectory());
             },
             child: Image.asset(
               myImage.sos,

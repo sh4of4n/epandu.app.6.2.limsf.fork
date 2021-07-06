@@ -1,5 +1,5 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flushbar/flushbar.dart';
 
 enum MessageType {
   INFO,
@@ -17,7 +17,7 @@ class CustomSnackbar {
       EdgeInsets.symmetric(horizontal: 20, vertical: 20);
   EdgeInsets _defaultMargin =
       EdgeInsets.symmetric(horizontal: 15, vertical: 15);
-  double _defaultBorderRadius = 15.0;
+  BorderRadius _defaultBorderRadius = BorderRadius.circular(15.0);
 
   static int getDuration() {
     return _defaultDuration;
@@ -109,7 +109,9 @@ class CustomSnackbar {
       ),
       padding: _defaultPadding,
       margin: type == MessageType.TOAST ? _defaultMargin : EdgeInsets.all(0.0),
-      borderRadius: type == MessageType.TOAST ? _defaultBorderRadius : 0.0,
+      borderRadius: type == MessageType.TOAST
+          ? _defaultBorderRadius
+          : BorderRadius.circular(0.0),
       icon: icon,
       backgroundColor: bgColor != null ? bgColor : Color(0xFF303030),
       duration: Duration(milliseconds: duration ?? _defaultDuration),

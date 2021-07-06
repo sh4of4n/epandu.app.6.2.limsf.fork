@@ -14,7 +14,7 @@ import 'package:intl/intl.dart';
 import 'package:epandu/common_library/utils/custom_snackbar.dart';
 import 'package:provider/provider.dart';
 
-import '../../router.gr.dart';
+import '../../router.gr.dart' as route;
 import 'package:epandu/common_library/services/repository/products_repository.dart';
 
 class Product extends StatefulWidget {
@@ -258,7 +258,7 @@ class _ProductState extends State<Product> {
       customSnackbar.show(context,
           message: 'Item added to cart.', type: MessageType.SUCCESS);
 
-      /* ExtendedNavigator.of(context).pushAndRemoveUntil(
+      /* context.router.pushAndRemoveUntil(
             Routes.salesOrderCart,
             ModalRoute.withName(Routes.customerDetail),
             arguments: SalesOrderCartArguments(
@@ -327,9 +327,8 @@ class _ProductState extends State<Product> {
           title: Text('Product'),
           actions: <Widget>[
             InkWell(
-              onTap: () => ExtendedNavigator.of(context).push(
-                Routes.cart,
-                arguments: CartArguments(
+              onTap: () => context.router.push(
+                route.Cart(
                   dbcode: 'TBS',
                   name: 'TBS',
                 ),
@@ -380,9 +379,8 @@ class _ProductState extends State<Product> {
                         padding: EdgeInsets.only(top: 50.h),
                         child: GestureDetector(
                           // onTap: () => _loadCustomDialog(context, imageArray),
-                          onTap: () => ExtendedNavigator.of(context).push(
-                            Routes.imageViewer,
-                            arguments: ImageViewerArguments(
+                          onTap: () => context.router.push(
+                            route.ImageViewer(
                               title: widget.stkCode,
                               image: NetworkImage(widget.image),
                             ),
@@ -540,9 +538,8 @@ class _ProductState extends State<Product> {
                         itemCount: widget.products.length,
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
-                            onTap: () => ExtendedNavigator.of(context).replace(
-                              Routes.product,
-                              arguments: ProductArguments(
+                            onTap: () => context.router.replace(
+                              route.Product(
                                 image: widget.products[index].stkpicturePath !=
                                         null
                                     ? widget.products[index].stkpicturePath

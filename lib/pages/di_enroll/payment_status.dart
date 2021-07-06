@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
-import '../../router.gr.dart';
 
 class PaymentStatus extends StatefulWidget {
   final String icNo;
@@ -92,9 +91,8 @@ class _PaymentStatusState extends State<PaymentStatus> {
                       child: Column(
                         children: [
                           CustomButton(
-                              onPressed: () =>
-                                  ExtendedNavigator.of(context).popUntil(
-                                    ModalRoute.withName(Routes.home),
+                              onPressed: () => context.router.popUntil(
+                                    ModalRoute.withName('/home'),
                                   ),
                               buttonColor: Color(0xffdd0e0e),
                               title: AppLocalizations.of(context)

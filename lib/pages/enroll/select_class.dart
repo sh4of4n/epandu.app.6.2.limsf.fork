@@ -392,8 +392,7 @@ class _SelectClassState extends State<SelectClass> {
             onPressed: () async {
               await authRepo.getUserRegisteredDI(
                   context: context, type: 'UPDATE');
-              ExtendedNavigator.of(context)
-                  .pushAndRemoveUntil(Routes.home, (r) => false);
+              context.router.pushAndPopUntil(Home(), predicate: (r) => false);
             },
           ),
         ],
@@ -403,7 +402,7 @@ class _SelectClassState extends State<SelectClass> {
         context: context,
         type: DialogType.ERROR,
         content: result.message.toString(),
-        onPressed: () => ExtendedNavigator.of(context).pop(),
+        onPressed: () => context.router.pop(),
       );
     }
 

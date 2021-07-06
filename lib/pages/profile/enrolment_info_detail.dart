@@ -220,7 +220,7 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
                     primary: Color(0xffdd0e0e),
                     textStyle: TextStyle(color: Colors.white),
                   ),
-                  onPressed: () => ExtendedNavigator.of(context).pop(),
+                  onPressed: () => context.router.pop(),
                   child: Text(
                     AppLocalizations.of(context).translate('back_btn'),
                     style: TextStyle(

@@ -141,9 +141,8 @@ class _ProductListState extends State<ProductList> {
                 ],
               ),
               child: InkWell(
-                onTap: () => ExtendedNavigator.of(context).push(
-                  Routes.product,
-                  arguments: ProductArguments(
+                onTap: () => context.router.push(
+                  Product(
                     image: item.stkpicturePath != null
                         ? item.stkpicturePath
                             .replaceAll(removeBracket, '')
@@ -299,7 +298,7 @@ class _ProductListState extends State<ProductList> {
               style: TextStyle(fontSize: ScreenUtil().setSp(60)),
             ),
             onPressed: () {
-              ExtendedNavigator.of(context).pop(context);
+              context.router.pop(context);
             },
           ),
         ),

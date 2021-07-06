@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:epandu/pages/home/home.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
-import '../../router.gr.dart';
 // import '../../router.gr.dart';
 
 class NavigationControls extends StatelessWidget {
@@ -40,14 +38,14 @@ class NavigationControls extends StatelessWidget {
                 onPressed: () {
                   Provider.of<CallStatusModel>(context, listen: false)
                       .callStatus(false);
-                  ExtendedNavigator.of(context).popUntil(
-                    ModalRoute.withName(Routes.home),
+                  context.router.popUntil(
+                    ModalRoute.withName('/home'),
                   );
                 }),
             TextButton(
               child: Text(AppLocalizations.of(context).translate('no_lbl')),
               onPressed: () {
-                ExtendedNavigator.of(context).pop();
+                context.router.pop();
               },
             ),
           ],
@@ -66,9 +64,9 @@ class NavigationControls extends StatelessWidget {
                 onPressed: () {
                   Provider.of<CallStatusModel>(context, listen: false)
                       .callStatus(false);
-                  ExtendedNavigator.of(context).pop();
-                  ExtendedNavigator.of(context).pop();
-                  /* ExtendedNavigator.of(context).popUntil(
+                  context.router.pop();
+                  context.router.pop();
+                  /* context.router.popUntil(
                     ModalRoute.withName(Routes.home),
                   ); */
                 },
@@ -76,7 +74,7 @@ class NavigationControls extends StatelessWidget {
               TextButton(
                 child: Text(AppLocalizations.of(context).translate('no_lbl')),
                 onPressed: () {
-                  ExtendedNavigator.of(context).pop();
+                  context.router.pop();
                 },
               ),
             ],
@@ -84,7 +82,7 @@ class NavigationControls extends StatelessWidget {
           ); */
           Provider.of<CallStatusModel>(context, listen: false)
               .callStatus(false);
-          ExtendedNavigator.of(context).pop();
+          context.router.pop();
           return;
         }
       }

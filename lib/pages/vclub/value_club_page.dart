@@ -225,9 +225,8 @@ class _ValueClubState extends State<ValueClub> {
                     textAlign: TextAlign.start,
                   ),
                   InkWell(
-                    onTap: () => ExtendedNavigator.of(context).push(
-                      Routes.productList,
-                      arguments: ProductListArguments(
+                    onTap: () => context.router.push(
+                      ProductList(
                         stkCat: 'WL- LT',
                         keywordSearch: '',
                       ),
@@ -250,9 +249,8 @@ class _ValueClubState extends State<ValueClub> {
                 itemCount: mostPopularProducts.length,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
-                    onTap: () => ExtendedNavigator.of(context).push(
-                      Routes.product,
-                      arguments: ProductArguments(
+                    onTap: () => context.router.push(
+                      Product(
                         image: mostPopularProducts[index].stkpicturePath != null
                             ? mostPopularProducts[index]
                                 .stkpicturePath
@@ -329,9 +327,8 @@ class _ValueClubState extends State<ValueClub> {
                     textAlign: TextAlign.start,
                   ),
                   InkWell(
-                    onTap: () => ExtendedNavigator.of(context).push(
-                      Routes.productList,
-                      arguments: ProductListArguments(
+                    onTap: () => context.router.push(
+                      ProductList(
                         stkCat: 'WL- OTR',
                         keywordSearch: '',
                       ),
@@ -353,9 +350,8 @@ class _ValueClubState extends State<ValueClub> {
                 itemCount: recommendedProducts.length,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
-                    onTap: () => ExtendedNavigator.of(context).push(
-                      Routes.product,
-                      arguments: ProductArguments(
+                    onTap: () => context.router.push(
+                      Product(
                         image: recommendedProducts[index].stkpicturePath != null
                             ? recommendedProducts[index]
                                 .stkpicturePath
@@ -446,9 +442,8 @@ class _ValueClubState extends State<ValueClub> {
                     textAlign: TextAlign.start,
                   ),
                   InkWell(
-                    onTap: () => ExtendedNavigator.of(context).push(
-                      Routes.productList,
-                      arguments: ProductListArguments(
+                    onTap: () => context.router.push(
+                      ProductList(
                         stkCat: 'WL- LT',
                         keywordSearch: '',
                       ),
@@ -473,7 +468,7 @@ class _ValueClubState extends State<ValueClub> {
                 itemCount: categoryItems.length,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
-                    /* onTap: () => ExtendedNavigator.of(context).push(
+                    /* onTap: () => context.router.push(
                       Routes.product,
                       arguments: ProductArguments(
                         image: mostPopularProducts[index].stkpicturePath != null
@@ -593,9 +588,8 @@ class _ValueClubState extends State<ValueClub> {
           backgroundColor: Colors.transparent,
           actions: [
             InkWell(
-              onTap: () => ExtendedNavigator.of(context).push(
-                Routes.cart,
-                arguments: CartArguments(
+              onTap: () => context.router.push(
+                Cart(
                   dbcode: 'TBS',
                   name: 'TBS',
                 ),
@@ -719,7 +713,7 @@ class _ValueClubState extends State<ValueClub> {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => ExtendedNavigator.of(context)
+                      onTap: () => context.router
                           .push(Routes.billSelection),
                       child: FadeInImage(
                         alignment: Alignment.center,
@@ -735,7 +729,7 @@ class _ValueClubState extends State<ValueClub> {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => ExtendedNavigator.of(context)
+                      onTap: () => context.router
                           .push(Routes.airtimeSelection),
                       child: FadeInImage(
                         alignment: Alignment.center,
@@ -751,7 +745,7 @@ class _ValueClubState extends State<ValueClub> {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => ExtendedNavigator.of(context).push(
+                      onTap: () => context.router.push(
                           Routes.merchantList,
                           arguments:
                               MerchantListArguments(merchantType: 'TOUR')),
@@ -769,7 +763,7 @@ class _ValueClubState extends State<ValueClub> {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => ExtendedNavigator.of(context).push(
+                      onTap: () => context.router.push(
                           Routes.merchantList,
                           arguments:
                               MerchantListArguments(merchantType: 'HOCHIAK')),
@@ -787,7 +781,7 @@ class _ValueClubState extends State<ValueClub> {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => ExtendedNavigator.of(context).push(
+                      onTap: () => context.router.push(
                           Routes.merchantList,
                           arguments:
                               MerchantListArguments(merchantType: 'HIGHEDU')),
@@ -805,7 +799,7 @@ class _ValueClubState extends State<ValueClub> {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => ExtendedNavigator.of(context).push(
+                      onTap: () => context.router.push(
                           Routes.merchantList,
                           arguments:
                               MerchantListArguments(merchantType: 'JOB')),
@@ -823,7 +817,7 @@ class _ValueClubState extends State<ValueClub> {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => ExtendedNavigator.of(context).push(
+                      onTap: () => context.router.push(
                           Routes.merchantList,
                           arguments:
                               MerchantListArguments(merchantType: 'RIDE')),
@@ -841,7 +835,7 @@ class _ValueClubState extends State<ValueClub> {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => ExtendedNavigator.of(context).push(
+                      onTap: () => context.router.push(
                           Routes.merchantList,
                           arguments: MerchantListArguments(merchantType: 'DI')),
                       child: FadeInImage(
@@ -858,7 +852,7 @@ class _ValueClubState extends State<ValueClub> {
                     padding:
                         EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
                     child: InkWell(
-                      onTap: () => ExtendedNavigator.of(context).push(
+                      onTap: () => context.router.push(
                           Routes.merchantList,
                           arguments:
                               MerchantListArguments(merchantType: 'WORKSHOP')),

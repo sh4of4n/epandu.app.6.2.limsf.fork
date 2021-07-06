@@ -2,14 +2,14 @@ import 'dart:typed_data';
 
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/utils/constants.dart';
-import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_full_pdf_viewer/flutter_full_pdf_viewer.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:share/share.dart';
 import 'package:printing/printing.dart';
+import 'package:native_pdf_view/native_pdf_view.dart';
 
 class ViewPdf extends StatefulWidget {
   final String title;
@@ -24,8 +24,9 @@ class ViewPdf extends StatefulWidget {
 class _ViewPdfState extends State<ViewPdf> {
   final primaryColor = ColorConstant.primaryColor;
   final customDialog = CustomDialog();
+  var pdfController;
 
-  String _pdfName;
+  // String? _pdfName;
   Uint8List _pdfByte;
   String _pathPdf = '';
 
@@ -49,9 +50,12 @@ class _ViewPdfState extends State<ViewPdf> {
     await file.writeAsBytes(bytes);
 
     setState(() {
-      _pdfName = filename;
+      // _pdfName = filename;
       _pdfByte = bytes;
       _pathPdf = file.path;
+      pdfController = PdfController(
+        document: PdfDocument.openAsset(file.path),
+      );
     });
 
     // return file;
@@ -59,7 +63,7 @@ class _ViewPdfState extends State<ViewPdf> {
 
   _sharePdf() async {
     try {
-      await Share.file(widget.title, _pdfName, _pdfByte, 'application/pdf');
+      await Share.shareFiles([_pathPdf], text: widget.title);
     } catch (e) {
       print('error $e');
       customDialog.show(
@@ -74,34 +78,40 @@ class _ViewPdfState extends State<ViewPdf> {
     await Printing.layoutPdf(onLayout: (_) => _pdfByte);
   }
 
+  Widget pdfView() {
+    if (_pathPdf.isNotEmpty)
+      return Scaffold(
+        appBar: AppBar(
+          title: Text("PDF"),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.print),
+              onPressed: _printPdf,
+            ),
+            IconButton(
+              icon: Icon(Icons.share),
+              onPressed: _sharePdf,
+            ),
+          ],
+        ),
+        body: PdfView(
+          controller: pdfController,
+        ),
+      );
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('PDF'),
+      ),
+      body: Column(
+        children: <Widget>[
+          Expanded(child: SpinKitFoldingCube(color: primaryColor)),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return _pathPdf.isNotEmpty
-        ? PDFViewerScaffold(
-            appBar: AppBar(
-              title: Text("PDF"),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.print),
-                  onPressed: _printPdf,
-                ),
-                IconButton(
-                  icon: Icon(Icons.share),
-                  onPressed: _sharePdf,
-                ),
-              ],
-            ),
-            path: _pathPdf,
-          )
-        : Scaffold(
-            appBar: AppBar(
-              title: Text("PDF"),
-            ),
-            body: Column(
-              children: <Widget>[
-                Expanded(child: SpinKitFoldingCube(color: primaryColor)),
-              ],
-            ),
-          );
+    return pdfView();
   }
 }

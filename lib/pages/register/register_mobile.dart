@@ -421,9 +421,8 @@ class _RegisterMobileState extends State<RegisterMobile> {
       );
 
       if (result.isSuccess) {
-        ExtendedNavigator.of(context).push(
-          Routes.registerVerification,
-          arguments: RegisterVerificationArguments(
+        context.router.push(
+          RegisterVerification(
             data: SignUpArguments(
               phoneCountryCode: _countryCode,
               phone: mobileNo,

@@ -7,8 +7,6 @@ import 'package:epandu/common_library/utils/custom_snackbar.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:path/path.dart' show join;
-import 'package:path_provider/path_provider.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
 
@@ -136,12 +134,12 @@ class TakeProfilePictureState extends State<TakeProfilePicture> {
           try {
             await _initializeControllerFuture;
 
-            final path = join(
-              (await getTemporaryDirectory()).path,
-              '${DateTime.now()}.png',
-            );
+            // final path = join(
+            //   (await getTemporaryDirectory()).path,
+            //   '${DateTime.now()}.png',
+            // );
 
-            await _controller.takePicture(path);
+            await _controller.takePicture();
 
             // localStorage
             //     .saveProfilePic(base64Encode(File(path).readAsBytesSync()));
@@ -150,7 +148,7 @@ class TakeProfilePictureState extends State<TakeProfilePicture> {
 
             // print(test);
 
-            ExtendedNavigator.of(context).pop(path);
+            context.router.pop();
             /* Navigator.push(
               context,
               MaterialPageRoute(

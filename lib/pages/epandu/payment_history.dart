@@ -127,10 +127,8 @@ class _PaymentHistoryState extends State<PaymentHistory> {
               children: <Widget>[
                 for (var item in items)
                   InkWell(
-                    onTap: () => ExtendedNavigator.of(context).push(
-                      Routes.paymentHistoryDetail,
-                      arguments:
-                          PaymentHistoryDetailArguments(recpNo: item.recpNo),
+                    onTap: () => context.router.push(
+                      PaymentHistoryDetail(recpNo: item.recpNo),
                     ),
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(50.w, 50.h, 50.w, 0),

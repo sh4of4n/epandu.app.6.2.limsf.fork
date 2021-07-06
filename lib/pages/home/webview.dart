@@ -13,7 +13,6 @@ import 'package:epandu/common_library/services/model/provider_model.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
 // import '../../router.gr.dart';
-import '../../router.gr.dart';
 import 'navigation_controls.dart';
 
 class Webview extends StatefulWidget {
@@ -40,7 +39,7 @@ Future<bool> _onWillPop({context, backType, customDialog}) async {
     } else {
       // _confirmBack(customDialog, context);
       Provider.of<CallStatusModel>(context, listen: false).callStatus(false);
-      ExtendedNavigator.of(context).pop();
+      context.router.pop();
     }
 
     return Future.value(false);
@@ -57,14 +56,14 @@ _confirmBack(customDialog, context) {
           onPressed: () {
             Provider.of<CallStatusModel>(context, listen: false)
                 .callStatus(false);
-            ExtendedNavigator.of(context).popUntil(
-              ModalRoute.withName(Routes.home),
+            context.router.popUntil(
+              ModalRoute.withName('/home'),
             );
           }),
       TextButton(
         child: Text(AppLocalizations.of(context).translate('no_lbl')),
         onPressed: () {
-          ExtendedNavigator.of(context).pop();
+          context.router.pop();
         },
       ),
     ],
@@ -93,8 +92,8 @@ class _WebviewState extends State<Webview> {
         icon: Platform.isIOS
             ? const Icon(Icons.arrow_back_ios)
             : const Icon(Icons.arrow_back),
-        onPressed: () => ExtendedNavigator.of(context)
-            .popUntil(ModalRoute.withName(Routes.diEnrollment)),
+        onPressed: () =>
+            context.router.popUntil(ModalRoute.withName('/diEnrollment')),
       );
     } else {
       return NavigationControls(
@@ -162,7 +161,7 @@ class _WebviewState extends State<Webview> {
     return JavascriptChannel(
         name: 'Toaster',
         onMessageReceived: (JavascriptMessage message) {
-          Scaffold.of(context).showSnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(message.message)),
           );
         });

@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../../router.gr.dart';
-
 class DirectoryCard extends StatelessWidget {
   const DirectoryCard({
     Key key,
@@ -14,8 +12,7 @@ class DirectoryCard extends StatelessWidget {
     @required this.directoryIcon,
     @required this.iconText,
     this.phoneAction,
-    this.directoryName,
-    this.directoryType,
+    this.directory,
   }) : super(key: key);
 
   final String title;
@@ -24,8 +21,7 @@ class DirectoryCard extends StatelessWidget {
   final String directoryIcon;
   final TextStyle iconText;
   final dynamic phoneAction;
-  final dynamic directoryName;
-  final DirectoryListArguments directoryType;
+  final dynamic directory;
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +53,8 @@ class DirectoryCard extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: directoryName != null && directoryType != null
-                    ? () => ExtendedNavigator.of(context).push(
-                          directoryName,
-                          arguments: directoryType,
-                        )
+                onTap: directory != null
+                    ? () => context.router.push(directory)
                     : null,
                 child: Container(
                   child: Image.asset(

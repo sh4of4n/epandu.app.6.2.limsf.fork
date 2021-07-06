@@ -214,7 +214,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      ExtendedNavigator.of(context).push(Routes.forgotPassword);
+                      context.router.push(ForgotPassword());
                     },
                     child: Text(
                       AppLocalizations.of(context)
@@ -257,7 +257,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      ExtendedNavigator.of(context).push(Routes.registerMobile);
+                      context.router.push(RegisterMobile());
                     },
                     child: Text(
                       AppLocalizations.of(context).translate('sign_up_btn'),
@@ -338,7 +338,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
           if (getRegisteredDi.isSuccess) {
             localStorage.saveMerchantDbCode(getRegisteredDi.data[0].diCode);
 
-            ExtendedNavigator.of(context).replace(Routes.home);
+            context.router.replace(Home());
           } else {
             setState(() {
               _isLoading = false;
@@ -350,12 +350,13 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
           // Temporary navigate to home
           // Navigator.replace(context, HOME);
 
-          ExtendedNavigator.of(context).replace(Routes.selectDrivingInstitute,
-              arguments: SelectDrivingInstituteArguments(diList: result.data));
+          context.router.replace(
+            SelectDrivingInstitute(diList: result.data),
+          );
         } else {
           localStorage.saveMerchantDbCode(result.data[0].merchantNo);
 
-          ExtendedNavigator.of(context).replace(Routes.home);
+          context.router.replace(Home());
         }
       } else {
         setState(() {

@@ -113,9 +113,8 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                           padding: EdgeInsets.symmetric(
                               horizontal: 50.w, vertical: 30.h),
                           child: InkWell(
-                            onTap: () => ExtendedNavigator.of(context).push(
-                              Routes.enrollConfirmation,
-                              arguments: EnrollConfirmationArguments(
+                            onTap: () => context.router.push(
+                              EnrollConfirmation(
                                 banner: snapshot.data[index].feedMediaFilename
                                     .replaceAll(removeBracket, '')
                                     .split('\r\n')[0],

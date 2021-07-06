@@ -124,10 +124,9 @@ class _CartState extends State<Cart> {
   }
 
   _editItem(snapshot) {
-    ExtendedNavigator.of(context)
+    context.router
         .push(
-          Routes.cartItemEdit,
-          arguments: CartItemEditArguments(
+          CartItemEdit(
             stkCode: snapshot.stkCode,
             stkDesc1: snapshot.stkDesc1,
             stkDesc2: snapshot.stkDesc2,
@@ -161,7 +160,7 @@ class _CartState extends State<Cart> {
               );
             }
 
-            ExtendedNavigator.of(context).pop(context);
+            context.router.pop(context);
 
             if (mounted)
               setState(() {
@@ -179,7 +178,7 @@ class _CartState extends State<Cart> {
         ),
         TextButton(
           child: Text('No'),
-          onPressed: () => ExtendedNavigator.of(context).pop(context),
+          onPressed: () => context.router.pop(context),
         ),
       ],
       type: DialogType.GENERAL,
@@ -201,9 +200,8 @@ class _CartState extends State<Cart> {
   }
 
   _checkout() {
-    ExtendedNavigator.of(context).push(
-      Routes.checkout,
-      arguments: CheckoutArguments(
+    context.router.push(
+      Checkout(
         slsDetailData: slsDetailData,
         name: unescape.convert(widget.name),
         dbcode: widget.dbcode,
@@ -426,7 +424,7 @@ class _CartState extends State<Cart> {
         /* actions: <Widget>[
           IconButton(
             onPressed: () =>
-                ExtendedNavigator.of(context).push(Routes.salesOrderCategory),
+                context.router.push(Routes.salesOrderCategory),
             icon: Icon(Icons.add),
           ),
         ], */

@@ -98,8 +98,7 @@ class _KppModuleState extends State<KppModule> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   KppModuleIcon(
-                      component: Routes.kppExam,
-                      argument: KppExamArguments(
+                      component: KppExam(
                         groupId: widget.data,
                         paperNo: snapshot[index].paperNo,
                       ),
@@ -139,8 +138,7 @@ class _KppModuleState extends State<KppModule> {
                 padding: const EdgeInsets.symmetric(
                     horizontal: 10.0, vertical: 17.0),
                 child: KppModuleIcon(
-                  component: Routes.kppExam,
-                  argument: KppExamArguments(
+                  component: KppExam(
                     groupId: widget.data,
                     paperNo: 'DEMO-BW',
                   ),
@@ -155,8 +153,7 @@ class _KppModuleState extends State<KppModule> {
                 padding: const EdgeInsets.symmetric(
                     horizontal: 10.0, vertical: 17.0),
                 child: KppModuleIcon(
-                  component: Routes.kppExam,
-                  argument: KppExamArguments(
+                  component: KppExam(
                     groupId: widget.data,
                     paperNo: 'DEMO-50',
                   ),
@@ -181,9 +178,8 @@ class _KppModuleState extends State<KppModule> {
                 style: ElevatedButton.styleFrom(
                   textStyle: TextStyle(color: Colors.white),
                 ),
-                onPressed: () => ExtendedNavigator.of(context).push(
-                  Routes.pinActivation,
-                  arguments: PinActivationArguments(data: widget.data),
+                onPressed: () => context.router.push(
+                  PinActivation(data: widget.data),
                 ),
                 child: Text(
                   AppLocalizations.of(context).translate('more_question_lbl'),

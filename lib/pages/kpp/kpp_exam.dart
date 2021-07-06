@@ -63,7 +63,7 @@ class _KppExamState extends State<KppExam> {
               groupId = data.groupId;
               paperNo = data.paperNo;
 
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
 
               _getTheoryQuestionByPaper();
             },
@@ -76,7 +76,7 @@ class _KppExamState extends State<KppExam> {
               // Hive box must be cleared here
               examDataBox.clear();
 
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
 
               _getTheoryQuestionByPaper();
             },

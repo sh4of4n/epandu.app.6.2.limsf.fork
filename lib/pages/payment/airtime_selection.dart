@@ -58,10 +58,9 @@ class AirtimeSelection extends StatelessWidget {
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
-                      onTap: () => ExtendedNavigator.of(context).push(
-                          Routes.airtimeBillDetail,
-                          arguments: AirtimeBillDetailArguments(
-                              data: snapshot.data[index])),
+                      onTap: () => context.router.push(
+                        AirtimeBillDetail(data: snapshot.data[index]),
+                      ),
                       child: GridTile(
                         child:
                             Image.network(snapshot.data[index].telcoImageUri),

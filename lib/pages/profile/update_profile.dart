@@ -322,10 +322,10 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         SimpleDialogOption(
           child: Text(AppLocalizations.of(context).translate('take_photo')),
           onPressed: () async {
-            ExtendedNavigator.of(context).pop();
-            var newProfilePic = await ExtendedNavigator.of(context).push(
-                Routes.takeProfilePicture,
-                arguments: TakeProfilePictureArguments(camera: cameras));
+            context.router.pop();
+            var newProfilePic = await context.router.push(
+              TakeProfilePicture(camera: cameras),
+            );
 
             // String newProfilePic = await localStorage.getProfilePic();
             if (newProfilePic != null)
@@ -342,7 +342,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
             child: Text(AppLocalizations.of(context)
                 .translate('choose_existing_photo')),
             onPressed: () {
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
               _getImageGallery();
             }),
       ],
@@ -897,7 +897,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                 title: const Text('Pick a date'),
                 cancelButton: CupertinoActionSheetAction(
                   child: const Text('Cancel'),
-                  onPressed: () => ExtendedNavigator.of(context).pop(),
+                  onPressed: () => context.router.pop(),
                 ),
                 actions: <Widget>[
                   SizedBox(
@@ -923,7 +923,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                         }
                       });
 
-                      ExtendedNavigator.of(context).pop();
+                      context.router.pop();
                     },
                   ),
                 ],
@@ -1121,7 +1121,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
 
         await authRepo.getUserRegisteredDI(context: context, type: 'UPDATE');
 
-        ExtendedNavigator.of(context).pop(true);
+        context.router.pop(true);
       } else {
         setState(() {
           _message = result.message;

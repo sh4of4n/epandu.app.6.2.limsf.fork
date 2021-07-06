@@ -193,8 +193,8 @@ class _CheckoutState extends State<Checkout> {
                 cartItem: 0,
               );
 
-              ExtendedNavigator.of(context).popUntil(
-                ModalRoute.withName(Routes.valueClub),
+              context.router.popUntil(
+                ModalRoute.withName('/valueClub'),
               );
             },
           ),

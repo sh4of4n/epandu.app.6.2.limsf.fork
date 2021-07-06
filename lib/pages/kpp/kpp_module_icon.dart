@@ -8,7 +8,6 @@ class KppModuleIcon extends StatelessWidget {
   final index;
   final icon;
   final component;
-  final argument;
   final iconColor;
   final String label;
 
@@ -17,7 +16,6 @@ class KppModuleIcon extends StatelessWidget {
     this.index,
     this.icon,
     this.component,
-    this.argument,
     this.iconColor,
     this.label,
   });
@@ -26,9 +24,7 @@ class KppModuleIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        component != null
-            ? ExtendedNavigator.of(context).push(component, arguments: argument)
-            : SizedBox.shrink();
+        component != null ? context.router.push(component) : SizedBox.shrink();
       },
       child: Container(
         // padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 25.0),

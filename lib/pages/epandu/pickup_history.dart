@@ -69,8 +69,7 @@ class _PickupHistoryState extends State<PickupHistory> {
               textStyle: TextStyle(color: Colors.white),
               padding: EdgeInsets.all(12),
             ),
-            onPressed: () =>
-                ExtendedNavigator.of(context).push(Routes.requestPickup),
+            onPressed: () => context.router.push(RequestPickup()),
             child: Icon(
               Icons.add,
             ),

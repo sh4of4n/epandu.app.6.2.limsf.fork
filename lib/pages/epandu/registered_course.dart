@@ -164,9 +164,8 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
-                            onTap: () => ExtendedNavigator.of(context).push(
-                              Routes.registeredCourseDetail,
-                              arguments: RegisteredCourseDetailArguments(
+                            onTap: () => context.router.push(
+                              RegisteredCourseDetail(
                                   groupId: snapshot.data[index].groupId),
                             ),
                             child: Container(

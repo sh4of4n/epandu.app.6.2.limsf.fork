@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:epandu/common_library/services/model/auth_model.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,18 @@ class _CheckEnrollmentState extends State<CheckEnrollment> {
   void initState() {
     super.initState();
 
-    ExtendedNavigator.of(context).replace(Routes.selectInstitute);
+    context.router.replace(SelectInstitute(
+      data: EnrollmentData(
+        icNo: '',
+        name: '',
+        email: '',
+        gender: '',
+        dateOfBirthString: '',
+        nationality: 'WARGANEGARA',
+        race: '',
+        profilePic: '',
+      ),
+    ));
   }
 
   @override

@@ -68,14 +68,12 @@ class EtestingCategory extends StatelessWidget {
                 shrinkWrap: true,
                 children: [
                   ListTile(
-                    onTap: () =>
-                        ExtendedNavigator.of(context).push(Routes.comingSoon),
+                    onTap: () => context.router.push(ComingSoon()),
                     title: Text('Tempahan Ujian', style: iconText),
                   ),
                   Divider(color: Colors.grey[400]),
                   ListTile(
-                    onTap: () =>
-                        ExtendedNavigator.of(context).push(Routes.checkInSlip),
+                    onTap: () => context.router.push(CheckInSlip()),
                     title: Text('Rekod Ujian Memandu', style: iconText),
                   ),
                   Divider(color: Colors.grey[400]),

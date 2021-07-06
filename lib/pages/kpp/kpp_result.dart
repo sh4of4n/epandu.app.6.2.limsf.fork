@@ -88,7 +88,7 @@ class KppResult extends StatelessWidget {
                     padding: const EdgeInsets.all(0.0),
                   ),
                   onPressed: () {
-                    ExtendedNavigator.of(context).pop();
+                    context.router.pop();
                   },
                   child: Container(
                     decoration: BoxDecoration(

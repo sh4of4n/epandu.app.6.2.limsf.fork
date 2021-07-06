@@ -162,9 +162,8 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
-                            onTap: () => ExtendedNavigator.of(context).push(
-                              Routes.enrolmentInfoDetail,
-                              arguments: EnrolmentInfoDetailArguments(
+                            onTap: () => context.router.push(
+                              EnrolmentInfoDetail(
                                   groupId: snapshot.data[index].groupId),
                             ),
                             child: Container(

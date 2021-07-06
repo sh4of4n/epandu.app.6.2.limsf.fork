@@ -1,8 +1,8 @@
 // import 'package:epandu/pages/edompet/edompet.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/repository/epandu_repository.dart';
-import 'package:epandu/pages/profile/profile_page.dart';
-import 'package:epandu/pages/settings/settings.dart';
+import 'package:epandu/pages/profile/profile_page.dart' as profilePage;
+import 'package:epandu/pages/settings/settings.dart' as settingsPage;
 import 'package:epandu/common_library/services/model/profile_model.dart';
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
 import 'package:epandu/utils/constants.dart';
@@ -249,8 +249,8 @@ class _ProfileTabState extends State<ProfileTab>
           shape: StadiumBorder(),
         ),
         onPressed: () async {
-          await ExtendedNavigator.of(context)
-              .push(Routes.updateProfile)
+          await context.router
+              .push(UpdateProfile())
               .then((value) => _getUserInfo());
         },
         child: Text(AppLocalizations.of(context).translate('edit_profile')),
@@ -281,13 +281,13 @@ class _ProfileTabState extends State<ProfileTab>
           ),
           backgroundColor: Colors.transparent,
           body: TabBarView(controller: _tabController, children: [
-            Profile(
+            profilePage.Profile(
               userProfile: userProfile,
               enrollData: enrollData,
               isLoading: isLoading,
             ),
             // Edompet(),
-            Settings(widget.positionStream),
+            settingsPage.Settings(widget.positionStream),
           ]),
           bottomNavigationBar: Container(
             decoration: BoxDecoration(

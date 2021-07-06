@@ -23,7 +23,7 @@ class LanguageOptions extends StatelessWidget {
               Provider.of<LanguageModel>(context, listen: false)
                   .selectedLanguage(
                       AppLocalizations.of(context).translate('english_lbl'));
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
             },
           ),
           ListTile(
@@ -34,7 +34,7 @@ class LanguageOptions extends StatelessWidget {
               Provider.of<LanguageModel>(context, listen: false)
                   .selectedLanguage(
                       AppLocalizations.of(context).translate('malay_lbl'));
-              ExtendedNavigator.of(context).pop();
+              context.router.pop();
             },
           ),
         ],

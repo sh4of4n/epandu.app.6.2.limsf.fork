@@ -90,15 +90,14 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
     );
 
     if (result.isSuccess) {
-      ExtendedNavigator.of(context).push(Routes.webview,
-          arguments: WebviewArguments(
-              url: result.data[0].responseData,
-              backType:
-                  widget.amountString == null ? 'DI_ENROLLMENT' : 'HOME'));
+      context.router.push(
+        Webview(
+            url: result.data[0].responseData,
+            backType: widget.amountString == null ? 'DI_ENROLLMENT' : 'HOME'),
+      );
     } else {
-      ExtendedNavigator.of(context).push(
-        Routes.paymentStatus,
-        arguments: PaymentStatusArguments(icNo: widget.icNo),
+      context.router.push(
+        PaymentStatus(icNo: widget.icNo),
       );
     }
 
@@ -330,7 +329,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                           ..onTap = () async => await launch(
                               'https://www.mepsfpx.com.my/FPXMain/termsAndConditions.jsp'),
                         /* recognizer: TapGestureRecognizer()
-                          ..onTap = () => ExtendedNavigator.of(context).push(
+                          ..onTap = () => context.router.push(
                                 Routes.webview,
                                 arguments: WebviewArguments(
                                     url:
@@ -345,7 +344,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 55.w),
                 child: InkWell(
-                  /* onTap: () => ExtendedNavigator.of(context).push(
+                  /* onTap: () => context.router.push(
                   Routes.bankList,
                   arguments: BankListArguments(
                     icNo: widget.icNo,
@@ -551,7 +550,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                           ..onTap = () async => await launch(
                               'https://www.mepsfpx.com.my/FPXMain/termsAndConditions.jsp'),
                         /* recognizer: TapGestureRecognizer()
-                          ..onTap = () => ExtendedNavigator.of(context).push(
+                          ..onTap = () => context.router.push(
                                 Routes.webview,
                                 arguments: WebviewArguments(
                                     url:
@@ -566,7 +565,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 55.w),
                 child: InkWell(
-                  /* onTap: () => ExtendedNavigator.of(context).push(
+                  /* onTap: () => context.router.push(
                   Routes.bankList,
                   arguments: BankListArguments(
                     icNo: widget.icNo,

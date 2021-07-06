@@ -117,8 +117,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
                     // Hive box must be cleared here
                     examDataBox.clear();
 
-                    ExtendedNavigator.of(context).pop();
-                    ExtendedNavigator.of(context).pop();
+                    context.router.pop();
+                    context.router.pop();
                   },
                 ),
               ],
@@ -503,9 +503,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
                         _checkSelectedAnswer(data.answerIndex, 'next');
                       }
                     } else {
-                      ExtendedNavigator.of(context).replace(
-                        Routes.kppResult,
-                        arguments: KppResultArguments(data: kppExamData),
+                      context.router.replace(
+                        KppResult(data: kppExamData),
                       );
 
                       // end timer
@@ -572,8 +571,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
         TextButton(
           child: Text(AppLocalizations.of(context).translate('yes_lbl')),
           onPressed: () {
-            ExtendedNavigator.of(context).pop();
-            ExtendedNavigator.of(context).pop();
+            context.router.pop();
+            context.router.pop();
 
             _timer.cancel();
 
@@ -584,7 +583,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
         TextButton(
           child: Text(AppLocalizations.of(context).translate('no_lbl')),
           onPressed: () {
-            ExtendedNavigator.of(context).pop();
+            context.router.pop();
           },
         ),
       ],

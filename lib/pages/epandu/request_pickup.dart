@@ -351,8 +351,8 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
           customActions: <Widget>[
             TextButton(
               child: Text(AppLocalizations.of(context).translate('ok_btn')),
-              onPressed: () => ExtendedNavigator.of(context)
-                  .pushAndRemoveUntil(Routes.home, (r) => false),
+              onPressed: () => context.router
+                  .pushAndPopUntil(Home(), predicate: (r) => false),
             ),
           ],
         );
@@ -361,7 +361,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
           context: context,
           type: DialogType.ERROR,
           content: result.message.toString(),
-          onPressed: () => ExtendedNavigator.of(context).pop(),
+          onPressed: () => context.router.pop(),
         );
       }
 
