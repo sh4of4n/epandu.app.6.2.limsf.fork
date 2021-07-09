@@ -16,14 +16,14 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import '../../router.gr.dart';
 
 class EnrollConfirmation extends StatefulWidget {
-  final String banner;
-  final String packageName;
-  final String packageCode;
-  final String packageDesc;
-  final String diCode;
-  final String termsAndCondition;
-  final String groupIdGrouping; //Package class
-  final String amount; //Package price
+  final String? banner;
+  final String? packageName;
+  final String? packageCode;
+  final String? packageDesc;
+  final String? diCode;
+  final String? termsAndCondition;
+  final String? groupIdGrouping; //Package class
+  final String? amount; //Package price
 
   EnrollConfirmation({
     this.banner,
@@ -49,18 +49,18 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
   final image = ImagesConstant();
   final removeBracket = RemoveBracket.remove;
 
-  String _icNo = '';
-  String _name = '';
-  String _eMail = '';
-  String _birthDate = '';
-  String _race = '';
-  String _nationality = '';
-  String _gender = '';
+  String? _icNo = '';
+  String? _name = '';
+  String? _eMail = '';
+  String? _birthDate = '';
+  String? _race = '';
+  String? _nationality = '';
+  String? _gender = '';
 
   var packageDetlList;
 
   bool isLoading = false;
-  bool _isAgreed = false;
+  bool? _isAgreed = false;
   String message = '';
 
   @override
@@ -119,10 +119,10 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
         context: context,
         barrierDismissable: false,
         content:
-            AppLocalizations.of(context).translate('complete_your_profile'),
+            AppLocalizations.of(context)!.translate('complete_your_profile'),
         customActions: <Widget>[
           TextButton(
-            child: Text(AppLocalizations.of(context).translate('ok_btn')),
+            child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
             onPressed: () => context.router.pushAndPopUntil(
               UpdateProfile(),
               predicate: ModalRoute.withName('/home'),
@@ -137,14 +137,14 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
   }
 
   _getUserInfo() async {
-    String _getName = await localStorage.getName();
-    String _getEmail = await localStorage.getEmail();
-    String _getStudentIc = await localStorage.getStudentIc();
+    String? _getName = await localStorage.getName();
+    String? _getEmail = await localStorage.getEmail();
+    String? _getStudentIc = await localStorage.getStudentIc();
 
-    String _getBirthDate = await localStorage.getBirthDate();
-    String _getRace = await localStorage.getRace();
-    String _getNationality = await localStorage.getNationality();
-    String _getGender = await localStorage.getGender();
+    String? _getBirthDate = await localStorage.getBirthDate();
+    String? _getRace = await localStorage.getRace();
+    String? _getNationality = await localStorage.getNationality();
+    String? _getGender = await localStorage.getGender();
 
     setState(() {
       _name = _getName;
@@ -179,7 +179,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
   }
 
   saveEnrollmentPackageWithParticular() async {
-    if (_isAgreed) {
+    if (_isAgreed!) {
       setState(() {
         message = '';
         isLoading = true;
@@ -253,7 +253,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
       }); */
     } else {
       setState(() {
-        message = AppLocalizations.of(context)
+        message = AppLocalizations.of(context)!
             .translate('agree_to_terms_and_condition');
       });
     }
@@ -314,7 +314,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
             packageDesc: orderData[0].packageDesc,
             diCode: widget.diCode,
             totalAmount:
-                double.tryParse(orderData[0].tlOrdAmt).toStringAsFixed(2),
+                double.tryParse(orderData[0].tlOrdAmt)!.toStringAsFixed(2),
           ),
         );
 
@@ -362,14 +362,14 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context).translate('enroll_lbl'),
+          AppLocalizations.of(context)!.translate('enroll_lbl'),
         ),
         actions: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 40.w),
             child: InkWell(
               onTap: () async {
-                String diCode = await localStorage.getMerchantDbCode();
+                String? diCode = await localStorage.getMerchantDbCode();
 
                 context.router.push(
                   OrderList(
@@ -381,7 +381,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
               },
               child: Center(
                 child: Text(
-                  AppLocalizations.of(context).translate('orders'),
+                  AppLocalizations.of(context)!.translate('orders'),
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
@@ -404,7 +404,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                 AspectRatio(
                   aspectRatio: 16 / 9,
                   child: Image.network(
-                    widget.banner,
+                    widget.banner!,
                     gaplessPlayback: true,
                   ),
                 ),
@@ -417,14 +417,14 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                         TableRow(
                           children: [
                             Text(
-                                AppLocalizations.of(context)
+                                AppLocalizations.of(context)!
                                     .translate('amount'),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 80.sp,
                                 )),
                             Text(
-                              'RM' + widget.amount,
+                              'RM' + widget.amount!,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.red,
@@ -462,13 +462,13 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                         TableRow(
                           children: [
                             Text(
-                                AppLocalizations.of(context)
+                                AppLocalizations.of(context)!
                                     .translate('class_lbl'),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 80.sp,
                                 )),
-                            Text(widget.groupIdGrouping,
+                            Text(widget.groupIdGrouping!,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.red,
@@ -479,24 +479,24 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                       if (_icNo != null)
                         TableRow(
                           children: [
-                            Text(AppLocalizations.of(context)
+                            Text(AppLocalizations.of(context)!
                                 .translate('ic_lbl')),
-                            Text(_icNo),
+                            Text(_icNo!),
                           ],
                         ),
                       if (_name != null)
                         TableRow(
                           children: [
-                            Text(AppLocalizations.of(context)
+                            Text(AppLocalizations.of(context)!
                                 .translate('name_lbl')),
-                            Text(_name),
+                            Text(_name!),
                           ],
                         ),
                       if (packageDetlList != null &&
                           packageDetlList[0].merchantNo != null)
                         TableRow(
                           children: [
-                            Text(AppLocalizations.of(context)
+                            Text(AppLocalizations.of(context)!
                                 .translate('institute_lbl')),
                             Text(packageDetlList[0].merchantNo),
                           ],
@@ -505,7 +505,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                           packageDetlList[0].packageCode != null)
                         TableRow(
                           children: [
-                            Text(AppLocalizations.of(context)
+                            Text(AppLocalizations.of(context)!
                                 .translate('package_lbl')),
                             Text(packageDetlList[0].packageCode,
                                 style: TextStyle(
@@ -516,9 +516,9 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                       if (widget.packageName != null)
                         TableRow(
                           children: [
-                            Text(AppLocalizations.of(context)
+                            Text(AppLocalizations.of(context)!
                                 .translate('package_name')),
-                            Text(widget.packageName),
+                            Text(widget.packageName!),
                           ],
                         ),
 
@@ -547,7 +547,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          AppLocalizations.of(context)
+                          AppLocalizations.of(context)!
                               .translate('package_includes'),
                           style: TextStyle(
                               fontSize: 54.sp, fontWeight: FontWeight.w600),
@@ -580,7 +580,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                   padding: EdgeInsets.symmetric(horizontal: 100.w),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    AppLocalizations.of(context).translate('description'),
+                    AppLocalizations.of(context)!.translate('description'),
                     style:
                         TextStyle(fontSize: 56.sp, fontWeight: FontWeight.bold),
                   ),
@@ -599,9 +599,9 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                     children: [
                       Container(
                         alignment: Alignment.centerLeft,
-                        child: HtmlWidget(widget.packageDesc),
+                        child: HtmlWidget(widget.packageDesc!),
                       ),
-                      if (widget.packageDesc.length > 100)
+                      if (widget.packageDesc!.length > 100)
                         Container(
                           alignment: Alignment.centerRight,
                           child: InkWell(
@@ -657,16 +657,16 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                     children: [
                       Checkbox(
                         value: _isAgreed,
-                        onChanged: (bool value) {
+                        onChanged: (bool? value) {
                           setState(() {
                             _isAgreed = value;
                           });
                         },
                       ),
                       Text(
-                        AppLocalizations.of(context).translate('agree_to') +
+                        AppLocalizations.of(context)!.translate('agree_to') +
                             ' ' +
-                            AppLocalizations.of(context)
+                            AppLocalizations.of(context)!
                                 .translate('epandu_title') +
                             ' ',
                         style: TextStyle(
@@ -679,7 +679,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                               termsAndCondition: widget.termsAndCondition),
                         ),
                         child: Text(
-                          AppLocalizations.of(context)
+                          AppLocalizations.of(context)!
                               .translate('terms_and_condition_link'),
                           style: TextStyle(
                             fontSize: 54.sp,
@@ -723,7 +723,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                 CustomButton(
                   onPressed: saveEnrollmentPackageWithParticular,
                   buttonColor: Color(0xffdd0e0e),
-                  title: AppLocalizations.of(context).translate('pay_online'),
+                  title: AppLocalizations.of(context)!.translate('pay_online'),
                 ),
                 SizedBox(height: 30.h),
                 Image.asset(image.fpxLogo3, width: 1100.w),
@@ -747,28 +747,28 @@ class LabeledCheckbox extends StatelessWidget {
     this.onChanged,
   });
 
-  final String label;
-  final EdgeInsets padding;
-  final bool value;
-  final Function onChanged;
+  final String? label;
+  final EdgeInsets? padding;
+  final bool? value;
+  final Function? onChanged;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        onChanged(!value);
+        onChanged!(!value!);
       },
       child: Padding(
-        padding: padding,
+        padding: padding!,
         child: Row(
           children: <Widget>[
             Checkbox(
               value: value,
-              onChanged: (bool newValue) {
-                onChanged(newValue);
+              onChanged: (bool? newValue) {
+                onChanged!(newValue);
               },
             ),
-            Expanded(child: Text(label)),
+            Expanded(child: Text(label!)),
           ],
         ),
       ),

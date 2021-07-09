@@ -8,17 +8,17 @@ import 'package:uuid/uuid.dart';
 
 class MessageInput extends StatefulWidget {
   final TextEditingController textEditingController;
-  final Function onPressedSend;
-  final Function onPressedAttach;
-  final Function onPressedVoice;
-  final Function onShowBottom;
-  final List<Message> messageList;
-  final String userId;
-  final String targetId;
-  final FocusNode focusNode;
+  final Function? onPressedSend;
+  final Function? onPressedAttach;
+  final Function? onPressedVoice;
+  final Function? onShowBottom;
+  final List<Message>? messageList;
+  final String? userId;
+  final String? targetId;
+  final FocusNode? focusNode;
 
   MessageInput(
-      {@required this.textEditingController,
+      {required this.textEditingController,
       this.onPressedSend,
       this.onPressedAttach,
       this.onPressedVoice,
@@ -129,7 +129,7 @@ class _MessageInputState extends State<MessageInput> {
                               Icons.keyboard_voice,
                               color: Colors.white,
                             ),
-                            onLongPress: widget.onShowBottom),
+                            onLongPress: widget.onShowBottom as void Function()?),
                   )
                 ],
               ),
@@ -233,7 +233,7 @@ class _MessageInputState extends State<MessageInput> {
     //D641BDE2C7
   }
 
-  Future<void> _sendMessage(String author, String target, ChatBloc bloc) async {
+  Future<void> _sendMessage(String? author, String? target, ChatBloc bloc) async {
     final messageContent = _textEditingController.text;
     var uuid = Uuid();
     String messageId = uuid.v4();
@@ -277,10 +277,10 @@ class _MessageInputState extends State<MessageInput> {
         await ChatDatabase().saveMessageTargetTable(messageTargetTable);
     if (value1 > 0 && value2 > 0) {
       print("data insert success");
-      widget.messageList.add(message);
+      widget.messageList!.add(message);
       _textEditingController.clear();
-      widget.onPressedSend();
-      widget.focusNode.requestFocus();
+      widget.onPressedSend!();
+      widget.focusNode!.requestFocus();
     } else {
       print("data insert fail");
     }

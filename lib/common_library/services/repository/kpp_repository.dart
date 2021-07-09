@@ -12,8 +12,8 @@ class KppRepo {
   final networking = Networking();
 
   Future<Response> getTheoryQuestionPaperNo({context, groupId}) async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwd();
 
     String courseCode = 'KPP1';
     String langCode = 'ms-MY';
@@ -45,16 +45,16 @@ class KppRepo {
 
   Future<Response> getTheoryQuestionPaperNoWithCreditControl(
       {context, groupId}) async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwd();
 
     String courseCode = 'KPP1';
     String langCode = 'ms-MY';
 
-    String userId = await localStorage.getUserId();
-    String diCode = await localStorage.getMerchantDbCode();
-    String userPhone =
-        await localStorage.getCountryCode() + await localStorage.getUserPhone();
+    String? userId = await localStorage.getUserId();
+    String? diCode = await localStorage.getMerchantDbCode();
+    String userPhone = (await localStorage.getCountryCode())! +
+        (await localStorage.getUserPhone())!;
     String phone = userPhone.substring(2);
 
     String path =
@@ -83,8 +83,8 @@ class KppRepo {
   }
 
   Future<Response> getTheoryQuestionByPaper({context, groupId, paperNo}) async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
     // String caPwdUrlEncode = await localStorage.getCaPwdEncode();
     String courseCode = 'KPP1';
     String langCode = 'ms-MY';
@@ -110,12 +110,12 @@ class KppRepo {
   }
 
   Future<Response> pinActivation({context, pinNumber, groupId}) async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
-    String userId = await localStorage.getUserId();
-    String diCode = await localStorage.getMerchantDbCode();
-    String userPhone =
-        await localStorage.getCountryCode() + await localStorage.getUserPhone();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwd();
+    String? userId = await localStorage.getUserId();
+    String? diCode = await localStorage.getMerchantDbCode();
+    String userPhone = (await localStorage.getCountryCode())! +
+        (await localStorage.getUserPhone())!;
 
     PinRequest pinRequest = PinRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,

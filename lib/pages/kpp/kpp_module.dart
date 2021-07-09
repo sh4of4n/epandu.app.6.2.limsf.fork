@@ -27,7 +27,7 @@ class _KppModuleState extends State<KppModule> {
   RandomColor _randomColor = RandomColor();
   final customDialog = CustomDialog();
   var snapshot;
-  String message = '';
+  String? message = '';
   String pinMessage = '';
 
   final List<Color> _iconColors = [];
@@ -113,7 +113,7 @@ class _KppModuleState extends State<KppModule> {
                               size: ScreenUtil().setSp(250),
                               color: Colors.white),
                       label: snapshot[index].paperNo.contains('COB')
-                          ? AppLocalizations.of(context)
+                          ? AppLocalizations.of(context)!
                                   .translate('color_blind_lbl') +
                               ' ${index + 1}'
                           : null),
@@ -123,7 +123,7 @@ class _KppModuleState extends State<KppModule> {
           );
         },
       );
-    } else if (snapshot == null && message.isNotEmpty) {
+    } else if (snapshot == null && message!.isNotEmpty) {
       return Column(
         children: <Widget>[
           GridView(
@@ -144,7 +144,7 @@ class _KppModuleState extends State<KppModule> {
                   ),
                   iconColor: Colors.green[600],
                   label:
-                      AppLocalizations.of(context).translate('color_blind_lbl'),
+                      AppLocalizations.of(context)!.translate('color_blind_lbl'),
                   icon: Icon(Icons.color_lens,
                       size: ScreenUtil().setSp(250), color: Colors.white),
                 ),
@@ -182,7 +182,7 @@ class _KppModuleState extends State<KppModule> {
                   PinActivation(data: widget.data),
                 ),
                 child: Text(
-                  AppLocalizations.of(context).translate('more_question_lbl'),
+                  AppLocalizations.of(context)!.translate('more_question_lbl'),
                   style: TextStyle(
                     fontSize: ScreenUtil().setSp(65),
                   ),
@@ -208,7 +208,7 @@ class _KppModuleState extends State<KppModule> {
       appBar: AppBar(
         backgroundColor: primaryColor,
         elevation: 0,
-        title: Text(AppLocalizations.of(context).translate('choose_module')),
+        title: Text(AppLocalizations.of(context)!.translate('choose_module')),
       ),
       body: Stack(
         children: <Widget>[

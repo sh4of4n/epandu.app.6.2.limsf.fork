@@ -10,17 +10,17 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
 class CartItemEdit extends StatefulWidget {
-  final String stkCode;
-  final String stkDesc1;
-  final String stkDesc2;
-  final String qty;
-  final String price;
-  final String discRate;
-  final String isOfferedItem;
-  final String scheduledDeliveryDate;
-  final String uom;
-  final String batchNo;
-  final String slsKey;
+  final String? stkCode;
+  final String? stkDesc1;
+  final String? stkDesc2;
+  final String? qty;
+  final String? price;
+  final String? discRate;
+  final String? isOfferedItem;
+  final String? scheduledDeliveryDate;
+  final String? uom;
+  final String? batchNo;
+  final String? slsKey;
 
   CartItemEdit({
     this.stkCode,
@@ -47,10 +47,10 @@ class _CartItemEditState extends State<CartItemEdit> with PageBaseClass {
   final customDialog = CustomDialog();
   final formatter = NumberFormat('#,##0.00');
   final dateFormat = DateFormat("yyyy-MM-dd");
-  String customerName;
+  String? customerName;
   String dbcode = 'TBS';
 
-  DateTime scheduleDate;
+  DateTime? scheduleDate;
   String _unitPrice = '';
   String _discount = '';
   String _qty = '';
@@ -86,11 +86,11 @@ class _CartItemEditState extends State<CartItemEdit> with PageBaseClass {
 
       if (widget.scheduledDeliveryDate != null) {
         scheduleDate =
-            DateTime.parse(widget.scheduledDeliveryDate.substring(0, 10));
+            DateTime.parse(widget.scheduledDeliveryDate!.substring(0, 10));
       }
 
       _isOfferedItem = isOffered;
-      _unitPriceController.text = widget.price;
+      _unitPriceController.text = widget.price!;
       _discountController.text = widget.discRate ?? '0.00';
       _qtyController.text = widget.qty ?? '1';
       _batchNoController.text = widget.batchNo ?? '';
@@ -137,12 +137,12 @@ class _CartItemEditState extends State<CartItemEdit> with PageBaseClass {
         _discountController.text.isNotEmpty &&
         _qtyController.text.isNotEmpty) {
       _totalAmount = (double.tryParse(
-                  _unitPriceController.text.replaceAll(',', '')) -
-              (double.tryParse(_unitPriceController.text.replaceAll(',', '')) *
+                  _unitPriceController.text.replaceAll(',', ''))! -
+              (double.tryParse(_unitPriceController.text.replaceAll(',', ''))! *
                   double.tryParse(
-                      _discountController.text.replaceAll(',', '')) /
+                      _discountController.text.replaceAll(',', ''))! /
                   100)) *
-          double.tryParse(_qtyController.text);
+          double.tryParse(_qtyController.text)!;
     } else {
       _totalAmount = 0.00;
     }
@@ -174,7 +174,7 @@ class _CartItemEditState extends State<CartItemEdit> with PageBaseClass {
                     var result = await salesOrderRepo.formatQty(
                         controller: _qtyController);
 
-                    _qtyController.text = result;
+                    _qtyController.text = result!;
                   }
 
                   _calculateTotalAmount();
@@ -211,9 +211,9 @@ class _CartItemEditState extends State<CartItemEdit> with PageBaseClass {
                   ),
                 ),
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value!.isEmpty) {
                     return 'Quantity is required.';
-                  } else if (int.tryParse(value) < 1) {
+                  } else if (int.tryParse(value)! < 1) {
                     return 'Quantity must be above 0';
                   }
                   return null;
@@ -258,34 +258,35 @@ class _CartItemEditState extends State<CartItemEdit> with PageBaseClass {
   }
 
   _submit() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       FocusScope.of(context).requestFocus(new FocusNode());
       setState(() {
         _saveBtnIsLoading = true;
         _message = '';
       });
 
-      if (double.tryParse(_discount.replaceAll(',', '')) <= 100) {
+      if (double.tryParse(_discount.replaceAll(',', ''))! <= 100) {
         var result = await salesOrderRepo.saveActiveSlsDtlByDb(
           context: context,
-          dbcode: dbcode ?? '',
+          dbcode: dbcode,
           stkCode: widget.stkCode ?? '',
           stkDesc1: widget.stkDesc1 ?? '',
           stkDesc2: widget.stkDesc2 ?? '',
-          batchNo: _batchNo ?? '',
-          itemQty: _qty ?? '0.00',
+          batchNo: _batchNo,
+          itemQty: _qty.isNotEmpty ? _qty : '0.00',
           itemUom: widget.uom ?? '',
-          itemPrice: _unitPrice.replaceAll(',', '') ?? '0.00',
+          itemPrice:
+              _unitPrice.isNotEmpty ? _unitPrice.replaceAll(',', '') : '0.00',
           discAmt: (formatter.format(
-                  double.tryParse(_discount.replaceAll(',', '')) *
-                      double.tryParse(_unitPrice.replaceAll(',', '')) /
-                      100)) ??
-              '0.00',
-          discRate: _discount.replaceAll(',', '') ?? '0.00',
+              double.tryParse(_discount.replaceAll(',', ''))! *
+                  double.tryParse(_unitPrice.replaceAll(',', ''))! /
+                  100)),
+          discRate:
+              _discount.isNotEmpty ? _discount.replaceAll(',', '') : '0.00',
           isOfferItem: _isOfferedItem,
           scheduleDeliveryDateString: scheduleDate != null
-              ? dateFormat.format(scheduleDate).substring(0, 10)
+              ? dateFormat.format(scheduleDate!).substring(0, 10)
               : '',
           key: widget.slsKey,
           isCart: 'true',
@@ -394,7 +395,7 @@ class _CartItemEditState extends State<CartItemEdit> with PageBaseClass {
                     ),
                   ),
                   Text(
-                    formatter.format(_totalAmount) ?? '0.00',
+                    formatter.format(_totalAmount),
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(70),
                       fontWeight: FontWeight.bold,

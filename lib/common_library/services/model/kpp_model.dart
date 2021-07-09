@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'kpp_model.g.dart';
 
 class InstituteLogoResponse {
-  List<Armaster> armaster;
+  List<Armaster>? armaster;
 
   InstituteLogoResponse({this.armaster});
 
@@ -11,7 +11,7 @@ class InstituteLogoResponse {
     if (json['Armaster'] != null) {
       armaster = new List<Armaster>.empty(growable: true);
       json['Armaster'].forEach((v) {
-        armaster.add(new Armaster.fromJson(v));
+        armaster!.add(new Armaster.fromJson(v));
       });
     }
   }
@@ -19,91 +19,91 @@ class InstituteLogoResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.armaster != null) {
-      data['Armaster'] = this.armaster.map((v) => v.toJson()).toList();
+      data['Armaster'] = this.armaster!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Armaster {
-  String iD;
-  String merchantNo;
-  String company;
-  String brno;
-  String merchantDesc;
-  String merchantType;
-  String name;
-  String shortName;
-  String category;
-  String merchantIcon;
-  String merchantIconFilename;
-  String merchantProfilePhoto;
-  String merchantProfilePhotoFilename;
-  String merchantBanner;
-  String merchantBannerFilename;
-  String coMap;
-  String webSite;
-  String coDomain;
-  String pic;
-  String phoneOff1;
-  String phoneExt1;
-  String phoneOff2;
-  String phoneExt2;
-  String mobilePhone;
-  String fax;
-  String email;
-  String contactPerson;
-  String contactPost;
-  String add1;
-  String add2;
-  String add3;
-  String add4;
-  String postcode;
-  String cityCode;
-  String stateCode;
-  String countryCode;
-  String latitude;
-  String longitude;
-  String bgDate;
-  String durationDay;
-  String active;
-  String feedNavigate;
-  String udfReturnParameter;
-  String remark;
-  String status;
-  String indCode;
-  String merchantApplicationStatus;
-  String merchantStatus;
-  String acctUid;
-  String acctPwd;
-  String dbServer;
-  String dbName;
-  String dbUserId;
-  String dbUserPwd;
-  String dbPort;
-  String playStorePath;
-  String url;
-  String inviteSms;
-  String joinDate;
-  String expiryDate;
-  String dbcode;
-  String crcode;
-  String coIntro;
-  String businessHour;
-  String businessDay;
-  String agentCode;
-  String homeBanner;
-  String coOverview;
-  String businessInfo;
-  String offerGive;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String deleted;
-  String rowKey;
-  String transtamp;
-  String tmpCity;
+  String? iD;
+  String? merchantNo;
+  String? company;
+  String? brno;
+  String? merchantDesc;
+  String? merchantType;
+  String? name;
+  String? shortName;
+  String? category;
+  String? merchantIcon;
+  String? merchantIconFilename;
+  String? merchantProfilePhoto;
+  String? merchantProfilePhotoFilename;
+  String? merchantBanner;
+  String? merchantBannerFilename;
+  String? coMap;
+  String? webSite;
+  String? coDomain;
+  String? pic;
+  String? phoneOff1;
+  String? phoneExt1;
+  String? phoneOff2;
+  String? phoneExt2;
+  String? mobilePhone;
+  String? fax;
+  String? email;
+  String? contactPerson;
+  String? contactPost;
+  String? add1;
+  String? add2;
+  String? add3;
+  String? add4;
+  String? postcode;
+  String? cityCode;
+  String? stateCode;
+  String? countryCode;
+  String? latitude;
+  String? longitude;
+  String? bgDate;
+  String? durationDay;
+  String? active;
+  String? feedNavigate;
+  String? udfReturnParameter;
+  String? remark;
+  String? status;
+  String? indCode;
+  String? merchantApplicationStatus;
+  String? merchantStatus;
+  String? acctUid;
+  String? acctPwd;
+  String? dbServer;
+  String? dbName;
+  String? dbUserId;
+  String? dbUserPwd;
+  String? dbPort;
+  String? playStorePath;
+  String? url;
+  String? inviteSms;
+  String? joinDate;
+  String? expiryDate;
+  String? dbcode;
+  String? crcode;
+  String? coIntro;
+  String? businessHour;
+  String? businessDay;
+  String? agentCode;
+  String? homeBanner;
+  String? coOverview;
+  String? businessInfo;
+  String? offerGive;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? deleted;
+  String? rowKey;
+  String? transtamp;
+  String? tmpCity;
 
   Armaster(
       {this.iD,
@@ -351,7 +351,7 @@ class Armaster {
 }
 
 class GetPaperNoResponse {
-  List<PaperNo> paperNo;
+  List<PaperNo>? paperNo;
 
   GetPaperNoResponse({this.paperNo});
 
@@ -359,7 +359,7 @@ class GetPaperNoResponse {
     if (json['PaperNo'] != null) {
       paperNo = new List<PaperNo>.empty(growable: true);
       json['PaperNo'].forEach((v) {
-        paperNo.add(new PaperNo.fromJson(v));
+        paperNo!.add(new PaperNo.fromJson(v));
       });
     }
   }
@@ -367,14 +367,14 @@ class GetPaperNoResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.paperNo != null) {
-      data['PaperNo'] = this.paperNo.map((v) => v.toJson()).toList();
+      data['PaperNo'] = this.paperNo!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class PaperNo {
-  String paperNo;
+  String? paperNo;
 
   PaperNo({this.paperNo});
 
@@ -390,7 +390,7 @@ class PaperNo {
 }
 
 class GetTheoryQuestionByPaperResponse {
-  List<TheoryQuestion> theoryQuestion;
+  List<TheoryQuestion>? theoryQuestion;
 
   GetTheoryQuestionByPaperResponse({this.theoryQuestion});
 
@@ -398,7 +398,7 @@ class GetTheoryQuestionByPaperResponse {
     if (json['TheoryQuestion'] != null) {
       theoryQuestion = new List<TheoryQuestion>.empty(growable: true);
       json['TheoryQuestion'].forEach((v) {
-        theoryQuestion.add(new TheoryQuestion.fromJson(v));
+        theoryQuestion!.add(new TheoryQuestion.fromJson(v));
       });
     }
   }
@@ -407,75 +407,75 @@ class GetTheoryQuestionByPaperResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.theoryQuestion != null) {
       data['TheoryQuestion'] =
-          this.theoryQuestion.map((v) => v.toJson()).toList();
+          this.theoryQuestion!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class TheoryQuestion {
-  String iD;
-  String groupId;
-  String courseCode;
-  String langCode;
-  String paperNo;
-  String key;
-  String section;
-  String questionNo;
-  String question;
-  String questionPhotoFilename;
-  String questionVoiceFilename;
-  String questionOption1;
-  String questionOption1Photo;
-  String questionOption1PhotoFilename;
-  String questionOption1VoiceFilename;
-  String questionOption2;
-  String questionOption2Photo;
-  String questionOption2PhotoFilename;
-  String questionOption2VoiceFilename;
-  String questionOption3;
-  String questionOption3Photo;
-  String questionOption3PhotoFilename;
-  String questionOption3VoiceFilename;
-  String questionOption4;
-  String questionOption4Photo;
-  String questionOption4PhotoFilename;
-  String questionOption4VoiceFilename;
-  String questionOption5;
-  String questionOption5Photo;
-  String questionOption5PhotoFilename;
-  String questionOption5VoiceFilename;
-  String optionA;
-  String optionAPhotoFilename;
-  String optionAVoiceFilename;
-  String optionB;
-  String optionBPhotoFilename;
-  String optionBVoiceFilename;
-  String optionC;
-  String optionCPhotoFilename;
-  String optionCVoiceFilename;
-  String optionD;
-  String optionDPhotoFilename;
-  String optionDVoiceFilename;
-  String optionE;
-  String optionEPhotoFilename;
-  String optionEVoiceFilename;
-  String answer;
-  String explanationUrl;
-  String knowledgeUrl;
-  String createUser;
-  String editUser;
-  String deleted;
-  String compCode;
-  String branchCode;
-  String lastupload;
-  String transtamp;
-  String optionAPhoto;
-  String optionBPhoto;
-  String optionCPhoto;
-  String optionDPhoto;
-  String optionEPhoto;
-  String questionPhoto;
+  String? iD;
+  String? groupId;
+  String? courseCode;
+  String? langCode;
+  String? paperNo;
+  String? key;
+  String? section;
+  String? questionNo;
+  String? question;
+  String? questionPhotoFilename;
+  String? questionVoiceFilename;
+  String? questionOption1;
+  String? questionOption1Photo;
+  String? questionOption1PhotoFilename;
+  String? questionOption1VoiceFilename;
+  String? questionOption2;
+  String? questionOption2Photo;
+  String? questionOption2PhotoFilename;
+  String? questionOption2VoiceFilename;
+  String? questionOption3;
+  String? questionOption3Photo;
+  String? questionOption3PhotoFilename;
+  String? questionOption3VoiceFilename;
+  String? questionOption4;
+  String? questionOption4Photo;
+  String? questionOption4PhotoFilename;
+  String? questionOption4VoiceFilename;
+  String? questionOption5;
+  String? questionOption5Photo;
+  String? questionOption5PhotoFilename;
+  String? questionOption5VoiceFilename;
+  String? optionA;
+  String? optionAPhotoFilename;
+  String? optionAVoiceFilename;
+  String? optionB;
+  String? optionBPhotoFilename;
+  String? optionBVoiceFilename;
+  String? optionC;
+  String? optionCPhotoFilename;
+  String? optionCVoiceFilename;
+  String? optionD;
+  String? optionDPhotoFilename;
+  String? optionDVoiceFilename;
+  String? optionE;
+  String? optionEPhotoFilename;
+  String? optionEVoiceFilename;
+  String? answer;
+  String? explanationUrl;
+  String? knowledgeUrl;
+  String? createUser;
+  String? editUser;
+  String? deleted;
+  String? compCode;
+  String? branchCode;
+  String? lastupload;
+  String? transtamp;
+  String? optionAPhoto;
+  String? optionBPhoto;
+  String? optionCPhoto;
+  String? optionDPhoto;
+  String? optionEPhoto;
+  String? questionPhoto;
 
   TheoryQuestion(
       {this.iD,
@@ -695,15 +695,15 @@ class KppArguments {
 }
 
 class PinRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String pinNumber;
-  String diCode;
-  String phone;
-  String userId;
-  String groupId;
-  String courseCode;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? pinNumber;
+  String? diCode;
+  String? phone;
+  String? userId;
+  String? groupId;
+  String? courseCode;
 
   PinRequest({
     this.wsCodeCrypt,
@@ -747,34 +747,34 @@ class PinRequest {
 @HiveType(typeId: 0)
 class KppExamData {
   @HiveField(0)
-  final String selectedAnswer;
+  final String? selectedAnswer;
 
   @HiveField(1)
-  final int answerIndex;
+  final int? answerIndex;
 
   @HiveField(2)
-  final int examQuestionNo; // The index
+  final int? examQuestionNo; // The index
 
   @HiveField(3)
-  final int correct;
+  final int? correct;
 
   @HiveField(4)
-  final int incorrect;
+  final int? incorrect;
 
   @HiveField(5)
-  final int totalQuestions;
+  final int? totalQuestions;
 
   @HiveField(6)
-  final String second;
+  final String? second;
 
   @HiveField(7)
-  final String minute;
+  final String? minute;
 
   @HiveField(8)
-  final String groupId;
+  final String? groupId;
 
   @HiveField(9)
-  final String paperNo;
+  final String? paperNo;
 
   KppExamData({
     this.selectedAnswer,

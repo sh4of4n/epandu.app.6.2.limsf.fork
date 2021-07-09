@@ -18,7 +18,7 @@ class _PromotionsState extends State<Promotions> {
   final primaryColor = ColorConstant.primaryColor;
   final authRepo = AuthRepo();
 
-  Future _getActiveFeeds;
+  Future? _getActiveFeeds;
   int _startIndex = 0;
 
   final RegExp removeBracket =
@@ -71,7 +71,7 @@ class _PromotionsState extends State<Promotions> {
           elevation: 0,
           backgroundColor: Colors.white,
           title: Text(
-            AppLocalizations.of(context).translate('promotions_lbl'),
+            AppLocalizations.of(context)!.translate('promotions_lbl'),
           ),
         ),
         body: Container(
@@ -85,7 +85,7 @@ class _PromotionsState extends State<Promotions> {
                 case ConnectionState.done:
                   if (snapshot.data is String) {
                     return Center(
-                      child: Text(AppLocalizations.of(context)
+                      child: Text(AppLocalizations.of(context)!
                           .translate('no_feeds_message')),
                     );
                   }
@@ -165,7 +165,7 @@ class _PromotionsState extends State<Promotions> {
                 default:
                   return Expanded(
                       child: Center(
-                    child: Text(AppLocalizations.of(context)
+                    child: Text(AppLocalizations.of(context)!
                         .translate('http_exception')),
                   ));
               }
@@ -185,7 +185,7 @@ class _PromotionsState extends State<Promotions> {
           child: Column(
             children: <Widget>[
               Shimmer.fromColors(
-                baseColor: Colors.grey[200],
+                baseColor: Colors.grey[200]!,
                 highlightColor: Colors.white,
                 child: Container(
                   width: ScreenUtil().setWidth(1300),
@@ -205,7 +205,7 @@ class _PromotionsState extends State<Promotions> {
           child: Column(
             children: <Widget>[
               Shimmer.fromColors(
-                baseColor: Colors.grey[200],
+                baseColor: Colors.grey[200]!,
                 highlightColor: Colors.white,
                 child: Container(
                   width: ScreenUtil().setWidth(1300),
@@ -225,7 +225,7 @@ class _PromotionsState extends State<Promotions> {
           child: Column(
             children: <Widget>[
               Shimmer.fromColors(
-                baseColor: Colors.grey[200],
+                baseColor: Colors.grey[200]!,
                 highlightColor: Colors.white,
                 child: Container(
                   width: ScreenUtil().setWidth(1300),

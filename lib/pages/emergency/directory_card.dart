@@ -5,12 +5,12 @@ import 'package:transparent_image/transparent_image.dart';
 
 class DirectoryCard extends StatelessWidget {
   const DirectoryCard({
-    Key key,
-    @required this.title,
-    @required this.image,
-    @required this.phoneIcon,
-    @required this.directoryIcon,
-    @required this.iconText,
+    Key? key,
+    required this.title,
+    required this.image,
+    required this.phoneIcon,
+    required this.directoryIcon,
+    required this.iconText,
     this.phoneAction,
     this.directory,
   }) : super(key: key);

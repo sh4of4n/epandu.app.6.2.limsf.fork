@@ -24,7 +24,7 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
   final location = Location();
-  String address;
+  String? address;
   TextStyle _titleStyle = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w700,
@@ -42,8 +42,8 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
   }
 
   _getAddress() async {
-    double lat = double.tryParse(await localStorage.getUserLatitude());
-    double long = double.tryParse(await localStorage.getUserLongitude());
+    double? lat = double.tryParse((await localStorage.getUserLatitude())!);
+    double? long = double.tryParse((await localStorage.getUserLongitude())!);
 
     await location.getAddress(lat, long);
 
@@ -58,12 +58,12 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
     if (widget.snapshot.phone == null) {
       customSnackbar.show(
         context,
-        message: AppLocalizations.of(context).translate('no_contacts'),
+        message: AppLocalizations.of(context)!.translate('no_contacts'),
         duration: 5000,
         type: MessageType.INFO,
       );
     } else {
-      String trimNumber =
+      String? trimNumber =
           widget.snapshot.phone.replaceAll('-', '').replaceAll(' ', '');
 
       await launch('tel:$trimNumber');
@@ -74,8 +74,8 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
     try {
       final title = widget.snapshot.sosContactName;
       final description = "";
-      final coords = Coords(double.tryParse(widget.snapshot.latitude),
-          double.tryParse(widget.snapshot.longtitude));
+      final coords = Coords(double.tryParse(widget.snapshot.latitude)!,
+          double.tryParse(widget.snapshot.longtitude)!);
       final availableMaps = await MapLauncher.installedMaps;
 
       showModalBottomSheet(
@@ -163,7 +163,7 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(AppLocalizations.of(context).translate('remark_lbl'),
+          Text(AppLocalizations.of(context)!.translate('remark_lbl'),
               style: _titleStyle),
           Text(widget.snapshot.remark, style: _textStyle),
         ],
@@ -177,7 +177,7 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
     return Scaffold(
       appBar: AppBar(
         title:
-            Text(AppLocalizations.of(context).translate('information_title')),
+            Text(AppLocalizations.of(context)!.translate('information_title')),
         backgroundColor: primaryColor,
         elevation: 0,
       ),
@@ -212,54 +212,53 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Text(AppLocalizations.of(context).translate('subtype_lbl'),
+                  Text(AppLocalizations.of(context)!.translate('subtype_lbl'),
                       style: _titleStyle),
                   Text(widget.snapshot.sosContactSubtype ?? '',
                       style: _textStyle),
                   SizedBox(
                     height: 5.0,
                   ),
-                  Text(AppLocalizations.of(context).translate('area_code_lbl'),
+                  Text(AppLocalizations.of(context)!.translate('area_code_lbl'),
                       style: _titleStyle),
                   Text(widget.snapshot.areaCode ?? '', style: _textStyle),
                   SizedBox(
                     height: 5.0,
                   ),
                   Text(
-                      AppLocalizations.of(context)
+                      AppLocalizations.of(context)!
                           .translate('contact_name_lbl'),
                       style: _titleStyle),
                   Text(widget.snapshot.sosContactName ?? '', style: _textStyle),
                   SizedBox(
                     height: 5.0,
                   ),
-                  Text(AppLocalizations.of(context).translate('address_lbl'),
+                  Text(AppLocalizations.of(context)!.translate('address_lbl'),
                       style: _titleStyle),
                   Text(widget.snapshot.add ?? '', style: _textStyle),
                   SizedBox(
                     height: 5.0,
                   ),
                   Text(
-                      AppLocalizations.of(context)
+                      AppLocalizations.of(context)!
                           .translate('current_location'),
                       style: _titleStyle),
                   Text(address ?? '', style: _textStyle),
                   SizedBox(
                     height: 5.0,
                   ),
-                  Text(AppLocalizations.of(context).translate('phone_lbl'),
+                  Text(AppLocalizations.of(context)!.translate('phone_lbl'),
                       style: _titleStyle),
                   Text(widget.snapshot.phone ?? '', style: _textStyle),
                   SizedBox(
                     height: 5.0,
                   ),
-                  Text(AppLocalizations.of(context).translate('distance_lbl'),
+                  Text(AppLocalizations.of(context)!.translate('distance_lbl'),
                       style: _titleStyle),
                   Text(
-                      double.tryParse(widget.snapshot.distance)
-                                  .toStringAsFixed(2) +
-                              'km' ??
-                          '',
+                      double.tryParse(widget.snapshot.distance)!
+                              .toStringAsFixed(2) +
+                          'km',
                       style: _textStyle),
                   SizedBox(
                     height: 5.0,

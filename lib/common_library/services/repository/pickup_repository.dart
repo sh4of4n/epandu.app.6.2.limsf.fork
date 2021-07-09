@@ -12,10 +12,10 @@ class PickupRepo {
   final networking = Networking();
 
   Future<Response> getPickUpByIcNo({context}) async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
-    String diCode = await localStorage.getMerchantDbCode();
-    String icNo = await localStorage.getStudentIc();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
+    String? diCode = await localStorage.getMerchantDbCode();
+    String? icNo = await localStorage.getStudentIc();
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo';
@@ -40,11 +40,11 @@ class PickupRepo {
     pickupTime,
     destination,
   }) async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
-    String diCode = await localStorage.getMerchantDbCode();
-    String icNo = await localStorage.getStudentIc();
-    String userId = await localStorage.getUserId();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwd();
+    String? diCode = await localStorage.getMerchantDbCode();
+    String? icNo = await localStorage.getStudentIc();
+    String? userId = await localStorage.getUserId();
 
     SavePickupRequest savePickupRequest = SavePickupRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
@@ -70,6 +70,6 @@ class PickupRepo {
     }
 
     return Response(false,
-        message: response.message.replaceAll(r'\u000d\u000a', ''));
+        message: response.message!.replaceAll(r'\u000d\u000a', ''));
   }
 }

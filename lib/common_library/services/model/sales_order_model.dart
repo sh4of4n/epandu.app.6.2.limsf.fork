@@ -1,6 +1,6 @@
 // GetBackOrderListResponse
 class GetBackOrderListResponse {
-  List<SalesOrderDetail> salesOrderDetail;
+  List<SalesOrderDetail>? salesOrderDetail;
 
   GetBackOrderListResponse({this.salesOrderDetail});
 
@@ -8,7 +8,7 @@ class GetBackOrderListResponse {
     if (json['SalesOrderDetail'] != null) {
       salesOrderDetail = new List<SalesOrderDetail>.empty(growable: true);
       json['SalesOrderDetail'].forEach((v) {
-        salesOrderDetail.add(new SalesOrderDetail.fromJson(v));
+        salesOrderDetail!.add(new SalesOrderDetail.fromJson(v));
       });
     }
   }
@@ -17,167 +17,167 @@ class GetBackOrderListResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.salesOrderDetail != null) {
       data['SalesOrderDetail'] =
-          this.salesOrderDetail.map((v) => v.toJson()).toList();
+          this.salesOrderDetail!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class SalesOrderDetail {
-  String iD;
-  String docDoc;
-  String docRef;
-  String slsDoc;
-  String slsRef;
-  String ordDate;
-  String itemNo;
-  String key;
-  String branch;
-  String locCode;
-  String stkCode;
-  String tempStkCode;
-  String partNo;
-  String batchNo;
-  String batchKey;
-  String stkDesc1;
-  String stkDesc2;
-  String sOutstandingQty;
-  String ordQty;
-  String ordUom;
-  String ordPrice;
-  String nettPrice;
-  String itemQty;
-  String itemPrice;
-  String itemUom;
-  String extraQty;
-  String extraUom;
-  String extraPrice;
-  String uom2Qty;
-  String uom2Uom;
-  String focQty;
-  String focUom;
-  String fillQty;
-  String manufQty;
-  String tlManufQty;
-  String prePickQty;
-  String pickedQty;
-  String priceCode;
-  String allowDisc;
-  String discCode;
-  String discFormula;
-  String discRate;
-  String multiDisc;
-  String discAmt;
-  String locDiscAmt;
-  String serTax;
-  String locSerTax;
-  String inclSlsTax;
-  String slsTax;
-  String locSlsTax;
-  String slsCommRate;
-  String slsComm;
-  String locSlsComm;
-  String ordAmt;
-  String nettOrdAmt;
-  String locOrdAmt;
-  String mfgUnitPrice;
-  String mfgNettOrdAmt;
-  String mfgLocOrdAmt;
-  String unitCost;
-  String custPoNo;
-  String dueTime;
-  String woQty;
-  String matrlreqQty;
-  String invDoc;
-  String invRef;
-  String invKey;
-  String doRef;
-  String doDoc;
-  String doKey;
-  String quoDoc;
-  String quoKey;
-  String quoRef;
-  String dlvQty;
-  String dlvEqty;
-  String dlvFqty;
-  String billedQty;
-  String poQty;
-  String poDoc;
-  String poRef;
-  String poKey;
-  String projCode;
-  String misc7;
-  String misc8;
-  String misc9;
-  String misc10;
-  String misc11;
-  String misc12;
-  String dlvMisc10;
-  String dlvMisc11;
-  String dlvMisc12;
-  String stkMisc1;
-  String stkMisc2;
-  String stkMisc3;
-  String undrMinpc;
-  String stkFormula;
-  String cj5No;
-  String cj5Totqty;
-  String cj5Balqty;
-  String remark;
-  String matrlReserved;
-  String complete;
-  String cancel;
-  String deleted;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String rowKey;
-  String compCode;
-  String sSlsNo;
-  String transtamp;
-  String branchCode;
-  String trnStatus;
-  String custRef1;
-  String custRef2;
-  String mainKey;
-  String subItem;
-  String custBarcode;
-  String custSellPrice;
-  String completedRemark;
-  String completedUser;
-  String sStkDesc1;
-  String sStkDesc2;
-  String sPartNo;
-  String sUom;
-  String sDbcode;
-  String sName;
-  String sSourceDocType;
-  String sSourceDoc;
-  String sSourceRef;
-  String sSourceKey;
-  String priceSource;
-  String uom;
-  String existQty;
-  String unitPrice;
-  String manuQty;
-  String tlmanuQty;
-  String dlvIqty;
-  String matrlreqClosed;
-  String lastupload;
-  String duplicateKey;
-  String validateFailed;
-  String frmStoreQty;
-  String slsNo;
-  String controlSn;
-  String useBatch;
-  String sourceDocType;
-  String sourceDoc;
-  String sourceRef;
-  String sourceKey;
-  String withPackList;
-  String ordDate1;
-  String salesPer;
+  String? iD;
+  String? docDoc;
+  String? docRef;
+  String? slsDoc;
+  String? slsRef;
+  String? ordDate;
+  String? itemNo;
+  String? key;
+  String? branch;
+  String? locCode;
+  String? stkCode;
+  String? tempStkCode;
+  String? partNo;
+  String? batchNo;
+  String? batchKey;
+  String? stkDesc1;
+  String? stkDesc2;
+  String? sOutstandingQty;
+  String? ordQty;
+  String? ordUom;
+  String? ordPrice;
+  String? nettPrice;
+  String? itemQty;
+  String? itemPrice;
+  String? itemUom;
+  String? extraQty;
+  String? extraUom;
+  String? extraPrice;
+  String? uom2Qty;
+  String? uom2Uom;
+  String? focQty;
+  String? focUom;
+  String? fillQty;
+  String? manufQty;
+  String? tlManufQty;
+  String? prePickQty;
+  String? pickedQty;
+  String? priceCode;
+  String? allowDisc;
+  String? discCode;
+  String? discFormula;
+  String? discRate;
+  String? multiDisc;
+  String? discAmt;
+  String? locDiscAmt;
+  String? serTax;
+  String? locSerTax;
+  String? inclSlsTax;
+  String? slsTax;
+  String? locSlsTax;
+  String? slsCommRate;
+  String? slsComm;
+  String? locSlsComm;
+  String? ordAmt;
+  String? nettOrdAmt;
+  String? locOrdAmt;
+  String? mfgUnitPrice;
+  String? mfgNettOrdAmt;
+  String? mfgLocOrdAmt;
+  String? unitCost;
+  String? custPoNo;
+  String? dueTime;
+  String? woQty;
+  String? matrlreqQty;
+  String? invDoc;
+  String? invRef;
+  String? invKey;
+  String? doRef;
+  String? doDoc;
+  String? doKey;
+  String? quoDoc;
+  String? quoKey;
+  String? quoRef;
+  String? dlvQty;
+  String? dlvEqty;
+  String? dlvFqty;
+  String? billedQty;
+  String? poQty;
+  String? poDoc;
+  String? poRef;
+  String? poKey;
+  String? projCode;
+  String? misc7;
+  String? misc8;
+  String? misc9;
+  String? misc10;
+  String? misc11;
+  String? misc12;
+  String? dlvMisc10;
+  String? dlvMisc11;
+  String? dlvMisc12;
+  String? stkMisc1;
+  String? stkMisc2;
+  String? stkMisc3;
+  String? undrMinpc;
+  String? stkFormula;
+  String? cj5No;
+  String? cj5Totqty;
+  String? cj5Balqty;
+  String? remark;
+  String? matrlReserved;
+  String? complete;
+  String? cancel;
+  String? deleted;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? rowKey;
+  String? compCode;
+  String? sSlsNo;
+  String? transtamp;
+  String? branchCode;
+  String? trnStatus;
+  String? custRef1;
+  String? custRef2;
+  String? mainKey;
+  String? subItem;
+  String? custBarcode;
+  String? custSellPrice;
+  String? completedRemark;
+  String? completedUser;
+  String? sStkDesc1;
+  String? sStkDesc2;
+  String? sPartNo;
+  String? sUom;
+  String? sDbcode;
+  String? sName;
+  String? sSourceDocType;
+  String? sSourceDoc;
+  String? sSourceRef;
+  String? sSourceKey;
+  String? priceSource;
+  String? uom;
+  String? existQty;
+  String? unitPrice;
+  String? manuQty;
+  String? tlmanuQty;
+  String? dlvIqty;
+  String? matrlreqClosed;
+  String? lastupload;
+  String? duplicateKey;
+  String? validateFailed;
+  String? frmStoreQty;
+  String? slsNo;
+  String? controlSn;
+  String? useBatch;
+  String? sourceDocType;
+  String? sourceDoc;
+  String? sourceRef;
+  String? sourceKey;
+  String? withPackList;
+  String? ordDate1;
+  String? salesPer;
 
   SalesOrderDetail(
       {this.iD,
@@ -655,27 +655,27 @@ class SalesOrderDetail {
 // SaveActiveSlsDtlByDbRequest
 
 class SaveActiveSlsDtlByDbRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String userId;
-  String dbcode;
-  String locCode;
-  String stkCode;
-  String stkDesc1;
-  String stkDesc2;
-  String batchNo;
-  String itemQty;
-  String itemUom;
-  String itemPrice;
-  String discAmt;
-  String discRate;
-  bool isOfferItem;
-  String scheduleDeliveryDateString;
-  String key;
-  String isCart;
-  String signatureImage;
-  String signatureImageBase64String;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? userId;
+  String? dbcode;
+  String? locCode;
+  String? stkCode;
+  String? stkDesc1;
+  String? stkDesc2;
+  String? batchNo;
+  String? itemQty;
+  String? itemUom;
+  String? itemPrice;
+  String? discAmt;
+  String? discRate;
+  bool? isOfferItem;
+  String? scheduleDeliveryDateString;
+  String? key;
+  String? isCart;
+  String? signatureImage;
+  String? signatureImageBase64String;
 
   SaveActiveSlsDtlByDbRequest(
       {this.wsCodeCrypt,
@@ -754,13 +754,13 @@ class SaveActiveSlsDtlByDbRequest {
 // DeleteSlsDtlByDocRefKeyRequest
 
 class DeleteSlsDtlByDocRefKeyRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String userId;
-  String docDoc;
-  String docRef;
-  String key;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? userId;
+  String? docDoc;
+  String? docRef;
+  String? key;
 
   DeleteSlsDtlByDocRefKeyRequest(
       {this.wsCodeCrypt,
@@ -796,14 +796,14 @@ class DeleteSlsDtlByDocRefKeyRequest {
 
 // SaveCartToSalesOrderRequest
 class SaveCartToSalesOrderRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String userId;
-  String docDoc;
-  String docRef;
-  String signatureImage;
-  String signatureImageBase64String;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? userId;
+  String? docDoc;
+  String? docRef;
+  String? signatureImage;
+  String? signatureImageBase64String;
 
   SaveCartToSalesOrderRequest(
       {this.wsCodeCrypt,
@@ -841,7 +841,7 @@ class SaveCartToSalesOrderRequest {
 }
 
 class SaveCartToSalesOrderResponse {
-  List<SalesOrderTrn> salesOrderTrn;
+  List<SalesOrderTrn>? salesOrderTrn;
 
   SaveCartToSalesOrderResponse({this.salesOrderTrn});
 
@@ -849,7 +849,7 @@ class SaveCartToSalesOrderResponse {
     if (json['SalesOrderTrn'] != null) {
       salesOrderTrn = new List<SalesOrderTrn>.empty(growable: true);
       json['SalesOrderTrn'].forEach((v) {
-        salesOrderTrn.add(new SalesOrderTrn.fromJson(v));
+        salesOrderTrn!.add(new SalesOrderTrn.fromJson(v));
       });
     }
   }
@@ -858,17 +858,17 @@ class SaveCartToSalesOrderResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.salesOrderTrn != null) {
       data['SalesOrderTrn'] =
-          this.salesOrderTrn.map((v) => v.toJson()).toList();
+          this.salesOrderTrn!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class SalesOrderTrn {
-  String docDoc;
-  String docRef;
-  String slsDoc;
-  String slsRef;
+  String? docDoc;
+  String? docRef;
+  String? slsDoc;
+  String? slsRef;
 
   SalesOrderTrn({this.docDoc, this.docRef, this.slsDoc, this.slsRef});
 
@@ -892,7 +892,7 @@ class SalesOrderTrn {
 // GetSlsTrnByDateAndDb
 
 class GetSlsTrnByDateAndDbResponse {
-  List<SalesOrderHeader> salesOrderHeader;
+  List<SalesOrderHeader>? salesOrderHeader;
 
   GetSlsTrnByDateAndDbResponse({this.salesOrderHeader});
 
@@ -900,7 +900,7 @@ class GetSlsTrnByDateAndDbResponse {
     if (json['SalesOrderHeader'] != null) {
       salesOrderHeader = new List<SalesOrderHeader>.empty(growable: true);
       json['SalesOrderHeader'].forEach((v) {
-        salesOrderHeader.add(new SalesOrderHeader.fromJson(v));
+        salesOrderHeader!.add(new SalesOrderHeader.fromJson(v));
       });
     }
   }
@@ -909,160 +909,160 @@ class GetSlsTrnByDateAndDbResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.salesOrderHeader != null) {
       data['SalesOrderHeader'] =
-          this.salesOrderHeader.map((v) => v.toJson()).toList();
+          this.salesOrderHeader!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class SalesOrderHeader {
-  String iD;
-  String docDoc;
-  String docRef;
-  String slsDoc;
-  String slsRef;
-  String revNo;
-  String ordDate;
-  String ordTime;
-  String wfStatus;
-  String refNo;
-  String leadTime;
-  String validity;
-  String dbcode;
-  String name;
-  String locCode;
-  String areaCode;
-  String currency;
-  String rate;
-  String terms;
-  String salesPer;
-  String branch;
-  String orderBy;
-  String custPoNo;
-  String shipmentTerm;
-  String shipmentTermDetl;
-  String shipMode;
-  String shipTo;
-  String shipName;
-  String shipAdd1;
-  String shipAdd2;
-  String shipAdd3;
-  String shipAdd4;
-  String shipPhone;
-  String shipFax;
-  String shipPtc;
-  String shipRemark;
-  String misc1;
-  String misc2;
-  String misc3;
-  String misc4;
-  String misc5;
-  String misc6;
-  String misc13;
-  String misc18;
-  String misc17;
-  String misc16;
-  String misc15;
-  String misc14;
-  String tlOrdQty;
-  String tlOrdAmt;
-  String tlLocDetlAmt;
-  String tlNettDetlAmt;
-  String tlNettOrdAmt;
-  String tlLocOrdAmt;
-  String tlDiscAmt;
-  String tlLocDiscAmt;
-  String tlSlsTax;
-  String tlLocSlsTax;
-  String tlSerTax;
-  String tlLocSerTax;
-  String tlPaidAmt;
-  String bdiscRate;
-  String bdiscAmt;
-  String transChrg;
-  String transRate;
-  String mfgCurrency;
-  String mfgRate;
-  String mfgTlNettOrdAmt;
-  String mfgTlLocOrdAmt;
-  String hold;
-  String cj5No;
-  String tlDlvQty;
-  String doDoc;
-  String doRef;
-  String invDoc;
-  String invRef;
-  String title1;
-  String title2;
-  String title3;
-  String remark;
-  String remark1;
-  String remark2;
-  String prnCount;
-  String printLog;
-  String pending;
-  String cancel;
-  String posted;
-  String complete;
-  String deleted;
-  String clear;
-  String readOnly;
-  String sDbname;
-  String sDbname2;
-  String sDbshortName;
-  String sDbadd1;
-  String sDbadd2;
-  String sDbadd3;
-  String sDbadd4;
-  String sDbpostcode;
-  String sDbareaCode;
-  String sDbcityName;
-  String sDbstateName;
-  String sDbcountryName;
-  String sDbphoneOff1;
-  String sDbphoneExt1;
-  String sDbphoneOff2;
-  String sDbphoneExt2;
-  String sDbfax;
-  String sDbptc;
-  String sDbeMail;
-  String sDbcrLimit;
-  String sDbcrTerm;
-  String createUser;
-  String createDate;
-  String editDate;
-  String editUser;
-  String compCode;
-  String rowKey;
-  String transtamp;
-  String branchCode;
-  String creditReqApprv;
-  String creditApprvUser;
-  String creditApprvAmt;
-  String creditApprvLog;
-  String trnStatus;
-  String creditBlockReason;
-  String creditBlockInfo;
-  String packed;
-  String subject;
-  String tlPrePickQty;
-  String tlPickedQty;
-  String fullyBilled;
-  String tlBilledAmt;
-  String lastupload;
-  String duplicateKey;
-  String validateFailed;
-  String lastEditedBy;
-  String createdBy;
-  String status;
-  String docNo;
-  String pendingSoNo;
-  String tlOrdQty2;
-  String tlNettOrdAmt2;
-  String shipArea;
-  String creditApprvDate;
-  String shipCode;
-  String custPoDate;
+  String? iD;
+  String? docDoc;
+  String? docRef;
+  String? slsDoc;
+  String? slsRef;
+  String? revNo;
+  String? ordDate;
+  String? ordTime;
+  String? wfStatus;
+  String? refNo;
+  String? leadTime;
+  String? validity;
+  String? dbcode;
+  String? name;
+  String? locCode;
+  String? areaCode;
+  String? currency;
+  String? rate;
+  String? terms;
+  String? salesPer;
+  String? branch;
+  String? orderBy;
+  String? custPoNo;
+  String? shipmentTerm;
+  String? shipmentTermDetl;
+  String? shipMode;
+  String? shipTo;
+  String? shipName;
+  String? shipAdd1;
+  String? shipAdd2;
+  String? shipAdd3;
+  String? shipAdd4;
+  String? shipPhone;
+  String? shipFax;
+  String? shipPtc;
+  String? shipRemark;
+  String? misc1;
+  String? misc2;
+  String? misc3;
+  String? misc4;
+  String? misc5;
+  String? misc6;
+  String? misc13;
+  String? misc18;
+  String? misc17;
+  String? misc16;
+  String? misc15;
+  String? misc14;
+  String? tlOrdQty;
+  String? tlOrdAmt;
+  String? tlLocDetlAmt;
+  String? tlNettDetlAmt;
+  String? tlNettOrdAmt;
+  String? tlLocOrdAmt;
+  String? tlDiscAmt;
+  String? tlLocDiscAmt;
+  String? tlSlsTax;
+  String? tlLocSlsTax;
+  String? tlSerTax;
+  String? tlLocSerTax;
+  String? tlPaidAmt;
+  String? bdiscRate;
+  String? bdiscAmt;
+  String? transChrg;
+  String? transRate;
+  String? mfgCurrency;
+  String? mfgRate;
+  String? mfgTlNettOrdAmt;
+  String? mfgTlLocOrdAmt;
+  String? hold;
+  String? cj5No;
+  String? tlDlvQty;
+  String? doDoc;
+  String? doRef;
+  String? invDoc;
+  String? invRef;
+  String? title1;
+  String? title2;
+  String? title3;
+  String? remark;
+  String? remark1;
+  String? remark2;
+  String? prnCount;
+  String? printLog;
+  String? pending;
+  String? cancel;
+  String? posted;
+  String? complete;
+  String? deleted;
+  String? clear;
+  String? readOnly;
+  String? sDbname;
+  String? sDbname2;
+  String? sDbshortName;
+  String? sDbadd1;
+  String? sDbadd2;
+  String? sDbadd3;
+  String? sDbadd4;
+  String? sDbpostcode;
+  String? sDbareaCode;
+  String? sDbcityName;
+  String? sDbstateName;
+  String? sDbcountryName;
+  String? sDbphoneOff1;
+  String? sDbphoneExt1;
+  String? sDbphoneOff2;
+  String? sDbphoneExt2;
+  String? sDbfax;
+  String? sDbptc;
+  String? sDbeMail;
+  String? sDbcrLimit;
+  String? sDbcrTerm;
+  String? createUser;
+  String? createDate;
+  String? editDate;
+  String? editUser;
+  String? compCode;
+  String? rowKey;
+  String? transtamp;
+  String? branchCode;
+  String? creditReqApprv;
+  String? creditApprvUser;
+  String? creditApprvAmt;
+  String? creditApprvLog;
+  String? trnStatus;
+  String? creditBlockReason;
+  String? creditBlockInfo;
+  String? packed;
+  String? subject;
+  String? tlPrePickQty;
+  String? tlPickedQty;
+  String? fullyBilled;
+  String? tlBilledAmt;
+  String? lastupload;
+  String? duplicateKey;
+  String? validateFailed;
+  String? lastEditedBy;
+  String? createdBy;
+  String? status;
+  String? docNo;
+  String? pendingSoNo;
+  String? tlOrdQty2;
+  String? tlNettOrdAmt2;
+  String? shipArea;
+  String? creditApprvDate;
+  String? shipCode;
+  String? custPoDate;
 
   SalesOrderHeader(
       {this.iD,
@@ -1519,7 +1519,7 @@ class SalesOrderHeader {
 // GetSlsDetailByDocNo
 
 class GetSlsDetailByDocNoResponse {
-  List<GetSlsDetailByDocNoSalesOrderDetail> salesOrderDetail;
+  List<GetSlsDetailByDocNoSalesOrderDetail>? salesOrderDetail;
 
   GetSlsDetailByDocNoResponse({this.salesOrderDetail});
 
@@ -1528,7 +1528,7 @@ class GetSlsDetailByDocNoResponse {
       salesOrderDetail =
           new List<GetSlsDetailByDocNoSalesOrderDetail>.empty(growable: true);
       json['SalesOrderDetail'].forEach((v) {
-        salesOrderDetail
+        salesOrderDetail!
             .add(new GetSlsDetailByDocNoSalesOrderDetail.fromJson(v));
       });
     }
@@ -1538,180 +1538,180 @@ class GetSlsDetailByDocNoResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.salesOrderDetail != null) {
       data['SalesOrderDetail'] =
-          this.salesOrderDetail.map((v) => v.toJson()).toList();
+          this.salesOrderDetail!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class GetSlsDetailByDocNoSalesOrderDetail {
-  String iD;
-  String docDoc;
-  String docRef;
-  String slsDoc;
-  String slsRef;
-  String ordDate;
-  String itemNo;
-  String key;
-  String branch;
-  String locCode;
-  String stkCode;
-  String tempStkCode;
-  String partNo;
-  String batchNo;
-  String batchKey;
-  String stkDesc1;
-  String stkDesc2;
-  String matrix1;
-  String matrix2;
-  String matrix3;
-  String sOutstandingQty;
-  String ordQty;
-  String ordUom;
-  String ordPrice;
-  String nettPrice;
-  String itemQty;
-  String itemPrice;
-  String itemUom;
-  String extraQty;
-  String extraUom;
-  String extraPrice;
-  String uom2Qty;
-  String uom2Uom;
-  String focQty;
-  String focUom;
-  String fillQty;
-  String manufQty;
-  String tlManufQty;
-  String prePickQty;
-  String pickedQty;
-  String priceCode;
-  String allowDisc;
-  String discCode;
-  String discFormula;
-  String discRate;
-  String multiDisc;
-  String discAmt;
-  String locDiscAmt;
-  String serTax;
-  String locSerTax;
-  String inclSlsTax;
-  String slsTax;
-  String locSlsTax;
-  String slsCommRate;
-  String slsComm;
-  String locSlsComm;
-  String ordAmt;
-  String nettOrdAmt;
-  String locOrdAmt;
-  String mfgUnitPrice;
-  String mfgNettOrdAmt;
-  String mfgLocOrdAmt;
-  String unitCost;
-  String custPoNo;
-  String custPoDate;
-  String expDlvdt;
-  String dueDate;
-  String dueTime;
-  String woQty;
-  String matrlreqQty;
-  String invDoc;
-  String invRef;
-  String invKey;
-  String doRef;
-  String doDoc;
-  String doKey;
-  String quoDoc;
-  String quoKey;
-  String quoRef;
-  String dlvQty;
-  String dlvEqty;
-  String dlvFqty;
-  String billedQty;
-  String poQty;
-  String poDoc;
-  String poRef;
-  String poKey;
-  String projCode;
-  String misc7;
-  String misc8;
-  String misc9;
-  String misc10;
-  String misc11;
-  String misc12;
-  String dlvMisc10;
-  String dlvMisc11;
-  String dlvMisc12;
-  String stkMisc1;
-  String stkMisc2;
-  String stkMisc3;
-  String undrMinpc;
-  String stkFormula;
-  String cj5No;
-  String cj5NoKey;
-  String cj5Bgdt;
-  String cj5Enddt;
-  String cj5Totqty;
-  String cj5Balqty;
-  String saleAcct;
-  String saleDept;
-  String remark;
-  String matrlReserved;
-  String complete;
-  String cancel;
-  String deleted;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String rowKey;
-  String compCode;
-  String sSlsNo;
-  String transtamp;
-  String branchCode;
-  String trnStatus;
-  String custRef1;
-  String custRef2;
-  String mainKey;
-  String subItem;
-  String custBarcode;
-  String custSellPrice;
-  String completedRemark;
-  String completedDate;
-  String completedUser;
-  String sStkDesc1;
-  String sStkDesc2;
-  String sPartNo;
-  String sUom;
-  String sDbcode;
-  String sName;
-  String sSourceDocType;
-  String sSourceDoc;
-  String sSourceRef;
-  String sSourceKey;
-  String priceSource;
-  String offeredItem;
-  String uom;
-  String existQty;
-  String unitPrice;
-  String manuQty;
-  String tlmanuQty;
-  String dlvIqty;
-  String matrlreqClosed;
-  String lastupload;
-  String duplicateKey;
-  String validateFailed;
-  String validateRemark;
-  String lastValidate;
-  String frmStoreQty;
-  String status;
-  String lastEditedBy;
-  String createdBy;
-  String itemQty2;
-  String dlvQty2;
-  String outstandingQty2;
-  String itemPrice2;
-  String nettOrdAmt2;
+  String? iD;
+  String? docDoc;
+  String? docRef;
+  String? slsDoc;
+  String? slsRef;
+  String? ordDate;
+  String? itemNo;
+  String? key;
+  String? branch;
+  String? locCode;
+  String? stkCode;
+  String? tempStkCode;
+  String? partNo;
+  String? batchNo;
+  String? batchKey;
+  String? stkDesc1;
+  String? stkDesc2;
+  String? matrix1;
+  String? matrix2;
+  String? matrix3;
+  String? sOutstandingQty;
+  String? ordQty;
+  String? ordUom;
+  String? ordPrice;
+  String? nettPrice;
+  String? itemQty;
+  String? itemPrice;
+  String? itemUom;
+  String? extraQty;
+  String? extraUom;
+  String? extraPrice;
+  String? uom2Qty;
+  String? uom2Uom;
+  String? focQty;
+  String? focUom;
+  String? fillQty;
+  String? manufQty;
+  String? tlManufQty;
+  String? prePickQty;
+  String? pickedQty;
+  String? priceCode;
+  String? allowDisc;
+  String? discCode;
+  String? discFormula;
+  String? discRate;
+  String? multiDisc;
+  String? discAmt;
+  String? locDiscAmt;
+  String? serTax;
+  String? locSerTax;
+  String? inclSlsTax;
+  String? slsTax;
+  String? locSlsTax;
+  String? slsCommRate;
+  String? slsComm;
+  String? locSlsComm;
+  String? ordAmt;
+  String? nettOrdAmt;
+  String? locOrdAmt;
+  String? mfgUnitPrice;
+  String? mfgNettOrdAmt;
+  String? mfgLocOrdAmt;
+  String? unitCost;
+  String? custPoNo;
+  String? custPoDate;
+  String? expDlvdt;
+  String? dueDate;
+  String? dueTime;
+  String? woQty;
+  String? matrlreqQty;
+  String? invDoc;
+  String? invRef;
+  String? invKey;
+  String? doRef;
+  String? doDoc;
+  String? doKey;
+  String? quoDoc;
+  String? quoKey;
+  String? quoRef;
+  String? dlvQty;
+  String? dlvEqty;
+  String? dlvFqty;
+  String? billedQty;
+  String? poQty;
+  String? poDoc;
+  String? poRef;
+  String? poKey;
+  String? projCode;
+  String? misc7;
+  String? misc8;
+  String? misc9;
+  String? misc10;
+  String? misc11;
+  String? misc12;
+  String? dlvMisc10;
+  String? dlvMisc11;
+  String? dlvMisc12;
+  String? stkMisc1;
+  String? stkMisc2;
+  String? stkMisc3;
+  String? undrMinpc;
+  String? stkFormula;
+  String? cj5No;
+  String? cj5NoKey;
+  String? cj5Bgdt;
+  String? cj5Enddt;
+  String? cj5Totqty;
+  String? cj5Balqty;
+  String? saleAcct;
+  String? saleDept;
+  String? remark;
+  String? matrlReserved;
+  String? complete;
+  String? cancel;
+  String? deleted;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? rowKey;
+  String? compCode;
+  String? sSlsNo;
+  String? transtamp;
+  String? branchCode;
+  String? trnStatus;
+  String? custRef1;
+  String? custRef2;
+  String? mainKey;
+  String? subItem;
+  String? custBarcode;
+  String? custSellPrice;
+  String? completedRemark;
+  String? completedDate;
+  String? completedUser;
+  String? sStkDesc1;
+  String? sStkDesc2;
+  String? sPartNo;
+  String? sUom;
+  String? sDbcode;
+  String? sName;
+  String? sSourceDocType;
+  String? sSourceDoc;
+  String? sSourceRef;
+  String? sSourceKey;
+  String? priceSource;
+  String? offeredItem;
+  String? uom;
+  String? existQty;
+  String? unitPrice;
+  String? manuQty;
+  String? tlmanuQty;
+  String? dlvIqty;
+  String? matrlreqClosed;
+  String? lastupload;
+  String? duplicateKey;
+  String? validateFailed;
+  String? validateRemark;
+  String? lastValidate;
+  String? frmStoreQty;
+  String? status;
+  String? lastEditedBy;
+  String? createdBy;
+  String? itemQty2;
+  String? dlvQty2;
+  String? outstandingQty2;
+  String? itemPrice2;
+  String? nettOrdAmt2;
 
   GetSlsDetailByDocNoSalesOrderDetail(
       {this.iD,
@@ -2228,7 +2228,7 @@ class GetSlsDetailByDocNoSalesOrderDetail {
 // GetActiveSlsTrnByDb
 
 class GetActiveSlsTrnByDbResponse {
-  List<GetActiveSlsTrnByDbSalesOrderHeader> salesOrderHeader;
+  List<GetActiveSlsTrnByDbSalesOrderHeader>? salesOrderHeader;
 
   GetActiveSlsTrnByDbResponse({this.salesOrderHeader});
 
@@ -2237,7 +2237,7 @@ class GetActiveSlsTrnByDbResponse {
       salesOrderHeader =
           new List<GetActiveSlsTrnByDbSalesOrderHeader>.empty(growable: true);
       json['SalesOrderHeader'].forEach((v) {
-        salesOrderHeader
+        salesOrderHeader!
             .add(new GetActiveSlsTrnByDbSalesOrderHeader.fromJson(v));
       });
     }
@@ -2247,147 +2247,147 @@ class GetActiveSlsTrnByDbResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.salesOrderHeader != null) {
       data['SalesOrderHeader'] =
-          this.salesOrderHeader.map((v) => v.toJson()).toList();
+          this.salesOrderHeader!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class GetActiveSlsTrnByDbSalesOrderHeader {
-  String iD;
-  String docDoc;
-  String docRef;
-  String slsDoc;
-  String slsRef;
-  String revNo;
-  String ordDate;
-  String ordTime;
-  String wfStatus;
-  String refNo;
-  String leadTime;
-  String validity;
-  String dbcode;
-  String name;
-  String locCode;
-  String areaCode;
-  String currency;
-  String rate;
-  String terms;
-  String branch;
-  String orderBy;
-  String custPoNo;
-  String shipmentTerm;
-  String shipmentTermDetl;
-  String shipMode;
-  String shipTo;
-  String shipName;
-  String shipAdd1;
-  String shipAdd2;
-  String shipAdd3;
-  String shipAdd4;
-  String shipPhone;
-  String shipFax;
-  String shipPtc;
-  String shipRemark;
-  String misc1;
-  String misc2;
-  String misc3;
-  String misc4;
-  String misc5;
-  String misc6;
-  String misc13;
-  String misc18;
-  String misc17;
-  String misc16;
-  String misc15;
-  String misc14;
-  String tlOrdQty;
-  String tlOrdAmt;
-  String tlLocDetlAmt;
-  String tlNettDetlAmt;
-  String tlNettOrdAmt;
-  String tlLocOrdAmt;
-  String tlDiscAmt;
-  String tlLocDiscAmt;
-  String tlSlsTax;
-  String tlLocSlsTax;
-  String tlSerTax;
-  String tlLocSerTax;
-  String tlPaidAmt;
-  String bdiscRate;
-  String bdiscAmt;
-  String transChrg;
-  String transRate;
-  String mfgRate;
-  String mfgTlNettOrdAmt;
-  String mfgTlLocOrdAmt;
-  String hold;
-  String cj5No;
-  String tlDlvQty;
-  String doDoc;
-  String doRef;
-  String invDoc;
-  String invRef;
-  String title1;
-  String title2;
-  String title3;
-  String remark;
-  String remark1;
-  String remark2;
-  String prnCount;
-  String printLog;
-  String pending;
-  String cancel;
-  String posted;
-  String complete;
-  String deleted;
-  String clear;
-  String readOnly;
-  String sDbname;
-  String sDbname2;
-  String sDbshortName;
-  String sDbadd1;
-  String sDbadd2;
-  String sDbadd3;
-  String sDbadd4;
-  String sDbpostcode;
-  String sDbareaCode;
-  String sDbcityName;
-  String sDbstateName;
-  String sDbcountryName;
-  String sDbphoneOff1;
-  String sDbphoneExt1;
-  String sDbphoneOff2;
-  String sDbphoneExt2;
-  String sDbfax;
-  String sDbptc;
-  String sDbeMail;
-  String sDbcrLimit;
-  String sDbcrTerm;
-  String createUser;
-  String createDate;
-  String editDate;
-  String editUser;
-  String compCode;
-  String rowKey;
-  String transtamp;
-  String branchCode;
-  String creditReqApprv;
-  String creditApprvUser;
-  String creditApprvAmt;
-  String creditApprvLog;
-  String trnStatus;
-  String creditBlockReason;
-  String creditBlockInfo;
-  String packed;
-  String subject;
-  String tlPrePickQty;
-  String tlPickedQty;
-  String fullyBilled;
-  String tlBilledAmt;
-  String lastupload;
-  String duplicateKey;
-  String validateFailed;
+  String? iD;
+  String? docDoc;
+  String? docRef;
+  String? slsDoc;
+  String? slsRef;
+  String? revNo;
+  String? ordDate;
+  String? ordTime;
+  String? wfStatus;
+  String? refNo;
+  String? leadTime;
+  String? validity;
+  String? dbcode;
+  String? name;
+  String? locCode;
+  String? areaCode;
+  String? currency;
+  String? rate;
+  String? terms;
+  String? branch;
+  String? orderBy;
+  String? custPoNo;
+  String? shipmentTerm;
+  String? shipmentTermDetl;
+  String? shipMode;
+  String? shipTo;
+  String? shipName;
+  String? shipAdd1;
+  String? shipAdd2;
+  String? shipAdd3;
+  String? shipAdd4;
+  String? shipPhone;
+  String? shipFax;
+  String? shipPtc;
+  String? shipRemark;
+  String? misc1;
+  String? misc2;
+  String? misc3;
+  String? misc4;
+  String? misc5;
+  String? misc6;
+  String? misc13;
+  String? misc18;
+  String? misc17;
+  String? misc16;
+  String? misc15;
+  String? misc14;
+  String? tlOrdQty;
+  String? tlOrdAmt;
+  String? tlLocDetlAmt;
+  String? tlNettDetlAmt;
+  String? tlNettOrdAmt;
+  String? tlLocOrdAmt;
+  String? tlDiscAmt;
+  String? tlLocDiscAmt;
+  String? tlSlsTax;
+  String? tlLocSlsTax;
+  String? tlSerTax;
+  String? tlLocSerTax;
+  String? tlPaidAmt;
+  String? bdiscRate;
+  String? bdiscAmt;
+  String? transChrg;
+  String? transRate;
+  String? mfgRate;
+  String? mfgTlNettOrdAmt;
+  String? mfgTlLocOrdAmt;
+  String? hold;
+  String? cj5No;
+  String? tlDlvQty;
+  String? doDoc;
+  String? doRef;
+  String? invDoc;
+  String? invRef;
+  String? title1;
+  String? title2;
+  String? title3;
+  String? remark;
+  String? remark1;
+  String? remark2;
+  String? prnCount;
+  String? printLog;
+  String? pending;
+  String? cancel;
+  String? posted;
+  String? complete;
+  String? deleted;
+  String? clear;
+  String? readOnly;
+  String? sDbname;
+  String? sDbname2;
+  String? sDbshortName;
+  String? sDbadd1;
+  String? sDbadd2;
+  String? sDbadd3;
+  String? sDbadd4;
+  String? sDbpostcode;
+  String? sDbareaCode;
+  String? sDbcityName;
+  String? sDbstateName;
+  String? sDbcountryName;
+  String? sDbphoneOff1;
+  String? sDbphoneExt1;
+  String? sDbphoneOff2;
+  String? sDbphoneExt2;
+  String? sDbfax;
+  String? sDbptc;
+  String? sDbeMail;
+  String? sDbcrLimit;
+  String? sDbcrTerm;
+  String? createUser;
+  String? createDate;
+  String? editDate;
+  String? editUser;
+  String? compCode;
+  String? rowKey;
+  String? transtamp;
+  String? branchCode;
+  String? creditReqApprv;
+  String? creditApprvUser;
+  String? creditApprvAmt;
+  String? creditApprvLog;
+  String? trnStatus;
+  String? creditBlockReason;
+  String? creditBlockInfo;
+  String? packed;
+  String? subject;
+  String? tlPrePickQty;
+  String? tlPickedQty;
+  String? fullyBilled;
+  String? tlBilledAmt;
+  String? lastupload;
+  String? duplicateKey;
+  String? validateFailed;
 
   GetActiveSlsTrnByDbSalesOrderHeader(
       {this.iD,
@@ -2804,7 +2804,7 @@ class GetActiveSlsTrnByDbSalesOrderHeader {
 
 // GetSalesOrderPdf
 class GetSalesOrderPDFResponse {
-  List<PDF> pDF;
+  List<PDF>? pDF;
 
   GetSalesOrderPDFResponse({this.pDF});
 
@@ -2812,7 +2812,7 @@ class GetSalesOrderPDFResponse {
     if (json['PDF'] != null) {
       pDF = new List<PDF>.empty(growable: true);
       json['PDF'].forEach((v) {
-        pDF.add(new PDF.fromJson(v));
+        pDF!.add(new PDF.fromJson(v));
       });
     }
   }
@@ -2820,14 +2820,14 @@ class GetSalesOrderPDFResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.pDF != null) {
-      data['PDF'] = this.pDF.map((v) => v.toJson()).toList();
+      data['PDF'] = this.pDF!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class PDF {
-  String fileName;
+  String? fileName;
 
   PDF({this.fileName});
 
@@ -2843,7 +2843,7 @@ class PDF {
 }
 
 class GetCustomerCreditLimitResponse {
-  List<ArCtrl> arCtrl;
+  List<ArCtrl>? arCtrl;
 
   GetCustomerCreditLimitResponse({this.arCtrl});
 
@@ -2851,7 +2851,7 @@ class GetCustomerCreditLimitResponse {
     if (json['ArCtrl'] != null) {
       arCtrl = new List<ArCtrl>.empty(growable: true);
       json['ArCtrl'].forEach((v) {
-        arCtrl.add(new ArCtrl.fromJson(v));
+        arCtrl!.add(new ArCtrl.fromJson(v));
       });
     }
   }
@@ -2859,38 +2859,38 @@ class GetCustomerCreditLimitResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.arCtrl != null) {
-      data['ArCtrl'] = this.arCtrl.map((v) => v.toJson()).toList();
+      data['ArCtrl'] = this.arCtrl!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class ArCtrl {
-  String dbcode;
-  String currency;
-  String crLimit;
-  String crTerm;
-  String crTermType;
-  String flexiDays;
-  String balance;
-  String amount;
-  String excessAmt;
-  String firstdueInvoice;
-  String firstduedate;
-  String dueDate;
-  String dueDay;
-  String isproceed;
-  String failedType;
-  String ordAmt;
-  String invAmt;
-  String accAmt;
-  String agedays;
-  String agemthdays;
-  String overduedays;
-  String overduemths;
-  String overdueflexidays;
-  String overduefleximths;
-  String lastTrndt;
+  String? dbcode;
+  String? currency;
+  String? crLimit;
+  String? crTerm;
+  String? crTermType;
+  String? flexiDays;
+  String? balance;
+  String? amount;
+  String? excessAmt;
+  String? firstdueInvoice;
+  String? firstduedate;
+  String? dueDate;
+  String? dueDay;
+  String? isproceed;
+  String? failedType;
+  String? ordAmt;
+  String? invAmt;
+  String? accAmt;
+  String? agedays;
+  String? agemthdays;
+  String? overduedays;
+  String? overduemths;
+  String? overdueflexidays;
+  String? overduefleximths;
+  String? lastTrndt;
 
   ArCtrl(
       {this.dbcode,
@@ -2980,7 +2980,7 @@ class ArCtrl {
 
 // GetPurchaseHistoryStock
 class GetPurchaseHistoryForStockResponse {
-  List<SalesInvoiceDetail> salesInvoiceDetail;
+  List<SalesInvoiceDetail>? salesInvoiceDetail;
 
   GetPurchaseHistoryForStockResponse({this.salesInvoiceDetail});
 
@@ -2988,7 +2988,7 @@ class GetPurchaseHistoryForStockResponse {
     if (json['SalesInvoiceDetail'] != null) {
       salesInvoiceDetail = new List<SalesInvoiceDetail>.empty(growable: true);
       json['SalesInvoiceDetail'].forEach((v) {
-        salesInvoiceDetail.add(new SalesInvoiceDetail.fromJson(v));
+        salesInvoiceDetail!.add(new SalesInvoiceDetail.fromJson(v));
       });
     }
   }
@@ -2997,209 +2997,209 @@ class GetPurchaseHistoryForStockResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.salesInvoiceDetail != null) {
       data['SalesInvoiceDetail'] =
-          this.salesInvoiceDetail.map((v) => v.toJson()).toList();
+          this.salesInvoiceDetail!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class SalesInvoiceDetail {
-  String iD;
-  String docType;
-  String docDoc;
-  String docRef;
-  String invDoc;
-  String invRef;
-  String invDate;
-  String itemNo;
-  String key;
-  String branch;
-  String locCode;
-  String onbehalfLocCode;
-  String stkCode;
-  String partNo;
-  String stkDesc1;
-  String stkDesc2;
-  String costSourceDocType;
-  String costSourceDoc;
-  String costSourceRef;
-  String costSourceKey;
-  String sourceClass;
-  String sourceDocType;
-  String sourceDoc;
-  String sourceRef;
-  String sourceKey;
-  String matrix1;
-  String matrix2;
-  String grossWeight;
-  String netWeight;
-  String m3;
-  String packingNo;
-  String invPrice;
-  String invQty;
-  String invUom;
-  String nettPrice;
-  String itemQty;
-  String itemPrice;
-  String itemUom;
-  String extraQty;
-  String extraUom;
-  String extraPrice;
-  String uom2Qty;
-  String uom2Uom;
-  String focQty;
-  String focUom;
-  String priceCode;
-  String allowDisc;
-  String discCode;
-  String discRate;
-  String discFormula;
-  String multiDisc;
-  String discAmt;
-  String locDiscAmt;
-  String discIamt;
-  String taxCode;
-  String taxRate;
-  String taxAmt;
-  String gstRoundAdj;
-  String priceIncludeGst;
-  String serTax;
-  String locSerTax;
-  String subjectSlsTax;
-  String slsTax;
-  String locSlsTax;
-  String slsCommRate;
-  String slsComm;
-  String locSlsComm;
-  String invAmt;
-  String nettInvAmt;
-  String locInvAmt;
-  String locNettInvAmt;
-  String locRoundAdj;
-  String gstAmt;
-  String mfgUnitPrice;
-  String mfgNettInvAmt;
-  String mfgLocInvAmt;
-  String grossProfit;
-  String unitCost;
-  String gstByMargin;
-  String batchNo;
-  String bExpDate;
-  String batchKey;
-  String projCode;
-  String misc7;
-  String misc8;
-  String misc9;
-  String misc10;
-  String misc11;
-  String misc12;
-  String extMisc1;
-  String extMisc2;
-  String extMisc3;
-  String extMisc4;
-  String extMisc5;
-  String extMisc6;
-  String extMisc7;
-  String extMisc8;
-  String extMisc9;
-  String extMisc10;
-  String extMisc11;
-  String extMisc12;
-  String extMisc13;
-  String extMisc14;
-  String extMisc15;
-  String updtSpric;
-  String undrMinpc;
-  String stkFormula;
-  String cj5No;
-  String cj5NoKey;
-  String cj5Bgdt;
-  String cj5Enddt;
-  String cj5Totqty;
-  String cj5Balqty;
-  String promotion;
-  String memberNo;
-  String hold;
-  String pointEarn;
-  String pointUsed;
-  String saleAcct;
-  String saleDept;
-  String slsDoc;
-  String slsRef;
-  String slsKey;
-  String packingDocType;
-  String packingDoc;
-  String packingRef;
-  String packingKey;
-  String custPoNo;
-  String custPoDate;
-  String doDoc;
-  String doRef;
-  String doKey;
-  String shortDesc;
-  String menuNo;
-  String orderNo;
-  String salesPer;
-  String prnCount;
-  String remark;
-  String onbehalfStatus;
-  String cancel;
-  String deleted;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String transtamp;
-  String sInvDate;
-  String sFormulae;
-  String sRate;
-  String trnStatus;
-  String sSlsAcct;
-  String sSlsDept;
-  String sSlsDesc;
-  String sAcctDesc;
-  String sQty;
-  String stkType;
-  String stkDoc;
-  String stkRef;
-  String stkKey;
-  String rtnQty;
-  String custBarcode;
-  String custSellPrice;
-  String custRef1;
-  String custRef2;
-  String mainKey;
-  String subItem;
-  String piType;
-  String piDoc;
-  String piRef;
-  String piKey;
-  String matrix3;
-  String custMinSellPrice;
-  String actionLog;
-  String sentEdiUser;
-  String sentEdiDate;
-  String slsCommCode;
-  String trnRemark;
-  String isdeposit;
-  String warranty;
-  String priceSource;
-  String sForexTax;
-  String uom;
-  String unitPrice;
-  String cnDoc;
-  String cnRef;
-  String cnKey;
-  String complete;
-  String lastupload;
-  String duplicateKey;
-  String validateFailed;
-  String validateRemark;
-  String lastValidate;
-  String dbcode;
+  String? iD;
+  String? docType;
+  String? docDoc;
+  String? docRef;
+  String? invDoc;
+  String? invRef;
+  String? invDate;
+  String? itemNo;
+  String? key;
+  String? branch;
+  String? locCode;
+  String? onbehalfLocCode;
+  String? stkCode;
+  String? partNo;
+  String? stkDesc1;
+  String? stkDesc2;
+  String? costSourceDocType;
+  String? costSourceDoc;
+  String? costSourceRef;
+  String? costSourceKey;
+  String? sourceClass;
+  String? sourceDocType;
+  String? sourceDoc;
+  String? sourceRef;
+  String? sourceKey;
+  String? matrix1;
+  String? matrix2;
+  String? grossWeight;
+  String? netWeight;
+  String? m3;
+  String? packingNo;
+  String? invPrice;
+  String? invQty;
+  String? invUom;
+  String? nettPrice;
+  String? itemQty;
+  String? itemPrice;
+  String? itemUom;
+  String? extraQty;
+  String? extraUom;
+  String? extraPrice;
+  String? uom2Qty;
+  String? uom2Uom;
+  String? focQty;
+  String? focUom;
+  String? priceCode;
+  String? allowDisc;
+  String? discCode;
+  String? discRate;
+  String? discFormula;
+  String? multiDisc;
+  String? discAmt;
+  String? locDiscAmt;
+  String? discIamt;
+  String? taxCode;
+  String? taxRate;
+  String? taxAmt;
+  String? gstRoundAdj;
+  String? priceIncludeGst;
+  String? serTax;
+  String? locSerTax;
+  String? subjectSlsTax;
+  String? slsTax;
+  String? locSlsTax;
+  String? slsCommRate;
+  String? slsComm;
+  String? locSlsComm;
+  String? invAmt;
+  String? nettInvAmt;
+  String? locInvAmt;
+  String? locNettInvAmt;
+  String? locRoundAdj;
+  String? gstAmt;
+  String? mfgUnitPrice;
+  String? mfgNettInvAmt;
+  String? mfgLocInvAmt;
+  String? grossProfit;
+  String? unitCost;
+  String? gstByMargin;
+  String? batchNo;
+  String? bExpDate;
+  String? batchKey;
+  String? projCode;
+  String? misc7;
+  String? misc8;
+  String? misc9;
+  String? misc10;
+  String? misc11;
+  String? misc12;
+  String? extMisc1;
+  String? extMisc2;
+  String? extMisc3;
+  String? extMisc4;
+  String? extMisc5;
+  String? extMisc6;
+  String? extMisc7;
+  String? extMisc8;
+  String? extMisc9;
+  String? extMisc10;
+  String? extMisc11;
+  String? extMisc12;
+  String? extMisc13;
+  String? extMisc14;
+  String? extMisc15;
+  String? updtSpric;
+  String? undrMinpc;
+  String? stkFormula;
+  String? cj5No;
+  String? cj5NoKey;
+  String? cj5Bgdt;
+  String? cj5Enddt;
+  String? cj5Totqty;
+  String? cj5Balqty;
+  String? promotion;
+  String? memberNo;
+  String? hold;
+  String? pointEarn;
+  String? pointUsed;
+  String? saleAcct;
+  String? saleDept;
+  String? slsDoc;
+  String? slsRef;
+  String? slsKey;
+  String? packingDocType;
+  String? packingDoc;
+  String? packingRef;
+  String? packingKey;
+  String? custPoNo;
+  String? custPoDate;
+  String? doDoc;
+  String? doRef;
+  String? doKey;
+  String? shortDesc;
+  String? menuNo;
+  String? orderNo;
+  String? salesPer;
+  String? prnCount;
+  String? remark;
+  String? onbehalfStatus;
+  String? cancel;
+  String? deleted;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? transtamp;
+  String? sInvDate;
+  String? sFormulae;
+  String? sRate;
+  String? trnStatus;
+  String? sSlsAcct;
+  String? sSlsDept;
+  String? sSlsDesc;
+  String? sAcctDesc;
+  String? sQty;
+  String? stkType;
+  String? stkDoc;
+  String? stkRef;
+  String? stkKey;
+  String? rtnQty;
+  String? custBarcode;
+  String? custSellPrice;
+  String? custRef1;
+  String? custRef2;
+  String? mainKey;
+  String? subItem;
+  String? piType;
+  String? piDoc;
+  String? piRef;
+  String? piKey;
+  String? matrix3;
+  String? custMinSellPrice;
+  String? actionLog;
+  String? sentEdiUser;
+  String? sentEdiDate;
+  String? slsCommCode;
+  String? trnRemark;
+  String? isdeposit;
+  String? warranty;
+  String? priceSource;
+  String? sForexTax;
+  String? uom;
+  String? unitPrice;
+  String? cnDoc;
+  String? cnRef;
+  String? cnKey;
+  String? complete;
+  String? lastupload;
+  String? duplicateKey;
+  String? validateFailed;
+  String? validateRemark;
+  String? lastValidate;
+  String? dbcode;
 
   SalesInvoiceDetail(
       {this.iD,
@@ -3801,14 +3801,14 @@ class SalesInvoiceDetail {
 }
 
 class UpdateSalesOrderScheduleDeliveryDateRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String userId;
-  String docDoc;
-  String docRef;
-  String key;
-  String scheduleDeliveryDateString;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? userId;
+  String? docDoc;
+  String? docRef;
+  String? key;
+  String? scheduleDeliveryDateString;
 
   UpdateSalesOrderScheduleDeliveryDateRequest(
       {this.wsCodeCrypt,

@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'bill_model.g.dart';
 
 class GetTelcoResponse {
-  List<TelcoComm> telcoComm;
+  List<TelcoComm>? telcoComm;
 
   GetTelcoResponse({this.telcoComm});
 
@@ -11,7 +11,7 @@ class GetTelcoResponse {
     if (json['TelcoComm'] != null) {
       telcoComm = new List<TelcoComm>.empty(growable: true);
       json['TelcoComm'].forEach((v) {
-        telcoComm.add(new TelcoComm.fromJson(v));
+        telcoComm!.add(new TelcoComm.fromJson(v));
       });
     }
   }
@@ -19,7 +19,7 @@ class GetTelcoResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.telcoComm != null) {
-      data['TelcoComm'] = this.telcoComm.map((v) => v.toJson()).toList();
+      data['TelcoComm'] = this.telcoComm!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -28,23 +28,23 @@ class GetTelcoResponse {
 @HiveType(typeId: 2, adapterName: 'TelcoAdapter')
 class TelcoComm {
   @HiveField(0)
-  String iD;
+  String? iD;
   @HiveField(1)
-  String telcoName;
+  String? telcoName;
   @HiveField(2)
-  String telcoImageUri;
+  String? telcoImageUri;
   @HiveField(3)
-  String acctNo;
+  String? acctNo;
   @HiveField(4)
-  String prepaidAccessMenu;
+  String? prepaidAccessMenu;
   @HiveField(5)
-  String sponsorMarkupRate1;
+  String? sponsorMarkupRate1;
   @HiveField(6)
-  String sponsorMarkupRateUom1;
+  String? sponsorMarkupRateUom1;
   @HiveField(7)
-  String sponsorMarkupRate2;
+  String? sponsorMarkupRate2;
   @HiveField(8)
-  String sponsorMarkupRateUom2;
+  String? sponsorMarkupRateUom2;
 
   TelcoComm(
       {this.iD,
@@ -85,7 +85,7 @@ class TelcoComm {
 }
 
 class GetServiceResponse {
-  List<ServiceComm> serviceComm;
+  List<ServiceComm>? serviceComm;
 
   GetServiceResponse({this.serviceComm});
 
@@ -93,7 +93,7 @@ class GetServiceResponse {
     if (json['ServiceComm'] != null) {
       serviceComm = new List<ServiceComm>.empty(growable: true);
       json['ServiceComm'].forEach((v) {
-        serviceComm.add(new ServiceComm.fromJson(v));
+        serviceComm!.add(new ServiceComm.fromJson(v));
       });
     }
   }
@@ -101,7 +101,7 @@ class GetServiceResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.serviceComm != null) {
-      data['ServiceComm'] = this.serviceComm.map((v) => v.toJson()).toList();
+      data['ServiceComm'] = this.serviceComm!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -110,43 +110,43 @@ class GetServiceResponse {
 @HiveType(typeId: 3, adapterName: 'BillAdapter')
 class ServiceComm {
   @HiveField(0)
-  String iD;
+  String? iD;
   @HiveField(1)
-  String telcoName;
+  String? telcoName;
   @HiveField(2)
-  String telcoImageUri;
+  String? telcoImageUri;
   @HiveField(3)
-  String acctNo;
+  String? acctNo;
   @HiveField(4)
-  String prepaidAccessMenu;
+  String? prepaidAccessMenu;
   @HiveField(5)
-  String markupRate;
+  String? markupRate;
   @HiveField(6)
-  String markupRateUom;
+  String? markupRateUom;
   @HiveField(7)
-  String sponsorMarkupRate1;
+  String? sponsorMarkupRate1;
   @HiveField(8)
-  String sponsorMarkupRateUom1;
+  String? sponsorMarkupRateUom1;
   @HiveField(9)
-  String sponsorMarkupRate2;
+  String? sponsorMarkupRate2;
   @HiveField(10)
-  String sponsorMarkupRateUom2;
+  String? sponsorMarkupRateUom2;
   @HiveField(11)
-  String memberDiscRate;
+  String? memberDiscRate;
   @HiveField(12)
-  String memberDiscRateUom;
+  String? memberDiscRateUom;
   @HiveField(13)
-  String incentiveRate;
+  String? incentiveRate;
   @HiveField(14)
-  String incentiveRateUom;
+  String? incentiveRateUom;
   @HiveField(15)
-  String servChrg;
+  String? servChrg;
   @HiveField(16)
-  String servChrgUom;
+  String? servChrgUom;
   @HiveField(17)
-  String servChrgEntitle;
+  String? servChrgEntitle;
   @HiveField(18)
-  String servChrgEntitleUom;
+  String? servChrgEntitleUom;
 
   ServiceComm(
       {this.iD,
@@ -217,10 +217,10 @@ class ServiceComm {
 }
 
 class BillArgs {
-  String account;
-  String amount;
-  TelcoComm telcoComm;
-  ServiceComm serviceComm;
+  String? account;
+  String? amount;
+  TelcoComm? telcoComm;
+  ServiceComm? serviceComm;
 
   BillArgs({this.account, this.amount, this.telcoComm, this.serviceComm});
 }

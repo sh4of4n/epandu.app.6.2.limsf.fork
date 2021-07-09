@@ -21,7 +21,7 @@ class SelectDrivingInstitute extends StatefulWidget {
 }
 
 class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
-  RegisteredDiArmasterProfile diListData;
+  RegisteredDiArmasterProfile? diListData;
   final primaryColor = ColorConstant.primaryColor;
 
   final localStorage = LocalStorage();
@@ -127,7 +127,7 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
                 margin: EdgeInsets.all(10.0),
                 alignment: Alignment.center,
                 child: Text(
-                    AppLocalizations.of(context).translate('select_di_desc'),
+                    AppLocalizations.of(context)!.translate('select_di_desc'),
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
               ),

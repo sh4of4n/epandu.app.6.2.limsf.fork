@@ -17,14 +17,14 @@ class MsgOutboxAdapter extends TypeAdapter<MsgOutBox> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MsgOutBox(
-      msgDoc: fields[0] as String,
-      msgRef: fields[1] as String,
-      msgType: fields[2] as String,
-      sendMsg: fields[3] as String,
-      merchantNo: fields[4] as String,
-      merchantName: fields[5] as String,
-      merchantShortName: fields[6] as String,
-      createDate: fields[7] as String,
+      msgDoc: fields[0] as String?,
+      msgRef: fields[1] as String?,
+      msgType: fields[2] as String?,
+      sendMsg: fields[3] as String?,
+      merchantNo: fields[4] as String?,
+      merchantName: fields[5] as String?,
+      merchantShortName: fields[6] as String?,
+      createDate: fields[7] as String?,
     );
   }
 

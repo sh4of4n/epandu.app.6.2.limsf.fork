@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'inbox_model.g.dart';
 
 class GetNotificationListByUserIdResponse {
-  List<MsgOutBox> table1;
+  List<MsgOutBox>? table1;
 
   GetNotificationListByUserIdResponse({this.table1});
 
@@ -11,7 +11,7 @@ class GetNotificationListByUserIdResponse {
     if (json['Table1'] != null) {
       table1 = new List<MsgOutBox>.empty(growable: true);
       json['Table1'].forEach((v) {
-        table1.add(new MsgOutBox.fromJson(v));
+        table1!.add(new MsgOutBox.fromJson(v));
       });
     }
   }
@@ -19,7 +19,7 @@ class GetNotificationListByUserIdResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.table1 != null) {
-      data['Table1'] = this.table1.map((v) => v.toJson()).toList();
+      data['Table1'] = this.table1!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -28,21 +28,21 @@ class GetNotificationListByUserIdResponse {
 @HiveType(typeId: 4, adapterName: 'MsgOutboxAdapter')
 class MsgOutBox {
   @HiveField(0)
-  String msgDoc;
+  String? msgDoc;
   @HiveField(1)
-  String msgRef;
+  String? msgRef;
   @HiveField(2)
-  String msgType;
+  String? msgType;
   @HiveField(3)
-  String sendMsg;
+  String? sendMsg;
   @HiveField(4)
-  String merchantNo;
+  String? merchantNo;
   @HiveField(5)
-  String merchantName;
+  String? merchantName;
   @HiveField(6)
-  String merchantShortName;
+  String? merchantShortName;
   @HiveField(7)
-  String createDate;
+  String? createDate;
 
   MsgOutBox(
       {this.msgDoc,
@@ -80,7 +80,7 @@ class MsgOutBox {
 }
 
 class GetUnreadNotificationCountResponse {
-  List<MsgCount> msgCount;
+  List<MsgCount>? msgCount;
 
   GetUnreadNotificationCountResponse({this.msgCount});
 
@@ -88,7 +88,7 @@ class GetUnreadNotificationCountResponse {
     if (json['MsgCount'] != null) {
       msgCount = new List<MsgCount>.empty(growable: true);
       json['MsgCount'].forEach((v) {
-        msgCount.add(new MsgCount.fromJson(v));
+        msgCount!.add(new MsgCount.fromJson(v));
       });
     }
   }
@@ -96,14 +96,14 @@ class GetUnreadNotificationCountResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.msgCount != null) {
-      data['MsgCount'] = this.msgCount.map((v) => v.toJson()).toList();
+      data['MsgCount'] = this.msgCount!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class MsgCount {
-  String msgCount;
+  String? msgCount;
 
   MsgCount({this.msgCount});
 

@@ -81,7 +81,7 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
           children: <Widget>[
             SizedBox(height: 100.h),
             Text(
-              AppLocalizations.of(context).translate('you_have_enrolled_desc'),
+              AppLocalizations.of(context)!.translate('you_have_enrolled_desc'),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -222,7 +222,7 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
                   ),
                   onPressed: () => context.router.pop(),
                   child: Text(
-                    AppLocalizations.of(context).translate('back_btn'),
+                    AppLocalizations.of(context)!.translate('back_btn'),
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(60),
                       fontWeight: FontWeight.w600,
@@ -245,7 +245,7 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: Text(
-          AppLocalizations.of(context).translate('enrolled_class'),
+          AppLocalizations.of(context)!.translate('enrolled_class'),
         ),
       ),
       body: _loadHistoryData(),

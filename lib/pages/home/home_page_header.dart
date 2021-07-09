@@ -11,7 +11,7 @@ import 'package:transparent_image/transparent_image.dart';
 import '../../router.gr.dart';
 
 class HomePageHeader extends StatelessWidget {
-  final String instituteLogo;
+  final String? instituteLogo;
   final positionStream;
 
   HomePageHeader({this.instituteLogo, this.positionStream});
@@ -20,13 +20,13 @@ class HomePageHeader extends StatelessWidget {
   final image = ImagesConstant();
 
   enableSelectDi(context) {
-    List<RegisteredDiArmasterProfile> diList = [];
+    List<RegisteredDiArmasterProfile?> diList = [];
 
     for (int i = 0; i < Hive.box('di_list').length; i += 1) {
-      diList.add(Hive.box('di_list').getAt(i) as RegisteredDiArmasterProfile);
+      diList.add(Hive.box('di_list').getAt(i) as RegisteredDiArmasterProfile?);
     }
 
-    if (Hive.box('di_list') != null && Hive.box('di_list').length > 1)
+    if (Hive.box('di_list').length > 1)
       return Expanded(
         flex: 1,
         child: InkWell(
@@ -61,9 +61,9 @@ class HomePageHeader extends StatelessWidget {
               height: 350.h,
               fit: BoxFit.fitWidth,
               placeholder: MemoryImage(kTransparentImage),
-              image: instituteLogo.isNotEmpty
-                  ? NetworkImage(instituteLogo)
-                  : MemoryImage(kTransparentImage),
+              image: (instituteLogo!.isNotEmpty
+                  ? NetworkImage(instituteLogo!)
+                  : MemoryImage(kTransparentImage)) as ImageProvider<Object>,
             ),
           ),
         ),

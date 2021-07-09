@@ -28,10 +28,10 @@ class _AddBookingState extends State<AddBooking> {
   var testList;
   var courseSectionlist;
 
-  String groupId = '';
-  String testType = '';
-  String section = '';
-  String testDate = '';
+  String? groupId = '';
+  String? testType = '';
+  String? section = '';
+  String? testDate = '';
 
   final dateFormat = DateFormat('yyyy-MM-dd', 'en_MY');
 
@@ -56,11 +56,11 @@ class _AddBookingState extends State<AddBooking> {
     else {
       customDialog.show(
         context: context,
-        content: AppLocalizations.of(context).translate('no_enrolled_class'),
+        content: AppLocalizations.of(context)!.translate('no_enrolled_class'),
         barrierDismissable: false,
         customActions: <Widget>[
           TextButton(
-            child: Text(AppLocalizations.of(context).translate('ok_btn')),
+            child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
             onPressed: () => context.router.popUntil(
               ModalRoute.withName('/epanduCategory'),
             ),
@@ -120,7 +120,7 @@ class _AddBookingState extends State<AddBooking> {
     return Scaffold(
       backgroundColor: Color(0xfffdc013),
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('booking')),
+        title: Text(AppLocalizations.of(context)!.translate('booking')),
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
@@ -149,7 +149,7 @@ class _AddBookingState extends State<AddBooking> {
                           horizontal: 60.w,
                         ),
                         labelText:
-                            AppLocalizations.of(context).translate('group_id'),
+                            AppLocalizations.of(context)!.translate('group_id'),
                         fillColor: Colors.white,
                         filled: true,
                         enabledBorder: OutlineInputBorder(
@@ -162,14 +162,14 @@ class _AddBookingState extends State<AddBooking> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.blue[700], width: 1.6),
+                              BorderSide(color: Colors.blue[700]!, width: 1.6),
                           // borderRadius: BorderRadius.circular(0),
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
                       disabledHint: Text(
-                          AppLocalizations.of(context).translate('group_id')),
-                      value: groupId.isEmpty ? null : groupId,
+                          AppLocalizations.of(context)!.translate('group_id')),
+                      value: groupId!.isEmpty ? null : groupId,
                       onChanged: (value) {
                         setState(() {
                           groupId = value;
@@ -182,7 +182,7 @@ class _AddBookingState extends State<AddBooking> {
                           _getTestListTestType();
                           _getCourseSectionList();
 
-                          if (groupId.isNotEmpty && testType.isNotEmpty) {
+                          if (groupId!.isNotEmpty && testType!.isNotEmpty) {
                             _getTestList();
                           }
                         });
@@ -198,7 +198,7 @@ class _AddBookingState extends State<AddBooking> {
                             }).toList(),
                       validator: (value) {
                         if (value == null) {
-                          return AppLocalizations.of(context)
+                          return AppLocalizations.of(context)!
                               .translate('group_id_required');
                         }
                         return null;
@@ -215,7 +215,7 @@ class _AddBookingState extends State<AddBooking> {
                           horizontal: 60.w,
                         ),
                         labelText:
-                            AppLocalizations.of(context).translate('type'),
+                            AppLocalizations.of(context)!.translate('type'),
                         fillColor: Colors.white,
                         filled: true,
                         enabledBorder: OutlineInputBorder(
@@ -228,20 +228,20 @@ class _AddBookingState extends State<AddBooking> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.blue[700], width: 1.6),
+                              BorderSide(color: Colors.blue[700]!, width: 1.6),
                           // borderRadius: BorderRadius.circular(0),
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
                       disabledHint: Text(
-                          AppLocalizations.of(context).translate('type'),
+                          AppLocalizations.of(context)!.translate('type'),
                           style: TextStyle(color: Color(0xff808080))),
-                      value: testType.isEmpty ? null : testType,
+                      value: testType!.isEmpty ? null : testType,
                       onChanged: (value) {
                         setState(() {
                           testType = value;
 
-                          if (groupId.isNotEmpty && testType.isNotEmpty) {
+                          if (groupId!.isNotEmpty && testType!.isNotEmpty) {
                             testDate = '';
                             testList = null;
                             _getTestList();
@@ -268,7 +268,7 @@ class _AddBookingState extends State<AddBooking> {
                                 }).toList(),
                       validator: (value) {
                         if (value == null) {
-                          return AppLocalizations.of(context)
+                          return AppLocalizations.of(context)!
                               .translate('type_required');
                         }
                         return null;
@@ -286,7 +286,7 @@ class _AddBookingState extends State<AddBooking> {
                             horizontal: 60.w,
                           ),
                           labelText:
-                              AppLocalizations.of(context).translate('section'),
+                              AppLocalizations.of(context)!.translate('section'),
                           fillColor: Colors.white,
                           filled: true,
                           enabledBorder: OutlineInputBorder(
@@ -299,15 +299,15 @@ class _AddBookingState extends State<AddBooking> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.blue[700], width: 1.6),
+                                BorderSide(color: Colors.blue[700]!, width: 1.6),
                             // borderRadius: BorderRadius.circular(0),
                             borderRadius: BorderRadius.circular(30),
                           ),
                         ),
                         disabledHint: Text(
-                            AppLocalizations.of(context).translate('section'),
+                            AppLocalizations.of(context)!.translate('section'),
                             style: TextStyle(color: Color(0xff808080))),
-                        value: section.isEmpty ? null : section,
+                        value: section!.isEmpty ? null : section,
                         onChanged: (value) {
                           setState(() {
                             section = value;
@@ -324,7 +324,7 @@ class _AddBookingState extends State<AddBooking> {
                               }).toList(),
                         validator: (value) {
                           if (value == null) {
-                            return AppLocalizations.of(context)
+                            return AppLocalizations.of(context)!
                                 .translate('section_required');
                           }
                           return null;
@@ -341,7 +341,7 @@ class _AddBookingState extends State<AddBooking> {
                           horizontal: 60.w,
                         ),
                         labelText:
-                            AppLocalizations.of(context).translate('date'),
+                            AppLocalizations.of(context)!.translate('date'),
                         fillColor: Colors.white,
                         filled: true,
                         enabledBorder: OutlineInputBorder(
@@ -354,18 +354,18 @@ class _AddBookingState extends State<AddBooking> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.blue[700], width: 1.6),
+                              BorderSide(color: Colors.blue[700]!, width: 1.6),
                           // borderRadius: BorderRadius.circular(0),
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
                       disabledHint: Text(
-                        AppLocalizations.of(context).translate('date'),
+                        AppLocalizations.of(context)!.translate('date'),
                         style: TextStyle(
                           color: Color(0xff808080),
                         ),
                       ),
-                      value: testDate.isEmpty ? null : testDate,
+                      value: testDate!.isEmpty ? null : testDate,
                       onChanged: (value) {
                         setState(() {
                           testDate = value;
@@ -381,7 +381,7 @@ class _AddBookingState extends State<AddBooking> {
                             }).toList(),
                       validator: (value) {
                         if (value == null) {
-                          return AppLocalizations.of(context)
+                          return AppLocalizations.of(context)!
                               .translate('date_required');
                         }
                         return null;
@@ -421,7 +421,7 @@ class _AddBookingState extends State<AddBooking> {
                   //   horizontal: 100.w,
                   // ),
                   child: Text(
-                    AppLocalizations.of(context).translate('submit_btn'),
+                    AppLocalizations.of(context)!.translate('submit_btn'),
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(60),
                       fontWeight: FontWeight.w600,
@@ -434,11 +434,11 @@ class _AddBookingState extends State<AddBooking> {
   }
 
   _submit() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
-      String _userId = await LocalStorage().getUserId();
+      String? _userId = await LocalStorage().getUserId();
 
       setState(() {
         _isLoading = true;
@@ -465,11 +465,11 @@ class _AddBookingState extends State<AddBooking> {
               color: Colors.green,
             ),
           ),
-          content: AppLocalizations.of(context).translate('booking_success'),
+          content: AppLocalizations.of(context)!.translate('booking_success'),
           type: DialogType.GENERAL,
           customActions: <Widget>[
             TextButton(
-              child: Text(AppLocalizations.of(context).translate('ok_btn')),
+              child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
               onPressed: () => context.router
                   .pushAndPopUntil(Home(), predicate: (r) => false),
             ),

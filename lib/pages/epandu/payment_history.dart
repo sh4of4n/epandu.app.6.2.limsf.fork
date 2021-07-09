@@ -35,7 +35,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
   final epanduRepo = EpanduRepo();
 
   int _startIndex = 0;
-  String _message = '';
+  String? _message = '';
   List<dynamic> items = [];
   ScrollController _scrollController = new ScrollController();
   bool _isLoading = false;
@@ -54,7 +54,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
             _startIndex += 20;
           });
 
-          if (_message.isEmpty) _getData();
+          if (_message!.isEmpty) _getData();
         }
       });
   }
@@ -105,7 +105,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: Text(AppLocalizations.of(context).translate('payment_lbl')),
+          title: Text(AppLocalizations.of(context)!.translate('payment_lbl')),
         ),
         body: _paymentHistoryList(),
       ),
@@ -113,9 +113,9 @@ class _PaymentHistoryState extends State<PaymentHistory> {
   }
 
   _paymentHistoryList() {
-    if (_message.isNotEmpty) {
+    if (_message!.isNotEmpty) {
       return Center(
-        child: Text(_message),
+        child: Text(_message!),
       );
     } else if (items.length > 0) {
       return Column(
@@ -208,7 +208,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
                   Column(
                     children: <Widget>[
                       Shimmer.fromColors(
-                        baseColor: Colors.grey[300],
+                        baseColor: Colors.grey[300]!,
                         highlightColor: Colors.white,
                         child: Container(
                           width: ScreenUtil().setWidth(1400),
@@ -234,7 +234,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
     return _loadingShimmer();
   }
 
-  _loadingShimmer({int length}) {
+  _loadingShimmer({int? length}) {
     return Container(
       alignment: Alignment.topCenter,
       padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
@@ -245,7 +245,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
           return Column(
             children: <Widget>[
               Shimmer.fromColors(
-                baseColor: Colors.grey[300],
+                baseColor: Colors.grey[300]!,
                 highlightColor: Colors.white,
                 child: Container(
                   width: ScreenUtil().setWidth(1400),

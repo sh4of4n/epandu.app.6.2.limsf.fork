@@ -44,7 +44,7 @@ class _BillTransactionState extends State<BillTransaction> {
         appBar: AppBar(
             elevation: 0,
             backgroundColor: primaryColor,
-            title: Text(AppLocalizations.of(context).translate('bill_lbl'))),
+            title: Text(AppLocalizations.of(context)!.translate('bill_lbl'))),
         body: Stack(
           children: <Widget>[
             ClipPath(
@@ -101,8 +101,8 @@ class _BillTransactionState extends State<BillTransaction> {
                           hintStyle: TextStyle(
                             color: primaryColor,
                           ),
-                          labelText:
-                              AppLocalizations.of(context).translate('trx_lbl'),
+                          labelText: AppLocalizations.of(context)!
+                              .translate('trx_lbl'),
                           fillColor: Colors.grey.withOpacity(.25),
                           filled: true,
                           enabledBorder: OutlineInputBorder(
@@ -138,7 +138,7 @@ class _BillTransactionState extends State<BillTransaction> {
                             vertical: 15.0,
                           ),
                           child: Text(
-                            '${AppLocalizations.of(context).translate('pay_lbl')} RM${widget.data.amount}',
+                            '${AppLocalizations.of(context)!.translate('pay_lbl')} RM${widget.data.amount}',
                             style: TextStyle(
                               fontSize: ScreenUtil().setSp(56),
                             ),
@@ -157,9 +157,9 @@ class _BillTransactionState extends State<BillTransaction> {
   }
 
   _completeTransaction() {
-    if (_trxController.text.isEmpty || _trxController.text == null) {
+    if (_trxController.text.isEmpty) {
       setState(() {
-        _message = AppLocalizations.of(context).translate('trx_required');
+        _message = AppLocalizations.of(context)!.translate('trx_required');
       });
     } else {
       setState(() {

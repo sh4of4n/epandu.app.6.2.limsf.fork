@@ -12,9 +12,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../router.gr.dart';
 
 class OrderList extends StatefulWidget {
-  final String icNo;
-  final String packageCode;
-  final String diCode;
+  final String? icNo;
+  final String? packageCode;
+  final String? diCode;
 
   OrderList({
     this.icNo,
@@ -29,7 +29,7 @@ class OrderList extends StatefulWidget {
 class _OrderListState extends State<OrderList> {
   final fpxRepo = FpxRepo();
   final localStorage = LocalStorage();
-  Future getOrderList;
+  Future? getOrderList;
   final primaryColor = ColorConstant.primaryColor;
   final customDialog = CustomDialog();
   bool isLoading = false;
@@ -83,7 +83,7 @@ class _OrderListState extends State<OrderList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('select_order')),
+        title: Text(AppLocalizations.of(context)!.translate('select_order')),
       ),
       body: Stack(
         children: [
@@ -143,7 +143,7 @@ class _OrderListState extends State<OrderList> {
                                         snapshot.data[index].packageDesc,
                                     diCode: widget.diCode,
                                     totalAmount: double.tryParse(
-                                            snapshot.data[index].tlOrdAmt)
+                                            snapshot.data[index].tlOrdAmt)!
                                         .toStringAsFixed(2),
                                   ),
                                 );
@@ -168,9 +168,9 @@ class _OrderListState extends State<OrderList> {
                                     TableRow(
                                       children: [
                                         Text(
-                                            '${AppLocalizations.of(context).translate('order')}: ${snapshot.data[index].docDoc}${snapshot.data[index].docRef}'),
+                                            '${AppLocalizations.of(context)!.translate('order')}: ${snapshot.data[index].docDoc}${snapshot.data[index].docRef}'),
                                         Text(
-                                          '${AppLocalizations.of(context).translate('date')}: ' +
+                                          '${AppLocalizations.of(context)!.translate('date')}: ' +
                                               snapshot.data[index].ordDate
                                                   .substring(0, 10),
                                         ),
@@ -179,7 +179,7 @@ class _OrderListState extends State<OrderList> {
                                     TableRow(
                                       children: [
                                         Text(
-                                            '${AppLocalizations.of(context).translate('name_lbl')}: ${snapshot.data[index].name}'),
+                                            '${AppLocalizations.of(context)!.translate('name_lbl')}: ${snapshot.data[index].name}'),
                                         Text(
                                           'IC: ' + snapshot.data[index].icNo,
                                         ),
@@ -188,10 +188,10 @@ class _OrderListState extends State<OrderList> {
                                     TableRow(
                                       children: [
                                         Text(
-                                          '${AppLocalizations.of(context).translate('package_lbl')}: ${snapshot.data[index].packageCode}',
+                                          '${AppLocalizations.of(context)!.translate('package_lbl')}: ${snapshot.data[index].packageCode}',
                                         ),
                                         Text(
-                                          '${AppLocalizations.of(context).translate('price')}: ' +
+                                          '${AppLocalizations.of(context)!.translate('price')}: ' +
                                               snapshot.data[index].tlNettOrdAmt,
                                         ),
                                       ],
@@ -201,22 +201,22 @@ class _OrderListState extends State<OrderList> {
                                         Text(
                                             'Desc: ${snapshot.data[index].packageDesc}'),
                                         Text(
-                                            '${AppLocalizations.of(context).translate('service_tax')}: ' +
+                                            '${AppLocalizations.of(context)!.translate('service_tax')}: ' +
                                                 snapshot.data[index].tlSerTax),
                                       ],
                                     ),
                                     TableRow(
                                       children: [
                                         Text(
-                                          '${AppLocalizations.of(context).translate('status_lbl')}: ${snapshot.data[index].trnStatus}',
+                                          '${AppLocalizations.of(context)!.translate('status_lbl')}: ${snapshot.data[index].trnStatus}',
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         Text(
-                                          '${AppLocalizations.of(context).translate('discount')}: ' +
+                                          '${AppLocalizations.of(context)!.translate('discount')}: ' +
                                               double.tryParse(snapshot
-                                                      .data[index].tlDiscAmt)
+                                                      .data[index].tlDiscAmt)!
                                                   .toStringAsFixed(2),
                                         ),
                                       ],
@@ -225,9 +225,9 @@ class _OrderListState extends State<OrderList> {
                                       children: [
                                         Text(''),
                                         Text(
-                                          '${AppLocalizations.of(context).translate('total_lbl')}: ' +
+                                          '${AppLocalizations.of(context)!.translate('total_lbl')}: ' +
                                               double.tryParse(snapshot
-                                                      .data[index].tlOrdAmt)
+                                                      .data[index].tlOrdAmt)!
                                                   .toStringAsFixed(2),
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -247,7 +247,7 @@ class _OrderListState extends State<OrderList> {
                 default:
                   return Center(
                     child: Text(
-                      AppLocalizations.of(context)
+                      AppLocalizations.of(context)!
                           .translate('get_order_list_fail'),
                     ),
                   );

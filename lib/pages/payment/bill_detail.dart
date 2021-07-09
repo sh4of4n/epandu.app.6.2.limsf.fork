@@ -66,7 +66,7 @@ class _BillDetailState extends State<BillDetail> {
   }
 
   _submitDetails() {
-    if (_account.isNotEmpty && double.tryParse(_amount) > 0.00) {
+    if (_account.isNotEmpty && double.tryParse(_amount)! > 0.00) {
       setState(() {
         _message = '';
       });
@@ -83,7 +83,7 @@ class _BillDetailState extends State<BillDetail> {
     } else {
       setState(() {
         _message =
-            AppLocalizations.of(context).translate('account_amount_required');
+            AppLocalizations.of(context)!.translate('account_amount_required');
       });
     }
   }
@@ -97,7 +97,7 @@ class _BillDetailState extends State<BillDetail> {
       child: Scaffold(
         appBar: AppBar(
             elevation: 0,
-            title: Text(AppLocalizations.of(context).translate('airtime_lbl'))),
+            title: Text(AppLocalizations.of(context)!.translate('airtime_lbl'))),
         body: Stack(
           children: <Widget>[
             ClipPath(
@@ -134,7 +134,7 @@ class _BillDetailState extends State<BillDetail> {
                               hintStyle: TextStyle(
                                 color: primaryColor,
                               ),
-                              labelText: AppLocalizations.of(context)
+                              labelText: AppLocalizations.of(context)!
                                   .translate('account_lbl'),
                               fillColor: Colors.grey.withOpacity(.25),
                               filled: true,
@@ -250,7 +250,7 @@ class _BillDetailState extends State<BillDetail> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                AppLocalizations.of(context)
+                                AppLocalizations.of(context)!
                                     .translate('total_lbl'),
                                 style: TextStyle(
                                   fontSize: 20.0,
@@ -324,7 +324,7 @@ class _BillDetailState extends State<BillDetail> {
                                   vertical: 15.0,
                                 ),
                                 child: Text(
-                                  AppLocalizations.of(context)
+                                  AppLocalizations.of(context)!
                                       .translate('next_btn'),
                                   style: TextStyle(
                                     fontSize: ScreenUtil().setSp(56),

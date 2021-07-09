@@ -18,13 +18,13 @@ class EpanduRepo {
   final customDialog = CustomDialog();
 
   Future<Response> getEnrollByCode({groupId}) async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
 
-    String diCode = await localStorage.getMerchantDbCode();
+    String? diCode = await localStorage.getMerchantDbCode();
     // String diCode = await localStorage.getMerchantDbCode();
     // String groupId = '';
-    String icNo = await localStorage.getStudentIc();
+    String? icNo = await localStorage.getStudentIc();
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo&groupId=${groupId ?? ''}';
@@ -47,21 +47,21 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message.isEmpty
+      message: response.message == null || response.message!.isEmpty
           ? 'You have no class enrolled.'
-          : response.message.replaceAll(r'\u000d\u000a', ''),
+          : response.message!.replaceAll(r'\u000d\u000a', ''),
     );
   }
 
-  Future<Response> getCollectionByStudent({context, startIndex}) async {
+  Future<Response> getCollectionByStudent({required context, startIndex}) async {
     assert(context != null);
 
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
 
-    String diCode = await localStorage.getMerchantDbCode();
+    String? diCode = await localStorage.getMerchantDbCode();
     // String diCode = await localStorage.getMerchantDbCode();
-    String icNo = await localStorage.getStudentIc();
+    String? icNo = await localStorage.getStudentIc();
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo&startIndex=$startIndex&noOfRecords=10';
@@ -79,18 +79,18 @@ class EpanduRepo {
     }
 
     return Response(false,
-        message: response.message == null || response.message.isEmpty
+        message: response.message == null || response.message!.isEmpty
             ? 'You have no payment history'
-            : response.message.replaceAll(r'\u000d\u000a', ''));
+            : response.message!.replaceAll(r'\u000d\u000a', ''));
   }
 
-  Future<Response> getCollectionDetailByRecpNo({context, recpNo}) async {
+  Future<Response> getCollectionDetailByRecpNo({required context, recpNo}) async {
     assert(context != null);
 
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
 
-    String diCode = await localStorage.getMerchantDbCode();
+    String? diCode = await localStorage.getMerchantDbCode();
     // String diCode = await localStorage.getMerchantDbCode();
 
     String path =
@@ -112,22 +112,22 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message.isEmpty
+      message: response.message == null || response.message!.isEmpty
           ? 'No records found.'
-          : response.message.replaceAll(r'\u000d\u000a', ''),
+          : response.message!.replaceAll(r'\u000d\u000a', ''),
     );
   }
 
-  Future<Response> getDTestByCode({context}) async {
+  Future<Response> getDTestByCode({required context}) async {
     assert(context != null);
 
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
 
-    String diCode = await localStorage.getMerchantDbCode();
+    String? diCode = await localStorage.getMerchantDbCode();
     // String diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
-    String icNo = await localStorage.getStudentIc();
+    String? icNo = await localStorage.getStudentIc();
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo&groupId=';
@@ -145,22 +145,22 @@ class EpanduRepo {
     }
 
     return Response(false,
-        message: response.message == null || response.message.isEmpty
+        message: response.message == null || response.message!.isEmpty
             ? 'You have no booking.'
-            : response.message.replaceAll(r'\u000d\u000a', ''));
+            : response.message!.replaceAll(r'\u000d\u000a', ''));
   }
 
   // attendance
-  Future<Response> getStuPracByCode({context}) async {
+  Future<Response> getStuPracByCode({required context}) async {
     assert(context != null);
 
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
 
-    String diCode = await localStorage.getMerchantDbCode();
+    String? diCode = await localStorage.getMerchantDbCode();
     // String diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
-    String icNo = await localStorage.getStudentIc();
+    String? icNo = await localStorage.getStudentIc();
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&groupId=&icNo=$icNo';
@@ -179,9 +179,9 @@ class EpanduRepo {
     }
 
     return Response(false,
-        message: response.message == null || response.message.isEmpty
+        message: response.message == null || response.message!.isEmpty
             ? 'You have no attendance record.'
-            : response.message.replaceAll(r'\u000d\u000a', ''));
+            : response.message!.replaceAll(r'\u000d\u000a', ''));
   }
 
   // booking
@@ -234,14 +234,14 @@ class EpanduRepo {
   } */
 
   Future<Response> getTestListGroupId({
-    context,
+    required context,
   }) async {
     assert(context != null);
 
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
 
-    String diCode = await localStorage.getMerchantDbCode();
+    String? diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
 
     String path =
@@ -262,21 +262,21 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message.isEmpty
+      message: response.message == null || response.message!.isEmpty
           ? 'No records found.'
-          : response.message.replaceAll(r'\u000d\u000a', ''),
+          : response.message!.replaceAll(r'\u000d\u000a', ''),
     );
   }
 
   Future<Response> getTestListGroupIdByIcNo({
-    context,
+    required context,
   }) async {
     assert(context != null);
 
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
-    String icNo = await localStorage.getStudentIc();
-    String diCode = await localStorage.getMerchantDbCode();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
+    String? icNo = await localStorage.getStudentIc();
+    String? diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
 
     String path =
@@ -297,22 +297,22 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message.isEmpty
+      message: response.message == null || response.message!.isEmpty
           ? 'No records found.'
-          : response.message.replaceAll(r'\u000d\u000a', ''),
+          : response.message!.replaceAll(r'\u000d\u000a', ''),
     );
   }
 
   Future<Response> getTestListTestType({
-    context,
+    required context,
     groupId,
   }) async {
     assert(context != null);
 
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
 
-    String diCode = await localStorage.getMerchantDbCode();
+    String? diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
 
     String path =
@@ -333,23 +333,23 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message.isEmpty
+      message: response.message == null || response.message!.isEmpty
           ? 'No records found.'
-          : response.message.replaceAll(r'\u000d\u000a', ''),
+          : response.message!.replaceAll(r'\u000d\u000a', ''),
     );
   }
 
   Future<Response> getTestList({
-    context,
+    required context,
     groupId,
     testType,
   }) async {
     assert(context != null);
 
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
 
-    String diCode = await localStorage.getMerchantDbCode();
+    String? diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
 
     String path =
@@ -369,22 +369,22 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message.isEmpty
+      message: response.message == null || response.message!.isEmpty
           ? 'No records found.'
-          : response.message.replaceAll(r'\u000d\u000a', ''),
+          : response.message!.replaceAll(r'\u000d\u000a', ''),
     );
   }
 
   Future<Response> getCourseSectionList({
-    context,
+    required context,
     groupId,
   }) async {
     assert(context != null);
 
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
 
-    String diCode = await localStorage.getMerchantDbCode();
+    String? diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
 
     String path =
@@ -405,9 +405,9 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message.isEmpty
+      message: response.message == null || response.message!.isEmpty
           ? 'No records found.'
-          : response.message.replaceAll(r'\u000d\u000a', ''),
+          : response.message!.replaceAll(r'\u000d\u000a', ''),
     );
   }
 
@@ -419,10 +419,10 @@ class EpanduRepo {
     testDate,
     courseSection,
   }) async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
-    String diCode = await localStorage.getMerchantDbCode();
-    String icNo = await localStorage.getStudentIc();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwd();
+    String? diCode = await localStorage.getMerchantDbCode();
+    String? icNo = await localStorage.getStudentIc();
 
     SaveBookingTestRequest saveUserPasswordRequest = SaveBookingTestRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
@@ -449,19 +449,19 @@ class EpanduRepo {
     }
 
     return Response(false,
-        message: response.message.replaceAll(r'\u000d\u000a', ''));
+        message: response.message!.replaceAll(r'\u000d\u000a', ''));
   }
 
   Future<Response> getJpjTestCheckIn() async {
     // String customUrl =
     //     'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
 
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
-    String icNo = await localStorage.getStudentIc();
-    String userId = await localStorage.getUserId();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
+    String? icNo = await localStorage.getStudentIc();
+    String? userId = await localStorage.getUserId();
 
-    String diCode = await localStorage.getMerchantDbCode();
+    String? diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
 
     String path =
@@ -482,21 +482,21 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message.isEmpty
+      message: response.message == null || response.message!.isEmpty
           ? 'Found no check in result. Unable to generate QR.'
-          : response.message.replaceAll(r'\u000d\u000a', ''),
+          : response.message!.replaceAll(r'\u000d\u000a', ''),
     );
   }
 
   Future<Response> getLastJpjTestCheckInByInterval({
-    String intervalInSeconds,
+    String? intervalInSeconds,
   }) async {
     // String customUrl =
     //     'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
 
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
-    String diCode = await localStorage.getMerchantDbCode();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
+    String? diCode = await localStorage.getMerchantDbCode();
     // String groupId = await localStorage.getEnrolledGroupId();
 
     String path =
@@ -519,24 +519,24 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message.isEmpty
+      message: response.message == null || response.message!.isEmpty
           ? 'No records found.'
-          : response.message.replaceAll(r'\u000d\u000a', ''),
+          : response.message!.replaceAll(r'\u000d\u000a', ''),
     );
   }
 
   Future<Response> verifyScanCode({
     context,
-    @required qrcodeJson,
-    @required icNo,
+    required qrcodeJson,
+    required icNo,
   }) async {
     // String customUrl =
     //     'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
 
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
-    String diCode = await localStorage.getMerchantDbCode();
-    String userId = await localStorage.getUserId();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwd();
+    String? diCode = await localStorage.getMerchantDbCode();
+    String? userId = await localStorage.getUserId();
 
     VerifyScanCodeRequest verifyScanCodeRequest = VerifyScanCodeRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
@@ -577,18 +577,18 @@ class EpanduRepo {
     }
 
     return Response(false,
-        message: response.message == null || response.message.isEmpty
+        message: response.message == null || response.message!.isEmpty
             ? 'Queue number not created. Please try again.'
-            : response.message.replaceAll(r'\u000d\u000a', ''));
+            : response.message!.replaceAll(r'\u000d\u000a', ''));
   }
 
   Future<Response> getScanCodeByAction() async {
     // String customUrl =
     //     'https://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
 
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
-    String diCode = await localStorage.getMerchantDbCode();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
+    String? diCode = await localStorage.getMerchantDbCode();
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&userId=&action=JPJ_PART2_CHECK_IN';
@@ -605,18 +605,18 @@ class EpanduRepo {
     }
 
     return Response(false,
-        message: response.message == null || response.message.isEmpty
+        message: response.message == null || response.message!.isEmpty
             ? 'Failed to receive QR code data. Please try again.'
-            : response.message.replaceAll(r'\u000d\u000a', ''));
+            : response.message!.replaceAll(r'\u000d\u000a', ''));
   }
 
   Future<Response> getLastCallingJpjTestQueueNumber({context}) async {
     // String customUrl =
     //     'http://192.168.168.2/etesting.MainService/${appConfig.wsVer}/MainService.svc';
 
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
-    String diCode = await localStorage.getMerchantDbCode();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
+    String? diCode = await localStorage.getMerchantDbCode();
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode';
@@ -649,8 +649,8 @@ class EpanduRepo {
     }
 
     return Response(false,
-        message: response.message == null || response.message.isEmpty
+        message: response.message == null || response.message!.isEmpty
             ? 'Tiada nombor giliran semasa.'
-            : response.message.replaceAll(r'\u000d\u000a', ''));
+            : response.message!.replaceAll(r'\u000d\u000a', ''));
   }
 }

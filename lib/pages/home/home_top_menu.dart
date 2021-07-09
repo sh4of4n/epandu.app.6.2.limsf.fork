@@ -40,7 +40,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
     var result = await inboxRepo.getUnreadNotificationCount();
 
     if (result.isSuccess) {
-      if (int.tryParse(result.data[0].msgCount) > 0) {
+      if (int.tryParse(result.data[0].msgCount)! > 0) {
         Provider.of<NotificationCount>(context, listen: false).setShowBadge(
           showBadge: true,
         );
@@ -90,7 +90,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
   @override
   Widget build(BuildContext context) {
     bool showBadge = context.watch<NotificationCount>().showBadge;
-    int badgeNo = context.watch<NotificationCount>().notificationBadge;
+    int? badgeNo = context.watch<NotificationCount>().notificationBadge;
 
     return Container(
       height: ScreenUtil().setHeight(350),
@@ -122,7 +122,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                             ),
                             SizedBox(height: ScreenUtil().setHeight(20)),
                             Text(
-                                AppLocalizations.of(context)
+                                AppLocalizations.of(context)!
                                     .translate('scan_lbl'),
                                 style: widget.iconText),
                           ],
@@ -143,7 +143,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                             ),
                             SizedBox(height: ScreenUtil().setHeight(20)),
                             Text(
-                                AppLocalizations.of(context)
+                                AppLocalizations.of(context)!
                                     .translate('pay_lbl'),
                                 style: widget.iconText),
                           ],
@@ -166,7 +166,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                             ),
                             SizedBox(height: ScreenUtil().setHeight(20)),
                             Text(
-                              AppLocalizations.of(context)
+                              AppLocalizations.of(context)!
                                   .translate('invite_lbl'),
                               style: widget.iconText,
                             ),
@@ -197,7 +197,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                             ),
                             SizedBox(height: ScreenUtil().setHeight(20)),
                             Text(
-                                AppLocalizations.of(context)
+                                AppLocalizations.of(context)!
                                     .translate('id_lbl'),
                                 style: widget.iconText),
                           ],
@@ -227,7 +227,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                             ),
                             SizedBox(height: ScreenUtil().setHeight(20)),
                             Text(
-                                AppLocalizations.of(context)
+                                AppLocalizations.of(context)!
                                     .translate('inbox_lbl'),
                                 style: widget.iconText),
                           ],

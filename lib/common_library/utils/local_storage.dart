@@ -38,291 +38,291 @@ class LocalStorage {
   static const String kCdl = 'CDL';
   static const String kLdl = 'LDL';
 
-  Future<void> saveNickName(String nickName) {
+  Future<bool> saveNickName(String nickName) {
     return Preference.setString(kNickName, nickName);
   }
 
-  Future<String> getNickName() async {
+  Future<String?> getNickName() async {
     return Preference.getString(kNickName, def: '');
   }
 
-  Future<void> saveRace(String race) {
+  Future<bool> saveRace(String race) {
     return Preference.setString(kRace, race);
   }
 
-  Future<String> getRace() async {
+  Future<String?> getRace() async {
     return Preference.getString(kRace, def: '');
   }
 
-  Future<void> saveBirthDate(String birthDate) {
+  Future<bool> saveBirthDate(String birthDate) {
     return Preference.setString(kBirthDate, birthDate);
   }
 
-  Future<String> getBirthDate() async {
+  Future<String?> getBirthDate() async {
     return Preference.getString(kBirthDate, def: '');
   }
 
-  Future<void> saveLocale(String locale) {
+  Future<bool> saveLocale(String locale) {
     return Preference.setString(kLocale, locale);
   }
 
-  Future<String> getLocale() async {
+  Future<String?> getLocale() async {
     return Preference.getString(kLocale, def: 'en');
   }
 
-  Future<void> saveWsUrl(String wsUrl) {
+  Future<bool> saveWsUrl(String wsUrl) {
     return Preference.setString(kWsUrl, wsUrl);
   }
 
-  Future<String> getWsUrl() async {
+  Future<String?> getWsUrl() async {
     return Preference.getString(kWsUrl, def: '');
   }
 
-  Future<String> getCaUid() async {
+  Future<String?> getCaUid() async {
     return Preference.getString(kCaUid, def: 'epandu_prod');
   }
 
-  Future<void> saveCaUid(String caUid) async {
+  Future<bool> saveCaUid(String caUid) async {
     return Preference.setString(kCaUid, caUid);
   }
 
-  Future<String> getCaPwd() async {
+  Future<String?> getCaPwd() async {
     return Preference.getString(kCaPwd, def: 'vWh7SmgDRJ%TW4xa');
   }
 
-  Future<void> saveCaPwd(String caPwd) async {
+  Future<bool> saveCaPwd(String caPwd) async {
     return Preference.setString(kCaPwd, caPwd);
   }
 
-  Future<String> getCaPwdEncode() async {
+  Future<String?> getCaPwdEncode() async {
     return Preference.getString(kCaPwdEncode, def: 'vWh7SmgDRJ%25TW4xa');
   }
 
-  Future<void> saveCaPwdEncode(String caPwdEncode) async {
+  Future<bool> saveCaPwdEncode(String caPwdEncode) async {
     return Preference.setString(kCaPwdEncode, caPwdEncode);
   }
 
-  Future<void> saveUserId(String userId) {
+  Future<bool> saveUserId(String userId) {
     return Preference.setString(kUserId, userId);
   }
 
-  Future<String> getUserId() async {
+  Future<String?> getUserId() async {
     return Preference.getString(kUserId, def: '');
   }
 
-  Future<void> saveName(String username) {
+  Future<bool> saveName(String username) {
     return Preference.setString(kUsername, username);
   }
 
-  Future<String> getName() async {
+  Future<String?> getName() async {
     return Preference.getString(kUsername, def: '');
   }
 
-  Future<void> saveCountryCode(String countryCode) {
+  Future<bool> saveCountryCode(String countryCode) {
     return Preference.setString(kCountryCode, countryCode);
   }
 
-  Future<String> getCountryCode() async {
+  Future<String?> getCountryCode() async {
     return Preference.getString(kCountryCode, def: '');
   }
 
-  Future<void> saveUserPhone(String userPhone) {
+  Future<bool> saveUserPhone(String userPhone) {
     return Preference.setString(kUserPhone, userPhone);
   }
 
-  Future<String> getUserPhone() async {
+  Future<String?> getUserPhone() async {
     return Preference.getString(kUserPhone, def: '');
   }
 
-  Future<void> saveEmail(String email) {
+  Future<bool> saveEmail(String email) {
     return Preference.setString(kEmail, email);
   }
 
-  Future<String> getEmail() async {
+  Future<String?> getEmail() async {
     return Preference.getString(kEmail, def: '');
   }
 
-  Future<void> saveDiCode(String diCode) async {
+  Future<bool> saveDiCode(String diCode) async {
     return Preference.setString(kDiCode, diCode);
   }
 
-  Future<String> getDiCode() async {
+  Future<String?> getDiCode() async {
     return Preference.getString(kDiCode, def: '');
   }
 
-  Future<void> saveSessionId(String sessionId) async {
+  Future<bool> saveSessionId(String sessionId) async {
     return Preference.setString(kSessionId, sessionId);
   }
 
-  Future<String> getSessionId() async {
+  Future<String?> getSessionId() async {
     return Preference.getString(kSessionId, def: '');
   }
 
-  Future<void> saveNationality(String nationality) async {
+  Future<bool> saveNationality(String nationality) async {
     return Preference.setString(kNationality, nationality);
   }
 
-  Future<String> getNationality() async {
+  Future<String?> getNationality() async {
     return Preference.getString(kNationality, def: '');
   }
 
-  Future<void> saveGender(String gender) async {
+  Future<bool> saveGender(String gender) async {
     return Preference.setString(kGender, gender);
   }
 
-  Future<String> getGender() async {
+  Future<String?> getGender() async {
     return Preference.getString(kGender, def: '');
   }
 
-  Future<void> saveStudentIc(String icNo) async {
+  Future<bool> saveStudentIc(String icNo) async {
     return Preference.setString(kStudentIc, icNo);
   }
 
-  Future<String> getStudentIc() async {
+  Future<String?> getStudentIc() async {
     return Preference.getString(kStudentIc, def: '');
   }
 
-  Future<void> saveAddress(String address) async {
+  Future<bool> saveAddress(String address) async {
     return Preference.setString(kAddress, address);
   }
 
-  Future<String> getAddress() async {
+  Future<String?> getAddress() async {
     return Preference.getString(kAddress, def: '');
   }
 
-  Future<void> saveCountry(String country) async {
+  Future<bool> saveCountry(String country) async {
     return Preference.setString(kCountry, country);
   }
 
-  Future<String> getCountry() async {
+  Future<String?> getCountry() async {
     return Preference.getString(kCountry, def: '');
   }
 
-  Future<void> saveState(String state) async {
+  Future<bool> saveState(String state) async {
     return Preference.setString(kState, state);
   }
 
-  Future<String> getState() async {
+  Future<String?> getState() async {
     return Preference.getString(kState, def: '');
   }
 
-  Future<void> savePostCode(String postCode) async {
+  Future<bool> savePostCode(String postCode) async {
     return Preference.setString(kPostCode, postCode);
   }
 
-  Future<String> getPostCode() async {
+  Future<String?> getPostCode() async {
     return Preference.getString(kPostCode, def: '');
   }
 
-  Future<void> saveInstituteLogo(String instituteLogo) async {
+  Future<bool> saveInstituteLogo(String instituteLogo) async {
     return Preference.setString(kInstituteLogo, instituteLogo);
   }
 
-  Future<String> getInstituteLogo() async {
+  Future<String?> getInstituteLogo() async {
     return Preference.getString(kInstituteLogo, def: '');
   }
 
-  Future<void> saveEnrolledGroupId(String enrolledGroupId) async {
+  Future<bool> saveEnrolledGroupId(String enrolledGroupId) async {
     return Preference.setString(kEnrolledGroupId, enrolledGroupId);
   }
 
-  Future<String> getEnrolledGroupId() async {
+  Future<String?> getEnrolledGroupId() async {
     return Preference.getString(kEnrolledGroupId, def: '');
   }
 
-  Future<void> saveBlacklisted(String blacklisted) async {
+  Future<bool> saveBlacklisted(String blacklisted) async {
     return Preference.setString(kBlacklisted, blacklisted);
   }
 
-  Future<String> getBlacklisted() async {
+  Future<String?> getBlacklisted() async {
     return Preference.getString(kBlacklisted, def: '');
   }
 
-  Future<void> saveUserLatitude(String latitude) async {
+  Future<bool> saveUserLatitude(String latitude) async {
     return Preference.setString(kUserLatitude, latitude);
   }
 
-  Future<String> getUserLatitude() async {
+  Future<String?> getUserLatitude() async {
     return Preference.getString(kUserLatitude, def: '');
   }
 
-  Future<void> saveUserLongitude(String longitude) async {
+  Future<bool> saveUserLongitude(String longitude) async {
     return Preference.setString(kUserLongitude, longitude);
   }
 
-  Future<String> getUserLongitude() async {
+  Future<String?> getUserLongitude() async {
     return Preference.getString(kUserLongitude, def: '');
   }
 
-  Future<String> getAppVersion() async {
+  Future<String?> getAppVersion() async {
     return Preference.getString(kAppVersion, def: '');
   }
 
-  Future<void> saveAppVersion(String appVersion) async {
+  Future<bool> saveAppVersion(String appVersion) async {
     return Preference.setString(kAppVersion, appVersion);
   }
 
-  Future<String> getMerchantDbCode() async {
+  Future<String?> getMerchantDbCode() async {
     return Preference.getString(kMerchantDbCode, def: '');
   }
 
-  Future<void> saveMerchantDbCode(String dbCode) async {
+  Future<bool> saveMerchantDbCode(String dbCode) async {
     return Preference.setString(kMerchantDbCode, dbCode);
   }
 
-  Future<String> getMerchantName() async {
+  Future<String?> getMerchantName() async {
     return Preference.getString(kMerchantName, def: '');
   }
 
-  Future<void> saveMerchantName(String merchantName) async {
+  Future<bool> saveMerchantName(String merchantName) async {
     return Preference.setString(kMerchantName, merchantName);
   }
 
-  Future<String> getProfilePic() async {
+  Future<String?> getProfilePic() async {
     return Preference.getString(kProfilePic, def: '');
   }
 
-  Future<void> saveProfilePic(String profilePic) async {
+  Future<bool> saveProfilePic(String profilePic) async {
     return Preference.setString(kProfilePic, profilePic);
   }
 
-  Future<String> getLoginDeviceId() async {
+  Future<String?> getLoginDeviceId() async {
     return Preference.getString(kLoginDeviceId, def: '');
   }
 
-  Future<void> saveLoginDeviceId(String deviceId) async {
+  Future<bool> saveLoginDeviceId(String deviceId) async {
     return Preference.setString(kLoginDeviceId, deviceId);
   }
 
-  Future<String> getMsgDoc() async {
+  Future<String?> getMsgDoc() async {
     return Preference.getString(kMsgDoc, def: '');
   }
 
-  Future<void> saveMsgDoc(String msgDoc) async {
+  Future<bool> saveMsgDoc(String msgDoc) async {
     return Preference.setString(kMsgDoc, msgDoc);
   }
 
-  Future<String> getMsgRef() async {
+  Future<String?> getMsgRef() async {
     return Preference.getString(kMsgRef, def: '');
   }
 
-  Future<void> saveMsgRef(String msgRef) async {
+  Future<bool> saveMsgRef(String msgRef) async {
     return Preference.setString(kMsgRef, msgRef);
   }
 
-  Future<String> getCdl() async {
+  Future<String?> getCdl() async {
     return Preference.getString(kCdl, def: '');
   }
 
-  Future<void> saveCdl(String cdl) async {
+  Future<bool> saveCdl(String cdl) async {
     return Preference.setString(kCdl, cdl);
   }
 
-  Future<String> getLdl() async {
+  Future<String?> getLdl() async {
     return Preference.getString(kLdl, def: '');
   }
 
-  Future<void> saveLdl(String ldl) async {
+  Future<bool> saveLdl(String ldl) async {
     return Preference.setString(kLdl, ldl);
   }
 

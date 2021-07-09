@@ -296,7 +296,7 @@ class _ValueClubState extends State<ValueClub> {
       return Padding(
         padding: EdgeInsets.all(8),
         child: Shimmer.fromColors(
-          baseColor: Colors.grey[300],
+          baseColor: Colors.grey[300]!,
           highlightColor: Colors.white,
           child: Container(
             width: ScreenUtil().setWidth(1400),
@@ -397,7 +397,7 @@ class _ValueClubState extends State<ValueClub> {
       return Padding(
         padding: EdgeInsets.all(8),
         child: Shimmer.fromColors(
-          baseColor: Colors.grey[300],
+          baseColor: Colors.grey[300]!,
           highlightColor: Colors.white,
           child: Container(
             width: ScreenUtil().setWidth(1400),
@@ -516,7 +516,7 @@ class _ValueClubState extends State<ValueClub> {
       return Padding(
         padding: EdgeInsets.all(8),
         child: Shimmer.fromColors(
-          baseColor: Colors.grey[300],
+          baseColor: Colors.grey[300]!,
           highlightColor: Colors.white,
           child: Container(
             width: ScreenUtil().setWidth(1400),
@@ -566,7 +566,7 @@ class _ValueClubState extends State<ValueClub> {
   @override
   Widget build(BuildContext context) {
     bool showBadge = context.watch<CartStatus>().showBadge;
-    int badgeNo = context.watch<CartStatus>().cartItem;
+    int? badgeNo = context.watch<CartStatus>().cartItem;
 
     return Container(
       decoration: BoxDecoration(
@@ -583,7 +583,7 @@ class _ValueClubState extends State<ValueClub> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context).translate('value_club')),
+          title: Text(AppLocalizations.of(context)!.translate('value_club')),
           elevation: 0,
           backgroundColor: Colors.transparent,
           actions: [
@@ -597,7 +597,7 @@ class _ValueClubState extends State<ValueClub> {
               child: Padding(
                 padding: EdgeInsets.only(top: 30.h, right: 50.w, bottom: 20.h),
                 child: Badge(
-                  badgeColor: Colors.redAccent[700],
+                  badgeColor: Colors.redAccent[700]!,
                   animationType: BadgeAnimationType.fade,
                   showBadge: showBadge,
                   badgeContent: Text(

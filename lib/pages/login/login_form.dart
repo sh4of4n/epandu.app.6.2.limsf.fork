@@ -31,9 +31,9 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
 
   bool _isLoading = false;
 
-  String _phone;
-  String _password;
-  String _loginMessage = '';
+  String? _phone;
+  String? _password;
+  String? _loginMessage = '';
   bool _obscureText = true;
 
   // var _height = ScreenUtil().setHeight(1300);
@@ -45,11 +45,11 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
   String _longitude = '';
 
   DeviceInfo deviceInfo = DeviceInfo();
-  String _deviceBrand = '';
-  String _deviceModel = '';
-  String _deviceVersion = '';
-  String _deviceId = '';
-  String _deviceOs = '';
+  String? _deviceBrand = '';
+  String? _deviceModel = '';
+  String? _deviceVersion = '';
+  String? _deviceId = '';
+  String? _deviceOs = '';
 
   @override
   void initState() {
@@ -126,7 +126,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                     color: primaryColor,
                   ),
                   labelText:
-                      AppLocalizations.of(context).translate('phone_lbl'),
+                      AppLocalizations.of(context)!.translate('phone_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.account_circle),
@@ -142,8 +142,8 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                   fieldFocusChange(context, _phoneFocus, _passwordFocus);
                 },
                 validator: (value) {
-                  if (value.isEmpty) {
-                    return AppLocalizations.of(context)
+                  if (value!.isEmpty) {
+                    return AppLocalizations.of(context)!
                         .translate('phone_required_msg');
                   }
                   return null;
@@ -163,7 +163,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                   contentPadding: EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(color: primaryColor),
                   labelText:
-                      AppLocalizations.of(context).translate('password_lbl'),
+                      AppLocalizations.of(context)!.translate('password_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.lock),
@@ -188,8 +188,8 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 ),
                 obscureText: _obscureText,
                 validator: (value) {
-                  if (value.isEmpty) {
-                    return AppLocalizations.of(context)
+                  if (value!.isEmpty) {
+                    return AppLocalizations.of(context)!
                         .translate('password_required_msg');
                   }
                   return null;
@@ -211,7 +211,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                       context.router.push(ForgotPassword());
                     },
                     child: Text(
-                      AppLocalizations.of(context)
+                      AppLocalizations.of(context)!
                           .translate('forgot_password_lbl'),
                       style: TextStyle(
                         fontSize: 56.sp,
@@ -228,11 +228,11 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      _loginMessage.isNotEmpty
+                      _loginMessage!.isNotEmpty
                           ? LimitedBox(
                               maxWidth: 800.w,
                               child: Text(
-                                _loginMessage,
+                                _loginMessage!,
                                 style: TextStyle(color: Colors.red),
                                 textAlign: TextAlign.center,
                               ),
@@ -254,7 +254,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                       context.router.push(RegisterMobile());
                     },
                     child: Text(
-                      AppLocalizations.of(context).translate('sign_up_btn'),
+                      AppLocalizations.of(context)!.translate('sign_up_btn'),
                       style: TextStyle(
                         fontSize: 56.sp,
                       ),
@@ -287,7 +287,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 onPressed: _submitLogin, // () => localStorage.reset(),
 
                 child: Text(
-                  AppLocalizations.of(context).translate('login_btn'),
+                  AppLocalizations.of(context)!.translate('login_btn'),
                   style: TextStyle(
                     fontSize: 56.sp,
                   ),
@@ -298,8 +298,8 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
   }
 
   _submitLogin() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
       setState(() {
@@ -321,7 +321,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
         latitude: _latitude.isEmpty ? '999' : _latitude,
         longitude: _longitude.isEmpty ? '999' : _longitude,
         deviceBrand: _deviceBrand,
-        deviceModel: Uri.encodeComponent(_deviceModel),
+        deviceModel: Uri.encodeComponent(_deviceModel!),
         deviceRemark: '$_deviceOs $_deviceVersion',
         phDeviceId: _deviceId,
       );

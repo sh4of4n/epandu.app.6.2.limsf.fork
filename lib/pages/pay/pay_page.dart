@@ -28,15 +28,15 @@ class _PayState extends State<Pay> {
   final _formKey = GlobalKey<FormState>();
   var paymentForData;
   var gatewayData;
-  String paymentFor = '';
-  String payBy = '';
+  String? paymentFor = '';
+  String? payBy = '';
   final removeBracket = RemoveBracket.remove;
 
   final amountController = CurrencyInputController();
 
   bool isLoading = false;
 
-  String _icNo = '';
+  String? _icNo = '';
   // String _name = '';
   String _eMail = '';
   String _birthDate = '';
@@ -80,19 +80,15 @@ class _PayState extends State<Pay> {
       _getUserInfo();
     }
 
-    if (_icNo == null ||
-        _birthDate == null ||
-        _race == null ||
-        _eMail == null ||
-        _gender == null) {
+    if (_icNo == null) {
       customDialog.show(
         context: context,
         barrierDismissable: false,
         content:
-            AppLocalizations.of(context).translate('complete_your_profile'),
+            AppLocalizations.of(context)!.translate('complete_your_profile'),
         customActions: <Widget>[
           TextButton(
-            child: Text(AppLocalizations.of(context).translate('ok_btn')),
+            child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
             onPressed: () => context.router.pushAndPopUntil(
               UpdateProfile(),
               predicate: ModalRoute.withName('/home'),
@@ -114,7 +110,7 @@ class _PayState extends State<Pay> {
   }
 
   _getUserInfo() async {
-    String _getStudentIc = await localStorage.getStudentIc();
+    String? _getStudentIc = await localStorage.getStudentIc();
 
     setState(() {
       _icNo = _getStudentIc;
@@ -132,7 +128,7 @@ class _PayState extends State<Pay> {
   }
 
   Future<void> getMerchantPaymentGateway() async {
-    String diCode = await localStorage.getMerchantDbCode();
+    String? diCode = await localStorage.getMerchantDbCode();
 
     var result = await fpxRepo.getMerchantPaymentGateway(
         context: context, diCode: diCode);
@@ -145,16 +141,16 @@ class _PayState extends State<Pay> {
   }
 
   createOrderWithAmt() async {
-    if (payBy.isNotEmpty && paymentFor.isNotEmpty) {
-      if (_formKey.currentState.validate()) {
-        _formKey.currentState.save();
+    if (payBy!.isNotEmpty && paymentFor!.isNotEmpty) {
+      if (_formKey.currentState!.validate()) {
+        _formKey.currentState!.save();
         FocusScope.of(context).requestFocus(new FocusNode());
         setState(() {
           isLoading = true;
           message = '';
         });
 
-        String diCode = await localStorage.getMerchantDbCode();
+        String? diCode = await localStorage.getMerchantDbCode();
 
         var result = await fpxRepo.createOrderWithAmt(
           context: context,
@@ -175,7 +171,7 @@ class _PayState extends State<Pay> {
               packageDesc: result.data[0].packageDesc,
               diCode: diCode,
               totalAmount:
-                  double.tryParse(result.data[0].tlOrdAmt).toStringAsFixed(2),
+                  double.tryParse(result.data[0].tlOrdAmt)!.toStringAsFixed(2),
               amountString: result.data[0]
                   .tlOrdAmt, // same with totalAmount but used for different purposes, this is available in pay_page and not di_enrollment),
             ),
@@ -203,7 +199,7 @@ class _PayState extends State<Pay> {
       }
     } else {
       setState(() {
-        message = AppLocalizations.of(context).translate('fill_all_fields');
+        message = AppLocalizations.of(context)!.translate('fill_all_fields');
       });
     }
   }
@@ -232,7 +228,7 @@ class _PayState extends State<Pay> {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            title: Text(AppLocalizations.of(context).translate('pay_lbl')),
+            title: Text(AppLocalizations.of(context)!.translate('pay_lbl')),
             elevation: 0,
             backgroundColor: Colors.transparent,
             actions: [
@@ -240,9 +236,9 @@ class _PayState extends State<Pay> {
                 padding: EdgeInsets.symmetric(horizontal: 40.w),
                 child: InkWell(
                   onTap: () async {
-                    String diCode = await localStorage.getMerchantDbCode();
+                    String? diCode = await localStorage.getMerchantDbCode();
 
-                    if (paymentFor.isNotEmpty)
+                    if (paymentFor!.isNotEmpty)
                       context.router.push(
                         PurchaseOrderList(
                           icNo: _icNo,
@@ -252,13 +248,13 @@ class _PayState extends State<Pay> {
                       );
                     else
                       setState(() {
-                        message = AppLocalizations.of(context)
+                        message = AppLocalizations.of(context)!
                             .translate('select_payment_for');
                       });
                   },
                   child: Center(
                     child: Text(
-                      AppLocalizations.of(context).translate('orders'),
+                      AppLocalizations.of(context)!.translate('orders'),
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -281,11 +277,11 @@ class _PayState extends State<Pay> {
                           contentPadding: EdgeInsets.symmetric(
                             vertical: 0.h,
                           ),
-                          hintText: AppLocalizations.of(context)
+                          hintText: AppLocalizations.of(context)!
                               .translate('payment_for'),
                           focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.blue[700], width: 1.6),
+                            borderSide: BorderSide(
+                                color: Colors.blue[700]!, width: 1.6),
                           ),
                         ),
                         onChanged: (value) {
@@ -304,7 +300,7 @@ class _PayState extends State<Pay> {
                               }).toList(),
                         validator: (value) {
                           if (value == null) {
-                            return AppLocalizations.of(context)
+                            return AppLocalizations.of(context)!
                                 .translate('payment_for_required_msg');
                           }
                           return null;
@@ -324,10 +320,10 @@ class _PayState extends State<Pay> {
                             color: Color(0xff808080),
                           ),
                           labelText:
-                              AppLocalizations.of(context).translate('amount'),
+                              AppLocalizations.of(context)!.translate('amount'),
                           focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.blue[700], width: 1.6),
+                            borderSide: BorderSide(
+                                color: Colors.blue[700]!, width: 1.6),
                             // borderRadius: BorderRadius.circular(30),
                           ),
                           suffixIcon: IconButton(
@@ -336,11 +332,11 @@ class _PayState extends State<Pay> {
                           ),
                         ),
                         validator: (value) {
-                          if (value.replaceAll(',', '').toDouble() <
-                              double.tryParse(gatewayData[0].minAmt)) {
+                          if (value!.replaceAll(',', '').toDouble()! <
+                              double.tryParse(gatewayData[0].minAmt)!) {
                             // return 'Please enter amount above ${gatewayData[0].minAmt}';
                             return 'Transaction amount is Lower than the Minimum Limit RM${gatewayData[0].minAmt}';
-                          } else if (value.replaceAll(',', '').toDouble() >
+                          } else if (value.replaceAll(',', '').toDouble()! >
                               30000.00)
                             return 'Maximum Transaction Limit Exceeded RM30,000';
                           return null;
@@ -352,10 +348,10 @@ class _PayState extends State<Pay> {
                             vertical: 0.h,
                           ),
                           hintText:
-                              AppLocalizations.of(context).translate('pay_by'),
+                              AppLocalizations.of(context)!.translate('pay_by'),
                           focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.blue[700], width: 1.6),
+                            borderSide: BorderSide(
+                                color: Colors.blue[700]!, width: 1.6),
                             // borderRadius: BorderRadius.circular(30),
                           ),
                         ),
@@ -375,7 +371,7 @@ class _PayState extends State<Pay> {
                               }).toList(),
                         validator: (value) {
                           if (value == null) {
-                            return AppLocalizations.of(context)
+                            return AppLocalizations.of(context)!
                                 .translate('pay_by_required_msg');
                           }
                           return null;
@@ -388,7 +384,7 @@ class _PayState extends State<Pay> {
                         buttonColor: Color(0xffdd0e0e),
                         onPressed: createOrderWithAmt,
                         title:
-                            AppLocalizations.of(context).translate('next_btn'),
+                            AppLocalizations.of(context)!.translate('next_btn'),
                       ),
                       SizedBox(height: 30.h),
                       Image.asset(image.fpxLogo3, width: 1100.w),
@@ -452,7 +448,7 @@ class _PayState extends State<Pay> {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            title: Text(AppLocalizations.of(context).translate('pay_lbl')),
+            title: Text(AppLocalizations.of(context)!.translate('pay_lbl')),
             elevation: 0,
             backgroundColor: Colors.transparent,
             actions: [
@@ -460,9 +456,9 @@ class _PayState extends State<Pay> {
                 padding: EdgeInsets.symmetric(horizontal: 40.w),
                 child: InkWell(
                   onTap: () async {
-                    String diCode = await localStorage.getMerchantDbCode();
+                    String? diCode = await localStorage.getMerchantDbCode();
 
-                    if (paymentFor.isNotEmpty)
+                    if (paymentFor!.isNotEmpty)
                       context.router.push(
                         PurchaseOrderList(
                           icNo: _icNo,
@@ -472,13 +468,13 @@ class _PayState extends State<Pay> {
                       );
                     else
                       setState(() {
-                        message = AppLocalizations.of(context)
+                        message = AppLocalizations.of(context)!
                             .translate('select_payment_for');
                       });
                   },
                   child: Center(
                     child: Text(
-                      AppLocalizations.of(context).translate('orders'),
+                      AppLocalizations.of(context)!.translate('orders'),
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -506,11 +502,11 @@ class _PayState extends State<Pay> {
                           contentPadding: EdgeInsets.symmetric(
                             vertical: 0.h,
                           ),
-                          hintText: AppLocalizations.of(context)
+                          hintText: AppLocalizations.of(context)!
                               .translate('payment_for'),
                           focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.blue[700], width: 1.6),
+                            borderSide: BorderSide(
+                                color: Colors.blue[700]!, width: 1.6),
                           ),
                         ),
                         onChanged: (value) {
@@ -529,7 +525,7 @@ class _PayState extends State<Pay> {
                               }).toList(),
                         validator: (value) {
                           if (value == null) {
-                            return AppLocalizations.of(context)
+                            return AppLocalizations.of(context)!
                                 .translate('payment_for_required_msg');
                           }
                           return null;
@@ -550,10 +546,10 @@ class _PayState extends State<Pay> {
                             fontSize: 44.sp,
                           ),
                           labelText:
-                              AppLocalizations.of(context).translate('amount'),
+                              AppLocalizations.of(context)!.translate('amount'),
                           focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.blue[700], width: 1.6),
+                            borderSide: BorderSide(
+                                color: Colors.blue[700]!, width: 1.6),
                             // borderRadius: BorderRadius.circular(30),
                           ),
                           suffixIcon: IconButton(
@@ -562,11 +558,11 @@ class _PayState extends State<Pay> {
                           ),
                         ),
                         validator: (value) {
-                          if (value.replaceAll(',', '').toDouble() <
-                              double.tryParse(gatewayData[0].minAmt)) {
+                          if (value!.replaceAll(',', '').toDouble()! <
+                              double.tryParse(gatewayData[0].minAmt)!) {
                             // return 'Please enter amount above ${gatewayData[0].minAmt}';
                             return 'Transaction amount is Lower than the Minimum Limit RM${gatewayData[0].minAmt}';
-                          } else if (value.replaceAll(',', '').toDouble() >
+                          } else if (value.replaceAll(',', '').toDouble()! >
                               30000.00)
                             return 'Maximum Transaction Limit Exceeded RM30,000';
                           return null;
@@ -585,10 +581,10 @@ class _PayState extends State<Pay> {
                             fontSize: 42.sp,
                           ),
                           hintText:
-                              AppLocalizations.of(context).translate('pay_by'),
+                              AppLocalizations.of(context)!.translate('pay_by'),
                           focusedBorder: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.blue[700], width: 1.6),
+                            borderSide: BorderSide(
+                                color: Colors.blue[700]!, width: 1.6),
                             // borderRadius: BorderRadius.circular(30),
                           ),
                         ),
@@ -608,7 +604,7 @@ class _PayState extends State<Pay> {
                               }).toList(),
                         validator: (value) {
                           if (value == null) {
-                            return AppLocalizations.of(context)
+                            return AppLocalizations.of(context)!
                                 .translate('pay_by_required_msg');
                           }
                           return null;
@@ -623,7 +619,7 @@ class _PayState extends State<Pay> {
                         buttonColor: Color(0xffdd0e0e),
                         onPressed: createOrderWithAmt,
                         title:
-                            AppLocalizations.of(context).translate('next_btn'),
+                            AppLocalizations.of(context)!.translate('next_btn'),
                       ),
                       SizedBox(height: 30.h),
                       Image.asset(image.fpxLogo3, width: 1100.w),

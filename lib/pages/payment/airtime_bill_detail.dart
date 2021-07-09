@@ -58,15 +58,15 @@ class _AirtimeBillDetailState extends State<AirtimeBillDetail> {
   }
 
   _getValues() async {
-    String kUserPhone =
-        await localStorage.getCountryCode() + await localStorage.getUserPhone();
+    String kUserPhone = (await localStorage.getCountryCode())! +
+        (await localStorage.getUserPhone())!;
 
     _phoneController.text = kUserPhone;
     _amountController.text = _amount;
   }
 
   _submitDetails() {
-    if (_phone.isNotEmpty && double.tryParse(_amount) > 0.00) {
+    if (_phone.isNotEmpty && double.tryParse(_amount)! > 0.00) {
       setState(() {
         _message = '';
       });
@@ -83,7 +83,7 @@ class _AirtimeBillDetailState extends State<AirtimeBillDetail> {
     } else {
       setState(() {
         _message =
-            AppLocalizations.of(context).translate('phone_amount_required');
+            AppLocalizations.of(context)!.translate('phone_amount_required');
       });
     }
   }
@@ -97,7 +97,8 @@ class _AirtimeBillDetailState extends State<AirtimeBillDetail> {
       child: Scaffold(
         appBar: AppBar(
             elevation: 0,
-            title: Text(AppLocalizations.of(context).translate('airtime_lbl'))),
+            title:
+                Text(AppLocalizations.of(context)!.translate('airtime_lbl'))),
         body: Stack(
           children: <Widget>[
             ClipPath(
@@ -134,7 +135,7 @@ class _AirtimeBillDetailState extends State<AirtimeBillDetail> {
                               hintStyle: TextStyle(
                                 color: primaryColor,
                               ),
-                              labelText: AppLocalizations.of(context)
+                              labelText: AppLocalizations.of(context)!
                                   .translate('phone_lbl'),
                               fillColor: Colors.grey.withOpacity(.25),
                               filled: true,
@@ -250,7 +251,7 @@ class _AirtimeBillDetailState extends State<AirtimeBillDetail> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                AppLocalizations.of(context)
+                                AppLocalizations.of(context)!
                                     .translate('total_lbl'),
                                 style: TextStyle(
                                   fontSize: 20.0,
@@ -319,7 +320,7 @@ class _AirtimeBillDetailState extends State<AirtimeBillDetail> {
                                   vertical: 15.0,
                                 ),
                                 child: Text(
-                                  AppLocalizations.of(context)
+                                  AppLocalizations.of(context)!
                                       .translate('next_btn'),
                                   style: TextStyle(
                                     fontSize: ScreenUtil().setSp(56),

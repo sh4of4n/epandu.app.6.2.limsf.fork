@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 import '../../router.gr.dart';
 
 class DiEnrollment extends StatefulWidget {
-  final String packageCodeJson;
+  final String? packageCodeJson;
 
   DiEnrollment({this.packageCodeJson});
 
@@ -22,7 +22,7 @@ class DiEnrollment extends StatefulWidget {
 class _DiEnrollmentState extends State<DiEnrollment> {
   final authRepo = AuthRepo();
   final formatter = NumberFormat('#,##0.00');
-  Future getPackages;
+  Future? getPackages;
   final localStorage = LocalStorage();
   final primaryColor = ColorConstant.primaryColor;
   final removeBracket = RemoveBracket.remove;
@@ -40,10 +40,10 @@ class _DiEnrollmentState extends State<DiEnrollment> {
     var result = await authRepo.getPackageListByPackageCodeList(
       context: context,
       diCode: diCode,
-      packageCodeJson: widget.packageCodeJson.isEmpty
+      packageCodeJson: widget.packageCodeJson!.isEmpty
           ? Uri.encodeComponent(
               '{"Package": [{"package_code": "A"},{"package_code": "B"}]}')
-          : Uri.encodeComponent(widget.packageCodeJson),
+          : Uri.encodeComponent(widget.packageCodeJson!),
     );
 
     if (result.isSuccess) {
@@ -98,7 +98,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                     Padding(
                       padding: EdgeInsets.only(top: 50.h),
                       child: Text(
-                        AppLocalizations.of(context)
+                        AppLocalizations.of(context)!
                             .translate('select_enrollment_package'),
                         style: TextStyle(
                             fontSize: 70.sp, fontWeight: FontWeight.bold),
@@ -157,7 +157,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                                     ),
                                   ), */
                                   Text(
-                                    AppLocalizations.of(context)
+                                    AppLocalizations.of(context)!
                                             .translate('class_lbl') +
                                         ': ' +
                                         snapshot.data[index].groupIdGrouping,
@@ -167,7 +167,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                                     ),
                                   ),
                                   Text(
-                                    AppLocalizations.of(context)
+                                    AppLocalizations.of(context)!
                                             .translate('amount') +
                                         ': RM' +
                                         formatter.format(double.tryParse(
@@ -191,7 +191,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
             default:
               return Center(
                 child: Text(
-                  AppLocalizations.of(context).translate('get_package_fail'),
+                  AppLocalizations.of(context)!.translate('get_package_fail'),
                 ),
               );
           }

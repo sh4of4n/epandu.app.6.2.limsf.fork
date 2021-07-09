@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 
 class TermsAndCondition extends StatelessWidget {
-  final String termsAndCondition;
+  final String? termsAndCondition;
 
   TermsAndCondition({this.termsAndCondition});
 
@@ -14,7 +14,7 @@ class TermsAndCondition extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            AppLocalizations.of(context).translate('terms_and_condition_link')),
+            AppLocalizations.of(context)!.translate('terms_and_condition_link')),
       ),
       body: ListView(
         children: [
@@ -22,7 +22,7 @@ class TermsAndCondition extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
             child: Center(
               child: HtmlWidget(
-                termsAndCondition,
+                termsAndCondition!,
               ),
             ),
           ),

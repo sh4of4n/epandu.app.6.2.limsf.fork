@@ -17,16 +17,16 @@ class KppExamDataAdapter extends TypeAdapter<KppExamData> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return KppExamData(
-      selectedAnswer: fields[0] as String,
-      answerIndex: fields[1] as int,
-      examQuestionNo: fields[2] as int,
-      correct: fields[3] as int,
-      incorrect: fields[4] as int,
-      totalQuestions: fields[5] as int,
-      second: fields[6] as String,
-      minute: fields[7] as String,
-      groupId: fields[8] as String,
-      paperNo: fields[9] as String,
+      selectedAnswer: fields[0] as String?,
+      answerIndex: fields[1] as int?,
+      examQuestionNo: fields[2] as int?,
+      correct: fields[3] as int?,
+      incorrect: fields[4] as int?,
+      totalQuestions: fields[5] as int?,
+      second: fields[6] as String?,
+      minute: fields[7] as String?,
+      groupId: fields[8] as String?,
+      paperNo: fields[9] as String?,
     );
   }
 

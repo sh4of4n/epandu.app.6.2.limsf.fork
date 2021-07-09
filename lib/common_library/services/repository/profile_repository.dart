@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import '../model/profile_model.dart';
 import '../networking.dart';
 import '../response.dart';
@@ -13,9 +12,9 @@ class ProfileRepo {
   final networking = Networking();
 
   Future<Response> getUserProfile({context, customUserId}) async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
-    String userId = await localStorage.getUserId();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwd();
+    String? userId = await localStorage.getUserId();
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appCode=${appConfig.appCode}&appId=${appConfig.appId}&userId=${customUserId ?? userId}';
@@ -38,31 +37,31 @@ class ProfileRepo {
 
   Future<Response> saveUserProfile({
     context,
-    String name,
-    String address,
-    String postcode,
-    String state,
-    String country,
-    String email,
-    String registerAs,
-    String icNo,
-    String nationality,
-    String dateOfBirthString,
-    String gender,
-    String race,
-    String nickName,
-    List<int> userProfileImage,
-    String userProfileImageBase64String,
-    bool removeUserProfileImage,
-    @required String enqLdlGroup,
-    @required String cdlGroup,
-    String langCode,
-    @required bool findDrvJobs,
+    String? name,
+    String? address,
+    String? postcode,
+    String? state,
+    String? country,
+    String? email,
+    String? registerAs,
+    String? icNo,
+    String? nationality,
+    String? dateOfBirthString,
+    String? gender,
+    String? race,
+    String? nickName,
+    List<int>? userProfileImage,
+    String? userProfileImageBase64String,
+    bool? removeUserProfileImage,
+    required String? enqLdlGroup,
+    required String? cdlGroup,
+    String? langCode,
+    required bool findDrvJobs,
   }) async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
-    String diCode = await localStorage.getMerchantDbCode();
-    String userId = await localStorage.getUserId();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwd();
+    String? diCode = await localStorage.getMerchantDbCode();
+    String? userId = await localStorage.getUserId();
 
     SaveProfileRequest params = SaveProfileRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
@@ -117,9 +116,9 @@ class ProfileRepo {
   }
 
   Future getTrainerList() async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
-    String merchantNo = await localStorage.getMerchantDbCode();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwd();
+    String? merchantNo = await localStorage.getMerchantDbCode();
     // String phoneCountryCode = await localStorage.getCountryCode();
     // String phone = await localStorage.getUserPhone();
     // String loginId = (phoneCountryCode + phone).replaceAll('+6', '');
@@ -145,9 +144,9 @@ class ProfileRepo {
   }
 
   Future getVehicleList() async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
-    String merchantNo = await localStorage.getMerchantDbCode();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwd();
+    String? merchantNo = await localStorage.getMerchantDbCode();
     // String phoneCountryCode = await localStorage.getCountryCode();
     // String phone = await localStorage.getUserPhone();
     // String loginId = (phoneCountryCode + phone).replaceAll('+6', '');

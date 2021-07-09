@@ -1,7 +1,7 @@
 // GetCategory
 
 class GetCategoryResponse {
-  List<StkCat> stkCat;
+  List<StkCat>? stkCat;
 
   GetCategoryResponse({this.stkCat});
 
@@ -9,7 +9,7 @@ class GetCategoryResponse {
     if (json['StkCat'] != null) {
       stkCat = new List<StkCat>.empty(growable: true);
       json['StkCat'].forEach((v) {
-        stkCat.add(new StkCat.fromJson(v));
+        stkCat!.add(new StkCat.fromJson(v));
       });
     }
   }
@@ -17,59 +17,59 @@ class GetCategoryResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.stkCat != null) {
-      data['StkCat'] = this.stkCat.map((v) => v.toJson()).toList();
+      data['StkCat'] = this.stkCat!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class StkCat {
-  String iD;
-  String stkCat;
-  String catDesc;
-  String nonGst;
-  String purchaseTaxCode;
-  String supplyTaxCode;
-  String priceIncludeGst;
-  String deleted;
-  String publish;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String rowKey;
-  String transtamp;
-  String crdSlsAcct;
-  String crdSlsDept;
-  String cshSlsAcct;
-  String cshSlsDept;
-  String crdPurcAcct;
-  String crdPurcDept;
-  String openPos;
-  String openPosType;
-  String picturePath;
-  String sGst;
-  String triggerCode;
-  String tariffCode;
-  String zoneCode;
-  String subjectSlsTax;
-  String cshPurcAcct;
-  String cshPurcDept;
-  String crdSlsAc;
-  String crdSlsDp;
-  String cshSlsAc;
-  String cshSlsDp;
-  String crdPurcAc;
-  String crdPurcDp;
-  String cshPurcAc;
-  String cshPurcDp;
-  String compCode;
-  String branchCode;
-  String lastupload;
-  String duplicateKey;
-  String validateFailed;
-  String lastEditedBy;
-  String createdBy;
+  String? iD;
+  String? stkCat;
+  String? catDesc;
+  String? nonGst;
+  String? purchaseTaxCode;
+  String? supplyTaxCode;
+  String? priceIncludeGst;
+  String? deleted;
+  String? publish;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? rowKey;
+  String? transtamp;
+  String? crdSlsAcct;
+  String? crdSlsDept;
+  String? cshSlsAcct;
+  String? cshSlsDept;
+  String? crdPurcAcct;
+  String? crdPurcDept;
+  String? openPos;
+  String? openPosType;
+  String? picturePath;
+  String? sGst;
+  String? triggerCode;
+  String? tariffCode;
+  String? zoneCode;
+  String? subjectSlsTax;
+  String? cshPurcAcct;
+  String? cshPurcDept;
+  String? crdSlsAc;
+  String? crdSlsDp;
+  String? cshSlsAc;
+  String? cshSlsDp;
+  String? crdPurcAc;
+  String? crdPurcDp;
+  String? cshPurcAc;
+  String? cshPurcDp;
+  String? compCode;
+  String? branchCode;
+  String? lastupload;
+  String? duplicateKey;
+  String? validateFailed;
+  String? lastEditedBy;
+  String? createdBy;
 
   StkCat(
       {this.iD,
@@ -222,7 +222,7 @@ class StkCat {
 
 // GetStock
 class GetStockResponse {
-  List<Stkmst> stkmst;
+  List<Stkmst>? stkmst;
 
   GetStockResponse({this.stkmst});
 
@@ -230,7 +230,7 @@ class GetStockResponse {
     if (json['Stkmst'] != null) {
       stkmst = new List<Stkmst>.empty(growable: true);
       json['Stkmst'].forEach((v) {
-        stkmst.add(new Stkmst.fromJson(v));
+        stkmst!.add(new Stkmst.fromJson(v));
       });
     }
   }
@@ -238,219 +238,219 @@ class GetStockResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.stkmst != null) {
-      data['Stkmst'] = this.stkmst.map((v) => v.toJson()).toList();
+      data['Stkmst'] = this.stkmst!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Stkmst {
-  String iD;
-  String stkCode;
-  String stkDesc1;
-  String stkDesc2;
-  String shortDesc;
-  String shortDesc2;
-  String partNo;
-  String stkCat;
-  String stkGrp;
-  String transportType;
-  String brandCode;
-  String gradeCode;
-  String menuNo;
-  String intCode;
-  String extCode;
-  String extCode1;
-  String extCode2;
-  String extCode3;
-  String uom;
-  String dualUom;
-  String uom2;
-  String qtyUom2;
-  String trnType;
-  String fgOrRaw;
-  String deductRm;
-  String nonActive;
-  String publish;
-  String binNo;
-  String uploadItm;
-  String openPos;
-  String nonGst;
-  String purchaseTaxCode;
-  String supplyTaxCode;
-  String priceIncludeGst;
-  String controlSn;
-  String snDoc;
-  String useBatch;
-  String ctrlBatchPrice;
-  String batchDoc;
-  String qcCheck;
-  String gstByMargin;
-  String labelFile;
-  String labelSetting;
-  String flexiUom;
-  String updateBom;
-  String warperiod;
-  String warMthyr;
-  String currency;
-  String dbcode;
-  String crcode;
-  String price1;
-  String price2;
-  String price3;
-  String price4;
-  String price5;
-  String price6;
-  String minprice1;
-  String minprice2;
-  String minprice3;
-  String minprice4;
-  String minprice5;
-  String minprice6;
-  String cost1;
-  String cost2;
-  String cost3;
-  String cost4;
-  String cost5;
-  String cost6;
-  String maxQty;
-  String minQty;
-  String minOrQty;
-  String roLevel;
-  String fillupLevel;
-  String roQty;
-  String roUom;
-  String lIsPrice;
-  String lInCost;
-  String lInPrice;
-  String lActCost;
-  String amtSign;
-  String scomRate;
-  String scomAmt;
-  String subjectSlsTax;
-  String stkMisc1;
-  String stkMisc2;
-  String stkMisc3;
-  String stkMisc4;
-  String stkMisc5;
-  String stkMisc6;
-  String stkMisc7;
-  String stkMisc8;
-  String stkMisc9;
-  String stkMisc10;
-  String stkMisc11;
-  String stkMisc12;
-  String stkMisc13;
-  String stkMisc14;
-  String stkMisc15;
-  String stkMisc16;
-  String stkMisc17;
-  String stkMisc18;
-  String stkMisc19;
-  String stkMisc20;
-  String stkFormula;
-  String piFormula;
-  String autoassbly;
-  String pointEarn;
-  String pointUsed;
-  String stkpicturePath;
-  String costFactr;
-  String codetariff;
-  String codetariffDesc;
-  String drawingNo;
-  String engineerDrawNo;
-  String engineerApprvBy;
-  String grossWeight;
-  String grossWeightUom;
-  String netWeight;
-  String netWeightUom;
-  String m3;
-  String stkThickness;
-  String stkThicknessUom;
-  String stkWidth;
-  String stkWidthUom;
-  String stkLength;
-  String stkLengthUom;
-  String tlnpct;
-  String tlnqty;
-  String tlnstatus;
-  String useMatrix;
-  String multiDisc;
-  String serTax;
-  String salesTax;
-  String saleAcct;
-  String saleDept;
-  String sdiscAcct;
-  String sdiscDept;
-  String purcAcct;
-  String purcDept;
-  String pdiscAcct;
-  String pdiscDept;
-  String toGlAcct;
-  String toGlDept;
-  String remark;
-  String ytdQty;
-  String unpostqty;
-  String ytdQtyord;
-  String ytdQtyresv;
-  String ytdPQty;
-  String ytdSQty;
-  String ytdavrcost;
-  String deleted;
-  String createUser;
-  String createDate;
-  String editUser;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String transtamp;
-  String editDate;
-  String sampleNo;
-  String version;
-  String docRef;
-  String stkKey;
-  String verify;
-  String qaSpec;
-  String slsMinOrQty;
-  String sMatrix1;
-  String sMatrix2;
-  String sMatrix3;
-  String sLocCode;
-  String sBatchNo;
-  String sBatchKey;
-  String sBatchQty;
-  String openPosType;
-  String sGst;
-  String triggerCode;
-  String unitPrice;
-  String lastupload;
-  String duplicateKey;
-  String validateFailed;
-  String validateRemark;
-  String lastValidate;
-  String lastEditedBy;
-  String createdBy;
-  String catDesc;
-  String grpDesc;
-  String stkqtyYtdQty;
-  String stkqtyYtdQtyresv;
-  String stkqtyYtdAvailableQty;
-  String lInCost1;
-  String lInDate1;
-  String lIsDate1;
-  String lIsPrice1;
-  String discRate;
-  String stkpriceUnitPrice;
-  String minUnitPrice;
-  String custSellPrice;
-  String custMinSellPrice;
-  String rmdCustLabelPrice;
-  String labelPrice;
-  String stkuom;
-  String specDiscRate;
-  String specUnitPrice;
-  String specNettPrice;
-  String effectiveDate;
+  String? iD;
+  String? stkCode;
+  String? stkDesc1;
+  String? stkDesc2;
+  String? shortDesc;
+  String? shortDesc2;
+  String? partNo;
+  String? stkCat;
+  String? stkGrp;
+  String? transportType;
+  String? brandCode;
+  String? gradeCode;
+  String? menuNo;
+  String? intCode;
+  String? extCode;
+  String? extCode1;
+  String? extCode2;
+  String? extCode3;
+  String? uom;
+  String? dualUom;
+  String? uom2;
+  String? qtyUom2;
+  String? trnType;
+  String? fgOrRaw;
+  String? deductRm;
+  String? nonActive;
+  String? publish;
+  String? binNo;
+  String? uploadItm;
+  String? openPos;
+  String? nonGst;
+  String? purchaseTaxCode;
+  String? supplyTaxCode;
+  String? priceIncludeGst;
+  String? controlSn;
+  String? snDoc;
+  String? useBatch;
+  String? ctrlBatchPrice;
+  String? batchDoc;
+  String? qcCheck;
+  String? gstByMargin;
+  String? labelFile;
+  String? labelSetting;
+  String? flexiUom;
+  String? updateBom;
+  String? warperiod;
+  String? warMthyr;
+  String? currency;
+  String? dbcode;
+  String? crcode;
+  String? price1;
+  String? price2;
+  String? price3;
+  String? price4;
+  String? price5;
+  String? price6;
+  String? minprice1;
+  String? minprice2;
+  String? minprice3;
+  String? minprice4;
+  String? minprice5;
+  String? minprice6;
+  String? cost1;
+  String? cost2;
+  String? cost3;
+  String? cost4;
+  String? cost5;
+  String? cost6;
+  String? maxQty;
+  String? minQty;
+  String? minOrQty;
+  String? roLevel;
+  String? fillupLevel;
+  String? roQty;
+  String? roUom;
+  String? lIsPrice;
+  String? lInCost;
+  String? lInPrice;
+  String? lActCost;
+  String? amtSign;
+  String? scomRate;
+  String? scomAmt;
+  String? subjectSlsTax;
+  String? stkMisc1;
+  String? stkMisc2;
+  String? stkMisc3;
+  String? stkMisc4;
+  String? stkMisc5;
+  String? stkMisc6;
+  String? stkMisc7;
+  String? stkMisc8;
+  String? stkMisc9;
+  String? stkMisc10;
+  String? stkMisc11;
+  String? stkMisc12;
+  String? stkMisc13;
+  String? stkMisc14;
+  String? stkMisc15;
+  String? stkMisc16;
+  String? stkMisc17;
+  String? stkMisc18;
+  String? stkMisc19;
+  String? stkMisc20;
+  String? stkFormula;
+  String? piFormula;
+  String? autoassbly;
+  String? pointEarn;
+  String? pointUsed;
+  String? stkpicturePath;
+  String? costFactr;
+  String? codetariff;
+  String? codetariffDesc;
+  String? drawingNo;
+  String? engineerDrawNo;
+  String? engineerApprvBy;
+  String? grossWeight;
+  String? grossWeightUom;
+  String? netWeight;
+  String? netWeightUom;
+  String? m3;
+  String? stkThickness;
+  String? stkThicknessUom;
+  String? stkWidth;
+  String? stkWidthUom;
+  String? stkLength;
+  String? stkLengthUom;
+  String? tlnpct;
+  String? tlnqty;
+  String? tlnstatus;
+  String? useMatrix;
+  String? multiDisc;
+  String? serTax;
+  String? salesTax;
+  String? saleAcct;
+  String? saleDept;
+  String? sdiscAcct;
+  String? sdiscDept;
+  String? purcAcct;
+  String? purcDept;
+  String? pdiscAcct;
+  String? pdiscDept;
+  String? toGlAcct;
+  String? toGlDept;
+  String? remark;
+  String? ytdQty;
+  String? unpostqty;
+  String? ytdQtyord;
+  String? ytdQtyresv;
+  String? ytdPQty;
+  String? ytdSQty;
+  String? ytdavrcost;
+  String? deleted;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? transtamp;
+  String? editDate;
+  String? sampleNo;
+  String? version;
+  String? docRef;
+  String? stkKey;
+  String? verify;
+  String? qaSpec;
+  String? slsMinOrQty;
+  String? sMatrix1;
+  String? sMatrix2;
+  String? sMatrix3;
+  String? sLocCode;
+  String? sBatchNo;
+  String? sBatchKey;
+  String? sBatchQty;
+  String? openPosType;
+  String? sGst;
+  String? triggerCode;
+  String? unitPrice;
+  String? lastupload;
+  String? duplicateKey;
+  String? validateFailed;
+  String? validateRemark;
+  String? lastValidate;
+  String? lastEditedBy;
+  String? createdBy;
+  String? catDesc;
+  String? grpDesc;
+  String? stkqtyYtdQty;
+  String? stkqtyYtdQtyresv;
+  String? stkqtyYtdAvailableQty;
+  String? lInCost1;
+  String? lInDate1;
+  String? lIsDate1;
+  String? lIsPrice1;
+  String? discRate;
+  String? stkpriceUnitPrice;
+  String? minUnitPrice;
+  String? custSellPrice;
+  String? custMinSellPrice;
+  String? rmdCustLabelPrice;
+  String? labelPrice;
+  String? stkuom;
+  String? specDiscRate;
+  String? specUnitPrice;
+  String? specNettPrice;
+  String? effectiveDate;
 
   Stkmst(
       {this.iD,
@@ -1083,7 +1083,7 @@ class Stkmst {
 
 // GetCategoryByPaging
 class GetCategoryByPagingResponse {
-  List<GetCategoryByPagingStkCat> stkCat;
+  List<GetCategoryByPagingStkCat>? stkCat;
 
   GetCategoryByPagingResponse({this.stkCat});
 
@@ -1091,7 +1091,7 @@ class GetCategoryByPagingResponse {
     if (json['StkCat'] != null) {
       stkCat = new List<GetCategoryByPagingStkCat>.empty(growable: true);
       json['StkCat'].forEach((v) {
-        stkCat.add(new GetCategoryByPagingStkCat.fromJson(v));
+        stkCat!.add(new GetCategoryByPagingStkCat.fromJson(v));
       });
     }
   }
@@ -1099,65 +1099,65 @@ class GetCategoryByPagingResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.stkCat != null) {
-      data['StkCat'] = this.stkCat.map((v) => v.toJson()).toList();
+      data['StkCat'] = this.stkCat!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class GetCategoryByPagingStkCat {
-  String iD;
-  String stkCat;
-  String catDesc;
-  String nonGst;
-  String purchaseTaxCode;
-  String supplyTaxCode;
-  String priceIncludeGst;
-  String deleted;
-  String publish;
-  String ordLeadTime;
-  String bufferStkDays;
-  String stkHoldingDays;
-  String extraStkHoldingDays;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String rowKey;
-  String transtamp;
-  String crdSlsAcct;
-  String crdSlsDept;
-  String cshSlsAcct;
-  String cshSlsDept;
-  String crdPurcAcct;
-  String crdPurcDept;
-  String openPos;
-  String openPosType;
-  String picturePath;
-  String sGst;
-  String triggerCode;
-  String tariffCode;
-  String zoneCode;
-  String subjectSlsTax;
-  String cshPurcAcct;
-  String cshPurcDept;
-  String crdSlsAc;
-  String crdSlsDp;
-  String cshSlsAc;
-  String cshSlsDp;
-  String crdPurcAc;
-  String crdPurcDp;
-  String cshPurcAc;
-  String cshPurcDp;
-  String compCode;
-  String branchCode;
-  String lastupload;
-  String duplicateKey;
-  String validateFailed;
-  String validateRemark;
-  String lastValidate;
-  String lastEditedBy;
-  String createdBy;
+  String? iD;
+  String? stkCat;
+  String? catDesc;
+  String? nonGst;
+  String? purchaseTaxCode;
+  String? supplyTaxCode;
+  String? priceIncludeGst;
+  String? deleted;
+  String? publish;
+  String? ordLeadTime;
+  String? bufferStkDays;
+  String? stkHoldingDays;
+  String? extraStkHoldingDays;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? rowKey;
+  String? transtamp;
+  String? crdSlsAcct;
+  String? crdSlsDept;
+  String? cshSlsAcct;
+  String? cshSlsDept;
+  String? crdPurcAcct;
+  String? crdPurcDept;
+  String? openPos;
+  String? openPosType;
+  String? picturePath;
+  String? sGst;
+  String? triggerCode;
+  String? tariffCode;
+  String? zoneCode;
+  String? subjectSlsTax;
+  String? cshPurcAcct;
+  String? cshPurcDept;
+  String? crdSlsAc;
+  String? crdSlsDp;
+  String? cshSlsAc;
+  String? cshSlsDp;
+  String? crdPurcAc;
+  String? crdPurcDp;
+  String? cshPurcAc;
+  String? cshPurcDp;
+  String? compCode;
+  String? branchCode;
+  String? lastupload;
+  String? duplicateKey;
+  String? validateFailed;
+  String? validateRemark;
+  String? lastValidate;
+  String? lastEditedBy;
+  String? createdBy;
 
   GetCategoryByPagingStkCat(
       {this.iD,
@@ -1329,7 +1329,7 @@ class GetCategoryByPagingStkCat {
 // GetGrpByPaging
 
 class GetGroupByPagingResponse {
-  List<StkGrp> stkGrp;
+  List<StkGrp>? stkGrp;
 
   GetGroupByPagingResponse({this.stkGrp});
 
@@ -1337,7 +1337,7 @@ class GetGroupByPagingResponse {
     if (json['StkGrp'] != null) {
       stkGrp = new List<StkGrp>.empty(growable: true);
       json['StkGrp'].forEach((v) {
-        stkGrp.add(new StkGrp.fromJson(v));
+        stkGrp!.add(new StkGrp.fromJson(v));
       });
     }
   }
@@ -1345,56 +1345,56 @@ class GetGroupByPagingResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.stkGrp != null) {
-      data['StkGrp'] = this.stkGrp.map((v) => v.toJson()).toList();
+      data['StkGrp'] = this.stkGrp!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class StkGrp {
-  String iD;
-  String stkGrp;
-  String grpDesc;
-  String transportType;
-  String tariffCode;
-  String deleted;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String rowKey;
-  String transtamp;
-  String crdSlsAcct;
-  String crdSlsDept;
-  String cshSlsAcct;
-  String cshSlsDept;
-  String crdPurcAcct;
-  String crdPurcDept;
-  String cshPurcAcct;
-  String cshPurcDept;
-  String matrix1Def;
-  String matrix2Def;
-  String matrix3Def;
-  String flexiMatrixPdo;
-  String flexiMatrixPi;
-  String flexiMatrixDo;
-  String flexiMatrixSi;
-  String flexiMatrixPos;
-  String flexiMatrixStkReceived;
-  String flexiMatrixStkIssues;
-  String matrixLvlUse;
-  String labelFile;
-  String labelSetting;
-  String triggerCode;
-  String compCode;
-  String branchCode;
-  String lastupload;
-  String duplicateKey;
-  String validateFailed;
-  String validateRemark;
-  String lastValidate;
-  String lastEditedBy;
-  String createdBy;
+  String? iD;
+  String? stkGrp;
+  String? grpDesc;
+  String? transportType;
+  String? tariffCode;
+  String? deleted;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? rowKey;
+  String? transtamp;
+  String? crdSlsAcct;
+  String? crdSlsDept;
+  String? cshSlsAcct;
+  String? cshSlsDept;
+  String? crdPurcAcct;
+  String? crdPurcDept;
+  String? cshPurcAcct;
+  String? cshPurcDept;
+  String? matrix1Def;
+  String? matrix2Def;
+  String? matrix3Def;
+  String? flexiMatrixPdo;
+  String? flexiMatrixPi;
+  String? flexiMatrixDo;
+  String? flexiMatrixSi;
+  String? flexiMatrixPos;
+  String? flexiMatrixStkReceived;
+  String? flexiMatrixStkIssues;
+  String? matrixLvlUse;
+  String? labelFile;
+  String? labelSetting;
+  String? triggerCode;
+  String? compCode;
+  String? branchCode;
+  String? lastupload;
+  String? duplicateKey;
+  String? validateFailed;
+  String? validateRemark;
+  String? lastValidate;
+  String? lastEditedBy;
+  String? createdBy;
 
   StkGrp(
       {this.iD,
@@ -1538,7 +1538,7 @@ class StkGrp {
 
 // GetUOMByPaging
 class GetUOMByPagingResponse {
-  List<UOM> uOM;
+  List<UOM>? uOM;
 
   GetUOMByPagingResponse({this.uOM});
 
@@ -1546,7 +1546,7 @@ class GetUOMByPagingResponse {
     if (json['UOM'] != null) {
       uOM = new List<UOM>.empty(growable: true);
       json['UOM'].forEach((v) {
-        uOM.add(new UOM.fromJson(v));
+        uOM!.add(new UOM.fromJson(v));
       });
     }
   }
@@ -1554,29 +1554,29 @@ class GetUOMByPagingResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.uOM != null) {
-      data['UOM'] = this.uOM.map((v) => v.toJson()).toList();
+      data['UOM'] = this.uOM!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class UOM {
-  String iD;
-  String uom;
-  String uomDesc;
-  String createUser;
-  String createDate;
-  String editUser;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String transtamp;
-  String editDate;
-  String deleted;
-  String triggerBarcode;
-  String lastupload;
-  String lastEditedBy;
-  String createdBy;
+  String? iD;
+  String? uom;
+  String? uomDesc;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? transtamp;
+  String? editDate;
+  String? deleted;
+  String? triggerBarcode;
+  String? lastupload;
+  String? lastEditedBy;
+  String? createdBy;
 
   UOM(
       {this.iD,
@@ -1639,20 +1639,20 @@ class UOM {
 
 // SaveStock
 class SaveStockRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String userId;
-  String stkCode;
-  String stkDesc1;
-  String uom;
-  String stkCat;
-  String stkGrp;
-  bool publish;
-  bool useBatch;
-  bool snControl;
-  String stkPicture;
-  String stkPictureBase64String;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? userId;
+  String? stkCode;
+  String? stkDesc1;
+  String? uom;
+  String? stkCat;
+  String? stkGrp;
+  bool? publish;
+  bool? useBatch;
+  bool? snControl;
+  String? stkPicture;
+  String? stkPictureBase64String;
 
   SaveStockRequest(
       {this.wsCodeCrypt,
@@ -1709,18 +1709,18 @@ class SaveStockRequest {
 
 // UpdateStockRequest
 class UpdateStockRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String userId;
-  String stkCode;
-  String stkDesc1;
-  String uom;
-  String stkCat;
-  String stkGrp;
-  bool publish;
-  bool useBatch;
-  bool snControl;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? userId;
+  String? stkCode;
+  String? stkDesc1;
+  String? uom;
+  String? stkCat;
+  String? stkGrp;
+  bool? publish;
+  bool? useBatch;
+  bool? snControl;
 
   UpdateStockRequest(
       {this.wsCodeCrypt,
@@ -1771,7 +1771,7 @@ class UpdateStockRequest {
 
 // GetStockPictureListResponse
 class GetStockPictureListResponse {
-  List<StkmstFileAttach> stkmstFileAttach;
+  List<StkmstFileAttach>? stkmstFileAttach;
 
   GetStockPictureListResponse({this.stkmstFileAttach});
 
@@ -1779,7 +1779,7 @@ class GetStockPictureListResponse {
     if (json['StkmstFileAttach'] != null) {
       stkmstFileAttach = new List<StkmstFileAttach>.empty(growable: true);
       json['StkmstFileAttach'].forEach((v) {
-        stkmstFileAttach.add(new StkmstFileAttach.fromJson(v));
+        stkmstFileAttach!.add(new StkmstFileAttach.fromJson(v));
       });
     }
   }
@@ -1788,36 +1788,36 @@ class GetStockPictureListResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.stkmstFileAttach != null) {
       data['StkmstFileAttach'] =
-          this.stkmstFileAttach.map((v) => v.toJson()).toList();
+          this.stkmstFileAttach!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class StkmstFileAttach {
-  String iD;
-  String stkCode;
-  String key;
-  String itemNo;
-  String fileAttached;
-  String fileName;
-  String cancel;
-  String cancelDate;
-  String deleted;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String lastupload;
-  String transtamp;
-  String attachType;
-  String lastEditedBy;
-  String createdBy;
-  String attachedSize;
-  String stkpicturePath;
+  String? iD;
+  String? stkCode;
+  String? key;
+  String? itemNo;
+  String? fileAttached;
+  String? fileName;
+  String? cancel;
+  String? cancelDate;
+  String? deleted;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? lastupload;
+  String? transtamp;
+  String? attachType;
+  String? lastEditedBy;
+  String? createdBy;
+  String? attachedSize;
+  String? stkpicturePath;
 
   StkmstFileAttach(
       {this.iD,
@@ -1901,15 +1901,15 @@ class StkmstFileAttach {
 
 // saveStockPictureRequest
 class SaveStockPictureRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String userId;
-  String stkCode;
-  String stkPicture;
-  String stkPictureBase64String;
-  String key;
-  bool deleteRec;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? userId;
+  String? stkCode;
+  String? stkPicture;
+  String? stkPictureBase64String;
+  String? key;
+  bool? deleteRec;
 
   SaveStockPictureRequest(
       {this.wsCodeCrypt,
@@ -1951,7 +1951,7 @@ class SaveStockPictureRequest {
 
 // GetStkUOM
 class GetStkUomResponse {
-  List<PackingUOM> packingUOM;
+  List<PackingUOM>? packingUOM;
 
   GetStkUomResponse({this.packingUOM});
 
@@ -1959,7 +1959,7 @@ class GetStkUomResponse {
     if (json['PackingUOM'] != null) {
       packingUOM = new List<PackingUOM>.empty(growable: true);
       json['PackingUOM'].forEach((v) {
-        packingUOM.add(new PackingUOM.fromJson(v));
+        packingUOM!.add(new PackingUOM.fromJson(v));
       });
     }
   }
@@ -1967,22 +1967,22 @@ class GetStkUomResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.packingUOM != null) {
-      data['PackingUOM'] = this.packingUOM.map((v) => v.toJson()).toList();
+      data['PackingUOM'] = this.packingUOM!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class PackingUOM {
-  String iD;
-  String stkCode;
-  String matrix1;
-  String matrix2;
-  String matrix3;
-  String uom;
-  String formulae;
-  String lastEditedBy;
-  String createdBy;
+  String? iD;
+  String? stkCode;
+  String? matrix1;
+  String? matrix2;
+  String? matrix3;
+  String? uom;
+  String? formulae;
+  String? lastEditedBy;
+  String? createdBy;
 
   PackingUOM(
       {this.iD,

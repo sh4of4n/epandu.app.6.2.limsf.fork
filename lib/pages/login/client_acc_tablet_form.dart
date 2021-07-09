@@ -41,8 +41,8 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
 
   String _message = '';
   bool _obscureText = true;
-  String _connectedUrl = '';
-  String _connectedCa = '';
+  String? _connectedUrl = '';
+  String? _connectedCa = '';
 
   final urlController = TextEditingController();
   final caUidController = TextEditingController();
@@ -70,7 +70,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
   }
 
   _getConnectedUrl() async {
-    String savedUrl = await Hive.box('ws_url').get('userDefinedUrl');
+    String? savedUrl = await Hive.box('ws_url').get('userDefinedUrl');
 
     setState(() {
       urlController.text = savedUrl ?? '';
@@ -79,7 +79,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
   }
 
   _getConnectedCa() async {
-    String _clientAcc = await localStorage.getCaUid();
+    String? _clientAcc = await localStorage.getCaUid();
 
     setState(() {
       _connectedCa = _clientAcc;
@@ -130,7 +130,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
-                  labelText: AppLocalizations.of(context)
+                  labelText: AppLocalizations.of(context)!
                       .translate('client_acc_id_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
@@ -147,8 +147,8 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
                   fieldFocusChange(context, _caUidFocus, _caPwdFocus);
                 },
                 validator: (value) {
-                  if (value.isEmpty) {
-                    return AppLocalizations.of(context)
+                  if (value!.isEmpty) {
+                    return AppLocalizations.of(context)!
                         .translate('client_acc_id_required');
                   }
                   return null;
@@ -166,7 +166,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 40.h),
                   hintStyle: TextStyle(color: primaryColor),
-                  labelText: AppLocalizations.of(context)
+                  labelText: AppLocalizations.of(context)!
                       .translate('client_acc_pwd_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
@@ -192,8 +192,8 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
                 ),
                 obscureText: _obscureText,
                 validator: (value) {
-                  if (value.isEmpty) {
-                    return AppLocalizations.of(context)
+                  if (value!.isEmpty) {
+                    return AppLocalizations.of(context)!
                         .translate('password_required_msg');
                   }
                   return null;
@@ -263,7 +263,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
                         context.router.pop();
                     },
                     child: Text(
-                      AppLocalizations.of(context).translate('go_back_lbl'),
+                      AppLocalizations.of(context)!.translate('go_back_lbl'),
                       style: TextStyle(
                         fontSize: 35.sp,
                       ),
@@ -279,13 +279,13 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
   }
 
   _showConnectedUrl() {
-    if (_connectedUrl != null && _connectedUrl.isNotEmpty) {
+    if (_connectedUrl != null && _connectedUrl!.isNotEmpty) {
       return Column(
         children: <Widget>[
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.h),
             child: Text(
-                '${AppLocalizations.of(context).translate('connected_url')}: $_connectedUrl'),
+                '${AppLocalizations.of(context)!.translate('connected_url')}: $_connectedUrl'),
           ),
           SizedBox(
             height: 40.h,
@@ -297,13 +297,13 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
   }
 
   _showConnectedCa() {
-    if (_connectedCa.isNotEmpty) {
+    if (_connectedCa!.isNotEmpty) {
       return Column(
         children: <Widget>[
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.h),
             child: Text(
-              '${AppLocalizations.of(context).translate('connected_ca')}: $_connectedCa',
+              '${AppLocalizations.of(context)!.translate('connected_ca')}: $_connectedCa',
               style: TextStyle(
                 fontSize: 35.sp,
               ),
@@ -337,7 +337,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
                 ),
                 onPressed: _submit,
                 child: Text(
-                  AppLocalizations.of(context).translate('save_btn'),
+                  AppLocalizations.of(context)!.translate('save_btn'),
                   style: TextStyle(
                     fontSize: 35.sp,
                   ),
@@ -369,8 +369,8 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
       else
         context.router.pop();
     } else {
-      if (_formKey.currentState.validate()) {
-        _formKey.currentState.save();
+      if (_formKey.currentState!.validate()) {
+        _formKey.currentState!.save();
         FocusScope.of(context).requestFocus(new FocusNode());
 
         await Hive.box('ws_url').put(

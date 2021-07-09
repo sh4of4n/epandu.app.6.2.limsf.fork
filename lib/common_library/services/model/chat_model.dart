@@ -1,5 +1,5 @@
 class GetUserByUserPhoneResponse {
-  List<User> user;
+  List<User>? user;
 
   GetUserByUserPhoneResponse({this.user});
 
@@ -7,7 +7,7 @@ class GetUserByUserPhoneResponse {
     if (json['User'] != null) {
       user = new List<User>.empty(growable: true);
       json['User'].forEach((v) {
-        user.add(new User.fromJson(v));
+        user!.add(new User.fromJson(v));
       });
     }
   }
@@ -15,66 +15,66 @@ class GetUserByUserPhoneResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.user != null) {
-      data['User'] = this.user.map((v) => v.toJson()).toList();
+      data['User'] = this.user!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class User {
-  String id;
-  String userId;
-  String appCode;
-  String appId;
-  String appVersion;
-  String phone;
-  String firstName;
-  String lastName;
-  String nickName;
-  String eMail;
-  String add;
-  String add1;
-  String add2;
-  String add3;
-  String add4;
-  String postcode;
-  String cityName;
-  String stateName;
-  String countryName;
-  String icNo;
-  String birthDate;
-  String nationality;
-  String race;
-  String gender;
-  String userPwd;
-  String tmpUserPwd;
-  String accessCode;
-  String branch;
-  String empno;
-  String userPhoto;
-  String userPhotoFilename;
-  String webBrowserUrl;
-  String deleted;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String transtamp;
-  String merchantNo;
-  String loginId;
-  String city;
-  String state;
-  String country;
-  String name;
-  String reportGps;
-  String gpsCheckSecond;
-  String lastupload;
-  String diCode;
-  String lastEditedBy;
-  String createdBy;
+  String? id;
+  String? userId;
+  String? appCode;
+  String? appId;
+  String? appVersion;
+  String? phone;
+  String? firstName;
+  String? lastName;
+  String? nickName;
+  String? eMail;
+  String? add;
+  String? add1;
+  String? add2;
+  String? add3;
+  String? add4;
+  String? postcode;
+  String? cityName;
+  String? stateName;
+  String? countryName;
+  String? icNo;
+  String? birthDate;
+  String? nationality;
+  String? race;
+  String? gender;
+  String? userPwd;
+  String? tmpUserPwd;
+  String? accessCode;
+  String? branch;
+  String? empno;
+  String? userPhoto;
+  String? userPhotoFilename;
+  String? webBrowserUrl;
+  String? deleted;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? transtamp;
+  String? merchantNo;
+  String? loginId;
+  String? city;
+  String? state;
+  String? country;
+  String? name;
+  String? reportGps;
+  String? gpsCheckSecond;
+  String? lastupload;
+  String? diCode;
+  String? lastEditedBy;
+  String? createdBy;
 
   User(
       {this.id,
@@ -247,10 +247,10 @@ class User {
 }
 
 class UserProfileWithPhone {
-  String iD;
-  String userId;
-  String phone;
-  String firstName;
+  String? iD;
+  String? userId;
+  String? phone;
+  String? firstName;
 
   UserProfileWithPhone({this.iD, this.userId, this.phone, this.firstName});
 
@@ -272,15 +272,15 @@ class UserProfileWithPhone {
 }
 
 class Message {
-  String id;
-  String author;
-  String target;
-  String data;
-  int sentDateTime;
-  String type;
-  String isSeen;
+  String? id;
+  String? author;
+  String? target;
+  String? data;
+  int? sentDateTime;
+  String? type;
+  String? isSeen;
 
-  MessageBody body;
+  MessageBody? body;
 
   Message(
       {this.id,
@@ -314,10 +314,10 @@ class Message {
 }
 
 class MessageBody {
-  String data;
-  String sentDateTime;
-  String type;
-  String isSeen;
+  String? data;
+  String? sentDateTime;
+  String? type;
+  String? isSeen;
 
   MessageBody({this.data, this.sentDateTime, this.type, this.isSeen});
 
@@ -336,12 +336,12 @@ class MessageBody {
 }
 
 class MessageAndAuthorTable {
-  String id;
-  String author;
-  String data;
-  int sentDateTime;
-  String type;
-  String isSeen;
+  String? id;
+  String? author;
+  String? data;
+  int? sentDateTime;
+  String? type;
+  String? isSeen;
 
   MessageAndAuthorTable(
       {this.id,
@@ -374,9 +374,9 @@ class MessageAndAuthorTable {
 }
 
 class MessageTargetTable {
-  String id;
-  String messageId;
-  String targetId;
+  String? id;
+  String? messageId;
+  String? targetId;
 
   MessageTargetTable({
     this.id,

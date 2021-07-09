@@ -46,7 +46,7 @@ class _ProfileTabState extends State<ProfileTab>
       ),
     ),
   ];
-  TabController _tabController;
+  TabController? _tabController;
   int _tabIndex = 0;
   final profileRepo = ProfileRepo();
   final epanduRepo = EpanduRepo();
@@ -67,7 +67,7 @@ class _ProfileTabState extends State<ProfileTab>
   String paymentMessage = '';
   String attendanceMessage = '';
 
-  UserProfile userProfile;
+  UserProfile? userProfile;
   var enrollData;
   bool isLoading = false;
 
@@ -79,7 +79,7 @@ class _ProfileTabState extends State<ProfileTab>
     super.initState();
 
     _tabController = TabController(vsync: this, length: myTabs.length);
-    _tabController.addListener(_getTabSelection);
+    _tabController!.addListener(_getTabSelection);
 
     _getUserProfile();
     // _getUserInfo();
@@ -151,21 +151,21 @@ class _ProfileTabState extends State<ProfileTab>
   }
 
   _getUserInfo() async {
-    String _getName = await localStorage.getName();
-    String _getNickName = await localStorage.getNickName();
-    String _getEmail = await localStorage.getEmail();
-    String _getPostcode = await localStorage.getPostCode();
-    String _getPhone = await localStorage.getUserPhone();
-    String _getCountry = await localStorage.getCountry();
-    String _getState = await localStorage.getState();
-    String _getStudentIc = await localStorage.getStudentIc();
+    String? _getName = await localStorage.getName();
+    String? _getNickName = await localStorage.getNickName();
+    String? _getEmail = await localStorage.getEmail();
+    String? _getPostcode = await localStorage.getPostCode();
+    String? _getPhone = await localStorage.getUserPhone();
+    String? _getCountry = await localStorage.getCountry();
+    String? _getState = await localStorage.getState();
+    String? _getStudentIc = await localStorage.getStudentIc();
 
-    String _getBirthDate = await localStorage.getBirthDate();
-    String _getRace = await localStorage.getRace();
-    String _getNationality = await localStorage.getNationality();
-    String _getProfilePic = await localStorage.getProfilePic();
-    String _getCdl = await localStorage.getCdl();
-    String _getLdl = await localStorage.getLdl();
+    String? _getBirthDate = await localStorage.getBirthDate();
+    String? _getRace = await localStorage.getRace();
+    String? _getNationality = await localStorage.getNationality();
+    String? _getProfilePic = await localStorage.getProfilePic();
+    String? _getCdl = await localStorage.getCdl();
+    String? _getLdl = await localStorage.getLdl();
 
     setState(() {
       userProfile = UserProfile(
@@ -203,18 +203,18 @@ class _ProfileTabState extends State<ProfileTab>
 
   _getTabSelection() {
     setState(() {
-      _tabIndex = _tabController.index;
+      _tabIndex = _tabController!.index;
     });
   }
 
   _getTitle() {
     switch (_tabIndex) {
       case 0:
-        return Text(AppLocalizations.of(context).translate('profile_title'));
+        return Text(AppLocalizations.of(context)!.translate('profile_title'));
       // case 1:
       //   return Text(AppLocalizations.of(context).translate('edompet_title'));
       case 1:
-        return Text(AppLocalizations.of(context).translate('settings_lbl'));
+        return Text(AppLocalizations.of(context)!.translate('settings_lbl'));
     }
   }
 
@@ -253,7 +253,7 @@ class _ProfileTabState extends State<ProfileTab>
               .push(UpdateProfile())
               .then((value) => _getUserInfo());
         },
-        child: Text(AppLocalizations.of(context).translate('edit_profile')),
+        child: Text(AppLocalizations.of(context)!.translate('edit_profile')),
       ),
     );
   }
@@ -321,7 +321,7 @@ class _ProfileTabState extends State<ProfileTab>
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _tabController!.dispose();
     super.dispose();
   }
 }

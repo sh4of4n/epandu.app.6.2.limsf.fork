@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
 class ImageViewer extends StatelessWidget {
-  final String title;
-  final NetworkImage image;
+  final String? title;
+  final NetworkImage? image;
 
   ImageViewer({this.title, this.image});
 
@@ -11,7 +11,7 @@ class ImageViewer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(title!),
       ),
       body: Container(
         child: PhotoView(

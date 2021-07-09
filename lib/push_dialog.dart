@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'common_library/utils/app_localizations.dart';
 
 class PushDialog extends StatelessWidget {
-  final String message;
+  final String? message;
 
   PushDialog({this.message});
 
@@ -18,7 +18,7 @@ class PushDialog extends StatelessWidget {
       content: message,
       customActions: <Widget>[
         TextButton(
-          child: Text(AppLocalizations.of(context).translate('ok_btn')),
+          child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
           onPressed: () => context.router.pop(),
         ),
       ],

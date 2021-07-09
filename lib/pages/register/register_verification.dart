@@ -25,9 +25,9 @@ class _RegisterVerificationState extends State<RegisterVerification> {
   final _formKey = GlobalKey<FormState>();
 
   String _verificationCode = '';
-  String _correctVerificationCode = '';
-  String _message = '';
-  TextStyle _messageStyle;
+  String? _correctVerificationCode = '';
+  String? _message = '';
+  TextStyle? _messageStyle;
   bool _isLoading = false;
   bool _resend = false;
 
@@ -80,7 +80,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
 
     timer.onData((duration) {
       setState(() {
-        _current = _time - duration.elapsed.inSeconds;
+        _current = _time - duration.elapsed.inSeconds as int;
       });
     });
 
@@ -157,7 +157,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
                 SizedBox(height: 20.h),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 130.w),
-                  child: Text(AppLocalizations.of(context)
+                  child: Text(AppLocalizations.of(context)!
                       .translate('enter_verification')),
                 ),
                 Form(
@@ -183,8 +183,8 @@ class _RegisterVerificationState extends State<RegisterVerification> {
                                 : null,
                           )),
                           validator: (value) {
-                            if (value.isEmpty) {
-                              return AppLocalizations.of(context)
+                            if (value!.isEmpty) {
+                              return AppLocalizations.of(context)!
                                   .translate('verification_required');
                             }
                             return null;
@@ -199,7 +199,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          _message.isNotEmpty
+                          _message!.isNotEmpty
                               ? Container(
                                   margin: EdgeInsets.symmetric(vertical: 20.h),
                                   alignment: Alignment.center,
@@ -237,7 +237,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
                                           horizontal: 30.0,
                                         ),
                                         child: Text(
-                                          AppLocalizations.of(context)
+                                          AppLocalizations.of(context)!
                                               .translate('next_btn'),
                                           style: TextStyle(
                                             fontSize: 56.sp,
@@ -296,7 +296,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 130.w),
                   child: Text(
-                    AppLocalizations.of(context)
+                    AppLocalizations.of(context)!
                         .translate('enter_verification'),
                     style: TextStyle(
                       fontSize: 35.sp,
@@ -326,8 +326,8 @@ class _RegisterVerificationState extends State<RegisterVerification> {
                                 : null,
                           )),
                           validator: (value) {
-                            if (value.isEmpty) {
-                              return AppLocalizations.of(context)
+                            if (value!.isEmpty) {
+                              return AppLocalizations.of(context)!
                                   .translate('verification_required');
                             }
                             return null;
@@ -342,7 +342,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          _message.isNotEmpty
+                          _message!.isNotEmpty
                               ? Container(
                                   margin: EdgeInsets.symmetric(vertical: 20.h),
                                   alignment: Alignment.center,
@@ -372,7 +372,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
                                       onPressed: _next,
                                       child: Container(
                                         child: Text(
-                                          AppLocalizations.of(context)
+                                          AppLocalizations.of(context)!
                                               .translate('next_btn'),
                                           style: TextStyle(
                                             fontSize: 35.sp,
@@ -396,8 +396,8 @@ class _RegisterVerificationState extends State<RegisterVerification> {
   }
 
   _next() {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
       if (_verificationCode == _correctVerificationCode) {
@@ -410,7 +410,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
         });
       } else
         setState(() {
-          _message = AppLocalizations.of(context)
+          _message = AppLocalizations.of(context)!
               .translate('incorrect_verification_code');
           _messageStyle = TextStyle(color: Colors.red);
         });

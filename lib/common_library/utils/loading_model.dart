@@ -4,9 +4,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoadingModel extends StatelessWidget {
   final isVisible;
-  final Color color;
-  final Color backgroundColor;
-  final double opacity;
+  final Color? color;
+  final Color? backgroundColor;
+  final double? opacity;
 
   LoadingModel({
     this.isVisible,

@@ -40,8 +40,8 @@ class _ClientAccountFormState extends State<ClientAccountForm>
 
   String _message = '';
   bool _obscureText = true;
-  String _connectedUrl = '';
-  String _connectedCa = '';
+  String? _connectedUrl = '';
+  String? _connectedCa = '';
 
   final urlController = TextEditingController();
   final caUidController = TextEditingController();
@@ -68,7 +68,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
   }
 
   _getConnectedUrl() async {
-    String savedUrl = await Hive.box('ws_url').get('userDefinedUrl');
+    String? savedUrl = await Hive.box('ws_url').get('userDefinedUrl');
 
     setState(() {
       urlController.text = savedUrl ?? '';
@@ -77,7 +77,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
   }
 
   _getConnectedCa() async {
-    String _clientAcc = await localStorage.getCaUid();
+    String? _clientAcc = await localStorage.getCaUid();
 
     setState(() {
       _connectedCa = _clientAcc;
@@ -125,7 +125,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
-                  labelText: AppLocalizations.of(context)
+                  labelText: AppLocalizations.of(context)!
                       .translate('client_acc_id_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
@@ -142,8 +142,8 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                   fieldFocusChange(context, _caUidFocus, _caPwdFocus);
                 },
                 validator: (value) {
-                  if (value.isEmpty) {
-                    return AppLocalizations.of(context)
+                  if (value!.isEmpty) {
+                    return AppLocalizations.of(context)!
                         .translate('client_acc_id_required');
                   }
                   return null;
@@ -158,7 +158,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(color: primaryColor),
-                  labelText: AppLocalizations.of(context)
+                  labelText: AppLocalizations.of(context)!
                       .translate('client_acc_pwd_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
@@ -184,8 +184,8 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                 ),
                 obscureText: _obscureText,
                 validator: (value) {
-                  if (value.isEmpty) {
-                    return AppLocalizations.of(context)
+                  if (value!.isEmpty) {
+                    return AppLocalizations.of(context)!
                         .translate('password_required_msg');
                   }
                   return null;
@@ -255,7 +255,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                         context.router.pop();
                     },
                     child: Text(
-                      AppLocalizations.of(context).translate('go_back_lbl'),
+                      AppLocalizations.of(context)!.translate('go_back_lbl'),
                       style: TextStyle(
                         fontSize: 56.sp,
                       ),
@@ -271,13 +271,13 @@ class _ClientAccountFormState extends State<ClientAccountForm>
   }
 
   _showConnectedUrl() {
-    if (_connectedUrl != null && _connectedUrl.isNotEmpty) {
+    if (_connectedUrl != null && _connectedUrl!.isNotEmpty) {
       return Column(
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5.0),
             child: Text(
-                '${AppLocalizations.of(context).translate('connected_url')}: $_connectedUrl'),
+                '${AppLocalizations.of(context)!.translate('connected_url')}: $_connectedUrl'),
           ),
           SizedBox(
             height: 60.h,
@@ -289,13 +289,13 @@ class _ClientAccountFormState extends State<ClientAccountForm>
   }
 
   _showConnectedCa() {
-    if (_connectedCa.isNotEmpty) {
+    if (_connectedCa!.isNotEmpty) {
       return Column(
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5.0),
             child: Text(
-                '${AppLocalizations.of(context).translate('connected_ca')}: $_connectedCa'),
+                '${AppLocalizations.of(context)!.translate('connected_ca')}: $_connectedCa'),
           ),
           SizedBox(
             height: 60.h,
@@ -323,7 +323,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                 ),
                 onPressed: _submit,
                 child: Text(
-                  AppLocalizations.of(context).translate('save_btn'),
+                  AppLocalizations.of(context)!.translate('save_btn'),
                   style: TextStyle(
                     fontSize: 56.sp,
                   ),
@@ -355,8 +355,8 @@ class _ClientAccountFormState extends State<ClientAccountForm>
       else
         context.router.pop();
     } else {
-      if (_formKey.currentState.validate()) {
-        _formKey.currentState.save();
+      if (_formKey.currentState!.validate()) {
+        _formKey.currentState!.save();
         FocusScope.of(context).requestFocus(new FocusNode());
 
         await Hive.box('ws_url').put(

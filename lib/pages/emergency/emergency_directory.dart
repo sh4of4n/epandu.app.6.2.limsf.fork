@@ -36,11 +36,11 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
   );
   final location = Location();
 
-  String policeNumber = '';
-  String ambulanceNumber = '';
-  String bombaNumber = '';
-  String carWorkshopNumber = '';
-  String bikeWorkshopNumber = '';
+  String? policeNumber = '';
+  String? ambulanceNumber = '';
+  String? bombaNumber = '';
+  String? carWorkshopNumber = '';
+  String? bikeWorkshopNumber = '';
 
   @override
   void initState() {
@@ -71,11 +71,11 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         context: context,
         barrierDismissable: false,
         title: Text(
-            AppLocalizations.of(context).translate('loc_permission_title')),
-        content: AppLocalizations.of(context).translate('loc_permission_desc'),
+            AppLocalizations.of(context)!.translate('loc_permission_title')),
+        content: AppLocalizations.of(context)!.translate('loc_permission_desc'),
         customActions: <Widget>[
           TextButton(
-            child: Text(AppLocalizations.of(context).translate('yes_lbl')),
+            child: Text(AppLocalizations.of(context)!.translate('yes_lbl')),
             onPressed: () {
               context.router.pop();
               context.router.pop();
@@ -83,7 +83,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
             },
           ),
           TextButton(
-            child: Text(AppLocalizations.of(context).translate('no_lbl')),
+            child: Text(AppLocalizations.of(context)!.translate('no_lbl')),
             onPressed: () {
               context.router.pop();
               context.router.pop();
@@ -116,11 +116,11 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         context: context,
         barrierDismissable: false,
         title: Text(
-            AppLocalizations.of(context).translate('loc_permission_title')),
-        content: AppLocalizations.of(context).translate('loc_permission_desc'),
+            AppLocalizations.of(context)!.translate('loc_permission_title')),
+        content: AppLocalizations.of(context)!.translate('loc_permission_desc'),
         customActions: <Widget>[
           TextButton(
-            child: Text(AppLocalizations.of(context).translate('yes_lbl')),
+            child: Text(AppLocalizations.of(context)!.translate('yes_lbl')),
             onPressed: () {
               context.router.pop();
               context.router.pop();
@@ -128,7 +128,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
             },
           ),
           TextButton(
-            child: Text(AppLocalizations.of(context).translate('no_lbl')),
+            child: Text(AppLocalizations.of(context)!.translate('no_lbl')),
             onPressed: () {
               context.router.pop();
               context.router.pop();
@@ -226,78 +226,78 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
   }
 
   _callPoliceNumber() async {
-    if (policeNumber.isEmpty) {
+    if (policeNumber!.isEmpty) {
       customSnackbar.show(
         context,
-        message: AppLocalizations.of(context).translate('no_nearby_contacts'),
+        message: AppLocalizations.of(context)!.translate('no_nearby_contacts'),
         duration: 5000,
         type: MessageType.INFO,
       );
     } else {
-      String trimNumber = policeNumber.replaceAll('-', '').replaceAll(' ', '');
+      String trimNumber = policeNumber!.replaceAll('-', '').replaceAll(' ', '');
 
       await launch('tel:$trimNumber');
     }
   }
 
   _callEmergencyNumber() async {
-    if (ambulanceNumber.isEmpty) {
+    if (ambulanceNumber!.isEmpty) {
       customSnackbar.show(
         context,
-        message: AppLocalizations.of(context).translate('no_nearby_contacts'),
+        message: AppLocalizations.of(context)!.translate('no_nearby_contacts'),
         duration: 5000,
         type: MessageType.INFO,
       );
     } else {
       String trimNumber =
-          ambulanceNumber.replaceAll('-', '').replaceAll(' ', '');
+          ambulanceNumber!.replaceAll('-', '').replaceAll(' ', '');
 
       await launch('tel:$trimNumber');
     }
   }
 
   _callBombaNumber() async {
-    if (bombaNumber.isEmpty) {
+    if (bombaNumber!.isEmpty) {
       customSnackbar.show(
         context,
-        message: AppLocalizations.of(context).translate('no_nearby_contacts'),
+        message: AppLocalizations.of(context)!.translate('no_nearby_contacts'),
         duration: 5000,
         type: MessageType.INFO,
       );
     } else {
-      String trimNumber = bombaNumber.replaceAll('-', '').replaceAll(' ', '');
+      String trimNumber = bombaNumber!.replaceAll('-', '').replaceAll(' ', '');
 
       await launch('tel:$trimNumber');
     }
   }
 
   _callCarWorkshopNumber() async {
-    if (carWorkshopNumber.isEmpty) {
+    if (carWorkshopNumber!.isEmpty) {
       customSnackbar.show(
         context,
-        message: AppLocalizations.of(context).translate('no_nearby_contacts'),
+        message: AppLocalizations.of(context)!.translate('no_nearby_contacts'),
         duration: 5000,
         type: MessageType.INFO,
       );
     } else {
       String trimNumber =
-          carWorkshopNumber.replaceAll('-', '').replaceAll(' ', '');
+          carWorkshopNumber!.replaceAll('-', '').replaceAll(' ', '');
 
       await launch('tel:$trimNumber');
     }
   }
 
   _callBikeWorkshopNumber() async {
-    if (bikeWorkshopNumber.isEmpty) {
+    if (bikeWorkshopNumber!.isEmpty) {
       customSnackbar.show(
         context,
-        message: AppLocalizations.of(context).translate('no_nearby_contacts'),
+        message: AppLocalizations.of(context)!.translate('no_nearby_contacts'),
         duration: 5000,
         type: MessageType.INFO,
       );
     } else {
       String trimNumber =
-          bikeWorkshopNumber.replaceAll('-', '').replaceAll(' ', '');
+          bikeWorkshopNumber!.replaceAll('-', '').replaceAll(' ', '');
 
       await launch('tel:$trimNumber');
     }
@@ -319,7 +319,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: Text(AppLocalizations.of(context).translate('sos_lbl')),
+          title: Text(AppLocalizations.of(context)!.translate('sos_lbl')),
         ),
         body: Container(
           // margin: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(50)),
@@ -350,7 +350,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
   }
 
   _renderCards() {
-    if (policeNumber.isNotEmpty && ambulanceNumber.isNotEmpty) {
+    if (policeNumber!.isNotEmpty && ambulanceNumber!.isNotEmpty) {
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 30.w),
         child: Table(
@@ -360,7 +360,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
             TableRow(
               children: [
                 DirectoryCard(
-                  title: AppLocalizations.of(context).translate('police_title'),
+                  title: AppLocalizations.of(context)!.translate('police_title'),
                   image: myImage.policeIcon,
                   phoneIcon: myImage.phoneButton,
                   directoryIcon: myImage.directoryButton,
@@ -370,7 +370,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                 ),
                 DirectoryCard(
                   title:
-                      AppLocalizations.of(context).translate('ambulance_title'),
+                      AppLocalizations.of(context)!.translate('ambulance_title'),
                   image: myImage.ambulanceIcon,
                   phoneIcon: myImage.phoneButton,
                   directoryIcon: myImage.directoryButton,
@@ -383,7 +383,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
             TableRow(
               children: [
                 DirectoryCard(
-                  title: AppLocalizations.of(context).translate('bomba_title'),
+                  title: AppLocalizations.of(context)!.translate('bomba_title'),
                   image: myImage.bombaIcon,
                   phoneIcon: myImage.phoneButton,
                   directoryIcon: myImage.directoryButton,
@@ -393,7 +393,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                 ),
                 DirectoryCard(
                   title:
-                      AppLocalizations.of(context).translate('towing_service'),
+                      AppLocalizations.of(context)!.translate('towing_service'),
                   image: myImage.towingIcon,
                   phoneIcon: myImage.phoneButton,
                   directoryIcon: myImage.directoryButton,
@@ -401,7 +401,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                   phoneAction: () => {
                     customSnackbar.show(
                       context,
-                      message: AppLocalizations.of(context)
+                      message: AppLocalizations.of(context)!
                           .translate('select_insurance'),
                       duration: 5000,
                       type: MessageType.INFO,
@@ -415,7 +415,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
               children: [
                 DirectoryCard(
                   title:
-                      AppLocalizations.of(context).translate('workshop_cars'),
+                      AppLocalizations.of(context)!.translate('workshop_cars'),
                   image: myImage.workshopCar,
                   phoneIcon: myImage.phoneButton,
                   directoryIcon: myImage.directoryButton,
@@ -425,7 +425,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                 ),
                 DirectoryCard(
                   title:
-                      AppLocalizations.of(context).translate('workshop_bike'),
+                      AppLocalizations.of(context)!.translate('workshop_bike'),
                   image: myImage.workshopBike,
                   phoneIcon: myImage.phoneButton,
                   directoryIcon: myImage.directoryButton,
@@ -446,7 +446,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
             TableRow(
               children: [
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[300],
+                  baseColor: Colors.grey[300]!,
                   highlightColor: Colors.white,
                   child: DirectoryCard(
                     title: '',
@@ -457,7 +457,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                   ),
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[300],
+                  baseColor: Colors.grey[300]!,
                   highlightColor: Colors.white,
                   child: DirectoryCard(
                     title: '',
@@ -472,7 +472,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
             TableRow(
               children: [
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[300],
+                  baseColor: Colors.grey[300]!,
                   highlightColor: Colors.white,
                   child: DirectoryCard(
                     title: '',
@@ -483,7 +483,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                   ),
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[300],
+                  baseColor: Colors.grey[300]!,
                   highlightColor: Colors.white,
                   child: DirectoryCard(
                     title: '',
@@ -498,7 +498,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
             TableRow(
               children: [
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[300],
+                  baseColor: Colors.grey[300]!,
                   highlightColor: Colors.white,
                   child: DirectoryCard(
                     title: '',
@@ -509,7 +509,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                   ),
                 ),
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[300],
+                  baseColor: Colors.grey[300]!,
                   highlightColor: Colors.white,
                   child: DirectoryCard(
                     title: '',

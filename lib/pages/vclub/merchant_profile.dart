@@ -16,7 +16,7 @@ class MerchantProfile extends StatefulWidget {
 
 class _MerchantProfileState extends State<MerchantProfile> {
   final vClubRepo = VclubRepo();
-  Future _getMerchantDetail;
+  Future? _getMerchantDetail;
 
   final primaryColor = ColorConstant.primaryColor;
 
@@ -68,7 +68,7 @@ class _MerchantProfileState extends State<MerchantProfile> {
             default:
               return Center(
                 child: Text(
-                  AppLocalizations.of(context)
+                  AppLocalizations.of(context)!
                       .translate('merchant_detail_fail'),
                 ),
               );

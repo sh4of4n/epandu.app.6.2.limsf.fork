@@ -18,13 +18,13 @@ import '../../router.gr.dart' as route;
 import 'package:epandu/common_library/services/repository/products_repository.dart';
 
 class Product extends StatefulWidget {
-  final String stkCode;
-  final String stkDesc1;
-  final String stkDesc2;
-  final String qty;
-  final String price;
-  final String image;
-  final String uom;
+  final String? stkCode;
+  final String? stkDesc1;
+  final String? stkDesc2;
+  final String? qty;
+  final String? price;
+  final String? image;
+  final String? uom;
   final products;
 
   Product({
@@ -51,13 +51,13 @@ class _ProductState extends State<Product> {
   final customSnackbar = CustomSnackbar();
   final formatter = NumberFormat('#,##0.00');
   final dateFormat = DateFormat("yyyy-MM-dd");
-  String customerName;
+  String? customerName;
   String dbcode = 'TBS';
 
   final RegExp removeBracket =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
 
-  DateTime scheduleDate;
+  DateTime? scheduleDate;
   String _batchNo = '';
   bool _saveBtnIsLoading = false;
   bool _isOfferedItem = false;
@@ -218,21 +218,20 @@ class _ProductState extends State<Product> {
 
     var result = await salesOrderRepo.saveActiveSlsDtlByDb(
       context: context,
-      dbcode: dbcode ?? '',
+      dbcode: dbcode,
       stkCode: widget.stkCode ?? '',
       stkDesc1: widget.stkDesc1 ?? '',
       stkDesc2: widget.stkDesc2 ?? '',
-      batchNo: _batchNo ?? '',
-      itemQty: '1' ?? '0.00',
+      batchNo: _batchNo,
+      itemQty: '1',
       itemUom: widget.uom ?? '',
-      itemPrice: double.tryParse(widget.price.replaceAll(',', ''))
-              .toStringAsFixed(2) ??
-          '0.00',
+      itemPrice: double.tryParse(widget.price!.replaceAll(',', ''))!
+          .toStringAsFixed(2),
       discAmt: '0.00',
       discRate: '0.00',
       isOfferItem: _isOfferedItem,
       scheduleDeliveryDateString: scheduleDate != null
-          ? dateFormat.format(scheduleDate).substring(0, 10)
+          ? dateFormat.format(scheduleDate!).substring(0, 10)
           : '',
       key: '',
       isCart: 'true',
@@ -245,7 +244,7 @@ class _ProductState extends State<Product> {
         _saveBtnIsLoading = false;
       });
 
-      int cartItem = Provider.of<CartStatus>(context, listen: false).cartItem;
+      int cartItem = Provider.of<CartStatus>(context, listen: false).cartItem!;
 
       Provider.of<CartStatus>(context, listen: false).setShowBadge(
         showBadge: true,
@@ -280,7 +279,7 @@ class _ProductState extends State<Product> {
     }
   }
 
-  loadReview({@required String name, @required double rating}) {
+  loadReview({required String name, required double rating}) {
     return Column(
       children: [
         Row(
@@ -289,7 +288,9 @@ class _ProductState extends State<Product> {
             Text(name, style: reviewStyle),
             RatingBar.builder(
               initialRating: rating,
-              onRatingUpdate: null,
+              onRatingUpdate: (rating) {
+                print(rating);
+              },
               direction: Axis.horizontal,
               allowHalfRating: false,
               itemCount: 5,
@@ -311,7 +312,7 @@ class _ProductState extends State<Product> {
   @override
   Widget build(BuildContext context) {
     bool showBadge = context.watch<CartStatus>().showBadge;
-    int badgeNo = context.watch<CartStatus>().cartItem;
+    int? badgeNo = context.watch<CartStatus>().cartItem;
 
     return GestureDetector(
       onTap: () {
@@ -336,7 +337,7 @@ class _ProductState extends State<Product> {
               child: Padding(
                 padding: EdgeInsets.only(top: 30.h, right: 50.w, bottom: 20.h),
                 child: Badge(
-                  badgeColor: Colors.redAccent[700],
+                  badgeColor: Colors.redAccent[700]!,
                   animationType: BadgeAnimationType.fade,
                   showBadge: showBadge,
                   badgeContent: Text(
@@ -360,21 +361,22 @@ class _ProductState extends State<Product> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (widget.stkCode != null && widget.stkCode.isNotEmpty)
+                      if (widget.stkCode != null && widget.stkCode!.isNotEmpty)
                         Text(
-                          widget.stkCode,
+                          widget.stkCode!,
                           style: labelStyle,
                         ),
-                      if (widget.stkDesc1 != null && widget.stkDesc1.isNotEmpty)
+                      if (widget.stkDesc1 != null &&
+                          widget.stkDesc1!.isNotEmpty)
                         Text(
-                          unescape.convert(widget.stkDesc1),
+                          unescape.convert(widget.stkDesc1!),
                           style: labelStyle,
                         ),
                     ],
                   ),
                 ),
                 SizedBox(height: 20.h),
-                widget.image.isNotEmpty
+                widget.image!.isNotEmpty
                     ? Padding(
                         padding: EdgeInsets.only(top: 50.h),
                         child: GestureDetector(
@@ -382,11 +384,11 @@ class _ProductState extends State<Product> {
                           onTap: () => context.router.push(
                             route.ImageViewer(
                               title: widget.stkCode,
-                              image: NetworkImage(widget.image),
+                              image: NetworkImage(widget.image!),
                             ),
                           ),
                           child: Image.network(
-                            widget.image,
+                            widget.image!,
                             width: 600.w,
                             height: 600.h,
                           ),
@@ -403,7 +405,7 @@ class _ProductState extends State<Product> {
                       ),
                 SizedBox(height: 20.h),
                 Text(
-                  formatter.format(double.tryParse(widget.price)) ?? '0.00',
+                  formatter.format(double.tryParse(widget.price!)),
                   style: GoogleFonts.roboto(
                     fontWeight: FontWeight.w600,
                     fontSize: 80.sp,

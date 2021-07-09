@@ -12,12 +12,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hive/hive.dart';
 
 class KppExam extends StatefulWidget {
-  final String groupId;
-  final String paperNo;
+  final String? groupId;
+  final String? paperNo;
 
   KppExam({
-    @required this.groupId,
-    @required this.paperNo,
+    required this.groupId,
+    required this.paperNo,
   });
 
   @override
@@ -28,10 +28,10 @@ class _KppExamState extends State<KppExam> {
   final kppRepo = KppRepo();
   final primaryColor = ColorConstant.primaryColor;
   int index = 0;
-  String groupId;
-  String paperNo;
+  String? groupId;
+  String? paperNo;
   var snapshot;
-  String message = '';
+  String? message = '';
   final customDialog = CustomDialog();
 
   @override
@@ -46,21 +46,21 @@ class _KppExamState extends State<KppExam> {
 
     // Check existing KPP exam
     final examDataBox = Hive.box('exam_data');
-    KppExamData data;
+    KppExamData? data;
 
     if (examDataBox.length > 0) {
-      data = examDataBox.getAt(0) as KppExamData;
+      data = examDataBox.getAt(0) as KppExamData?;
 
       return customDialog.show(
         context: context,
         title: Center(child: Icon(Icons.info_outline, size: 120)),
         content:
-            '${AppLocalizations.of(context).translate("existing_session")} ${data.groupId} ${data.paperNo}. ${AppLocalizations.of(context).translate("existing_session_two")}',
+            '${AppLocalizations.of(context)!.translate("existing_session")} ${data!.groupId} ${data.paperNo}. ${AppLocalizations.of(context)!.translate("existing_session_two")}',
         customActions: <Widget>[
           TextButton(
-            child: Text(AppLocalizations.of(context).translate('yes_lbl')),
+            child: Text(AppLocalizations.of(context)!.translate('yes_lbl')),
             onPressed: () {
-              groupId = data.groupId;
+              groupId = data!.groupId;
               paperNo = data.paperNo;
 
               context.router.pop();
@@ -69,7 +69,7 @@ class _KppExamState extends State<KppExam> {
             },
           ),
           TextButton(
-            child: Text(AppLocalizations.of(context).translate('no_lbl')),
+            child: Text(AppLocalizations.of(context)!.translate('no_lbl')),
             onPressed: () {
               groupId = widget.groupId;
               paperNo = widget.paperNo;

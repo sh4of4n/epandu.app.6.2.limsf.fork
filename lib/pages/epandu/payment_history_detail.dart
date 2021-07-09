@@ -19,7 +19,7 @@ class PaymentHistoryDetail extends StatefulWidget {
 class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
   final format = DateFormat("yyyy-MM-dd");
   final epanduRepo = EpanduRepo();
-  Future _getPaymentDetail;
+  Future? _getPaymentDetail;
   final primaryColor = ColorConstant.primaryColor;
 
   final headerStyle = TextStyle(
@@ -47,8 +47,8 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
 
   _getTotal(snapshot) {
     for (int i = 0; i < snapshot.length; i += 1) {
-      _taxAmt += double.tryParse(snapshot[i].taxAmt);
-      _total += double.tryParse(snapshot[i].nettAmt);
+      _taxAmt += double.tryParse(snapshot[i].taxAmt)!;
+      _total += double.tryParse(snapshot[i].nettAmt)!;
     }
 
     return Table(
@@ -57,7 +57,7 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
         TableRow(
           children: [
             Text(
-              AppLocalizations.of(context).translate('tax_lbl') + ': ',
+              AppLocalizations.of(context)!.translate('tax_lbl') + ': ',
             ),
             Text(
               _taxAmt != 0
@@ -70,7 +70,7 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
         TableRow(
           children: [
             Text(
-              AppLocalizations.of(context).translate('total_lbl') + ': ',
+              AppLocalizations.of(context)!.translate('total_lbl') + ': ',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 70.sp),
             ),
             Text(
@@ -105,7 +105,7 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: Text(AppLocalizations.of(context).translate('payment_lbl')),
+          title: Text(AppLocalizations.of(context)!.translate('payment_lbl')),
         ),
         body: Container(
           padding: EdgeInsets.symmetric(vertical: 100.h, horizontal: 60.w),
@@ -144,7 +144,7 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           snapshot.data[0].packageCode ??
-                              AppLocalizations.of(context)
+                              AppLocalizations.of(context)!
                                   .translate('no_package_code'),
                           // '',
                           textAlign: TextAlign.left,
@@ -169,7 +169,7 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
                               Padding(
                                 padding: EdgeInsets.all(5),
                                 child: Text(
-                                  AppLocalizations.of(context)
+                                  AppLocalizations.of(context)!
                                       .translate('description'),
                                   textAlign: TextAlign.center,
                                   style: headerStyle,
@@ -178,7 +178,7 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
                               Padding(
                                 padding: EdgeInsets.all(5),
                                 child: Text(
-                                  AppLocalizations.of(context)
+                                  AppLocalizations.of(context)!
                                       .translate('subtotal'),
                                   textAlign: TextAlign.center,
                                   style: headerStyle,
@@ -222,13 +222,12 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
                                         padding: EdgeInsets.all(3.0),
                                         child: Text(
                                           'RM' +
-                                                  NumberFormat('#,##0.00')
-                                                      .format(double.tryParse(
-                                                          snapshot.data[index]
-                                                              .tranTotal)) ??
-                                              // AppLocalizations.of(context)
-                                              //     .translate('no_package_desc'),
-                                              '',
+                                              NumberFormat('#,##0.00').format(
+                                                  double.tryParse(snapshot
+                                                      .data[index].tranTotal))
+                                          // AppLocalizations.of(context)
+                                          //     .translate('no_package_desc'),
+                                          ,
                                           textAlign: TextAlign.center,
                                         ),
                                       ),

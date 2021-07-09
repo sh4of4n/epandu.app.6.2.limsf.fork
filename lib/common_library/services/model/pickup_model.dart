@@ -1,5 +1,5 @@
 class GetPickUpByIcNoResponse {
-  List<Pickup> pickup;
+  List<Pickup>? pickup;
 
   GetPickUpByIcNoResponse({this.pickup});
 
@@ -7,7 +7,7 @@ class GetPickUpByIcNoResponse {
     if (json['Pickup'] != null) {
       pickup = new List<Pickup>.empty(growable: true);
       json['Pickup'].forEach((v) {
-        pickup.add(new Pickup.fromJson(v));
+        pickup!.add(new Pickup.fromJson(v));
       });
     }
   }
@@ -15,17 +15,17 @@ class GetPickUpByIcNoResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.pickup != null) {
-      data['Pickup'] = this.pickup.map((v) => v.toJson()).toList();
+      data['Pickup'] = this.pickup!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Pickup {
-  String pickupDate;
-  String pickupTime;
-  String destination;
-  String status;
+  String? pickupDate;
+  String? pickupTime;
+  String? destination;
+  String? status;
 
   Pickup({this.pickupDate, this.pickupTime, this.destination, this.status});
 
@@ -48,15 +48,15 @@ class Pickup {
 
 // SavePickUp
 class SavePickupRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String diCode;
-  String pickupDate;
-  String pickupTime;
-  String destination;
-  String icNo;
-  String userId;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? diCode;
+  String? pickupDate;
+  String? pickupTime;
+  String? destination;
+  String? icNo;
+  String? userId;
 
   SavePickupRequest(
       {this.wsCodeCrypt,

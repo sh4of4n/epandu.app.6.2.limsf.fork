@@ -27,7 +27,7 @@ class _SelectClassState extends State<SelectClass> {
   final customDialog = CustomDialog();
   bool _isLoading = false;
 
-  Future _getClasses;
+  Future? _getClasses;
   var status;
 
   @override
@@ -83,7 +83,7 @@ class _SelectClassState extends State<SelectClass> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(
-            AppLocalizations.of(context).translate('select_class_lbl'),
+            AppLocalizations.of(context)!.translate('select_class_lbl'),
           ),
         ),
         body: Stack(
@@ -97,7 +97,7 @@ class _SelectClassState extends State<SelectClass> {
                     width: double.infinity,
                     color: Color(0xff0290b7),
                     child: Text(
-                      AppLocalizations.of(context)
+                      AppLocalizations.of(context)!
                           .translate('installment_scheme'),
                       style: TextStyle(
                           color: Colors.white,
@@ -146,7 +146,7 @@ class _SelectClassState extends State<SelectClass> {
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 50.h),
                     child: Text(
-                      AppLocalizations.of(context)
+                      AppLocalizations.of(context)!
                           .translate('select_class_lbl'),
                       style: TextStyle(
                         color: Color(0xffdd0e0e),
@@ -169,7 +169,7 @@ class _SelectClassState extends State<SelectClass> {
                         case ConnectionState.done:
                           if (snapshot.data is String) {
                             return Center(
-                                child: Text(AppLocalizations.of(context)
+                                child: Text(AppLocalizations.of(context)!
                                     .translate('no_classes_desc')));
                           }
                           return ListView.builder(
@@ -204,7 +204,7 @@ class _SelectClassState extends State<SelectClass> {
                                                   children: [
                                                     TextSpan(
                                                       text: AppLocalizations.of(
-                                                                  context)
+                                                                  context)!
                                                               .translate(
                                                                   'class_lbl') +
                                                           ' ',
@@ -236,12 +236,10 @@ class _SelectClassState extends State<SelectClass> {
                                               ),
                                               Text(
                                                 'RM' +
-                                                        NumberFormat('#,##0.00')
-                                                            .format(double
-                                                                .tryParse(snapshot
-                                                                    .data[index]
-                                                                    .fee)) ??
-                                                    '0.00',
+                                                    NumberFormat('#,##0.00')
+                                                        .format(double.tryParse(
+                                                            snapshot.data[index]
+                                                                .fee)),
                                                 style: TextStyle(
                                                   color: Color(
                                                     0xff666666,
@@ -253,7 +251,7 @@ class _SelectClassState extends State<SelectClass> {
                                                             .totalTime !=
                                                         null
                                                     ? AppLocalizations.of(
-                                                                context)
+                                                                context)!
                                                             .translate(
                                                                 'total_time') +
                                                         ' ' +
@@ -322,7 +320,7 @@ class _SelectClassState extends State<SelectClass> {
                         default:
                           return Center(
                             child: Text(
-                              AppLocalizations.of(context)
+                              AppLocalizations.of(context)!
                                   .translate('get_class_list_fail'),
                             ),
                           );
@@ -384,11 +382,11 @@ class _SelectClassState extends State<SelectClass> {
             color: Colors.green,
           ),
         ),
-        content: AppLocalizations.of(context).translate('enroll_success'),
+        content: AppLocalizations.of(context)!.translate('enroll_success'),
         type: DialogType.GENERAL,
         customActions: <Widget>[
           TextButton(
-            child: Text(AppLocalizations.of(context).translate('ok_btn')),
+            child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
             onPressed: () async {
               await authRepo.getUserRegisteredDI(
                   context: context, type: 'UPDATE');

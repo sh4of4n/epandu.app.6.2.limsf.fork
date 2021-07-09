@@ -1,6 +1,6 @@
 // Get Default SoS contact
 class DefaultEmergencyContactResponse {
-  List<SosContactHelpDesk> sosContactHelpDesk;
+  List<SosContactHelpDesk>? sosContactHelpDesk;
 
   DefaultEmergencyContactResponse({this.sosContactHelpDesk});
 
@@ -8,7 +8,7 @@ class DefaultEmergencyContactResponse {
     if (json['SosContactHelpDesk'] != null) {
       sosContactHelpDesk = new List<SosContactHelpDesk>.empty(growable: true);
       json['SosContactHelpDesk'].forEach((v) {
-        sosContactHelpDesk.add(new SosContactHelpDesk.fromJson(v));
+        sosContactHelpDesk!.add(new SosContactHelpDesk.fromJson(v));
       });
     }
   }
@@ -17,25 +17,25 @@ class DefaultEmergencyContactResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.sosContactHelpDesk != null) {
       data['SosContactHelpDesk'] =
-          this.sosContactHelpDesk.map((v) => v.toJson()).toList();
+          this.sosContactHelpDesk!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class SosContactHelpDesk {
-  String sosCallPhone;
-  String sosSmsPhone;
-  String policeCallPhone;
-  String policeSmsPhone;
-  String ambulanceCallPhone;
-  String ambulanceSmsPhone;
-  String autoAssistCallPhone;
-  String autoAssistSmsPhone;
-  String sosSystemSmsPhone;
-  String locRequestPriority;
-  String locRequestFastestInterval;
-  String locRequestInterval;
+  String? sosCallPhone;
+  String? sosSmsPhone;
+  String? policeCallPhone;
+  String? policeSmsPhone;
+  String? ambulanceCallPhone;
+  String? ambulanceSmsPhone;
+  String? autoAssistCallPhone;
+  String? autoAssistSmsPhone;
+  String? sosSystemSmsPhone;
+  String? locRequestPriority;
+  String? locRequestFastestInterval;
+  String? locRequestInterval;
 
   SosContactHelpDesk(
       {this.sosCallPhone,
@@ -286,7 +286,7 @@ class SosContactHelpDesk {
 
 // GetSosContactSortByNearest
 class GetSosContactSortByNearestResponse {
-  List<SosContact> sosContact;
+  List<SosContact>? sosContact;
 
   GetSosContactSortByNearestResponse({this.sosContact});
 
@@ -294,7 +294,7 @@ class GetSosContactSortByNearestResponse {
     if (json['SosContact'] != null) {
       sosContact = new List<SosContact>.empty(growable: true);
       json['SosContact'].forEach((v) {
-        sosContact.add(new SosContact.fromJson(v));
+        sosContact!.add(new SosContact.fromJson(v));
       });
     }
   }
@@ -302,38 +302,38 @@ class GetSosContactSortByNearestResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.sosContact != null) {
-      data['SosContact'] = this.sosContact.map((v) => v.toJson()).toList();
+      data['SosContact'] = this.sosContact!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class SosContact {
-  String iD;
-  String sosContactType;
-  String sosContactSubtype;
-  String sosContactCode;
-  String sosContactName;
-  String add;
-  String phone;
-  String latitude;
-  String longtitude;
-  String areaCode;
-  String skipCall;
-  String remark;
-  String createUser;
-  String editUser;
-  String editDate;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String lastupload;
-  String transtamp;
-  String deleted;
-  String lastEditedBy;
-  String createdBy;
-  String distance;
-  String isEmpty;
+  String? iD;
+  String? sosContactType;
+  String? sosContactSubtype;
+  String? sosContactCode;
+  String? sosContactName;
+  String? add;
+  String? phone;
+  String? latitude;
+  String? longtitude;
+  String? areaCode;
+  String? skipCall;
+  String? remark;
+  String? createUser;
+  String? editUser;
+  String? editDate;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? lastupload;
+  String? transtamp;
+  String? deleted;
+  String? lastEditedBy;
+  String? createdBy;
+  String? distance;
+  String? isEmpty;
 
   SosContact(
       {this.iD,
@@ -422,7 +422,7 @@ class SosContact {
 }
 
 class GetPandemicPDFReportResponse {
-  List<PDF> pDF;
+  List<PDF>? pDF;
 
   GetPandemicPDFReportResponse({this.pDF});
 
@@ -430,7 +430,7 @@ class GetPandemicPDFReportResponse {
     if (json['PDF'] != null) {
       pDF = new List<PDF>.empty(growable: true);
       json['PDF'].forEach((v) {
-        pDF.add(new PDF.fromJson(v));
+        pDF!.add(new PDF.fromJson(v));
       });
     }
   }
@@ -438,14 +438,14 @@ class GetPandemicPDFReportResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.pDF != null) {
-      data['PDF'] = this.pDF.map((v) => v.toJson()).toList();
+      data['PDF'] = this.pDF!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class PDF {
-  String fileName;
+  String? fileName;
 
   PDF({this.fileName});
 
@@ -462,7 +462,7 @@ class PDF {
 
 // GetPandemicTrack
 class GetPandemicTrackResponse {
-  List<PandemicTrack> pandemicTrack;
+  List<PandemicTrack>? pandemicTrack;
 
   GetPandemicTrackResponse({this.pandemicTrack});
 
@@ -470,7 +470,7 @@ class GetPandemicTrackResponse {
     if (json['PandemicTrack'] != null) {
       pandemicTrack = new List<PandemicTrack>.empty(growable: true);
       json['PandemicTrack'].forEach((v) {
-        pandemicTrack.add(new PandemicTrack.fromJson(v));
+        pandemicTrack!.add(new PandemicTrack.fromJson(v));
       });
     }
   }
@@ -479,31 +479,31 @@ class GetPandemicTrackResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.pandemicTrack != null) {
       data['PandemicTrack'] =
-          this.pandemicTrack.map((v) => v.toJson()).toList();
+          this.pandemicTrack!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class PandemicTrack {
-  String id;
-  String merchantNo;
-  String phone;
-  String name;
-  String trackingDate;
-  String trackingTime;
-  String bodyTemperature;
-  String scanCode;
-  String deleted;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String transtamp;
-  String lastupload;
+  String? id;
+  String? merchantNo;
+  String? phone;
+  String? name;
+  String? trackingDate;
+  String? trackingTime;
+  String? bodyTemperature;
+  String? scanCode;
+  String? deleted;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? transtamp;
+  String? lastupload;
 
   PandemicTrack(
       {this.id,

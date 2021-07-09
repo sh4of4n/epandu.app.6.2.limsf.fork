@@ -33,7 +33,7 @@ class _SelectInstituteState extends State<SelectInstitute> {
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
 
   Location location = Location();
-  String _message = '';
+  String? _message = '';
   bool _isLoading = true;
   int _startIndex = 0;
   List<dynamic> items = [];
@@ -56,7 +56,7 @@ class _SelectInstituteState extends State<SelectInstitute> {
             _startIndex += 10;
           });
 
-          if (_message.isEmpty) _getDiNearMe();
+          if (_message!.isEmpty) _getDiNearMe();
         }
       });
   }
@@ -125,12 +125,12 @@ class _SelectInstituteState extends State<SelectInstitute> {
       placeholder: MemoryImage(kTransparentImage),
       width: 250.w,
       // height: ScreenUtil().setHeight(350),
-      image: snapshot.merchantIconFilename != null &&
+      image: (snapshot.merchantIconFilename != null &&
               snapshot.merchantIconFilename.isNotEmpty
           ? NetworkImage(snapshot.merchantIconFilename
               .replaceAll(exp, '')
               .split('\r\n')[0])
-          : MemoryImage(kTransparentImage),
+          : MemoryImage(kTransparentImage)) as ImageProvider<Object>,
     );
   }
 
@@ -153,7 +153,7 @@ class _SelectInstituteState extends State<SelectInstitute> {
         appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            title: Text(AppLocalizations.of(context)
+            title: Text(AppLocalizations.of(context)!
                 .translate('select_institute_lbl'))),
         body: SingleChildScrollView(
           controller: _scrollController,
@@ -164,9 +164,9 @@ class _SelectInstituteState extends State<SelectInstitute> {
   }
 
   _diNearMe() {
-    if (items.length == 0 && _message.isNotEmpty) {
+    if (items.length == 0 && _message!.isNotEmpty) {
       return Center(
-        child: Text(_message),
+        child: Text(_message!),
       );
     } else if (items.length > 0) {
       return ListView(
@@ -236,7 +236,7 @@ class _SelectInstituteState extends State<SelectInstitute> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.h),
               child: Shimmer.fromColors(
-                baseColor: Colors.grey[300],
+                baseColor: Colors.grey[300]!,
                 highlightColor: Colors.white,
                 child: Container(
                   width: ScreenUtil().setWidth(1350),
@@ -251,7 +251,7 @@ class _SelectInstituteState extends State<SelectInstitute> {
     return _loadingShimmer();
   }
 
-  _loadingShimmer({int length}) {
+  _loadingShimmer({int? length}) {
     return Container(
       alignment: Alignment.topCenter,
       child: ListView.builder(
@@ -263,7 +263,7 @@ class _SelectInstituteState extends State<SelectInstitute> {
               Padding(
                 padding: EdgeInsets.only(bottom: 40.h),
                 child: Shimmer.fromColors(
-                  baseColor: Colors.grey[300],
+                  baseColor: Colors.grey[300]!,
                   highlightColor: Colors.white,
                   child: Container(
                     width: ScreenUtil().setWidth(1350),

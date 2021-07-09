@@ -6,11 +6,11 @@ import 'package:epandu/common_library/services/model/chat_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MessageItem extends StatelessWidget {
-  final Message message;
-  final int previousItemDate;
-  final ScrollController scrollController;
+  final Message? message;
+  final int? previousItemDate;
+  final ScrollController? scrollController;
   final LocalStorage localStorage = LocalStorage();
-  final String userId;
+  final String? userId;
 
   MessageItem(
       {this.message,
@@ -20,10 +20,10 @@ class MessageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var date = DateTime.fromMillisecondsSinceEpoch(message.sentDateTime);
+    var date = DateTime.fromMillisecondsSinceEpoch(message!.sentDateTime!);
     var formattedDate = DateFormat.yMMMd().format(date);
     var formattedTime = DateFormat.jm().format(date);
-    if (message.author == userId) {
+    if (message!.author == userId) {
       return Column(
         children: <Widget>[
           Align(
@@ -36,7 +36,7 @@ class MessageItem extends StatelessWidget {
                 : formattedDate ==
                         DateFormat.yMMMd().format(
                             DateTime.fromMillisecondsSinceEpoch(
-                                message.sentDateTime))
+                                message!.sentDateTime!))
                     ? Container()
                     : Text(formattedDate,
                         textAlign: TextAlign.center,
@@ -55,7 +55,7 @@ class MessageItem extends StatelessWidget {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(color: Colors.black26)),
-                        child: Text(message.data,
+                        child: Text(message!.data!,
                             textAlign: TextAlign.justify,
                             style: new TextStyle(
                                 fontSize: 70.0.sp, color: Colors.black))),
@@ -85,7 +85,7 @@ class MessageItem extends StatelessWidget {
                 : formattedDate ==
                         DateFormat.yMMMd().format(
                             DateTime.fromMillisecondsSinceEpoch(
-                                message.sentDateTime))
+                                message!.sentDateTime!))
                     ? Container()
                     : Text(formattedDate,
                         textAlign: TextAlign.center,
@@ -105,7 +105,7 @@ class MessageItem extends StatelessWidget {
                           color: Colors.black12,
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Text(message.data,
+                        child: Text(message!.data!,
                             textAlign: TextAlign.justify,
                             style: new TextStyle(
                                 fontSize: 70.0.sp, color: Colors.black))),

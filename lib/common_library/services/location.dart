@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:flutter_geocoder/geocoder.dart';
 
 import '../utils/local_storage.dart';
@@ -10,10 +9,10 @@ class Location {
     accuracy: LocationAccuracy.high,
     distanceFilter: 100,
   );
-  double latitude;
-  double longitude;
-  String address;
-  String places;
+  double? latitude;
+  double? longitude;
+  String? address;
+  String? places;
   double distanceInMeters = 0;
 
   final localStorage = LocalStorage();
@@ -32,7 +31,7 @@ class Location {
     return permission;
   }
 
-  Future<void> getAddress(double lat, double long) async {
+  Future<void> getAddress(double? lat, double? long) async {
     final coordinates = Coordinates(lat, long);
 
     var addresses =
@@ -44,11 +43,11 @@ class Location {
   }
 
   Future<double> getDistance(
-      {@required double locLatitude, @required double locLongitude}) async {
-    double _savedLatitude =
-        double.tryParse((await localStorage.getUserLatitude()));
-    double _savedLongitude =
-        double.tryParse((await localStorage.getUserLongitude()));
+      {required double locLatitude, required double locLongitude}) async {
+    double? _savedLatitude =
+        double.tryParse((await localStorage.getUserLatitude())!);
+    double? _savedLongitude =
+        double.tryParse((await localStorage.getUserLongitude())!);
 
     double distance;
 
@@ -57,7 +56,7 @@ class Location {
         locLongitude > -180 &&
         locLongitude < 180) {
       distanceInMeters = Geolocator.distanceBetween(
-          _savedLatitude, _savedLongitude, locLatitude, locLongitude);
+          _savedLatitude!, _savedLongitude!, locLatitude, locLongitude);
 
       distance = distanceInMeters;
 

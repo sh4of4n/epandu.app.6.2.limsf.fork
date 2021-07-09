@@ -34,7 +34,7 @@ class ChangePassword extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            title: Text(AppLocalizations.of(context)
+            title: Text(AppLocalizations.of(context)!
                 .translate('change_password_title')),
           ),
           body: SafeArea(

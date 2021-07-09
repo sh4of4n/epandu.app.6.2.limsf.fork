@@ -6,7 +6,7 @@ class EnrollEnquiry extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('enroll_lbl')),
+        title: Text(AppLocalizations.of(context)!.translate('enroll_lbl')),
       ),
       body: Container(),
     );

@@ -32,9 +32,9 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
 
   bool _isLoading = false;
 
-  String _phone;
-  String _password;
-  String _loginMessage = '';
+  String? _phone;
+  String? _password;
+  String? _loginMessage = '';
   bool _obscureText = true;
 
   // var _height = ScreenUtil().setHeight(1300);
@@ -47,9 +47,9 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
 
   DeviceInfo deviceInfo = DeviceInfo();
   // String _deviceModel = '';
-  String _deviceVersion = '';
-  String _deviceId = '';
-  String _deviceOs = '';
+  String? _deviceVersion = '';
+  String? _deviceId = '';
+  String? _deviceOs = '';
 
   @override
   void initState() {
@@ -129,7 +129,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                     color: primaryColor,
                   ),
                   labelText:
-                      AppLocalizations.of(context).translate('phone_lbl'),
+                      AppLocalizations.of(context)!.translate('phone_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.account_circle, size: 32),
@@ -145,8 +145,8 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                   fieldFocusChange(context, _phoneFocus, _passwordFocus);
                 },
                 validator: (value) {
-                  if (value.isEmpty) {
-                    return AppLocalizations.of(context)
+                  if (value!.isEmpty) {
+                    return AppLocalizations.of(context)!
                         .translate('phone_required_msg');
                   }
                   return null;
@@ -169,7 +169,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                   contentPadding: EdgeInsets.symmetric(vertical: 40.h),
                   hintStyle: TextStyle(color: primaryColor),
                   labelText:
-                      AppLocalizations.of(context).translate('password_lbl'),
+                      AppLocalizations.of(context)!.translate('password_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.lock, size: 32),
@@ -194,8 +194,8 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                 ),
                 obscureText: _obscureText,
                 validator: (value) {
-                  if (value.isEmpty) {
-                    return AppLocalizations.of(context)
+                  if (value!.isEmpty) {
+                    return AppLocalizations.of(context)!
                         .translate('password_required_msg');
                   }
                   return null;
@@ -217,7 +217,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                       context.router.push(ForgotPassword());
                     },
                     child: Text(
-                      AppLocalizations.of(context)
+                      AppLocalizations.of(context)!
                           .translate('forgot_password_lbl'),
                       style: TextStyle(
                         fontSize: 35.sp,
@@ -234,11 +234,11 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      _loginMessage.isNotEmpty
+                      _loginMessage!.isNotEmpty
                           ? LimitedBox(
                               maxWidth: 800.w,
                               child: Text(
-                                _loginMessage,
+                                _loginMessage!,
                                 style: TextStyle(color: Colors.red),
                                 textAlign: TextAlign.center,
                               ),
@@ -260,7 +260,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                       context.router.push(RegisterMobile());
                     },
                     child: Text(
-                      AppLocalizations.of(context).translate('sign_up_btn'),
+                      AppLocalizations.of(context)!.translate('sign_up_btn'),
                       style: TextStyle(
                         fontSize: 35.sp,
                       ),
@@ -293,7 +293,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                 onPressed: _submitLogin, // () => localStorage.reset(),
 
                 child: Text(
-                  AppLocalizations.of(context).translate('login_btn'),
+                  AppLocalizations.of(context)!.translate('login_btn'),
                   style: TextStyle(
                     fontSize: 35.sp,
                   ),
@@ -304,8 +304,8 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
   }
 
   _submitLogin() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
       setState(() {

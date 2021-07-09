@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/provider/cart_status.dart';
 import 'package:epandu/common_library/services/repository/sales_order_repository.dart';
 import 'package:epandu/utils/constants.dart';
@@ -9,17 +8,15 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../router.gr.dart';
-
 class Checkout extends StatefulWidget {
   final slsDetailData;
-  final String name;
-  final String dbcode;
-  final String date;
-  final String docDoc;
-  final String docRef;
-  final String qty;
-  final String totalAmount;
+  final String? name;
+  final String? dbcode;
+  final String? date;
+  final String? docDoc;
+  final String? docRef;
+  final String? qty;
+  final String? totalAmount;
 
   Checkout({
     this.slsDetailData,
@@ -130,13 +127,13 @@ class _CheckoutState extends State<Checkout> {
   }
 
   _showOrdPrice(snapshot) {
-    if (double.tryParse(snapshot.discAmt) > 0)
+    if (double.tryParse(snapshot.discAmt)! > 0)
       return Row(
         children: <Widget>[
           Text(
             (formatter.format(
-              double.tryParse(snapshot.ordPrice) *
-                  double.tryParse(snapshot.ordQty),
+              double.tryParse(snapshot.ordPrice)! *
+                  double.tryParse(snapshot.ordQty)!,
             )),
             style: TextStyle(
                 decoration: TextDecoration.lineThrough,
@@ -211,7 +208,7 @@ class _CheckoutState extends State<Checkout> {
             size: 120,
           ),
         ),
-        content: Text(result.message),
+        content: Text(result.message!),
         type: DialogType.ERROR,
       );
     }
@@ -233,7 +230,7 @@ class _CheckoutState extends State<Checkout> {
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: Text(
-              widget.name,
+              widget.name!,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: ScreenUtil().setSp(65),
@@ -249,7 +246,7 @@ class _CheckoutState extends State<Checkout> {
                     Text('Date', style: labelStyle),
                     Text(
                       DateFormat('yyyy-MM-dd').format(
-                        DateTime.parse(widget.date.substring(0, 10)),
+                        DateTime.parse(widget.date!.substring(0, 10)),
                       ),
                       textAlign: TextAlign.right,
                       style: labelStyle,
@@ -263,7 +260,7 @@ class _CheckoutState extends State<Checkout> {
                       style: labelStyle,
                     ),
                     Text(
-                      widget.docRef,
+                      widget.docRef!,
                       textAlign: TextAlign.right,
                       style: labelStyle,
                     ),
@@ -321,12 +318,12 @@ class _CheckoutState extends State<Checkout> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    formatter.format(double.tryParse(widget.qty)),
+                    formatter.format(double.tryParse(widget.qty!)),
                     textAlign: TextAlign.right,
                     style: amountStyle,
                   ),
                   Text(
-                    widget.totalAmount,
+                    widget.totalAmount!,
                     textAlign: TextAlign.right,
                     style: amountStyle,
                   ),

@@ -1,5 +1,5 @@
 class GetMerchantTypeResponse {
-  List<MerchantType> merchantType;
+  List<MerchantType>? merchantType;
 
   GetMerchantTypeResponse({this.merchantType});
 
@@ -7,7 +7,7 @@ class GetMerchantTypeResponse {
     if (json['MerchantType'] != null) {
       merchantType = new List<MerchantType>.empty(growable: true);
       json['MerchantType'].forEach((v) {
-        merchantType.add(new MerchantType.fromJson(v));
+        merchantType!.add(new MerchantType.fromJson(v));
       });
     }
   }
@@ -15,25 +15,25 @@ class GetMerchantTypeResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.merchantType != null) {
-      data['MerchantType'] = this.merchantType.map((v) => v.toJson()).toList();
+      data['MerchantType'] = this.merchantType!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class MerchantType {
-  String iD;
-  String merchantType;
-  String merchantTypeDesc;
-  String merchantTypeIconFilename;
-  String merchantTypeBannerFilename;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String deleted;
-  String rowKey;
-  String transtamp;
+  String? iD;
+  String? merchantType;
+  String? merchantTypeDesc;
+  String? merchantTypeIconFilename;
+  String? merchantTypeBannerFilename;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? deleted;
+  String? rowKey;
+  String? transtamp;
 
   MerchantType(
       {this.iD,
@@ -84,7 +84,7 @@ class MerchantType {
 
 // GetMerchantResponse
 class GetMerchantResponse {
-  List<Merchant> merchant;
+  List<Merchant>? merchant;
 
   GetMerchantResponse({this.merchant});
 
@@ -92,7 +92,7 @@ class GetMerchantResponse {
     if (json['Merchant'] != null) {
       merchant = new List<Merchant>.empty(growable: true);
       json['Merchant'].forEach((v) {
-        merchant.add(new Merchant.fromJson(v));
+        merchant!.add(new Merchant.fromJson(v));
       });
     }
   }
@@ -100,77 +100,77 @@ class GetMerchantResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.merchant != null) {
-      data['Merchant'] = this.merchant.map((v) => v.toJson()).toList();
+      data['Merchant'] = this.merchant!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Merchant {
-  String iD;
-  String merchantNo;
-  String company;
-  String brno;
-  String merchantDesc;
-  String merchantType;
-  String name;
-  String shortName;
-  String category;
-  String merchantIcon;
-  String merchantIconFilename;
-  String merchantProfilePhoto;
-  String merchantProfilePhotoFilename;
-  String coMap;
-  String webSite;
-  String coDomain;
-  String pic;
-  String phoneOff1;
-  String phoneExt1;
-  String phoneOff2;
-  String phoneExt2;
-  String mobilePhone;
-  String fax;
-  String email;
-  String contactPerson;
-  String contactPost;
-  String add1;
-  String add2;
-  String add3;
-  String add4;
-  String postcode;
-  String cityCode;
-  String stateCode;
-  String countryCode;
-  String latitude;
-  String longitude;
-  String remark;
-  String status;
-  String indCode;
-  String merchantApplicationStatus;
-  String merchantStatus;
-  String joinDate;
-  String expiryDate;
-  String dbcode;
-  String coIntro;
-  String businessHour;
-  String businessDay;
-  String agentCode;
-  String homeBanner;
-  String coOverview;
-  String businessInfo;
-  String offerGive;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String deleted;
-  String rowKey;
-  String transtamp;
-  String cityName;
-  String lastEditedBy;
-  String createdBy;
-  String distance;
-  String isEmpty;
+  String? iD;
+  String? merchantNo;
+  String? company;
+  String? brno;
+  String? merchantDesc;
+  String? merchantType;
+  String? name;
+  String? shortName;
+  String? category;
+  String? merchantIcon;
+  String? merchantIconFilename;
+  String? merchantProfilePhoto;
+  String? merchantProfilePhotoFilename;
+  String? coMap;
+  String? webSite;
+  String? coDomain;
+  String? pic;
+  String? phoneOff1;
+  String? phoneExt1;
+  String? phoneOff2;
+  String? phoneExt2;
+  String? mobilePhone;
+  String? fax;
+  String? email;
+  String? contactPerson;
+  String? contactPost;
+  String? add1;
+  String? add2;
+  String? add3;
+  String? add4;
+  String? postcode;
+  String? cityCode;
+  String? stateCode;
+  String? countryCode;
+  String? latitude;
+  String? longitude;
+  String? remark;
+  String? status;
+  String? indCode;
+  String? merchantApplicationStatus;
+  String? merchantStatus;
+  String? joinDate;
+  String? expiryDate;
+  String? dbcode;
+  String? coIntro;
+  String? businessHour;
+  String? businessDay;
+  String? agentCode;
+  String? homeBanner;
+  String? coOverview;
+  String? businessInfo;
+  String? offerGive;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? deleted;
+  String? rowKey;
+  String? transtamp;
+  String? cityName;
+  String? lastEditedBy;
+  String? createdBy;
+  String? distance;
+  String? isEmpty;
 
   Merchant(
       {this.iD,

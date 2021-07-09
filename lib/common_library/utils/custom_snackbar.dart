@@ -25,12 +25,12 @@ class CustomSnackbar {
 
   void show(
     BuildContext context, {
-    @required message,
-    @required MessageType type,
-    int duration,
+    required message,
+    required MessageType type,
+    int? duration,
   }) {
-    Color backgroundColor;
-    Icon icon;
+    Color? backgroundColor;
+    Icon? icon;
 
     switch (type) {
       case MessageType.ERROR:
@@ -92,7 +92,7 @@ class CustomSnackbar {
   void _showFlushbar(
     BuildContext context,
     type, {
-    message,
+    required message,
     bgColor,
     textSize,
     textColor,

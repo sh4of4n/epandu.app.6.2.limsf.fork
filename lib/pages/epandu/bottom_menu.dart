@@ -48,7 +48,7 @@ class BottomMenu extends StatelessWidget {
                             ),
                             SizedBox(height: 20.h),
                             Text(
-                                AppLocalizations.of(context)
+                                AppLocalizations.of(context)!
                                     .translate('contest_and_win'),
                                 style: iconText),
                           ],
@@ -77,7 +77,7 @@ class BottomMenu extends StatelessWidget {
                             ),
                             SizedBox(height: 20.h),
                             Text(
-                                AppLocalizations.of(context).translate('about'),
+                                AppLocalizations.of(context)!.translate('about'),
                                 style: iconText),
                           ],
                         ),

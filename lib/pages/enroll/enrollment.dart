@@ -69,24 +69,24 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
   bool _isLoading = false;
-  String _icNo = '';
-  String _icName = '';
+  String? _icNo = '';
+  String? _icName = '';
   String _email = '';
   String _postcode = '';
   // String _address = '';
   // String _postcode = '';
-  String _dob = '';
+  String? _dob = '';
   // String _nationality = '';
-  String _race = '';
-  String _raceParam = '';
-  String _message = '';
+  String? _race = '';
+  String? _raceParam = '';
+  String? _message = '';
   bool _obtainingStatus = true;
 
   String _nickName = '';
-  Gender _gender = Gender.male;
+  Gender? _gender = Gender.male;
   String _genderValue = 'MALE';
   // String _countryCode = '+60';
-  String _potentialDob = '';
+  String? _potentialDob = '';
   final myImage = ImagesConstant();
   var _enrollHistoryData;
   // String genderInt = '1';
@@ -106,18 +106,18 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   // String countryCode = '';
   String phone = '';
 
-  List<CameraDescription> cameras;
+  List<CameraDescription>? cameras;
   final picker = ImagePicker();
-  String profilePicUrl = '';
+  String? profilePicUrl = '';
   String profilePicBase64 = '';
-  File _image;
-  File _croppedImage;
+  late File _image;
+  late File _croppedImage;
   var imageState;
   var ldlList;
   var cdlList;
 
-  String ldlItem = '';
-  String cdlItem = '';
+  String? ldlItem = '';
+  String? cdlItem = '';
 
   String cupertinoDob = '';
 
@@ -218,7 +218,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                 .split('\r\n')[0]
             : '';
 
-        if (_icNo != null && _icNo.isNotEmpty) {
+        if (_icNo != null && _icNo!.isNotEmpty) {
           autoFillDob(_icNo);
         }
       });
@@ -313,14 +313,14 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         labelStyle: TextStyle(
           color: Color(0xff808080),
         ),
-        labelText: AppLocalizations.of(context).translate('nick_name_lbl'),
+        labelText: AppLocalizations.of(context)!.translate('nick_name_lbl'),
         fillColor: Colors.white,
         filled: true,
         prefixIcon: Icon(Icons.assignment_ind),
         suffixIcon: IconButton(
           icon: Icon(Icons.cancel),
           onPressed: () {
-            WidgetsBinding.instance
+            WidgetsBinding.instance!
                 .addPostFrameCallback((_) => _nickNameController.clear());
           },
         ),
@@ -333,7 +333,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           borderRadius: BorderRadius.circular(30),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue[700], width: 1.6),
+          borderSide: BorderSide(color: Colors.blue[700]!, width: 1.6),
           // borderRadius: BorderRadius.circular(0),
           borderRadius: BorderRadius.circular(30),
         ),
@@ -371,7 +371,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         suffixIcon: IconButton(
           icon: Icon(Icons.cancel),
           onPressed: () {
-            WidgetsBinding.instance
+            WidgetsBinding.instance!
                 .addPostFrameCallback((_) => _emailController.clear());
           },
         ),
@@ -381,7 +381,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         labelStyle: TextStyle(
           color: Color(0xff808080),
         ),
-        labelText: AppLocalizations.of(context).translate('email_lbl'),
+        labelText: AppLocalizations.of(context)!.translate('email_lbl'),
         fillColor: Colors.white,
         filled: true,
         prefixIcon: Icon(Icons.mail),
@@ -394,7 +394,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           borderRadius: BorderRadius.circular(30),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue[700], width: 1.6),
+          borderSide: BorderSide(color: Colors.blue[700]!, width: 1.6),
           // borderRadius: BorderRadius.circular(0),
           borderRadius: BorderRadius.circular(30),
         ),
@@ -425,7 +425,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           color: Color(0xff808080),
         ),
         labelText:
-            AppLocalizations.of(context).translate('ic_name_required_lbl'),
+            AppLocalizations.of(context)!.translate('ic_name_required_lbl'),
         fillColor: Colors.white,
         filled: true,
         prefixIcon: Icon(Icons.assignment_ind),
@@ -438,7 +438,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           borderRadius: BorderRadius.circular(30),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue[700], width: 1.6),
+          borderSide: BorderSide(color: Colors.blue[700]!, width: 1.6),
           // borderRadius: BorderRadius.circular(0),
           borderRadius: BorderRadius.circular(30),
         ),
@@ -451,8 +451,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         );
       },
       validator: (value) {
-        if (value.isEmpty) {
-          return AppLocalizations.of(context).translate('ic_name_required_msg');
+        if (value!.isEmpty) {
+          return AppLocalizations.of(context)!.translate('ic_name_required_msg');
         }
         return null;
       },
@@ -477,7 +477,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         labelStyle: TextStyle(
           color: Color(0xff808080),
         ),
-        labelText: AppLocalizations.of(context).translate('ic_required_lbl'),
+        labelText: AppLocalizations.of(context)!.translate('ic_required_lbl'),
         fillColor: Colors.white,
         filled: true,
         prefixIcon: Icon(Icons.featured_video),
@@ -490,7 +490,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           borderRadius: BorderRadius.circular(30),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue[700], width: 1.6),
+          borderSide: BorderSide(color: Colors.blue[700]!, width: 1.6),
           // borderRadius: BorderRadius.circular(0),
           borderRadius: BorderRadius.circular(30),
         ),
@@ -503,8 +503,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         );
       },
       validator: (value) {
-        if (value.isEmpty) {
-          return AppLocalizations.of(context).translate('ic_required_msg');
+        if (value!.isEmpty) {
+          return AppLocalizations.of(context)!.translate('ic_required_msg');
         }
         return null;
       },
@@ -530,7 +530,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         labelStyle: TextStyle(
           color: Color(0xff808080),
         ),
-        labelText: AppLocalizations.of(context).translate('dob_required_lbl'),
+        labelText: AppLocalizations.of(context)!.translate('dob_required_lbl'),
         fillColor: Colors.white,
         filled: true,
         enabledBorder: OutlineInputBorder(
@@ -542,7 +542,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           borderRadius: BorderRadius.circular(30),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue[700], width: 1.6),
+          borderSide: BorderSide(color: Colors.blue[700]!, width: 1.6),
           // borderRadius: BorderRadius.circular(0),
           borderRadius: BorderRadius.circular(30),
         ),
@@ -557,7 +557,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       ),
       validator: (value) {
         if (_dobController.text.isEmpty) {
-          return AppLocalizations.of(context).translate('dob_required_msg');
+          return AppLocalizations.of(context)!.translate('dob_required_msg');
         }
         return null;
       },
@@ -682,7 +682,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         contentPadding: EdgeInsets.symmetric(
           vertical: 0.h,
         ),
-        labelText: AppLocalizations.of(context).translate('race_lbl'),
+        labelText: AppLocalizations.of(context)!.translate('race_lbl'),
         fillColor: Colors.white,
         filled: true,
         enabledBorder: OutlineInputBorder(
@@ -693,37 +693,37 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           borderRadius: BorderRadius.circular(30),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue[700], width: 1.6),
+          borderSide: BorderSide(color: Colors.blue[700]!, width: 1.6),
           // borderRadius: BorderRadius.circular(0),
           borderRadius: BorderRadius.circular(30),
         ),
         prefixIcon: Icon(Icons.people),
       ),
-      disabledHint: Text(AppLocalizations.of(context).translate('race_lbl')),
-      value: _race.isEmpty ? null : _race,
+      disabledHint: Text(AppLocalizations.of(context)!.translate('race_lbl')),
+      value: _race!.isEmpty ? null : _race,
       /* _nationality.isNotEmpty
           ? _nationality
           : AppLocalizations.of(context).translate('citizen_lbl'), */
       onChanged: (value) {
         setState(() {
           _race = value;
-          if (value == AppLocalizations.of(context).translate('malay_race_lbl'))
+          if (value == AppLocalizations.of(context)!.translate('malay_race_lbl'))
             _raceParam = 'M';
           else if (value ==
-              AppLocalizations.of(context).translate('chinese_lbl'))
+              AppLocalizations.of(context)!.translate('chinese_lbl'))
             _raceParam = 'C';
           else if (value ==
-              AppLocalizations.of(context).translate('indian_lbl'))
+              AppLocalizations.of(context)!.translate('indian_lbl'))
             _raceParam = 'I';
           else
             _raceParam = 'O';
         });
       },
       items: <String>[
-        AppLocalizations.of(context).translate('malay_race_lbl'),
-        AppLocalizations.of(context).translate('chinese_lbl'),
-        AppLocalizations.of(context).translate('indian_lbl'),
-        AppLocalizations.of(context).translate('others_lbl'),
+        AppLocalizations.of(context)!.translate('malay_race_lbl'),
+        AppLocalizations.of(context)!.translate('chinese_lbl'),
+        AppLocalizations.of(context)!.translate('indian_lbl'),
+        AppLocalizations.of(context)!.translate('others_lbl'),
       ].map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
@@ -732,7 +732,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       }).toList(),
       validator: (value) {
         if (value == null) {
-          return AppLocalizations.of(context).translate('race_required_msg');
+          return AppLocalizations.of(context)!.translate('race_required_msg');
         }
         return null;
       },
@@ -743,7 +743,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     return Row(
       children: <Widget>[
         Text(
-          AppLocalizations.of(context).translate('gender_lbl'),
+          AppLocalizations.of(context)!.translate('gender_lbl'),
           style: TextStyle(
             color: Colors.black,
           ),
@@ -752,7 +752,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           activeColor: Color(0xffdd0e0e),
           value: Gender.male,
           groupValue: _gender,
-          onChanged: (Gender value) {
+          onChanged: (Gender? value) {
             setState(() {
               _gender = value;
               _genderValue = 'MALE';
@@ -761,7 +761,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           },
         ),
         Text(
-          AppLocalizations.of(context).translate('gender_male'),
+          AppLocalizations.of(context)!.translate('gender_male'),
           style: TextStyle(
             color: Colors.black,
           ),
@@ -770,7 +770,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           activeColor: Color(0xffdd0e0e),
           value: Gender.female,
           groupValue: _gender,
-          onChanged: (Gender value) {
+          onChanged: (Gender? value) {
             setState(() {
               _gender = value;
               _genderValue = 'FEMALE';
@@ -779,7 +779,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           },
         ),
         Text(
-          AppLocalizations.of(context).translate('gender_female'),
+          AppLocalizations.of(context)!.translate('gender_female'),
           style: TextStyle(
             color: Colors.black,
           ),
@@ -794,13 +794,13 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     });
 
     if (race == 'M')
-      return AppLocalizations.of(context).translate('malay_race_lbl');
+      return AppLocalizations.of(context)!.translate('malay_race_lbl');
     else if (race == 'C')
-      return AppLocalizations.of(context).translate('chinese_lbl');
+      return AppLocalizations.of(context)!.translate('chinese_lbl');
     else if (race == 'I')
-      return AppLocalizations.of(context).translate('indian_lbl');
+      return AppLocalizations.of(context)!.translate('indian_lbl');
     else if (race == 'O')
-      return AppLocalizations.of(context).translate('others_lbl');
+      return AppLocalizations.of(context)!.translate('others_lbl');
     else
       return '';
   }
@@ -810,28 +810,28 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       setState(() {
         _potentialDob = value.substring(0, 7);
 
-        String _year = _potentialDob.substring(0, 2);
+        String _year = _potentialDob!.substring(0, 2);
         int _currentYear = DateTime.now().year;
-        int _birthYear = 0;
-        int _birthMonth = int.tryParse(_potentialDob.substring(2, 4));
-        int _birthDay = int.tryParse(_potentialDob.substring(4, 6));
+        int? _birthYear = 0;
+        int _birthMonth = int.tryParse(_potentialDob!.substring(2, 4))!;
+        int _birthDay = int.tryParse(_potentialDob!.substring(4, 6))!;
 
-        if (_currentYear - int.tryParse('19' + _year) < 70) {
+        if (_currentYear - int.tryParse('19' + _year)! < 70) {
           _birthYear = int.tryParse('19$_year');
           _message = '';
-        } else if (_currentYear - int.tryParse('20' + _year) < 16) {
+        } else if (_currentYear - int.tryParse('20' + _year)! < 16) {
           _birthYear = int.tryParse('20$_year');
 
-          _message = AppLocalizations.of(context).translate('enroll_underage');
+          _message = AppLocalizations.of(context)!.translate('enroll_underage');
         }
 
         _dobController.text = DateFormat('yyyy-MM-dd').format(
-          DateTime(_birthYear, _birthMonth, _birthDay),
+          DateTime(_birthYear!, _birthMonth, _birthDay),
         );
       });
 
       if (int.tryParse(
-                  value.replaceAll('-', '').replaceAll(' ', '').substring(11)) %
+                  value.replaceAll('-', '').replaceAll(' ', '').substring(11))! %
               2 ==
           0)
         _gender = Gender.female;
@@ -846,20 +846,20 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   }
 
   _profileImage() {
-    if (profilePicUrl.isNotEmpty && profilePicBase64.isEmpty) {
+    if (profilePicUrl!.isNotEmpty && profilePicBase64.isEmpty) {
       return Padding(
         padding: EdgeInsets.only(bottom: 60.h),
         child: InkWell(
           onTap: _profilePicOption,
           child: Image.network(
-            profilePicUrl,
+            profilePicUrl!,
             width: 600.w,
             height: 600.w,
             fit: BoxFit.cover,
           ),
         ),
       );
-    } else if (profilePicBase64.isNotEmpty && profilePicUrl.isEmpty) {
+    } else if (profilePicBase64.isNotEmpty && profilePicUrl!.isEmpty) {
       return Padding(
         padding: EdgeInsets.only(bottom: 60.h),
         child: InkWell(
@@ -892,7 +892,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
             ),
           ),
           onPressed: _profilePicOption,
-          child: Text(AppLocalizations.of(context).translate('edit')),
+          child: Text(AppLocalizations.of(context)!.translate('edit')),
         ),
       ],
     );
@@ -904,7 +904,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       content: '',
       customActions: <Widget>[
         SimpleDialogOption(
-          child: Text(AppLocalizations.of(context).translate('take_photo')),
+          child: Text(AppLocalizations.of(context)!.translate('take_photo')),
           onPressed: () async {
             context.router.pop();
             var newProfilePic = await context.router.push(
@@ -915,7 +915,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
             if (newProfilePic != null)
               setState(() {
                 profilePicUrl = '';
-                _image = File(newProfilePic);
+                _image = File(newProfilePic as String);
                 _editImage();
                 // profilePicBase64 =
                 //     base64Encode(File(newProfilePic).readAsBytesSync());
@@ -923,7 +923,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           },
         ),
         SimpleDialogOption(
-            child: Text(AppLocalizations.of(context)
+            child: Text(AppLocalizations.of(context)!
                 .translate('choose_existing_photo')),
             onPressed: () {
               context.router.pop();
@@ -939,7 +939,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
 
     if (pickedFile?.path != null) {
       setState(() {
-        _image = File(pickedFile.path);
+        _image = File(pickedFile!.path);
         imageState = AppState.picked;
       });
 
@@ -948,7 +948,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   }
 
   Future<void> _editImage() async {
-    File croppedFile = await ImageCropper.cropImage(
+    File? croppedFile = await ImageCropper.cropImage(
       sourcePath: _image.path,
       aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
       maxWidth: 512,
@@ -1052,13 +1052,13 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                         labelStyle: TextStyle(
                           color: Color(0xff808080),
                         ),
-                        labelText: AppLocalizations.of(context)
+                        labelText: AppLocalizations.of(context)!
                             .translate('postcode_lbl'),
                         prefixIcon: Icon(Icons.home),
                         suffixIcon: IconButton(
                           icon: Icon(Icons.cancel),
                           onPressed: () {
-                            WidgetsBinding.instance.addPostFrameCallback(
+                            WidgetsBinding.instance!.addPostFrameCallback(
                                 (_) => _postcodeController.clear());
                           },
                         ),
@@ -1076,14 +1076,14 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.blue[700], width: 1.6),
+                              BorderSide(color: Colors.blue[700]!, width: 1.6),
                           // borderRadius: BorderRadius.circular(0),
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
                       validator: (value) {
-                        if (value.isEmpty) {
-                          return AppLocalizations.of(context)
+                        if (value!.isEmpty) {
+                          return AppLocalizations.of(context)!
                               .translate('postcode_required_msg');
                         }
                         return null;
@@ -1098,7 +1098,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                           vertical: 0.h,
                         ),
                         labelText:
-                            AppLocalizations.of(context).translate('ldl'),
+                            AppLocalizations.of(context)!.translate('ldl'),
                         fillColor: Colors.white,
                         filled: true,
                         enabledBorder: OutlineInputBorder(
@@ -1113,14 +1113,14 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.blue[700], width: 1.6),
+                              BorderSide(color: Colors.blue[700]!, width: 1.6),
                           // borderRadius: BorderRadius.circular(0),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         prefixIcon: Icon(Icons.badge),
                       ),
                       disabledHint:
-                          Text(AppLocalizations.of(context).translate('ldl')),
+                          Text(AppLocalizations.of(context)!.translate('ldl')),
                       onChanged: (value) {
                         setState(() {
                           ldlItem = value;
@@ -1137,7 +1137,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                             }).toList(),
                       validator: (value) {
                         if (value == null) {
-                          return AppLocalizations.of(context)
+                          return AppLocalizations.of(context)!
                               .translate('ldl_required_msg');
                         }
                         return null;
@@ -1152,7 +1152,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                           vertical: 0.h,
                         ),
                         labelText:
-                            AppLocalizations.of(context).translate('cdl'),
+                            AppLocalizations.of(context)!.translate('cdl'),
                         fillColor: Colors.white,
                         filled: true,
                         enabledBorder: OutlineInputBorder(
@@ -1167,14 +1167,14 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.blue[700], width: 1.6),
+                              BorderSide(color: Colors.blue[700]!, width: 1.6),
                           // borderRadius: BorderRadius.circular(0),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         prefixIcon: Icon(Icons.badge),
                       ),
                       disabledHint:
-                          Text(AppLocalizations.of(context).translate('cdl')),
+                          Text(AppLocalizations.of(context)!.translate('cdl')),
                       onChanged: (value) {
                         setState(() {
                           cdlItem = value;
@@ -1191,7 +1191,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                             }).toList(),
                       validator: (value) {
                         if (value == null) {
-                          return AppLocalizations.of(context)
+                          return AppLocalizations.of(context)!
                               .translate('cdl_required_msg');
                         }
                         return null;
@@ -1218,9 +1218,9 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                       children: <Widget>[
                         Column(
                           children: <Widget>[
-                            _message.isNotEmpty
+                            _message!.isNotEmpty
                                 ? Text(
-                                    _message,
+                                    _message!,
                                     style: _messageStyle,
                                   )
                                 : SizedBox.shrink(),
@@ -1278,7 +1278,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
             padding: EdgeInsets.symmetric(horizontal: 80.w),
             alignment: Alignment.centerLeft,
             child: Text(
-              AppLocalizations.of(context)
+              AppLocalizations.of(context)!
                   .translate('you_have_enrolled_before'),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -1292,7 +1292,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
             padding: EdgeInsets.symmetric(horizontal: 80.w),
             alignment: Alignment.centerLeft,
             child: Text(
-              AppLocalizations.of(context).translate('previous_credentials'),
+              AppLocalizations.of(context)!.translate('previous_credentials'),
               style: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 65.sp,
@@ -1307,7 +1307,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
               children: <Widget>[
                 SizedBox(height: 40.h),
                 Text(
-                  AppLocalizations.of(context).translate('ic_lbl'),
+                  AppLocalizations.of(context)!.translate('ic_lbl'),
                   style: hintStyle,
                 ),
                 Text(
@@ -1318,7 +1318,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                 ),
                 SizedBox(height: 40.h),
                 Text(
-                  AppLocalizations.of(context).translate('ic_name_lbl'),
+                  AppLocalizations.of(context)!.translate('ic_name_lbl'),
                   style: hintStyle,
                 ),
                 Text(
@@ -1329,7 +1329,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                 ),
                 SizedBox(height: 40.h),
                 Text(
-                  AppLocalizations.of(context).translate('dob_lbl'),
+                  AppLocalizations.of(context)!.translate('dob_lbl'),
                   style: hintStyle,
                 ),
                 Text(
@@ -1340,7 +1340,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                 ),
                 SizedBox(height: 40.h),
                 Text(
-                  AppLocalizations.of(context).translate('race_lbl'),
+                  AppLocalizations.of(context)!.translate('race_lbl'),
                   style: hintStyle,
                 ),
                 Text(
@@ -1349,7 +1349,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                 ),
                 SizedBox(height: 40.h),
                 Text(
-                  AppLocalizations.of(context).translate('nationality_lbl'),
+                  AppLocalizations.of(context)!.translate('nationality_lbl'),
                   style: hintStyle,
                 ),
                 Text(
@@ -1360,15 +1360,15 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                 ),
                 SizedBox(height: 40.h),
                 Text(
-                  AppLocalizations.of(context).translate('gender_lbl'),
+                  AppLocalizations.of(context)!.translate('gender_lbl'),
                   style: hintStyle,
                 ),
                 Text(
                   _enrollHistoryData[0].sex != null
                       ? _enrollHistoryData[0].sex == 'L'
-                          ? AppLocalizations.of(context)
+                          ? AppLocalizations.of(context)!
                               .translate('gender_male')
-                          : AppLocalizations.of(context)
+                          : AppLocalizations.of(context)!
                               .translate('gender_female')
                       : '',
                   style: textStyle,
@@ -1385,7 +1385,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                       ),
                       onPressed: _next,
                       child: Text(
-                        AppLocalizations.of(context).translate('next_btn'),
+                        AppLocalizations.of(context)!.translate('next_btn'),
                         style: TextStyle(
                           fontSize: ScreenUtil().setSp(60),
                           fontWeight: FontWeight.w600,
@@ -1414,7 +1414,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           elevation: 0,
           backgroundColor: Colors.transparent,
           title: Text(
-            AppLocalizations.of(context).translate('enroll_lbl'),
+            AppLocalizations.of(context)!.translate('enroll_lbl'),
           ),
         ),
         body: _checkEnrollmentStatus(),
@@ -1446,7 +1446,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                     vertical: 10.0,
                   ),
                   child: Text(
-                    AppLocalizations.of(context).translate('next_btn'),
+                    AppLocalizations.of(context)!.translate('next_btn'),
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(56),
                     ),
@@ -1459,11 +1459,11 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
 
   _next() async {
     if (_enrollHistoryData == null) {
-      if (_formKey.currentState.validate()) {
-        _formKey.currentState.save();
+      if (_formKey.currentState!.validate()) {
+        _formKey.currentState!.save();
         FocusScope.of(context).requestFocus(new FocusNode());
         if (_message !=
-            AppLocalizations.of(context).translate('enroll_underage')) {
+            AppLocalizations.of(context)!.translate('enroll_underage')) {
           setState(() {
             _isLoading = true;
             _message = '';
@@ -1495,7 +1495,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
             context.router.push(
               SelectInstitute(
                 data: EnrollmentData(
-                  icNo: _icNo.replaceAll('-', ''),
+                  icNo: _icNo!.replaceAll('-', ''),
                   name: _icName,
                   email: _email,
                   gender: _genderValue,
@@ -1522,7 +1522,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       context.router.push(
         SelectInstitute(
           data: EnrollmentData(
-            icNo: _icNo.replaceAll('-', ''),
+            icNo: _icNo!.replaceAll('-', ''),
             name: _icName,
             email: _email,
             gender: _genderValue,

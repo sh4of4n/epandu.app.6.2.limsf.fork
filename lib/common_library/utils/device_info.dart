@@ -2,11 +2,11 @@ import 'package:device_info/device_info.dart';
 import 'dart:io' show Platform;
 
 class DeviceInfo {
-  String model;
-  String version;
-  String id;
-  String os;
-  String manufacturer;
+  String? model;
+  String? version;
+  String? id;
+  String? os;
+  String? manufacturer;
 
   Future<void> getDeviceInfo() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();

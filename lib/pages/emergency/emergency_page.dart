@@ -26,7 +26,7 @@ class _EmergencyState extends State<Emergency> {
   final emergencyRepo = EmergencyRepo();
   final localStorage = LocalStorage();
   Location location = Location();
-  String policeNumber;
+  String? policeNumber;
   final customDialog = CustomDialog();
   final locationOptions = LocationOptions(
     accuracy: LocationAccuracy.high,
@@ -68,11 +68,11 @@ class _EmergencyState extends State<Emergency> {
         context: context,
         barrierDismissable: false,
         title: Text(
-            AppLocalizations.of(context).translate('loc_permission_title')),
-        content: AppLocalizations.of(context).translate('loc_permission_desc'),
+            AppLocalizations.of(context)!.translate('loc_permission_title')),
+        content: AppLocalizations.of(context)!.translate('loc_permission_desc'),
         customActions: <Widget>[
           TextButton(
-            child: Text(AppLocalizations.of(context).translate('yes_lbl')),
+            child: Text(AppLocalizations.of(context)!.translate('yes_lbl')),
             onPressed: () {
               context.router.pop();
               context.router.pop();
@@ -80,7 +80,7 @@ class _EmergencyState extends State<Emergency> {
             },
           ),
           TextButton(
-            child: Text(AppLocalizations.of(context).translate('no_lbl')),
+            child: Text(AppLocalizations.of(context)!.translate('no_lbl')),
             onPressed: () {
               context.router.pop();
               context.router.pop();
@@ -93,12 +93,12 @@ class _EmergencyState extends State<Emergency> {
   }
 
   _callPoliceNumber() async {
-    String trimNumber = policeNumber.replaceAll('-', '').replaceAll(' ', '');
+    String trimNumber = policeNumber!.replaceAll('-', '').replaceAll(' ', '');
 
     await launch('tel:$trimNumber');
   }
 
-  _callEmergencyNumber({@required String number}) async {
+  _callEmergencyNumber({required String number}) async {
     await launch('tel:999');
   }
 
@@ -117,7 +117,7 @@ class _EmergencyState extends State<Emergency> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: Text(AppLocalizations.of(context).translate('emergency_lbl')),
+          title: Text(AppLocalizations.of(context)!.translate('emergency_lbl')),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.view_list),
@@ -131,7 +131,7 @@ class _EmergencyState extends State<Emergency> {
               SizedBox(
                 height: ScreenUtil().setHeight(120),
               ),
-              Text(AppLocalizations.of(context).translate('authorities_lbl'),
+              Text(AppLocalizations.of(context)!.translate('authorities_lbl'),
                   style: TextStyle(
                     fontSize: ScreenUtil().setSp(90),
                     fontWeight: FontWeight.w800,
@@ -143,7 +143,7 @@ class _EmergencyState extends State<Emergency> {
               Container(
                 width: ScreenUtil().setWidth(1200),
                 child: Text(
-                  AppLocalizations.of(context).translate('authorities_desc'),
+                  AppLocalizations.of(context)!.translate('authorities_desc'),
                   style: TextStyle(
                     fontSize: ScreenUtil().setSp(70),
                     fontWeight: FontWeight.w500,
@@ -166,19 +166,19 @@ class _EmergencyState extends State<Emergency> {
                       tileFirstColor: Color(0xff08457e),
                       tileSecondColor: Color(0xff0499c7),
                       label:
-                          AppLocalizations.of(context).translate('police_lbl'),
+                          AppLocalizations.of(context)!.translate('police_lbl'),
                       onTap: _callPoliceNumber,
                     ),
                     secondChild: SizedBox(
                       width: ScreenUtil().setWidth(600),
                       height: ScreenUtil().setHeight(450),
                       child: Shimmer.fromColors(
-                        baseColor: Colors.grey[300],
-                        highlightColor: Colors.grey[100],
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
                         child: AuthoritiesButton(
                           tileFirstColor: Color(0xff08457e),
                           tileSecondColor: Color(0xff0499c7),
-                          label: AppLocalizations.of(context)
+                          label: AppLocalizations.of(context)!
                               .translate('police_lbl'),
                           onTap: () {},
                         ),
@@ -193,20 +193,20 @@ class _EmergencyState extends State<Emergency> {
                     firstChild: AuthoritiesButton(
                       tileFirstColor: Color(0xffc90000),
                       tileSecondColor: Color(0xffd43b3b),
-                      label: AppLocalizations.of(context).translate('999_lbl'),
+                      label: AppLocalizations.of(context)!.translate('999_lbl'),
                       onTap: _callEmergencyNumber,
                     ),
                     secondChild: SizedBox(
                       width: ScreenUtil().setWidth(600),
                       height: ScreenUtil().setHeight(450),
                       child: Shimmer.fromColors(
-                        baseColor: Colors.grey[300],
-                        highlightColor: Colors.grey[100],
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
                         child: AuthoritiesButton(
                           tileFirstColor: Color(0xffc90000),
                           tileSecondColor: Color(0xffd43b3b),
                           label:
-                              AppLocalizations.of(context).translate('999_lbl'),
+                              AppLocalizations.of(context)!.translate('999_lbl'),
                           onTap: () {},
                         ),
                       ),

@@ -11,7 +11,7 @@ class EmergencyContent extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(120)),
       child: Column(
         children: <Widget>[
-          Text(AppLocalizations.of(context).translate('having_emergency_lbl'),
+          Text(AppLocalizations.of(context)!.translate('having_emergency_lbl'),
               style: TextStyle(
                 fontSize: ScreenUtil().setSp(90),
                 fontWeight: FontWeight.w800,
@@ -21,7 +21,7 @@ class EmergencyContent extends StatelessWidget {
             height: ScreenUtil().setHeight(20),
           ),
           Text(
-            AppLocalizations.of(context).translate('having_emergency_desc'),
+            AppLocalizations.of(context)!.translate('having_emergency_desc'),
             style: TextStyle(
               fontSize: ScreenUtil().setSp(70),
               fontWeight: FontWeight.w500,

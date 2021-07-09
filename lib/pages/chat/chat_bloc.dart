@@ -7,7 +7,7 @@ class ChatBloc {
   final Socket socket;
   StreamController<String> _textFieldCtrl = new BehaviorSubject();
   StreamController<bool> _submitBtnCtrl = new BehaviorSubject();
-  StreamController<String> _chatItemsCtrl = new BehaviorSubject();
+  StreamController<String?> _chatItemsCtrl = new BehaviorSubject();
 
   ChatBloc(this.socket) {
     if (socket != null) {
@@ -43,7 +43,7 @@ class ChatBloc {
   }
 
   Stream<bool> get submitButtonStream => _submitBtnCtrl.stream;
-  Stream<String> get chatItemsStream => _chatItemsCtrl.stream;
+  Stream<String?> get chatItemsStream => _chatItemsCtrl.stream;
   void onTextValueChange(String value) => _textFieldCtrl.sink.add(value);
 
   void dispose() {

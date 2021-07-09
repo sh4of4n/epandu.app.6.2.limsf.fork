@@ -13,15 +13,15 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../router.gr.dart';
 
 class FpxPaymentOption extends StatefulWidget {
-  final String icNo;
-  final String docDoc;
-  final String docRef;
-  final String merchant;
-  final String packageCode;
-  final String packageDesc;
-  final String diCode;
-  final String totalAmount;
-  final String amountString; // for Authorization Request
+  final String? icNo;
+  final String? docDoc;
+  final String? docRef;
+  final String? merchant;
+  final String? packageCode;
+  final String? packageDesc;
+  final String? diCode;
+  final String? totalAmount;
+  final String? amountString; // for Authorization Request
 
   FpxPaymentOption({
     this.icNo,
@@ -46,11 +46,11 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
   final image = ImagesConstant();
   bool isVisible = false;
   bool isLoading = false;
-  Future getBankList;
+  Future? getBankList;
   final primaryColor = ColorConstant.primaryColor;
 
-  String selectedBankId = '';
-  String selectedBankName = '';
+  String? selectedBankId = '';
+  String? selectedBankName = '';
 
   String message = '';
 
@@ -72,7 +72,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
     return result.message;
   }
 
-  fpxSendB2CAuthRequest({bankId}) async {
+  fpxSendB2CAuthRequest({required bankId}) async {
     setState(() {
       isLoading = true;
     });
@@ -200,7 +200,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                 default:
                   return Center(
                     child: Text(
-                      AppLocalizations.of(context)
+                      AppLocalizations.of(context)!
                           .translate('get_bank_list_fail'),
                     ),
                   );
@@ -215,7 +215,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
   defaultLayout() {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('payment_lbl')),
+        title: Text(AppLocalizations.of(context)!.translate('payment_lbl')),
       ),
       body: Stack(
         children: [
@@ -245,12 +245,12 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                       children: [
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
-                          child: Text(AppLocalizations.of(context)
+                          child: Text(AppLocalizations.of(context)!
                               .translate('institute_lbl')),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
-                          child: Text(widget.merchant),
+                          child: Text(widget.merchant!),
                         ),
                       ],
                     ),
@@ -258,13 +258,13 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                       children: [
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
-                          child: Text(AppLocalizations.of(context)
+                          child: Text(AppLocalizations.of(context)!
                               .translate('package_lbl')),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: Text(
-                            widget.packageCode,
+                            widget.packageCode!,
                           ),
                         ),
                       ],
@@ -278,7 +278,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: Text(
-                            widget.packageDesc,
+                            widget.packageDesc!,
                           ),
                         ),
                       ],
@@ -288,7 +288,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: Text(
-                            AppLocalizations.of(context).translate('total_lbl'),
+                            AppLocalizations.of(context)!.translate('total_lbl'),
                             style: TextStyle(
                               fontSize: 60.sp,
                               fontWeight: FontWeight.bold,
@@ -298,7 +298,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: Text(
-                            widget.totalAmount,
+                            widget.totalAmount!,
                             style: TextStyle(
                               fontSize: 60.sp,
                               fontWeight: FontWeight.bold,
@@ -364,7 +364,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                       contentPadding: EdgeInsets.symmetric(
                         vertical: 0.h,
                       ),
-                      hintText: selectedBankName.isNotEmpty
+                      hintText: selectedBankName!.isNotEmpty
                           ? selectedBankName
                           : 'Select Bank',
                       enabledBorder: UnderlineInputBorder(
@@ -382,18 +382,18 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                 Text(message, style: TextStyle(color: Colors.red)),
               CustomButton(
                 onPressed: () {
-                  if (selectedBankId.isNotEmpty) {
+                  if (selectedBankId!.isNotEmpty) {
                     message = '';
                     fpxSendB2CAuthRequest(bankId: selectedBankId);
                   } else {
                     setState(() {
-                      message = AppLocalizations.of(context)
+                      message = AppLocalizations.of(context)!
                           .translate('agree_and_select_bank');
                     });
                   }
                 },
                 buttonColor: Color(0xffdd0e0e),
-                title: AppLocalizations.of(context).translate('proceed'),
+                title: AppLocalizations.of(context)!.translate('proceed'),
               ),
               Expanded(
                 child: Padding(
@@ -430,7 +430,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
   tabLayout() {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('payment_lbl')),
+        title: Text(AppLocalizations.of(context)!.translate('payment_lbl')),
       ),
       body: Stack(
         children: [
@@ -461,13 +461,13 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: Text(
-                              AppLocalizations.of(context)
+                              AppLocalizations.of(context)!
                                   .translate('institute_lbl'),
                               style: tabTextStyle),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
-                          child: Text(widget.merchant, style: tabTextStyle),
+                          child: Text(widget.merchant!, style: tabTextStyle),
                         ),
                       ],
                     ),
@@ -476,14 +476,14 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: Text(
-                              AppLocalizations.of(context)
+                              AppLocalizations.of(context)!
                                   .translate('package_lbl'),
                               style: tabTextStyle),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: Text(
-                            widget.packageCode,
+                            widget.packageCode!,
                             style: tabTextStyle,
                           ),
                         ),
@@ -498,7 +498,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: Text(
-                            widget.packageDesc,
+                            widget.packageDesc!,
                             style: tabTextStyle,
                           ),
                         ),
@@ -509,7 +509,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: Text(
-                            AppLocalizations.of(context).translate('total_lbl'),
+                            AppLocalizations.of(context)!.translate('total_lbl'),
                             style: TextStyle(
                               fontSize: 60.sp,
                               fontWeight: FontWeight.bold,
@@ -519,7 +519,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: Text(
-                            widget.totalAmount,
+                            widget.totalAmount!,
                             style: TextStyle(
                               fontSize: 60.sp,
                               fontWeight: FontWeight.bold,
@@ -585,7 +585,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                       contentPadding: EdgeInsets.symmetric(
                         vertical: 0.h,
                       ),
-                      hintText: selectedBankName.isNotEmpty
+                      hintText: selectedBankName!.isNotEmpty
                           ? selectedBankName
                           : 'Select Bank',
                       enabledBorder: UnderlineInputBorder(
@@ -605,18 +605,18 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                 minWidth: 340.w,
                 height: 150.h,
                 onPressed: () {
-                  if (selectedBankId.isNotEmpty) {
+                  if (selectedBankId!.isNotEmpty) {
                     message = '';
                     fpxSendB2CAuthRequest(bankId: selectedBankId);
                   } else {
                     setState(() {
-                      message = AppLocalizations.of(context)
+                      message = AppLocalizations.of(context)!
                           .translate('agree_and_select_bank');
                     });
                   }
                 },
                 buttonColor: Color(0xffdd0e0e),
-                title: AppLocalizations.of(context).translate('proceed'),
+                title: AppLocalizations.of(context)!.translate('proceed'),
               ),
               Expanded(
                 child: Padding(

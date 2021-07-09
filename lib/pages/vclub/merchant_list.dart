@@ -23,7 +23,7 @@ class _MerchantListState extends State<MerchantList> {
 
   final image = ImagesConstant();
 
-  String _message = '';
+  String? _message = '';
   bool _isLoading = true;
   int _startIndex = 0;
   List<dynamic> items = [];
@@ -47,7 +47,7 @@ class _MerchantListState extends State<MerchantList> {
             _startIndex += 10;
           });
 
-          if (_message.isEmpty) _getMerchant();
+          if (_message!.isEmpty) _getMerchant();
         }
       });
   }
@@ -142,9 +142,9 @@ class _MerchantListState extends State<MerchantList> {
   }
 
   _merchantList() {
-    if (items.length == 0 && _message.isNotEmpty) {
+    if (items.length == 0 && _message!.isNotEmpty) {
       return Center(
-        child: Text(_message),
+        child: Text(_message!),
       );
     } else if (items.length > 0) {
       return ListView(
@@ -162,14 +162,14 @@ class _MerchantListState extends State<MerchantList> {
                   : '',
               cityName: item.cityName ?? '',
               distance: item.distance != null
-                  ? double.tryParse(item.distance).toStringAsFixed(2)
+                  ? double.tryParse(item.distance)!.toStringAsFixed(2)
                   : '',
               businessHours: item.businessHour ?? '',
               businessDay: item.businessDay ?? '',
             ),
           if (_isLoading)
             Shimmer.fromColors(
-              baseColor: Colors.grey[300],
+              baseColor: Colors.grey[300]!,
               highlightColor: Colors.white,
               child: Container(
                 width: ScreenUtil().setWidth(1400),
@@ -183,7 +183,7 @@ class _MerchantListState extends State<MerchantList> {
     return _loadingShimmer();
   }
 
-  _loadingShimmer({int length}) {
+  _loadingShimmer({int? length}) {
     return Container(
       alignment: Alignment.topCenter,
       child: ListView.builder(
@@ -195,7 +195,7 @@ class _MerchantListState extends State<MerchantList> {
               Padding(
                 padding: EdgeInsets.only(bottom: 20.h),
                 child: Shimmer.fromColors(
-                  baseColor: Colors.grey[300],
+                  baseColor: Colors.grey[300]!,
                   highlightColor: Colors.white,
                   child: Container(
                     width: ScreenUtil().setWidth(1400),

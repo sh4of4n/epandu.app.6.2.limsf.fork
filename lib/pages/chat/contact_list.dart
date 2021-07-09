@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class ContactList extends StatelessWidget {
-  final UserProfile contactList;
+  final UserProfile? contactList;
 
   ContactList({this.contactList});
 
@@ -16,11 +16,11 @@ class ContactList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String picpath;
-    if (contactList.picturePath == null) {
+    String? picpath;
+    if (contactList!.picturePath == null) {
       picpath = "";
     } else {
-      picpath = contactList.picturePath;
+      picpath = contactList!.picturePath;
     }
     return SizedBox(
       height: 300.h,
@@ -32,9 +32,9 @@ class ContactList extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) {
                 return ChatScreen(
-                  targetId: contactList.userId,
+                  targetId: contactList!.userId,
                   picturePath: picpath,
-                  name: contactList.name,
+                  name: contactList!.name,
                 );
               },
             ),
@@ -60,9 +60,9 @@ class ContactList extends StatelessWidget {
             children: <Widget>[
               Positioned.fill(
                 child: CircleAvatar(
-                  child: contactList.picturePath != null &&
-                          contactList.picturePath.isNotEmpty
-                      ? Image.network(contactList.picturePath
+                  child: contactList!.picturePath != null &&
+                          contactList!.picturePath!.isNotEmpty
+                      ? Image.network(contactList!.picturePath!
                           .replaceAll(removeBracket, '')
                           .split('\r\n')[0])
                       : Image.memory(kTransparentImage),
@@ -87,7 +87,7 @@ class ContactList extends StatelessWidget {
           ),
         ),
         title: Text(
-          contactList.name,
+          contactList!.name!,
           style: Theme.of(context).textTheme.headline5,
         ), /*
         subtitle: Text("My last message}",

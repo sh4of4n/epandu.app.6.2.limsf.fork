@@ -12,10 +12,10 @@ import 'package:printing/printing.dart';
 import 'package:native_pdf_view/native_pdf_view.dart';
 
 class ViewPdf extends StatefulWidget {
-  final String title;
-  final String pdfLink;
+  final String? title;
+  final String? pdfLink;
 
-  ViewPdf({@required this.title, @required this.pdfLink});
+  ViewPdf({required this.title, required this.pdfLink});
 
   @override
   _ViewPdfState createState() => _ViewPdfState();
@@ -24,10 +24,10 @@ class ViewPdf extends StatefulWidget {
 class _ViewPdfState extends State<ViewPdf> {
   final primaryColor = ColorConstant.primaryColor;
   final customDialog = CustomDialog();
-  var pdfController;
+  late var pdfController;
 
   // String? _pdfName;
-  Uint8List _pdfByte;
+  late Uint8List _pdfByte;
   String _pathPdf = '';
 
   @override

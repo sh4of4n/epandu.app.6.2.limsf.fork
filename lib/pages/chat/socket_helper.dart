@@ -5,9 +5,9 @@ import 'package:socket_io_client/socket_io_client.dart';
 class SocketHelper {
   final LocalStorage localStorage = LocalStorage();
   final chatRepo = ChatRepo();
-  Socket _socket;
+  Socket? _socket;
 
-  Future<Socket> get socket async {
+  Future<Socket?> get socket async {
     if (_socket != null) {
       return _socket;
     }
@@ -16,13 +16,13 @@ class SocketHelper {
   }
 
   initSocket() async {
-    String userId = await localStorage.getUserId();
+    String? userId = await localStorage.getUserId();
     _socket = io('http://fancationswipe.ddns.net:8086', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
       'query': 'userId=$userId'
     });
-    _socket.connect();
+    _socket!.connect();
     return _socket;
   }
 }

@@ -4,7 +4,7 @@ import 'app_localizations.dart';
 import 'application.dart';
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
-  final Locale newLocale;
+  final Locale? newLocale;
 
   const AppLocalizationsDelegate({this.newLocale});
 

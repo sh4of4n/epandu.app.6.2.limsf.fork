@@ -7,7 +7,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ChatDatabase {
-  Database _db;
+  Database? _db;
   static const String ID = 'id';
   static const String NAME = 'name';
   static const String MESSAGE_AND_AUTHOR_TABLE = 'MessageAndAuthorTable';
@@ -17,7 +17,7 @@ class ChatDatabase {
 
   static const String DB_NAME = 'ePanduChat.db';
 
-  Future<Database> get db async {
+  Future<Database?> get db async {
     if (_db != null) {
       return _db;
     }
@@ -46,7 +46,7 @@ class ChatDatabase {
   //Insert Query
   Future<int> saveMessageAndAuthorTable(
       MessageAndAuthorTable messageAndAuthorTable) async {
-    var dbClient = await db;
+    var dbClient = await (db as FutureOr<Database>);
 
     await dbClient.transaction((txn) async {
       var query =
@@ -59,7 +59,7 @@ class ChatDatabase {
 
   Future<int> saveMessageTargetTable(
       MessageTargetTable messageTargetTable) async {
-    var dbClient = await db;
+    var dbClient = await (db as FutureOr<Database>);
 
     await dbClient.transaction((txn) async {
       var query =
@@ -70,9 +70,9 @@ class ChatDatabase {
   }
 
   Future<int> saveUserTable(UserProfile userProfile) async {
-    var dbClient = await db;
-    String picturePath = userProfile.picturePath;
-    if (userProfile.picturePath == null || userProfile.picturePath.isEmpty) {
+    var dbClient = await (db as FutureOr<Database>);
+    String? picturePath = userProfile.picturePath;
+    if (userProfile.picturePath == null || userProfile.picturePath!.isEmpty) {
       picturePath = "";
     }
     await dbClient.transaction((txn) async {
@@ -85,7 +85,7 @@ class ChatDatabase {
 
   Future<int> saveRelationshipTable(
       String id, String hostID, String friendID) async {
-    var dbClient = await db;
+    var dbClient = await (db as FutureOr<Database>);
 
     await dbClient.transaction((txn) async {
       var query =
@@ -97,22 +97,22 @@ class ChatDatabase {
 
   //Read Query
   Future<List<Message>> getMessageAndAuthorTable(
-      {String userId, String targetId, int startIndex, int noOfRecords}) async {
-    var dbClient = await db;
+      {String? userId, String? targetId, int? startIndex, int? noOfRecords}) async {
+    var dbClient = await (db as FutureOr<Database>);
     List<Map> maps = await dbClient.rawQuery(
         "SELECT $MESSAGE_AND_AUTHOR_TABLE.id AS id, $MESSAGE_AND_AUTHOR_TABLE.author AS author, $MESSAGE_AND_AUTHOR_TABLE.data AS data, $MESSAGE_AND_AUTHOR_TABLE.sent_date_time AS sent_date_time, $MESSAGE_AND_AUTHOR_TABLE.type AS type,$MESSAGE_AND_AUTHOR_TABLE.is_seen AS is_seen FROM $MESSAGE_AND_AUTHOR_TABLE INNER JOIN $MESSAGE_TARGET_TABLE ON $MESSAGE_TARGET_TABLE.message_id = $MESSAGE_AND_AUTHOR_TABLE.id where $MESSAGE_AND_AUTHOR_TABLE.author = '$userId' AND $MESSAGE_TARGET_TABLE.target_id = '$targetId' OR $MESSAGE_AND_AUTHOR_TABLE.author = '$targetId' AND $MESSAGE_TARGET_TABLE.target_id = '$userId' ORDER BY $MESSAGE_AND_AUTHOR_TABLE.sent_date_time DESC LIMIT $startIndex,$noOfRecords ;");
     List<Message> messages = [];
     if (maps.length > 0) {
       for (int i = 0; i < maps.length; i++) {
-        messages.add(Message.fromJson(maps[maps.length - 1 - i]));
+        messages.add(Message.fromJson(maps[maps.length - 1 - i] as Map<String, dynamic>));
       }
     }
     return messages;
   }
 
   Future<List<UserProfile>> getContactList(
-      {String userId, int startIndex, int noOfRecords}) async {
-    var dbClient = await db;
+      {String? userId, int? startIndex, int? noOfRecords}) async {
+    var dbClient = await (db as FutureOr<Database>);
     List<Map> maps = await dbClient.rawQuery(
         "Select $USER_TABLE.id As user_id, $USER_TABLE.name As name, $USER_TABLE.phone_number As phone, $USER_TABLE.picture_path As picture_path from $USER_TABLE Inner Join $RELATIONSHIP_TABLE On $USER_TABLE.id = $RELATIONSHIP_TABLE.friend_id where $RELATIONSHIP_TABLE.host_id = '$userId'  ORDER BY $USER_TABLE.name LIMIT $startIndex,$noOfRecords;");
 
@@ -124,7 +124,7 @@ class ChatDatabase {
     List<UserProfile> users = [];
     if (maps.length > 0) {
       for (int i = 0; i < maps.length; i++) {
-        users.add(UserProfile.fromJson(maps[i]));
+        users.add(UserProfile.fromJson(maps[i] as Map<String, dynamic>));
         print("phone: ${users[i].iD}");
       }
     }
@@ -132,35 +132,35 @@ class ChatDatabase {
     return users;
   }
 
-  Future<UserProfile> getSingleContact({String userId, String friendId}) async {
-    var dbClient = await db;
+  Future<UserProfile?> getSingleContact({String? userId, String? friendId}) async {
+    var dbClient = await (db as FutureOr<Database>);
     /*List<Map> maps = await dbClient.rawQuery(
         "Select $USER_TABLE.id As iD, $USER_TABLE.name As name, $USER_TABLE.phone_number As phone from $USER_TABLE Inner Join $RELATIONSHIP_TABLE On $USER_TABLE.id = $RELATIONSHIP_TABLE.friend_id where $RELATIONSHIP_TABLE.host_id = '$userId'  ORDER BY $USER_TABLE.name LIMIT $startIndex,$noOfRecords;");
     */
     List<Map> maps = await dbClient.rawQuery(
         "Select id As ID from $RELATIONSHIP_TABLE where host_id = '$userId' And friend_id = '$friendId' ");
 
-    UserProfile user;
+    UserProfile? user;
     if (maps.length > 0) {
       for (int i = 0; i < maps.length; i++) {
-        user = UserProfile.fromJson(maps[i]);
+        user = UserProfile.fromJson(maps[i] as Map<String, dynamic>);
       }
     }
     return user;
   }
 
-  Future<UserProfile> getSingleUser({String userId}) async {
-    var dbClient = await db;
+  Future<UserProfile?> getSingleUser({String? userId}) async {
+    var dbClient = await (db as FutureOr<Database>);
     /*List<Map> maps = await dbClient.rawQuery(
         "Select $USER_TABLE.id As iD, $USER_TABLE.name As name, $USER_TABLE.phone_number As phone from $USER_TABLE Inner Join $RELATIONSHIP_TABLE On $USER_TABLE.id = $RELATIONSHIP_TABLE.friend_id where $RELATIONSHIP_TABLE.host_id = '$userId'  ORDER BY $USER_TABLE.name LIMIT $startIndex,$noOfRecords;");
     */
     List<Map> maps = await dbClient
         .rawQuery("Select id As ID from $USER_TABLE where id = '$userId'");
 
-    UserProfile user;
+    UserProfile? user;
     if (maps.length > 0) {
       for (int i = 0; i < maps.length; i++) {
-        user = UserProfile.fromJson(maps[i]);
+        user = UserProfile.fromJson(maps[i] as Map<String, dynamic>);
       }
     }
     return user;
@@ -169,7 +169,7 @@ class ChatDatabase {
   //Update query
   Future<int> updateMessageTargetTable(
       MessageTargetTable messageTargetTable) async {
-    var dbClient = await db;
+    var dbClient = await (db as FutureOr<Database>);
     return await dbClient.update(
         MESSAGE_TARGET_TABLE, messageTargetTable.toMap(),
         where: '$ID = ?', whereArgs: [messageTargetTable.id]);
@@ -177,7 +177,7 @@ class ChatDatabase {
 
   //Delete query
   Future<int> deleteMessageTargetTable(int id) async {
-    var dbClient = await db;
+    var dbClient = await (db as FutureOr<Database>);
     return await dbClient
         .delete(MESSAGE_TARGET_TABLE, where: '$ID = ?', whereArgs: [id]);
   }

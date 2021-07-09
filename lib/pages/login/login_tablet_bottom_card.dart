@@ -48,18 +48,16 @@ class _LoginTabletBottomCardState extends State<LoginTabletBottomCard> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             GestureDetector(
-              onTap: () {
-                return showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return LanguageOptions();
-                  },
-                );
-              },
+              onTap: () => showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return LanguageOptions();
+                },
+              ),
               child: Consumer<LanguageModel>(
                 builder: (context, lang, child) {
                   return Text(
-                    '${AppLocalizations.of(context).translate('language_lbl')} ${lang.language}',
+                    '${AppLocalizations.of(context)!.translate('language_lbl')} ${lang.language}',
                     style:
                         TextStyle(fontSize: 35.sp, fontWeight: FontWeight.w500),
                   );
@@ -74,9 +72,9 @@ class _LoginTabletBottomCardState extends State<LoginTabletBottomCard> {
                 if (count == 4) {
                   customDialog.show(
                     context: context,
-                    title: AppLocalizations.of(context)
+                    title: AppLocalizations.of(context)!
                         .translate('client_acc_title'),
-                    content: AppLocalizations.of(context)
+                    content: AppLocalizations.of(context)!
                         .translate('client_acc_desc'),
                     type: DialogType.SUCCESS,
                     barrierDismissable: false,
@@ -92,7 +90,7 @@ class _LoginTabletBottomCardState extends State<LoginTabletBottomCard> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    AppLocalizations.of(context).translate('version_lbl'),
+                    AppLocalizations.of(context)!.translate('version_lbl'),
                     style: TextStyle(
                       fontSize: 35.sp,
                     ),

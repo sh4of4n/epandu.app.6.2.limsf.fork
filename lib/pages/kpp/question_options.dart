@@ -4,9 +4,9 @@ import 'dart:typed_data';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class QuestionOptions extends StatelessWidget {
-  final List<String> roman;
-  final List<String> questionOption;
-  final List<Uint8List> image;
+  final List<String>? roman;
+  final List<String?>? questionOption;
+  final List<Uint8List>? image;
 
   QuestionOptions({this.roman, this.questionOption, this.image});
 
@@ -23,15 +23,15 @@ class QuestionOptions extends StatelessWidget {
 
   // image with description
   _renderQuestionOption() {
-    if (questionOption.length > 0 &&
-        questionOption[0].length > 4 &&
-        image.length > 0)
+    if (questionOption!.length > 0 &&
+        questionOption![0]!.length > 4 &&
+        image!.length > 0)
       return _renderConditionAndImage();
     // image without description
-    else if (questionOption.length > 0 && image.length > 0)
+    else if (questionOption!.length > 0 && image!.length > 0)
       return _renderRomanAndImage();
     // no image
-    else if (questionOption.length > 0 && image.length == 0)
+    else if (questionOption!.length > 0 && image!.length == 0)
       return _renderConditions();
 
     return SizedBox.shrink();
@@ -52,7 +52,7 @@ class QuestionOptions extends StatelessWidget {
           childAspectRatio: 0.75,
           // mainAxisSpacing: 15.0,
         ), */
-        itemCount: questionOption.length,
+        itemCount: questionOption!.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             padding: EdgeInsets.all(15.0),
@@ -62,19 +62,19 @@ class QuestionOptions extends StatelessWidget {
               crossAxisAlignment: WrapCrossAlignment.center,
               spacing: 10.0,
               children: <Widget>[
-                Text(roman[index], style: _questionOptionStyle),
+                Text(roman![index], style: _questionOptionStyle),
                 LimitedBox(
                   maxWidth: ScreenUtil().setWidth(300),
                   maxHeight: ScreenUtil().setHeight(300),
                   child: Image.memory(
-                    image[index],
+                    image![index],
                   ),
                 ),
                 Container(
                   width: ScreenUtil().setWidth(800),
                   alignment: Alignment.center,
                   child:
-                      Text(questionOption[index], style: _questionOptionStyle),
+                      Text(questionOption![index]!, style: _questionOptionStyle),
                 ),
               ],
             ),
@@ -94,18 +94,18 @@ class QuestionOptions extends StatelessWidget {
         childAspectRatio: 1.7,
         // mainAxisSpacing: 15.0,
       ),
-      itemCount: questionOption.length,
+      itemCount: questionOption!.length,
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
           title: Row(
             children: <Widget>[
-              Text(questionOption[index], style: _questionOptionStyle),
+              Text(questionOption![index]!, style: _questionOptionStyle),
               SizedBox(width: 5.0),
               LimitedBox(
                 maxWidth: ScreenUtil().setWidth(470),
                 maxHeight: ScreenUtil().setHeight(580),
                 child: Image.memory(
-                  image[index],
+                  image![index],
                 ),
               ),
             ],
@@ -125,10 +125,10 @@ class QuestionOptions extends StatelessWidget {
         childAspectRatio: 2.1,
         // mainAxisSpacing: 15.0,
       ),
-      itemCount: questionOption.length,
+      itemCount: questionOption!.length,
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
-          title: Text(questionOption[index], style: _questionOptionStyle),
+          title: Text(questionOption![index]!, style: _questionOptionStyle),
         );
       },
     );

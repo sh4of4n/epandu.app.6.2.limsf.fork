@@ -24,7 +24,7 @@ class _DirectoryListState extends State<DirectoryList> {
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
   final location = Location();
-  Future _getDirectoryContacts;
+  Future? _getDirectoryContacts;
 
   var maxRadius = '30';
 
@@ -87,10 +87,9 @@ class _DirectoryListState extends State<DirectoryList> {
               Text(snapshot.data[index].sosContactName),
             if (snapshot.data[index].phone != null)
               Text(snapshot.data[index].phone),
-            Text(double.tryParse(snapshot.data[index].distance)
-                        .toStringAsFixed(2) +
-                    'km' ??
-                'No distance data'),
+            Text(double.tryParse(snapshot.data[index].distance)!
+                    .toStringAsFixed(2) +
+                'km'),
             SizedBox(height: 10.0),
             Divider(
               height: 1.0,
@@ -106,19 +105,19 @@ class _DirectoryListState extends State<DirectoryList> {
   _getAppBarTitle() {
     switch (widget.directoryType) {
       case 'POLICE':
-        return Text(AppLocalizations.of(context).translate('police_title'));
+        return Text(AppLocalizations.of(context)!.translate('police_title'));
       case 'AMBULANCE':
-        return Text(AppLocalizations.of(context).translate('ambulance_title'));
+        return Text(AppLocalizations.of(context)!.translate('ambulance_title'));
       case 'EMBASSY':
-        return Text(AppLocalizations.of(context).translate('embassy_title'));
+        return Text(AppLocalizations.of(context)!.translate('embassy_title'));
       case 'BOMBA':
-        return Text(AppLocalizations.of(context).translate('bomba_title'));
+        return Text(AppLocalizations.of(context)!.translate('bomba_title'));
       case 'INSURANCE':
-        return Text(AppLocalizations.of(context).translate('towing_service'));
+        return Text(AppLocalizations.of(context)!.translate('towing_service'));
       case 'WORKSHOP':
-        return Text(AppLocalizations.of(context).translate('workshop_cars'));
+        return Text(AppLocalizations.of(context)!.translate('workshop_cars'));
       case 'BIKEWORKSHOP':
-        return Text(AppLocalizations.of(context).translate('workshop_bike'));
+        return Text(AppLocalizations.of(context)!.translate('workshop_bike'));
     }
   }
 
@@ -208,7 +207,8 @@ class _DirectoryListState extends State<DirectoryList> {
               default:
                 return Center(
                   child: Text(
-                    AppLocalizations.of(context).translate('get_contacts_fail'),
+                    AppLocalizations.of(context)!
+                        .translate('get_contacts_fail'),
                   ),
                 );
             }

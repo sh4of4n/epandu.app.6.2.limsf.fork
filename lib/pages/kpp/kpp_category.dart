@@ -21,7 +21,7 @@ class _KppCategoryState extends State<KppCategory> {
   final kppRepo = KppRepo();
   final image = ImagesConstant();
   final localStorage = LocalStorage();
-  String instituteLogo = '';
+  String? instituteLogo = '';
   bool isLogoLoaded = false;
   final primaryColor = ColorConstant.primaryColor;
 
@@ -33,9 +33,9 @@ class _KppCategoryState extends State<KppCategory> {
   }
 
   _getDiProfile() async {
-    String instituteLogoPath = await localStorage.getInstituteLogo();
+    String? instituteLogoPath = await localStorage.getInstituteLogo();
 
-    if (instituteLogoPath.isEmpty) {
+    if (instituteLogoPath != null && instituteLogoPath.isEmpty) {
       var result = await authRepo.getDiProfile(context: context);
 
       if (result.isSuccess && result.data != null) {
@@ -63,7 +63,7 @@ class _KppCategoryState extends State<KppCategory> {
       appBar: AppBar(
         backgroundColor: primaryColor,
         elevation: 0,
-        title: Text(AppLocalizations.of(context).translate('choose_category')),
+        title: Text(AppLocalizations.of(context)!.translate('choose_category')),
       ),
       body: Stack(
         children: <Widget>[
@@ -81,9 +81,9 @@ class _KppCategoryState extends State<KppCategory> {
               FadeInImage(
                 alignment: Alignment.center,
                 placeholder: MemoryImage(kTransparentImage),
-                image: instituteLogo.isNotEmpty
-                    ? NetworkImage(instituteLogo)
-                    : MemoryImage(kTransparentImage),
+                image: (instituteLogo!.isNotEmpty
+                    ? NetworkImage(instituteLogo!)
+                    : MemoryImage(kTransparentImage)) as ImageProvider<Object>,
               ),
               SizedBox(
                 height: ScreenUtil().setHeight(80),

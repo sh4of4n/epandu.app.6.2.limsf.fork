@@ -11,8 +11,8 @@ import 'package:shimmer/shimmer.dart';
 import '../../router.gr.dart';
 
 class ProductList extends StatefulWidget {
-  final String stkCat;
-  final String keywordSearch;
+  final String? stkCat;
+  final String? keywordSearch;
 
   ProductList({this.stkCat, this.keywordSearch});
 
@@ -29,7 +29,7 @@ class _ProductListState extends State<ProductList> {
   final RegExp removeBracket =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
 
-  String _message = '';
+  String? _message = '';
   bool _isLoading = true;
 
   final RegExp exp =
@@ -54,7 +54,7 @@ class _ProductListState extends State<ProductList> {
             _startIndex += 20;
           });
 
-          if (_message.isEmpty) getStock();
+          if (_message!.isEmpty) getStock();
         }
       });
   }
@@ -68,7 +68,7 @@ class _ProductListState extends State<ProductList> {
   getStock() async {
     var _result = await productsRepo.getStock(
         context: context,
-        stkCat: Uri.encodeComponent(widget.stkCat),
+        stkCat: Uri.encodeComponent(widget.stkCat!),
         keywordSearch: widget.keywordSearch,
         bgnLimit: _startIndex,
         endLimit: 20);
@@ -108,9 +108,9 @@ class _ProductListState extends State<ProductList> {
   }
 
   _productList() {
-    if (items.length == 0 && _message.isNotEmpty) {
+    if (items.length == 0 && _message!.isNotEmpty) {
       return Center(
-        child: Text(_message),
+        child: Text(_message!),
       );
     } else if (items.length > 0) {
       return GridView(
@@ -184,7 +184,7 @@ class _ProductListState extends State<ProductList> {
               child: Column(
                 children: <Widget>[
                   Shimmer.fromColors(
-                    baseColor: Colors.grey[300],
+                    baseColor: Colors.grey[300]!,
                     highlightColor: Colors.white,
                     child: Container(
                       width: ScreenUtil().setWidth(1400),
@@ -208,7 +208,7 @@ class _ProductListState extends State<ProductList> {
     return _loadingShimmer();
   }
 
-  _loadingShimmer({int length}) {
+  _loadingShimmer({int? length}) {
     return Container(
       alignment: Alignment.topCenter,
       padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0),
@@ -219,7 +219,7 @@ class _ProductListState extends State<ProductList> {
           return Column(
             children: <Widget>[
               Shimmer.fromColors(
-                baseColor: Colors.grey[300],
+                baseColor: Colors.grey[300]!,
                 highlightColor: Colors.white,
                 child: Container(
                   width: ScreenUtil().setWidth(1400),

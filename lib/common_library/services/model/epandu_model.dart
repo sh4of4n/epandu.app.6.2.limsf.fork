@@ -1,5 +1,5 @@
 class GetEnrollmentResponse {
-  List<Enroll> enroll;
+  List<Enroll>? enroll;
 
   GetEnrollmentResponse({this.enroll});
 
@@ -7,7 +7,7 @@ class GetEnrollmentResponse {
     if (json['Enroll'] != null) {
       enroll = new List<Enroll>.empty(growable: true);
       json['Enroll'].forEach((v) {
-        enroll.add(new Enroll.fromJson(v));
+        enroll!.add(new Enroll.fromJson(v));
       });
     }
   }
@@ -15,58 +15,58 @@ class GetEnrollmentResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.enroll != null) {
-      data['Enroll'] = this.enroll.map((v) => v.toJson()).toList();
+      data['Enroll'] = this.enroll!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Enroll {
-  String id;
-  String trandate;
-  String icNo;
-  String groupId;
-  String kppGroupId;
-  String kppGroupId2;
-  String kppGroupId3;
-  String blacklisted;
-  String stuNo;
-  String dsCode;
-  String employeNo;
-  String introBy;
-  String commType;
-  String feesAgree;
-  String hrsAgree;
-  String addhrChrg;
-  String promptTes;
-  String totalPaid;
-  String retest;
-  String certNo;
-  String kpp02CertNo;
-  String remark;
-  String tlHrsTak;
-  String exclIncml;
-  String sm4No;
-  String pickupPoint;
-  String transtamp;
-  String epretCode;
-  String epretReqid;
-  String ekppCode;
-  String ekppReqid;
-  String ej2bStat;
-  String ej2bTick;
-  String ej2aTick;
-  String addClass;
-  String l2aPrnCount;
-  String l2bPrnCount;
-  String sm4PrnCount;
-  String userId;
-  String kpp02CertPath;
-  String compCode;
-  String branchCode;
-  String lastupload;
-  String deleted;
-  String diCode;
+  String? id;
+  String? trandate;
+  String? icNo;
+  String? groupId;
+  String? kppGroupId;
+  String? kppGroupId2;
+  String? kppGroupId3;
+  String? blacklisted;
+  String? stuNo;
+  String? dsCode;
+  String? employeNo;
+  String? introBy;
+  String? commType;
+  String? feesAgree;
+  String? hrsAgree;
+  String? addhrChrg;
+  String? promptTes;
+  String? totalPaid;
+  String? retest;
+  String? certNo;
+  String? kpp02CertNo;
+  String? remark;
+  String? tlHrsTak;
+  String? exclIncml;
+  String? sm4No;
+  String? pickupPoint;
+  String? transtamp;
+  String? epretCode;
+  String? epretReqid;
+  String? ekppCode;
+  String? ekppReqid;
+  String? ej2bStat;
+  String? ej2bTick;
+  String? ej2aTick;
+  String? addClass;
+  String? l2aPrnCount;
+  String? l2bPrnCount;
+  String? sm4PrnCount;
+  String? userId;
+  String? kpp02CertPath;
+  String? compCode;
+  String? branchCode;
+  String? lastupload;
+  String? deleted;
+  String? diCode;
 
   Enroll(
       {this.id,
@@ -216,12 +216,12 @@ class Enroll {
 
 // get enrolled classes
 class EnrolledClassesRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String diCode;
-  String icNo;
-  String groupId;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? diCode;
+  String? icNo;
+  String? groupId;
 
   EnrolledClassesRequest(
       {this.wsCodeCrypt,
@@ -240,8 +240,8 @@ class EnrolledClassesRequest {
     groupId = json['groupId'];
   }
 
-  Map<String, String> toJson() {
-    final Map<String, String> data = new Map<String, String>();
+  Map<String, String?> toJson() {
+    final Map<String, String?> data = new Map<String, String?>();
     data['wsCodeCrypt'] = this.wsCodeCrypt;
     data['caUid'] = this.caUid;
     data['caPwd'] = this.caPwd;
@@ -283,7 +283,7 @@ class EnrolledClassesRequest {
 } */
 
 class StudentPaymentResponse {
-  List<CollectTrn> collectTrn;
+  List<CollectTrn>? collectTrn;
 
   StudentPaymentResponse({this.collectTrn});
 
@@ -291,7 +291,7 @@ class StudentPaymentResponse {
     if (json['CollectTrn'] != null) {
       collectTrn = new List<CollectTrn>.empty(growable: true);
       json['CollectTrn'].forEach((v) {
-        collectTrn.add(new CollectTrn.fromJson(v));
+        collectTrn!.add(new CollectTrn.fromJson(v));
       });
     }
   }
@@ -299,93 +299,93 @@ class StudentPaymentResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.collectTrn != null) {
-      data['CollectTrn'] = this.collectTrn.map((v) => v.toJson()).toList();
+      data['CollectTrn'] = this.collectTrn!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class CollectTrn {
-  String jobNo;
-  String recpNo;
-  String serialType;
-  String trandate;
-  String trantime;
-  String vehNo;
-  String icNo;
-  String dsCode;
-  String tdefaAmt;
-  String thandChrg;
-  String tservChrg;
-  String tservTax;
-  String tranTotal;
-  String roundAmt;
-  String tranUser;
-  String payAmount;
-  String payMode;
-  String crdType;
-  String payRefno;
-  String balAmount;
-  String tlTaxAmt;
-  String cancelUser;
-  String cancelOn;
-  String cancel;
-  String transtamp;
-  String batchNo;
-  String cashAmount;
-  String chqAmount;
-  String ccAmount;
-  String packageCode;
-  String commAmount;
-  String oriRecpno;
-  String oriStype;
-  String tcommAmt;
-  String tagentCommAmt;
-  String compCode;
-  String branchCode;
-  String lastupload;
-  String deleted;
-  String diCode;
-  String id;
-  String ctrlNo;
-  String jobNo1;
-  String recpNo1;
-  String bookNo;
-  String trandate1;
-  String trantime1;
-  String vehNo1;
-  String icNo1;
-  String groupId;
-  String grpDesc;
-  String tranCateg;
-  String packageCode1;
-  String itemQty;
-  String itemPrice;
-  String taxCode;
-  String taxRate;
-  String taxAmt;
-  String priceIncludeGst;
-  String defaAmt;
-  String unitHandChrg;
-  String handChrg;
-  String unitServChrg;
-  String servChrg;
-  String unitServTax;
-  String servTax;
-  String tranTotal1;
-  String nettAmt;
-  String unitCommAmt;
-  String transtamp1;
-  String commAmt;
-  String unitAgentComm;
-  String agentCommAmt;
-  String trnCode;
-  String trnDesc;
-  String compCode1;
-  String branchCode1;
-  String lastupload1;
-  String deleted1;
-  String diCode1;
+  String? jobNo;
+  String? recpNo;
+  String? serialType;
+  String? trandate;
+  String? trantime;
+  String? vehNo;
+  String? icNo;
+  String? dsCode;
+  String? tdefaAmt;
+  String? thandChrg;
+  String? tservChrg;
+  String? tservTax;
+  String? tranTotal;
+  String? roundAmt;
+  String? tranUser;
+  String? payAmount;
+  String? payMode;
+  String? crdType;
+  String? payRefno;
+  String? balAmount;
+  String? tlTaxAmt;
+  String? cancelUser;
+  String? cancelOn;
+  String? cancel;
+  String? transtamp;
+  String? batchNo;
+  String? cashAmount;
+  String? chqAmount;
+  String? ccAmount;
+  String? packageCode;
+  String? commAmount;
+  String? oriRecpno;
+  String? oriStype;
+  String? tcommAmt;
+  String? tagentCommAmt;
+  String? compCode;
+  String? branchCode;
+  String? lastupload;
+  String? deleted;
+  String? diCode;
+  String? id;
+  String? ctrlNo;
+  String? jobNo1;
+  String? recpNo1;
+  String? bookNo;
+  String? trandate1;
+  String? trantime1;
+  String? vehNo1;
+  String? icNo1;
+  String? groupId;
+  String? grpDesc;
+  String? tranCateg;
+  String? packageCode1;
+  String? itemQty;
+  String? itemPrice;
+  String? taxCode;
+  String? taxRate;
+  String? taxAmt;
+  String? priceIncludeGst;
+  String? defaAmt;
+  String? unitHandChrg;
+  String? handChrg;
+  String? unitServChrg;
+  String? servChrg;
+  String? unitServTax;
+  String? servTax;
+  String? tranTotal1;
+  String? nettAmt;
+  String? unitCommAmt;
+  String? transtamp1;
+  String? commAmt;
+  String? unitAgentComm;
+  String? agentCommAmt;
+  String? trnCode;
+  String? trnDesc;
+  String? compCode1;
+  String? branchCode1;
+  String? lastupload1;
+  String? deleted1;
+  String? diCode1;
 
   CollectTrn(
       {this.jobNo,
@@ -678,7 +678,7 @@ class CollectTrn {
 
 // GetDTestByCodeResponse
 class GetDTestByCodeResponse {
-  List<DTest> dTest;
+  List<DTest>? dTest;
 
   GetDTestByCodeResponse({this.dTest});
 
@@ -686,7 +686,7 @@ class GetDTestByCodeResponse {
     if (json['DTest'] != null) {
       dTest = new List<DTest>.empty(growable: true);
       json['DTest'].forEach((v) {
-        dTest.add(new DTest.fromJson(v));
+        dTest!.add(new DTest.fromJson(v));
       });
     }
   }
@@ -694,75 +694,75 @@ class GetDTestByCodeResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.dTest != null) {
-      data['DTest'] = this.dTest.map((v) => v.toJson()).toList();
+      data['DTest'] = this.dTest!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class DTest {
-  String id;
-  String icNo;
-  String nric;
-  String stuNo;
-  String dsCode;
-  String classes;
-  String testDate;
-  String testType;
-  String groupId;
-  String hrsAgree;
-  String cardNo;
-  String sijilNo;
-  String tableNo;
-  String time;
-  String noCorrect;
-  String partIi;
-  String partI;
-  String partIii;
-  String result;
-  String partIv;
-  String testPart;
-  String repeat;
-  String amount;
-  String pasCrtNo;
-  String remark;
-  String recNo;
-  String sm4No;
-  String attempt;
-  String cancel;
-  String closed;
-  String bookNo;
-  String ctrlNo;
-  String ereqCode;
-  String ereqId;
-  String ebookDate;
-  String etestTime;
-  String eattempt;
-  String ereqRecp;
-  String ereqBookid;
-  String ereqAmtpd;
-  String erefNo;
-  String esent;
-  String eaccept;
-  String erejReason;
-  String siteCode;
-  String transtamp;
-  String classCode;
-  String recpNo;
-  String cardDate;
-  String aprvDate;
-  String pRemark;
-  String pAmount;
-  String sesi;
-  String testLoc;
-  String apprvBooking;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String lastupload;
-  String deleted;
-  String diCode;
-  String testTypeValue;
+  String? id;
+  String? icNo;
+  String? nric;
+  String? stuNo;
+  String? dsCode;
+  String? classes;
+  String? testDate;
+  String? testType;
+  String? groupId;
+  String? hrsAgree;
+  String? cardNo;
+  String? sijilNo;
+  String? tableNo;
+  String? time;
+  String? noCorrect;
+  String? partIi;
+  String? partI;
+  String? partIii;
+  String? result;
+  String? partIv;
+  String? testPart;
+  String? repeat;
+  String? amount;
+  String? pasCrtNo;
+  String? remark;
+  String? recNo;
+  String? sm4No;
+  String? attempt;
+  String? cancel;
+  String? closed;
+  String? bookNo;
+  String? ctrlNo;
+  String? ereqCode;
+  String? ereqId;
+  String? ebookDate;
+  String? etestTime;
+  String? eattempt;
+  String? ereqRecp;
+  String? ereqBookid;
+  String? ereqAmtpd;
+  String? erefNo;
+  String? esent;
+  String? eaccept;
+  String? erejReason;
+  String? siteCode;
+  String? transtamp;
+  String? classCode;
+  String? recpNo;
+  String? cardDate;
+  String? aprvDate;
+  String? pRemark;
+  String? pAmount;
+  String? sesi;
+  String? testLoc;
+  String? apprvBooking;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? lastupload;
+  String? deleted;
+  String? diCode;
+  String? testTypeValue;
 
   DTest(
       {this.id,
@@ -963,7 +963,7 @@ class DTest {
 
 // GetCollectionDetailByRecNoResponse
 class GetCollectionDetailByRecpNoResponse {
-  List<CollectDetail> collectDetail;
+  List<CollectDetail>? collectDetail;
 
   GetCollectionDetailByRecpNoResponse({this.collectDetail});
 
@@ -971,7 +971,7 @@ class GetCollectionDetailByRecpNoResponse {
     if (json['CollectDetail'] != null) {
       collectDetail = new List<CollectDetail>.empty(growable: true);
       json['CollectDetail'].forEach((v) {
-        collectDetail.add(new CollectDetail.fromJson(v));
+        collectDetail!.add(new CollectDetail.fromJson(v));
       });
     }
   }
@@ -980,54 +980,54 @@ class GetCollectionDetailByRecpNoResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.collectDetail != null) {
       data['CollectDetail'] =
-          this.collectDetail.map((v) => v.toJson()).toList();
+          this.collectDetail!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class CollectDetail {
-  String id;
-  String ctrlNo;
-  String jobNo;
-  String recpNo;
-  String bookNo;
-  String trandate;
-  String trantime;
-  String vehNo;
-  String icNo;
-  String groupId;
-  String grpDesc;
-  String tranCateg;
-  String packageCode;
-  String packageDesc;
-  String itemQty;
-  String itemPrice;
-  String taxCode;
-  String taxRate;
-  String taxAmt;
-  String priceIncludeGst;
-  String defaAmt;
-  String unitHandChrg;
-  String handChrg;
-  String unitServChrg;
-  String servChrg;
-  String unitServTax;
-  String servTax;
-  String tranTotal;
-  String nettAmt;
-  String unitCommAmt;
-  String transtamp;
-  String commAmt;
-  String unitAgentComm;
-  String agentCommAmt;
-  String trnCode;
-  String trnDesc;
-  String compCode;
-  String branchCode;
-  String lastupload;
-  String deleted;
-  String diCode;
+  String? id;
+  String? ctrlNo;
+  String? jobNo;
+  String? recpNo;
+  String? bookNo;
+  String? trandate;
+  String? trantime;
+  String? vehNo;
+  String? icNo;
+  String? groupId;
+  String? grpDesc;
+  String? tranCateg;
+  String? packageCode;
+  String? packageDesc;
+  String? itemQty;
+  String? itemPrice;
+  String? taxCode;
+  String? taxRate;
+  String? taxAmt;
+  String? priceIncludeGst;
+  String? defaAmt;
+  String? unitHandChrg;
+  String? handChrg;
+  String? unitServChrg;
+  String? servChrg;
+  String? unitServTax;
+  String? servTax;
+  String? tranTotal;
+  String? nettAmt;
+  String? unitCommAmt;
+  String? transtamp;
+  String? commAmt;
+  String? unitAgentComm;
+  String? agentCommAmt;
+  String? trnCode;
+  String? trnDesc;
+  String? compCode;
+  String? branchCode;
+  String? lastupload;
+  String? deleted;
+  String? diCode;
 
   CollectDetail(
       {this.id,
@@ -1165,7 +1165,7 @@ class CollectDetail {
 
 // GetCourseSectionList
 class GetCourseSectionListResponse {
-  List<CourseSection> courseSection;
+  List<CourseSection>? courseSection;
 
   GetCourseSectionListResponse({this.courseSection});
 
@@ -1173,7 +1173,7 @@ class GetCourseSectionListResponse {
     if (json['CourseSection'] != null) {
       courseSection = new List<CourseSection>.empty(growable: true);
       json['CourseSection'].forEach((v) {
-        courseSection.add(new CourseSection.fromJson(v));
+        courseSection!.add(new CourseSection.fromJson(v));
       });
     }
   }
@@ -1182,24 +1182,24 @@ class GetCourseSectionListResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.courseSection != null) {
       data['CourseSection'] =
-          this.courseSection.map((v) => v.toJson()).toList();
+          this.courseSection!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class CourseSection {
-  String iD;
-  String groupId;
-  String courseCode;
-  String section;
-  String sectionDesc;
-  String createUser;
-  String editUser;
-  String transtamp;
-  String deleted;
-  String lastEditedBy;
-  String createdBy;
+  String? iD;
+  String? groupId;
+  String? courseCode;
+  String? section;
+  String? sectionDesc;
+  String? createUser;
+  String? editUser;
+  String? transtamp;
+  String? deleted;
+  String? lastEditedBy;
+  String? createdBy;
 
   CourseSection(
       {this.iD,
@@ -1247,7 +1247,7 @@ class CourseSection {
 
 // GetTestListGroupIdResponse
 class GetTestListGroupIdResponse {
-  List<GroupIdTest> test;
+  List<GroupIdTest>? test;
 
   GetTestListGroupIdResponse({this.test});
 
@@ -1255,7 +1255,7 @@ class GetTestListGroupIdResponse {
     if (json['Test'] != null) {
       test = new List<GroupIdTest>.empty(growable: true);
       json['Test'].forEach((v) {
-        test.add(new GroupIdTest.fromJson(v));
+        test!.add(new GroupIdTest.fromJson(v));
       });
     }
   }
@@ -1263,27 +1263,27 @@ class GetTestListGroupIdResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.test != null) {
-      data['Test'] = this.test.map((v) => v.toJson()).toList();
+      data['Test'] = this.test!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class GroupIdTest {
-  String iD;
-  String diCode;
-  String groupId;
-  String testType;
-  String testDate;
-  String testTime;
-  String tlQuota;
-  String onlineQuota;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String transtamp;
-  String deleted;
+  String? iD;
+  String? diCode;
+  String? groupId;
+  String? testType;
+  String? testDate;
+  String? testTime;
+  String? tlQuota;
+  String? onlineQuota;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? transtamp;
+  String? deleted;
 
   GroupIdTest(
       {this.iD,
@@ -1340,7 +1340,7 @@ class GroupIdTest {
 
 // GetTestListTestTypeResponse
 class GetTestListTestTypeResponse {
-  List<TestTypeTest> test;
+  List<TestTypeTest>? test;
 
   GetTestListTestTypeResponse({this.test});
 
@@ -1348,7 +1348,7 @@ class GetTestListTestTypeResponse {
     if (json['Test'] != null) {
       test = new List<TestTypeTest>.empty(growable: true);
       json['Test'].forEach((v) {
-        test.add(new TestTypeTest.fromJson(v));
+        test!.add(new TestTypeTest.fromJson(v));
       });
     }
   }
@@ -1356,27 +1356,27 @@ class GetTestListTestTypeResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.test != null) {
-      data['Test'] = this.test.map((v) => v.toJson()).toList();
+      data['Test'] = this.test!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class TestTypeTest {
-  String iD;
-  String diCode;
-  String groupId;
-  String testType;
-  String testDate;
-  String testTime;
-  String tlQuota;
-  String onlineQuota;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String transtamp;
-  String deleted;
+  String? iD;
+  String? diCode;
+  String? groupId;
+  String? testType;
+  String? testDate;
+  String? testTime;
+  String? tlQuota;
+  String? onlineQuota;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? transtamp;
+  String? deleted;
 
   TestTypeTest(
       {this.iD,
@@ -1433,7 +1433,7 @@ class TestTypeTest {
 
 // GetTestListResponse
 class GetTestListResponse {
-  List<Test> test;
+  List<Test>? test;
 
   GetTestListResponse({this.test});
 
@@ -1441,7 +1441,7 @@ class GetTestListResponse {
     if (json['Test'] != null) {
       test = new List<Test>.empty(growable: true);
       json['Test'].forEach((v) {
-        test.add(new Test.fromJson(v));
+        test!.add(new Test.fromJson(v));
       });
     }
   }
@@ -1449,29 +1449,29 @@ class GetTestListResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.test != null) {
-      data['Test'] = this.test.map((v) => v.toJson()).toList();
+      data['Test'] = this.test!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Test {
-  String iD;
-  String diCode;
-  String groupId;
-  String testType;
-  String testDate;
-  String testTime;
-  String tlQuota;
-  String onlineQuota;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String transtamp;
-  String deleted;
-  String lastEditedBy;
-  String createdBy;
+  String? iD;
+  String? diCode;
+  String? groupId;
+  String? testType;
+  String? testDate;
+  String? testTime;
+  String? tlQuota;
+  String? onlineQuota;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? transtamp;
+  String? deleted;
+  String? lastEditedBy;
+  String? createdBy;
 
   Test(
       {this.iD,
@@ -1535,16 +1535,16 @@ class Test {
 // SaveBookingTest
 
 class SaveBookingTestRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String diCode;
-  String groupId;
-  String testType;
-  String testDate;
-  String courseSection;
-  String icNo;
-  String userId;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? diCode;
+  String? groupId;
+  String? testType;
+  String? testDate;
+  String? courseSection;
+  String? icNo;
+  String? userId;
 
   SaveBookingTestRequest(
       {this.wsCodeCrypt,
@@ -1588,7 +1588,7 @@ class SaveBookingTestRequest {
 }
 
 class GetJpjTestCheckInResponse {
-  List<GetJpjTestTrn> jpjTestTrn;
+  List<GetJpjTestTrn>? jpjTestTrn;
 
   GetJpjTestCheckInResponse({this.jpjTestTrn});
 
@@ -1596,7 +1596,7 @@ class GetJpjTestCheckInResponse {
     if (json['JpjTestTrn'] != null) {
       jpjTestTrn = new List<GetJpjTestTrn>.empty(growable: true);
       json['JpjTestTrn'].forEach((v) {
-        jpjTestTrn.add(new GetJpjTestTrn.fromJson(v));
+        jpjTestTrn!.add(new GetJpjTestTrn.fromJson(v));
       });
     }
   }
@@ -1604,49 +1604,49 @@ class GetJpjTestCheckInResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.jpjTestTrn != null) {
-      data['JpjTestTrn'] = this.jpjTestTrn.map((v) => v.toJson()).toList();
+      data['JpjTestTrn'] = this.jpjTestTrn!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class GetJpjTestTrn {
-  String iD;
-  String testDate;
-  String courseCode;
-  String groupId;
-  String nricNo;
-  String fullname;
-  String sex;
-  String race;
-  String nationality;
-  String birthDate;
-  String add1;
-  String add2;
-  String add3;
-  String postcode;
-  String cityName;
-  String stateName;
-  String icPhoto;
-  String queueNo;
-  String regDate;
-  String registerPhoto;
-  String testCode;
-  String startDate;
-  String startTime;
-  String endTime;
-  String printed;
-  String prnCount;
-  String printLog;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String transtamp;
-  String lastupload;
-  String compCode;
-  String branchCode;
-  String deleted;
+  String? iD;
+  String? testDate;
+  String? courseCode;
+  String? groupId;
+  String? nricNo;
+  String? fullname;
+  String? sex;
+  String? race;
+  String? nationality;
+  String? birthDate;
+  String? add1;
+  String? add2;
+  String? add3;
+  String? postcode;
+  String? cityName;
+  String? stateName;
+  String? icPhoto;
+  String? queueNo;
+  String? regDate;
+  String? registerPhoto;
+  String? testCode;
+  String? startDate;
+  String? startTime;
+  String? endTime;
+  String? printed;
+  String? prnCount;
+  String? printLog;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? transtamp;
+  String? lastupload;
+  String? compCode;
+  String? branchCode;
+  String? deleted;
 
   GetJpjTestTrn(
       {this.iD,
@@ -1768,7 +1768,7 @@ class GetJpjTestTrn {
 }
 
 class GetLastJpjTestCheckInByIntervalResponse {
-  List<GetJpjTestTrnByInterval> jpjTestTrn;
+  List<GetJpjTestTrnByInterval>? jpjTestTrn;
 
   GetLastJpjTestCheckInByIntervalResponse({this.jpjTestTrn});
 
@@ -1776,7 +1776,7 @@ class GetLastJpjTestCheckInByIntervalResponse {
     if (json['JpjTestTrn'] != null) {
       jpjTestTrn = new List<GetJpjTestTrnByInterval>.empty(growable: true);
       json['JpjTestTrn'].forEach((v) {
-        jpjTestTrn.add(new GetJpjTestTrnByInterval.fromJson(v));
+        jpjTestTrn!.add(new GetJpjTestTrnByInterval.fromJson(v));
       });
     }
   }
@@ -1784,49 +1784,49 @@ class GetLastJpjTestCheckInByIntervalResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.jpjTestTrn != null) {
-      data['JpjTestTrn'] = this.jpjTestTrn.map((v) => v.toJson()).toList();
+      data['JpjTestTrn'] = this.jpjTestTrn!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class GetJpjTestTrnByInterval {
-  String iD;
-  String testDate;
-  String courseCode;
-  String groupId;
-  String nricNo;
-  String fullname;
-  String sex;
-  String race;
-  String nationality;
-  String birthDate;
-  String add1;
-  String add2;
-  String add3;
-  String postcode;
-  String cityName;
-  String stateName;
-  String icPhoto;
-  String queueNo;
-  String regDate;
-  String registerPhoto;
-  String testCode;
-  String startDate;
-  String startTime;
-  String endTime;
-  String printed;
-  String prnCount;
-  String printLog;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String transtamp;
-  String lastupload;
-  String compCode;
-  String branchCode;
-  String deleted;
+  String? iD;
+  String? testDate;
+  String? courseCode;
+  String? groupId;
+  String? nricNo;
+  String? fullname;
+  String? sex;
+  String? race;
+  String? nationality;
+  String? birthDate;
+  String? add1;
+  String? add2;
+  String? add3;
+  String? postcode;
+  String? cityName;
+  String? stateName;
+  String? icPhoto;
+  String? queueNo;
+  String? regDate;
+  String? registerPhoto;
+  String? testCode;
+  String? startDate;
+  String? startTime;
+  String? endTime;
+  String? printed;
+  String? prnCount;
+  String? printLog;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? transtamp;
+  String? lastupload;
+  String? compCode;
+  String? branchCode;
+  String? deleted;
 
   GetJpjTestTrnByInterval(
       {this.iD,
@@ -1948,13 +1948,13 @@ class GetJpjTestTrnByInterval {
 }
 
 class VerifyScanCodeRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String icNo;
-  String diCode;
-  String userId;
-  String qrcodeJson;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? icNo;
+  String? diCode;
+  String? userId;
+  String? qrcodeJson;
 
   VerifyScanCodeRequest(
       {this.wsCodeCrypt,
@@ -1989,15 +1989,15 @@ class VerifyScanCodeRequest {
 }
 
 class VerifyScanCodeResponse {
-  List<JpjTestTrn> jpjTestTrn;
+  List<JpjTestTrn>? jpjTestTrn;
 
   VerifyScanCodeResponse({this.jpjTestTrn});
 
   VerifyScanCodeResponse.fromJson(Map<String, dynamic> json) {
     if (json['JpjTestTrn'] != null) {
-      jpjTestTrn = new List<JpjTestTrn>();
+      jpjTestTrn = new List<JpjTestTrn>.empty(growable: true);
       json['JpjTestTrn'].forEach((v) {
-        jpjTestTrn.add(new JpjTestTrn.fromJson(v));
+        jpjTestTrn!.add(new JpjTestTrn.fromJson(v));
       });
     }
   }
@@ -2005,49 +2005,49 @@ class VerifyScanCodeResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.jpjTestTrn != null) {
-      data['JpjTestTrn'] = this.jpjTestTrn.map((v) => v.toJson()).toList();
+      data['JpjTestTrn'] = this.jpjTestTrn!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class JpjTestTrn {
-  String iD;
-  String testDate;
-  String courseCode;
-  String groupId;
-  String nricNo;
-  String fullname;
-  String sex;
-  String race;
-  String nationality;
-  String birthDate;
-  String add1;
-  String add2;
-  String add3;
-  String postcode;
-  String cityName;
-  String stateName;
-  String icPhoto;
-  String queueNo;
-  String regDate;
-  String registerPhoto;
-  String testCode;
-  String startDate;
-  String startTime;
-  String endTime;
-  String printed;
-  String prnCount;
-  String printLog;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String transtamp;
-  String lastupload;
-  String compCode;
-  String branchCode;
-  String deleted;
+  String? iD;
+  String? testDate;
+  String? courseCode;
+  String? groupId;
+  String? nricNo;
+  String? fullname;
+  String? sex;
+  String? race;
+  String? nationality;
+  String? birthDate;
+  String? add1;
+  String? add2;
+  String? add3;
+  String? postcode;
+  String? cityName;
+  String? stateName;
+  String? icPhoto;
+  String? queueNo;
+  String? regDate;
+  String? registerPhoto;
+  String? testCode;
+  String? startDate;
+  String? startTime;
+  String? endTime;
+  String? printed;
+  String? prnCount;
+  String? printLog;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? transtamp;
+  String? lastupload;
+  String? compCode;
+  String? branchCode;
+  String? deleted;
 
   JpjTestTrn(
       {this.iD,
@@ -2169,13 +2169,13 @@ class JpjTestTrn {
 }
 
 class GetScanCodeByActionRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String icNo;
-  String diCode;
-  String userId;
-  String action;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? icNo;
+  String? diCode;
+  String? userId;
+  String? action;
 
   GetScanCodeByActionRequest(
       {this.wsCodeCrypt,
@@ -2210,7 +2210,7 @@ class GetScanCodeByActionRequest {
 }
 
 class GetScanCodeByActionResponse {
-  List<Table1> table1;
+  List<Table1>? table1;
 
   GetScanCodeByActionResponse({this.table1});
 
@@ -2218,7 +2218,7 @@ class GetScanCodeByActionResponse {
     if (json['Table1'] != null) {
       table1 = new List<Table1>.empty(growable: true);
       json['Table1'].forEach((v) {
-        table1.add(new Table1.fromJson(v));
+        table1!.add(new Table1.fromJson(v));
       });
     }
   }
@@ -2226,16 +2226,16 @@ class GetScanCodeByActionResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.table1 != null) {
-      data['Table1'] = this.table1.map((v) => v.toJson()).toList();
+      data['Table1'] = this.table1!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Table1 {
-  String merchantNo;
-  String action;
-  String datetime;
+  String? merchantNo;
+  String? action;
+  String? datetime;
 
   Table1({this.merchantNo, this.action, this.datetime});
 
@@ -2255,15 +2255,15 @@ class Table1 {
 }
 
 class GetLastCallingJpjTestQueueNumberResponse {
-  List<LastCallingQueueJpjTestTrn> jpjTestTrn;
+  List<LastCallingQueueJpjTestTrn>? jpjTestTrn;
 
   GetLastCallingJpjTestQueueNumberResponse({this.jpjTestTrn});
 
   GetLastCallingJpjTestQueueNumberResponse.fromJson(Map<String, dynamic> json) {
     if (json['JpjTestTrn'] != null) {
-      jpjTestTrn = new List<LastCallingQueueJpjTestTrn>();
+      jpjTestTrn = new List<LastCallingQueueJpjTestTrn>.empty(growable: true);
       json['JpjTestTrn'].forEach((v) {
-        jpjTestTrn.add(new LastCallingQueueJpjTestTrn.fromJson(v));
+        jpjTestTrn!.add(new LastCallingQueueJpjTestTrn.fromJson(v));
       });
     }
   }
@@ -2271,49 +2271,49 @@ class GetLastCallingJpjTestQueueNumberResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.jpjTestTrn != null) {
-      data['JpjTestTrn'] = this.jpjTestTrn.map((v) => v.toJson()).toList();
+      data['JpjTestTrn'] = this.jpjTestTrn!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class LastCallingQueueJpjTestTrn {
-  String iD;
-  String testDate;
-  String courseCode;
-  String groupId;
-  String nricNo;
-  String fullname;
-  String sex;
-  String race;
-  String nationality;
-  String birthDate;
-  String add1;
-  String add2;
-  String add3;
-  String postcode;
-  String cityName;
-  String stateName;
-  String icPhoto;
-  String queueNo;
-  String regDate;
-  String registerPhoto;
-  String testCode;
-  String startDate;
-  String startTime;
-  String endTime;
-  String printed;
-  String prnCount;
-  String printLog;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String transtamp;
-  String lastupload;
-  String compCode;
-  String branchCode;
-  String deleted;
+  String? iD;
+  String? testDate;
+  String? courseCode;
+  String? groupId;
+  String? nricNo;
+  String? fullname;
+  String? sex;
+  String? race;
+  String? nationality;
+  String? birthDate;
+  String? add1;
+  String? add2;
+  String? add3;
+  String? postcode;
+  String? cityName;
+  String? stateName;
+  String? icPhoto;
+  String? queueNo;
+  String? regDate;
+  String? registerPhoto;
+  String? testCode;
+  String? startDate;
+  String? startTime;
+  String? endTime;
+  String? printed;
+  String? prnCount;
+  String? printLog;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? transtamp;
+  String? lastupload;
+  String? compCode;
+  String? branchCode;
+  String? deleted;
 
   LastCallingQueueJpjTestTrn(
       {this.iD,
@@ -2435,15 +2435,15 @@ class LastCallingQueueJpjTestTrn {
 }
 
 class GetStuPracByCodeResponse {
-  List<StuPrac> stuPrac;
+  List<StuPrac>? stuPrac;
 
   GetStuPracByCodeResponse({this.stuPrac});
 
   GetStuPracByCodeResponse.fromJson(Map<String, dynamic> json) {
     if (json['StuPrac'] != null) {
-      stuPrac = new List<StuPrac>();
+      stuPrac = new List<StuPrac>.empty(growable: true);
       json['StuPrac'].forEach((v) {
-        stuPrac.add(new StuPrac.fromJson(v));
+        stuPrac!.add(new StuPrac.fromJson(v));
       });
     }
   }
@@ -2451,76 +2451,76 @@ class GetStuPracByCodeResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.stuPrac != null) {
-      data['StuPrac'] = this.stuPrac.map((v) => v.toJson()).toList();
+      data['StuPrac'] = this.stuPrac!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class StuPrac {
-  String id;
-  String icNo;
-  String stuNo;
-  String trandate;
-  String vehNo;
-  String trnCode;
-  String slipNo;
-  String sm4No;
-  String certNo;
-  String groupId;
-  String kppGroupId;
-  String kppGroupId2;
-  String kppGroupId3;
-  String kClass;
-  String bgTime;
-  String endTime;
-  String employeNo;
-  String remark;
-  String dsCode;
-  String pracType;
-  String sysTime;
-  String closeUser;
-  String closeDate;
-  String epretCode;
-  String epretReqid;
-  String ekppCode;
-  String ekppReqid;
-  String transtamp;
-  String actBgTime;
-  String actEndTime;
-  String byFingerprn;
-  String ej2aTick;
-  String ej2aInd;
-  String ej2aStat;
-  String ej2bInd;
-  String ej2bTick;
-  String ej2bStat;
-  String snoBkpp;
-  String adminId1;
-  String actBgTime2;
-  String classCode;
-  String verifyTrncode;
-  String actEndTime2;
-  String ej2aRemark;
-  String ej2bRemark;
-  String entryType;
-  String sjlprndate;
-  String issueSjDate;
-  String courseCode;
-  String location;
-  String theoryType;
-  String totalTime;
-  String kpp02CertNo;
-  String kpp02IssueSjDate;
-  String kpp02Sjlprndate;
-  String sessionTotalTime;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String lastupload;
-  String deleted;
-  String diCode;
-  String merchantNo;
+  String? id;
+  String? icNo;
+  String? stuNo;
+  String? trandate;
+  String? vehNo;
+  String? trnCode;
+  String? slipNo;
+  String? sm4No;
+  String? certNo;
+  String? groupId;
+  String? kppGroupId;
+  String? kppGroupId2;
+  String? kppGroupId3;
+  String? kClass;
+  String? bgTime;
+  String? endTime;
+  String? employeNo;
+  String? remark;
+  String? dsCode;
+  String? pracType;
+  String? sysTime;
+  String? closeUser;
+  String? closeDate;
+  String? epretCode;
+  String? epretReqid;
+  String? ekppCode;
+  String? ekppReqid;
+  String? transtamp;
+  String? actBgTime;
+  String? actEndTime;
+  String? byFingerprn;
+  String? ej2aTick;
+  String? ej2aInd;
+  String? ej2aStat;
+  String? ej2bInd;
+  String? ej2bTick;
+  String? ej2bStat;
+  String? snoBkpp;
+  String? adminId1;
+  String? actBgTime2;
+  String? classCode;
+  String? verifyTrncode;
+  String? actEndTime2;
+  String? ej2aRemark;
+  String? ej2bRemark;
+  String? entryType;
+  String? sjlprndate;
+  String? issueSjDate;
+  String? courseCode;
+  String? location;
+  String? theoryType;
+  String? totalTime;
+  String? kpp02CertNo;
+  String? kpp02IssueSjDate;
+  String? kpp02Sjlprndate;
+  String? sessionTotalTime;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? lastupload;
+  String? deleted;
+  String? diCode;
+  String? merchantNo;
 
   StuPrac(
       {this.id,

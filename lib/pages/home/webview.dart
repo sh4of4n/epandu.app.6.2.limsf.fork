@@ -16,16 +16,16 @@ import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'navigation_controls.dart';
 
 class Webview extends StatefulWidget {
-  final String url;
-  final String backType;
+  final String? url;
+  final String? backType;
 
-  Webview({@required this.url, this.backType});
+  Webview({required this.url, this.backType});
 
   @override
   _WebviewState createState() => _WebviewState();
 }
 
-WebViewController controllerGlobal;
+WebViewController? controllerGlobal;
 
 Future<bool> _onWillPop({context, backType, customDialog}) async {
   // Provider.of<CallStatusModel>(context, listen: false).callStatus(false);
@@ -34,8 +34,8 @@ Future<bool> _onWillPop({context, backType, customDialog}) async {
 
     return true;
   } else {
-    if (await controllerGlobal.canGoBack()) {
-      controllerGlobal.goBack();
+    if (await controllerGlobal!.canGoBack()) {
+      controllerGlobal!.goBack();
     } else {
       // _confirmBack(customDialog, context);
       Provider.of<CallStatusModel>(context, listen: false).callStatus(false);
@@ -49,10 +49,10 @@ Future<bool> _onWillPop({context, backType, customDialog}) async {
 _confirmBack(customDialog, context) {
   return customDialog.show(
     context: context,
-    content: AppLocalizations.of(context).translate('confirm_back'),
+    content: AppLocalizations.of(context)!.translate('confirm_back'),
     customActions: <Widget>[
       TextButton(
-          child: Text(AppLocalizations.of(context).translate('yes_lbl')),
+          child: Text(AppLocalizations.of(context)!.translate('yes_lbl')),
           onPressed: () {
             Provider.of<CallStatusModel>(context, listen: false)
                 .callStatus(false);
@@ -61,7 +61,7 @@ _confirmBack(customDialog, context) {
             );
           }),
       TextButton(
-        child: Text(AppLocalizations.of(context).translate('no_lbl')),
+        child: Text(AppLocalizations.of(context)!.translate('no_lbl')),
         onPressed: () {
           context.router.pop();
         },

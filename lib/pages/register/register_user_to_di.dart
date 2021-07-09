@@ -37,7 +37,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
   final image = ImagesConstant();
   final primaryColor = ColorConstant.primaryColor;
   final _formKey = GlobalKey<FormState>();
-  Location location;
+  late Location location;
 
   String name = '';
   String merchantId = '';
@@ -59,11 +59,11 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
   final merchantIdController = TextEditingController();
   final merchantNameController = TextEditingController();
 
-  String _deviceManufacturer = '';
+  String? _deviceManufacturer = '';
   // String _deviceVersion = '';
-  String _deviceId = '';
+  String? _deviceId = '';
   // String _deviceOs = '';
-  String _deviceModel = '';
+  String? _deviceModel = '';
 
   @override
   void initState() {
@@ -86,12 +86,12 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
     _getDeviceInfo();
     _checkLocationPermission();
 
-    if (scanResponse.qRCode[0] != null) {
+    if (scanResponse.qRCode?[0] != null) {
       setState(() {
-        nameController.text = scanResponse.qRCode[0].name;
-        phoneController.text = scanResponse.qRCode[0].loginId;
-        merchantIdController.text = scanResponse.qRCode[0].merchantDbCode;
-        merchantNameController.text = scanResponse.qRCode[0].merchantName;
+        nameController.text = scanResponse.qRCode![0].name!;
+        phoneController.text = scanResponse.qRCode![0].loginId!;
+        merchantIdController.text = scanResponse.qRCode![0].merchantDbCode!;
+        merchantNameController.text = scanResponse.qRCode![0].merchantName!;
       });
     } else {
       _getData();
@@ -162,20 +162,20 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
 
   _getData() async {
     // String getPhoneCountryCode = await localStorage.getCountryCode();
-    String getPhone = await localStorage.getUserPhone();
-    String getName = await localStorage.getName();
+    String? getPhone = await localStorage.getUserPhone();
+    String? getName = await localStorage.getName();
 
     setState(() {
       // phoneCountryCode = getPhoneCountryCode;
-      phoneController.text = getPhone;
+      phoneController.text = getPhone!;
       // gender = getGender;
-      nameController.text = getName;
+      nameController.text = getName!;
     });
   }
 
   registerUserToDi() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
       setState(() {
@@ -190,14 +190,14 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
         context: context,
         // bodyTemperature: _bodyTemp,
         appVersion: appVersion,
-        scannedAppId: scanResponse.qRCode[0].appId,
-        scannedAppVer: scanResponse.qRCode[0].appVersion,
-        scannedLoginId: scanResponse.qRCode[0].loginId,
-        scannedUserId: scanResponse.qRCode[0].userId,
+        scannedAppId: scanResponse.qRCode![0].appId,
+        scannedAppVer: scanResponse.qRCode![0].appVersion,
+        scannedLoginId: scanResponse.qRCode![0].loginId,
+        scannedUserId: scanResponse.qRCode![0].userId,
         scanCode: widget.barcode,
         phDeviceId: _deviceId,
         bdBrand: _deviceManufacturer,
-        bdModel: Uri.encodeComponent(_deviceModel),
+        bdModel: Uri.encodeComponent(_deviceModel!),
         latitude: latitude,
         longitude: longitude,
       );
@@ -282,7 +282,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
                           hintStyle: TextStyle(
                             color: primaryColor,
                           ),
-                          labelText: AppLocalizations.of(context)
+                          labelText: AppLocalizations.of(context)!
                               .translate('date_time'),
                           prefixIcon: Icon(Icons.phone_android),
                         ),
@@ -300,7 +300,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
                           hintStyle: TextStyle(
                             color: primaryColor,
                           ),
-                          labelText: AppLocalizations.of(context)
+                          labelText: AppLocalizations.of(context)!
                               .translate('merchant_id'),
                           prefixIcon: Icon(Icons.person),
                         ),
@@ -316,7 +316,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
                           hintStyle: TextStyle(
                             color: primaryColor,
                           ),
-                          labelText: AppLocalizations.of(context)
+                          labelText: AppLocalizations.of(context)!
                               .translate('merchant_name'),
                           prefixIcon: Icon(Icons.person),
                         ),
@@ -399,7 +399,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
                       : CustomButton(
                           onPressed: registerUserToDi,
                           buttonColor: Color(0xffdd0e0e),
-                          title: AppLocalizations.of(context)
+                          title: AppLocalizations.of(context)!
                               .translate('submit_btn'),
                         ),
                 ],

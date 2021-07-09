@@ -23,9 +23,9 @@ class _PinActivationState extends State<PinActivation> {
 
   final _formKey = GlobalKey<FormState>();
 
-  String pinMessage = '';
+  String? pinMessage = '';
 
-  String _pin;
+  String? _pin;
 
   bool _isLoading = false;
   // var _height = ScreenUtil().setHeight(900);
@@ -47,7 +47,7 @@ class _PinActivationState extends State<PinActivation> {
                 ),
                 onPressed: () => _submit(context),
                 child: Text(
-                  AppLocalizations.of(context).translate('submit_btn'),
+                  AppLocalizations.of(context)!.translate('submit_btn'),
                   style: TextStyle(
                     fontSize: ScreenUtil().setSp(56),
                   ),
@@ -58,8 +58,8 @@ class _PinActivationState extends State<PinActivation> {
   }
 
   _submit(context) async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
       setState(() {
@@ -101,7 +101,7 @@ class _PinActivationState extends State<PinActivation> {
           backgroundColor: primaryColor,
           elevation: 0,
           title: Text(
-              AppLocalizations.of(context).translate('activate_pin_title')),
+              AppLocalizations.of(context)!.translate('activate_pin_title')),
         ),
         body: Stack(
           children: <Widget>[
@@ -157,7 +157,7 @@ class _PinActivationState extends State<PinActivation> {
                             hintStyle: TextStyle(
                               color: primaryColor,
                             ),
-                            labelText: AppLocalizations.of(context)
+                            labelText: AppLocalizations.of(context)!
                                 .translate('pin_lbl'),
                             fillColor: Colors.grey.withOpacity(.25),
                             filled: true,
@@ -171,8 +171,8 @@ class _PinActivationState extends State<PinActivation> {
                             ),
                           ),
                           validator: (value) {
-                            if (value.isEmpty) {
-                              return AppLocalizations.of(context)
+                            if (value!.isEmpty) {
+                              return AppLocalizations.of(context)!
                                   .translate('pin_required_msg');
                             }
                             return null;
@@ -190,7 +190,7 @@ class _PinActivationState extends State<PinActivation> {
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: Wrap(
                             children: <Widget>[
-                              Text(AppLocalizations.of(context)
+                              Text(AppLocalizations.of(context)!
                                   .translate('activate_pin')),
                             ],
                           ),
@@ -203,9 +203,9 @@ class _PinActivationState extends State<PinActivation> {
                           children: <Widget>[
                             Column(
                               children: <Widget>[
-                                pinMessage.isNotEmpty
+                                pinMessage!.isNotEmpty
                                     ? Text(
-                                        pinMessage,
+                                        pinMessage!,
                                         style: TextStyle(color: Colors.red),
                                       )
                                     : SizedBox.shrink(),

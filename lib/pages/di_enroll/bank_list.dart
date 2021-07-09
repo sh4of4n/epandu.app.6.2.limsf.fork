@@ -12,12 +12,12 @@ import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
 class BankList extends StatefulWidget {
-  final String icNo;
-  final String docDoc;
-  final String docRef;
-  final String packageCode;
-  final String diCode;
-  final String amountString;
+  final String? icNo;
+  final String? docDoc;
+  final String? docRef;
+  final String? packageCode;
+  final String? diCode;
+  final String? amountString;
 
   BankList({
     this.icNo,
@@ -38,7 +38,7 @@ class _BankListState extends State<BankList> {
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
   final image = ImagesConstant();
-  Future getBankList;
+  Future? getBankList;
   bool isLoading = false;
 
   @override
@@ -57,7 +57,7 @@ class _BankListState extends State<BankList> {
     return result.message;
   }
 
-  fpxSendB2CAuthRequest({bankId}) async {
+  fpxSendB2CAuthRequest({required bankId}) async {
     // String userId = await localStorage.getUserId();
     // String diCode = await localStorage.getMerchantDbCode();
 
@@ -105,7 +105,7 @@ class _BankListState extends State<BankList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('select_bank')),
+        title: Text(AppLocalizations.of(context)!.translate('select_bank')),
       ),
       body: Stack(
         children: [
@@ -208,7 +208,7 @@ class _BankListState extends State<BankList> {
                 default:
                   return Center(
                     child: Text(
-                      AppLocalizations.of(context)
+                      AppLocalizations.of(context)!
                           .translate('get_bank_list_fail'),
                     ),
                   );

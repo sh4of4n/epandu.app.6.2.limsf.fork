@@ -80,7 +80,7 @@ class Records extends StatelessWidget {
                                 height: ScreenUtil().setHeight(20),
                               ),
                               Text(
-                                AppLocalizations.of(context)
+                                AppLocalizations.of(context)!
                                     .translate('class_title'),
                                 style: iconText,
                                 textAlign: TextAlign.center,
@@ -104,7 +104,7 @@ class Records extends StatelessWidget {
                                 height: ScreenUtil().setHeight(20),
                               ),
                               Text(
-                                AppLocalizations.of(context)
+                                AppLocalizations.of(context)!
                                     .translate('payment_lbl'),
                                 style: iconText,
                                 textAlign: TextAlign.center,
@@ -128,7 +128,7 @@ class Records extends StatelessWidget {
                                 height: ScreenUtil().setHeight(20),
                               ),
                               Text(
-                                AppLocalizations.of(context)
+                                AppLocalizations.of(context)!
                                     .translate('attendance_title'),
                                 style: iconText,
                                 textAlign: TextAlign.center,

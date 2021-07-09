@@ -15,9 +15,9 @@ class Networking extends BaseRepo {
   final customSnackbar = CustomSnackbar();
   final wsUrlBox = Hive.box('ws_url');
   // var body;
-  String url;
-  String customUrl;
-  int milliseconds;
+  String? url;
+  String? customUrl;
+  int? milliseconds;
 
   String removeAllHtmlTags(String htmlText) {
     RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
@@ -25,7 +25,7 @@ class Networking extends BaseRepo {
     return htmlText.replaceAll(exp, '');
   }
 
-  Uri uri;
+  late Uri uri;
 
   Networking({this.customUrl, this.milliseconds});
 
@@ -92,7 +92,7 @@ class Networking extends BaseRepo {
   }
 
   Future<Response> postData(
-      {String api, String path, @required body, headers}) async {
+      {String? api, String? path, required body, headers}) async {
     try {
       if (customUrl != null) {
         url = customUrl;

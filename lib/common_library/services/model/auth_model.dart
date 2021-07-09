@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'auth_model.g.dart';
 
 class GetWsUrlResponse {
-  LoginAcctInfo loginAcctInfo;
+  LoginAcctInfo? loginAcctInfo;
 
   GetWsUrlResponse({this.loginAcctInfo});
 
@@ -16,14 +16,14 @@ class GetWsUrlResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.loginAcctInfo != null) {
-      data['LoginAcctInfo'] = this.loginAcctInfo.toJson();
+      data['LoginAcctInfo'] = this.loginAcctInfo!.toJson();
     }
     return data;
   }
 }
 
 class LoginAcctInfo {
-  LoginAcct loginAcct;
+  LoginAcct? loginAcct;
 
   LoginAcctInfo({this.loginAcct});
 
@@ -36,33 +36,33 @@ class LoginAcctInfo {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.loginAcct != null) {
-      data['LoginAcct'] = this.loginAcct.toJson();
+      data['LoginAcct'] = this.loginAcct!.toJson();
     }
     return data;
   }
 }
 
 class LoginAcct {
-  String loginAcctId;
-  String acctUid;
-  String acctPwd;
-  String acctName;
-  String acctStatus;
-  String loginType;
-  String loginIp;
-  String loginUid;
-  String loginPwd;
-  String loginDb;
-  String loginDir;
-  String loginAcctno;
-  String loginMisc;
-  String loginPort;
-  String checkLoginInterval;
-  String deleted;
-  String createUser;
-  String editUser;
-  String lastupload;
-  String wsUrl;
+  String? loginAcctId;
+  String? acctUid;
+  String? acctPwd;
+  String? acctName;
+  String? acctStatus;
+  String? loginType;
+  String? loginIp;
+  String? loginUid;
+  String? loginPwd;
+  String? loginDb;
+  String? loginDir;
+  String? loginAcctno;
+  String? loginMisc;
+  String? loginPort;
+  String? checkLoginInterval;
+  String? deleted;
+  String? createUser;
+  String? editUser;
+  String? lastupload;
+  String? wsUrl;
 
   LoginAcct(
       {this.loginAcctId,
@@ -179,7 +179,7 @@ class LoginAcct {
 
 // LoginResponse
 class LoginResponse {
-  List<Table1> table1;
+  List<Table1>? table1;
 
   LoginResponse({this.table1});
 
@@ -187,7 +187,7 @@ class LoginResponse {
     if (json['Table1'] != null) {
       table1 = new List<Table1>.empty(growable: true);
       json['Table1'].forEach((v) {
-        table1.add(new Table1.fromJson(v));
+        table1!.add(new Table1.fromJson(v));
       });
     }
   }
@@ -195,17 +195,17 @@ class LoginResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.table1 != null) {
-      data['Table1'] = this.table1.map((v) => v.toJson()).toList();
+      data['Table1'] = this.table1!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Table1 {
-  String userId;
-  String sessionId;
-  String msg;
-  String deviceId;
+  String? userId;
+  String? sessionId;
+  String? msg;
+  String? deviceId;
 
   Table1({this.userId, this.sessionId, this.msg, this.deviceId});
 
@@ -259,15 +259,16 @@ class Table1 {
 
 // UserRegisteredDiResponse
 class UserRegisteredDiResponse {
-  List<RegisteredDiArmasterProfile> armasterProfile;
+  List<RegisteredDiArmasterProfile>? armasterProfile;
 
   UserRegisteredDiResponse({this.armasterProfile});
 
   UserRegisteredDiResponse.fromJson(Map<String, dynamic> json) {
     if (json['ArmasterProfile'] != null) {
-      armasterProfile = new List<RegisteredDiArmasterProfile>();
+      armasterProfile =
+          new List<RegisteredDiArmasterProfile>.empty(growable: true);
       json['ArmasterProfile'].forEach((v) {
-        armasterProfile.add(new RegisteredDiArmasterProfile.fromJson(v));
+        armasterProfile!.add(new RegisteredDiArmasterProfile.fromJson(v));
       });
     }
   }
@@ -276,7 +277,7 @@ class UserRegisteredDiResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.armasterProfile != null) {
       data['ArmasterProfile'] =
-          this.armasterProfile.map((v) => v.toJson()).toList();
+          this.armasterProfile!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -285,49 +286,49 @@ class UserRegisteredDiResponse {
 @HiveType(typeId: 5, adapterName: 'DiListAdapter')
 class RegisteredDiArmasterProfile {
   @HiveField(0)
-  String iD;
+  String? iD;
   @HiveField(1)
-  String appId;
+  String? appId;
   @HiveField(2)
-  String merchantNo;
+  String? merchantNo;
   @HiveField(3)
-  String userId;
+  String? userId;
   @HiveField(4)
-  String sponsor;
+  String? sponsor;
   @HiveField(5)
-  String sponsorAppId;
+  String? sponsorAppId;
   @HiveField(6)
-  String appCode;
+  String? appCode;
   @HiveField(7)
-  String appVersion;
+  String? appVersion;
   @HiveField(8)
-  String deleted;
+  String? deleted;
   @HiveField(9)
-  String createUser;
+  String? createUser;
   @HiveField(10)
-  String createDate;
+  String? createDate;
   @HiveField(11)
-  String editUser;
+  String? editUser;
   @HiveField(12)
-  String editDate;
+  String? editDate;
   @HiveField(13)
-  String compCode;
+  String? compCode;
   @HiveField(14)
-  String branchCode;
+  String? branchCode;
   @HiveField(15)
-  String transtamp;
+  String? transtamp;
   @HiveField(16)
-  String appBackgroundPhotoPath;
+  String? appBackgroundPhotoPath;
   @HiveField(17)
-  String merchantIconFilename;
+  String? merchantIconFilename;
   @HiveField(18)
-  String merchantBannerFilename;
+  String? merchantBannerFilename;
   @HiveField(19)
-  String merchantProfilePhotoFilename;
+  String? merchantProfilePhotoFilename;
   @HiveField(20)
-  String name;
+  String? name;
   @HiveField(21)
-  String shortName;
+  String? shortName;
 
   RegisteredDiArmasterProfile(
       {this.iD,
@@ -515,32 +516,32 @@ class RegisteredDiArmasterProfile {
 } */
 
 class CreateAppAccountWithAppIdRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String appCode;
-  String appId;
-  String appVersion;
-  String diCode;
-  String userId;
-  String name;
-  String nickName;
-  String icNo;
-  String passportNo;
-  String phoneCountryCode;
-  String phone;
-  String nationality;
-  String dateOfBirthString;
-  String gender;
-  String race;
-  String add1;
-  String add2;
-  String add3;
-  String postcode;
-  String city;
-  String state;
-  String country;
-  String email;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? appCode;
+  String? appId;
+  String? appVersion;
+  String? diCode;
+  String? userId;
+  String? name;
+  String? nickName;
+  String? icNo;
+  String? passportNo;
+  String? phoneCountryCode;
+  String? phone;
+  String? nationality;
+  String? dateOfBirthString;
+  String? gender;
+  String? race;
+  String? add1;
+  String? add2;
+  String? add3;
+  String? postcode;
+  String? city;
+  String? state;
+  String? country;
+  String? email;
 
   CreateAppAccountWithAppIdRequest(
       {this.wsCodeCrypt,
@@ -632,13 +633,13 @@ class CreateAppAccountWithAppIdRequest {
 }
 
 class SaveUserPasswordRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String appCode;
-  String appId;
-  String userId;
-  String password;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? appCode;
+  String? appId;
+  String? userId;
+  String? password;
 
   SaveUserPasswordRequest(
       {this.wsCodeCrypt,
@@ -675,7 +676,7 @@ class SaveUserPasswordRequest {
 // GetDiList
 
 class GetDiListResponse {
-  List<ArmasterProfile> armasterProfile;
+  List<ArmasterProfile>? armasterProfile;
 
   GetDiListResponse({this.armasterProfile});
 
@@ -683,7 +684,7 @@ class GetDiListResponse {
     if (json['Armaster'] != null) {
       armasterProfile = new List<ArmasterProfile>.empty(growable: true);
       json['Armaster'].forEach((v) {
-        armasterProfile.add(new ArmasterProfile.fromJson(v));
+        armasterProfile!.add(new ArmasterProfile.fromJson(v));
       });
     }
   }
@@ -691,110 +692,110 @@ class GetDiListResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.armasterProfile != null) {
-      data['Armaster'] = this.armasterProfile.map((v) => v.toJson()).toList();
+      data['Armaster'] = this.armasterProfile!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class ArmasterProfile {
-  String iD;
-  String diCode;
-  String distributor;
-  String masterAgent;
-  String sponsor;
-  String dbcode;
-  String userType;
-  String level;
-  String inviteSms;
-  String appBackgroundPhotoFilename;
-  String appBackgroundPhotoPath;
-  String playStorePath;
-  String url;
-  String acctUid;
-  String acctPwd;
-  String name;
-  String nickName;
-  String compName;
-  String add;
-  String postcode;
-  String state;
-  String country;
-  String currency;
-  String idType;
-  String icNo;
-  String passportNo;
-  String nationality;
-  String gender;
-  String phone;
-  String phoneCountryCode;
-  String mobilePlan;
-  String telco;
-  String eMail;
-  String authorizationCode;
-  String mobileTopupPin;
-  String remittanceTopupPin;
-  String securityQuestion;
-  String securityAnswer;
-  String securityAnswerAttempt;
-  String authorizationName;
-  String authorizationPhone;
-  String authorizationPhoneCountryCode;
-  String authorizationEmail;
-  String commRate;
-  String commRateUom;
-  String compBrn;
-  String organisationType;
-  String fax;
-  String bankName;
-  String bankAdd;
-  String bankAccNo;
-  String creditCardNo;
-  String creditCardName;
-  String creditCardIssueBank;
-  String creditCardCv;
-  String felmoWalletId;
-  String felmoWalletExpdt;
-  String finexusWalletId;
-  String finexusWalletExpdt;
-  String finexusUrn;
-  String signaturePhotoFilename;
-  String hotWalletId;
-  String hotWalletExpdt;
-  String mpayCardNo;
-  String mpayCardNoToken;
-  String mpayCardNo2;
-  String mpayCardNoToken2;
-  String mpayId;
-  String bankAccType;
-  String ptcName;
-  String ptcPosition;
-  String ptcPhone;
-  String ptcPhoneCountryCode;
-  String ptcOff;
-  String ptcOffCountryCode;
-  String ptcEMail;
-  String districtOperate;
-  String corporateName;
-  String corporateIcNo;
-  String deviceId;
-  String appPw;
-  String lowCreditAlert;
-  String criticalAirtimeAlert;
-  String remindAirtimeAlert;
-  String criticalAirtimePhone;
-  String criticalAirtimePhoneCountryCode;
-  String remindAirtimePhone;
-  String remindAirtimePhoneCountryCode;
-  String airtimeMarkupRate;
-  String finnetMerchantId;
-  String finnetPwd;
-  String remark1;
-  String remark2;
-  String remark3;
-  String createUser;
-  String editUser;
-  String deleted;
+  String? iD;
+  String? diCode;
+  String? distributor;
+  String? masterAgent;
+  String? sponsor;
+  String? dbcode;
+  String? userType;
+  String? level;
+  String? inviteSms;
+  String? appBackgroundPhotoFilename;
+  String? appBackgroundPhotoPath;
+  String? playStorePath;
+  String? url;
+  String? acctUid;
+  String? acctPwd;
+  String? name;
+  String? nickName;
+  String? compName;
+  String? add;
+  String? postcode;
+  String? state;
+  String? country;
+  String? currency;
+  String? idType;
+  String? icNo;
+  String? passportNo;
+  String? nationality;
+  String? gender;
+  String? phone;
+  String? phoneCountryCode;
+  String? mobilePlan;
+  String? telco;
+  String? eMail;
+  String? authorizationCode;
+  String? mobileTopupPin;
+  String? remittanceTopupPin;
+  String? securityQuestion;
+  String? securityAnswer;
+  String? securityAnswerAttempt;
+  String? authorizationName;
+  String? authorizationPhone;
+  String? authorizationPhoneCountryCode;
+  String? authorizationEmail;
+  String? commRate;
+  String? commRateUom;
+  String? compBrn;
+  String? organisationType;
+  String? fax;
+  String? bankName;
+  String? bankAdd;
+  String? bankAccNo;
+  String? creditCardNo;
+  String? creditCardName;
+  String? creditCardIssueBank;
+  String? creditCardCv;
+  String? felmoWalletId;
+  String? felmoWalletExpdt;
+  String? finexusWalletId;
+  String? finexusWalletExpdt;
+  String? finexusUrn;
+  String? signaturePhotoFilename;
+  String? hotWalletId;
+  String? hotWalletExpdt;
+  String? mpayCardNo;
+  String? mpayCardNoToken;
+  String? mpayCardNo2;
+  String? mpayCardNoToken2;
+  String? mpayId;
+  String? bankAccType;
+  String? ptcName;
+  String? ptcPosition;
+  String? ptcPhone;
+  String? ptcPhoneCountryCode;
+  String? ptcOff;
+  String? ptcOffCountryCode;
+  String? ptcEMail;
+  String? districtOperate;
+  String? corporateName;
+  String? corporateIcNo;
+  String? deviceId;
+  String? appPw;
+  String? lowCreditAlert;
+  String? criticalAirtimeAlert;
+  String? remindAirtimeAlert;
+  String? criticalAirtimePhone;
+  String? criticalAirtimePhoneCountryCode;
+  String? remindAirtimePhone;
+  String? remindAirtimePhoneCountryCode;
+  String? airtimeMarkupRate;
+  String? finnetMerchantId;
+  String? finnetPwd;
+  String? remark1;
+  String? remark2;
+  String? remark3;
+  String? createUser;
+  String? editUser;
+  String? deleted;
 
   ArmasterProfile(
       {this.iD,
@@ -1104,7 +1105,7 @@ class ArmasterProfile {
 
 // GetDiNearMe
 class GetDiNearMeResponse {
-  List<Merchant> merchant;
+  List<Merchant>? merchant;
 
   GetDiNearMeResponse({this.merchant});
 
@@ -1112,7 +1113,7 @@ class GetDiNearMeResponse {
     if (json['Merchant'] != null) {
       merchant = new List<Merchant>.empty(growable: true);
       json['Merchant'].forEach((v) {
-        merchant.add(new Merchant.fromJson(v));
+        merchant!.add(new Merchant.fromJson(v));
       });
     }
   }
@@ -1120,76 +1121,76 @@ class GetDiNearMeResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.merchant != null) {
-      data['Merchant'] = this.merchant.map((v) => v.toJson()).toList();
+      data['Merchant'] = this.merchant!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Merchant {
-  String iD;
-  String merchantNo;
-  String company;
-  String brno;
-  String merchantDesc;
-  String merchantType;
-  String name;
-  String shortName;
-  String category;
-  String merchantIconFilename;
-  String merchantProfilePhotoFilename;
-  String merchantBannerFilename;
-  String coMap;
-  String webSite;
-  String coDomain;
-  String pic;
-  String phoneOff1;
-  String phoneExt1;
-  String phoneOff2;
-  String phoneExt2;
-  String mobilePhone;
-  String fax;
-  String email;
-  String contactPerson;
-  String contactPost;
-  String add1;
-  String add2;
-  String add3;
-  String add4;
-  String postcode;
-  String cityCode;
-  String stateCode;
-  String countryCode;
-  String latitude;
-  String longitude;
-  String durationDay;
-  String active;
-  String feedNavigate;
-  String remark;
-  String status;
-  String indCode;
-  String merchantApplicationStatus;
-  String merchantStatus;
-  String acctUid;
-  String acctPwd;
-  String playStorePath;
-  String url;
-  String inviteSms;
-  String dbcode;
-  String crcode;
-  String coIntro;
-  String businessHour;
-  String businessDay;
-  String homeBanner;
-  String coOverview;
-  String businessInfo;
-  String offerGive;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String deleted;
-  String transtamp;
+  String? iD;
+  String? merchantNo;
+  String? company;
+  String? brno;
+  String? merchantDesc;
+  String? merchantType;
+  String? name;
+  String? shortName;
+  String? category;
+  String? merchantIconFilename;
+  String? merchantProfilePhotoFilename;
+  String? merchantBannerFilename;
+  String? coMap;
+  String? webSite;
+  String? coDomain;
+  String? pic;
+  String? phoneOff1;
+  String? phoneExt1;
+  String? phoneOff2;
+  String? phoneExt2;
+  String? mobilePhone;
+  String? fax;
+  String? email;
+  String? contactPerson;
+  String? contactPost;
+  String? add1;
+  String? add2;
+  String? add3;
+  String? add4;
+  String? postcode;
+  String? cityCode;
+  String? stateCode;
+  String? countryCode;
+  String? latitude;
+  String? longitude;
+  String? durationDay;
+  String? active;
+  String? feedNavigate;
+  String? remark;
+  String? status;
+  String? indCode;
+  String? merchantApplicationStatus;
+  String? merchantStatus;
+  String? acctUid;
+  String? acctPwd;
+  String? playStorePath;
+  String? url;
+  String? inviteSms;
+  String? dbcode;
+  String? crcode;
+  String? coIntro;
+  String? businessHour;
+  String? businessDay;
+  String? homeBanner;
+  String? coOverview;
+  String? businessInfo;
+  String? offerGive;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? deleted;
+  String? transtamp;
 
   Merchant(
       {this.iD,
@@ -1394,7 +1395,7 @@ class Merchant {
 // GetGroupIdByDiCodeForOnline
 
 class GetGroupIdByDiCodeForOnlineResponse {
-  List<Dgroup> dgroup;
+  List<Dgroup>? dgroup;
 
   GetGroupIdByDiCodeForOnlineResponse({this.dgroup});
 
@@ -1402,7 +1403,7 @@ class GetGroupIdByDiCodeForOnlineResponse {
     if (json['Dgroup'] != null) {
       dgroup = new List<Dgroup>.empty(growable: true);
       json['Dgroup'].forEach((v) {
-        dgroup.add(new Dgroup.fromJson(v));
+        dgroup!.add(new Dgroup.fromJson(v));
       });
     }
   }
@@ -1410,41 +1411,41 @@ class GetGroupIdByDiCodeForOnlineResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.dgroup != null) {
-      data['Dgroup'] = this.dgroup.map((v) => v.toJson()).toList();
+      data['Dgroup'] = this.dgroup!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Dgroup {
-  String groupId;
-  String grpDesc;
-  String tranCateg;
-  String defaAmt;
-  String handChrg;
-  String servChrg;
-  String servTax;
-  String taxCode;
-  String priceIncludeGst;
-  String transtamp;
-  String totalTime;
-  String serialType;
-  String commAmt;
-  String agentCommAmt;
-  String cshSlsAcct;
-  String cshSlsDept;
-  String lesenType;
-  String onlineEnroll;
-  String productCode;
-  String productDesc1;
-  String productDesc2;
-  String fee;
-  String defaultPictureFilename;
-  String diCode;
-  String compCode;
-  String branchCode;
-  String lastupload;
-  String deleted;
+  String? groupId;
+  String? grpDesc;
+  String? tranCateg;
+  String? defaAmt;
+  String? handChrg;
+  String? servChrg;
+  String? servTax;
+  String? taxCode;
+  String? priceIncludeGst;
+  String? transtamp;
+  String? totalTime;
+  String? serialType;
+  String? commAmt;
+  String? agentCommAmt;
+  String? cshSlsAcct;
+  String? cshSlsDept;
+  String? lesenType;
+  String? onlineEnroll;
+  String? productCode;
+  String? productDesc1;
+  String? productDesc2;
+  String? fee;
+  String? defaultPictureFilename;
+  String? diCode;
+  String? compCode;
+  String? branchCode;
+  String? lastupload;
+  String? deleted;
 
   Dgroup(
       {this.groupId,
@@ -1543,33 +1544,33 @@ class Dgroup {
 
 // Save enrollment
 class SaveEnrollmentRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String appCode;
-  String appId;
-  String diCode;
-  String groupId;
-  String icNo;
-  String name;
-  String nationality;
-  String phoneCountryCode;
-  String phone;
-  String dateOfBirthString;
-  String gender;
-  String race;
-  String add1;
-  String add2;
-  String add3;
-  String postcode;
-  String city;
-  String state;
-  String country;
-  String email;
-  String userId;
-  List<int> userProfileImage;
-  String userProfileImageBase64String;
-  bool removeUserProfileImage;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? appCode;
+  String? appId;
+  String? diCode;
+  String? groupId;
+  String? icNo;
+  String? name;
+  String? nationality;
+  String? phoneCountryCode;
+  String? phone;
+  String? dateOfBirthString;
+  String? gender;
+  String? race;
+  String? add1;
+  String? add2;
+  String? add3;
+  String? postcode;
+  String? city;
+  String? state;
+  String? country;
+  String? email;
+  String? userId;
+  List<int>? userProfileImage;
+  String? userProfileImageBase64String;
+  bool? removeUserProfileImage;
 
   SaveEnrollmentRequest(
       {this.wsCodeCrypt,
@@ -1664,33 +1665,33 @@ class SaveEnrollmentRequest {
 }
 
 class SaveEnrollmentPackageRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String appCode;
-  String appId;
-  String diCode;
-  String packageCode;
-  String icNo;
-  String name;
-  String nationality;
-  String phoneCountryCode;
-  String phone;
-  String dateOfBirthString;
-  String gender;
-  String race;
-  String add1;
-  String add2;
-  String add3;
-  String postcode;
-  String city;
-  String state;
-  String country;
-  String email;
-  String userId;
-  List<int> userProfileImage;
-  String userProfileImageBase64String;
-  bool removeUserProfileImage;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? appCode;
+  String? appId;
+  String? diCode;
+  String? packageCode;
+  String? icNo;
+  String? name;
+  String? nationality;
+  String? phoneCountryCode;
+  String? phone;
+  String? dateOfBirthString;
+  String? gender;
+  String? race;
+  String? add1;
+  String? add2;
+  String? add3;
+  String? postcode;
+  String? city;
+  String? state;
+  String? country;
+  String? email;
+  String? userId;
+  List<int>? userProfileImage;
+  String? userProfileImageBase64String;
+  bool? removeUserProfileImage;
 
   SaveEnrollmentPackageRequest(
       {this.wsCodeCrypt,
@@ -1785,15 +1786,15 @@ class SaveEnrollmentPackageRequest {
 }
 
 class EnrollmentArguments {
-  final String diCode;
-  final String groupId;
+  final String? diCode;
+  final String? groupId;
 
   EnrollmentArguments({this.diCode, this.groupId});
 }
 
 // GetActiveFeedResponse
 class GetActiveFeedResponse {
-  List<Feed> feed;
+  List<Feed>? feed;
 
   GetActiveFeedResponse({this.feed});
 
@@ -1801,7 +1802,7 @@ class GetActiveFeedResponse {
     if (json['Feed'] != null) {
       feed = new List<Feed>.empty(growable: true);
       json['Feed'].forEach((v) {
-        feed.add(new Feed.fromJson(v));
+        feed!.add(new Feed.fromJson(v));
       });
     }
   }
@@ -1809,38 +1810,38 @@ class GetActiveFeedResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.feed != null) {
-      data['Feed'] = this.feed.map((v) => v.toJson()).toList();
+      data['Feed'] = this.feed!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Feed {
-  String iD;
-  String docDoc;
-  String docRef;
-  String feedDoc;
-  String feedRef;
-  String feedDesc;
-  String feedType;
-  String bgDate;
-  String durationDay;
-  String active;
-  String rowKey;
-  String feedText;
-  String feedMedia;
-  String feedMediaFilename;
-  String feedNavigate;
-  String udfReturnParameter;
-  String merchantNo;
-  String localFeed;
-  String remark;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String deleted;
-  String transtamp;
+  String? iD;
+  String? docDoc;
+  String? docRef;
+  String? feedDoc;
+  String? feedRef;
+  String? feedDesc;
+  String? feedType;
+  String? bgDate;
+  String? durationDay;
+  String? active;
+  String? rowKey;
+  String? feedText;
+  String? feedMedia;
+  String? feedMediaFilename;
+  String? feedNavigate;
+  String? udfReturnParameter;
+  String? merchantNo;
+  String? localFeed;
+  String? remark;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? deleted;
+  String? transtamp;
 
   Feed(
       {this.iD,
@@ -1929,15 +1930,15 @@ class Feed {
 }
 
 class GetActiveFeedByLevelResponse {
-  List<FeedByLevel> feed;
+  List<FeedByLevel>? feed;
 
   GetActiveFeedByLevelResponse({this.feed});
 
   GetActiveFeedByLevelResponse.fromJson(Map<String, dynamic> json) {
     if (json['Feed'] != null) {
-      feed = new List<FeedByLevel>();
+      feed = new List<FeedByLevel>.empty(growable: true);
       json['Feed'].forEach((v) {
-        feed.add(new FeedByLevel.fromJson(v));
+        feed!.add(new FeedByLevel.fromJson(v));
       });
     }
   }
@@ -1945,39 +1946,39 @@ class GetActiveFeedByLevelResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.feed != null) {
-      data['Feed'] = this.feed.map((v) => v.toJson()).toList();
+      data['Feed'] = this.feed!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class FeedByLevel {
-  String iD;
-  String docDoc;
-  String docRef;
-  String feedDoc;
-  String feedRef;
-  String feedDesc;
-  String feedType;
-  String bgDate;
-  String durationDay;
-  String seqNo;
-  String active;
-  String rowKey;
-  String feedText;
-  String feedMedia;
-  String feedMediaFilename;
-  String feedNavigate;
-  String udfReturnParameter;
-  String merchantNo;
-  String localFeed;
-  String remark;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String deleted;
-  String transtamp;
+  String? iD;
+  String? docDoc;
+  String? docRef;
+  String? feedDoc;
+  String? feedRef;
+  String? feedDesc;
+  String? feedType;
+  String? bgDate;
+  String? durationDay;
+  String? seqNo;
+  String? active;
+  String? rowKey;
+  String? feedText;
+  String? feedMedia;
+  String? feedMediaFilename;
+  String? feedNavigate;
+  String? udfReturnParameter;
+  String? merchantNo;
+  String? localFeed;
+  String? remark;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? deleted;
+  String? transtamp;
 
   FeedByLevel(
       {this.iD,
@@ -2070,7 +2071,7 @@ class FeedByLevel {
 
 // GetEnrollHistoryResponse
 class GetEnrollHistoryResponse {
-  List<Enroll> enroll;
+  List<Enroll>? enroll;
 
   GetEnrollHistoryResponse({this.enroll});
 
@@ -2078,7 +2079,7 @@ class GetEnrollHistoryResponse {
     if (json['Enroll'] != null) {
       enroll = new List<Enroll>.empty(growable: true);
       json['Enroll'].forEach((v) {
-        enroll.add(new Enroll.fromJson(v));
+        enroll!.add(new Enroll.fromJson(v));
       });
     }
   }
@@ -2086,68 +2087,68 @@ class GetEnrollHistoryResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.enroll != null) {
-      data['Enroll'] = this.enroll.map((v) => v.toJson()).toList();
+      data['Enroll'] = this.enroll!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Enroll {
-  String id;
-  String icNo;
-  String trandate;
-  String groupId;
-  String kppGroupId;
-  String kppGroupId2;
-  String kppGroupId3;
-  String blacklisted;
-  String stuNo;
-  String dsCode;
-  String employeNo;
-  String introBy;
-  String commType;
-  String feesAgree;
-  String hrsAgree;
-  String addhrChrg;
-  String promptTes;
-  String totalPaid;
-  String retest;
-  String certNo;
-  String remark;
-  String tlHrsTak;
-  String exclIncml;
-  String sm4No;
-  String pickupPoint;
-  String transtamp;
-  String epretCode;
-  String epretReqid;
-  String ekppCode;
-  String ekppReqid;
-  String ej2bStat;
-  String eserRemark;
-  String ej2aTick;
-  String ej2bTick;
-  String addClass;
-  String userId;
-  String kpp02CertNo;
-  String kpp02CertPath;
-  String l2aPrnCount;
-  String l2bPrnCount;
-  String sm4PrnCount;
-  String deleted;
-  String productCode;
-  String diCode;
-  String compCode;
-  String branchCode;
-  String lastupload;
-  String status;
-  String fee;
-  String totalTime;
-  String name;
-  String sex;
-  String race;
-  String birthDt;
-  String citizenship;
+  String? id;
+  String? icNo;
+  String? trandate;
+  String? groupId;
+  String? kppGroupId;
+  String? kppGroupId2;
+  String? kppGroupId3;
+  String? blacklisted;
+  String? stuNo;
+  String? dsCode;
+  String? employeNo;
+  String? introBy;
+  String? commType;
+  String? feesAgree;
+  String? hrsAgree;
+  String? addhrChrg;
+  String? promptTes;
+  String? totalPaid;
+  String? retest;
+  String? certNo;
+  String? remark;
+  String? tlHrsTak;
+  String? exclIncml;
+  String? sm4No;
+  String? pickupPoint;
+  String? transtamp;
+  String? epretCode;
+  String? epretReqid;
+  String? ekppCode;
+  String? ekppReqid;
+  String? ej2bStat;
+  String? eserRemark;
+  String? ej2aTick;
+  String? ej2bTick;
+  String? addClass;
+  String? userId;
+  String? kpp02CertNo;
+  String? kpp02CertPath;
+  String? l2aPrnCount;
+  String? l2bPrnCount;
+  String? sm4PrnCount;
+  String? deleted;
+  String? productCode;
+  String? diCode;
+  String? compCode;
+  String? branchCode;
+  String? lastupload;
+  String? status;
+  String? fee;
+  String? totalTime;
+  String? name;
+  String? sex;
+  String? race;
+  String? birthDt;
+  String? citizenship;
 
   Enroll(
       {this.id,
@@ -2327,17 +2328,17 @@ class Enroll {
 
 // Arguments
 class EnrollmentData {
-  String phoneCountryCode;
-  String diCode;
-  String icNo;
-  String name;
-  String email;
-  String groupId;
-  String gender;
-  String dateOfBirthString;
-  String nationality;
-  String race;
-  String profilePic;
+  String? phoneCountryCode;
+  String? diCode;
+  String? icNo;
+  String? name;
+  String? email;
+  String? groupId;
+  String? gender;
+  String? dateOfBirthString;
+  String? nationality;
+  String? race;
+  String? profilePic;
 
   EnrollmentData({
     this.phoneCountryCode,
@@ -2357,10 +2358,10 @@ class EnrollmentData {
 // Delete member account
 
 class DeleteAppMemberAccountRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String userId;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? userId;
 
   DeleteAppMemberAccountRequest(
       {this.wsCodeCrypt, this.caUid, this.caPwd, this.userId});
@@ -2384,58 +2385,58 @@ class DeleteAppMemberAccountRequest {
 
 // New sign up
 class RegisterRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String diCode;
-  String userId;
-  String name;
-  String nickName;
-  String icNo;
-  String passportNo;
-  String phoneCountryCode;
-  String phone;
-  String nationality;
-  String dateOfBirthString;
-  String gender;
-  String race;
-  String add1;
-  String add2;
-  String add3;
-  String postcode;
-  String city;
-  String state;
-  String country;
-  String email;
-  String signUpPwd;
-  List<int> userProfileImage;
-  String userProfileImageBase64String;
-  bool removeUserProfileImage;
-  String latitude;
-  String longitude;
-  String appCode;
-  String appId;
-  String deviceId;
-  String appVersion;
-  String deviceRemark;
-  String phDeviceId;
-  String phLine1Number;
-  String phNetOpName;
-  String phPhoneType;
-  String phSimSerialNo;
-  String bdBoard;
-  String bdBrand;
-  String bdDevice;
-  String bdDisplay;
-  String bdManufacturer;
-  String bdModel;
-  String bdProduct;
-  String pfDeviceId;
-  String regId;
-  String enqLdlGroup;
-  String cdlGroup;
-  String langCode;
-  bool findDrvJobs;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? diCode;
+  String? userId;
+  String? name;
+  String? nickName;
+  String? icNo;
+  String? passportNo;
+  String? phoneCountryCode;
+  String? phone;
+  String? nationality;
+  String? dateOfBirthString;
+  String? gender;
+  String? race;
+  String? add1;
+  String? add2;
+  String? add3;
+  String? postcode;
+  String? city;
+  String? state;
+  String? country;
+  String? email;
+  String? signUpPwd;
+  List<int>? userProfileImage;
+  String? userProfileImageBase64String;
+  bool? removeUserProfileImage;
+  String? latitude;
+  String? longitude;
+  String? appCode;
+  String? appId;
+  String? deviceId;
+  String? appVersion;
+  String? deviceRemark;
+  String? phDeviceId;
+  String? phLine1Number;
+  String? phNetOpName;
+  String? phPhoneType;
+  String? phSimSerialNo;
+  String? bdBoard;
+  String? bdBrand;
+  String? bdDevice;
+  String? bdDisplay;
+  String? bdManufacturer;
+  String? bdModel;
+  String? bdProduct;
+  String? pfDeviceId;
+  String? regId;
+  String? enqLdlGroup;
+  String? cdlGroup;
+  String? langCode;
+  bool? findDrvJobs;
 
   RegisterRequest(
       {this.wsCodeCrypt,
@@ -2605,9 +2606,9 @@ class RegisterRequest {
 }
 
 class SignUpArguments {
-  String phoneCountryCode;
-  String phone;
-  String verificationCode;
+  String? phoneCountryCode;
+  String? phone;
+  String? verificationCode;
 
   SignUpArguments({this.phoneCountryCode, this.phone, this.verificationCode});
 }
@@ -2727,38 +2728,38 @@ class SignUpArguments {
 } */
 
 class RegisterUserToDIRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String appCode;
-  String appId;
-  String appVersion;
-  String merchantNo;
-  String loginId;
-  String userId;
-  String bodyTemperature;
-  String scannedAppId;
-  String scannedAppVer;
-  String scannedLoginId;
-  String scannedUserId;
-  String scanCode;
-  String deviceRemark;
-  String phDeviceId;
-  String phLine1Number;
-  String phNetOpName;
-  String phPhoneType;
-  String phSimSerialNo;
-  String bdBoard;
-  String bdBrand;
-  String bdDevice;
-  String bdDisplay;
-  String bdManufacturer;
-  String bdModel;
-  String bdProduct;
-  String pfDeviceId;
-  String regId;
-  String latitude;
-  String longitude;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? appCode;
+  String? appId;
+  String? appVersion;
+  String? merchantNo;
+  String? loginId;
+  String? userId;
+  String? bodyTemperature;
+  String? scannedAppId;
+  String? scannedAppVer;
+  String? scannedLoginId;
+  String? scannedUserId;
+  String? scanCode;
+  String? deviceRemark;
+  String? phDeviceId;
+  String? phLine1Number;
+  String? phNetOpName;
+  String? phPhoneType;
+  String? phSimSerialNo;
+  String? bdBoard;
+  String? bdBrand;
+  String? bdDevice;
+  String? bdDisplay;
+  String? bdManufacturer;
+  String? bdModel;
+  String? bdProduct;
+  String? pfDeviceId;
+  String? regId;
+  String? latitude;
+  String? longitude;
 
   RegisterUserToDIRequest(
       {this.wsCodeCrypt,
@@ -2869,7 +2870,7 @@ class RegisterUserToDIRequest {
 
 // Old Scan response
 class ScanResponse {
-  List<QRCode> qRCode;
+  List<QRCode>? qRCode;
 
   ScanResponse({this.qRCode});
 
@@ -2877,7 +2878,7 @@ class ScanResponse {
     if (json['QRCode'] != null) {
       qRCode = new List<QRCode>.empty(growable: true);
       json['QRCode'].forEach((v) {
-        qRCode.add(new QRCode.fromJson(v));
+        qRCode!.add(new QRCode.fromJson(v));
       });
     }
   }
@@ -2885,20 +2886,20 @@ class ScanResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.qRCode != null) {
-      data['QRCode'] = this.qRCode.map((v) => v.toJson()).toList();
+      data['QRCode'] = this.qRCode!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class QRCode {
-  String appId;
-  String appVersion;
-  String loginId;
-  String name;
-  String userId;
-  String merchantDbCode;
-  String merchantName;
+  String? appId;
+  String? appVersion;
+  String? loginId;
+  String? name;
+  String? userId;
+  String? merchantDbCode;
+  String? merchantName;
 
   QRCode(
       {this.appId,
@@ -2934,15 +2935,15 @@ class QRCode {
 
 // Scan Response
 class CheckInScanResponse {
-  List<CheckInQRCode> table1;
+  List<CheckInQRCode>? table1;
 
   CheckInScanResponse({this.table1});
 
   CheckInScanResponse.fromJson(Map<String, dynamic> json) {
     if (json['Table1'] != null) {
-      table1 = new List<CheckInQRCode>();
+      table1 = new List<CheckInQRCode>.empty(growable: true);
       json['Table1'].forEach((v) {
-        table1.add(new CheckInQRCode.fromJson(v));
+        table1!.add(new CheckInQRCode.fromJson(v));
       });
     }
   }
@@ -2950,16 +2951,16 @@ class CheckInScanResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.table1 != null) {
-      data['Table1'] = this.table1.map((v) => v.toJson()).toList();
+      data['Table1'] = this.table1!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class CheckInQRCode {
-  String merchantNo;
-  String action;
-  String datetime;
+  String? merchantNo;
+  String? action;
+  String? datetime;
 
   CheckInQRCode({this.merchantNo, this.action, this.datetime});
 
@@ -2980,13 +2981,13 @@ class CheckInQRCode {
 
 class ScanResultArgument {
   var barcode;
-  String status;
+  String? status;
 
   ScanResultArgument({this.barcode, this.status});
 }
 
 class GetPackageListByPackageCodeListResponse {
-  List<Package> package;
+  List<Package>? package;
 
   GetPackageListByPackageCodeListResponse({this.package});
 
@@ -2994,7 +2995,7 @@ class GetPackageListByPackageCodeListResponse {
     if (json['Package'] != null) {
       package = new List<Package>.empty(growable: true);
       json['Package'].forEach((v) {
-        package.add(new Package.fromJson(v));
+        package!.add(new Package.fromJson(v));
       });
     }
   }
@@ -3002,38 +3003,38 @@ class GetPackageListByPackageCodeListResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.package != null) {
-      data['Package'] = this.package.map((v) => v.toJson()).toList();
+      data['Package'] = this.package!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Package {
-  String iD;
-  String merchantNo;
-  String packageCode;
-  String packageDesc;
-  String packageName;
-  String groupIdGrouping;
-  String amt;
-  String termConditionPolicy;
-  String cancelPolicy;
-  String offerFrom;
-  String offerTo;
-  String paymentMode;
-  String paymentSchedule;
-  String feedMedia;
-  String feedMediaFilename;
-  String createDate;
-  String createUser;
-  String editDate;
-  String editUser;
-  String lastupload;
-  String transtamp;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String deleted;
+  String? iD;
+  String? merchantNo;
+  String? packageCode;
+  String? packageDesc;
+  String? packageName;
+  String? groupIdGrouping;
+  String? amt;
+  String? termConditionPolicy;
+  String? cancelPolicy;
+  String? offerFrom;
+  String? offerTo;
+  String? paymentMode;
+  String? paymentSchedule;
+  String? feedMedia;
+  String? feedMediaFilename;
+  String? createDate;
+  String? createUser;
+  String? editDate;
+  String? editUser;
+  String? lastupload;
+  String? transtamp;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? deleted;
 
   Package(
       {this.iD,
@@ -3122,7 +3123,7 @@ class Package {
 }
 
 class GetPackageDetlListResponse {
-  List<PackageDetl> packageDetl;
+  List<PackageDetl>? packageDetl;
 
   GetPackageDetlListResponse({this.packageDetl});
 
@@ -3130,7 +3131,7 @@ class GetPackageDetlListResponse {
     if (json['PackageDetl'] != null) {
       packageDetl = new List<PackageDetl>.empty(growable: true);
       json['PackageDetl'].forEach((v) {
-        packageDetl.add(new PackageDetl.fromJson(v));
+        packageDetl!.add(new PackageDetl.fromJson(v));
       });
     }
   }
@@ -3138,32 +3139,32 @@ class GetPackageDetlListResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.packageDetl != null) {
-      data['PackageDetl'] = this.packageDetl.map((v) => v.toJson()).toList();
+      data['PackageDetl'] = this.packageDetl!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class PackageDetl {
-  String iD;
-  String merchantNo;
-  String packageCode;
-  String prodCode;
-  String groupId;
-  String qty;
-  String uom;
-  String amt;
-  String createDate;
-  String createUser;
-  String editDate;
-  String editUser;
-  String lastupload;
-  String transtamp;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String deleted;
-  String prodDesc;
+  String? iD;
+  String? merchantNo;
+  String? packageCode;
+  String? prodCode;
+  String? groupId;
+  String? qty;
+  String? uom;
+  String? amt;
+  String? createDate;
+  String? createUser;
+  String? editDate;
+  String? editUser;
+  String? lastupload;
+  String? transtamp;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? deleted;
+  String? prodDesc;
 
   PackageDetl(
       {this.iD,
@@ -3234,7 +3235,7 @@ class PackageDetl {
 }
 
 class GetAuthorizationStatusListResponse {
-  List<AuthzStatus> authzStatus;
+  List<AuthzStatus>? authzStatus;
 
   GetAuthorizationStatusListResponse({this.authzStatus});
 
@@ -3242,7 +3243,7 @@ class GetAuthorizationStatusListResponse {
     if (json['AuthzStatus'] != null) {
       authzStatus = new List<AuthzStatus>.empty(growable: true);
       json['AuthzStatus'].forEach((v) {
-        authzStatus.add(new AuthzStatus.fromJson(v));
+        authzStatus!.add(new AuthzStatus.fromJson(v));
       });
     }
   }
@@ -3250,14 +3251,14 @@ class GetAuthorizationStatusListResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.authzStatus != null) {
-      data['AuthzStatus'] = this.authzStatus.map((v) => v.toJson()).toList();
+      data['AuthzStatus'] = this.authzStatus!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class AuthzStatus {
-  String authzStatus;
+  String? authzStatus;
 
   AuthzStatus({this.authzStatus});
 
@@ -3274,7 +3275,7 @@ class AuthzStatus {
 
 // GetDeviceRequestList
 class GetDeviceRequestListResponse {
-  List<UserDevice> userDevice;
+  List<UserDevice>? userDevice;
 
   GetDeviceRequestListResponse({this.userDevice});
 
@@ -3282,7 +3283,7 @@ class GetDeviceRequestListResponse {
     if (json['UserDevice'] != null) {
       userDevice = new List<UserDevice>.empty(growable: true);
       json['UserDevice'].forEach((v) {
-        userDevice.add(new UserDevice.fromJson(v));
+        userDevice!.add(new UserDevice.fromJson(v));
       });
     }
   }
@@ -3290,44 +3291,44 @@ class GetDeviceRequestListResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.userDevice != null) {
-      data['UserDevice'] = this.userDevice.map((v) => v.toJson()).toList();
+      data['UserDevice'] = this.userDevice!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class UserDevice {
-  String iD;
-  String merchantNo;
-  String userId;
-  String loginId;
-  String deviceId;
-  String deviceRegDatetime;
-  String authzStatus;
-  String lastAuthzDatetime;
-  String lastAuthzBy;
-  String appCode;
-  String appId;
-  String appVersion;
-  String deviceName;
-  String latitude;
-  String longitude;
-  String createUser;
-  String createDate;
-  String editUser;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String lastupload;
-  String transtamp;
-  String editDate;
-  String deleted;
-  String nickName;
-  String name;
-  String authzName;
-  String authzNickName;
-  String lastEditedBy;
-  String createdBy;
+  String? iD;
+  String? merchantNo;
+  String? userId;
+  String? loginId;
+  String? deviceId;
+  String? deviceRegDatetime;
+  String? authzStatus;
+  String? lastAuthzDatetime;
+  String? lastAuthzBy;
+  String? appCode;
+  String? appId;
+  String? appVersion;
+  String? deviceName;
+  String? latitude;
+  String? longitude;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? lastupload;
+  String? transtamp;
+  String? editDate;
+  String? deleted;
+  String? nickName;
+  String? name;
+  String? authzName;
+  String? authzNickName;
+  String? lastEditedBy;
+  String? createdBy;
 
   UserDevice(
       {this.iD,
@@ -3436,21 +3437,21 @@ class UserDevice {
 // UpdateUserDeviceStatus
 
 class UpdateUserDeviceStatusRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String merchantNo;
-  String userId;
-  String appCode;
-  String appId;
-  String deviceId;
-  String deviceMerchantNo;
-  String deviceUserId;
-  String deviceAppCode;
-  String deviceAppId;
-  String deviceDeviceId;
-  String deviceAuthzStatus;
-  String authzUser;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? merchantNo;
+  String? userId;
+  String? appCode;
+  String? appId;
+  String? deviceId;
+  String? deviceMerchantNo;
+  String? deviceUserId;
+  String? deviceAppCode;
+  String? deviceAppId;
+  String? deviceDeviceId;
+  String? deviceAuthzStatus;
+  String? authzUser;
 
   UpdateUserDeviceStatusRequest(
       {this.wsCodeCrypt,
@@ -3509,7 +3510,7 @@ class UpdateUserDeviceStatusRequest {
 }
 
 class GetLdlkEnqGroupListResponse {
-  List<LdlEnqGroupList> ldlEnqGroupList;
+  List<LdlEnqGroupList>? ldlEnqGroupList;
 
   GetLdlkEnqGroupListResponse({this.ldlEnqGroupList});
 
@@ -3517,7 +3518,7 @@ class GetLdlkEnqGroupListResponse {
     if (json['LdlEnqGroupList'] != null) {
       ldlEnqGroupList = new List<LdlEnqGroupList>.empty(growable: true);
       json['LdlEnqGroupList'].forEach((v) {
-        ldlEnqGroupList.add(new LdlEnqGroupList.fromJson(v));
+        ldlEnqGroupList!.add(new LdlEnqGroupList.fromJson(v));
       });
     }
   }
@@ -3526,15 +3527,15 @@ class GetLdlkEnqGroupListResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.ldlEnqGroupList != null) {
       data['LdlEnqGroupList'] =
-          this.ldlEnqGroupList.map((v) => v.toJson()).toList();
+          this.ldlEnqGroupList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class LdlEnqGroupList {
-  String groupId;
-  String groupDesc;
+  String? groupId;
+  String? groupDesc;
 
   LdlEnqGroupList({this.groupId, this.groupDesc});
 
@@ -3552,7 +3553,7 @@ class LdlEnqGroupList {
 }
 
 class GetCdlListResponse {
-  List<CdlList> cdlList;
+  List<CdlList>? cdlList;
 
   GetCdlListResponse({this.cdlList});
 
@@ -3560,7 +3561,7 @@ class GetCdlListResponse {
     if (json['CdlList'] != null) {
       cdlList = new List<CdlList>.empty(growable: true);
       json['CdlList'].forEach((v) {
-        cdlList.add(new CdlList.fromJson(v));
+        cdlList!.add(new CdlList.fromJson(v));
       });
     }
   }
@@ -3568,15 +3569,15 @@ class GetCdlListResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.cdlList != null) {
-      data['CdlList'] = this.cdlList.map((v) => v.toJson()).toList();
+      data['CdlList'] = this.cdlList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class CdlList {
-  String groupId;
-  String groupDesc;
+  String? groupId;
+  String? groupDesc;
 
   CdlList({this.groupId, this.groupDesc});
 
@@ -3594,7 +3595,7 @@ class CdlList {
 }
 
 class GetLanguageListResponse {
-  List<LanguageList> languageList;
+  List<LanguageList>? languageList;
 
   GetLanguageListResponse({this.languageList});
 
@@ -3602,7 +3603,7 @@ class GetLanguageListResponse {
     if (json['LanguageList'] != null) {
       languageList = new List<LanguageList>.empty(growable: true);
       json['LanguageList'].forEach((v) {
-        languageList.add(new LanguageList.fromJson(v));
+        languageList!.add(new LanguageList.fromJson(v));
       });
     }
   }
@@ -3610,15 +3611,15 @@ class GetLanguageListResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.languageList != null) {
-      data['LanguageList'] = this.languageList.map((v) => v.toJson()).toList();
+      data['LanguageList'] = this.languageList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class LanguageList {
-  String langCode;
-  String langDesc;
+  String? langCode;
+  String? langDesc;
 
   LanguageList({this.langCode, this.langDesc});
 
@@ -3637,7 +3638,7 @@ class LanguageList {
 
 // Change password
 class GetUserByUserIdPwdResponse {
-  List<GetUserByUserIdPwdTable1> table1;
+  List<GetUserByUserIdPwdTable1>? table1;
 
   GetUserByUserIdPwdResponse({this.table1});
 
@@ -3645,7 +3646,7 @@ class GetUserByUserIdPwdResponse {
     if (json['Table1'] != null) {
       table1 = new List<GetUserByUserIdPwdTable1>.empty(growable: true);
       json['Table1'].forEach((v) {
-        table1.add(new GetUserByUserIdPwdTable1.fromJson(v));
+        table1!.add(new GetUserByUserIdPwdTable1.fromJson(v));
       });
     }
   }
@@ -3653,14 +3654,14 @@ class GetUserByUserIdPwdResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.table1 != null) {
-      data['Table1'] = this.table1.map((v) => v.toJson()).toList();
+      data['Table1'] = this.table1!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class GetUserByUserIdPwdTable1 {
-  String result;
+  String? result;
 
   GetUserByUserIdPwdTable1({this.result});
 
@@ -3676,7 +3677,7 @@ class GetUserByUserIdPwdTable1 {
 }
 
 class GetOrderListByDateRangeResponse {
-  List<SlsTrn> slsTrn;
+  List<SlsTrn>? slsTrn;
 
   GetOrderListByDateRangeResponse({this.slsTrn});
 
@@ -3684,7 +3685,7 @@ class GetOrderListByDateRangeResponse {
     if (json['SlsTrn'] != null) {
       slsTrn = new List<SlsTrn>.empty(growable: true);
       json['SlsTrn'].forEach((v) {
-        slsTrn.add(new SlsTrn.fromJson(v));
+        slsTrn!.add(new SlsTrn.fromJson(v));
       });
     }
   }
@@ -3692,142 +3693,142 @@ class GetOrderListByDateRangeResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.slsTrn != null) {
-      data['SlsTrn'] = this.slsTrn.map((v) => v.toJson()).toList();
+      data['SlsTrn'] = this.slsTrn!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class SlsTrn {
-  String iD;
-  String merchantNo;
-  String docDoc;
-  String docRef;
-  String slsDoc;
-  String slsRef;
-  String revNo;
-  String ordDate;
-  String ordTime;
-  String wfStatus;
-  String refNo;
-  String subject;
-  String validity;
-  String leadTime;
-  String dbcode;
-  String icNo;
-  String name;
-  String branch;
-  String locCode;
-  String areaCode;
-  String currency;
-  String rate;
-  String terms;
-  String salesPer;
-  String projCode;
-  String orderBy;
-  String custPoNo;
-  String custPoDate;
-  String shipmentTerm;
-  String shipmentTermDetl;
-  String shipMode;
-  String shipCode;
-  String shipTo;
-  String shipName;
-  String shipAdd;
-  String shipAdd1;
-  String shipAdd2;
-  String shipAdd3;
-  String shipAdd4;
-  String shipArea;
-  String shipPhone;
-  String shipFax;
-  String shipPtc;
-  String shipRemark;
-  String misc1;
-  String misc2;
-  String misc3;
-  String misc4;
-  String misc5;
-  String misc6;
-  String misc13;
-  String misc14;
-  String misc15;
-  String misc16;
-  String misc17;
-  String misc18;
-  String tlOrdQty;
-  String tlOrdAmt;
-  String tlNettDetlAmt;
-  String tlLocDetlAmt;
-  String tlNettOrdAmt;
-  String tlLocOrdAmt;
-  String tlDiscAmt;
-  String tlLocDiscAmt;
-  String tlSlsTax;
-  String tlLocSlsTax;
-  String tlSerTax;
-  String tlLocSerTax;
-  String bdiscRate;
-  String bdiscAmt;
-  String transChrg;
-  String transRate;
-  String mfgCurrency;
-  String mfgRate;
-  String mfgTlNettOrdAmt;
-  String mfgTlLocOrdAmt;
-  String hold;
-  String cj5No;
-  String dbAcct;
-  String dbDept;
-  String tlDlvQty;
-  String doDoc;
-  String doRef;
-  String invDoc;
-  String invRef;
-  String title1;
-  String title2;
-  String title3;
-  String remark;
-  String remark1;
-  String remark2;
-  String prnCount;
-  String printLog;
-  String trnStatus;
-  String creditBlockReason;
-  String creditBlockInfo;
-  String creditReqApprv;
-  String creditApprvUser;
-  String creditApprvDate;
-  String creditApprvAmt;
-  String creditApprvLog;
-  String pending;
-  String cancel;
-  String cancelDate;
-  String posted;
-  String complete;
-  String clear;
-  String fullyBilled;
-  String tlBilledAmt;
-  String tlPaidAmt;
-  String readOnly;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String deleted;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String lastupload;
-  String duplicateKey;
-  String validateFailed;
-  String validateRemark;
-  String lastValidate;
-  String transtamp;
-  String accept;
-  String acceptUser;
-  String acceptDate;
-  String orderStatus;
+  String? iD;
+  String? merchantNo;
+  String? docDoc;
+  String? docRef;
+  String? slsDoc;
+  String? slsRef;
+  String? revNo;
+  String? ordDate;
+  String? ordTime;
+  String? wfStatus;
+  String? refNo;
+  String? subject;
+  String? validity;
+  String? leadTime;
+  String? dbcode;
+  String? icNo;
+  String? name;
+  String? branch;
+  String? locCode;
+  String? areaCode;
+  String? currency;
+  String? rate;
+  String? terms;
+  String? salesPer;
+  String? projCode;
+  String? orderBy;
+  String? custPoNo;
+  String? custPoDate;
+  String? shipmentTerm;
+  String? shipmentTermDetl;
+  String? shipMode;
+  String? shipCode;
+  String? shipTo;
+  String? shipName;
+  String? shipAdd;
+  String? shipAdd1;
+  String? shipAdd2;
+  String? shipAdd3;
+  String? shipAdd4;
+  String? shipArea;
+  String? shipPhone;
+  String? shipFax;
+  String? shipPtc;
+  String? shipRemark;
+  String? misc1;
+  String? misc2;
+  String? misc3;
+  String? misc4;
+  String? misc5;
+  String? misc6;
+  String? misc13;
+  String? misc14;
+  String? misc15;
+  String? misc16;
+  String? misc17;
+  String? misc18;
+  String? tlOrdQty;
+  String? tlOrdAmt;
+  String? tlNettDetlAmt;
+  String? tlLocDetlAmt;
+  String? tlNettOrdAmt;
+  String? tlLocOrdAmt;
+  String? tlDiscAmt;
+  String? tlLocDiscAmt;
+  String? tlSlsTax;
+  String? tlLocSlsTax;
+  String? tlSerTax;
+  String? tlLocSerTax;
+  String? bdiscRate;
+  String? bdiscAmt;
+  String? transChrg;
+  String? transRate;
+  String? mfgCurrency;
+  String? mfgRate;
+  String? mfgTlNettOrdAmt;
+  String? mfgTlLocOrdAmt;
+  String? hold;
+  String? cj5No;
+  String? dbAcct;
+  String? dbDept;
+  String? tlDlvQty;
+  String? doDoc;
+  String? doRef;
+  String? invDoc;
+  String? invRef;
+  String? title1;
+  String? title2;
+  String? title3;
+  String? remark;
+  String? remark1;
+  String? remark2;
+  String? prnCount;
+  String? printLog;
+  String? trnStatus;
+  String? creditBlockReason;
+  String? creditBlockInfo;
+  String? creditReqApprv;
+  String? creditApprvUser;
+  String? creditApprvDate;
+  String? creditApprvAmt;
+  String? creditApprvLog;
+  String? pending;
+  String? cancel;
+  String? cancelDate;
+  String? posted;
+  String? complete;
+  String? clear;
+  String? fullyBilled;
+  String? tlBilledAmt;
+  String? tlPaidAmt;
+  String? readOnly;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? deleted;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? lastupload;
+  String? duplicateKey;
+  String? validateFailed;
+  String? validateRemark;
+  String? lastValidate;
+  String? transtamp;
+  String? accept;
+  String? acceptUser;
+  String? acceptDate;
+  String? orderStatus;
 
   SlsTrn(
       {this.iD,
@@ -4228,13 +4229,13 @@ class SlsTrn {
 }
 
 class AcceptOrderRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String diCode;
-  String userId;
-  String docDoc;
-  String docRef;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? diCode;
+  String? userId;
+  String? docDoc;
+  String? docRef;
 
   AcceptOrderRequest(
       {this.wsCodeCrypt,
@@ -4269,7 +4270,7 @@ class AcceptOrderRequest {
 }
 
 class AcceptOrderResponse {
-  List<AcceptOrderSlsTrn> slsTrn;
+  List<AcceptOrderSlsTrn>? slsTrn;
 
   AcceptOrderResponse({this.slsTrn});
 
@@ -4277,7 +4278,7 @@ class AcceptOrderResponse {
     if (json['SlsTrn'] != null) {
       slsTrn = new List<AcceptOrderSlsTrn>.empty(growable: true);
       json['SlsTrn'].forEach((v) {
-        slsTrn.add(new AcceptOrderSlsTrn.fromJson(v));
+        slsTrn!.add(new AcceptOrderSlsTrn.fromJson(v));
       });
     }
   }
@@ -4285,144 +4286,144 @@ class AcceptOrderResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.slsTrn != null) {
-      data['SlsTrn'] = this.slsTrn.map((v) => v.toJson()).toList();
+      data['SlsTrn'] = this.slsTrn!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class AcceptOrderSlsTrn {
-  String iD;
-  String merchantNo;
-  String docDoc;
-  String docRef;
-  String slsDoc;
-  String slsRef;
-  String revNo;
-  String ordDate;
-  String ordTime;
-  String wfStatus;
-  String refNo;
-  String subject;
-  String validity;
-  String leadTime;
-  String dbcode;
-  String icNo;
-  String name;
-  String branch;
-  String locCode;
-  String areaCode;
-  String currency;
-  String rate;
-  String terms;
-  String salesPer;
-  String projCode;
-  String orderBy;
-  String custPoNo;
-  String custPoDate;
-  String shipmentTerm;
-  String shipmentTermDetl;
-  String shipMode;
-  String shipCode;
-  String shipTo;
-  String shipName;
-  String shipAdd;
-  String shipAdd1;
-  String shipAdd2;
-  String shipAdd3;
-  String shipAdd4;
-  String shipArea;
-  String shipPhone;
-  String shipFax;
-  String shipPtc;
-  String shipRemark;
-  String misc1;
-  String misc2;
-  String misc3;
-  String misc4;
-  String misc5;
-  String misc6;
-  String misc13;
-  String misc14;
-  String misc15;
-  String misc16;
-  String misc17;
-  String misc18;
-  String tlOrdQty;
-  String tlOrdAmt;
-  String tlNettDetlAmt;
-  String tlLocDetlAmt;
-  String tlNettOrdAmt;
-  String tlLocOrdAmt;
-  String tlDiscAmt;
-  String tlLocDiscAmt;
-  String tlSlsTax;
-  String tlLocSlsTax;
-  String tlSerTax;
-  String tlLocSerTax;
-  String bdiscRate;
-  String bdiscAmt;
-  String transChrg;
-  String transRate;
-  String mfgCurrency;
-  String mfgRate;
-  String mfgTlNettOrdAmt;
-  String mfgTlLocOrdAmt;
-  String hold;
-  String cj5No;
-  String dbAcct;
-  String dbDept;
-  String tlDlvQty;
-  String doDoc;
-  String doRef;
-  String invDoc;
-  String invRef;
-  String title1;
-  String title2;
-  String title3;
-  String remark;
-  String remark1;
-  String remark2;
-  String prnCount;
-  String printLog;
-  String trnStatus;
-  String accept;
-  String acceptUser;
-  String acceptDate;
-  String creditBlockReason;
-  String creditBlockInfo;
-  String creditReqApprv;
-  String creditApprvUser;
-  String creditApprvDate;
-  String creditApprvAmt;
-  String creditApprvLog;
-  String pending;
-  String cancel;
-  String cancelDate;
-  String posted;
-  String complete;
-  String clear;
-  String fullyBilled;
-  String tlBilledAmt;
-  String tlPaidAmt;
-  String readOnly;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String deleted;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String lastupload;
-  String duplicateKey;
-  String validateFailed;
-  String validateRemark;
-  String lastValidate;
-  String transtamp;
-  String packageCode;
-  String packageDesc;
-  String orderStatus;
+  String? iD;
+  String? merchantNo;
+  String? docDoc;
+  String? docRef;
+  String? slsDoc;
+  String? slsRef;
+  String? revNo;
+  String? ordDate;
+  String? ordTime;
+  String? wfStatus;
+  String? refNo;
+  String? subject;
+  String? validity;
+  String? leadTime;
+  String? dbcode;
+  String? icNo;
+  String? name;
+  String? branch;
+  String? locCode;
+  String? areaCode;
+  String? currency;
+  String? rate;
+  String? terms;
+  String? salesPer;
+  String? projCode;
+  String? orderBy;
+  String? custPoNo;
+  String? custPoDate;
+  String? shipmentTerm;
+  String? shipmentTermDetl;
+  String? shipMode;
+  String? shipCode;
+  String? shipTo;
+  String? shipName;
+  String? shipAdd;
+  String? shipAdd1;
+  String? shipAdd2;
+  String? shipAdd3;
+  String? shipAdd4;
+  String? shipArea;
+  String? shipPhone;
+  String? shipFax;
+  String? shipPtc;
+  String? shipRemark;
+  String? misc1;
+  String? misc2;
+  String? misc3;
+  String? misc4;
+  String? misc5;
+  String? misc6;
+  String? misc13;
+  String? misc14;
+  String? misc15;
+  String? misc16;
+  String? misc17;
+  String? misc18;
+  String? tlOrdQty;
+  String? tlOrdAmt;
+  String? tlNettDetlAmt;
+  String? tlLocDetlAmt;
+  String? tlNettOrdAmt;
+  String? tlLocOrdAmt;
+  String? tlDiscAmt;
+  String? tlLocDiscAmt;
+  String? tlSlsTax;
+  String? tlLocSlsTax;
+  String? tlSerTax;
+  String? tlLocSerTax;
+  String? bdiscRate;
+  String? bdiscAmt;
+  String? transChrg;
+  String? transRate;
+  String? mfgCurrency;
+  String? mfgRate;
+  String? mfgTlNettOrdAmt;
+  String? mfgTlLocOrdAmt;
+  String? hold;
+  String? cj5No;
+  String? dbAcct;
+  String? dbDept;
+  String? tlDlvQty;
+  String? doDoc;
+  String? doRef;
+  String? invDoc;
+  String? invRef;
+  String? title1;
+  String? title2;
+  String? title3;
+  String? remark;
+  String? remark1;
+  String? remark2;
+  String? prnCount;
+  String? printLog;
+  String? trnStatus;
+  String? accept;
+  String? acceptUser;
+  String? acceptDate;
+  String? creditBlockReason;
+  String? creditBlockInfo;
+  String? creditReqApprv;
+  String? creditApprvUser;
+  String? creditApprvDate;
+  String? creditApprvAmt;
+  String? creditApprvLog;
+  String? pending;
+  String? cancel;
+  String? cancelDate;
+  String? posted;
+  String? complete;
+  String? clear;
+  String? fullyBilled;
+  String? tlBilledAmt;
+  String? tlPaidAmt;
+  String? readOnly;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? deleted;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? lastupload;
+  String? duplicateKey;
+  String? validateFailed;
+  String? validateRemark;
+  String? lastValidate;
+  String? transtamp;
+  String? packageCode;
+  String? packageDesc;
+  String? orderStatus;
 
   AcceptOrderSlsTrn(
       {this.iD,

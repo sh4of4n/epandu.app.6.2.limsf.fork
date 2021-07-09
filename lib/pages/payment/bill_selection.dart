@@ -29,7 +29,7 @@ class BillSelection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('bill_lbl')),
+        title: Text(AppLocalizations.of(context)!.translate('bill_lbl')),
         elevation: 0,
         backgroundColor: primaryColor,
       ),

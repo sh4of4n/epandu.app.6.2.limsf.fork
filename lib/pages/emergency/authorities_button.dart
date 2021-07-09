@@ -8,10 +8,10 @@ class AuthoritiesButton extends StatelessWidget {
   final tileSecondColor;
 
   AuthoritiesButton({
-    @required this.onTap,
-    @required this.label,
-    @required this.tileFirstColor,
-    @required this.tileSecondColor,
+    required this.onTap,
+    required this.label,
+    required this.tileFirstColor,
+    required this.tileSecondColor,
   })  : assert(onTap != null),
         assert(label != null),
         assert(tileFirstColor != null),

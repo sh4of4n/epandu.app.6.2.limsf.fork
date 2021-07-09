@@ -40,7 +40,7 @@ class SosButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(ScreenUtil().setWidth(450)),
               ),
               child: Text(
-                AppLocalizations.of(context).translate('sos_lbl'),
+                AppLocalizations.of(context)!.translate('sos_lbl'),
                 style: TextStyle(
                   fontSize: ScreenUtil().setSp(130),
                   fontWeight: FontWeight.w900,

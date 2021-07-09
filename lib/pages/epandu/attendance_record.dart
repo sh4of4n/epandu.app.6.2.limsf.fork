@@ -8,9 +8,9 @@ import 'package:intl/intl.dart';
 
 class AttendanceRecord extends StatefulWidget {
   final attendanceData;
-  final bool isLoading;
+  final bool? isLoading;
 
-  AttendanceRecord({@required this.attendanceData, @required this.isLoading});
+  AttendanceRecord({required this.attendanceData, required this.isLoading});
 
   @override
   _AttendanceRecordState createState() => _AttendanceRecordState();
@@ -37,7 +37,7 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
   final epanduRepo = EpanduRepo();
 
   attendanceList() {
-    if (widget.attendanceData != null && !widget.isLoading) {
+    if (widget.attendanceData != null && !widget.isLoading!) {
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 40.w),
         child: ListView.builder(
@@ -116,7 +116,7 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
           },
         ),
       );
-    } else if (widget.isLoading) {
+    } else if (widget.isLoading!) {
       return Center(
         child: SpinKitChasingDots(
           color: primaryColor,
@@ -125,7 +125,7 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
     }
     return Center(
       child: Text(
-        AppLocalizations.of(context).translate('no_records_found'),
+        AppLocalizations.of(context)!.translate('no_records_found'),
       ),
     );
   }

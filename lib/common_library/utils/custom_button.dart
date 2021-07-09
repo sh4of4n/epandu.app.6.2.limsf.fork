@@ -5,15 +5,15 @@ class CustomButton extends StatelessWidget {
   final Color buttonColor;
   final VoidCallback onPressed;
   final String title;
-  final double fontSize;
-  final Color fontColor;
-  final double minWidth;
-  final double height;
+  final double? fontSize;
+  final Color? fontColor;
+  final double? minWidth;
+  final double? height;
 
   CustomButton({
-    @required this.buttonColor,
-    @required this.onPressed,
-    @required this.title,
+    required this.buttonColor,
+    required this.onPressed,
+    required this.title,
     this.fontSize,
     this.fontColor,
     this.minWidth,

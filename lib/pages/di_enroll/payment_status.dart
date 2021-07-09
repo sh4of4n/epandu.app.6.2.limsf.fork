@@ -9,7 +9,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 
 class PaymentStatus extends StatefulWidget {
-  final String icNo;
+  final String? icNo;
 
   PaymentStatus({this.icNo});
 
@@ -20,7 +20,7 @@ class PaymentStatus extends StatefulWidget {
 class _PaymentStatusState extends State<PaymentStatus> {
   final fpxRepo = FpxRepo();
   final primaryColor = ColorConstant.primaryColor;
-  Future getPaymentStatus;
+  Future? getPaymentStatus;
 
   @override
   void initState() {
@@ -48,7 +48,7 @@ class _PaymentStatusState extends State<PaymentStatus> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context).translate('payment_status'),
+          AppLocalizations.of(context)!.translate('payment_status'),
         ),
       ),
       body: FutureBuilder(
@@ -95,7 +95,7 @@ class _PaymentStatusState extends State<PaymentStatus> {
                                     ModalRoute.withName('/home'),
                                   ),
                               buttonColor: Color(0xffdd0e0e),
-                              title: AppLocalizations.of(context)
+                              title: AppLocalizations.of(context)!
                                   .translate('done_btn')),
                         ],
                       ),
@@ -105,7 +105,7 @@ class _PaymentStatusState extends State<PaymentStatus> {
               default:
                 return Center(
                   child: Text(
-                    AppLocalizations.of(context)
+                    AppLocalizations.of(context)!
                         .translate('get_payment_status_fail'),
                   ),
                 );

@@ -10,7 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class QueueNumber extends StatefulWidget {
   final data;
 
-  QueueNumber({@required this.data});
+  QueueNumber({required this.data});
 
   @override
   _QueueNumberState createState() => _QueueNumberState();

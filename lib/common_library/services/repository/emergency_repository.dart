@@ -12,11 +12,11 @@ class EmergencyRepo {
   final networking = Networking();
 
   // was getDefaultSosContact
-  Future<Response> getDefaultSosContact({context}) async {
+  Future<Response> getDefaultSosContact({required context}) async {
     assert(context != null);
 
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd';
@@ -96,10 +96,10 @@ class EmergencyRepo {
   // Note: Some of the API return coordinates are invalid and
   // will cause distance to become 0.0 leading to incorrect sorting
   Future<Response> getSortedContacts(
-      {List<SosContact> emergencyContacts}) async {
+      {required List<SosContact> emergencyContacts}) async {
     emergencyContacts.sort((a, b) =>
-        double.tryParse(a.distance.replaceAll('km', ''))
-            .compareTo(double.tryParse(b.distance.replaceAll('km', ''))));
+        double.tryParse(a.distance!.replaceAll('km', ''))!
+            .compareTo(double.tryParse(b.distance!.replaceAll('km', ''))!));
 
     return Response(true, data: emergencyContacts);
   }
@@ -107,16 +107,16 @@ class EmergencyRepo {
   // GetSosContactNearest
 
   Future<Response> getSosContactSortByNearest({
-    @required context,
+    required context,
     sosContactType,
     sosContactCode,
     areaCode,
-    @required maxRadius,
+    required maxRadius,
   }) async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
-    String latitude = await localStorage.getUserLatitude();
-    String longitude = await localStorage.getUserLongitude();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwd();
+    String? latitude = await localStorage.getUserLatitude();
+    String? longitude = await localStorage.getUserLongitude();
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&sosContactType=${sosContactType ?? ''}&sosContactCode=${sosContactCode ?? ''}&areaCode=${areaCode ?? ''}&latitude=$latitude&longitude=$longitude&maxRadius=$maxRadius';
@@ -140,19 +140,19 @@ class EmergencyRepo {
   // ----------------
 
   Future<Response> getPandemicTrack({
-    @required context,
+    required context,
     dateFromString,
     dateToString,
     phone,
     startIndex,
     noOfRecords,
   }) async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
-    String diCode = await localStorage.getMerchantDbCode();
-    String merchantNo = await localStorage.getMerchantDbCode();
-    String userId = await localStorage.getUserId();
-    String deviceId = await localStorage.getLoginDeviceId();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwd();
+    String? diCode = await localStorage.getMerchantDbCode();
+    String? merchantNo = await localStorage.getMerchantDbCode();
+    String? userId = await localStorage.getUserId();
+    String? deviceId = await localStorage.getLoginDeviceId();
     // String phoneCountryCode = await localStorage.getCountryCode();
     // String phone = await localStorage.getUserPhone();
 
@@ -188,16 +188,16 @@ class EmergencyRepo {
 
   Future<Response> getPandemicPDFReport({
     context,
-    String diCode,
-    String phone,
-    String dateFromString,
-    String dateToString,
+    String? diCode,
+    String? phone,
+    String? dateFromString,
+    String? dateToString,
   }) async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwd();
-    String merchantNo = await localStorage.getMerchantDbCode();
-    String userId = await localStorage.getUserId();
-    String deviceId = await localStorage.getLoginDeviceId();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwd();
+    String? merchantNo = await localStorage.getMerchantDbCode();
+    String? userId = await localStorage.getUserId();
+    String? deviceId = await localStorage.getLoginDeviceId();
 
     String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
         '&caUid=$caUid' +
@@ -221,7 +221,7 @@ class EmergencyRepo {
           GetPandemicPDFReportResponse.fromJson(response.data);
 
       return Response(true,
-          data: getTemporaryReceiptPdfResponse.pDF[0].fileName);
+          data: getTemporaryReceiptPdfResponse.pDF![0].fileName);
     }
 
     return Response(false,

@@ -10,11 +10,11 @@ class InboxRepo {
   final networking = Networking();
 
   Future<Response> getNotificationListByUserId() async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
-    String userId = await localStorage.getUserId();
-    String lastMsgDoc = await localStorage.getMsgDoc();
-    String lastMsgRef = await localStorage.getMsgRef();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
+    String? userId = await localStorage.getUserId();
+    String? lastMsgDoc = await localStorage.getMsgDoc();
+    String? lastMsgRef = await localStorage.getMsgRef();
     String appId = appConfig.appId;
 
     String path =
@@ -37,12 +37,12 @@ class InboxRepo {
   }
 
   Future<Response> getUnreadNotificationCount() async {
-    String caUid = await localStorage.getCaUid();
-    String caPwd = await localStorage.getCaPwdEncode();
-    String userId = await localStorage.getUserId();
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
+    String? userId = await localStorage.getUserId();
     String appId = appConfig.appId;
-    String lastMsgDoc = await localStorage.getMsgDoc();
-    String lastMsgRef = await localStorage.getMsgRef();
+    String? lastMsgDoc = await localStorage.getMsgDoc();
+    String? lastMsgRef = await localStorage.getMsgRef();
 
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appId=$appId&userId=$userId&lastMsgDoc=$lastMsgDoc&lastMsgRef=$lastMsgRef';

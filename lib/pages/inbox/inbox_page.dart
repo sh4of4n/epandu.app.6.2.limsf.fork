@@ -21,13 +21,13 @@ class Inbox extends StatefulWidget {
 }
 
 class _InboxState extends State<Inbox> {
-  Future _getInboxList;
+  Future? _getInboxList;
   final primaryColor = ColorConstant.primaryColor;
   final inboxRepo = InboxRepo();
   final inboxStorage = Hive.box('inboxStorage');
   final localStorage = LocalStorage();
-  MsgOutBox msgOutBox;
-  List<MsgOutBox> sortedInboxData = [];
+  MsgOutBox? msgOutBox;
+  List<MsgOutBox?> sortedInboxData = [];
 
   @override
   void initState() {
@@ -243,15 +243,15 @@ class _InboxState extends State<Inbox> {
   }
 
   getInboxStorageMessage() {
-    MsgOutBox data;
+    MsgOutBox? data;
 
     for (int index = 0; index < inboxStorage.length; index += 1) {
-      data = inboxStorage.getAt(index) as MsgOutBox;
+      data = inboxStorage.getAt(index) as MsgOutBox?;
 
       sortedInboxData.add(data);
 
       sortedInboxData.sort(
-          (b, a) => int.tryParse(a.msgRef).compareTo(int.tryParse(b.msgRef)));
+          (b, a) => int.tryParse(a!.msgRef!)!.compareTo(int.tryParse(b!.msgRef!)!));
 
       // final sortedIndex = sortedInboxData[index];
       // print(sortedInboxData[index].sendMsg);
@@ -278,12 +278,12 @@ class _InboxState extends State<Inbox> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  parseInboxMessage(sortedInboxData[index].sendMsg),
+                  parseInboxMessage(sortedInboxData[index]!.sendMsg!),
                   SizedBox(height: 5),
-                  if (sortedInboxData[index].createDate != null)
-                    Text(sortedInboxData[index].createDate),
-                  if (sortedInboxData[index].merchantName != null)
-                    Text(sortedInboxData[index].merchantName),
+                  if (sortedInboxData[index]!.createDate != null)
+                    Text(sortedInboxData[index]!.createDate!),
+                  if (sortedInboxData[index]!.merchantName != null)
+                    Text(sortedInboxData[index]!.merchantName!),
                 ],
               ),
             );
@@ -305,13 +305,13 @@ class _InboxState extends State<Inbox> {
                         enableJavaScript: true,
                       );
                     },
-                    text: sortedInboxData[index].sendMsg,
+                    text: sortedInboxData[index]!.sendMsg!,
                   ),
                   SizedBox(height: 5),
-                  if (sortedInboxData[index].createDate != null)
-                    Text(sortedInboxData[index].createDate),
-                  if (sortedInboxData[index].merchantName != null)
-                    Text(sortedInboxData[index].merchantName),
+                  if (sortedInboxData[index]!.createDate != null)
+                    Text(sortedInboxData[index]!.createDate!),
+                  if (sortedInboxData[index]!.merchantName != null)
+                    Text(sortedInboxData[index]!.merchantName!),
                 ],
               ),
             ),
@@ -382,7 +382,7 @@ class _InboxState extends State<Inbox> {
     return Scaffold(
       backgroundColor: Color(0xfffdc013),
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('notifications')),
+        title: Text(AppLocalizations.of(context)!.translate('notifications')),
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
@@ -435,7 +435,7 @@ class _InboxState extends State<Inbox> {
                   default:
                     return Center(
                       child: Text(
-                        AppLocalizations.of(context)
+                        AppLocalizations.of(context)!
                             .translate('inbox_list_fail'),
                       ),
                     );

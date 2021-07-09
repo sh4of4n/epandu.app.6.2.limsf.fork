@@ -18,7 +18,7 @@ class Booking extends StatefulWidget {
 class _BookingState extends State<Booking> {
   final image = ImagesConstant();
   final epanduRepo = EpanduRepo();
-  Future getDTestByCode;
+  Future? getDTestByCode;
   final primaryColor = ColorConstant.primaryColor;
   final dateFormat = DateFormat("yyyy-MM-dd");
   final textStyle = TextStyle(
@@ -66,7 +66,7 @@ class _BookingState extends State<Booking> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context).translate('booking')),
+          title: Text(AppLocalizations.of(context)!.translate('booking')),
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),

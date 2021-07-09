@@ -48,7 +48,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
     ), */
   ];
 
-  TabController _tabController;
+  TabController? _tabController;
   // int _tabIndex = 0;
 
   @override
@@ -99,7 +99,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                           color: Color(0xff808080),
                         ),
                         text:
-                            AppLocalizations.of(context).translate('home_lbl'),
+                            AppLocalizations.of(context)!.translate('home_lbl'),
                       ),
                       Tab(
                         icon: Icon(
@@ -107,7 +107,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                           size: 30,
                           color: Color(0xff808080),
                         ),
-                        text: AppLocalizations.of(context)
+                        text: AppLocalizations.of(context)!
                             .translate('v_club_lbl'),
                       ),
                       Image.asset(myImage.sos,
@@ -118,7 +118,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                           size: 30,
                           color: Color(0xff808080),
                         ),
-                        text: AppLocalizations.of(context)
+                        text: AppLocalizations.of(context)!
                             .translate('invite_lbl'),
                       ),
                       /* Tab(

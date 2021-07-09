@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class ReadMore extends StatelessWidget {
-  final String packageDesc;
+  final String? packageDesc;
 
   ReadMore({this.packageDesc});
 
@@ -13,13 +13,13 @@ class ReadMore extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context).translate('enroll_lbl'),
+          AppLocalizations.of(context)!.translate('enroll_lbl'),
         ),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 30.h),
-          child: HtmlWidget(packageDesc),
+          child: HtmlWidget(packageDesc!),
         ),
       ),
     );

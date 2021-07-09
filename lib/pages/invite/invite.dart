@@ -23,10 +23,10 @@ class _InviteState extends State<Invite> with PageBaseClass {
   final image = ImagesConstant();
 
   // hardcode +60 for now
-  String _countryCode = '+60';
-  String _phone = '';
-  String _name = '';
-  String _message = '';
+  String? _countryCode = '+60';
+  String? _phone = '';
+  String? _name = '';
+  String? _message = '';
   TextStyle _messageStyle = TextStyle(color: Colors.red);
 
   final AuthRepo authRepo = AuthRepo();
@@ -52,7 +52,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
         backgroundColor: Color(0xfffdc013),
         appBar: AppBar(
           title: Text(
-            AppLocalizations.of(context).translate('invite_your_friends_lbl'),
+            AppLocalizations.of(context)!.translate('invite_your_friends_lbl'),
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -116,7 +116,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                                 /* hintStyle: TextStyle(
                                     color: Colors.blue,
                                   ), */
-                                hintText: AppLocalizations.of(context)
+                                hintText: AppLocalizations.of(context)!
                                     .translate('phone_lbl'),
                               ),
                               onFieldSubmitted: (term) {
@@ -124,8 +124,8 @@ class _InviteState extends State<Invite> with PageBaseClass {
                                     context, _phoneFocus, _nameFocus);
                               },
                               validator: (value) {
-                                if (value.isEmpty) {
-                                  return AppLocalizations.of(context)
+                                if (value!.isEmpty) {
+                                  return AppLocalizations.of(context)!
                                       .translate('phone_required_msg');
                                 }
                                 return null;
@@ -149,12 +149,12 @@ class _InviteState extends State<Invite> with PageBaseClass {
                           /* hintStyle: TextStyle(
                                       color: Colors.blue,
                                     ), */
-                          hintText: AppLocalizations.of(context)
+                          hintText: AppLocalizations.of(context)!
                               .translate('nick_name_lbl'),
                         ),
                         validator: (value) {
-                          if (value.isEmpty) {
-                            return AppLocalizations.of(context)
+                          if (value!.isEmpty) {
+                            return AppLocalizations.of(context)!
                                 .translate('name_required_msg');
                           }
                           return null;
@@ -177,9 +177,9 @@ class _InviteState extends State<Invite> with PageBaseClass {
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      _message.isNotEmpty
+                      _message!.isNotEmpty
                           ? Text(
-                              _message,
+                              _message!,
                               style: _messageStyle,
                             )
                           : SizedBox.shrink(),
@@ -205,7 +205,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                                     //   horizontal: 100.w,
                                     // ),
                                     child: Text(
-                                      AppLocalizations.of(context)
+                                      AppLocalizations.of(context)!
                                           .translate('invite_btn'),
                                       style: TextStyle(
                                         fontSize: 60.sp,
@@ -237,7 +237,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
         backgroundColor: Color(0xfffdc013),
         appBar: AppBar(
           title: Text(
-            AppLocalizations.of(context).translate('invite_your_friends_lbl'),
+            AppLocalizations.of(context)!.translate('invite_your_friends_lbl'),
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -304,7 +304,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                                 decoration: InputDecoration(
                                   focusedBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.blue[700], width: 1.6),
+                                        color: Colors.blue[700]!, width: 1.6),
                                     // borderRadius: BorderRadius.circular(30),
                                   ),
                                   contentPadding:
@@ -312,7 +312,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                                   /* hintStyle: TextStyle(
                                       color: Colors.blue,
                                     ), */
-                                  hintText: AppLocalizations.of(context)
+                                  hintText: AppLocalizations.of(context)!
                                       .translate('phone_lbl'),
                                 ),
                                 onFieldSubmitted: (term) {
@@ -320,8 +320,8 @@ class _InviteState extends State<Invite> with PageBaseClass {
                                       context, _phoneFocus, _nameFocus);
                                 },
                                 validator: (value) {
-                                  if (value.isEmpty) {
-                                    return AppLocalizations.of(context)
+                                  if (value!.isEmpty) {
+                                    return AppLocalizations.of(context)!
                                         .translate('phone_required_msg');
                                   }
                                   return null;
@@ -350,19 +350,19 @@ class _InviteState extends State<Invite> with PageBaseClass {
                           decoration: InputDecoration(
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                  color: Colors.blue[700], width: 1.6),
+                                  color: Colors.blue[700]!, width: 1.6),
                               // borderRadius: BorderRadius.circular(30),
                             ),
                             contentPadding: EdgeInsets.fromLTRB(0, 0, 0, -60.h),
                             /* hintStyle: TextStyle(
                                         color: Colors.blue,
                                       ), */
-                            hintText: AppLocalizations.of(context)
+                            hintText: AppLocalizations.of(context)!
                                 .translate('nick_name_lbl'),
                           ),
                           validator: (value) {
-                            if (value.isEmpty) {
-                              return AppLocalizations.of(context)
+                            if (value!.isEmpty) {
+                              return AppLocalizations.of(context)!
                                   .translate('name_required_msg');
                             }
                             return null;
@@ -386,9 +386,9 @@ class _InviteState extends State<Invite> with PageBaseClass {
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      _message.isNotEmpty
+                      _message!.isNotEmpty
                           ? Text(
-                              _message,
+                              _message!,
                               style: _messageStyle,
                             )
                           : SizedBox.shrink(),
@@ -413,7 +413,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                                     //   horizontal: 100.w,
                                     // ),
                                     child: Text(
-                                      AppLocalizations.of(context)
+                                      AppLocalizations.of(context)!
                                           .translate('invite_btn'),
                                       style: TextStyle(
                                         fontSize: 35.sp,
@@ -436,11 +436,11 @@ class _InviteState extends State<Invite> with PageBaseClass {
   }
 
   _submit() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
-      String _userId = await LocalStorage().getUserId();
+      String? _userId = await LocalStorage().getUserId();
 
       setState(() {
         _isLoading = true;
@@ -450,7 +450,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
       var result = await authRepo.getUserByUserPhone(
         context: context,
         countryCode: _countryCode,
-        phone: _phone.replaceAll(' ', ''),
+        phone: _phone!.replaceAll(' ', ''),
         userId: _userId,
         name: _name,
         scenario: 'INVITE',

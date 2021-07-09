@@ -7,6 +7,7 @@ import 'package:epandu/router.gr.dart';
 import 'package:epandu/services/provider/notification_count.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
@@ -15,7 +16,6 @@ import 'package:provider/provider.dart';
 import 'common_library/services/model/auth_model.dart';
 import 'common_library/utils/app_localizations_delegate.dart';
 import 'common_library/utils/application.dart';
-import 'router.gr.dart' as router;
 import 'package:epandu/common_library/services/model/bill_model.dart';
 import 'package:epandu/common_library/services/model/kpp_model.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
@@ -90,6 +90,8 @@ void main() async {
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
+  await Firebase.initializeApp();
+
   runApp(
     MultiProvider(
       providers: [
@@ -127,7 +129,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  AppLocalizationsDelegate _newLocaleDelegate;
+  AppLocalizationsDelegate? _newLocaleDelegate;
   final localStorage = LocalStorage();
   final image = ImagesConstant();
   final inboxRepo = InboxRepo();
@@ -135,6 +137,7 @@ class _MyAppState extends State<MyApp> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   String _homeScreenText = "Waiting for token...";
   final customDialog = CustomDialog();
+  final _appRouter = AppRouter();
 
   @override
   void initState() {
@@ -170,7 +173,7 @@ class _MyAppState extends State<MyApp> {
         .listen((IosNotificationSettings settings) {
       print("Settings registered: $settings");
     }); */
-    _firebaseMessaging.getToken().then((String token) {
+    _firebaseMessaging.getToken().then((String? token) {
       assert(token != null);
       setState(() {
         _homeScreenText = "Push Messaging token: $token";
@@ -187,7 +190,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _loadSavedLocale() async {
-    String storedLocale = await localStorage.getLocale();
+    String storedLocale = (await localStorage.getLocale())!;
 
     onLocaleChange(Locale(storedLocale));
   }
@@ -211,7 +214,7 @@ class _MyAppState extends State<MyApp> {
     var result = await inboxRepo.getUnreadNotificationCount();
 
     if (result.isSuccess) {
-      if (int.tryParse(result.data[0].msgCount) > 0) {
+      if (int.tryParse(result.data[0].msgCount)! > 0) {
         Provider.of<NotificationCount>(context, listen: false).setShowBadge(
           showBadge: true,
         );
@@ -330,7 +333,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     precacheImage(AssetImage(image.logo2), context);
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'ePandu',
       theme: ThemeData(
         primaryColor: ColorConstant.primaryColor,
@@ -345,16 +348,14 @@ class _MyAppState extends State<MyApp> {
       localizationsDelegates: [
         // THIS CLASS WILL BE ADDED LATER
         // A class which loads the translations from JSON files
-        _newLocaleDelegate,
+        _newLocaleDelegate!,
         // Built-in localization of basic text for Material widgets
         GlobalMaterialLocalizations.delegate,
         // Built-in localization for text direction LTR/RTL
         GlobalWidgetsLocalizations.delegate,
       ],
-      builder: ExtendedNavigator<router.Router>(
-        initialRoute: router.Routes.authentication,
-        router: router.Router(),
-      ),
+      routerDelegate: _appRouter.delegate(initialRoutes: [Authentication()]),
+      routeInformationParser: _appRouter.defaultRouteParser(),
       // initialRoute: AUTH,
       // onGenerateRoute: RouteGenerator.generateRoute,
     );

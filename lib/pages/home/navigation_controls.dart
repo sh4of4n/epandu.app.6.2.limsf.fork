@@ -15,10 +15,10 @@ class NavigationControls extends StatelessWidget {
   final backType;
 
   const NavigationControls({
-    this.webViewControllerFuture,
+    required this.webViewControllerFuture,
     this.type,
     this.backType,
-  }) : assert(webViewControllerFuture != null);
+  });
 
   final Future<WebViewController> webViewControllerFuture;
 
@@ -31,10 +31,10 @@ class NavigationControls extends StatelessWidget {
       if (backType == 'HOME') {
         customDialog.show(
           context: context,
-          content: AppLocalizations.of(context).translate('confirm_back'),
+          content: AppLocalizations.of(context)!.translate('confirm_back'),
           customActions: <Widget>[
             TextButton(
-                child: Text(AppLocalizations.of(context).translate('yes_lbl')),
+                child: Text(AppLocalizations.of(context)!.translate('yes_lbl')),
                 onPressed: () {
                   Provider.of<CallStatusModel>(context, listen: false)
                       .callStatus(false);
@@ -43,7 +43,7 @@ class NavigationControls extends StatelessWidget {
                   );
                 }),
             TextButton(
-              child: Text(AppLocalizations.of(context).translate('no_lbl')),
+              child: Text(AppLocalizations.of(context)!.translate('no_lbl')),
               onPressed: () {
                 context.router.pop();
               },
@@ -97,7 +97,7 @@ class NavigationControls extends StatelessWidget {
           (BuildContext context, AsyncSnapshot<WebViewController> snapshot) {
         final bool webViewReady =
             snapshot.connectionState == ConnectionState.done;
-        final WebViewController controller = snapshot.data;
+        final WebViewController? controller = snapshot.data;
         controllerGlobal = controller;
 
         return Row(
@@ -115,7 +115,7 @@ class NavigationControls extends StatelessWidget {
                 onPressed: !webViewReady
                     ? null
                     : () {
-                        controller.reload();
+                        controller!.reload();
                       },
               ),
           ],

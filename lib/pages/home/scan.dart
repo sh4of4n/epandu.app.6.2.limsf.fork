@@ -22,7 +22,7 @@ class Scan extends StatefulWidget {
   const Scan({
     this.getActiveFeed,
     this.getDiProfile,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -30,8 +30,8 @@ class Scan extends StatefulWidget {
 }
 
 class _ScanState extends State<Scan> {
-  Barcode result;
-  QRViewController controller;
+  Barcode? result;
+  QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   final epanduRepo = EpanduRepo();
   final customDialog = CustomDialog();
@@ -45,9 +45,9 @@ class _ScanState extends State<Scan> {
   void reassemble() {
     super.reassemble();
     if (Platform.isAndroid) {
-      controller.pauseCamera();
+      controller!.pauseCamera();
     }
-    controller.resumeCamera();
+    controller!.resumeCamera();
   }
 
   @override
@@ -97,7 +97,7 @@ class _ScanState extends State<Scan> {
     });
     controller.scannedDataStream.listen((scanData) async {
       await controller.pauseCamera();
-      String merchantNo = await localStorage.getMerchantDbCode();
+      String? merchantNo = await localStorage.getMerchantDbCode();
 
       try {
         CheckInScanResponse checkInScanResponse =
@@ -119,14 +119,14 @@ class _ScanState extends State<Scan> {
   }
 
   Future _scanResult(
-      {@required CheckInScanResponse checkInScanResponse,
-      @required Barcode scanData}) async {
-    switch (checkInScanResponse.table1[0].action) {
+      {required CheckInScanResponse checkInScanResponse,
+      required Barcode scanData}) async {
+    switch (checkInScanResponse.table1![0].action) {
       case 'JPJ_PART2_CHECK_IN':
         Provider.of<HomeLoadingModel>(context, listen: false)
             .loadingStatus(true);
 
-        String icNo = await localStorage.getStudentIc();
+        String? icNo = await localStorage.getStudentIc();
 
         if (icNo != null && icNo.isNotEmpty) {
           setState(() {
@@ -180,7 +180,7 @@ class _ScanState extends State<Scan> {
               onPressed: () {
                 context.router.pop();
 
-                controller.resumeCamera();
+                controller!.resumeCamera();
               },
               type: DialogType.INFO,
             );
@@ -194,10 +194,10 @@ class _ScanState extends State<Scan> {
             context: context,
             barrierDismissable: false,
             content:
-                AppLocalizations.of(context).translate('complete_your_profile'),
+                AppLocalizations.of(context)!.translate('complete_your_profile'),
             customActions: <Widget>[
               TextButton(
-                child: Text(AppLocalizations.of(context).translate('ok_btn')),
+                child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
                 onPressed: () => context.router.push(
                   UpdateProfile(),
                 ),
@@ -230,19 +230,19 @@ class _ScanState extends State<Scan> {
     super.dispose();
   }
 
-  invalidQr({String type}) {
+  invalidQr({String? type}) {
     if (type == 'MISMATCH') {
       return customDialog.show(
         barrierDismissable: false,
         context: context,
-        content: AppLocalizations.of(context).translate('mismatch_di'),
+        content: AppLocalizations.of(context)!.translate('mismatch_di'),
         title: Icon(Icons.warning, size: 120, color: Colors.yellow[700]),
         customActions: [
           TextButton(
             onPressed: () {
               context.router.pop();
 
-              controller.resumeCamera();
+              controller!.resumeCamera();
             },
             child: Text('Ok'),
           ),
@@ -253,14 +253,14 @@ class _ScanState extends State<Scan> {
     return customDialog.show(
       barrierDismissable: false,
       context: context,
-      content: AppLocalizations.of(context).translate('invalid_qr'),
+      content: AppLocalizations.of(context)!.translate('invalid_qr'),
       title: Icon(Icons.warning, size: 120, color: Colors.red[700]),
       customActions: [
         TextButton(
           onPressed: () {
             context.router.pop();
 
-            controller.resumeCamera();
+            controller!.resumeCamera();
           },
           child: Text('Ok'),
         ),

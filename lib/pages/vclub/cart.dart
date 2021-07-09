@@ -14,8 +14,8 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Cart extends StatefulWidget {
-  final String name;
-  final String dbcode;
+  final String? name;
+  final String? dbcode;
 
   Cart({this.name, this.dbcode});
 
@@ -31,7 +31,7 @@ class _CartState extends State<Cart> {
   final formatter = NumberFormat('#,##0.00');
   final unescape = HtmlUnescape();
 
-  String tlNettOrdAmt = '0.00';
+  String? tlNettOrdAmt = '0.00';
   var activeSlsTrnData;
   var slsDetailData;
 
@@ -96,13 +96,13 @@ class _CartState extends State<Cart> {
   }
 
   _showOrdPrice(snapshot) {
-    if (double.tryParse(snapshot.discAmt) > 0)
+    if (double.tryParse(snapshot.discAmt)! > 0)
       return Row(
         children: <Widget>[
           Text(
             (formatter.format(
-              double.tryParse(snapshot.ordPrice) *
-                  double.tryParse(snapshot.ordQty),
+              double.tryParse(snapshot.ordPrice)! *
+                  double.tryParse(snapshot.ordQty)!,
             )),
             style: TextStyle(
                 decoration: TextDecoration.lineThrough,
@@ -185,7 +185,7 @@ class _CartState extends State<Cart> {
     );
   }
 
-  _deleteSlsDtlByDocRefKey({context, snapshot}) async {
+  _deleteSlsDtlByDocRefKey({context, required snapshot}) async {
     var result = await salesOrderRepo.deleteSlsDtlByDocRefKey(
       context: context,
       docDoc: snapshot.docDoc,
@@ -203,7 +203,7 @@ class _CartState extends State<Cart> {
     context.router.push(
       Checkout(
         slsDetailData: slsDetailData,
-        name: unescape.convert(widget.name),
+        name: unescape.convert(widget.name!),
         dbcode: widget.dbcode,
         date: activeSlsTrnData[0].ordDate,
         docDoc: activeSlsTrnData[0].docDoc,
@@ -219,7 +219,7 @@ class _CartState extends State<Cart> {
       return Column(
         children: <Widget>[
           Shimmer.fromColors(
-            baseColor: Colors.grey[300],
+            baseColor: Colors.grey[300]!,
             highlightColor: Colors.white,
             child: Container(
               margin: EdgeInsets.only(top: 15.0),
@@ -229,7 +229,7 @@ class _CartState extends State<Cart> {
             ),
           ),
           Shimmer.fromColors(
-            baseColor: Colors.grey[300],
+            baseColor: Colors.grey[300]!,
             highlightColor: Colors.white,
             child: Container(
               margin: EdgeInsets.only(top: 15.0),
@@ -239,7 +239,7 @@ class _CartState extends State<Cart> {
             ),
           ),
           Shimmer.fromColors(
-            baseColor: Colors.grey[300],
+            baseColor: Colors.grey[300]!,
             highlightColor: Colors.white,
             child: Container(
               margin: EdgeInsets.only(top: 15.0),
@@ -249,7 +249,7 @@ class _CartState extends State<Cart> {
             ),
           ),
           Shimmer.fromColors(
-            baseColor: Colors.grey[300],
+            baseColor: Colors.grey[300]!,
             highlightColor: Colors.white,
             child: Container(
               margin: EdgeInsets.only(top: 15.0),
@@ -384,7 +384,7 @@ class _CartState extends State<Cart> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Text(
-              'Total: ' + tlNettOrdAmt,
+              'Total: ' + tlNettOrdAmt!,
               style: TextStyle(
                 fontSize: ScreenUtil().setSp(65),
                 fontWeight: FontWeight.bold,
@@ -441,13 +441,13 @@ class _CartState extends State<Cart> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    unescape.convert(widget.name),
+                    unescape.convert(widget.name!),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: ScreenUtil().setSp(65),
                     ),
                   ),
-                  Text(widget.dbcode),
+                  Text(widget.dbcode!),
                 ],
               ),
             ),

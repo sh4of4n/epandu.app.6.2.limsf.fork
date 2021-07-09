@@ -36,15 +36,15 @@
 } */
 
 class GetUserProfileResponse {
-  List<UserProfile> userProfile;
+  List<UserProfile>? userProfile;
 
   GetUserProfileResponse({this.userProfile});
 
   GetUserProfileResponse.fromJson(Map<String, dynamic> json) {
     if (json['UserProfile'] != null) {
-      userProfile = new List<UserProfile>();
+      userProfile = new List<UserProfile>.empty(growable: true);
       json['UserProfile'].forEach((v) {
-        userProfile.add(new UserProfile.fromJson(v));
+        userProfile!.add(new UserProfile.fromJson(v));
       });
     }
   }
@@ -52,38 +52,38 @@ class GetUserProfileResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.userProfile != null) {
-      data['UserProfile'] = this.userProfile.map((v) => v.toJson()).toList();
+      data['UserProfile'] = this.userProfile!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class UserProfile {
-  String iD;
-  String userId;
-  String phone;
-  String name;
-  String nickName;
-  String eMail;
-  String add;
-  String add1;
-  String add2;
-  String add3;
-  String postcode;
-  String cityName;
-  String stateName;
-  String countryName;
-  String icNo;
-  String birthDate;
-  String nationality;
-  String race;
-  String gender;
-  String enqLdlGroup;
-  String cdlGroup;
-  String userPhoto;
-  String userPhotoFilename;
-  String editDate;
-  String picturePath;
+  String? iD;
+  String? userId;
+  String? phone;
+  String? name;
+  String? nickName;
+  String? eMail;
+  String? add;
+  String? add1;
+  String? add2;
+  String? add3;
+  String? postcode;
+  String? cityName;
+  String? stateName;
+  String? countryName;
+  String? icNo;
+  String? birthDate;
+  String? nationality;
+  String? race;
+  String? gender;
+  String? enqLdlGroup;
+  String? cdlGroup;
+  String? userPhoto;
+  String? userPhotoFilename;
+  String? editDate;
+  String? picturePath;
 
   UserProfile(
       {this.iD,
@@ -172,32 +172,32 @@ class UserProfile {
 }
 
 class SaveProfileRequest {
-  String wsCodeCrypt;
-  String appCode;
-  String appId;
-  String caUid;
-  String caPwd;
-  String diCode;
-  String userId;
-  String name;
-  String nickName;
-  String icNo;
-  String nationality;
-  String dateOfBirthString;
-  String gender;
-  String race;
-  String address;
-  String postcode;
-  String state;
-  String country;
-  String email;
-  List<int> userProfileImage;
-  String userProfileImageBase64String;
-  bool removeUserProfileImage;
-  String ldlEnqGroup;
-  String cdlGroup;
-  String langCode;
-  bool findDrvJobs;
+  String? wsCodeCrypt;
+  String? appCode;
+  String? appId;
+  String? caUid;
+  String? caPwd;
+  String? diCode;
+  String? userId;
+  String? name;
+  String? nickName;
+  String? icNo;
+  String? nationality;
+  String? dateOfBirthString;
+  String? gender;
+  String? race;
+  String? address;
+  String? postcode;
+  String? state;
+  String? country;
+  String? email;
+  List<int>? userProfileImage;
+  String? userProfileImageBase64String;
+  bool? removeUserProfileImage;
+  String? ldlEnqGroup;
+  String? cdlGroup;
+  String? langCode;
+  bool? findDrvJobs;
 
   SaveProfileRequest(
       {this.wsCodeCrypt,
@@ -289,7 +289,7 @@ class SaveProfileRequest {
 }
 
 class GetTrainerListResponse {
-  List<Trainer> trainer;
+  List<Trainer>? trainer;
 
   GetTrainerListResponse({this.trainer});
 
@@ -297,7 +297,7 @@ class GetTrainerListResponse {
     if (json['Trainer'] != null) {
       trainer = new List<Trainer>.empty(growable: true);
       json['Trainer'].forEach((v) {
-        trainer.add(new Trainer.fromJson(v));
+        trainer!.add(new Trainer.fromJson(v));
       });
     }
   }
@@ -305,61 +305,61 @@ class GetTrainerListResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.trainer != null) {
-      data['Trainer'] = this.trainer.map((v) => v.toJson()).toList();
+      data['Trainer'] = this.trainer!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class Trainer {
-  String trnCode;
-  String empno;
-  String trnName;
-  String addr1;
-  String addr2;
-  String addr3;
-  String telHm;
-  String telHp;
-  String workGrpCode;
-  String pagerNo;
-  String descriptio;
-  String defaAmt;
-  String serTax;
-  String handChrg;
-  String serChrg;
-  String deptCode;
-  String offCatago;
-  String remarks;
-  String eduGrade;
-  String jpjNote;
-  String certNo;
-  String certExpDt;
-  String kppGroupId;
-  String spimGroupId;
-  String qtiGroupId;
-  String sm2No;
-  String sm2ExpDt;
-  String calCode;
-  String transtamp;
-  String nric;
-  String oldIc;
-  String validGroupId;
-  String blacklist;
-  String remark;
-  String photo;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String lastupload;
-  String deleted;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String merchantNo;
-  String iD;
-  String lastEditedBy;
-  String createdBy;
+  String? trnCode;
+  String? empno;
+  String? trnName;
+  String? addr1;
+  String? addr2;
+  String? addr3;
+  String? telHm;
+  String? telHp;
+  String? workGrpCode;
+  String? pagerNo;
+  String? descriptio;
+  String? defaAmt;
+  String? serTax;
+  String? handChrg;
+  String? serChrg;
+  String? deptCode;
+  String? offCatago;
+  String? remarks;
+  String? eduGrade;
+  String? jpjNote;
+  String? certNo;
+  String? certExpDt;
+  String? kppGroupId;
+  String? spimGroupId;
+  String? qtiGroupId;
+  String? sm2No;
+  String? sm2ExpDt;
+  String? calCode;
+  String? transtamp;
+  String? nric;
+  String? oldIc;
+  String? validGroupId;
+  String? blacklist;
+  String? remark;
+  String? photo;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? lastupload;
+  String? deleted;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? merchantNo;
+  String? iD;
+  String? lastEditedBy;
+  String? createdBy;
 
   Trainer(
       {this.trnCode,
@@ -517,7 +517,7 @@ class Trainer {
 }
 
 class GetVehicleListResponse {
-  List<GetVehicleListVehicle> vehicle;
+  List<GetVehicleListVehicle>? vehicle;
 
   GetVehicleListResponse({this.vehicle});
 
@@ -525,7 +525,7 @@ class GetVehicleListResponse {
     if (json['Vehicle'] != null) {
       vehicle = new List<GetVehicleListVehicle>.empty(growable: true);
       json['Vehicle'].forEach((v) {
-        vehicle.add(new GetVehicleListVehicle.fromJson(v));
+        vehicle!.add(new GetVehicleListVehicle.fromJson(v));
       });
     }
   }
@@ -533,59 +533,59 @@ class GetVehicleListResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.vehicle != null) {
-      data['Vehicle'] = this.vehicle.map((v) => v.toJson()).toList();
+      data['Vehicle'] = this.vehicle!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class GetVehicleListVehicle {
-  String vehNo;
-  String groupId;
-  String trnCode;
-  String model;
-  String engNo;
-  String chasisNo;
-  String typeModel;
-  String year;
-  String make;
-  String rdtaxExp;
-  String sm3No;
-  String sm3Siri;
-  String sm3IsuDt;
-  String sm3ExpDt;
-  String inspDt;
-  String nxOilChg;
-  String nxFilChg;
-  String capacity;
-  String kegunaan;
-  String tonage;
-  String rtExpDt;
-  String jpjRec;
-  String ispDate;
-  String ispRecNo;
-  String acctNo;
-  String icNo;
-  String balance;
-  String insCom1;
-  String insCom2;
-  String expDt;
-  String nextInspectDt;
-  String transtamp;
-  String inUsed;
-  String deleted;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String lastupload;
-  String merchantNo;
-  String iD;
-  String lastEditedBy;
-  String createdBy;
+  String? vehNo;
+  String? groupId;
+  String? trnCode;
+  String? model;
+  String? engNo;
+  String? chasisNo;
+  String? typeModel;
+  String? year;
+  String? make;
+  String? rdtaxExp;
+  String? sm3No;
+  String? sm3Siri;
+  String? sm3IsuDt;
+  String? sm3ExpDt;
+  String? inspDt;
+  String? nxOilChg;
+  String? nxFilChg;
+  String? capacity;
+  String? kegunaan;
+  String? tonage;
+  String? rtExpDt;
+  String? jpjRec;
+  String? ispDate;
+  String? ispRecNo;
+  String? acctNo;
+  String? icNo;
+  String? balance;
+  String? insCom1;
+  String? insCom2;
+  String? expDt;
+  String? nextInspectDt;
+  String? transtamp;
+  String? inUsed;
+  String? deleted;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? lastupload;
+  String? merchantNo;
+  String? iD;
+  String? lastEditedBy;
+  String? createdBy;
 
   GetVehicleListVehicle(
       {this.vehNo,

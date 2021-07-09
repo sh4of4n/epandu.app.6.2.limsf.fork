@@ -7,7 +7,7 @@ import 'package:shimmer/shimmer.dart';
 
 class Multilevel extends StatefulWidget {
   final feed;
-  final String appVersion;
+  final String? appVersion;
 
   Multilevel({this.feed, this.appVersion});
 
@@ -32,7 +32,7 @@ class _MultilevelState extends State<Multilevel> {
 
   List<dynamic> items = [];
   ScrollController _scrollController = new ScrollController();
-  String _message = '';
+  String? _message = '';
   bool _loadMore = false;
   bool _isLoading = false;
 
@@ -50,7 +50,7 @@ class _MultilevelState extends State<Multilevel> {
             _startIndex += 10;
           });
 
-          if (_message.isEmpty) {
+          if (_message!.isEmpty) {
             setState(() {
               _loadMore = true;
             });
@@ -112,7 +112,7 @@ class _MultilevelState extends State<Multilevel> {
       child: Column(
         children: <Widget>[
           Shimmer.fromColors(
-            baseColor: Colors.grey[200],
+            baseColor: Colors.grey[200]!,
             highlightColor: Colors.white,
             child: Container(
               width: ScreenUtil().setWidth(1300),

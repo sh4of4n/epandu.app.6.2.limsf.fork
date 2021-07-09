@@ -22,9 +22,9 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:uuid/uuid.dart';
 
 class ChatScreen extends StatefulWidget {
-  final String targetId;
-  final String picturePath;
-  final String name;
+  final String? targetId;
+  final String? picturePath;
+  final String? name;
 
   ChatScreen({this.targetId, this.picturePath, this.name});
 
@@ -37,18 +37,18 @@ class _ChatScreenState extends State<ChatScreen> {
   final LocalStorage localStorage = LocalStorage();
   final chatRepo = ChatRepo();
   final profileRepo = ProfileRepo();
-  Socket socket;
+  Socket? socket;
 
   ScrollController _scrollController = new ScrollController();
   bool _isLoading = false;
   final webinarRepo = ChatRepo();
   int _startIndex = 0;
   // String _message = '';
-  String userId;
-  UserProfile messageTargetProfile;
+  String? userId;
+  UserProfile? messageTargetProfile;
   final image = ImagesConstant();
   bool ableToLoad = true;
-  FocusNode focusNode;
+  FocusNode? focusNode;
   bool invertedFlag = true;
   bool _isTyping = false;
 
@@ -84,7 +84,7 @@ class _ChatScreenState extends State<ChatScreen> {
   List<String> messageDuplicationIdentifier = [];
 
   _getUserId() async {
-    String userId = await localStorage.getUserId();
+    String? userId = await localStorage.getUserId();
     setState(() {
       this.userId = userId;
     });
@@ -92,7 +92,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   _getMessages() async {
     print("get Message");
-    String userId = await localStorage.getUserId();
+    String? userId = await localStorage.getUserId();
 
     messages.insertAll(
         0,
@@ -168,13 +168,13 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   initSocketIO() async {
-    String userId = await localStorage.getUserId();
-    String combinedID = userId + "," + widget.targetId;
+    String userId = await (localStorage.getUserId() as FutureOr<String>);
+    String combinedID = userId + "," + widget.targetId!;
     // print(combinedID);
     setState(() {
       SocketHelper().socket.then((value) {
         socket = value;
-        socket.emit("initChatScreen", combinedID);
+        socket!.emit("initChatScreen", combinedID);
       });
     });
 
@@ -226,7 +226,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    widget.name,
+                    widget.name!,
                     style: Theme.of(context).textTheme.bodyText2,
                     overflow: TextOverflow.clip,
                   ),
@@ -265,7 +265,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                     .contains(msg)) {
                                   print("meesges existed" + msg);
                                 } else if (message.author == widget.targetId) {
-                                  socket.emit("acknowledgementReceive", msg);
+                                  socket!.emit("acknowledgementReceive", msg);
 
                                   messages.add(message);
                                   messageDuplicationIdentifier.add(msg);
@@ -410,9 +410,9 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   _circleImage() {
-    if (widget.picturePath != null && widget.picturePath.isNotEmpty)
+    if (widget.picturePath != null && widget.picturePath!.isNotEmpty)
       return Image.network(
-          widget.picturePath.replaceAll(removeBracket, '').split('\r\n')[0]);
+          widget.picturePath!.replaceAll(removeBracket, '').split('\r\n')[0]);
     return Image.memory(kTransparentImage);
   }
 
@@ -477,7 +477,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     scrollController: _scrollController),
           if (_isLoading)
             Shimmer.fromColors(
-              baseColor: Colors.grey[300],
+              baseColor: Colors.grey[300]!,
               highlightColor: Colors.white,
               child: Container(
                 width: ScreenUtil().setWidth(1400),
@@ -498,7 +498,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Future<void> _sendMessage(String author, String target, ChatBloc bloc) async {
+  Future<void> _sendMessage(String? author, String? target, ChatBloc bloc) async {
     final messageContent = _textEditingController.text;
     var uuid = Uuid();
     String messageId = uuid.v4();
@@ -546,7 +546,7 @@ class _ChatScreenState extends State<ChatScreen> {
         print("data insert success");
         messages.add(message);
         _textEditingController.clear();
-        focusNode.requestFocus();
+        focusNode!.requestFocus();
         this._isTyping = false;
         _scrollToBottom(100);
       } else {
@@ -575,9 +575,9 @@ class _ChatScreenState extends State<ChatScreen> {
     // socket.emit("cancelConnection", combinedId);
     // print("dispose " + combinedId);
     messages.clear();
-    socket.disconnect();
-    socket.destroy();
-    focusNode.dispose();
+    socket!.disconnect();
+    socket!.destroy();
+    focusNode!.dispose();
 
     super.dispose();
   }

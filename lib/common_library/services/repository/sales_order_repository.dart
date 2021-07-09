@@ -36,7 +36,7 @@ class SalesOrderRepo {
       return Response(true, data: getActiveSlsTrnByDbResponse.salesOrderHeader);
     }
     return Response(false,
-        message: response.message == null || response.message.isEmpty
+        message: response.message == null || response.message!.isEmpty
             ? 'Your cart is empty.'
             : response.message);
   }
@@ -64,17 +64,17 @@ class SalesOrderRepo {
     }
     return Response(false,
         message:
-            response.message.isEmpty ? 'No records found.' : response.message);
+            response.message!.isEmpty ? 'No records found.' : response.message);
   }
 
   Future<Response> getSlsTrnByDateAndDb({
-    @required context,
-    @required dbcode,
-    @required bgnSODateString,
-    @required endSODateString,
-    @required startIndex,
-    @required noOfRecords,
-    @required isAscending,
+    required context,
+    required dbcode,
+    required bgnSODateString,
+    required endSODateString,
+    required startIndex,
+    required noOfRecords,
+    required isAscending,
   }) async {
     String caUid = 'tbs_tbserp_devp_1';
     String caPwdEncode = '123456';
@@ -99,7 +99,7 @@ class SalesOrderRepo {
     }
     return Response(false,
         message:
-            response.message.isEmpty ? 'No records found.' : response.message);
+            response.message!.isEmpty ? 'No records found.' : response.message);
   }
 
   Future<Response> getSlsDetailByDocNo({context, docDoc, docRef}) async {
@@ -124,7 +124,7 @@ class SalesOrderRepo {
     }
     return Response(false,
         message:
-            response.message.isEmpty ? 'No records found.' : response.message);
+            response.message!.isEmpty ? 'No records found.' : response.message);
   }
 
   Future<Response> saveActiveSlsDtlByDb({
@@ -140,7 +140,7 @@ class SalesOrderRepo {
     discAmt,
     discRate,
     isOfferItem,
-    @required String scheduleDeliveryDateString,
+    required String scheduleDeliveryDateString,
     key,
     isCart,
     signatureImage,
@@ -188,7 +188,7 @@ class SalesOrderRepo {
       return Response(true);
     }
     return Response(false,
-        message: response.message.isEmpty
+        message: response.message!.isEmpty
             ? 'Failed to save active sales detail. Please try again later.'
             : response.message);
   }
@@ -231,7 +231,7 @@ class SalesOrderRepo {
       return Response(true);
     }
     return Response(false,
-        message: response.message.isEmpty
+        message: response.message!.isEmpty
             ? 'Failed to set schedule. Please try again later.'
             : response.message);
   }
@@ -271,7 +271,7 @@ class SalesOrderRepo {
       return Response(true);
     }
     return Response(false,
-        message: response.message.isEmpty
+        message: response.message!.isEmpty
             ? 'Failed to delete sales detail. Please try again.'
             : response.message);
   }
@@ -319,7 +319,7 @@ class SalesOrderRepo {
       return Response(true, data: saveCartToSalesOrderResponse.salesOrderTrn);
     }
     return Response(false,
-        message: response.message.isEmpty
+        message: response.message!.isEmpty
             ? 'Checkout failed. Please try again.'
             : response.message);
   }
@@ -347,19 +347,19 @@ class SalesOrderRepo {
       GetSalesOrderPDFResponse getSalesOrderPDFResponse =
           GetSalesOrderPDFResponse.fromJson(response.data);
 
-      return Response(true, data: getSalesOrderPDFResponse.pDF[0].fileName);
+      return Response(true, data: getSalesOrderPDFResponse.pDF![0].fileName);
     }
     return Response(false,
-        message: response.message.isEmpty
+        message: response.message!.isEmpty
             ? 'Failed to load pdf. Please try again later.'
             : response.message);
   }
 
   Future<Response> getCustomerCreditLimit({
-    @required context,
-    @required dbcode,
-    @required currency,
-    @required tlNettOrdAmt,
+    required context,
+    required dbcode,
+    required currency,
+    required tlNettOrdAmt,
   }) async {
     String caUid = 'tbs_tbserp_devp_1';
     String caPwdEncode = '123456';
@@ -382,15 +382,15 @@ class SalesOrderRepo {
     }
     return Response(false,
         message:
-            response.message.isEmpty ? 'No records found.' : response.message);
+            response.message!.isEmpty ? 'No records found.' : response.message);
   }
 
   Future<Response> getPurchaseHistoryForStock({
-    @required context,
-    @required dbcode,
-    @required stkCode,
-    @required startIndex,
-    @required noOfRecords,
+    required context,
+    required dbcode,
+    required stkCode,
+    required startIndex,
+    required noOfRecords,
   }) async {
     String caUid = 'tbs_tbserp_devp_1';
     String caPwdEncode = '123456';
@@ -413,12 +413,12 @@ class SalesOrderRepo {
           data: getPurchaseHistoryForStockResponse.salesInvoiceDetail);
     }
     return Response(false,
-        message: response.message.isEmpty
+        message: response.message!.isEmpty
             ? 'You have no purchase history.'
             : response.message);
   }
 
-  Future<String> formatInputValue({@required controller}) async {
+  Future<String?> formatInputValue({required controller}) async {
     final formatter = NumberFormat('#,##0.00');
     List<String> amountList = [];
     String dot = '.';
@@ -446,7 +446,7 @@ class SalesOrderRepo {
     return controller.text;
   }
 
-  Future<String> formatQty({@required controller}) async {
+  Future<String?> formatQty({required controller}) async {
     List<String> amountList = [];
     String amount = '';
 

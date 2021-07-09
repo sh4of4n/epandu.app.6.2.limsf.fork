@@ -30,7 +30,7 @@ class AirtimeSelection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('airtime_lbl')),
+        title: Text(AppLocalizations.of(context)!.translate('airtime_lbl')),
         elevation: 0,
         backgroundColor: primaryColor,
       ),

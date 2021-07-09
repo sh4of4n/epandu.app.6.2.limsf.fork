@@ -31,7 +31,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
 
   final customDialog = CustomDialog();
 
-  String _direction = '';
+  String? _direction = '';
   String _date = '';
   String _time = '';
 
@@ -71,7 +71,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            AppLocalizations.of(context).translate('request_pickup'),
+            AppLocalizations.of(context)!.translate('request_pickup'),
           ),
           elevation: 0,
           backgroundColor: Colors.transparent,
@@ -99,7 +99,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       labelStyle: TextStyle(
                         color: Color(0xff808080),
                       ),
-                      labelText: AppLocalizations.of(context).translate('date'),
+                      labelText: AppLocalizations.of(context)!.translate('date'),
                       fillColor: Colors.white,
                       filled: true,
                       enabledBorder: OutlineInputBorder(
@@ -112,7 +112,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide:
-                            BorderSide(color: Colors.blue[700], width: 1.6),
+                            BorderSide(color: Colors.blue[700]!, width: 1.6),
                         // borderRadius: BorderRadius.circular(0),
                         borderRadius: BorderRadius.circular(30),
                       ),
@@ -174,7 +174,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                     },
                     validator: (value) {
                       if (_dateController.text.isEmpty) {
-                        return AppLocalizations.of(context)
+                        return AppLocalizations.of(context)!
                             .translate('date_required');
                       }
                       return null;
@@ -197,7 +197,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       labelStyle: TextStyle(
                         color: Color(0xff808080),
                       ),
-                      labelText: AppLocalizations.of(context).translate('time'),
+                      labelText: AppLocalizations.of(context)!.translate('time'),
                       fillColor: Colors.white,
                       filled: true,
                       enabledBorder: OutlineInputBorder(
@@ -210,7 +210,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide:
-                            BorderSide(color: Colors.blue[700], width: 1.6),
+                            BorderSide(color: Colors.blue[700]!, width: 1.6),
                         // borderRadius: BorderRadius.circular(0),
                         borderRadius: BorderRadius.circular(30),
                       ),
@@ -226,7 +226,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                     },
                     validator: (value) {
                       if (value == null) {
-                        return AppLocalizations.of(context)
+                        return AppLocalizations.of(context)!
                             .translate('time_required');
                       }
                       return null;
@@ -245,7 +245,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                         horizontal: 10.w,
                       ),
                       labelText:
-                          AppLocalizations.of(context).translate('direction'),
+                          AppLocalizations.of(context)!.translate('direction'),
                       fillColor: Colors.white,
                       filled: true,
                       enabledBorder: OutlineInputBorder(
@@ -257,13 +257,13 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide:
-                            BorderSide(color: Colors.blue[700], width: 1.6),
+                            BorderSide(color: Colors.blue[700]!, width: 1.6),
                         // borderRadius: BorderRadius.circular(0),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       prefixIcon: Icon(Icons.directions),
                     ),
-                    value: _direction.isEmpty ? null : _direction,
+                    value: _direction!.isEmpty ? null : _direction,
                     items: <String>['Home', 'Driving Institute']
                         .map((String value) {
                       return new DropdownMenuItem<String>(
@@ -278,7 +278,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                     },
                     validator: (value) {
                       if (value == null) {
-                        return AppLocalizations.of(context)
+                        return AppLocalizations.of(context)!
                             .translate('direction_required');
                       }
                       return null;
@@ -302,7 +302,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                           ),
                           onPressed: _submit,
                           child: Text(
-                            AppLocalizations.of(context)
+                            AppLocalizations.of(context)!
                                 .translate('submit_btn'),
                             style: TextStyle(
                               fontSize: ScreenUtil().setSp(60),
@@ -320,8 +320,8 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
   }
 
   _submit() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
       setState(() {
@@ -346,11 +346,11 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
               color: Colors.green,
             ),
           ),
-          content: AppLocalizations.of(context).translate('pickup_added'),
+          content: AppLocalizations.of(context)!.translate('pickup_added'),
           type: DialogType.GENERAL,
           customActions: <Widget>[
             TextButton(
-              child: Text(AppLocalizations.of(context).translate('ok_btn')),
+              child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
               onPressed: () => context.router
                   .pushAndPopUntil(Home(), predicate: (r) => false),
             ),

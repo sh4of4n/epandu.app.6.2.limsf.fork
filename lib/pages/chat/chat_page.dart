@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:async';
 import 'dart:io';
 import 'package:epandu/pages/chat/chat_bloc.dart';
 import 'package:epandu/services/database/chat_db.dart';
@@ -9,7 +9,6 @@ import 'package:epandu/common_library/services/repository/auth_repository.dart';
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 // import 'package:shimmer/shimmer.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -26,13 +25,13 @@ class _ChatHomeState extends State<ChatHome> {
   final profileRepo = ProfileRepo();
   final authRepo = AuthRepo();
   final LocalStorage localStorage = LocalStorage();
-  Socket socket;
+  Socket? socket;
   User user = User();
   ScrollController _scrollController = ScrollController();
   int _startIndex = 0;
-  UserProfile _searchResult;
+  UserProfile? _searchResult;
   // String _message = '';
-  String userId = '';
+  String? userId = '';
   // bool _isLoading = false;
   bool _searchFlag = false;
   List<UserProfile> contactList = [];
@@ -72,7 +71,7 @@ class _ChatHomeState extends State<ChatHome> {
   }
 
   _getUserId() async {
-    String userId = await localStorage.getUserId();
+    String? userId = await localStorage.getUserId();
 
     setState(() {
       this.userId = userId;
@@ -90,7 +89,7 @@ class _ChatHomeState extends State<ChatHome> {
     // print("data retrieved ${contactList.length}");
   }
 
-  _getUserProfile(String userId) async {
+  _getUserProfile(String? userId) async {
     var result = await profileRepo.getUserProfile(
         context: context, customUserId: userId);
 
@@ -134,22 +133,22 @@ class _ChatHomeState extends State<ChatHome> {
   }
 
   initSocketIO() async {
-    String userId = await localStorage.getUserId();
+    String? userId = await localStorage.getUserId();
     setState(() {
       SocketHelper().socket.then((value) {
         socket = value;
-        socket.emit("initHomeScreen", userId);
+        socket!.emit("initHomeScreen", userId);
       });
     });
     // print("connected");
   }
 
   _addNewUserIntoDB({
-    UserProfile friendProfile,
-    String friendId,
-    bool getUserProfileFromServerflag,
+    UserProfile? friendProfile,
+    String? friendId,
+    bool? getUserProfileFromServerflag,
   }) async {
-    String userId = await localStorage.getUserId();
+    String? userId = await localStorage.getUserId();
     var uuid = Uuid();
     String id1 = uuid.v4();
     _getSingleUserFromContact(friendId).then((value) async {
@@ -158,9 +157,9 @@ class _ChatHomeState extends State<ChatHome> {
           // print("getUserProfileFromServerflag true");
           await _getUserProfile(friendId);
           if (await ChatDatabase().saveRelationshipTable(
-                      id1, userId, _searchResult.userId) ==
+                      id1, userId!, _searchResult!.userId!) ==
                   1 &&
-              await ChatDatabase().saveUserTable(_searchResult) == 1) {
+              await ChatDatabase().saveUserTable(_searchResult!) == 1) {
             print("contact saved");
             setState(() {
               _searchFlag = false;
@@ -170,11 +169,11 @@ class _ChatHomeState extends State<ChatHome> {
           }
         } else {
           // print("getUserProfileFromServerflag false");
-          ChatDatabase().saveUserTable(friendProfile).then((value) async {
+          ChatDatabase().saveUserTable(friendProfile!).then((value) async {
             if (value == 1) {
               print(friendProfile.userId);
               if (await ChatDatabase().saveRelationshipTable(
-                      id1, userId, friendProfile.userId) ==
+                      id1, userId!, friendProfile.userId!) ==
                   1) {
                 // print("contact saved");
                 setState(() {
@@ -190,17 +189,17 @@ class _ChatHomeState extends State<ChatHome> {
     });
   }
 
-  _getSingleUserFromContact(String friendId) async {
-    String userId = await localStorage.getUserId();
-    UserProfile user = await ChatDatabase()
+  _getSingleUserFromContact(String? friendId) async {
+    String? userId = await localStorage.getUserId();
+    UserProfile? user = await ChatDatabase()
         .getSingleContact(userId: userId, friendId: friendId);
     return user;
   }
 
-  _getSingleUserFromLocalStorage(String friendId) async {
-    UserProfile user = await ChatDatabase().getSingleUser(userId: friendId);
+  /* _getSingleUserFromLocalStorage(String? friendId) async {
+    UserProfile? user = await ChatDatabase().getSingleUser(userId: friendId);
     return user;
-  }
+  } */
 
   _contactList() {
     if (contactList.length > 0) {
@@ -250,14 +249,14 @@ class _ChatHomeState extends State<ChatHome> {
           }
         }
         return null;
-      },
-      itemBuilder: (context, suggestion) {
+      } as FutureOr<Iterable> Function(String),
+      itemBuilder: (context, dynamic suggestion) {
         return ListTile(
           title: Text(suggestion['phone']),
           subtitle: Text(suggestion['nick_name']),
         );
       },
-      onSuggestionSelected: (suggestion) async {
+      onSuggestionSelected: (dynamic suggestion) async {
         if (contactList.length == 0) {
           _addNewUserIntoDB(
               friendProfile: _searchResult,
@@ -265,10 +264,10 @@ class _ChatHomeState extends State<ChatHome> {
               getUserProfileFromServerflag: false);
         } else {
           for (int i = 0; i < contactList.length; i += 1) {
-            if (contactList[i].phone.contains(suggestion['phone'])) {
+            if (contactList[i].phone!.contains(suggestion['phone'])) {
               break;
             } else if (i + 1 == contactList.length &&
-                contactList[i].phone.contains(suggestion['phone']) == false) {
+                contactList[i].phone!.contains(suggestion['phone']) == false) {
               contactList.clear();
               _addNewUserIntoDB(
                   friendProfile: _searchResult,
@@ -288,7 +287,7 @@ class _ChatHomeState extends State<ChatHome> {
     if (_searchController.text.isNotEmpty) {
       return IconButton(
         onPressed: () {
-          WidgetsBinding.instance
+          WidgetsBinding.instance!
               .addPostFrameCallback((_) => _searchController.clear());
         },
         icon: Icon(Icons.close),
@@ -311,8 +310,8 @@ class _ChatHomeState extends State<ChatHome> {
                   baseColor: Colors.grey[300],
                   highlightColor: Colors.white,
                   child: Container(
-                    width: ScreenUtil().setWidth(1400),
-                    height: ScreenUtil().setHeight(600),
+                    width: 600,
+                    height: 250,
                     color: Colors.grey[300],
                   ),
                 ),
@@ -383,7 +382,7 @@ class _ChatHomeState extends State<ChatHome> {
               return ChatBloc(Provider.of<Socket>(context));
             },
             child: Container(
-              padding: EdgeInsets.fromLTRB(80.w, 50.h, 80.w, 50.h),
+              padding: const EdgeInsets.fromLTRB(35, 20, 35, 20),
               child: Column(
                 children: <Widget>[
                   // _searchResultBox(),
@@ -394,21 +393,18 @@ class _ChatHomeState extends State<ChatHome> {
                         value: bloc.chatItemsStream,
                         child: Consumer<String>(
                           builder: (context, msg, _) {
-                            if (msg != null) {
+                            /* if (msg != null) {
                               // print("message receive call");
-
                               Message message =
                                   Message.fromJson(jsonDecode(msg));
-
                               _getSingleUserFromLocalStorage(message.author)
                                   .then(
                                 (value) {
                                   if (value == null) {
                                     print("the contact did not exist be4");
-                                    socket.emit(
+                                    socket!.emit(
                                         "acknowledgementReceiveHomeScreen",
                                         msg);
-
                                     contactList.clear();
                                     _startIndex = 0;
                                     _addNewUserIntoDB(
@@ -417,7 +413,7 @@ class _ChatHomeState extends State<ChatHome> {
                                   }
                                 },
                               );
-                            }
+                            } */
 
                             return SingleChildScrollView(
                               controller: _scrollController,

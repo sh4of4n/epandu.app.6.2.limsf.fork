@@ -33,7 +33,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
 
   final epanduRepo = EpanduRepo();
   final authRepo = AuthRepo();
-  Future _getClasses;
+  Future? _getClasses;
   final myImage = ImagesConstant();
 
   @override
@@ -73,7 +73,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(
-            AppLocalizations.of(context).translate('enrolled_class'),
+            AppLocalizations.of(context)!.translate('enrolled_class'),
           ),
         ),
         body: SingleChildScrollView(
@@ -85,7 +85,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
                 width: double.infinity,
                 color: Color(0xff0290b7),
                 child: Text(
-                  AppLocalizations.of(context).translate('installment_scheme'),
+                  AppLocalizations.of(context)!.translate('installment_scheme'),
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 95.sp,
@@ -133,7 +133,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 50.h),
                 child: Text(
-                  AppLocalizations.of(context).translate('class_title'),
+                  AppLocalizations.of(context)!.translate('class_title'),
                   style: TextStyle(
                     color: Color(0xffdd0e0e),
                     fontSize: 85.sp,
@@ -189,7 +189,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
                                               children: [
                                                 TextSpan(
                                                   text: AppLocalizations.of(
-                                                              context)
+                                                              context)!
                                                           .translate(
                                                               'class_lbl') +
                                                       ' ',
@@ -226,7 +226,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
                                           Text(
                                             snapshot.data[index].totalTime !=
                                                     null
-                                                ? AppLocalizations.of(context)
+                                                ? AppLocalizations.of(context)!
                                                         .translate(
                                                             'total_time') +
                                                     ' ' +
@@ -278,7 +278,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
                     default:
                       return Center(
                         child: Text(
-                          AppLocalizations.of(context)
+                          AppLocalizations.of(context)!
                               .translate('get_class_list_fail'),
                         ),
                       );

@@ -5,13 +5,13 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MerchantCard extends StatelessWidget {
-  final String name;
-  final String desc;
-  final String imageLink;
-  final String cityName;
-  final String distance;
-  final String businessHours;
-  final String businessDay;
+  final String? name;
+  final String? desc;
+  final String? imageLink;
+  final String? cityName;
+  final String? distance;
+  final String? businessHours;
+  final String? businessDay;
 
   MerchantCard({
     this.name,
@@ -57,9 +57,9 @@ class MerchantCard extends StatelessWidget {
         children: <Widget>[
           Container(
             width: 200.w,
-            child: imageLink.isEmpty
+            child: imageLink!.isEmpty
                 ? Image.asset(image.logo2, width: 200.w)
-                : Image.network(imageLink, width: 200.w),
+                : Image.network(imageLink!, width: 200.w),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +78,7 @@ class MerchantCard extends StatelessWidget {
                   children: <Widget>[
                     RatingBar.builder(
                       initialRating: 4,
-                      onRatingUpdate: null,
+                      onRatingUpdate: (rating) => print(rating),
                       direction: Axis.horizontal,
                       allowHalfRating: false,
                       itemCount: 5,
@@ -88,8 +88,8 @@ class MerchantCard extends StatelessWidget {
                       ),
                       itemSize: 20.0,
                     ),
-                    Text(cityName, style: headerStyle),
-                    Text(distance + 'KM', style: headerStyle),
+                    Text(cityName!, style: headerStyle),
+                    Text(distance! + 'KM', style: headerStyle),
                   ],
                 ),
               ),
@@ -112,7 +112,7 @@ class MerchantCard extends StatelessWidget {
                   vertical: 15.h,
                 ),
                 width: 1180.w,
-                child: Text(name, style: titleStyle),
+                child: Text(name!, style: titleStyle),
               ),
               Container(
                 decoration: BoxDecoration(
@@ -133,7 +133,7 @@ class MerchantCard extends StatelessWidget {
                   vertical: 5.h,
                 ),
                 width: 1180.w,
-                child: Text(desc, style: subtitleStyle),
+                child: Text(desc!, style: subtitleStyle),
               ),
               Container(
                 decoration: BoxDecoration(
@@ -158,13 +158,13 @@ class MerchantCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      businessHours,
+                      businessHours!,
                       style: bottomStyle,
                     ),
                     Container(
                       width: 600.w,
                       child: Text(
-                        businessDay,
+                        businessDay!,
                         style: bottomStyle,
                       ),
                     ),
@@ -199,7 +199,7 @@ class MerchantCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           Text(
-                              AppLocalizations.of(context)
+                              AppLocalizations.of(context)!
                                   .translate('profile_title'),
                               style: bottomStyle),
                           Image.asset(image.profileIcon, height: 22),
@@ -212,7 +212,7 @@ class MerchantCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           Text(
-                              AppLocalizations.of(context)
+                              AppLocalizations.of(context)!
                                   .translate('products'),
                               style: bottomStyle),
                           Image.asset(image.productsIcon, height: 22),
@@ -227,7 +227,7 @@ class MerchantCard extends StatelessWidget {
                           Container(
                             width: 250.w,
                             child: Text(
-                              AppLocalizations.of(context)
+                              AppLocalizations.of(context)!
                                   .translate('location_map'),
                               style: bottomStyle,
                               textAlign: TextAlign.center,
@@ -242,7 +242,8 @@ class MerchantCard extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          Text(AppLocalizations.of(context).translate('review'),
+                          Text(
+                              AppLocalizations.of(context)!.translate('review'),
                               style: bottomStyle),
                           Image.asset(image.reviewIcon, height: 22),
                         ],

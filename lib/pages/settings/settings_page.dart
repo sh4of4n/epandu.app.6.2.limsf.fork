@@ -25,13 +25,13 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   DeviceInfo deviceInfo = DeviceInfo();
-  String _deviceBrand = '';
-  String _deviceModel = '';
-  String _deviceVersion = '';
-  String _deviceId = '';
-  String _deviceOs = '';
+  String? _deviceBrand = '';
+  String? _deviceModel = '';
+  String? _deviceVersion = '';
+  String? _deviceId;
+  String? _deviceOs = '';
 
-  String _regId = '';
+  String? _regId = '';
 
   String appVersion = '';
   int count = 0;
@@ -40,7 +40,7 @@ class _SettingsState extends State<Settings> {
   double _defIconSize = 30;
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
-  String _clientAcc = '';
+  String? _clientAcc = '';
 
   bool _isLoading = false;
 
@@ -98,7 +98,7 @@ class _SettingsState extends State<Settings> {
                 title: Consumer<LanguageModel>(
                   builder: (context, lang, child) {
                     return Text(
-                      '${AppLocalizations.of(context).translate('language_lbl')} ${lang.language}',
+                      '${AppLocalizations.of(context)!.translate('language_lbl')} ${lang.language}',
                     );
                   },
                 ),
@@ -112,7 +112,7 @@ class _SettingsState extends State<Settings> {
               Divider(),
               ListTile(
                 leading: Icon(Icons.lock, size: _defIconSize),
-                title: Text(AppLocalizations.of(context)
+                title: Text(AppLocalizations.of(context)!
                     .translate('change_password_lbl')),
                 onTap: () {
                   context.router.push(ChangePassword());
@@ -122,7 +122,7 @@ class _SettingsState extends State<Settings> {
               ListTile(
                 leading: Icon(Icons.exit_to_app, size: _defIconSize),
                 title:
-                    Text(AppLocalizations.of(context).translate('logout_lbl')),
+                    Text(AppLocalizations.of(context)!.translate('logout_lbl')),
                 onTap: _logout,
               ),
               Divider(),
@@ -133,19 +133,19 @@ class _SettingsState extends State<Settings> {
                   if (count == 4) {
                     customDialog.show(
                       context: context,
-                      title: Text(AppLocalizations.of(context)
+                      title: Text(AppLocalizations.of(context)!
                           .translate('delete_account')),
-                      content: AppLocalizations.of(context)
+                      content: AppLocalizations.of(context)!
                           .translate('confirm_delete_account'),
                       customActions: <Widget>[
                         TextButton(
-                          child: Text(AppLocalizations.of(context)
+                          child: Text(AppLocalizations.of(context)!
                               .translate('yes_lbl')),
                           onPressed: _deleteAccount,
                         ),
                         TextButton(
-                          child: Text(
-                              AppLocalizations.of(context).translate('no_lbl')),
+                          child: Text(AppLocalizations.of(context)!
+                              .translate('no_lbl')),
                           onPressed: () {
                             count = 0;
                             context.router.pop();
@@ -158,8 +158,8 @@ class _SettingsState extends State<Settings> {
                   }
                 },
                 leading: Icon(Icons.apps, size: _defIconSize),
-                title:
-                    Text(AppLocalizations.of(context).translate('version_lbl')),
+                title: Text(
+                    AppLocalizations.of(context)!.translate('version_lbl')),
                 subtitle: Text('V.$appVersion'),
                 /* onTap: () async {
                     count += 1;
@@ -187,8 +187,8 @@ class _SettingsState extends State<Settings> {
               ListTile(
                 leading: Icon(Icons.code, size: _defIconSize),
                 title:
-                    Text(AppLocalizations.of(context).translate('client_acc')),
-                subtitle: Text(_clientAcc),
+                    Text(AppLocalizations.of(context)!.translate('client_acc')),
+                subtitle: Text(_clientAcc!),
                 /* onTap: () async {
                     count += 1;
 
@@ -227,7 +227,7 @@ class _SettingsState extends State<Settings> {
               ListTile(
                 leading: Icon(Icons.code, size: _defIconSize),
                 title: Text('Model'),
-                subtitle: SelectableText('$_deviceBrand $_deviceModel' ?? ''),
+                subtitle: SelectableText('$_deviceBrand $_deviceModel'),
               ),
             ],
           ),
@@ -240,11 +240,11 @@ class _SettingsState extends State<Settings> {
   _logout() {
     customDialog.show(
         context: context,
-        title: Text(AppLocalizations.of(context).translate('confirm_lbl')),
-        content: AppLocalizations.of(context).translate('confirm_log_out'),
+        title: Text(AppLocalizations.of(context)!.translate('confirm_lbl')),
+        content: AppLocalizations.of(context)!.translate('confirm_log_out'),
         customActions: <Widget>[
           TextButton(
-            child: Text(AppLocalizations.of(context).translate('yes_lbl')),
+            child: Text(AppLocalizations.of(context)!.translate('yes_lbl')),
             onPressed: () async {
               // if (widget.data != null) widget.data.cancel();
 
@@ -262,7 +262,7 @@ class _SettingsState extends State<Settings> {
             },
           ),
           TextButton(
-            child: Text(AppLocalizations.of(context).translate('no_lbl')),
+            child: Text(AppLocalizations.of(context)!.translate('no_lbl')),
             onPressed: () {
               context.router.pop();
             },

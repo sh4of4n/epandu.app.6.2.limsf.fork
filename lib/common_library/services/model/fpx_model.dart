@@ -1,5 +1,5 @@
 class FpxSendB2CBankEnquiryResponse {
-  List<BankEnquiryResponse> response;
+  List<BankEnquiryResponse>? response;
 
   FpxSendB2CBankEnquiryResponse({this.response});
 
@@ -7,7 +7,7 @@ class FpxSendB2CBankEnquiryResponse {
     if (json['Response'] != null) {
       response = new List<BankEnquiryResponse>.empty(growable: true);
       json['Response'].forEach((v) {
-        response.add(new BankEnquiryResponse.fromJson(v));
+        response!.add(new BankEnquiryResponse.fromJson(v));
       });
     }
   }
@@ -15,28 +15,28 @@ class FpxSendB2CBankEnquiryResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.response != null) {
-      data['Response'] = this.response.map((v) => v.toJson()).toList();
+      data['Response'] = this.response!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class BankEnquiryResponse {
-  String requestUrl;
-  String requestData;
-  String responseCode;
-  String responseDescription;
-  String responseData;
-  String transId;
-  String sessionId;
-  String fpxMsgToken;
-  String fpxSellerExId;
-  String fpxBankList;
-  String fpxCheckSum;
-  String fpxMsgType;
-  String finalVerifiMsg;
-  String bankList;
-  String signatureString;
+  String? requestUrl;
+  String? requestData;
+  String? responseCode;
+  String? responseDescription;
+  String? responseData;
+  String? transId;
+  String? sessionId;
+  String? fpxMsgToken;
+  String? fpxSellerExId;
+  String? fpxBankList;
+  String? fpxCheckSum;
+  String? fpxMsgType;
+  String? finalVerifiMsg;
+  String? bankList;
+  String? signatureString;
 
   BankEnquiryResponse(
       {this.requestUrl,
@@ -95,7 +95,7 @@ class BankEnquiryResponse {
 }
 
 class GetOnlinePaymentListByIcNoResponse {
-  List<OnlinePayment> onlinePayment;
+  List<OnlinePayment>? onlinePayment;
 
   GetOnlinePaymentListByIcNoResponse({this.onlinePayment});
 
@@ -103,7 +103,7 @@ class GetOnlinePaymentListByIcNoResponse {
     if (json['OnlinePayment'] != null) {
       onlinePayment = new List<OnlinePayment>.empty(growable: true);
       json['OnlinePayment'].forEach((v) {
-        onlinePayment.add(new OnlinePayment.fromJson(v));
+        onlinePayment!.add(new OnlinePayment.fromJson(v));
       });
     }
   }
@@ -112,17 +112,17 @@ class GetOnlinePaymentListByIcNoResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.onlinePayment != null) {
       data['OnlinePayment'] =
-          this.onlinePayment.map((v) => v.toJson()).toList();
+          this.onlinePayment!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class OnlinePayment {
-  String docDoc;
-  String docRef;
-  String paidAmt;
-  String status;
+  String? docDoc;
+  String? docRef;
+  String? paidAmt;
+  String? status;
 
   OnlinePayment({this.docDoc, this.docRef, this.paidAmt, this.status});
 
@@ -144,13 +144,13 @@ class OnlinePayment {
 }
 
 class CreateOrderRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String diCode;
-  String userId;
-  String icNo;
-  String packageCode;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? diCode;
+  String? userId;
+  String? icNo;
+  String? packageCode;
 
   CreateOrderRequest(
       {this.wsCodeCrypt,
@@ -185,14 +185,14 @@ class CreateOrderRequest {
 }
 
 class CreateOrderWithAmtRequest {
-  String wsCodeCrypt;
-  String caUid;
-  String caPwd;
-  String diCode;
-  String userId;
-  String icNo;
-  String packageCode;
-  String amountString;
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? diCode;
+  String? userId;
+  String? icNo;
+  String? packageCode;
+  String? amountString;
 
   CreateOrderWithAmtRequest(
       {this.wsCodeCrypt,
@@ -230,7 +230,7 @@ class CreateOrderWithAmtRequest {
 }
 
 class CreateOrderResponse {
-  List<SlsTrn> slsTrn;
+  List<SlsTrn>? slsTrn;
 
   CreateOrderResponse({this.slsTrn});
 
@@ -238,7 +238,7 @@ class CreateOrderResponse {
     if (json['SlsTrn'] != null) {
       slsTrn = new List<SlsTrn>.empty(growable: true);
       json['SlsTrn'].forEach((v) {
-        slsTrn.add(new SlsTrn.fromJson(v));
+        slsTrn!.add(new SlsTrn.fromJson(v));
       });
     }
   }
@@ -246,140 +246,140 @@ class CreateOrderResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.slsTrn != null) {
-      data['SlsTrn'] = this.slsTrn.map((v) => v.toJson()).toList();
+      data['SlsTrn'] = this.slsTrn!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class SlsTrn {
-  String iD;
-  String merchantNo;
-  String docDoc;
-  String docRef;
-  String slsDoc;
-  String slsRef;
-  String revNo;
-  String ordDate;
-  String ordTime;
-  String wfStatus;
-  String refNo;
-  String subject;
-  String validity;
-  String leadTime;
-  String dbcode;
-  String icNo;
-  String name;
-  String branch;
-  String locCode;
-  String areaCode;
-  String currency;
-  String rate;
-  String terms;
-  String salesPer;
-  String projCode;
-  String orderBy;
-  String custPoNo;
-  String custPoDate;
-  String shipmentTerm;
-  String shipmentTermDetl;
-  String shipMode;
-  String shipCode;
-  String shipTo;
-  String shipName;
-  String shipAdd;
-  String shipAdd1;
-  String shipAdd2;
-  String shipAdd3;
-  String shipAdd4;
-  String shipArea;
-  String shipPhone;
-  String shipFax;
-  String shipPtc;
-  String shipRemark;
-  String misc1;
-  String misc2;
-  String misc3;
-  String misc4;
-  String misc5;
-  String misc6;
-  String misc13;
-  String misc14;
-  String misc15;
-  String misc16;
-  String misc17;
-  String misc18;
-  String tlOrdQty;
-  String tlOrdAmt;
-  String tlNettDetlAmt;
-  String tlLocDetlAmt;
-  String tlNettOrdAmt;
-  String tlLocOrdAmt;
-  String tlDiscAmt;
-  String tlLocDiscAmt;
-  String tlSlsTax;
-  String tlLocSlsTax;
-  String tlSerTax;
-  String tlLocSerTax;
-  String bdiscRate;
-  String bdiscAmt;
-  String transChrg;
-  String transRate;
-  String mfgCurrency;
-  String mfgRate;
-  String mfgTlNettOrdAmt;
-  String mfgTlLocOrdAmt;
-  String hold;
-  String cj5No;
-  String dbAcct;
-  String dbDept;
-  String tlDlvQty;
-  String doDoc;
-  String doRef;
-  String invDoc;
-  String invRef;
-  String title1;
-  String title2;
-  String title3;
-  String remark;
-  String remark1;
-  String remark2;
-  String prnCount;
-  String printLog;
-  String trnStatus;
-  String creditBlockReason;
-  String creditBlockInfo;
-  String creditReqApprv;
-  String creditApprvUser;
-  String creditApprvDate;
-  String creditApprvAmt;
-  String creditApprvLog;
-  String pending;
-  String cancel;
-  String cancelDate;
-  String posted;
-  String complete;
-  String clear;
-  String fullyBilled;
-  String tlBilledAmt;
-  String tlPaidAmt;
-  String readOnly;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String deleted;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String lastupload;
-  String duplicateKey;
-  String validateFailed;
-  String validateRemark;
-  String lastValidate;
-  String transtamp;
-  String packageCode;
-  String packageDesc;
+  String? iD;
+  String? merchantNo;
+  String? docDoc;
+  String? docRef;
+  String? slsDoc;
+  String? slsRef;
+  String? revNo;
+  String? ordDate;
+  String? ordTime;
+  String? wfStatus;
+  String? refNo;
+  String? subject;
+  String? validity;
+  String? leadTime;
+  String? dbcode;
+  String? icNo;
+  String? name;
+  String? branch;
+  String? locCode;
+  String? areaCode;
+  String? currency;
+  String? rate;
+  String? terms;
+  String? salesPer;
+  String? projCode;
+  String? orderBy;
+  String? custPoNo;
+  String? custPoDate;
+  String? shipmentTerm;
+  String? shipmentTermDetl;
+  String? shipMode;
+  String? shipCode;
+  String? shipTo;
+  String? shipName;
+  String? shipAdd;
+  String? shipAdd1;
+  String? shipAdd2;
+  String? shipAdd3;
+  String? shipAdd4;
+  String? shipArea;
+  String? shipPhone;
+  String? shipFax;
+  String? shipPtc;
+  String? shipRemark;
+  String? misc1;
+  String? misc2;
+  String? misc3;
+  String? misc4;
+  String? misc5;
+  String? misc6;
+  String? misc13;
+  String? misc14;
+  String? misc15;
+  String? misc16;
+  String? misc17;
+  String? misc18;
+  String? tlOrdQty;
+  String? tlOrdAmt;
+  String? tlNettDetlAmt;
+  String? tlLocDetlAmt;
+  String? tlNettOrdAmt;
+  String? tlLocOrdAmt;
+  String? tlDiscAmt;
+  String? tlLocDiscAmt;
+  String? tlSlsTax;
+  String? tlLocSlsTax;
+  String? tlSerTax;
+  String? tlLocSerTax;
+  String? bdiscRate;
+  String? bdiscAmt;
+  String? transChrg;
+  String? transRate;
+  String? mfgCurrency;
+  String? mfgRate;
+  String? mfgTlNettOrdAmt;
+  String? mfgTlLocOrdAmt;
+  String? hold;
+  String? cj5No;
+  String? dbAcct;
+  String? dbDept;
+  String? tlDlvQty;
+  String? doDoc;
+  String? doRef;
+  String? invDoc;
+  String? invRef;
+  String? title1;
+  String? title2;
+  String? title3;
+  String? remark;
+  String? remark1;
+  String? remark2;
+  String? prnCount;
+  String? printLog;
+  String? trnStatus;
+  String? creditBlockReason;
+  String? creditBlockInfo;
+  String? creditReqApprv;
+  String? creditApprvUser;
+  String? creditApprvDate;
+  String? creditApprvAmt;
+  String? creditApprvLog;
+  String? pending;
+  String? cancel;
+  String? cancelDate;
+  String? posted;
+  String? complete;
+  String? clear;
+  String? fullyBilled;
+  String? tlBilledAmt;
+  String? tlPaidAmt;
+  String? readOnly;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? deleted;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? lastupload;
+  String? duplicateKey;
+  String? validateFailed;
+  String? validateRemark;
+  String? lastValidate;
+  String? transtamp;
+  String? packageCode;
+  String? packageDesc;
 
   SlsTrn(
       {this.iD,
@@ -774,7 +774,7 @@ class SlsTrn {
 }
 
 class GetOrderListByIcNoResponse {
-  List<GetOrderListSlsTrn> slsTrn;
+  List<GetOrderListSlsTrn>? slsTrn;
 
   GetOrderListByIcNoResponse({this.slsTrn});
 
@@ -782,7 +782,7 @@ class GetOrderListByIcNoResponse {
     if (json['SlsTrn'] != null) {
       slsTrn = new List<GetOrderListSlsTrn>.empty(growable: true);
       json['SlsTrn'].forEach((v) {
-        slsTrn.add(new GetOrderListSlsTrn.fromJson(v));
+        slsTrn!.add(new GetOrderListSlsTrn.fromJson(v));
       });
     }
   }
@@ -790,140 +790,140 @@ class GetOrderListByIcNoResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.slsTrn != null) {
-      data['SlsTrn'] = this.slsTrn.map((v) => v.toJson()).toList();
+      data['SlsTrn'] = this.slsTrn!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class GetOrderListSlsTrn {
-  String iD;
-  String merchantNo;
-  String docDoc;
-  String docRef;
-  String slsDoc;
-  String slsRef;
-  String revNo;
-  String ordDate;
-  String ordTime;
-  String wfStatus;
-  String refNo;
-  String subject;
-  String validity;
-  String leadTime;
-  String dbcode;
-  String icNo;
-  String name;
-  String branch;
-  String locCode;
-  String areaCode;
-  String currency;
-  String rate;
-  String terms;
-  String salesPer;
-  String projCode;
-  String orderBy;
-  String custPoNo;
-  String custPoDate;
-  String shipmentTerm;
-  String shipmentTermDetl;
-  String shipMode;
-  String shipCode;
-  String shipTo;
-  String shipName;
-  String shipAdd;
-  String shipAdd1;
-  String shipAdd2;
-  String shipAdd3;
-  String shipAdd4;
-  String shipArea;
-  String shipPhone;
-  String shipFax;
-  String shipPtc;
-  String shipRemark;
-  String misc1;
-  String misc2;
-  String misc3;
-  String misc4;
-  String misc5;
-  String misc6;
-  String misc13;
-  String misc14;
-  String misc15;
-  String misc16;
-  String misc17;
-  String misc18;
-  String tlOrdQty;
-  String tlOrdAmt;
-  String tlNettDetlAmt;
-  String tlLocDetlAmt;
-  String tlNettOrdAmt;
-  String tlLocOrdAmt;
-  String tlDiscAmt;
-  String tlLocDiscAmt;
-  String tlSlsTax;
-  String tlLocSlsTax;
-  String tlSerTax;
-  String tlLocSerTax;
-  String bdiscRate;
-  String bdiscAmt;
-  String transChrg;
-  String transRate;
-  String mfgCurrency;
-  String mfgRate;
-  String mfgTlNettOrdAmt;
-  String mfgTlLocOrdAmt;
-  String hold;
-  String cj5No;
-  String dbAcct;
-  String dbDept;
-  String tlDlvQty;
-  String doDoc;
-  String doRef;
-  String invDoc;
-  String invRef;
-  String title1;
-  String title2;
-  String title3;
-  String remark;
-  String remark1;
-  String remark2;
-  String prnCount;
-  String printLog;
-  String trnStatus;
-  String creditBlockReason;
-  String creditBlockInfo;
-  String creditReqApprv;
-  String creditApprvUser;
-  String creditApprvDate;
-  String creditApprvAmt;
-  String creditApprvLog;
-  String pending;
-  String cancel;
-  String cancelDate;
-  String posted;
-  String complete;
-  String clear;
-  String fullyBilled;
-  String tlBilledAmt;
-  String tlPaidAmt;
-  String readOnly;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String deleted;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String lastupload;
-  String duplicateKey;
-  String validateFailed;
-  String validateRemark;
-  String lastValidate;
-  String transtamp;
-  String packageCode;
-  String packageDesc;
+  String? iD;
+  String? merchantNo;
+  String? docDoc;
+  String? docRef;
+  String? slsDoc;
+  String? slsRef;
+  String? revNo;
+  String? ordDate;
+  String? ordTime;
+  String? wfStatus;
+  String? refNo;
+  String? subject;
+  String? validity;
+  String? leadTime;
+  String? dbcode;
+  String? icNo;
+  String? name;
+  String? branch;
+  String? locCode;
+  String? areaCode;
+  String? currency;
+  String? rate;
+  String? terms;
+  String? salesPer;
+  String? projCode;
+  String? orderBy;
+  String? custPoNo;
+  String? custPoDate;
+  String? shipmentTerm;
+  String? shipmentTermDetl;
+  String? shipMode;
+  String? shipCode;
+  String? shipTo;
+  String? shipName;
+  String? shipAdd;
+  String? shipAdd1;
+  String? shipAdd2;
+  String? shipAdd3;
+  String? shipAdd4;
+  String? shipArea;
+  String? shipPhone;
+  String? shipFax;
+  String? shipPtc;
+  String? shipRemark;
+  String? misc1;
+  String? misc2;
+  String? misc3;
+  String? misc4;
+  String? misc5;
+  String? misc6;
+  String? misc13;
+  String? misc14;
+  String? misc15;
+  String? misc16;
+  String? misc17;
+  String? misc18;
+  String? tlOrdQty;
+  String? tlOrdAmt;
+  String? tlNettDetlAmt;
+  String? tlLocDetlAmt;
+  String? tlNettOrdAmt;
+  String? tlLocOrdAmt;
+  String? tlDiscAmt;
+  String? tlLocDiscAmt;
+  String? tlSlsTax;
+  String? tlLocSlsTax;
+  String? tlSerTax;
+  String? tlLocSerTax;
+  String? bdiscRate;
+  String? bdiscAmt;
+  String? transChrg;
+  String? transRate;
+  String? mfgCurrency;
+  String? mfgRate;
+  String? mfgTlNettOrdAmt;
+  String? mfgTlLocOrdAmt;
+  String? hold;
+  String? cj5No;
+  String? dbAcct;
+  String? dbDept;
+  String? tlDlvQty;
+  String? doDoc;
+  String? doRef;
+  String? invDoc;
+  String? invRef;
+  String? title1;
+  String? title2;
+  String? title3;
+  String? remark;
+  String? remark1;
+  String? remark2;
+  String? prnCount;
+  String? printLog;
+  String? trnStatus;
+  String? creditBlockReason;
+  String? creditBlockInfo;
+  String? creditReqApprv;
+  String? creditApprvUser;
+  String? creditApprvDate;
+  String? creditApprvAmt;
+  String? creditApprvLog;
+  String? pending;
+  String? cancel;
+  String? cancelDate;
+  String? posted;
+  String? complete;
+  String? clear;
+  String? fullyBilled;
+  String? tlBilledAmt;
+  String? tlPaidAmt;
+  String? readOnly;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? deleted;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? lastupload;
+  String? duplicateKey;
+  String? validateFailed;
+  String? validateRemark;
+  String? lastValidate;
+  String? transtamp;
+  String? packageCode;
+  String? packageDesc;
 
   GetOrderListSlsTrn(
       {this.iD,
@@ -1318,7 +1318,7 @@ class GetOrderListSlsTrn {
 }
 
 class GetOrderDetlByOrderNoResponse {
-  List<SlsDetl> slsDetl;
+  List<SlsDetl>? slsDetl;
 
   GetOrderDetlByOrderNoResponse({this.slsDetl});
 
@@ -1326,7 +1326,7 @@ class GetOrderDetlByOrderNoResponse {
     if (json['SlsDetl'] != null) {
       slsDetl = new List<SlsDetl>.empty(growable: true);
       json['SlsDetl'].forEach((v) {
-        slsDetl.add(new SlsDetl.fromJson(v));
+        slsDetl!.add(new SlsDetl.fromJson(v));
       });
     }
   }
@@ -1334,149 +1334,149 @@ class GetOrderDetlByOrderNoResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.slsDetl != null) {
-      data['SlsDetl'] = this.slsDetl.map((v) => v.toJson()).toList();
+      data['SlsDetl'] = this.slsDetl!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class SlsDetl {
-  String iD;
-  String merchantNo;
-  String docDoc;
-  String docRef;
-  String ordDate;
-  String slsDoc;
-  String slsRef;
-  String key;
-  String mainKey;
-  String subItem;
-  String stkFormula;
-  String itemNo;
-  String locCode;
-  String branch;
-  String packageCode;
-  String packageDesc;
-  String uom;
-  String existQty;
-  String ordQty;
-  String ordUom;
-  String ordPrice;
-  String unitPrice;
-  String itemQty;
-  String itemUom;
-  String itemPrice;
-  String extraQty;
-  String extraUom;
-  String extraPrice;
-  String uom2Qty;
-  String uom2Uom;
-  String focQty;
-  String focUom;
-  String fillQty;
-  String manuQty;
-  String tlmanuQty;
-  String manufQty;
-  String tlManufQty;
-  String packedQty;
-  String priceCode;
-  String priceSource;
-  String allowDisc;
-  String discCode;
-  String discRate;
-  String multiDisc;
-  String discAmt;
-  String locDiscAmt;
-  String serTax;
-  String locSerTax;
-  String inclSlsTax;
-  String slsTax;
-  String locSlsTax;
-  String slsCommRate;
-  String slsComm;
-  String locSlsComm;
-  String nettPrice;
-  String ordAmt;
-  String nettOrdAmt;
-  String locOrdAmt;
-  String mfgUnitPrice;
-  String mfgNettOrdAmt;
-  String mfgLocOrdAmt;
-  String unitCost;
-  String custPoNo;
-  String custPoDate;
-  String expDlvdt;
-  String dueDate;
-  String dueTime;
-  String invDoc;
-  String invRef;
-  String doDoc;
-  String doRef;
-  String invKey;
-  String doKey;
-  String quoDoc;
-  String quoRef;
-  String quoKey;
-  String dlvQty;
-  String dlvIqty;
-  String dlvEqty;
-  String dlvFqty;
-  String woQty;
-  String poQty;
-  String poDoc;
-  String poRef;
-  String poKey;
-  String matrlreqQty;
-  String matrlreqClosed;
-  String billedQty;
-  String projCode;
-  String custBarcode;
-  String custSellPrice;
-  String misc7;
-  String misc8;
-  String misc9;
-  String misc10;
-  String misc11;
-  String misc12;
-  String dlvMisc10;
-  String dlvMisc11;
-  String dlvMisc12;
-  String stkMisc1;
-  String stkMisc2;
-  String stkMisc3;
-  String custRef1;
-  String custRef2;
-  String undrMinpc;
-  String cj5No;
-  String cj5Bgdt;
-  String cj5Enddt;
-  String cj5Totqty;
-  String cj5Balqty;
-  String saleAcct;
-  String saleDept;
-  String remark;
-  String trnStatus;
-  String complete;
-  String completedRemark;
-  String completedUser;
-  String completedDate;
-  String matrlReserved;
-  String cancel;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String deleted;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String lastupload;
-  String duplicateKey;
-  String validateFailed;
-  String validateRemark;
-  String lastValidate;
-  String transtamp;
-  String frmStoreQty;
+  String? iD;
+  String? merchantNo;
+  String? docDoc;
+  String? docRef;
+  String? ordDate;
+  String? slsDoc;
+  String? slsRef;
+  String? key;
+  String? mainKey;
+  String? subItem;
+  String? stkFormula;
+  String? itemNo;
+  String? locCode;
+  String? branch;
+  String? packageCode;
+  String? packageDesc;
+  String? uom;
+  String? existQty;
+  String? ordQty;
+  String? ordUom;
+  String? ordPrice;
+  String? unitPrice;
+  String? itemQty;
+  String? itemUom;
+  String? itemPrice;
+  String? extraQty;
+  String? extraUom;
+  String? extraPrice;
+  String? uom2Qty;
+  String? uom2Uom;
+  String? focQty;
+  String? focUom;
+  String? fillQty;
+  String? manuQty;
+  String? tlmanuQty;
+  String? manufQty;
+  String? tlManufQty;
+  String? packedQty;
+  String? priceCode;
+  String? priceSource;
+  String? allowDisc;
+  String? discCode;
+  String? discRate;
+  String? multiDisc;
+  String? discAmt;
+  String? locDiscAmt;
+  String? serTax;
+  String? locSerTax;
+  String? inclSlsTax;
+  String? slsTax;
+  String? locSlsTax;
+  String? slsCommRate;
+  String? slsComm;
+  String? locSlsComm;
+  String? nettPrice;
+  String? ordAmt;
+  String? nettOrdAmt;
+  String? locOrdAmt;
+  String? mfgUnitPrice;
+  String? mfgNettOrdAmt;
+  String? mfgLocOrdAmt;
+  String? unitCost;
+  String? custPoNo;
+  String? custPoDate;
+  String? expDlvdt;
+  String? dueDate;
+  String? dueTime;
+  String? invDoc;
+  String? invRef;
+  String? doDoc;
+  String? doRef;
+  String? invKey;
+  String? doKey;
+  String? quoDoc;
+  String? quoRef;
+  String? quoKey;
+  String? dlvQty;
+  String? dlvIqty;
+  String? dlvEqty;
+  String? dlvFqty;
+  String? woQty;
+  String? poQty;
+  String? poDoc;
+  String? poRef;
+  String? poKey;
+  String? matrlreqQty;
+  String? matrlreqClosed;
+  String? billedQty;
+  String? projCode;
+  String? custBarcode;
+  String? custSellPrice;
+  String? misc7;
+  String? misc8;
+  String? misc9;
+  String? misc10;
+  String? misc11;
+  String? misc12;
+  String? dlvMisc10;
+  String? dlvMisc11;
+  String? dlvMisc12;
+  String? stkMisc1;
+  String? stkMisc2;
+  String? stkMisc3;
+  String? custRef1;
+  String? custRef2;
+  String? undrMinpc;
+  String? cj5No;
+  String? cj5Bgdt;
+  String? cj5Enddt;
+  String? cj5Totqty;
+  String? cj5Balqty;
+  String? saleAcct;
+  String? saleDept;
+  String? remark;
+  String? trnStatus;
+  String? complete;
+  String? completedRemark;
+  String? completedUser;
+  String? completedDate;
+  String? matrlReserved;
+  String? cancel;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? deleted;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? lastupload;
+  String? duplicateKey;
+  String? validateFailed;
+  String? validateRemark;
+  String? lastValidate;
+  String? transtamp;
+  String? frmStoreQty;
 
   SlsDetl(
       {this.iD,
@@ -1898,7 +1898,7 @@ class SlsDetl {
 }
 
 class FpxSendB2CAuthResponse {
-  List<FpxResponse> response;
+  List<FpxResponse>? response;
 
   FpxSendB2CAuthResponse({this.response});
 
@@ -1906,7 +1906,7 @@ class FpxSendB2CAuthResponse {
     if (json['Response'] != null) {
       response = new List<FpxResponse>.empty(growable: true);
       json['Response'].forEach((v) {
-        response.add(new FpxResponse.fromJson(v));
+        response!.add(new FpxResponse.fromJson(v));
       });
     }
   }
@@ -1914,21 +1914,21 @@ class FpxSendB2CAuthResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.response != null) {
-      data['Response'] = this.response.map((v) => v.toJson()).toList();
+      data['Response'] = this.response!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class FpxResponse {
-  String requestUrl;
-  String requestData;
-  String responseCode;
-  String responseDescription;
-  String responseData;
-  String transId;
-  String sessionId;
-  String signatureString;
+  String? requestUrl;
+  String? requestData;
+  String? responseCode;
+  String? responseDescription;
+  String? responseData;
+  String? transId;
+  String? sessionId;
+  String? signatureString;
 
   FpxResponse(
       {this.requestUrl,
@@ -1966,7 +1966,7 @@ class FpxResponse {
 }
 
 class GetOnlinePaymentByOrderNoResponse {
-  List<OnlinePaymentByOrderNo> onlinePayment;
+  List<OnlinePaymentByOrderNo>? onlinePayment;
 
   GetOnlinePaymentByOrderNoResponse({this.onlinePayment});
 
@@ -1974,7 +1974,7 @@ class GetOnlinePaymentByOrderNoResponse {
     if (json['OnlinePayment'] != null) {
       onlinePayment = new List<OnlinePaymentByOrderNo>.empty(growable: true);
       json['OnlinePayment'].forEach((v) {
-        onlinePayment.add(new OnlinePaymentByOrderNo.fromJson(v));
+        onlinePayment!.add(new OnlinePaymentByOrderNo.fromJson(v));
       });
     }
   }
@@ -1983,52 +1983,52 @@ class GetOnlinePaymentByOrderNoResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.onlinePayment != null) {
       data['OnlinePayment'] =
-          this.onlinePayment.map((v) => v.toJson()).toList();
+          this.onlinePayment!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class OnlinePaymentByOrderNo {
-  String iD;
-  String merchantNo;
-  String docDoc;
-  String docRef;
-  String paymentDate;
-  String paymentTime;
-  String dbcode;
-  String icNo;
-  String name;
-  String source;
-  String sourceDoc;
-  String sourceRef;
-  String currency;
-  String paidAmt;
-  String gatewayId;
-  String transId;
-  String transDatetime;
-  String gatewayTransId;
-  String bankId;
-  String bankName;
-  String sessionId;
-  String responseCode;
-  String responseData;
-  String status;
-  String createUser;
-  String createDate;
-  String editUser;
-  String editDate;
-  String deleted;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String lastupload;
-  String duplicateKey;
-  String validateFailed;
-  String validateRemark;
-  String lastValidate;
-  String transtamp;
-  String receiptUrl;
+  String? iD;
+  String? merchantNo;
+  String? docDoc;
+  String? docRef;
+  String? paymentDate;
+  String? paymentTime;
+  String? dbcode;
+  String? icNo;
+  String? name;
+  String? source;
+  String? sourceDoc;
+  String? sourceRef;
+  String? currency;
+  String? paidAmt;
+  String? gatewayId;
+  String? transId;
+  String? transDatetime;
+  String? gatewayTransId;
+  String? bankId;
+  String? bankName;
+  String? sessionId;
+  String? responseCode;
+  String? responseData;
+  String? status;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? deleted;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? lastupload;
+  String? duplicateKey;
+  String? validateFailed;
+  String? validateRemark;
+  String? lastValidate;
+  String? transtamp;
+  String? receiptUrl;
 
   OnlinePaymentByOrderNo(
       {this.iD,
@@ -2159,7 +2159,7 @@ class OnlinePaymentByOrderNo {
 }
 
 class GetAppPaymentMenuResponse {
-  List<AppPaymentMenu> appPaymentMenu;
+  List<AppPaymentMenu>? appPaymentMenu;
 
   GetAppPaymentMenuResponse({this.appPaymentMenu});
 
@@ -2167,7 +2167,7 @@ class GetAppPaymentMenuResponse {
     if (json['AppPaymentMenu'] != null) {
       appPaymentMenu = new List<AppPaymentMenu>.empty(growable: true);
       json['AppPaymentMenu'].forEach((v) {
-        appPaymentMenu.add(new AppPaymentMenu.fromJson(v));
+        appPaymentMenu!.add(new AppPaymentMenu.fromJson(v));
       });
     }
   }
@@ -2176,27 +2176,27 @@ class GetAppPaymentMenuResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.appPaymentMenu != null) {
       data['AppPaymentMenu'] =
-          this.appPaymentMenu.map((v) => v.toJson()).toList();
+          this.appPaymentMenu!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class AppPaymentMenu {
-  String iD;
-  String appCode;
-  String menuCode;
-  String codeDesc;
-  String createDate;
-  String createUser;
-  String editDate;
-  String editUser;
-  String lastupload;
-  String transtamp;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String deleted;
+  String? iD;
+  String? appCode;
+  String? menuCode;
+  String? codeDesc;
+  String? createDate;
+  String? createUser;
+  String? editDate;
+  String? editUser;
+  String? lastupload;
+  String? transtamp;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? deleted;
 
   AppPaymentMenu(
       {this.iD,
@@ -2252,7 +2252,7 @@ class AppPaymentMenu {
 }
 
 class GetMerchantPaymentGatewayResponse {
-  List<MerchantPaymentGateway> merchantPaymentGateway;
+  List<MerchantPaymentGateway>? merchantPaymentGateway;
 
   GetMerchantPaymentGatewayResponse({this.merchantPaymentGateway});
 
@@ -2261,7 +2261,7 @@ class GetMerchantPaymentGatewayResponse {
       merchantPaymentGateway =
           new List<MerchantPaymentGateway>.empty(growable: true);
       json['MerchantPaymentGateway'].forEach((v) {
-        merchantPaymentGateway.add(new MerchantPaymentGateway.fromJson(v));
+        merchantPaymentGateway!.add(new MerchantPaymentGateway.fromJson(v));
       });
     }
   }
@@ -2270,29 +2270,29 @@ class GetMerchantPaymentGatewayResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.merchantPaymentGateway != null) {
       data['MerchantPaymentGateway'] =
-          this.merchantPaymentGateway.map((v) => v.toJson()).toList();
+          this.merchantPaymentGateway!.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class MerchantPaymentGateway {
-  String iD;
-  String appCode;
-  String merchantNo;
-  String gatewayId;
-  String gatewayDesc;
-  String minAmt;
-  String createDate;
-  String createUser;
-  String editDate;
-  String editUser;
-  String lastupload;
-  String transtamp;
-  String compCode;
-  String branchCode;
-  String rowKey;
-  String deleted;
+  String? iD;
+  String? appCode;
+  String? merchantNo;
+  String? gatewayId;
+  String? gatewayDesc;
+  String? minAmt;
+  String? createDate;
+  String? createUser;
+  String? editDate;
+  String? editUser;
+  String? lastupload;
+  String? transtamp;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? deleted;
 
   MerchantPaymentGateway(
       {this.iD,

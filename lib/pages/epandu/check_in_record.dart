@@ -10,7 +10,7 @@ class CheckInRecord extends StatefulWidget {
   final checkInData;
   final bool isLoading;
 
-  CheckInRecord({@required this.checkInData, @required this.isLoading});
+  CheckInRecord({required this.checkInData, required this.isLoading});
 
   @override
   _CheckInRecordState createState() => _CheckInRecordState();
@@ -106,7 +106,7 @@ class _CheckInRecordState extends State<CheckInRecord> {
     }
     return Center(
       child: Text(
-        AppLocalizations.of(context).translate('no_records_found'),
+        AppLocalizations.of(context)!.translate('no_records_found'),
       ),
     );
   }

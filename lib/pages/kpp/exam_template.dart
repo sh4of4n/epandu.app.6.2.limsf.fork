@@ -30,24 +30,24 @@ class ExamTemplate extends StatefulWidget {
 class _ExamTemplateState extends State<ExamTemplate> {
   var snapshotData;
   final examDataBox = Hive.box('exam_data');
-  KppExamData kppExamData;
+  KppExamData? kppExamData;
   final customSnackbar = CustomSnackbar();
   final customDialog = CustomDialog();
 
-  int index; // Added from local index
-  int totalQuestion;
-  String question;
-  Uint8List questionImage;
+  int index = 0; // Added from local index
+  int? totalQuestion;
+  String? question;
+  Uint8List? questionImage;
 
   List<String> roman = [];
-  List<String> questionOption = []; // I) II) III) IV) V)
+  List<String?> questionOption = []; // I) II) III) IV) V)
   List<Uint8List> questionOptionImage = []; // Image in question option
 
   List<String> type = []; // answer letter
   List<dynamic> answers = [];
   List<Uint8List> answersImage = [];
 
-  String correctAnswer;
+  String? correctAnswer;
   int correct = 0; // number of correct answers selected
   int incorrect = 0; // number of incorrect answers selected
 
@@ -65,12 +65,12 @@ class _ExamTemplateState extends State<ExamTemplate> {
   double answerWidthImg =
       ScreenUtil().screenWidth / (ScreenUtil().screenHeight / 2);
 
-  Timer _timer;
+  late Timer _timer;
   int minute = 45;
   int second = 00;
 
   List<Color> _answerColor = [];
-  int _correctIndex;
+  late int _correctIndex;
   bool selected = false; // if not selected, next button is hidden
 
   // ====
@@ -107,12 +107,13 @@ class _ExamTemplateState extends State<ExamTemplate> {
             customDialog.show(
               context: context,
               barrierDismissable: false,
-              title:
-                  Text(AppLocalizations.of(context).translate('expired_title')),
-              content: AppLocalizations.of(context).translate('exam_expired'),
+              title: Text(
+                  AppLocalizations.of(context)!.translate('expired_title')),
+              content: AppLocalizations.of(context)!.translate('exam_expired'),
               customActions: <Widget>[
                 TextButton(
-                  child: Text(AppLocalizations.of(context).translate('ok_btn')),
+                  child:
+                      Text(AppLocalizations.of(context)!.translate('ok_btn')),
                   onPressed: () {
                     // Hive box must be cleared here
                     examDataBox.clear();
@@ -134,17 +135,17 @@ class _ExamTemplateState extends State<ExamTemplate> {
 
   _restoreSession() {
     if (examDataBox.length > 0) {
-      final data = examDataBox.getAt(examDataBox.length - 1) as KppExamData;
+      final data = examDataBox.getAt(examDataBox.length - 1) as KppExamData?;
       // final selectedAnswerIndex = examDataBox.getAt(index)
       //     as KppExamData; // get Question 1 selected answer
       // _checkSelectedAnswer(selectedAnswerIndex.answerIndex, 'next');
 
       setState(() {
-        index = data.examQuestionNo + 1; // move to latest question
-        correct += data.correct;
-        incorrect += data.incorrect;
-        minute = int.tryParse(data.minute);
-        second = int.tryParse(data.second);
+        index = data!.examQuestionNo! + 1; // move to latest question
+        correct += data.correct!;
+        incorrect += data.incorrect!;
+        minute = int.tryParse(data.minute!)!;
+        second = int.tryParse(data.second!)!;
       });
 
       _clearCurrentQuestion();
@@ -412,7 +413,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.0),
       child: Image.memory(
-        questionImage,
+        questionImage!,
         width: ScreenUtil().setWidth(500),
         height: ScreenUtil().setHeight(500),
       ),
@@ -445,7 +446,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 } else {
                   return customSnackbar.show(
                     context,
-                    message: AppLocalizations.of(context)
+                    message: AppLocalizations.of(context)!
                         .translate('first_page_desc'),
                     type: MessageType.TOAST,
                   );
@@ -463,7 +464,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   vertical: 15.0,
                 ),
                 child: Text(
-                  AppLocalizations.of(context).translate('prev_btn'),
+                  AppLocalizations.of(context)!.translate('prev_btn'),
                   style: TextStyle(
                     fontSize: ScreenUtil().setSp(56),
                   ),
@@ -519,7 +520,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   return customSnackbar.show(
                     context,
                     duration: 1000,
-                    message: AppLocalizations.of(context)
+                    message: AppLocalizations.of(context)!
                         .translate('select_answer_desc'),
                     type: MessageType.TOAST,
                   );
@@ -537,7 +538,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   vertical: 15.0,
                 ),
                 child: Text(
-                  AppLocalizations.of(context).translate('next_btn'),
+                  AppLocalizations.of(context)!.translate('next_btn'),
                   style: TextStyle(
                     fontSize: ScreenUtil().setSp(56),
                   ),
@@ -565,11 +566,11 @@ class _ExamTemplateState extends State<ExamTemplate> {
   _showExitDialog() {
     return CustomDialog().show(
       context: context,
-      title: Text(AppLocalizations.of(context).translate('warning_title')),
-      content: AppLocalizations.of(context).translate('confirm_exit_desc'),
+      title: Text(AppLocalizations.of(context)!.translate('warning_title')),
+      content: AppLocalizations.of(context)!.translate('confirm_exit_desc'),
       customActions: <Widget>[
         TextButton(
-          child: Text(AppLocalizations.of(context).translate('yes_lbl')),
+          child: Text(AppLocalizations.of(context)!.translate('yes_lbl')),
           onPressed: () {
             context.router.pop();
             context.router.pop();
@@ -581,7 +582,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
           },
         ),
         TextButton(
-          child: Text(AppLocalizations.of(context).translate('no_lbl')),
+          child: Text(AppLocalizations.of(context)!.translate('no_lbl')),
           onPressed: () {
             context.router.pop();
           },
@@ -604,12 +605,12 @@ class _ExamTemplateState extends State<ExamTemplate> {
   }
 
   _answers({
-    answers,
+    required answers,
     answersImage,
     correctAnswer,
     type,
   }) {
-    int itemCount;
+    int? itemCount;
 
     if (answers.length > 0)
       itemCount = answers.length;
@@ -830,7 +831,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                       EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    question,
+                    question!,
                     style: _questionStyle,
                   ),
                 ),

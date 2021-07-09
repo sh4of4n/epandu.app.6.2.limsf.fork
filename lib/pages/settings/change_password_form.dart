@@ -33,9 +33,9 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
   bool _obscureOldPassword = true;
   bool _obscureNewPassword = true;
   bool _obscureConfirmPassword = true;
-  String _oldPassword;
-  String _newPassword;
-  String _confirmNewPassword;
+  String? _oldPassword;
+  String? _newPassword;
+  String? _confirmNewPassword;
 
   var _height = ScreenUtil().setHeight(1350);
 
@@ -80,7 +80,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                   contentPadding: EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(color: primaryColor),
                   labelText:
-                      AppLocalizations.of(context).translate('password_lbl'),
+                      AppLocalizations.of(context)!.translate('password_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.lock),
@@ -110,8 +110,8 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                       context, _oldPasswordFocus, _newPasswordFocus);
                 },
                 validator: (value) {
-                  if (value.isEmpty) {
-                    return AppLocalizations.of(context)
+                  if (value!.isEmpty) {
+                    return AppLocalizations.of(context)!
                         .translate('password_required_msg');
                   }
                   return null;
@@ -130,7 +130,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(color: primaryColor),
-                  labelText: AppLocalizations.of(context)
+                  labelText: AppLocalizations.of(context)!
                       .translate('new_password_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
@@ -161,8 +161,8 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                       context, _newPasswordFocus, _confirmNewPasswordFocus);
                 },
                 validator: (value) {
-                  if (value.isEmpty) {
-                    return AppLocalizations.of(context)
+                  if (value!.isEmpty) {
+                    return AppLocalizations.of(context)!
                         .translate('new_password_required');
                   }
                   return null;
@@ -181,7 +181,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(color: primaryColor),
-                  labelText: AppLocalizations.of(context)
+                  labelText: AppLocalizations.of(context)!
                       .translate('confirm_new_password_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
@@ -208,8 +208,8 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                 ),
                 obscureText: _obscureConfirmPassword,
                 validator: (value) {
-                  if (value.isEmpty) {
-                    return AppLocalizations.of(context)
+                  if (value!.isEmpty) {
+                    return AppLocalizations.of(context)!
                         .translate('confirm_new_password_required');
                   }
                   return null;
@@ -257,7 +257,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                 ),
                 onPressed: _submit,
                 child: Text(
-                  AppLocalizations.of(context).translate('submit_btn'),
+                  AppLocalizations.of(context)!.translate('submit_btn'),
                   style: TextStyle(
                     fontSize: ScreenUtil().setSp(56),
                   ),
@@ -268,8 +268,8 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
   }
 
   _submit() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
       // check if new password and confirm new password matches
@@ -292,13 +292,13 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
 
             CustomSnackbar().show(
               context,
-              message: AppLocalizations.of(context).translate(result.message),
+              message: AppLocalizations.of(context)!.translate(result.message),
               type: MessageType.SUCCESS,
             );
           } else {
             CustomSnackbar().show(
               context,
-              message: AppLocalizations.of(context).translate(result.message),
+              message: AppLocalizations.of(context)!.translate(result.message),
               type: MessageType.ERROR,
             );
 
@@ -310,7 +310,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
           CustomSnackbar().show(
             context,
             message:
-                AppLocalizations.of(context).translate('password_same_msg'),
+                AppLocalizations.of(context)!.translate('password_same_msg'),
             type: MessageType.ERROR,
           );
         }
@@ -318,7 +318,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
         CustomSnackbar().show(
           context,
           message:
-              AppLocalizations.of(context).translate('password_not_match_msg'),
+              AppLocalizations.of(context)!.translate('password_not_match_msg'),
           type: MessageType.ERROR,
         );
       }

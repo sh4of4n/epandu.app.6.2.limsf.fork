@@ -20,7 +20,7 @@ class _PickupHistoryState extends State<PickupHistory> {
   final primaryColor = ColorConstant.primaryColor;
   final image = ImagesConstant();
 
-  Future _getPickUpData;
+  Future? _getPickUpData;
 
   final _headerText = TextStyle(
     fontSize: 58.sp,
@@ -56,7 +56,7 @@ class _PickupHistoryState extends State<PickupHistory> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context).translate('pickup_history')),
+          title: Text(AppLocalizations.of(context)!.translate('pickup_history')),
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
@@ -120,14 +120,14 @@ class _PickupHistoryState extends State<PickupHistory> {
                               TableRow(
                                 decoration: BoxDecoration(
                                     border: Border(
-                                  bottom: BorderSide(color: Colors.grey[400]),
+                                  bottom: BorderSide(color: Colors.grey[400]!),
                                 )),
                                 children: [
                                   Padding(
                                     padding:
                                         EdgeInsets.symmetric(vertical: 30.h),
                                     child: Text(
-                                      AppLocalizations.of(context)
+                                      AppLocalizations.of(context)!
                                           .translate('date'),
                                       style: _headerText,
                                     ),
@@ -136,7 +136,7 @@ class _PickupHistoryState extends State<PickupHistory> {
                                     padding:
                                         EdgeInsets.symmetric(vertical: 30.h),
                                     child: Text(
-                                      AppLocalizations.of(context)
+                                      AppLocalizations.of(context)!
                                           .translate('time'),
                                       style: _headerText,
                                     ),
@@ -145,7 +145,7 @@ class _PickupHistoryState extends State<PickupHistory> {
                                     padding:
                                         EdgeInsets.symmetric(vertical: 30.h),
                                     child: Text(
-                                      AppLocalizations.of(context)
+                                      AppLocalizations.of(context)!
                                           .translate('to'),
                                       style: _headerText,
                                     ),
@@ -156,7 +156,7 @@ class _PickupHistoryState extends State<PickupHistory> {
                                 TableRow(
                                   decoration: BoxDecoration(
                                       border: Border(
-                                    bottom: BorderSide(color: Colors.grey[400]),
+                                    bottom: BorderSide(color: Colors.grey[400]!),
                                   )),
                                   children: [
                                     Padding(
@@ -186,7 +186,7 @@ class _PickupHistoryState extends State<PickupHistory> {
                           height: 1000.h,
                           child: Center(
                             child: Text(
-                              AppLocalizations.of(context)
+                              AppLocalizations.of(context)!
                                   .translate('get_pickup_fail'),
                             ),
                           ),

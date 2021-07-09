@@ -33,7 +33,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
 
   final epanduRepo = EpanduRepo();
   final authRepo = AuthRepo();
-  Future _getClasses;
+  Future? _getClasses;
   final myImage = ImagesConstant();
 
   @override
@@ -73,7 +73,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(
-            AppLocalizations.of(context).translate('registered_class_lbl'),
+            AppLocalizations.of(context)!.translate('registered_class_lbl'),
           ),
         ),
         body: SingleChildScrollView(
@@ -85,7 +85,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                 width: double.infinity,
                 color: Color(0xff0290b7),
                 child: Text(
-                  AppLocalizations.of(context).translate('installment_scheme'),
+                  AppLocalizations.of(context)!.translate('installment_scheme'),
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 95.sp,
@@ -133,7 +133,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 50.h),
                 child: Text(
-                  AppLocalizations.of(context).translate('class_title'),
+                  AppLocalizations.of(context)!.translate('class_title'),
                   style: TextStyle(
                     color: Color(0xffdd0e0e),
                     fontSize: 85.sp,
@@ -155,7 +155,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                     case ConnectionState.done:
                       if (snapshot.data is String) {
                         return Center(
-                            child: Text(AppLocalizations.of(context)
+                            child: Text(AppLocalizations.of(context)!
                                 .translate('no_classes_desc')));
                       }
                       return ListView.builder(
@@ -191,7 +191,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                                               children: [
                                                 TextSpan(
                                                   text: AppLocalizations.of(
-                                                              context)
+                                                              context)!
                                                           .translate(
                                                               'class_lbl') +
                                                       ' ',
@@ -233,7 +233,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                                           Text(
                                             snapshot.data[index].totalTime !=
                                                     null
-                                                ? AppLocalizations.of(context)
+                                                ? AppLocalizations.of(context)!
                                                         .translate(
                                                             'total_time') +
                                                     ' ' +
@@ -285,7 +285,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                     default:
                       return Center(
                         child: Text(
-                          AppLocalizations.of(context)
+                          AppLocalizations.of(context)!
                               .translate('get_class_list_fail'),
                         ),
                       );

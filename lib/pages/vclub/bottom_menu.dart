@@ -45,7 +45,7 @@ class BottomMenu extends StatelessWidget {
                         ),
                         SizedBox(height: ScreenUtil().setHeight(20)),
                         Text(
-                            AppLocalizations.of(context)
+                            AppLocalizations.of(context)!
                                 .translate('v_club_lbl'),
                             style: iconText),
                       ],
@@ -64,7 +64,7 @@ class BottomMenu extends StatelessWidget {
                         Image.asset(myImage.promotionsIcon, height: 22),
                         SizedBox(height: 20.h),
                         Text(
-                          AppLocalizations.of(context)
+                          AppLocalizations.of(context)!
                               .translate('promotions_lbl'),
                           style: iconText,
                         ),
@@ -88,7 +88,7 @@ class BottomMenu extends StatelessWidget {
                         ),
                         SizedBox(height: ScreenUtil().setHeight(20)),
                         Text(
-                            AppLocalizations.of(context)
+                            AppLocalizations.of(context)!
                                 .translate('rewards_lbl'),
                             style: iconText),
                       ],

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TopUpButton extends StatelessWidget {
-  final String value;
-  final TextStyle textStyle;
+  final String? value;
+  final TextStyle? textStyle;
   final onTap;
 
   TopUpButton({this.value, this.textStyle, this.onTap});
@@ -25,7 +25,7 @@ class TopUpButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(5.0),
             color: Colors.transparent,
           ),
-          child: Text(value, style: textStyle),
+          child: Text(value!, style: textStyle),
         ),
       ),
     );

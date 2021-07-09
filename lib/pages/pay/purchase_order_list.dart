@@ -12,9 +12,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../router.gr.dart';
 
 class PurchaseOrderList extends StatefulWidget {
-  final String icNo;
-  final String packageCode;
-  final String diCode;
+  final String? icNo;
+  final String? packageCode;
+  final String? diCode;
 
   PurchaseOrderList({
     this.icNo,
@@ -29,7 +29,7 @@ class PurchaseOrderList extends StatefulWidget {
 class _PurchaseOrderListState extends State<PurchaseOrderList> {
   final fpxRepo = FpxRepo();
   final localStorage = LocalStorage();
-  Future getOrderList;
+  Future? getOrderList;
   final primaryColor = ColorConstant.primaryColor;
   final customDialog = CustomDialog();
   bool isLoading = false;
@@ -83,7 +83,7 @@ class _PurchaseOrderListState extends State<PurchaseOrderList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('select_order')),
+        title: Text(AppLocalizations.of(context)!.translate('select_order')),
       ),
       body: Stack(
         children: [
@@ -143,7 +143,7 @@ class _PurchaseOrderListState extends State<PurchaseOrderList> {
                                         snapshot.data[index].packageDesc,
                                     diCode: widget.diCode,
                                     totalAmount: double.tryParse(
-                                            snapshot.data[index].tlOrdAmt)
+                                            snapshot.data[index].tlOrdAmt)!
                                         .toStringAsFixed(2),
                                     amountString: snapshot.data[index].tlOrdAmt,
                                   ),
@@ -216,7 +216,7 @@ class _PurchaseOrderListState extends State<PurchaseOrderList> {
                                         Text(
                                           'Discount: ' +
                                               double.tryParse(snapshot
-                                                      .data[index].tlDiscAmt)
+                                                      .data[index].tlDiscAmt)!
                                                   .toStringAsFixed(2),
                                         ),
                                       ],
@@ -227,7 +227,7 @@ class _PurchaseOrderListState extends State<PurchaseOrderList> {
                                         Text(
                                           'Total: ' +
                                               double.tryParse(snapshot
-                                                      .data[index].tlOrdAmt)
+                                                      .data[index].tlOrdAmt)!
                                                   .toStringAsFixed(2),
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -247,7 +247,7 @@ class _PurchaseOrderListState extends State<PurchaseOrderList> {
                 default:
                   return Center(
                     child: Text(
-                      AppLocalizations.of(context)
+                      AppLocalizations.of(context)!
                           .translate('get_order_list_fail'),
                     ),
                   );

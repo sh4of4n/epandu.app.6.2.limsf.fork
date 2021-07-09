@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import '../model/products_model.dart';
 import '../../../utils/app_config.dart';
-import 'package:flutter/material.dart';
 import '../../utils/local_storage.dart';
 
 import '../response.dart';
@@ -38,15 +37,15 @@ class ProductsRepo {
 
     return Response(false,
         message:
-            response.message.isEmpty ? 'No records found.' : response.message);
+            response.message!.isEmpty ? 'No records found.' : response.message);
   }
 
   Future<Response> getStock({
     context,
-    String stkCat,
-    String keywordSearch,
-    int bgnLimit,
-    int endLimit,
+    String? stkCat,
+    String? keywordSearch,
+    int? bgnLimit,
+    int? endLimit,
   }) async {
     String caUid = 'tbs_tbserp_devp_1';
     String caPwdEncode = '123456';
@@ -72,7 +71,7 @@ class ProductsRepo {
       return Response(true, data: getStockResponse.stkmst);
     }
     return Response(false,
-        message: response.message == null || response.message.isEmpty
+        message: response.message == null || response.message!.isEmpty
             ? 'No records found.'
             : response.message);
   }
@@ -112,7 +111,7 @@ class ProductsRepo {
     }
     return Response(false,
         message:
-            response.message.isEmpty ? 'No records found.' : response.message);
+            response.message!.isEmpty ? 'No records found.' : response.message);
   }
 
   Future<Response> getCategoryByPaging({
@@ -150,7 +149,7 @@ class ProductsRepo {
     }
     return Response(false,
         message:
-            response.message.isEmpty ? 'No records found.' : response.message);
+            response.message!.isEmpty ? 'No records found.' : response.message);
   }
 
   Future<Response> getGroupByPaging({
@@ -188,21 +187,21 @@ class ProductsRepo {
     }
     return Response(false,
         message:
-            response.message.isEmpty ? 'No records found.' : response.message);
+            response.message!.isEmpty ? 'No records found.' : response.message);
   }
 
   Future<Response> saveStock({
-    @required context,
-    @required stkCode,
-    @required stkDesc1,
-    @required uom,
-    @required stkCat,
-    @required stkGrp,
-    @required publish,
-    @required useBatch,
-    @required snControl,
-    @required stkPicture,
-    @required stkPictureBase64String,
+    required context,
+    required stkCode,
+    required stkDesc1,
+    required uom,
+    required stkCat,
+    required stkGrp,
+    required publish,
+    required useBatch,
+    required snControl,
+    required stkPicture,
+    required stkPictureBase64String,
   }) async {
     String caUid = 'tbs_tbserp_devp_1';
     String caPwd = '123456';
@@ -238,21 +237,21 @@ class ProductsRepo {
       return Response(true);
     }
     return Response(false,
-        message: response.message.isEmpty
+        message: response.message!.isEmpty
             ? 'Failed to save stock. Please try again later.'
             : response.message);
   }
 
   Future<Response> updateStock({
-    @required context,
-    @required stkCode,
-    @required stkDesc1,
-    @required uom,
-    @required stkCat,
-    @required stkGrp,
-    @required publish,
-    @required useBatch,
-    @required snControl,
+    required context,
+    required stkCode,
+    required stkDesc1,
+    required uom,
+    required stkCat,
+    required stkGrp,
+    required publish,
+    required useBatch,
+    required snControl,
   }) async {
     String caUid = 'tbs_tbserp_devp_1';
     String caPwd = '123456';
@@ -286,16 +285,16 @@ class ProductsRepo {
       return Response(true);
     }
     return Response(false,
-        message: response.message.isEmpty
+        message: response.message!.isEmpty
             ? 'Failed to edit stock. Please try again later.'
             : response.message);
   }
 
   Future<Response> getStockPictureList({
-    @required context,
-    @required stkCode,
-    @required startIndex,
-    @required noOfRecords,
+    required context,
+    required stkCode,
+    required startIndex,
+    required noOfRecords,
   }) async {
     String caUid = 'tbs_tbserp_devp_1';
     String caPwdEncode = '123456';
@@ -303,7 +302,7 @@ class ProductsRepo {
     String path = 'wsCodeCrypt=TBSERPWS' +
         '&caUid=$caUid' +
         '&caPwd=$caPwdEncode' +
-        '&stkCode=${Uri.encodeComponent(stkCode) ?? ''}' +
+        '&stkCode=${Uri.encodeComponent(stkCode)}' +
         '&startIndex=$startIndex' +
         '&noOfRecords=$noOfRecords';
 
@@ -321,7 +320,7 @@ class ProductsRepo {
       return Response(true, data: getStockPictureListResponse.stkmstFileAttach);
     }
     return Response(false,
-        message: response.message.isEmpty
+        message: response.message!.isEmpty
             ? 'There are no images.'
             : response.message);
   }

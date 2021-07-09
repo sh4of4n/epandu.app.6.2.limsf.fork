@@ -14,7 +14,7 @@ class PaymentPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('payment_lbl')),
+        title: Text(AppLocalizations.of(context)!.translate('payment_lbl')),
         elevation: 0,
         backgroundColor: primaryColor,
       ),
@@ -50,13 +50,13 @@ class PaymentPage extends StatelessWidget {
                   onTap: () => context.router.push(AirtimeSelection()),
                   leading: Icon(Icons.attach_money),
                   title: Text(
-                      AppLocalizations.of(context).translate('airtime_lbl')),
+                      AppLocalizations.of(context)!.translate('airtime_lbl')),
                 ),
                 ListTile(
                   onTap: () => context.router.push(BillSelection()),
                   leading: Icon(Icons.attach_money),
                   title:
-                      Text(AppLocalizations.of(context).translate('bill_lbl')),
+                      Text(AppLocalizations.of(context)!.translate('bill_lbl')),
                 ),
                 // ListTile(
                 //   onTap: () {},

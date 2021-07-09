@@ -70,42 +70,42 @@ class EpanduCategory extends StatelessWidget {
                 children: [
                   ListTile(
                     onTap: () => context.router.push(ComingSoon()),
-                    title: Text(AppLocalizations.of(context).translate('info'),
+                    title: Text(AppLocalizations.of(context)!.translate('info'),
                         style: iconText),
                   ),
                   Divider(color: Colors.grey[400]),
                   ListTile(
                     onTap: () => context.router.push(Enrollment()),
                     title: Text(
-                        AppLocalizations.of(context).translate('enroll_lbl'),
+                        AppLocalizations.of(context)!.translate('enroll_lbl'),
                         style: iconText),
                   ),
                   Divider(color: Colors.grey[400]),
                   ListTile(
                     onTap: () => context.router.push(Booking()),
                     title: Text(
-                        AppLocalizations.of(context).translate('booking_lbl'),
+                        AppLocalizations.of(context)!.translate('booking_lbl'),
                         style: iconText),
                   ),
                   Divider(color: Colors.grey[400]),
                   ListTile(
                     onTap: () => context.router.push(KppCategory()),
                     title: Text(
-                        AppLocalizations.of(context).translate('elearning'),
+                        AppLocalizations.of(context)!.translate('elearning'),
                         style: iconText),
                   ),
                   Divider(color: Colors.grey[400]),
                   ListTile(
                     onTap: () => context.router.push(Records()),
                     title: Text(
-                        AppLocalizations.of(context).translate('records'),
+                        AppLocalizations.of(context)!.translate('records'),
                         style: iconText),
                   ),
                   Divider(color: Colors.grey[400]),
                   ListTile(
                     onTap: () => context.router.push(RequestPickup()),
                     title: Text(
-                        AppLocalizations.of(context).translate('pickup'),
+                        AppLocalizations.of(context)!.translate('pickup'),
                         style: iconText),
                   ),
                   Divider(color: Colors.grey[400]),

@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
     accuracy: LocationAccuracy.high,
     distanceFilter: 100,
   );
-  String instituteLogo = '';
+  String? instituteLogo = '';
   bool isLogoLoaded = false;
   String appVersion = '';
   // String latitude = '';
@@ -63,7 +63,7 @@ class _HomeState extends State<Home> {
     fontWeight: FontWeight.w500,
   );
 
-  String _message = '';
+  String? _message = '';
   bool _loadMore = false;
   bool _isLoading = false;
   int _startIndex = 0;
@@ -92,7 +92,7 @@ class _HomeState extends State<Home> {
             _startIndex += 10;
           });
 
-          if (_message.isEmpty) {
+          if (_message!.isEmpty) {
             setState(() {
               _loadMore = true;
             });
@@ -107,7 +107,7 @@ class _HomeState extends State<Home> {
     var result = await inboxRepo.getUnreadNotificationCount();
 
     if (result.isSuccess) {
-      if (int.tryParse(result.data[0].msgCount) > 0) {
+      if (int.tryParse(result.data[0].msgCount)! > 0) {
         Provider.of<NotificationCount>(context, listen: false).setShowBadge(
           showBadge: true,
         );
@@ -311,7 +311,7 @@ class _HomeState extends State<Home> {
       child: Column(
         children: <Widget>[
           Shimmer.fromColors(
-            baseColor: Colors.grey[200],
+            baseColor: Colors.grey[200]!,
             highlightColor: Colors.white,
             child: Container(
               width: ScreenUtil().setWidth(1300),

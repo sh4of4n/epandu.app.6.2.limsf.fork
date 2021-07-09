@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 class MyCircleAvatar extends StatelessWidget {
   final UserProfile userChat;
   MyCircleAvatar({
-    Key key,
-    @required this.userChat,
+    Key? key,
+    required this.userChat,
   }) : super(key: key);
 
   final RegExp removeBracket =
@@ -31,8 +31,8 @@ class MyCircleAvatar extends StatelessWidget {
       ),
       child: CircleAvatar(
         child: Image.network(
-            userChat.picturePath != null && userChat.picturePath.isNotEmpty
-                ? userChat.picturePath
+            userChat.picturePath != null && userChat.picturePath!.isNotEmpty
+                ? userChat.picturePath!
                     .replaceAll(removeBracket, '')
                     .split('\r\n')[0]
                 : ''),

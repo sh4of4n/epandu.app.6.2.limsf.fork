@@ -29,8 +29,8 @@ class _ForgotPasswordTabletFormState extends State<ForgotPasswordTabletForm>
 
   bool _isLoading = false;
 
-  String _phone;
-  String _message = '';
+  String? _phone;
+  String? _message = '';
 
   // var _height = ScreenUtil().setHeight(1200);
 
@@ -79,7 +79,7 @@ class _ForgotPasswordTabletFormState extends State<ForgotPasswordTabletForm>
                     color: primaryColor,
                   ),
                   labelText:
-                      AppLocalizations.of(context).translate('phone_lbl'),
+                      AppLocalizations.of(context)!.translate('phone_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
                   prefixIcon: Icon(Icons.account_circle),
@@ -92,8 +92,8 @@ class _ForgotPasswordTabletFormState extends State<ForgotPasswordTabletForm>
                   ),
                 ),
                 validator: (value) {
-                  if (value.isEmpty) {
-                    return AppLocalizations.of(context)
+                  if (value!.isEmpty) {
+                    return AppLocalizations.of(context)!
                         .translate('phone_required_msg');
                   }
                   return null;
@@ -112,7 +112,7 @@ class _ForgotPasswordTabletFormState extends State<ForgotPasswordTabletForm>
                 child: Wrap(
                   children: <Widget>[
                     Text(
-                      AppLocalizations.of(context)
+                      AppLocalizations.of(context)!
                           .translate('forgot_password_msg'),
                       style: TextStyle(
                         fontSize: 30.sp,
@@ -151,7 +151,7 @@ class _ForgotPasswordTabletFormState extends State<ForgotPasswordTabletForm>
                       context.router.pop();
                     },
                     child: Text(
-                      AppLocalizations.of(context).translate('go_back_lbl'),
+                      AppLocalizations.of(context)!.translate('go_back_lbl'),
                       style: TextStyle(
                         fontSize: 35.sp,
                       ),
@@ -183,7 +183,7 @@ class _ForgotPasswordTabletFormState extends State<ForgotPasswordTabletForm>
                 ),
                 onPressed: _submit,
                 child: Text(
-                  AppLocalizations.of(context).translate('submit_btn'),
+                  AppLocalizations.of(context)!.translate('submit_btn'),
                   style: TextStyle(
                     fontSize: 35.sp,
                   ),
@@ -194,8 +194,8 @@ class _ForgotPasswordTabletFormState extends State<ForgotPasswordTabletForm>
   }
 
   _submit() async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       FocusScope.of(context).requestFocus(new FocusNode());
 
       setState(() {
@@ -207,6 +207,10 @@ class _ForgotPasswordTabletFormState extends State<ForgotPasswordTabletForm>
         context: context,
         phone: _phone,
         password: '',
+        deviceRemark: '',
+        latitude: '999',
+        longitude: '999',
+        phDeviceId: '',
       );
 
       if (result.isSuccess) {
@@ -217,15 +221,15 @@ class _ForgotPasswordTabletFormState extends State<ForgotPasswordTabletForm>
           type: MessageType.SUCCESS,
         );
       } else {
-        if (result.message.contains('timeout')) {
+        if (result.message!.contains('timeout')) {
           setState(() {
             _message =
-                AppLocalizations.of(context).translate('timeout_exception');
+                AppLocalizations.of(context)!.translate('timeout_exception');
           });
-        } else if (result.message.contains('socket')) {
+        } else if (result.message!.contains('socket')) {
           setState(() {
             _message =
-                AppLocalizations.of(context).translate('socket_exception');
+                AppLocalizations.of(context)!.translate('socket_exception');
           });
         } else {
           setState(() {

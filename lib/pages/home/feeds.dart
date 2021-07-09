@@ -21,8 +21,8 @@ import '../../router.gr.dart';
 
 class Feeds extends StatefulWidget {
   final feed;
-  final bool isLoading;
-  final String appVersion;
+  final bool? isLoading;
+  final String? appVersion;
 
   Feeds({this.feed, this.isLoading, this.appVersion});
 
@@ -77,11 +77,11 @@ class _FeedsState extends State<Feeds> {
         context: context,
         barrierDismissable: false,
         title: Text(
-            AppLocalizations.of(context).translate('loc_permission_title')),
-        content: AppLocalizations.of(context).translate('loc_permission_desc'),
+            AppLocalizations.of(context)!.translate('loc_permission_title')),
+        content: AppLocalizations.of(context)!.translate('loc_permission_desc'),
         customActions: <Widget>[
           TextButton(
-            child: Text(AppLocalizations.of(context).translate('yes_lbl')),
+            child: Text(AppLocalizations.of(context)!.translate('yes_lbl')),
             onPressed: () {
               Provider.of<HomeLoadingModel>(context, listen: false)
                   .loadingStatus(false);
@@ -90,7 +90,7 @@ class _FeedsState extends State<Feeds> {
             },
           ),
           TextButton(
-            child: Text(AppLocalizations.of(context).translate('no_lbl')),
+            child: Text(AppLocalizations.of(context)!.translate('no_lbl')),
             onPressed: () {
               Provider.of<HomeLoadingModel>(context, listen: false)
                   .loadingStatus(false);
@@ -99,7 +99,7 @@ class _FeedsState extends State<Feeds> {
 
               customDialog.show(
                   context: context,
-                  content: AppLocalizations.of(context)
+                  content: AppLocalizations.of(context)!
                       .translate('loc_permission_on'),
                   type: DialogType.INFO);
             },
@@ -137,7 +137,7 @@ class _FeedsState extends State<Feeds> {
         customDialog.show(
             context: context,
             content:
-                AppLocalizations.of(context).translate('loc_permission_on'),
+                AppLocalizations.of(context)!.translate('loc_permission_on'),
             type: DialogType.INFO);
       }
     } else {
@@ -156,13 +156,13 @@ class _FeedsState extends State<Feeds> {
 
       if (result.isSuccess) {
         String merchantNo = 'P1001';
-        String phone = result.data[0].phone;
-        String email = result.data[0].eMail;
+        String? phone = result.data[0].phone;
+        String? email = result.data[0].eMail;
         String icName = result.data[0].name;
-        String icNo = result.data[0].icNo;
-        String dob = result.data[0].birthDate;
-        String userId = await localStorage.getUserId();
-        String loginDeviceId = await localStorage.getLoginDeviceId();
+        String? icNo = result.data[0].icNo;
+        String? dob = result.data[0].birthDate;
+        String? userId = await localStorage.getUserId();
+        String? loginDeviceId = await localStorage.getLoginDeviceId();
         // String profilePic = result.data[0].picturePath != null &&
         //         result.data[0].picturePath.isNotEmpty
         //     ? result.data[0].picturePath
@@ -170,14 +170,14 @@ class _FeedsState extends State<Feeds> {
         //         .split('\r\n')[0]
         //     : '';
 
-        String url = feed.feedNavigate +
+        String? url = feed.feedNavigate +
             '?' +
             'appId=${appConfig.appId}' +
             '&appVersion=${widget.appVersion}' +
             '&userId=$userId' +
             '&deviceId=$loginDeviceId' +
             '&caUid=$caUid' +
-            '&caPwd=${Uri.encodeQueryComponent(caPwd)}' +
+            '&caPwd=${Uri.encodeQueryComponent(caPwd!)}' +
             _getMerchantNo(
                 udf: feed.udfReturnParameter, merchantNo: merchantNo) +
             _getIcName(
@@ -209,7 +209,7 @@ class _FeedsState extends State<Feeds> {
           content: result.message,
           customActions: <Widget>[
             TextButton(
-              child: Text(AppLocalizations.of(context).translate('ok_btn')),
+              child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
               onPressed: () {
                 context.router.pop();
                 Provider.of<HomeLoadingModel>(context, listen: false)
@@ -281,10 +281,10 @@ class _FeedsState extends State<Feeds> {
 
   String _getPackageCode({udf}) {
     if (udf != null && udf.contains('package')) {
-      int startIndex = udf.indexOf('{');
-      int endIndex = udf.indexOf(']}');
+      int? startIndex = udf.indexOf('{');
+      int? endIndex = udf.indexOf(']}');
 
-      String packages = udf.substring(startIndex);
+      String? packages = udf.substring(startIndex);
 
       print(packages);
 
@@ -294,7 +294,7 @@ class _FeedsState extends State<Feeds> {
   }
 
   getOnlinePaymentListByIcNo() async {
-    String icNo = await localStorage.getStudentIc();
+    String? icNo = await localStorage.getStudentIc();
 
     var result = await fpxRepo.getOnlinePaymentListByIcNo(
       context: context,
@@ -306,12 +306,12 @@ class _FeedsState extends State<Feeds> {
     if (result.isSuccess) {
       return customDialog.show(
         context: context,
-        title: AppLocalizations.of(context).translate('success'),
+        title: AppLocalizations.of(context)!.translate('success'),
         content:
             'Paid Amount: ${result.data[0].paidAmt}\nTransaction status: ${result.data[0].status}',
         customActions: <Widget>[
           TextButton(
-              child: Text(AppLocalizations.of(context).translate('ok_btn')),
+              child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
               onPressed: () {
                 context.router.pop();
               }),
@@ -509,8 +509,8 @@ class _FeedsState extends State<Feeds> {
           ],
         ),
       );
-    if (widget.isLoading) return _loadingShimmer();
-    return Text(AppLocalizations.of(context).translate('no_active_feeds'));
+    if (widget.isLoading!) return _loadingShimmer();
+    return Text(AppLocalizations.of(context)!.translate('no_active_feeds'));
   }
 
   tabLayout() {
@@ -690,8 +690,8 @@ class _FeedsState extends State<Feeds> {
           ],
         ),
       );
-    if (widget.isLoading) return _loadingTabShimmer();
-    return Text(AppLocalizations.of(context).translate('no_active_feeds'));
+    if (widget.isLoading!) return _loadingTabShimmer();
+    return Text(AppLocalizations.of(context)!.translate('no_active_feeds'));
   }
 
   _loadingShimmer() {
@@ -703,7 +703,7 @@ class _FeedsState extends State<Feeds> {
           child: Column(
             children: <Widget>[
               Shimmer.fromColors(
-                baseColor: Colors.grey[200],
+                baseColor: Colors.grey[200]!,
                 highlightColor: Colors.white,
                 child: Container(
                   width: ScreenUtil().setWidth(1300),
@@ -723,7 +723,7 @@ class _FeedsState extends State<Feeds> {
           child: Column(
             children: <Widget>[
               Shimmer.fromColors(
-                baseColor: Colors.grey[200],
+                baseColor: Colors.grey[200]!,
                 highlightColor: Colors.white,
                 child: Container(
                   width: ScreenUtil().setWidth(1300),
@@ -750,7 +750,7 @@ class _FeedsState extends State<Feeds> {
           child: Column(
             children: <Widget>[
               Shimmer.fromColors(
-                baseColor: Colors.grey[200],
+                baseColor: Colors.grey[200]!,
                 highlightColor: Colors.white,
                 child: Container(
                   width: ScreenUtil().setWidth(1300),
@@ -770,7 +770,7 @@ class _FeedsState extends State<Feeds> {
           child: Column(
             children: <Widget>[
               Shimmer.fromColors(
-                baseColor: Colors.grey[200],
+                baseColor: Colors.grey[200]!,
                 highlightColor: Colors.white,
                 child: Container(
                   width: ScreenUtil().setWidth(1300),

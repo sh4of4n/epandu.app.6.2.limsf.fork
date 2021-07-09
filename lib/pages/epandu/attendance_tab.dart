@@ -29,7 +29,7 @@ class _AttendanceTabState extends State<AttendanceTab>
       text: 'Check In',
     ),
   ];
-  TabController _tabController;
+  TabController? _tabController;
   int _tabIndex = 0;
   final epanduRepo = EpanduRepo();
   final localStorage = LocalStorage();
@@ -58,7 +58,7 @@ class _AttendanceTabState extends State<AttendanceTab>
     super.initState();
 
     _tabController = TabController(vsync: this, length: myTabs.length);
-    _tabController.addListener(_getTabSelection);
+    _tabController!.addListener(_getTabSelection);
 
     Future.wait([
       _getStuPracByCode(),
@@ -102,7 +102,7 @@ class _AttendanceTabState extends State<AttendanceTab>
 
   _getTabSelection() {
     setState(() {
-      _tabIndex = _tabController.index;
+      _tabIndex = _tabController!.index;
     });
   }
 
@@ -181,7 +181,7 @@ class _AttendanceTabState extends State<AttendanceTab>
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _tabController!.dispose();
     super.dispose();
   }
 }

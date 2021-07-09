@@ -149,7 +149,7 @@ class _ProfileState extends State<Profile>
               ListTile(
                 leading: Icon(Icons.account_box),
                 title:
-                    Text(AppLocalizations.of(context).translate('ic_name_lbl')),
+                    Text(AppLocalizations.of(context)!.translate('ic_name_lbl')),
                 subtitle:
                     Text('${widget.userProfile?.name}', style: _subtitleStyle),
               ),
@@ -157,14 +157,14 @@ class _ProfileState extends State<Profile>
               ListTile(
                 leading: Icon(Icons.account_box),
                 title: Text(
-                    AppLocalizations.of(context).translate('nick_name_lbl')),
+                    AppLocalizations.of(context)!.translate('nick_name_lbl')),
                 subtitle: Text('${widget.userProfile?.nickName}',
                     style: _subtitleStyle),
               ),
             if (widget.userProfile?.icNo != null)
               ListTile(
                 leading: Icon(Icons.perm_identity),
-                title: Text(AppLocalizations.of(context).translate('ic_lbl')),
+                title: Text(AppLocalizations.of(context)!.translate('ic_lbl')),
                 subtitle:
                     Text('${widget.userProfile?.icNo}', style: _subtitleStyle),
               ),
@@ -172,7 +172,7 @@ class _ProfileState extends State<Profile>
               ListTile(
                 leading: Icon(Icons.phone),
                 title:
-                    Text(AppLocalizations.of(context).translate('contact_no')),
+                    Text(AppLocalizations.of(context)!.translate('contact_no')),
                 subtitle:
                     Text('${widget.userProfile?.phone}', style: _subtitleStyle),
               ),
@@ -180,28 +180,28 @@ class _ProfileState extends State<Profile>
               ListTile(
                 leading: Icon(Icons.email),
                 title:
-                    Text(AppLocalizations.of(context).translate('email_lbl')),
+                    Text(AppLocalizations.of(context)!.translate('email_lbl')),
                 subtitle: Text(
                     widget.userProfile?.eMail != null
                         ? '${widget.userProfile?.eMail}'
-                        : AppLocalizations.of(context).translate('no_email'),
+                        : AppLocalizations.of(context)!.translate('no_email'),
                     style: _subtitleStyle),
               ),
             if (widget.userProfile?.postcode != null)
               ListTile(
                 leading: Icon(Icons.home),
                 title: Text(
-                    AppLocalizations.of(context).translate('postcode_lbl')),
+                    AppLocalizations.of(context)!.translate('postcode_lbl')),
                 subtitle: Text(
                     widget.userProfile?.postcode != null
                         ? '${widget.userProfile?.postcode}'
-                        : AppLocalizations.of(context).translate('no_postcode'),
+                        : AppLocalizations.of(context)!.translate('no_postcode'),
                     style: _subtitleStyle),
               ),
             if (widget.userProfile?.birthDate != null)
               ListTile(
                 leading: Icon(Icons.date_range),
-                title: Text(AppLocalizations.of(context).translate('dob_lbl')),
+                title: Text(AppLocalizations.of(context)!.translate('dob_lbl')),
                 subtitle: Text(
                     '${widget.userProfile.birthDate.isNotEmpty ? widget.userProfile.birthDate.substring(0, 10) : ''}',
                     style: _subtitleStyle),
@@ -230,7 +230,7 @@ class _ProfileState extends State<Profile>
                     height: ScreenUtil().setHeight(20),
                   ),
                   Text(
-                    AppLocalizations.of(context).translate('enrolled_class'),
+                    AppLocalizations.of(context)!.translate('enrolled_class'),
                     style: iconText,
                     textAlign: TextAlign.center,
                   ),
@@ -353,7 +353,7 @@ class _ProfileState extends State<Profile>
             ListTile(
               leading: Icon(Icons.account_box),
               title:
-                  Text(AppLocalizations.of(context).translate('ic_name_lbl')),
+                  Text(AppLocalizations.of(context)!.translate('ic_name_lbl')),
               subtitle:
                   Text('${widget.userProfile?.name}', style: _tabSubtitleStyle),
             ),
@@ -361,49 +361,49 @@ class _ProfileState extends State<Profile>
             ListTile(
               leading: Icon(Icons.account_box),
               title:
-                  Text(AppLocalizations.of(context).translate('nick_name_lbl')),
+                  Text(AppLocalizations.of(context)!.translate('nick_name_lbl')),
               subtitle: Text('${widget.userProfile?.nickName}',
                   style: _tabSubtitleStyle),
             ),
           if (widget.userProfile?.icNo != null)
             ListTile(
               leading: Icon(Icons.perm_identity),
-              title: Text(AppLocalizations.of(context).translate('ic_lbl')),
+              title: Text(AppLocalizations.of(context)!.translate('ic_lbl')),
               subtitle:
                   Text('${widget.userProfile?.icNo}', style: _tabSubtitleStyle),
             ),
           if (widget.userProfile?.phone != null)
             ListTile(
               leading: Icon(Icons.phone),
-              title: Text(AppLocalizations.of(context).translate('contact_no')),
+              title: Text(AppLocalizations.of(context)!.translate('contact_no')),
               subtitle: Text('${widget.userProfile?.phone}',
                   style: _tabSubtitleStyle),
             ),
           if (widget.userProfile?.eMail != null)
             ListTile(
               leading: Icon(Icons.email),
-              title: Text(AppLocalizations.of(context).translate('email_lbl')),
+              title: Text(AppLocalizations.of(context)!.translate('email_lbl')),
               subtitle: Text(
                   widget.userProfile?.eMail != null
                       ? '${widget.userProfile?.eMail}'
-                      : AppLocalizations.of(context).translate('no_email'),
+                      : AppLocalizations.of(context)!.translate('no_email'),
                   style: _tabSubtitleStyle),
             ),
           if (widget.userProfile?.postcode != null)
             ListTile(
               leading: Icon(Icons.home),
               title:
-                  Text(AppLocalizations.of(context).translate('postcode_lbl')),
+                  Text(AppLocalizations.of(context)!.translate('postcode_lbl')),
               subtitle: Text(
                   widget.userProfile?.postcode != null
                       ? '${widget.userProfile?.postcode}'
-                      : AppLocalizations.of(context).translate('no_postcode'),
+                      : AppLocalizations.of(context)!.translate('no_postcode'),
                   style: _tabSubtitleStyle),
             ),
           if (widget.userProfile?.birthDate != null)
             ListTile(
               leading: Icon(Icons.date_range),
-              title: Text(AppLocalizations.of(context).translate('dob_lbl')),
+              title: Text(AppLocalizations.of(context)!.translate('dob_lbl')),
               subtitle: Text(
                   '${widget.userProfile.birthDate.isNotEmpty ? widget.userProfile.birthDate.substring(0, 10) : ''}',
                   style: _tabSubtitleStyle),
@@ -432,7 +432,7 @@ class _ProfileState extends State<Profile>
                   height: ScreenUtil().setHeight(20),
                 ),
                 Text(
-                  AppLocalizations.of(context).translate('enrolled_class'),
+                  AppLocalizations.of(context)!.translate('enrolled_class'),
                   style: iconText,
                   textAlign: TextAlign.center,
                 ),

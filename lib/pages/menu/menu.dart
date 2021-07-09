@@ -77,24 +77,21 @@ class _MenuState extends State<Menu> {
                 title: Consumer<LanguageModel>(
                   builder: (context, lang, child) {
                     return Text(
-                      '${AppLocalizations.of(context).translate('language_lbl')} ${lang.language}',
+                      '${AppLocalizations.of(context)!.translate('language_lbl')} ${lang.language}',
                     );
                   },
                 ),
-                onTap: () {
-                  // Navigator.pop(context);
-                  return showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return LanguageOptions();
-                    },
-                  );
-                },
+                onTap: () => showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return LanguageOptions();
+                  },
+                ),
               ),
               Divider(),
               ListTile(
                 leading: Icon(Icons.lock, size: _defIconSize),
-                title: Text(AppLocalizations.of(context)
+                title: Text(AppLocalizations.of(context)!
                     .translate('change_password_lbl')),
                 onTap: () {
                   context.router.push(ChangePassword());
@@ -104,14 +101,14 @@ class _MenuState extends State<Menu> {
               ListTile(
                 leading: Icon(Icons.exit_to_app, size: _defIconSize),
                 title:
-                    Text(AppLocalizations.of(context).translate('logout_lbl')),
+                    Text(AppLocalizations.of(context)!.translate('logout_lbl')),
                 onTap: _logout,
               ),
               Divider(),
               ListTile(
                 leading: Icon(Icons.apps, size: _defIconSize),
-                title:
-                    Text(AppLocalizations.of(context).translate('version_lbl')),
+                title: Text(
+                    AppLocalizations.of(context)!.translate('version_lbl')),
                 subtitle: Text('V.$appVersion'),
                 /* onTap: () async {
                   count += 1;
@@ -145,11 +142,11 @@ class _MenuState extends State<Menu> {
   _logout() {
     customDialog.show(
         context: context,
-        title: Text(AppLocalizations.of(context).translate('confirm_lbl')),
-        content: AppLocalizations.of(context).translate('confirm_log_out'),
+        title: Text(AppLocalizations.of(context)!.translate('confirm_lbl')),
+        content: AppLocalizations.of(context)!.translate('confirm_log_out'),
         customActions: <Widget>[
           TextButton(
-            child: Text(AppLocalizations.of(context).translate('yes_lbl')),
+            child: Text(AppLocalizations.of(context)!.translate('yes_lbl')),
             onPressed: () async {
               if (widget.data != null) widget.data.cancel();
 
@@ -158,7 +155,7 @@ class _MenuState extends State<Menu> {
             },
           ),
           TextButton(
-            child: Text(AppLocalizations.of(context).translate('no_lbl')),
+            child: Text(AppLocalizations.of(context)!.translate('no_lbl')),
             onPressed: () {
               context.router.pop();
             },
