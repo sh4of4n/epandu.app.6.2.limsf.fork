@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 enum DialogType {
@@ -15,7 +14,7 @@ class CustomDialog {
 
   show({
     required context,
-    required content,
+    required String content,
     title,
     customActions,
     required type,

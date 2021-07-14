@@ -146,7 +146,7 @@ class _CartState extends State<Cart> {
   _deleteItemDialog(snapshot, index) async {
     customDialog.show(
       context: context,
-      content: Text('Do you want to remove this product?'),
+      content: 'Do you want to remove this product?',
       customActions: <Widget>[
         TextButton(
           child: Text('Yes'),
@@ -391,21 +391,19 @@ class _CartState extends State<Cart> {
               ),
             ),
             SizedBox(width: ScreenUtil().setWidth(50)),
-            ButtonTheme(
-              minWidth: ScreenUtil().setWidth(420),
-              padding: EdgeInsets.symmetric(vertical: 11.0),
-              buttonColor: primaryColor,
-              shape: StadiumBorder(),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  textStyle: TextStyle(color: Colors.white),
-                ),
-                onPressed: _checkout,
-                child: Text(
-                  'Checkout',
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(56),
-                  ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(420.w, 45.h),
+                padding: EdgeInsets.symmetric(vertical: 11.0),
+                shape: StadiumBorder(),
+                primary: Color(0xffdd0e0e),
+                textStyle: TextStyle(color: Colors.white),
+              ),
+              onPressed: _checkout,
+              child: Text(
+                'Checkout',
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(56),
                 ),
               ),
             ),

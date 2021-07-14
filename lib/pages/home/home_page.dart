@@ -1,14 +1,17 @@
 import 'dart:async';
+import 'dart:io';
 
 // import 'package:app_settings/app_settings.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/repository/inbox_repository.dart';
+import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 // import 'package:epandu/common_library/services/location.dart';
 import 'package:epandu/common_library/services/repository/auth_repository.dart';
 import 'package:epandu/common_library/services/repository/kpp_repository.dart';
 import 'package:epandu/services/provider/notification_count.dart';
+import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:epandu/common_library/utils/loading_model.dart';
@@ -19,7 +22,7 @@ import 'package:hive/hive.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-// import 'package:epandu/common_library/utils/custom_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'bottom_menu.dart';
@@ -38,7 +41,7 @@ class _HomeState extends State<Home> {
   final authRepo = AuthRepo();
   final kppRepo = KppRepo();
   final inboxRepo = InboxRepo();
-  // final customDialog = CustomDialog();
+  final customDialog = CustomDialog();
   final localStorage = LocalStorage();
   final primaryColor = ColorConstant.primaryColor;
   // String _username = '';
@@ -327,6 +330,41 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Future<void> _validateAppVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String appVersion = packageInfo.version;
+
+    var result = await authRepo.validateAppVersion(appVersion: appVersion);
+
+    if (result.isSuccess) {
+      if (int.tryParse(appVersion.split('.')[0])! <
+              int.tryParse(result.data[0].appMinVersion.split('.')[0])! ||
+          int.tryParse(appVersion.split('.')[1])! <
+              int.tryParse(result.data[0].appMinVersion.split('.')[1])! ||
+          int.tryParse(appVersion.split('.')[2])! <
+              int.tryParse(result.data[0].appMinVersion.split('.')[2])!) {
+        customDialog.show(
+          context: context,
+          content: 'App version is outdated and must be updated.',
+          barrierDismissable: false,
+          customActions: [
+            TextButton(
+              onPressed: () async {
+                if (Platform.isIOS) {
+                  await launch('https://' + result.data[0].newVerApplestoreUrl);
+                } else {
+                  await launch(result.data[0].newVerGooglestoreUrl);
+                }
+              },
+              child: Text('Ok'),
+            ),
+          ],
+          type: DialogType.GENERAL,
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -369,13 +407,28 @@ class _HomeState extends State<Home> {
             children: <Widget>[
               RefreshIndicator(
                 onRefresh: () async {
+                  String? caUid = await localStorage.getCaUid();
+                  String? caPwd = await localStorage.getCaPwd();
+
+                  await authRepo.getWsUrl(
+                    context: context,
+                    acctUid: caUid,
+                    acctPwd: caPwd,
+                    loginType: AppConfig().wsCodeCrypt,
+                  );
+
+                  await _validateAppVersion();
+
                   setState(() {
                     _startIndex = 0;
                     items.clear();
                     _message = '';
                   });
 
+                  _getDiProfile();
                   _getActiveFeed();
+                  _getAppVersion();
+                  getUnreadNotificationCount();
                 },
                 child: SingleChildScrollView(
                   controller: _scrollController,

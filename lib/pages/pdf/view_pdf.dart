@@ -68,7 +68,7 @@ class _ViewPdfState extends State<ViewPdf> {
       print('error $e');
       customDialog.show(
         context: context,
-        content: Text('Failed to share pdf file. Please try again.'),
+        content: 'Failed to share pdf file. Please try again.',
         type: DialogType.ERROR,
       );
     }

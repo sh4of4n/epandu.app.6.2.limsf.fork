@@ -143,8 +143,8 @@ class _KppModuleState extends State<KppModule> {
                     paperNo: 'DEMO-BW',
                   ),
                   iconColor: Colors.green[600],
-                  label:
-                      AppLocalizations.of(context)!.translate('color_blind_lbl'),
+                  label: AppLocalizations.of(context)!
+                      .translate('color_blind_lbl'),
                   icon: Icon(Icons.color_lens,
                       size: ScreenUtil().setSp(250), color: Colors.white),
                 ),
@@ -167,25 +167,21 @@ class _KppModuleState extends State<KppModule> {
           ),
           Container(
             margin: EdgeInsets.only(top: ScreenUtil().setHeight(30)),
-            child: ButtonTheme(
-              padding: EdgeInsets.symmetric(
-                horizontal: 30.0,
-                vertical: 12.0,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(420.w, 45.h),
+                padding: EdgeInsets.symmetric(vertical: 11.0),
+                shape: StadiumBorder(),
+                primary: Color(0xffdd0e0e),
+                textStyle: TextStyle(color: Colors.white),
               ),
-              shape: StadiumBorder(),
-              buttonColor: Colors.amber[700],
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  textStyle: TextStyle(color: Colors.white),
-                ),
-                onPressed: () => context.router.push(
-                  PinActivation(data: widget.data),
-                ),
-                child: Text(
-                  AppLocalizations.of(context)!.translate('more_question_lbl'),
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(65),
-                  ),
+              onPressed: () => context.router.push(
+                PinActivation(data: widget.data),
+              ),
+              child: Text(
+                AppLocalizations.of(context)!.translate('more_question_lbl'),
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(65),
                 ),
               ),
             ),

@@ -281,22 +281,20 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
           ? SpinKitFoldingCube(
               color: primaryColor,
             )
-          : ButtonTheme(
-              minWidth: 250.w,
-              padding: EdgeInsets.symmetric(vertical: 20.h),
-              buttonColor: primaryColor,
-              shape: StadiumBorder(),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  textStyle: TextStyle(color: Colors.white),
-                ),
-                onPressed: _submitLogin, // () => localStorage.reset(),
+          : ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(420.w, 45.h),
+                padding: EdgeInsets.symmetric(vertical: 11.0),
+                shape: StadiumBorder(),
+                primary: Color(0xffdd0e0e),
+                textStyle: TextStyle(color: Colors.white),
+              ),
+              onPressed: _submitLogin, // () => localStorage.reset(),
 
-                child: Text(
-                  AppLocalizations.of(context)!.translate('login_btn'),
-                  style: TextStyle(
-                    fontSize: 35.sp,
-                  ),
+              child: Text(
+                AppLocalizations.of(context)!.translate('login_btn'),
+                style: TextStyle(
+                  fontSize: 35.sp,
                 ),
               ),
             ),

@@ -285,8 +285,8 @@ class _AddBookingState extends State<AddBooking> {
                             vertical: 10.h,
                             horizontal: 60.w,
                           ),
-                          labelText:
-                              AppLocalizations.of(context)!.translate('section'),
+                          labelText: AppLocalizations.of(context)!
+                              .translate('section'),
                           fillColor: Colors.white,
                           filled: true,
                           enabledBorder: OutlineInputBorder(
@@ -298,8 +298,8 @@ class _AddBookingState extends State<AddBooking> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.blue[700]!, width: 1.6),
+                            borderSide: BorderSide(
+                                color: Colors.blue[700]!, width: 1.6),
                             // borderRadius: BorderRadius.circular(0),
                             borderRadius: BorderRadius.circular(30),
                           ),
@@ -404,28 +404,27 @@ class _AddBookingState extends State<AddBooking> {
           ? SpinKitFoldingCube(
               color: Colors.blue,
             )
-          : ButtonTheme(
-              padding: EdgeInsets.all(0.0),
-              shape: StadiumBorder(),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Color(0xffdd0e0e),
-                  textStyle: TextStyle(color: Colors.white),
-                ),
-                onPressed: _submit,
-                child: Container(
-                  /* decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(0),
-                  ), */
-                  // padding: EdgeInsets.symmetric(
-                  //   horizontal: 100.w,
-                  // ),
-                  child: Text(
-                    AppLocalizations.of(context)!.translate('submit_btn'),
-                    style: TextStyle(
-                      fontSize: ScreenUtil().setSp(60),
-                      fontWeight: FontWeight.w600,
-                    ),
+          : ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(420.w, 45.h),
+                padding: EdgeInsets.symmetric(vertical: 11.0),
+                shape: StadiumBorder(),
+                primary: Color(0xffdd0e0e),
+                textStyle: TextStyle(color: Colors.white),
+              ),
+              onPressed: _submit,
+              child: Container(
+                /* decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(0),
+              ), */
+                // padding: EdgeInsets.symmetric(
+                //   horizontal: 100.w,
+                // ),
+                child: Text(
+                  AppLocalizations.of(context)!.translate('submit_btn'),
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(60),
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),

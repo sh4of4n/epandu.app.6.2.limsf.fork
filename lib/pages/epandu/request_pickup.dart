@@ -99,7 +99,8 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       labelStyle: TextStyle(
                         color: Color(0xff808080),
                       ),
-                      labelText: AppLocalizations.of(context)!.translate('date'),
+                      labelText:
+                          AppLocalizations.of(context)!.translate('date'),
                       fillColor: Colors.white,
                       filled: true,
                       enabledBorder: OutlineInputBorder(
@@ -197,7 +198,8 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       labelStyle: TextStyle(
                         color: Color(0xff808080),
                       ),
-                      labelText: AppLocalizations.of(context)!.translate('time'),
+                      labelText:
+                          AppLocalizations.of(context)!.translate('time'),
                       fillColor: Colors.white,
                       filled: true,
                       enabledBorder: OutlineInputBorder(
@@ -292,22 +294,20 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                     ? SpinKitFoldingCube(
                         color: Colors.blue,
                       )
-                    : ButtonTheme(
-                        padding: EdgeInsets.all(0.0),
-                        shape: StadiumBorder(),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Color(0xffdd0e0e),
-                            textStyle: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: _submit,
-                          child: Text(
-                            AppLocalizations.of(context)!
-                                .translate('submit_btn'),
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(60),
-                              fontWeight: FontWeight.w600,
-                            ),
+                    : ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: StadiumBorder(),
+                          minimumSize: Size(420.w, 45.h),
+                          padding: EdgeInsets.symmetric(vertical: 11.0),
+                          primary: Color(0xffdd0e0e),
+                          textStyle: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: _submit,
+                        child: Text(
+                          AppLocalizations.of(context)!.translate('submit_btn'),
+                          style: TextStyle(
+                            fontSize: ScreenUtil().setSp(60),
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),

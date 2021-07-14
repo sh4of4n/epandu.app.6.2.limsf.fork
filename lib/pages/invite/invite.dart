@@ -188,29 +188,28 @@ class _InviteState extends State<Invite> with PageBaseClass {
                             ? SpinKitFoldingCube(
                                 color: Colors.blue,
                               )
-                            : ButtonTheme(
-                                padding: EdgeInsets.all(0.0),
-                                shape: StadiumBorder(),
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Color(0xffdd0e0e),
-                                    textStyle: TextStyle(color: Colors.white),
-                                  ),
-                                  onPressed: _submit,
-                                  child: Container(
-                                    /* decoration: BoxDecoration(
+                            : ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: StadiumBorder(),
+                                  minimumSize: Size(420.w, 45.h),
+                                  padding: EdgeInsets.symmetric(vertical: 11.0),
+                                  primary: Color(0xffdd0e0e),
+                                  textStyle: TextStyle(color: Colors.white),
+                                ),
+                                onPressed: _submit,
+                                child: Container(
+                                  /* decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(0),
                   ), */
-                                    // padding: EdgeInsets.symmetric(
-                                    //   horizontal: 100.w,
-                                    // ),
-                                    child: Text(
-                                      AppLocalizations.of(context)!
-                                          .translate('invite_btn'),
-                                      style: TextStyle(
-                                        fontSize: 60.sp,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                  // padding: EdgeInsets.symmetric(
+                                  //   horizontal: 100.w,
+                                  // ),
+                                  child: Text(
+                                    AppLocalizations.of(context)!
+                                        .translate('invite_btn'),
+                                    style: TextStyle(
+                                      fontSize: 60.sp,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ),
@@ -397,28 +396,28 @@ class _InviteState extends State<Invite> with PageBaseClass {
                             ? SpinKitFoldingCube(
                                 color: Colors.blue,
                               )
-                            : ButtonTheme(
-                                shape: StadiumBorder(),
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Color(0xffdd0e0e),
-                                    textStyle: TextStyle(color: Colors.white),
-                                  ),
-                                  onPressed: _submit,
-                                  child: Container(
-                                    /* decoration: BoxDecoration(
+                            : ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: Size(420.w, 45.h),
+                                  padding: EdgeInsets.symmetric(vertical: 11.0),
+                                  shape: StadiumBorder(),
+                                  primary: Color(0xffdd0e0e),
+                                  textStyle: TextStyle(color: Colors.white),
+                                ),
+                                onPressed: _submit,
+                                child: Container(
+                                  /* decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(0),
                   ), */
-                                    // padding: EdgeInsets.symmetric(
-                                    //   horizontal: 100.w,
-                                    // ),
-                                    child: Text(
-                                      AppLocalizations.of(context)!
-                                          .translate('invite_btn'),
-                                      style: TextStyle(
-                                        fontSize: 35.sp,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                  // padding: EdgeInsets.symmetric(
+                                  //   horizontal: 100.w,
+                                  // ),
+                                  child: Text(
+                                    AppLocalizations.of(context)!
+                                        .translate('invite_btn'),
+                                    style: TextStyle(
+                                      fontSize: 35.sp,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ),

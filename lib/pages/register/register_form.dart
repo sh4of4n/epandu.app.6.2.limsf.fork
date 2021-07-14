@@ -1215,22 +1215,23 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                                   ? SpinKitFoldingCube(
                                       color: Colors.blue,
                                     )
-                                  : ButtonTheme(
-                                      shape: StadiumBorder(),
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          primary: Color(0xffdd0e0e),
-                                          textStyle:
-                                              TextStyle(color: Colors.white),
-                                        ),
-                                        onPressed: _submit,
-                                        child: Container(
-                                          child: Text(
-                                            AppLocalizations.of(context)!
-                                                .translate('sign_up_btn'),
-                                            style: TextStyle(
-                                              fontSize: 35.sp,
-                                            ),
+                                  : ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        minimumSize: Size(420.w, 45.h),
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 11.0),
+                                        shape: StadiumBorder(),
+                                        primary: Color(0xffdd0e0e),
+                                        textStyle:
+                                            TextStyle(color: Colors.white),
+                                      ),
+                                      onPressed: _submit,
+                                      child: Container(
+                                        child: Text(
+                                          AppLocalizations.of(context)!
+                                              .translate('sign_up_btn'),
+                                          style: TextStyle(
+                                            fontSize: 35.sp,
                                           ),
                                         ),
                                       ),

@@ -117,31 +117,30 @@ class _BillTransactionState extends State<BillTransaction> {
                     ),
                     _errorMessage(),
                     SizedBox(height: ScreenUtil().setHeight(100)),
-                    ButtonTheme(
-                      padding: EdgeInsets.all(0.0),
-                      shape: StadiumBorder(),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          textStyle: TextStyle(color: Colors.white),
-                          padding: const EdgeInsets.all(0.0),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(420.w, 45.h),
+                        padding: EdgeInsets.symmetric(vertical: 11.0),
+                        shape: StadiumBorder(),
+                        primary: Color(0xffdd0e0e),
+                        textStyle: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: _completeTransaction,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25.0),
+                          gradient: LinearGradient(
+                            colors: [Colors.blueAccent.shade700, Colors.blue],
+                          ),
                         ),
-                        onPressed: _completeTransaction,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25.0),
-                            gradient: LinearGradient(
-                              colors: [Colors.blueAccent.shade700, Colors.blue],
-                            ),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 30.0,
-                            vertical: 15.0,
-                          ),
-                          child: Text(
-                            '${AppLocalizations.of(context)!.translate('pay_lbl')} RM${widget.data.amount}',
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(56),
-                            ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 30.0,
+                          vertical: 15.0,
+                        ),
+                        child: Text(
+                          '${AppLocalizations.of(context)!.translate('pay_lbl')} RM${widget.data.amount}',
+                          style: TextStyle(
+                            fontSize: ScreenUtil().setSp(56),
                           ),
                         ),
                       ),

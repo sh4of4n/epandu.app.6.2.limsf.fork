@@ -452,7 +452,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       },
       validator: (value) {
         if (value!.isEmpty) {
-          return AppLocalizations.of(context)!.translate('ic_name_required_msg');
+          return AppLocalizations.of(context)!
+              .translate('ic_name_required_msg');
         }
         return null;
       },
@@ -707,7 +708,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       onChanged: (value) {
         setState(() {
           _race = value;
-          if (value == AppLocalizations.of(context)!.translate('malay_race_lbl'))
+          if (value ==
+              AppLocalizations.of(context)!.translate('malay_race_lbl'))
             _raceParam = 'M';
           else if (value ==
               AppLocalizations.of(context)!.translate('chinese_lbl'))
@@ -830,8 +832,10 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         );
       });
 
-      if (int.tryParse(
-                  value.replaceAll('-', '').replaceAll(' ', '').substring(11))! %
+      if (int.tryParse(value
+                  .replaceAll('-', '')
+                  .replaceAll(' ', '')
+                  .substring(11))! %
               2 ==
           0)
         _gender = Gender.female;
@@ -1375,21 +1379,20 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                 ),
                 SizedBox(height: 40.h),
                 Center(
-                  child: ButtonTheme(
-                    padding: EdgeInsets.all(0.0),
-                    shape: StadiumBorder(),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Color(0xffdd0e0e),
-                        textStyle: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: _next,
-                      child: Text(
-                        AppLocalizations.of(context)!.translate('next_btn'),
-                        style: TextStyle(
-                          fontSize: ScreenUtil().setSp(60),
-                          fontWeight: FontWeight.w600,
-                        ),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(420.w, 45.h),
+                      padding: EdgeInsets.symmetric(vertical: 11.0),
+                      primary: Color(0xffdd0e0e),
+                      textStyle: TextStyle(color: Colors.white),
+                      shape: StadiumBorder(),
+                    ),
+                    onPressed: _next,
+                    child: Text(
+                      AppLocalizations.of(context)!.translate('next_btn'),
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(60),
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
@@ -1428,28 +1431,27 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           ? SpinKitFoldingCube(
               color: Colors.blue,
             )
-          : ButtonTheme(
-              padding: EdgeInsets.all(0.0),
-              shape: StadiumBorder(),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Color(0xffdd0e0e),
-                  textStyle: TextStyle(color: Colors.white),
+          : ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 11.0),
+                minimumSize: Size(420.w, 45.h),
+                shape: StadiumBorder(),
+                primary: Color(0xffdd0e0e),
+                textStyle: TextStyle(color: Colors.white),
+              ),
+              onPressed: _next,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18.0),
                 ),
-                onPressed: _next,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18.0),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 30.0,
-                    vertical: 10.0,
-                  ),
-                  child: Text(
-                    AppLocalizations.of(context)!.translate('next_btn'),
-                    style: TextStyle(
-                      fontSize: ScreenUtil().setSp(56),
-                    ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30.0,
+                  vertical: 10.0,
+                ),
+                child: Text(
+                  AppLocalizations.of(context)!.translate('next_btn'),
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(56),
                   ),
                 ),
               ),

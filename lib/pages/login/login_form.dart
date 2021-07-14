@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/base/page_base_class.dart';
+import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:epandu/common_library/services/location.dart';
 import 'package:epandu/common_library/services/repository/auth_repository.dart';
@@ -10,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
+import 'package:package_info/package_info.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -18,15 +23,11 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> with PageBaseClass {
   final authRepo = AuthRepo();
-
+  final customDialog = CustomDialog();
   final _formKey = GlobalKey<FormState>();
-
   final FocusNode _phoneFocus = FocusNode();
-
   final FocusNode _passwordFocus = FocusNode();
-
   final primaryColor = ColorConstant.primaryColor;
-
   final localStorage = LocalStorage();
 
   bool _isLoading = false;
@@ -56,7 +57,43 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
     super.initState();
 
     // _getCurrentLocation();
+    _validateAppVersion();
     _getDeviceInfo();
+  }
+
+  _validateAppVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String appVersion = packageInfo.version;
+
+    var result = await authRepo.validateAppVersion(appVersion: appVersion);
+
+    if (result.isSuccess) {
+      if (int.tryParse(appVersion.split('.')[0])! <
+              int.tryParse(result.data[0].appMinVersion.split('.')[0])! ||
+          int.tryParse(appVersion.split('.')[1])! <
+              int.tryParse(result.data[0].appMinVersion.split('.')[1])! ||
+          int.tryParse(appVersion.split('.')[2])! <
+              int.tryParse(result.data[0].appMinVersion.split('.')[2])!) {
+        customDialog.show(
+          context: context,
+          content: 'App version is outdated and must be updated.',
+          barrierDismissable: false,
+          customActions: [
+            TextButton(
+              onPressed: () async {
+                if (Platform.isIOS) {
+                  await launch(result.data[0].newVerApplestoreUrl);
+                } else {
+                  await launch(result.data[0].newVerGooglestoreUrl);
+                }
+              },
+              child: Text('Ok'),
+            ),
+          ],
+          type: DialogType.GENERAL,
+        );
+      }
+    }
   }
 
   _getDeviceInfo() async {
@@ -275,22 +312,20 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
           ? SpinKitFoldingCube(
               color: primaryColor,
             )
-          : ButtonTheme(
-              minWidth: 420.w,
-              padding: EdgeInsets.symmetric(vertical: 11.0),
-              buttonColor: Color(0xffdd0e0e),
-              shape: StadiumBorder(),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  textStyle: TextStyle(color: Colors.white),
-                ),
-                onPressed: _submitLogin, // () => localStorage.reset(),
+          : ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(420.w, 45.h),
+                padding: EdgeInsets.symmetric(vertical: 11.0),
+                textStyle: TextStyle(color: Colors.white),
+                shape: StadiumBorder(),
+                primary: Color(0xffdd0e0e),
+              ),
+              onPressed: _submitLogin, // () => localStorage.reset(),
 
-                child: Text(
-                  AppLocalizations.of(context)!.translate('login_btn'),
-                  style: TextStyle(
-                    fontSize: 56.sp,
-                  ),
+              child: Text(
+                AppLocalizations.of(context)!.translate('login_btn'),
+                style: TextStyle(
+                  fontSize: 56.sp,
                 ),
               ),
             ),

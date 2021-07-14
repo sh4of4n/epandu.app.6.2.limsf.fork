@@ -1,5 +1,4 @@
-New:
-- Add booking section will not be available if selected type is theory
-- Fix date showing a day early
-- Fix forgot password bug
-- UI and feature enhancements
+V.2.0.165
+
+- Fix error on huawei device
+- Other enhancements

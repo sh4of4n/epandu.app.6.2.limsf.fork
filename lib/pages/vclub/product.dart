@@ -186,25 +186,21 @@ class _ProductState extends State<Product> {
       margin: EdgeInsets.only(
         bottom: 50.h,
       ),
-      child: ButtonTheme(
-        minWidth: 1300.w,
-        padding: EdgeInsets.symmetric(
-          vertical: 50.h,
-        ),
-        buttonColor: Color(0xffdd0e0e),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-          side: BorderSide(color: Color(0xffdd0e0e)),
-        ),
-        child: ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-              textStyle: TextStyle(color: Colors.white)),
-          child: Text(
-            'Add To Cart',
-            style: TextStyle(
-              fontSize: ScreenUtil().setSp(60),
+      child: ElevatedButton(
+        onPressed: () {},
+        style: ElevatedButton.styleFrom(
+            minimumSize: Size(1300.w, 50.h),
+            padding: EdgeInsets.symmetric(vertical: 11.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+              side: BorderSide(color: Color(0xffdd0e0e)),
             ),
+            primary: Color(0xffdd0e0e),
+            textStyle: TextStyle(color: Colors.white)),
+        child: Text(
+          'Add To Cart',
+          style: TextStyle(
+            fontSize: ScreenUtil().setSp(60),
           ),
         ),
       ),
@@ -268,7 +264,7 @@ class _ProductState extends State<Product> {
     } else {
       customDialog.show(
         context: context,
-        content: Text('Failed to save sales order. Please try again later.'),
+        content: 'Failed to save sales order. Please try again later.',
         type: DialogType.ERROR,
       );
 

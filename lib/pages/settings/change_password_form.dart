@@ -37,7 +37,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
   String? _newPassword;
   String? _confirmNewPassword;
 
-  var _height = ScreenUtil().setHeight(1350);
+  var _height = 1200.h;
 
   // var _height = ScreenUtil.screenHeight / 4.5;
 
@@ -246,21 +246,19 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
           ? SpinKitFoldingCube(
               color: primaryColor,
             )
-          : ButtonTheme(
-              minWidth: ScreenUtil().setWidth(420),
-              padding: EdgeInsets.symmetric(vertical: 11.0),
-              buttonColor: primaryColor,
-              shape: StadiumBorder(),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  textStyle: TextStyle(color: Colors.white),
-                ),
-                onPressed: _submit,
-                child: Text(
-                  AppLocalizations.of(context)!.translate('submit_btn'),
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(56),
-                  ),
+          : ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 11.0),
+                primary: Color(0xffdd0e0e),
+                minimumSize: Size(420.w, 45.h),
+                shape: StadiumBorder(),
+                textStyle: TextStyle(color: Colors.white),
+              ),
+              onPressed: _submit,
+              child: Text(
+                AppLocalizations.of(context)!.translate('submit_btn'),
+                style: TextStyle(
+                  fontSize: 18,
                 ),
               ),
             ),

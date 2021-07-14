@@ -426,48 +426,47 @@ class _ExamTemplateState extends State<ExamTemplate> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          ButtonTheme(
-            padding: EdgeInsets.all(0.0),
-            shape: StadiumBorder(),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                textStyle: TextStyle(color: Colors.white),
-                padding: const EdgeInsets.all(0.0),
-              ),
-              onPressed: () {
-                if (index != 0) {
-                  setState(() {
-                    index -= 1;
-                  });
-                  _clearCurrentQuestion();
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size(420.w, 45.h),
+              padding: EdgeInsets.symmetric(vertical: 11.0),
+              primary: Color(0xffdd0e0e),
+              shape: StadiumBorder(),
+              textStyle: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              if (index != 0) {
+                setState(() {
+                  index -= 1;
+                });
+                _clearCurrentQuestion();
 
-                  final data = examDataBox.getAt(index) as KppExamData;
-                  _checkSelectedAnswer(data.answerIndex, 'back');
-                } else {
-                  return customSnackbar.show(
-                    context,
-                    message: AppLocalizations.of(context)!
-                        .translate('first_page_desc'),
-                    type: MessageType.TOAST,
-                  );
-                }
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25.0),
-                  gradient: LinearGradient(
-                    colors: [Colors.blueAccent.shade700, Colors.blue],
-                  ),
+                final data = examDataBox.getAt(index) as KppExamData;
+                _checkSelectedAnswer(data.answerIndex, 'back');
+              } else {
+                return customSnackbar.show(
+                  context,
+                  message: AppLocalizations.of(context)!
+                      .translate('first_page_desc'),
+                  type: MessageType.TOAST,
+                );
+              }
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25.0),
+                gradient: LinearGradient(
+                  colors: [Colors.blueAccent.shade700, Colors.blue],
                 ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 40.0,
-                  vertical: 15.0,
-                ),
-                child: Text(
-                  AppLocalizations.of(context)!.translate('prev_btn'),
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(56),
-                  ),
+              ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 40.0,
+                vertical: 15.0,
+              ),
+              child: Text(
+                AppLocalizations.of(context)!.translate('prev_btn'),
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(56),
                 ),
               ),
             ),
@@ -483,65 +482,64 @@ class _ExamTemplateState extends State<ExamTemplate> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          ButtonTheme(
-            padding: EdgeInsets.all(0.0),
-            shape: StadiumBorder(),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                textStyle: TextStyle(color: Colors.white),
-                padding: const EdgeInsets.all(0.0),
-              ),
-              onPressed: () {
-                if (selected) {
-                  setState(() {
-                    if (index < snapshotData.length - 1) {
-                      index += 1;
-                      _clearCurrentQuestion();
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size(420.w, 45.h),
+              padding: EdgeInsets.symmetric(vertical: 11.0),
+              shape: StadiumBorder(),
+              primary: Color(0xffdd0e0e),
+              textStyle: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              if (selected) {
+                setState(() {
+                  if (index < snapshotData.length - 1) {
+                    index += 1;
+                    _clearCurrentQuestion();
 
-                      // populate selected answer to question
-                      if (index < examDataBox.length) {
-                        final data = examDataBox.getAt(index) as KppExamData;
-                        _checkSelectedAnswer(data.answerIndex, 'next');
-                      }
-                    } else {
-                      context.router.replace(
-                        KppResult(data: kppExamData),
-                      );
-
-                      // end timer
-                      _timer.cancel();
-
-                      // clear data once exam is completed
-                      examDataBox.clear();
+                    // populate selected answer to question
+                    if (index < examDataBox.length) {
+                      final data = examDataBox.getAt(index) as KppExamData;
+                      _checkSelectedAnswer(data.answerIndex, 'next');
                     }
-                    // _clearCurrentQuestion();
-                  });
-                } else {
-                  return customSnackbar.show(
-                    context,
-                    duration: 1000,
-                    message: AppLocalizations.of(context)!
-                        .translate('select_answer_desc'),
-                    type: MessageType.TOAST,
-                  );
-                }
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25.0),
-                  gradient: LinearGradient(
-                    colors: [Colors.blueAccent.shade700, Colors.blue],
-                  ),
+                  } else {
+                    context.router.replace(
+                      KppResult(data: kppExamData),
+                    );
+
+                    // end timer
+                    _timer.cancel();
+
+                    // clear data once exam is completed
+                    examDataBox.clear();
+                  }
+                  // _clearCurrentQuestion();
+                });
+              } else {
+                return customSnackbar.show(
+                  context,
+                  duration: 1000,
+                  message: AppLocalizations.of(context)!
+                      .translate('select_answer_desc'),
+                  type: MessageType.TOAST,
+                );
+              }
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25.0),
+                gradient: LinearGradient(
+                  colors: [Colors.blueAccent.shade700, Colors.blue],
                 ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 40.0,
-                  vertical: 15.0,
-                ),
-                child: Text(
-                  AppLocalizations.of(context)!.translate('next_btn'),
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(56),
-                  ),
+              ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 40.0,
+                vertical: 15.0,
+              ),
+              child: Text(
+                AppLocalizations.of(context)!.translate('next_btn'),
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(56),
                 ),
               ),
             ),

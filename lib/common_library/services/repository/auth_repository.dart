@@ -238,20 +238,20 @@ class AuthRepo {
       var profileResult = await profileRepo.getUserProfile(context: context);
 
       if (profileResult.isSuccess) {
-        localStorage.saveName(profileResult.data[0].name);
-        localStorage.saveNickName(profileResult.data[0].nickName);
-        localStorage.saveEmail(profileResult.data[0].eMail);
-        localStorage.savePostCode(profileResult.data[0].postcode);
-        localStorage.saveUserPhone(profileResult.data[0].phone);
-        localStorage.saveCountry(profileResult.data[0].countryName);
-        localStorage.saveState(profileResult.data[0].stateName);
-        localStorage.saveStudentIc(profileResult.data[0].icNo);
-        localStorage.saveBirthDate(profileResult.data[0].birthDate);
-        localStorage.saveRace(profileResult.data[0].race);
-        localStorage.saveNationality(profileResult.data[0].nationality);
-        localStorage.saveGender(profileResult.data[0].gender);
-        localStorage.saveCdl(profileResult.data[0].cdlGroup);
-        localStorage.saveLdl(profileResult.data[0].enqLdlGroup);
+        localStorage.saveName(profileResult.data[0].name ?? '');
+        localStorage.saveNickName(profileResult.data[0].nickName ?? '');
+        localStorage.saveEmail(profileResult.data[0].eMail ?? '');
+        localStorage.savePostCode(profileResult.data[0].postcode ?? '');
+        localStorage.saveUserPhone(profileResult.data[0].phone ?? '');
+        localStorage.saveCountry(profileResult.data[0].countryName ?? '');
+        localStorage.saveState(profileResult.data[0].stateName ?? '');
+        localStorage.saveStudentIc(profileResult.data[0].icNo ?? '');
+        localStorage.saveBirthDate(profileResult.data[0].birthDate ?? '');
+        localStorage.saveRace(profileResult.data[0].race ?? '');
+        localStorage.saveNationality(profileResult.data[0].nationality ?? '');
+        localStorage.saveGender(profileResult.data[0].gender ?? '');
+        localStorage.saveCdl(profileResult.data[0].cdlGroup ?? '');
+        localStorage.saveLdl(profileResult.data[0].enqLdlGroup ?? '');
         if (profileResult.data[0].picturePath != null)
           localStorage.saveProfilePic(profileResult.data[0].picturePath
               .replaceAll(removeBracket, '')
@@ -1515,6 +1515,31 @@ class AuthRepo {
     }
 
     return Response(false, message: 'No enrolment statuses found.');
+  }
+
+  Future validateAppVersion({required String appVersion}) async {
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwd();
+
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
+        '&caUid=$caUid' +
+        '&caPwd=$caPwd' +
+        '&appId=${appConfig.appId}' +
+        '&appCode=${appConfig.appCode}' +
+        '&appVersion=$appVersion';
+
+    var response = await networking.getData(
+      path: 'ValidateAppVersion?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      ValidateAppVersionResponse validateAppVersionResponse =
+          ValidateAppVersionResponse.fromJson(response.data);
+
+      return Response(true, data: validateAppVersionResponse.appMinVersion);
+    }
+
+    return Response(false, message: 'Unable to validate app version.');
   }
 
   Future acceptOrder({docDoc, docRef}) async {

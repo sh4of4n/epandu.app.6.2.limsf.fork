@@ -206,7 +206,7 @@ class _FeedsState extends State<Feeds> {
         customDialog.show(
           context: context,
           barrierDismissable: false,
-          content: result.message,
+          content: result.message!,
           customActions: <Widget>[
             TextButton(
               child: Text(AppLocalizations.of(context)!.translate('ok_btn')),

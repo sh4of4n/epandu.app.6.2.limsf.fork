@@ -177,7 +177,7 @@ class _CheckoutState extends State<Checkout> {
             size: 120,
           ),
         ),
-        content: Text('Your item has been checked out.'),
+        content: 'Your item has been checked out.',
         customActions: <Widget>[
           TextButton(
             child: Text('Done'),
@@ -208,7 +208,7 @@ class _CheckoutState extends State<Checkout> {
             size: 120,
           ),
         ),
-        content: Text(result.message!),
+        content: result.message!,
         type: DialogType.ERROR,
       );
     }
@@ -338,21 +338,19 @@ class _CheckoutState extends State<Checkout> {
                         ? SpinKitHourGlass(
                             color: primaryColor,
                           )
-                        : ButtonTheme(
-                            minWidth: ScreenUtil().setWidth(420),
-                            padding: EdgeInsets.symmetric(vertical: 10.h),
-                            buttonColor: primaryColor,
-                            shape: StadiumBorder(),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                textStyle: TextStyle(color: Colors.white),
-                              ),
-                              onPressed: () => _checkout(context),
-                              child: Text(
-                                'Checkout',
-                                style: TextStyle(
-                                  fontSize: ScreenUtil().setSp(56),
-                                ),
+                        : ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: Size(420.w, 45.h),
+                              padding: EdgeInsets.symmetric(vertical: 11.0),
+                              shape: StadiumBorder(),
+                              primary: Color(0xffdd0e0e),
+                              textStyle: TextStyle(color: Colors.white),
+                            ),
+                            onPressed: () => _checkout(context),
+                            child: Text(
+                              'Checkout',
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(56),
                               ),
                             ),
                           ),

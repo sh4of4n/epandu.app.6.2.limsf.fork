@@ -312,21 +312,19 @@ class _ClientAccountFormState extends State<ClientAccountForm>
           ? SpinKitFoldingCube(
               color: primaryColor,
             )
-          : ButtonTheme(
-              minWidth: 420.w,
-              padding: EdgeInsets.symmetric(vertical: 11.0),
-              buttonColor: primaryColor,
-              shape: StadiumBorder(),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  textStyle: TextStyle(color: Colors.white),
-                ),
-                onPressed: _submit,
-                child: Text(
-                  AppLocalizations.of(context)!.translate('save_btn'),
-                  style: TextStyle(
-                    fontSize: 56.sp,
-                  ),
+          : ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                textStyle: TextStyle(color: Colors.white),
+                shape: StadiumBorder(),
+                primary: Color(0xffdd0e0e),
+                padding: EdgeInsets.symmetric(vertical: 11.0),
+                minimumSize: Size(420.w, 45.h),
+              ),
+              onPressed: _submit,
+              child: Text(
+                AppLocalizations.of(context)!.translate('save_btn'),
+                style: TextStyle(
+                  fontSize: 56.sp,
                 ),
               ),
             ),

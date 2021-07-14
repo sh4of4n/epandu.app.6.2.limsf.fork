@@ -10,20 +10,18 @@ class ChatBloc {
   StreamController<String?> _chatItemsCtrl = new BehaviorSubject();
 
   ChatBloc(this.socket) {
-    if (socket != null) {
-      _textFieldCtrl.stream.listen((value) {
-        _submitBtnCtrl.sink.add(value != null && value.isNotEmpty);
-      });
-      socket.connect();
+    _textFieldCtrl.stream.listen((value) {
+      _submitBtnCtrl.sink.add(value.isNotEmpty);
+    });
+    socket.connect();
 
-      socket.on('connect_error', (value) {
-        // handle
-      });
+    socket.on('connect_error', (value) {
+      // handle
+    });
 
-      socket.on('chat message', (value) {
-        _chatItemsCtrl.sink.add(value);
-      });
-    }
+    socket.on('chat message', (value) {
+      _chatItemsCtrl.sink.add(value);
+    });
   }
 
   sendMessage(String message) {

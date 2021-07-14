@@ -177,30 +177,29 @@ class _RegisterMobileState extends State<RegisterMobile> {
                                 ? SpinKitFoldingCube(
                                     color: Colors.blue,
                                   )
-                                : ButtonTheme(
-                                    padding: EdgeInsets.all(0.0),
-                                    shape: StadiumBorder(),
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Color(0xffdd0e0e),
-                                        textStyle:
-                                            TextStyle(color: Colors.white),
+                                : ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      minimumSize: Size(420.w, 45.h),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 11.0),
+                                      shape: StadiumBorder(),
+                                      primary: Color(0xffdd0e0e),
+                                      textStyle: TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: _next,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
                                       ),
-                                      onPressed: _next,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(18.0),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 30.0,
-                                        ),
-                                        child: Text(
-                                          AppLocalizations.of(context)!
-                                              .translate('next_btn'),
-                                          style: TextStyle(
-                                            fontSize: 56.sp,
-                                          ),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 30.0,
+                                      ),
+                                      child: Text(
+                                        AppLocalizations.of(context)!
+                                            .translate('next_btn'),
+                                        style: TextStyle(
+                                          fontSize: 56.sp,
                                         ),
                                       ),
                                     ),
@@ -362,22 +361,21 @@ class _RegisterMobileState extends State<RegisterMobile> {
                                 ? SpinKitFoldingCube(
                                     color: Colors.blue,
                                   )
-                                : ButtonTheme(
-                                    // padding: EdgeInsets.all(0.0),
-                                    shape: StadiumBorder(),
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Color(0xffdd0e0e),
-                                        textStyle:
-                                            TextStyle(color: Colors.white),
-                                      ),
-                                      onPressed: _next,
-                                      child: Text(
-                                        AppLocalizations.of(context)!
-                                            .translate('next_btn'),
-                                        style: TextStyle(
-                                          fontSize: 35.sp,
-                                        ),
+                                : ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      minimumSize: Size(420.w, 45.h),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 11.0),
+                                      shape: StadiumBorder(),
+                                      primary: Color(0xffdd0e0e),
+                                      textStyle: TextStyle(color: Colors.white),
+                                    ),
+                                    onPressed: _next,
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .translate('next_btn'),
+                                      style: TextStyle(
+                                        fontSize: 35.sp,
                                       ),
                                     ),
                                   ),

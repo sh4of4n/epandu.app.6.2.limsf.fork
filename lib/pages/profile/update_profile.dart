@@ -256,8 +256,10 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         );
       });
 
-      if (int.tryParse(
-                  value.replaceAll('-', '').replaceAll(' ', '').substring(11))! %
+      if (int.tryParse(value
+                  .replaceAll('-', '')
+                  .replaceAll(' ', '')
+                  .substring(11))! %
               2 ==
           0)
         _gender = Gender.female;
@@ -491,8 +493,8 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       labelStyle: TextStyle(
                         color: Color(0xff808080),
                       ),
-                      labelText:
-                          AppLocalizations.of(context)!.translate('ic_name_lbl'),
+                      labelText: AppLocalizations.of(context)!
+                          .translate('ic_name_lbl'),
                       fillColor: Colors.white,
                       filled: true,
                       prefixIcon: Icon(Icons.assignment_ind),
@@ -786,8 +788,9 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                         cdlItem = value;
                       });
                     },
-                    value:
-                        cdlItem!.isEmpty ? null : cdlItem!.replaceAll('%20', ' '),
+                    value: cdlItem!.isEmpty
+                        ? null
+                        : cdlItem!.replaceAll('%20', ' '),
                     items: cdlList == null
                         ? null
                         : cdlList
@@ -970,7 +973,8 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
       onChanged: (value) {
         setState(() {
           _race = value;
-          if (value == AppLocalizations.of(context)!.translate('malay_race_lbl'))
+          if (value ==
+              AppLocalizations.of(context)!.translate('malay_race_lbl'))
             _raceParam = 'M';
           else if (value ==
               AppLocalizations.of(context)!.translate('chinese_lbl'))
@@ -1057,28 +1061,27 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
           ? SpinKitFoldingCube(
               color: Colors.blue,
             )
-          : ButtonTheme(
-              padding: EdgeInsets.all(0.0),
-              shape: StadiumBorder(),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Color(0xffdd0e0e),
-                  textStyle: TextStyle(color: Colors.white),
+          : ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(420.w, 45.h),
+                padding: EdgeInsets.symmetric(vertical: 11.0),
+                shape: StadiumBorder(),
+                primary: Color(0xffdd0e0e),
+                textStyle: TextStyle(color: Colors.white),
+              ),
+              onPressed: _submit,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18.0),
                 ),
-                onPressed: _submit,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18.0),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 30.0,
-                    vertical: 10.0,
-                  ),
-                  child: Text(
-                    AppLocalizations.of(context)!.translate('save_btn'),
-                    style: TextStyle(
-                      fontSize: ScreenUtil().setSp(56),
-                    ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30.0,
+                  vertical: 10.0,
+                ),
+                child: Text(
+                  AppLocalizations.of(context)!.translate('save_btn'),
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(56),
                   ),
                 ),
               ),

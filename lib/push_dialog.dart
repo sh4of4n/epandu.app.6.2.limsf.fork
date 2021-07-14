@@ -15,7 +15,7 @@ class PushDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return customDialog.show(
       context: context,
-      content: message,
+      content: message!,
       customActions: <Widget>[
         TextButton(
           child: Text(AppLocalizations.of(context)!.translate('ok_btn')),

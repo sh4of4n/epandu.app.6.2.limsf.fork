@@ -236,21 +236,19 @@ class _CartItemEditState extends State<CartItemEdit> with PageBaseClass {
           ? SpinKitHourGlass(
               color: primaryColor,
             )
-          : ButtonTheme(
-              minWidth: ScreenUtil().setWidth(420),
-              padding: EdgeInsets.symmetric(vertical: 11.0),
-              buttonColor: primaryColor,
-              shape: StadiumBorder(),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  textStyle: TextStyle(color: Colors.white),
-                ),
-                onPressed: _submit,
-                child: Text(
-                  'Update',
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(60),
-                  ),
+          : ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(420.w, 45.h),
+                padding: EdgeInsets.symmetric(vertical: 11.0),
+                shape: StadiumBorder(),
+                primary: Color(0xffdd0e0e),
+                textStyle: TextStyle(color: Colors.white),
+              ),
+              onPressed: _submit,
+              child: Text(
+                'Update',
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(60),
                 ),
               ),
             ),

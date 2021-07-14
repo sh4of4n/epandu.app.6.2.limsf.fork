@@ -1,6 +1,9 @@
 V.2.0.165
 
 - Fix error on huawei device
+- Null safety
+- RefreshIndicator reacquires API url
+- Add validate app version method and force update
 
 V.2.0.164
 

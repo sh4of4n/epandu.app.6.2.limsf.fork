@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
-import 'package:flutter/material.dart';
 import '../../../utils/app_config.dart';
 import '../../utils/local_storage.dart';
 import '../model/epandu_model.dart';
@@ -53,7 +51,8 @@ class EpanduRepo {
     );
   }
 
-  Future<Response> getCollectionByStudent({required context, startIndex}) async {
+  Future<Response> getCollectionByStudent(
+      {required context, startIndex}) async {
     assert(context != null);
 
     String? caUid = await localStorage.getCaUid();
@@ -84,7 +83,8 @@ class EpanduRepo {
             : response.message!.replaceAll(r'\u000d\u000a', ''));
   }
 
-  Future<Response> getCollectionDetailByRecpNo({required context, recpNo}) async {
+  Future<Response> getCollectionDetailByRecpNo(
+      {required context, recpNo}) async {
     assert(context != null);
 
     String? caUid = await localStorage.getCaUid();

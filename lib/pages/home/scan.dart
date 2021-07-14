@@ -176,7 +176,7 @@ class _ScanState extends State<Scan> {
             customDialog.show(
               context: context,
               barrierDismissable: false,
-              content: result.message,
+              content: result.message!,
               onPressed: () {
                 context.router.pop();
 
@@ -193,8 +193,8 @@ class _ScanState extends State<Scan> {
           customDialog.show(
             context: context,
             barrierDismissable: false,
-            content:
-                AppLocalizations.of(context)!.translate('complete_your_profile'),
+            content: AppLocalizations.of(context)!
+                .translate('complete_your_profile'),
             customActions: <Widget>[
               TextButton(
                 child: Text(AppLocalizations.of(context)!.translate('ok_btn')),

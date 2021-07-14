@@ -29,14 +29,15 @@ class _MerchantProfileState extends State<MerchantProfile> {
 
   _getMerchant() async {
     var result = await vClubRepo.getMerchant(
-        context: context,
-        keywordSearch: widget.data.merchantNo,
-        latitude: '999',
-        longitude: '999',
-        merchantType: widget.data.merchantType,
-        maxRadius: 0,
-        noOfRecords: -1,
-        startIndex: -1);
+      context: context,
+      keywordSearch: widget.data.merchantNo,
+      latitude: '999',
+      longitude: '999',
+      merchantType: widget.data.merchantType,
+      maxRadius: 0,
+      noOfRecords: -1,
+      startIndex: -1,
+    );
 
     if (result.isSuccess) return result.data;
     return result.message;

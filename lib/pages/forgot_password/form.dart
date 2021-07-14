@@ -176,21 +176,18 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
               ? SpinKitFoldingCube(
                   color: primaryColor,
                 )
-              : ButtonTheme(
-                  minWidth: ScreenUtil().setWidth(420),
-                  padding: EdgeInsets.symmetric(vertical: 11.0),
-                  buttonColor: primaryColor,
-                  shape: StadiumBorder(),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      textStyle: TextStyle(color: Colors.white),
-                    ),
-                    onPressed: _submit,
-                    child: Text(
-                      AppLocalizations.of(context)!.translate('submit_btn'),
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(56),
-                      ),
+              : ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: StadiumBorder(),
+                    minimumSize: Size(420.w, 45.h),
+                    padding: EdgeInsets.symmetric(vertical: 11.0),
+                    textStyle: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: _submit,
+                  child: Text(
+                    AppLocalizations.of(context)!.translate('submit_btn'),
+                    style: TextStyle(
+                      fontSize: ScreenUtil().setSp(56),
                     ),
                   ),
                 ),

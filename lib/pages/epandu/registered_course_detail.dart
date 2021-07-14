@@ -210,21 +210,20 @@ class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
             ),
             SizedBox(height: 50.h),
             Center(
-              child: ButtonTheme(
-                padding: EdgeInsets.all(0.0),
-                shape: StadiumBorder(),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xffdd0e0e),
-                    textStyle: TextStyle(color: Colors.white),
-                  ),
-                  onPressed: () => context.router.pop(),
-                  child: Text(
-                    AppLocalizations.of(context)!.translate('back_btn'),
-                    style: TextStyle(
-                      fontSize: ScreenUtil().setSp(60),
-                      fontWeight: FontWeight.w600,
-                    ),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: StadiumBorder(),
+                  minimumSize: Size(420.w, 45.h),
+                  padding: EdgeInsets.symmetric(vertical: 11.0),
+                  primary: Color(0xffdd0e0e),
+                  textStyle: TextStyle(color: Colors.white),
+                ),
+                onPressed: () => context.router.pop(),
+                child: Text(
+                  AppLocalizations.of(context)!.translate('back_btn'),
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(60),
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),

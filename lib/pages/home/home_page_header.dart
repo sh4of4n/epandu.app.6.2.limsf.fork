@@ -19,7 +19,7 @@ class HomePageHeader extends StatelessWidget {
   final formatter = NumberFormat('#,##0.00');
   final image = ImagesConstant();
 
-  enableSelectDi(context) {
+  enableSelectDi(BuildContext context) {
     List<RegisteredDiArmasterProfile?> diList = [];
 
     for (int i = 0; i < Hive.box('di_list').length; i += 1) {
@@ -41,7 +41,7 @@ class HomePageHeader extends StatelessWidget {
       );
   }
 
-  selectDi(context, diList) {
+  selectDi(BuildContext context, diList) {
     context.router.replace(
       SelectDrivingInstitute(diList: diList),
     );

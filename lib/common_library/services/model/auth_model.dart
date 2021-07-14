@@ -4828,3 +4828,116 @@ class AcceptOrderSlsTrn {
     return data;
   }
 }
+
+class ValidateAppVersionResponse {
+  List<AppMinVersion>? appMinVersion;
+
+  ValidateAppVersionResponse({this.appMinVersion});
+
+  ValidateAppVersionResponse.fromJson(Map<String, dynamic> json) {
+    if (json['AppMinVersion'] != null) {
+      appMinVersion = new List<AppMinVersion>.empty(growable: true);
+      json['AppMinVersion'].forEach((v) {
+        appMinVersion!.add(new AppMinVersion.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.appMinVersion != null) {
+      data['AppMinVersion'] =
+          this.appMinVersion!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class AppMinVersion {
+  String? iD;
+  String? appId;
+  String? appMinVersion;
+  String? appLatestVersion;
+  String? newVerApplestoreUrl;
+  String? newVerGooglestoreUrl;
+  String? newVerAppgalleryUrl;
+  String? newVerUrl;
+  String? deleted;
+  String? appCode;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? compCode;
+  String? branchCode;
+  String? transtamp;
+  String? statusCode;
+  String? statusMessage;
+
+  AppMinVersion(
+      {this.iD,
+      this.appId,
+      this.appMinVersion,
+      this.appLatestVersion,
+      this.newVerApplestoreUrl,
+      this.newVerGooglestoreUrl,
+      this.newVerAppgalleryUrl,
+      this.newVerUrl,
+      this.deleted,
+      this.appCode,
+      this.createUser,
+      this.createDate,
+      this.editUser,
+      this.editDate,
+      this.compCode,
+      this.branchCode,
+      this.transtamp,
+      this.statusCode,
+      this.statusMessage});
+
+  AppMinVersion.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    appId = json['app_id'];
+    appMinVersion = json['app_min_version'];
+    appLatestVersion = json['app_latest_version'];
+    newVerApplestoreUrl = json['new_ver_applestore_url'];
+    newVerGooglestoreUrl = json['new_ver_googlestore_url'];
+    newVerAppgalleryUrl = json['new_ver_appgallery_url'];
+    newVerUrl = json['new_ver_url'];
+    deleted = json['deleted'];
+    appCode = json['app_code'];
+    createUser = json['create_user'];
+    createDate = json['create_date'];
+    editUser = json['edit_user'];
+    editDate = json['edit_date'];
+    compCode = json['comp_code'];
+    branchCode = json['branch_code'];
+    transtamp = json['transtamp'];
+    statusCode = json['status_code'];
+    statusMessage = json['status_message'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['app_id'] = this.appId;
+    data['app_min_version'] = this.appMinVersion;
+    data['app_latest_version'] = this.appLatestVersion;
+    data['new_ver_applestore_url'] = this.newVerApplestoreUrl;
+    data['new_ver_googlestore_url'] = this.newVerGooglestoreUrl;
+    data['new_ver_appgallery_url'] = this.newVerAppgalleryUrl;
+    data['new_ver_url'] = this.newVerUrl;
+    data['deleted'] = this.deleted;
+    data['app_code'] = this.appCode;
+    data['create_user'] = this.createUser;
+    data['create_date'] = this.createDate;
+    data['edit_user'] = this.editUser;
+    data['edit_date'] = this.editDate;
+    data['comp_code'] = this.compCode;
+    data['branch_code'] = this.branchCode;
+    data['transtamp'] = this.transtamp;
+    data['status_code'] = this.statusCode;
+    data['status_message'] = this.statusMessage;
+    return data;
+  }
+}

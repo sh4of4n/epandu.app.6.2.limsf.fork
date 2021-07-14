@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomButton extends StatelessWidget {
   final Color buttonColor;
@@ -22,20 +21,21 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ButtonTheme(
-      padding: EdgeInsets.symmetric(vertical: 10.h),
-      minWidth: minWidth ?? 88.0,
-      height: height ?? 36.0,
-      buttonColor: buttonColor,
-      shape: StadiumBorder(),
-      child: RaisedButton(
-        onPressed: onPressed,
-        textColor: fontColor ?? Colors.white,
-        child: Text(
-          title,
-          style: TextStyle(
-            fontSize: fontSize ?? 56.sp,
-          ),
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        textStyle: TextStyle(
+          color: fontColor ?? Colors.white,
+        ),
+        primary: buttonColor,
+        shape: StadiumBorder(),
+        minimumSize: Size(minWidth ?? 88.0, height ?? 36.0),
+      ),
+      onPressed: onPressed,
+      child: Text(
+        title,
+        style: TextStyle(
+          fontSize: fontSize ?? 14,
         ),
       ),
     );

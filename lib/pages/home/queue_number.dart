@@ -56,7 +56,7 @@ class _QueueNumberState extends State<QueueNumber> {
     } else {
       customDialog.show(
         context: context,
-        content: result.message,
+        content: result.message!,
         type: DialogType.WARNING,
       );
     }
