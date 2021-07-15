@@ -110,6 +110,7 @@ import 'package:epandu/common_library/utils/image_viewer.dart';
     AutoRoute(path: '/comingSoon', page: ComingSoon),
     AutoRoute(path: '/checkInSlip', page: CheckInSlip),
     AutoRoute(path: '/multilevel', page: Multilevel),
+    AutoRoute(path: '/merchantProfile', page: MerchantProfile),
   ],
 )
 class $AppRouter {}

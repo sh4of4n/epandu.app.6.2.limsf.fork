@@ -94,8 +94,7 @@ class AppRouter extends _i1.RootStackRouter {
     QueueNumber.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
-          final args = data.argsAs<QueueNumberArgs>(
-              orElse: () => const QueueNumberArgs());
+          final args = data.argsAs<QueueNumberArgs>();
           return _i7.QueueNumber(data: args.data);
         }),
     Settings.name: (routeData) => _i1.MaterialPageX<dynamic>(
@@ -175,8 +174,7 @@ class AppRouter extends _i1.RootStackRouter {
     KppExam.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
-          final args =
-              data.argsAs<KppExamArgs>(orElse: () => const KppExamArgs());
+          final args = data.argsAs<KppExamArgs>();
           return _i10.KppExam(groupId: args.groupId, paperNo: args.paperNo);
         }),
     KppModule.name: (routeData) => _i1.MaterialPageX<dynamic>(
@@ -223,7 +221,7 @@ class AppRouter extends _i1.RootStackRouter {
         routeData: routeData,
         builder: (data) {
           final args = data.argsAs<CartArgs>(orElse: () => const CartArgs());
-          return _i11.Cart(name: args.name, dbcode: args.dbcode);
+          return _i11.Cart(itemName: args.itemName, dbcode: args.dbcode);
         }),
     CartItemEdit.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
@@ -250,7 +248,7 @@ class AppRouter extends _i1.RootStackRouter {
               data.argsAs<CheckoutArgs>(orElse: () => const CheckoutArgs());
           return _i11.Checkout(
               slsDetailData: args.slsDetailData,
-              name: args.name,
+              itemName: args.itemName,
               dbcode: args.dbcode,
               date: args.date,
               docDoc: args.docDoc,
@@ -369,8 +367,7 @@ class AppRouter extends _i1.RootStackRouter {
     AttendanceRecord.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
-          final args = data.argsAs<AttendanceRecordArgs>(
-              orElse: () => const AttendanceRecordArgs());
+          final args = data.argsAs<AttendanceRecordArgs>();
           return _i12.AttendanceRecord(
               attendanceData: args.attendanceData, isLoading: args.isLoading);
         }),
@@ -518,8 +515,7 @@ class AppRouter extends _i1.RootStackRouter {
     Webview.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
-          final args =
-              data.argsAs<WebviewArgs>(orElse: () => const WebviewArgs());
+          final args = data.argsAs<WebviewArgs>();
           return _i7.Webview(url: args.url, backType: args.backType);
         }),
     Scan.name: (routeData) => _i1.MaterialPageX<dynamic>(
@@ -541,8 +537,7 @@ class AppRouter extends _i1.RootStackRouter {
     ViewPdf.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (data) {
-          final args =
-              data.argsAs<ViewPdfArgs>(orElse: () => const ViewPdfArgs());
+          final args = data.argsAs<ViewPdfArgs>();
           return _i28.ViewPdf(title: args.title, pdfLink: args.pdfLink);
         }),
     ComingSoon.name: (routeData) => _i1.MaterialPageX<dynamic>(
@@ -561,6 +556,11 @@ class AppRouter extends _i1.RootStackRouter {
           final args =
               data.argsAs<MultilevelArgs>(orElse: () => const MultilevelArgs());
           return _i17.Multilevel(feed: args.feed, appVersion: args.appVersion);
+        }),
+    MerchantProfile.name: (routeData) => _i1.MaterialPageX<dynamic>(
+        routeData: routeData,
+        builder: (_) {
+          return _i15.MerchantProfile();
         })
   };
 
@@ -648,7 +648,8 @@ class AppRouter extends _i1.RootStackRouter {
         _i1.RouteConfig(ViewPdf.name, path: '/viewPdf'),
         _i1.RouteConfig(ComingSoon.name, path: '/comingSoon'),
         _i1.RouteConfig(CheckInSlip.name, path: '/checkInSlip'),
-        _i1.RouteConfig(Multilevel.name, path: '/multilevel')
+        _i1.RouteConfig(Multilevel.name, path: '/multilevel'),
+        _i1.RouteConfig(MerchantProfile.name, path: '/merchantProfile')
       ];
 }
 
@@ -731,14 +732,14 @@ class Home extends _i1.PageRouteInfo {
 }
 
 class QueueNumber extends _i1.PageRouteInfo<QueueNumberArgs> {
-  QueueNumber({dynamic data})
+  QueueNumber({required dynamic data})
       : super(name, path: '/queueNumber', args: QueueNumberArgs(data: data));
 
   static const String name = 'QueueNumber';
 }
 
 class QueueNumberArgs {
-  const QueueNumberArgs({this.data});
+  const QueueNumberArgs({required this.data});
 
   final dynamic data;
 }
@@ -927,7 +928,7 @@ class KppResultArgs {
 }
 
 class KppExam extends _i1.PageRouteInfo<KppExamArgs> {
-  KppExam({String? groupId, String? paperNo})
+  KppExam({required String? groupId, required String? paperNo})
       : super(name,
             path: '/kppExam',
             args: KppExamArgs(groupId: groupId, paperNo: paperNo));
@@ -936,7 +937,7 @@ class KppExam extends _i1.PageRouteInfo<KppExamArgs> {
 }
 
 class KppExamArgs {
-  const KppExamArgs({this.groupId, this.paperNo});
+  const KppExamArgs({required this.groupId, required this.paperNo});
 
   final String? groupId;
 
@@ -1048,16 +1049,17 @@ class ProductListArgs {
 }
 
 class Cart extends _i1.PageRouteInfo<CartArgs> {
-  Cart({required String name, String? dbcode})
-      : super(name, path: '/cart', args: CartArgs(name: name, dbcode: dbcode));
+  Cart({String? itemName, String? dbcode})
+      : super(name,
+            path: '/cart', args: CartArgs(itemName: itemName, dbcode: dbcode));
 
   static const String name = 'Cart';
 }
 
 class CartArgs {
-  const CartArgs({this.name, this.dbcode});
+  const CartArgs({this.itemName, this.dbcode});
 
-  final String? name;
+  final String? itemName;
 
   final String? dbcode;
 }
@@ -1133,7 +1135,7 @@ class CartItemEditArgs {
 class Checkout extends _i1.PageRouteInfo<CheckoutArgs> {
   Checkout(
       {dynamic slsDetailData,
-      required String name,
+      String? itemName,
       String? dbcode,
       String? date,
       String? docDoc,
@@ -1144,7 +1146,7 @@ class Checkout extends _i1.PageRouteInfo<CheckoutArgs> {
             path: '/checkout',
             args: CheckoutArgs(
                 slsDetailData: slsDetailData,
-                name: name,
+                itemName: itemName,
                 dbcode: dbcode,
                 date: date,
                 docDoc: docDoc,
@@ -1158,7 +1160,7 @@ class Checkout extends _i1.PageRouteInfo<CheckoutArgs> {
 class CheckoutArgs {
   const CheckoutArgs(
       {this.slsDetailData,
-      this.name,
+      this.itemName,
       this.dbcode,
       this.date,
       this.docDoc,
@@ -1168,7 +1170,7 @@ class CheckoutArgs {
 
   final dynamic slsDetailData;
 
-  final String? name;
+  final String? itemName;
 
   final String? dbcode;
 
@@ -1383,7 +1385,7 @@ class RegisteredCourseDetailArgs {
 }
 
 class AttendanceRecord extends _i1.PageRouteInfo<AttendanceRecordArgs> {
-  AttendanceRecord({dynamic attendanceData, bool? isLoading})
+  AttendanceRecord({required dynamic attendanceData, required bool? isLoading})
       : super(name,
             path: '/attendanceRecord',
             args: AttendanceRecordArgs(
@@ -1393,7 +1395,8 @@ class AttendanceRecord extends _i1.PageRouteInfo<AttendanceRecordArgs> {
 }
 
 class AttendanceRecordArgs {
-  const AttendanceRecordArgs({this.attendanceData, this.isLoading});
+  const AttendanceRecordArgs(
+      {required this.attendanceData, required this.isLoading});
 
   final dynamic attendanceData;
 
@@ -1697,7 +1700,7 @@ class ImageViewerArgs {
 }
 
 class Webview extends _i1.PageRouteInfo<WebviewArgs> {
-  Webview({String? url, String? backType})
+  Webview({required String? url, String? backType})
       : super(name,
             path: '/webview', args: WebviewArgs(url: url, backType: backType));
 
@@ -1705,7 +1708,7 @@ class Webview extends _i1.PageRouteInfo<WebviewArgs> {
 }
 
 class WebviewArgs {
-  const WebviewArgs({this.url, this.backType});
+  const WebviewArgs({required this.url, this.backType});
 
   final String? url;
 
@@ -1749,7 +1752,7 @@ class ReadMoreArgs {
 }
 
 class ViewPdf extends _i1.PageRouteInfo<ViewPdfArgs> {
-  ViewPdf({String? title, String? pdfLink})
+  ViewPdf({required String? title, required String? pdfLink})
       : super(name,
             path: '/viewPdf',
             args: ViewPdfArgs(title: title, pdfLink: pdfLink));
@@ -1758,7 +1761,7 @@ class ViewPdf extends _i1.PageRouteInfo<ViewPdfArgs> {
 }
 
 class ViewPdfArgs {
-  const ViewPdfArgs({this.title, this.pdfLink});
+  const ViewPdfArgs({required this.title, required this.pdfLink});
 
   final String? title;
 
@@ -1792,4 +1795,10 @@ class MultilevelArgs {
   final dynamic feed;
 
   final String? appVersion;
+}
+
+class MerchantProfile extends _i1.PageRouteInfo {
+  const MerchantProfile() : super(name, path: '/merchantProfile');
+
+  static const String name = 'MerchantProfile';
 }

@@ -327,7 +327,7 @@ class _ProductState extends State<Product> {
               onTap: () => context.router.push(
                 route.Cart(
                   dbcode: 'TBS',
-                  name: 'TBS',
+                  itemName: 'TBS',
                 ),
               ),
               child: Padding(

@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 class Checkout extends StatefulWidget {
   final slsDetailData;
-  final String? name;
+  final String? itemName;
   final String? dbcode;
   final String? date;
   final String? docDoc;
@@ -20,7 +20,7 @@ class Checkout extends StatefulWidget {
 
   Checkout({
     this.slsDetailData,
-    this.name,
+    this.itemName,
     this.dbcode,
     this.date,
     this.docDoc,
@@ -230,7 +230,7 @@ class _CheckoutState extends State<Checkout> {
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: Text(
-              widget.name!,
+              widget.itemName!,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: ScreenUtil().setSp(65),

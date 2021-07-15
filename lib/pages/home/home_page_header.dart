@@ -56,14 +56,17 @@ class HomePageHeader extends StatelessWidget {
           flex: 8,
           child: AspectRatio(
             aspectRatio: 28 / 9,
-            child: FadeInImage(
-              alignment: Alignment.center,
-              height: 350.h,
-              fit: BoxFit.fitWidth,
-              placeholder: MemoryImage(kTransparentImage),
-              image: (instituteLogo!.isNotEmpty
-                  ? NetworkImage(instituteLogo!)
-                  : MemoryImage(kTransparentImage)) as ImageProvider<Object>,
+            child: InkWell(
+              onTap: () => context.router.push(MerchantProfile()),
+              child: FadeInImage(
+                alignment: Alignment.center,
+                height: 350.h,
+                fit: BoxFit.fitWidth,
+                placeholder: MemoryImage(kTransparentImage),
+                image: (instituteLogo!.isNotEmpty
+                    ? NetworkImage(instituteLogo!)
+                    : MemoryImage(kTransparentImage)) as ImageProvider<Object>,
+              ),
             ),
           ),
         ),

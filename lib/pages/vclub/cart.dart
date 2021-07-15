@@ -14,10 +14,10 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Cart extends StatefulWidget {
-  final String? name;
+  final String? itemName;
   final String? dbcode;
 
-  Cart({this.name, this.dbcode});
+  Cart({this.itemName, this.dbcode});
 
   @override
   _CartState createState() => _CartState();
@@ -203,7 +203,7 @@ class _CartState extends State<Cart> {
     context.router.push(
       Checkout(
         slsDetailData: slsDetailData,
-        name: unescape.convert(widget.name!),
+        itemName: unescape.convert(widget.itemName!),
         dbcode: widget.dbcode,
         date: activeSlsTrnData[0].ordDate,
         docDoc: activeSlsTrnData[0].docDoc,
@@ -439,7 +439,7 @@ class _CartState extends State<Cart> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    unescape.convert(widget.name!),
+                    unescape.convert(widget.itemName!),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: ScreenUtil().setSp(65),

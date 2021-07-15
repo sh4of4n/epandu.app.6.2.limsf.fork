@@ -591,7 +591,7 @@ class _ValueClubState extends State<ValueClub> {
               onTap: () => context.router.push(
                 Cart(
                   dbcode: 'TBS',
-                  name: 'TBS',
+                  itemName: 'TBS',
                 ),
               ),
               child: Padding(

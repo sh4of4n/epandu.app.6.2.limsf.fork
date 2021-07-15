@@ -4,6 +4,7 @@ V.2.0.165
 - Null safety
 - RefreshIndicator reacquires API url
 - Add validate app version method and force update
+- Add merchant profile page (click on top banner in home)
 
 V.2.0.164
 
