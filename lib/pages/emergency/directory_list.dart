@@ -61,7 +61,7 @@ class _DirectoryListState extends State<DirectoryList> {
       return response.message;
     } else {
       context.router.popUntil(
-        ModalRoute.withName('/home'),
+        ModalRoute.withName('Home'),
       );
     }
   }

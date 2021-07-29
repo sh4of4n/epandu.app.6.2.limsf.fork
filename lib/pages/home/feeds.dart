@@ -145,7 +145,7 @@ class _FeedsState extends State<Feeds> {
     }
   }
 
-  loadUrl(feed, context) async {
+  loadUrl(feed, BuildContext context) async {
     if (Provider.of<CallStatusModel>(context, listen: false).status == false) {
       Provider.of<CallStatusModel>(context, listen: false).callStatus(true);
 

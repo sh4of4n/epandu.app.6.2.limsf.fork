@@ -125,7 +125,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
             child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
             onPressed: () => context.router.pushAndPopUntil(
               UpdateProfile(),
-              predicate: ModalRoute.withName('/home'),
+              predicate: ModalRoute.withName('Home'),
             ),
           ),
         ],
@@ -390,7 +390,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
           IconButton(
             onPressed: () => context.router.pushAndPopUntil(
               UpdateProfile(),
-              predicate: ModalRoute.withName('/home'),
+              predicate: ModalRoute.withName('Home'),
             ),
             icon: Icon(Icons.edit),
           ),

@@ -62,7 +62,7 @@ class _AddBookingState extends State<AddBooking> {
           TextButton(
             child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
             onPressed: () => context.router.popUntil(
-              ModalRoute.withName('/epanduCategory'),
+              ModalRoute.withName('EpanduCategory'),
             ),
           )
         ],

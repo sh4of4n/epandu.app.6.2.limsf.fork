@@ -286,7 +286,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
           );
 
           if (result.isSuccess) {
-            context.router.pop();
+            context.router.popUntil(ModalRoute.withName('ProfileTab'));
 
             CustomSnackbar().show(
               context,

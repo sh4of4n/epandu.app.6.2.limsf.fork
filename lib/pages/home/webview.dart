@@ -27,7 +27,8 @@ class Webview extends StatefulWidget {
 
 WebViewController? controllerGlobal;
 
-Future<bool> _onWillPop({context, backType, customDialog}) async {
+Future<bool> _onWillPop(
+    {required BuildContext context, backType, customDialog}) async {
   // Provider.of<CallStatusModel>(context, listen: false).callStatus(false);
   if (backType == 'HOME') {
     _confirmBack(customDialog, context);
@@ -39,14 +40,14 @@ Future<bool> _onWillPop({context, backType, customDialog}) async {
     } else {
       // _confirmBack(customDialog, context);
       Provider.of<CallStatusModel>(context, listen: false).callStatus(false);
-      context.router.pop();
+      return true;
     }
 
     return Future.value(false);
   }
 }
 
-_confirmBack(customDialog, context) {
+_confirmBack(customDialog, BuildContext context) {
   return customDialog.show(
     context: context,
     content: AppLocalizations.of(context)!.translate('confirm_back'),
@@ -57,7 +58,7 @@ _confirmBack(customDialog, context) {
             Provider.of<CallStatusModel>(context, listen: false)
                 .callStatus(false);
             context.router.popUntil(
-              ModalRoute.withName('/home'),
+              ModalRoute.withName('Home'),
             );
           }),
       TextButton(
@@ -93,7 +94,7 @@ class _WebviewState extends State<Webview> {
             ? const Icon(Icons.arrow_back_ios)
             : const Icon(Icons.arrow_back),
         onPressed: () =>
-            context.router.popUntil(ModalRoute.withName('/diEnrollment')),
+            context.router.popUntil(ModalRoute.withName('DiEnrollment')),
       );
     } else {
       return NavigationControls(
@@ -113,7 +114,7 @@ class _WebviewState extends State<Webview> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          leading: getBackType(),
+          // leading: getBackType(),
           title: FadeInImage(
             alignment: Alignment.center,
             height: 110.h,

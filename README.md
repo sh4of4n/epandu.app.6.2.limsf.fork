@@ -1,3 +1,7 @@
+V.2.0.166
+
+- Fix navigation
+
 V.2.0.165
 
 - Fix error on huawei device

@@ -92,7 +92,7 @@ class _PaymentStatusState extends State<PaymentStatus> {
                         children: [
                           CustomButton(
                               onPressed: () => context.router.popUntil(
-                                    ModalRoute.withName('/home'),
+                                    ModalRoute.withName('Home'),
                                   ),
                               buttonColor: Color(0xffdd0e0e),
                               title: AppLocalizations.of(context)!

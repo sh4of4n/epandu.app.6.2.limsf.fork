@@ -203,7 +203,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
       );
 
       if (result.isSuccess) {
-        context.router.popUntil(ModalRoute.withName('/home'));
+        context.router.popUntil(ModalRoute.withName('Home'));
         /* customDialog.show(
           context: context,
           title: Center(

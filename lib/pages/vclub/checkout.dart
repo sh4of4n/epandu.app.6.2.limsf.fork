@@ -191,7 +191,7 @@ class _CheckoutState extends State<Checkout> {
               );
 
               context.router.popUntil(
-                ModalRoute.withName('/valueClub'),
+                ModalRoute.withName('ValueClub'),
               );
             },
           ),

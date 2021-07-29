@@ -22,6 +22,7 @@ class Authentication extends StatefulWidget {
 class _AuthenticationState extends State<Authentication> {
   final AuthRepo authRepo = AuthRepo();
   final AppConfig appConfig = AppConfig();
+  final primaryColor = ColorConstant.primaryColor;
   final LocalStorage localStorage = LocalStorage();
   final image = ImagesConstant();
 
@@ -100,8 +101,21 @@ class _AuthenticationState extends State<Authentication> {
     );
 
     return Scaffold(
-      backgroundColor: ColorConstant.primaryColor,
+      backgroundColor: Colors.transparent,
       body: Container(
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            colors: [
+              Colors.amber.shade50,
+              Colors.amber.shade100,
+              Colors.amber.shade200,
+              Colors.amber.shade300,
+              primaryColor
+            ],
+            stops: [0.2, 0.4, 0.6, 0.7, 1],
+            radius: 0.7,
+          ),
+        ),
         height: ScreenUtil().screenHeight,
         alignment: Alignment.center,
         child: Column(
@@ -116,7 +130,7 @@ class _AuthenticationState extends State<Authentication> {
             ), */
             Image.asset(image.logo2),
             SpinKitThreeBounce(
-              color: Color(0xFF3696A8),
+              color: Color(0xFFED3833),
               size: 30,
             ),
           ],

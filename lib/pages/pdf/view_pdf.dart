@@ -54,7 +54,8 @@ class _ViewPdfState extends State<ViewPdf> {
       _pdfByte = bytes;
       _pathPdf = file.path;
       pdfController = PdfController(
-        document: PdfDocument.openAsset(file.path),
+        // document: PdfDocument.openAsset(file.path),
+        document: PdfDocument.openFile(file.path),
       );
     });
 

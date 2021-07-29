@@ -91,7 +91,7 @@ class _PayState extends State<Pay> {
             child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
             onPressed: () => context.router.pushAndPopUntil(
               UpdateProfile(),
-              predicate: ModalRoute.withName('/home'),
+              predicate: ModalRoute.withName('Home'),
             ),
           ),
         ],

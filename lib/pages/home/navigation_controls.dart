@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/pages/home/home.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class NavigationControls extends StatelessWidget {
 
   final Future<WebViewController> webViewControllerFuture;
 
-  backButton(context, webViewReady, controller) async {
+  backButton(BuildContext context, webViewReady, controller) async {
     final customDialog = CustomDialog();
 
     if (!webViewReady)
@@ -39,7 +40,7 @@ class NavigationControls extends StatelessWidget {
                   Provider.of<CallStatusModel>(context, listen: false)
                       .callStatus(false);
                   context.router.popUntil(
-                    ModalRoute.withName('/home'),
+                    ModalRoute.withName('Home'),
                   );
                 }),
             TextButton(
