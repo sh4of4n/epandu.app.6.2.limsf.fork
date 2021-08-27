@@ -108,7 +108,7 @@ class _QueueNumberState extends State<QueueNumber> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 if (widget.data != null &&
-                    widget.data[0].regDate.substring(0, 10) != null)
+                    widget.data[0].regDate?.substring(0, 10) != null)
                   Text(
                     widget.data[0].regDate.substring(0, 10),
                     style: TextStyle(
@@ -116,7 +116,7 @@ class _QueueNumberState extends State<QueueNumber> {
                     ),
                   ),
                 if (widget.data != null &&
-                    widget.data[0].regDate.substring(11, 19) != null)
+                    widget.data[0].regDate?.substring(11, 19) != null)
                   Text(
                     widget.data[0].regDate.substring(11, 19),
                     style: TextStyle(

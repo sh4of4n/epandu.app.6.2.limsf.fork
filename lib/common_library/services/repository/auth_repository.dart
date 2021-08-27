@@ -841,12 +841,13 @@ class AuthRepo {
     String? caPwd = await localStorage.getCaPwdEncode();
     String? merchantNo = await localStorage.getMerchantDbCode();
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd' +
-        '&feedType=${feedType ?? ''}&merchantNo=$merchantNo&sourceDocDoc=${sourceDocDoc ?? ''}&sourceDocRef=${sourceDocRef ?? ''}' +
-        '&startIndex=$startIndex&noOfRecords=$noOfRecords';
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appId=${appConfig.appId}' +
+            '&feedType=${feedType ?? ''}&merchantNo=$merchantNo&sourceDocDoc=${sourceDocDoc ?? ''}&sourceDocRef=${sourceDocRef ?? ''}' +
+            '&startIndex=$startIndex&noOfRecords=$noOfRecords';
 
     var response = await networking.getData(
-      path: 'GetActiveFeedByLevel?$path',
+      path: 'GetActiveFeedByLevelAppId?$path',
     );
 
     if (response.isSuccess && response.data != null) {

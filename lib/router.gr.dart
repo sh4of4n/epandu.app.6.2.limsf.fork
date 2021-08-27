@@ -97,12 +97,6 @@ class AppRouter extends _i1.RootStackRouter {
           final args = data.argsAs<QueueNumberArgs>();
           return _i7.QueueNumber(data: args.data);
         }),
-    Settings.name: (routeData) => _i1.MaterialPageX<dynamic>(
-        routeData: routeData,
-        builder: (data) {
-          final args = data.argsAs<SettingsArgs>();
-          return _i5.Settings(args.data);
-        }),
     Enrollment.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
@@ -579,7 +573,6 @@ class AppRouter extends _i1.RootStackRouter {
         _i1.RouteConfig(RegisterForm.name, path: '/registerForm'),
         _i1.RouteConfig(Home.name, path: '/home'),
         _i1.RouteConfig(QueueNumber.name, path: '/queueNumber'),
-        _i1.RouteConfig(Settings.name, path: '/settings'),
         _i1.RouteConfig(Enrollment.name, path: '/enrollment'),
         _i1.RouteConfig(DiEnrollment.name, path: '/diEnrollment'),
         _i1.RouteConfig(EnrollConfirmation.name, path: '/enrollConfirmation'),
@@ -740,19 +733,6 @@ class QueueNumber extends _i1.PageRouteInfo<QueueNumberArgs> {
 
 class QueueNumberArgs {
   const QueueNumberArgs({required this.data});
-
-  final dynamic data;
-}
-
-class Settings extends _i1.PageRouteInfo<SettingsArgs> {
-  Settings({required dynamic data})
-      : super(name, path: '/settings', args: SettingsArgs(data: data));
-
-  static const String name = 'Settings';
-}
-
-class SettingsArgs {
-  const SettingsArgs({required this.data});
 
   final dynamic data;
 }

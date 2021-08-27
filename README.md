@@ -1,3 +1,8 @@
+V.2.0.167
+
+- Add null handling for data in Queue number page
+- Fix dismount error in scan.dart
+
 V.2.0.166
 
 - Fix navigation

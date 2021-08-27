@@ -184,11 +184,11 @@ class _ScanState extends State<Scan> {
               },
               type: DialogType.INFO,
             );
-          }
 
-          setState(() {
-            _isLoading = false;
-          });
+            setState(() {
+              _isLoading = false;
+            });
+          }
         } else {
           customDialog.show(
             context: context,
