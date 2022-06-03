@@ -17,7 +17,6 @@ import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:epandu/common_library/utils/loading_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
@@ -348,9 +347,11 @@ class _HomeState extends State<Home> {
             TextButton(
               onPressed: () async {
                 if (Platform.isIOS) {
-                  await launch('https://' + result.data[0].newVerApplestoreUrl);
+                  await launchUrl(Uri.parse(
+                      'https://' + result.data[0].newVerApplestoreUrl));
                 } else {
-                  await launch(result.data[0].newVerGooglestoreUrl);
+                  await launchUrl(
+                      Uri.parse(result.data[0].newVerGooglestoreUrl));
                 }
               },
               child: Text('Ok'),

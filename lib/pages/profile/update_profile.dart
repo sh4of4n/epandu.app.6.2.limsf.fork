@@ -353,7 +353,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   }
 
   Future _getImageGallery() async {
-    var pickedFile = await picker.getImage(source: ImageSource.gallery);
+    var pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile?.path != null) {
       setState(() {
@@ -440,7 +440,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       suffixIcon: IconButton(
                         icon: Icon(Icons.cancel),
                         onPressed: () {
-                          WidgetsBinding.instance!.addPostFrameCallback(
+                          WidgetsBinding.instance.addPostFrameCallback(
                               (_) => _icController.clear());
                         },
                       ),
@@ -501,7 +501,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       suffixIcon: IconButton(
                         icon: Icon(Icons.cancel),
                         onPressed: () {
-                          WidgetsBinding.instance!.addPostFrameCallback(
+                          WidgetsBinding.instance.addPostFrameCallback(
                               (_) => _nameController.clear());
                           // _nameController.text = '';
                         },
@@ -552,7 +552,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       suffixIcon: IconButton(
                         icon: Icon(Icons.cancel),
                         onPressed: () {
-                          WidgetsBinding.instance!.addPostFrameCallback(
+                          WidgetsBinding.instance.addPostFrameCallback(
                               (_) => _nickNameController.clear());
                         },
                       ),
@@ -615,7 +615,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       suffixIcon: IconButton(
                         icon: Icon(Icons.cancel),
                         onPressed: () {
-                          WidgetsBinding.instance!.addPostFrameCallback(
+                          WidgetsBinding.instance.addPostFrameCallback(
                               (_) => _emailController.clear());
                         },
                       ),
@@ -673,7 +673,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       suffixIcon: IconButton(
                         icon: Icon(Icons.cancel),
                         onPressed: () {
-                          WidgetsBinding.instance!.addPostFrameCallback(
+                          WidgetsBinding.instance.addPostFrameCallback(
                               (_) => _postcodeController.clear());
                         },
                       ),

@@ -82,9 +82,9 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
             TextButton(
               onPressed: () async {
                 if (Platform.isIOS) {
-                  await launch(result.data[0].newVerApplestoreUrl);
+                  await launchUrl(result.data[0].newVerApplestoreUrl);
                 } else {
-                  await launch(result.data[0].newVerGooglestoreUrl);
+                  await launchUrl(result.data[0].newVerGooglestoreUrl);
                 }
               },
               child: Text('Ok'),

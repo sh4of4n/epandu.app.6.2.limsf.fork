@@ -250,8 +250,8 @@ class _InboxState extends State<Inbox> {
 
       sortedInboxData.add(data);
 
-      sortedInboxData.sort(
-          (b, a) => int.tryParse(a!.msgRef!)!.compareTo(int.tryParse(b!.msgRef!)!));
+      sortedInboxData.sort((b, a) =>
+          int.tryParse(a!.msgRef!)!.compareTo(int.tryParse(b!.msgRef!)!));
 
       // final sortedIndex = sortedInboxData[index];
       // print(sortedInboxData[index].sendMsg);
@@ -300,10 +300,7 @@ class _InboxState extends State<Inbox> {
                               arguments: WebviewArguments(url: link.url));
                         }, */
                     onOpen: (link) {
-                      launch(
-                        link.url,
-                        enableJavaScript: true,
-                      );
+                      launchUrl(Uri.parse(link.url));
                     },
                     text: sortedInboxData[index]!.sendMsg!,
                   ),

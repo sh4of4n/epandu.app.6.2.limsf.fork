@@ -282,7 +282,6 @@ class _FeedsState extends State<Feeds> {
   String _getPackageCode({udf}) {
     if (udf != null && udf.contains('package')) {
       int? startIndex = udf.indexOf('{');
-      int? endIndex = udf.indexOf(']}');
 
       String? packages = udf.substring(startIndex);
 

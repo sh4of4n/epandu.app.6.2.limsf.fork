@@ -254,33 +254,29 @@ class _ChatScreenState extends State<ChatScreen> {
                           builder: (context, msg, _) {
                             // print("message receive call");
 
-                            if (msg != null) {
-                              Message message =
-                                  Message.fromJson(jsonDecode(msg));
-                              if ((message.target == userId &&
-                                      message.author == widget.targetId) ||
-                                  (message.target == widget.targetId &&
-                                      message.author == userId)) {
-                                if (messageDuplicationIdentifier
-                                    .contains(msg)) {
-                                  print("meesges existed" + msg);
-                                } else if (message.author == widget.targetId) {
-                                  socket!.emit("acknowledgementReceive", msg);
+                            Message message = Message.fromJson(jsonDecode(msg));
+                            if ((message.target == userId &&
+                                    message.author == widget.targetId) ||
+                                (message.target == widget.targetId &&
+                                    message.author == userId)) {
+                              if (messageDuplicationIdentifier.contains(msg)) {
+                                print("meesges existed" + msg);
+                              } else if (message.author == widget.targetId) {
+                                socket!.emit("acknowledgementReceive", msg);
 
-                                  messages.add(message);
-                                  messageDuplicationIdentifier.add(msg);
-                                  _addMessagesIntoDB(message).then((value) {
-                                    if (value == true) {
-                                      // print('2 ${messages.length}');
-                                      _scrollToBottom(100);
-                                    }
-                                  });
-                                } else {
-                                  messageDuplicationIdentifier.add(msg);
+                                messages.add(message);
+                                messageDuplicationIdentifier.add(msg);
+                                _addMessagesIntoDB(message).then((value) {
+                                  if (value == true) {
+                                    // print('2 ${messages.length}');
+                                    _scrollToBottom(100);
+                                  }
+                                });
+                              } else {
+                                messageDuplicationIdentifier.add(msg);
 
-                                  messages.add(message);
-                                  _scrollToBottom(100);
-                                }
+                                messages.add(message);
+                                _scrollToBottom(100);
                               }
                             }
                             // print('3 ${messages.length}');
@@ -498,7 +494,8 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Future<void> _sendMessage(String? author, String? target, ChatBloc bloc) async {
+  Future<void> _sendMessage(
+      String? author, String? target, ChatBloc bloc) async {
     final messageContent = _textEditingController.text;
     var uuid = Uuid();
     String messageId = uuid.v4();

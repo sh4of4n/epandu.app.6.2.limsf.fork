@@ -287,7 +287,7 @@ class _ChatHomeState extends State<ChatHome> {
     if (_searchController.text.isNotEmpty) {
       return IconButton(
         onPressed: () {
-          WidgetsBinding.instance!
+          WidgetsBinding.instance
               .addPostFrameCallback((_) => _searchController.clear());
         },
         icon: Icon(Icons.close),
@@ -336,7 +336,6 @@ class _ChatHomeState extends State<ChatHome> {
         },
       ),
       backgroundColor: Colors.white,
-      textTheme: Theme.of(context).textTheme.apply(bodyColor: Colors.black45),
       iconTheme: IconThemeData(color: Colors.black45),
       title: _searchContact(),
     );
@@ -345,7 +344,6 @@ class _ChatHomeState extends State<ChatHome> {
   appBar() {
     return AppBar(
       backgroundColor: Colors.white,
-      textTheme: Theme.of(context).textTheme.apply(bodyColor: Colors.black45),
       iconTheme: IconThemeData(color: Colors.black45),
       title: Text("Chat"),
       actions: <Widget>[

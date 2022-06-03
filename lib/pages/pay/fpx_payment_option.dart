@@ -288,7 +288,8 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: Text(
-                            AppLocalizations.of(context)!.translate('total_lbl'),
+                            AppLocalizations.of(context)!
+                                .translate('total_lbl'),
                             style: TextStyle(
                               fontSize: 60.sp,
                               fontWeight: FontWeight.bold,
@@ -326,8 +327,8 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                           color: Colors.blue[900],
                         ),
                         recognizer: TapGestureRecognizer()
-                          ..onTap = () async => await launch(
-                              'https://www.mepsfpx.com.my/FPXMain/termsAndConditions.jsp'),
+                          ..onTap = () async => await launchUrl(Uri.parse(
+                              'https://www.mepsfpx.com.my/FPXMain/termsAndConditions.jsp')),
                         /* recognizer: TapGestureRecognizer()
                           ..onTap = () => context.router.push(
                                 Routes.webview,
@@ -509,7 +510,8 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                           child: Text(
-                            AppLocalizations.of(context)!.translate('total_lbl'),
+                            AppLocalizations.of(context)!
+                                .translate('total_lbl'),
                             style: TextStyle(
                               fontSize: 60.sp,
                               fontWeight: FontWeight.bold,
@@ -547,8 +549,8 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                           color: Colors.blue[900],
                         ),
                         recognizer: TapGestureRecognizer()
-                          ..onTap = () async => await launch(
-                              'https://www.mepsfpx.com.my/FPXMain/termsAndConditions.jsp'),
+                          ..onTap = () async => await launchUrl(Uri.parse(
+                              'https://www.mepsfpx.com.my/FPXMain/termsAndConditions.jsp')),
                         /* recognizer: TapGestureRecognizer()
                           ..onTap = () => context.router.push(
                                 Routes.webview,

@@ -29,7 +29,6 @@ class _EmergencyState extends State<Emergency> {
   String? policeNumber;
   final customDialog = CustomDialog();
 
-
   @override
   void initState() {
     super.initState();
@@ -92,11 +91,11 @@ class _EmergencyState extends State<Emergency> {
   _callPoliceNumber() async {
     String trimNumber = policeNumber!.replaceAll('-', '').replaceAll(' ', '');
 
-    await launch('tel:$trimNumber');
+    await launchUrl(Uri.parse('tel:$trimNumber'));
   }
 
   _callEmergencyNumber({required String number}) async {
-    await launch('tel:999');
+    await launchUrl(Uri.parse('tel:999'));
   }
 
   @override
@@ -202,8 +201,8 @@ class _EmergencyState extends State<Emergency> {
                         child: AuthoritiesButton(
                           tileFirstColor: Color(0xffc90000),
                           tileSecondColor: Color(0xffd43b3b),
-                          label:
-                              AppLocalizations.of(context)!.translate('999_lbl'),
+                          label: AppLocalizations.of(context)!
+                              .translate('999_lbl'),
                           onTap: () {},
                         ),
                       ),

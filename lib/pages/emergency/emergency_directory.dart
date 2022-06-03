@@ -236,7 +236,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
     } else {
       String trimNumber = policeNumber!.replaceAll('-', '').replaceAll(' ', '');
 
-      await launch('tel:$trimNumber');
+      await launchUrl(Uri.parse('tel:$trimNumber'));
     }
   }
 
@@ -252,7 +252,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
       String trimNumber =
           ambulanceNumber!.replaceAll('-', '').replaceAll(' ', '');
 
-      await launch('tel:$trimNumber');
+      await launchUrl(Uri.parse('tel:$trimNumber'));
     }
   }
 
@@ -267,7 +267,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
     } else {
       String trimNumber = bombaNumber!.replaceAll('-', '').replaceAll(' ', '');
 
-      await launch('tel:$trimNumber');
+      await launchUrl(Uri.parse('tel:$trimNumber'));
     }
   }
 
@@ -283,7 +283,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
       String trimNumber =
           carWorkshopNumber!.replaceAll('-', '').replaceAll(' ', '');
 
-      await launch('tel:$trimNumber');
+      await launchUrl(Uri.parse('tel:$trimNumber'));
     }
   }
 
@@ -299,7 +299,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
       String trimNumber =
           bikeWorkshopNumber!.replaceAll('-', '').replaceAll(' ', '');
 
-      await launch('tel:$trimNumber');
+      await launchUrl(Uri.parse('tel:$trimNumber'));
     }
   }
 
@@ -360,7 +360,8 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
             TableRow(
               children: [
                 DirectoryCard(
-                  title: AppLocalizations.of(context)!.translate('police_title'),
+                  title:
+                      AppLocalizations.of(context)!.translate('police_title'),
                   image: myImage.policeIcon,
                   phoneIcon: myImage.phoneButton,
                   directoryIcon: myImage.directoryButton,
@@ -369,8 +370,8 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                   directory: DirectoryList(directoryType: 'POLICE'),
                 ),
                 DirectoryCard(
-                  title:
-                      AppLocalizations.of(context)!.translate('ambulance_title'),
+                  title: AppLocalizations.of(context)!
+                      .translate('ambulance_title'),
                   image: myImage.ambulanceIcon,
                   phoneIcon: myImage.phoneButton,
                   directoryIcon: myImage.directoryButton,

@@ -239,7 +239,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   }
 
   Future _getImageGallery() async {
-    var pickedFile = await picker.getImage(source: ImageSource.gallery);
+    var pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile?.path != null) {
       setState(() {

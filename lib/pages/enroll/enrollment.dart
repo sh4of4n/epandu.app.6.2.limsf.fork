@@ -26,6 +26,7 @@ import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
 enum Gender { male, female }
+
 enum AppState { free, picked, cropped }
 
 class Enrollment extends StatefulWidget {
@@ -320,7 +321,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         suffixIcon: IconButton(
           icon: Icon(Icons.cancel),
           onPressed: () {
-            WidgetsBinding.instance!
+            WidgetsBinding.instance
                 .addPostFrameCallback((_) => _nickNameController.clear());
           },
         ),
@@ -371,7 +372,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         suffixIcon: IconButton(
           icon: Icon(Icons.cancel),
           onPressed: () {
-            WidgetsBinding.instance!
+            WidgetsBinding.instance
                 .addPostFrameCallback((_) => _emailController.clear());
           },
         ),
@@ -939,7 +940,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   }
 
   Future _getImageGallery() async {
-    var pickedFile = await picker.getImage(source: ImageSource.gallery);
+    var pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile?.path != null) {
       setState(() {
@@ -1062,7 +1063,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                         suffixIcon: IconButton(
                           icon: Icon(Icons.cancel),
                           onPressed: () {
-                            WidgetsBinding.instance!.addPostFrameCallback(
+                            WidgetsBinding.instance.addPostFrameCallback(
                                 (_) => _postcodeController.clear());
                           },
                         ),

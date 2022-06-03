@@ -63,10 +63,10 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
         type: MessageType.INFO,
       );
     } else {
-      String? trimNumber =
+      Uri? trimNumber =
           widget.snapshot.phone.replaceAll('-', '').replaceAll(' ', '');
 
-      await launch('tel:$trimNumber');
+      await launchUrl(Uri.parse('tel:$trimNumber'));
     }
   }
 

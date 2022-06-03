@@ -18,8 +18,6 @@ class RemoveBracket {
 final ColorScheme colorScheme = ColorScheme.light(
   primary: Color(0xFF501049),
   secondary: Color(0xFFE30425),
-  primaryVariant: Color(0xFF5D1049),
-  secondaryVariant: Color(0xFFE30425),
   surface: Color(0xFFFFFFFF),
   background: Color(0xFFF4E2ED),
   error: Color(0xFFB00020),
