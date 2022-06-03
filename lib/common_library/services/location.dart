@@ -5,10 +5,7 @@ import '../utils/local_storage.dart';
 import 'package:geolocator/geolocator.dart';
 
 class Location {
-  final locationOptions = LocationOptions(
-    accuracy: LocationAccuracy.high,
-    distanceFilter: 100,
-  );
+
   double? latitude;
   double? longitude;
   String? address;

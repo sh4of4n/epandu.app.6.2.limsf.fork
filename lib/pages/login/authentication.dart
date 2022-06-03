@@ -93,11 +93,8 @@ class _AuthenticationState extends State<Authentication> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(
-      BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width,
-          maxHeight: MediaQuery.of(context).size.height),
+      context,
       designSize: Size(1440, 2960),
-      orientation: Orientation.portrait,
     );
 
     return Scaffold(

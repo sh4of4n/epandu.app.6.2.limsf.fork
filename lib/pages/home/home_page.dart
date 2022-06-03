@@ -51,10 +51,7 @@ class _HomeState extends State<Home> {
   // get location
   // Location location = Location();
   // StreamSubscription<Position> positionStream;
-  final locationOptions = LocationOptions(
-    accuracy: LocationAccuracy.high,
-    distanceFilter: 100,
-  );
+
   String? instituteLogo = '';
   bool isLogoLoaded = false;
   String appVersion = '';

@@ -28,10 +28,7 @@ class _EmergencyState extends State<Emergency> {
   Location location = Location();
   String? policeNumber;
   final customDialog = CustomDialog();
-  final locationOptions = LocationOptions(
-    accuracy: LocationAccuracy.high,
-    distanceFilter: 100,
-  );
+
 
   @override
   void initState() {

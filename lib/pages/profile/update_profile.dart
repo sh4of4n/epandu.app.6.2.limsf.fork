@@ -366,7 +366,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   }
 
   Future<void> _editImage() async {
-    File? croppedFile = await ImageCropper.cropImage(
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: _image.path,
       aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
       maxWidth: 512,
@@ -375,7 +375,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
 
     if (croppedFile != null) {
       setState(() {
-        _croppedImage = croppedFile;
+        _croppedImage = File(croppedFile.path);
         imageState = AppState.cropped;
         profilePicBase64 = base64Encode(_croppedImage.readAsBytesSync());
         profilePicUrl = '';

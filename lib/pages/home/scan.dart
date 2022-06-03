@@ -101,12 +101,12 @@ class _ScanState extends State<Scan> {
 
       try {
         CheckInScanResponse checkInScanResponse =
-            CheckInScanResponse.fromJson(jsonDecode(scanData.code));
+            CheckInScanResponse.fromJson(jsonDecode(scanData.code!));
 
-        print(jsonDecode(scanData.code)['Table1'][0]['merchant_no']);
+        print(jsonDecode(scanData.code!)['Table1'][0]['merchant_no']);
 
         if (merchantNo ==
-            jsonDecode(scanData.code)['Table1'][0]['merchant_no']) {
+            jsonDecode(scanData.code!)['Table1'][0]['merchant_no']) {
           _scanResult(
               checkInScanResponse: checkInScanResponse, scanData: scanData);
         } else {

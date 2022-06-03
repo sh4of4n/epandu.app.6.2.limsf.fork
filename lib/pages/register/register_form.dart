@@ -252,7 +252,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   }
 
   Future<void> _editImage() async {
-    File? croppedFile = await ImageCropper.cropImage(
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: _image.path,
       aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
       maxWidth: 512,
@@ -261,7 +261,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
 
     if (croppedFile != null) {
       setState(() {
-        _croppedImage = croppedFile;
+        _croppedImage = File(croppedFile.path);
         imageState = AppState.cropped;
         profilePic = base64Encode(_croppedImage.readAsBytesSync());
 
