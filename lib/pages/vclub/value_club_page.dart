@@ -12,6 +12,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import '../../router.gr.dart';
 
@@ -613,6 +614,20 @@ class _ValueClubState extends State<ValueClub> {
         // bottomNavigationBar: BottomMenu(),
         body: ListView(
           children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
+              child: InkWell(
+                onTap: () => context.router.push(MerchantList(merchantType: 'HOCHIAK')),
+                child: FadeInImage(
+                  alignment: Alignment.center,
+                  placeholder: MemoryImage(kTransparentImage),
+                  // height: ScreenUtil().setHeight(100),
+                  image: AssetImage(
+                    myImage.hochiak,
+                  ),
+                ),
+              ),
+            ),
             Stack(
               children: [
                 Align(

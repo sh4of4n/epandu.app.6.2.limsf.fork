@@ -362,7 +362,7 @@ class _FeedsState extends State<Feeds> {
                       borderRadius: BorderRadius.circular(12),
                       onTap: () async {
                         var feedValue = item.feedNavigate;
-
+                        feedValue = 'VCLUB';
                         if (feedValue != null) {
                           bool isUrl = isURL(feedValue);
 
