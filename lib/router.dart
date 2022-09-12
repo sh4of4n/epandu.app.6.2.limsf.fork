@@ -4,6 +4,7 @@ import 'package:epandu/pages/chat/chat.dart';
 import 'package:epandu/pages/enroll/enroll.dart';
 import 'package:epandu/pages/epandu/epandu.dart';
 import 'package:epandu/pages/forgot_password/forgot_password.dart';
+import 'package:epandu/pages/home/menu_page.dart';
 import 'package:epandu/pages/inbox/inbox.dart';
 import 'package:epandu/pages/invite/invite.dart';
 import 'package:epandu/pages/kpp/kpp.dart';
@@ -191,6 +192,7 @@ import 'package:epandu/common_library/utils/image_viewer.dart';
         path: '/merchantProfile',
         page: MerchantProfile,
         name: 'MerchantProfile'),
+    AutoRoute(page: MenuPage),
   ],
 )
 class $AppRouter {}

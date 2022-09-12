@@ -369,7 +369,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
           if (getRegisteredDi.isSuccess) {
             localStorage.saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
 
-            context.router.replace(Home());
+            context.router.replace(MenuRoute());
           } else {
             setState(() {
               _isLoading = false;
@@ -387,7 +387,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
         } else {
           localStorage.saveMerchantDbCode(result.data[0].merchantNo);
 
-          context.router.replace(Home());
+          context.router.replace(MenuRoute());
         }
       } else {
         setState(() {

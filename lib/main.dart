@@ -1,4 +1,6 @@
 // import 'dart:io';
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/model/inbox_model.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
@@ -13,6 +15,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'common_library/services/model/auth_model.dart';
 import 'common_library/utils/app_localizations_delegate.dart';
 import 'common_library/utils/application.dart';
@@ -86,34 +89,46 @@ void main() async {
   // _setupLogging();
   await Hive.openBox('ws_url');
   await Hive.openBox('di_list');
+  await Hive.openBox('menu');
 
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   await Firebase.initializeApp();
 
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => LanguageModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => CallStatusModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => HomeLoadingModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => CartStatus(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => NotificationCount(),
-        ),
-      ],
-      child: MyApp(),
-    ),
-  );
+  runZonedGuarded(() async {
+    await SentryFlutter.init(
+      (options) {
+        options.dsn =
+            'https://5525bd569e8849f0940925f93c1b164a@o354605.ingest.sentry.io/6739433';
+      },
+    );
+
+    runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => LanguageModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => CallStatusModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => HomeLoadingModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => CartStatus(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => NotificationCount(),
+          ),
+        ],
+        child: MyApp(),
+      ),
+    );
+  }, (exception, stackTrace) async {
+    await Sentry.captureException(exception, stackTrace: stackTrace);
+  });
 }
 
 // void _setupLogging() {
