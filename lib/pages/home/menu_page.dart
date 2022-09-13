@@ -340,9 +340,7 @@ class MenuButton extends StatelessWidget {
           items.sort((a, b) => b['count'].compareTo(a['count']));
           await box.put('menu_item', jsonEncode(items));
         }
-        context.router.replaceAll([
-          Home()
-        ]);
+        context.router.replaceAll([Home()]);
       },
       child: Row(
         children: [

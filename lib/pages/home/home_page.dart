@@ -21,6 +21,7 @@ import 'package:hive/hive.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:string_validator/string_validator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // import 'package:epandu/common_library/utils/app_localizations.dart';
@@ -379,28 +380,105 @@ class _HomeState extends State<Home> {
       ),
       child: Scaffold(
         key: _scaffoldKey,
+        extendBody: true,
         backgroundColor: Colors.transparent,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        // floatingActionButton: Container(
+        //   margin: EdgeInsets.only(top: 120.h),
+        //   height: 350.h,
+        //   width: 450.w,
+        //   child: FloatingActionButton(
+        //     onPressed: () {
+        //       context.router.push(EmergencyDirectory());
+        //     },
+        //     child: Image.asset(
+        //       myImage.sos,
+        //       // width: ScreenUtil().setWidth(300),
+        //     ),
+        //     backgroundColor: Colors.transparent,
+        //   ),
+        // ),
+        // bottomNavigationBar: BottomMenu(
+        //   iconText: _iconText,
+        //   // positionStream: positionStream,
+        // ),
         floatingActionButton: Container(
-          margin: EdgeInsets.only(top: 120.h),
-          height: 350.h,
-          width: 450.w,
-          child: FloatingActionButton(
-            onPressed: () {
-              context.router.push(EmergencyDirectory());
-            },
-            child: Image.asset(
-              myImage.sos,
-              // width: ScreenUtil().setWidth(300),
+          width: 75,
+          child: FittedBox(
+            child: FloatingActionButton(
+              onPressed: () {},
+              child: Image.asset(
+                ImagesConstant().sos,
+              ),
+              backgroundColor: Colors.transparent,
             ),
-            backgroundColor: Colors.transparent,
           ),
         ),
-        bottomNavigationBar: BottomMenu(
-          iconText: _iconText,
-          // positionStream: positionStream,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomAppBar(
+          shape: CircularNotchedRectangle(),
+          color: Colors.white,
+          child: IconTheme(
+            data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Material(
+                  type: MaterialType.transparency,
+                  child: InkWell(
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.home,
+                            color: Colors.grey,
+                          ),
+                          Text(
+                            'Home',
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Material(
+                  type: MaterialType.transparency,
+                  child: InkWell(
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.menu,
+                            color: Colors.grey,
+                          ),
+                          Text(
+                            'Menu',
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
         body: SafeArea(
+          bottom: false,
           child: Stack(
             children: <Widget>[
               RefreshIndicator(
@@ -431,9 +509,6 @@ class _HomeState extends State<Home> {
                 child: SingleChildScrollView(
                   controller: _scrollController,
                   child: Container(
-                    // margin:
-                    //     EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(40)),
-                    // height: ScreenUtil.screenHeightDp - ScreenUtil().setHeight(100),
                     child: Column(
                       children: <Widget>[
                         Padding(
@@ -441,8 +516,10 @@ class _HomeState extends State<Home> {
                               horizontal: ScreenUtil().setWidth(60)),
                           child: HomePageHeader(
                             instituteLogo: instituteLogo,
-                            // positionStream: positionStream,
                           ),
+                        ),
+                        SizedBox(
+                          height: 8.0,
                         ),
                         HomeTopMenu(
                           iconText: _iconText,
@@ -450,12 +527,259 @@ class _HomeState extends State<Home> {
                           getActiveFeed: () => _getActiveFeed(),
                         ),
                         LimitedBox(maxHeight: ScreenUtil().setHeight(30)),
-                        Feeds(
-                          feed: items,
-                          isLoading: _isLoading,
-                          appVersion: appVersion,
+                        SizedBox(
+                          height: 175,
+                          child: ListView.separated(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                            ),
+                            scrollDirection: Axis.horizontal,
+                            separatorBuilder: (BuildContext ctx, int index) {
+                              return ClipRRect(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                                child: Image.network(
+                                  'https://tbsweb.tbsdns.com/WebCache/epandu_devp_3/EPANDU/R3W77BWEY6B6TQI7DB5YM5RC5Q/image/Feed/RW42FFIRRQSB4LGEN3ZX2FWOKM_n0_20210628181116.jpg',
+                                  fit: BoxFit.contain,
+                                ),
+                              );
+                            },
+                            itemCount: 50,
+                            itemBuilder: (BuildContext ctx, int index) {
+                              return SizedBox(
+                                width: 8,
+                              );
+                            },
+                          ),
                         ),
-                        if (_loadMore) shimmer(),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        GridView.count(
+                          shrinkWrap: true,
+                          primary: false,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                          ),
+                          // crossAxisSpacing: 8,
+                          // mainAxisSpacing: 8,
+                          crossAxisCount: 4,
+                          children: <Widget>[
+                            for (int i = 0; i < 8; i++)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      'assets/menu/Fovourite-icon.png',
+                                    ),
+                                  ),
+                                  Text('Favourite'),
+                                ],
+                              ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Discover More',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Icon(Icons.chevron_right),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 150,
+                              child: ListView.separated(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
+                                scrollDirection: Axis.horizontal,
+                                separatorBuilder:
+                                    (BuildContext ctx, int index) {
+                                  return Container(
+                                    width: 150,
+                                    height: 150,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(5),
+                                      ),
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          primaryColor,
+                                          Colors.white,
+                                        ],
+                                      ),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text('TYRE'),
+                                            ),
+                                          ],
+                                        ),
+                                        Image.network(
+                                          'https://www.mekanika.com.my/wp-content/uploads/2019/08/uc6-photo-data.png',
+                                          fit: BoxFit.contain,
+                                          height: 100,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                itemCount: 50,
+                                itemBuilder: (BuildContext ctx, int index) {
+                                  return SizedBox(
+                                    width: 8,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Promotions',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Icon(Icons.chevron_right),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 200 + 8.8,
+                              child: ListView.separated(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
+                                scrollDirection: Axis.horizontal,
+                                separatorBuilder:
+                                    (BuildContext ctx, int index) {
+                                  return Container(
+                                    height: 200,
+                                    width: 300,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            topRight: Radius.circular(10),
+                                          ),
+                                          child: Image.network(
+                                            'https://tbsweb.tbsdns.com/WebCache/epandu_devp_3/EPANDU/R3W77BWEY6B6TQI7DB5YM5RC5Q/image/Feed/RW42FFIRRQSB4LGEN3ZX2FWOKM_n0_20210628181116.jpg',
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 8,
+                                              ),
+                                              Text('Find Out More'),
+                                              Spacer(),
+                                              Icon(Icons.chevron_right),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                itemCount: 50,
+                                itemBuilder: (BuildContext ctx, int index) {
+                                  return SizedBox(
+                                    width: 8,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Highlights',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Icon(Icons.chevron_right),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                              ),
+                              child: Image.network(
+                                'https://i.pinimg.com/736x/44/f8/41/44f8418a4afe49d2bbcf213cf9e66b7d.jpg',
+                                fit: BoxFit.contain,
+                                // height: 150,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 64.0,
+                        ),
+                        // Feeds(
+                        //   feed: items,
+                        //   isLoading: _isLoading,
+                        //   appVersion: appVersion,
+                        // ),
+                        // if (_loadMore) shimmer(),
                       ],
                     ),
                   ),
