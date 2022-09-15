@@ -10,6 +10,7 @@ import 'package:epandu/services/provider/notification_count.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
@@ -99,7 +100,9 @@ void main() async {
   runZonedGuarded(() async {
     await SentryFlutter.init(
       (options) {
-        options.dsn =
+        options.dsn = kDebugMode
+            ? ''
+            :
             'https://5525bd569e8849f0940925f93c1b164a@o354605.ingest.sentry.io/6739433';
       },
     );

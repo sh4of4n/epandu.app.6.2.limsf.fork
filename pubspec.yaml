@@ -79,6 +79,13 @@ dependencies:
   uuid: ^3.0.6 
   flutter_typeahead: ^4.0.0 
   sentry_flutter:
+  scroll_app_bar:
+  flutter_form_builder:
+  form_builder_validators:
+  google_maps_flutter:
+  flutter_map:
+  latlong2:
+  huawei_map:
   
   flutter_localizations:
     sdk: flutter

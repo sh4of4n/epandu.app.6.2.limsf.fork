@@ -567,17 +567,22 @@ class _HomeState extends State<Home> {
                           crossAxisCount: 4,
                           children: <Widget>[
                             for (int i = 0; i < 8; i++)
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    child: Image.asset(
-                                      'assets/menu/Fovourite-icon.png',
+                              GestureDetector(
+                                onTap: (){
+                                  context.router.push(CreateFavouriteRoute());
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      child: Image.asset(
+                                        'assets/menu/Fovourite-icon.png',
+                                      ),
                                     ),
-                                  ),
-                                  Text('Favourite'),
-                                ],
+                                    Text('Favourite'),
+                                  ],
+                                ),
                               ),
                           ],
                         ),

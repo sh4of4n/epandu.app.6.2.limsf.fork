@@ -343,6 +343,7 @@ class MenuButton extends StatelessWidget {
         context.router.replaceAll([Home()]);
       },
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
             width: leftPadding ? 64.0 : 0,
