@@ -4,6 +4,8 @@ import 'package:epandu/pages/chat/chat.dart';
 import 'package:epandu/pages/elearning/elearning.dart';
 import 'package:epandu/pages/enroll/enroll.dart';
 import 'package:epandu/pages/epandu/epandu.dart';
+import 'package:epandu/pages/expenses/create_fuel.dart';
+import 'package:epandu/pages/expenses/create_service_car.dart';
 import 'package:epandu/pages/favourite/favourite_map.dart';
 import 'package:epandu/pages/forgot_password/forgot_password.dart';
 import 'package:epandu/pages/favourite/create_favourite.dart';
@@ -199,6 +201,8 @@ import 'package:epandu/common_library/utils/image_viewer.dart';
     AutoRoute(page: ElearningPage),
     AutoRoute(page: CreateFavouritePage),
     AutoRoute(page: FavourieMapPage),
+    AutoRoute(page: CreateFuelPage),
+    AutoRoute(page: CreateServiceCarPage),
   ],
 )
 class $AppRouter {}

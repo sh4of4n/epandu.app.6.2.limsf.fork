@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/repository/inbox_repository.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
+import 'package:epandu/pages/elearning/elearning.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 // import 'package:epandu/common_library/services/location.dart';
@@ -566,24 +567,164 @@ class _HomeState extends State<Home> {
                           // mainAxisSpacing: 8,
                           crossAxisCount: 4,
                           children: <Widget>[
-                            for (int i = 0; i < 8; i++)
-                              GestureDetector(
-                                onTap: (){
-                                  context.router.push(CreateFavouriteRoute());
-                                },
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: Image.asset(
-                                        'assets/menu/Fovourite-icon.png',
-                                      ),
+                            // for (int i = 0; i < 8; i++)
+                            //   GestureDetector(
+                            //     onTap: (){
+                            //       context.router.push(CreateServiceCarRoute());
+                            //     },
+                            //     child: Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.center,
+                            //       mainAxisAlignment: MainAxisAlignment.center,
+                            //       children: [
+                            //         Container(
+                            //           child: Image.asset(
+                            //             'assets/menu/Fovourite-icon.png',
+                            //           ),
+                            //         ),
+                            //         Text('Favourite'),
+                            //       ],
+                            //     ),
+                            //   ),
+
+                            GestureDetector(
+                              onTap: () {
+                                // context.router.push(CreateServiceCarRoute());
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      'assets/menu/eDriving-icon.png',
                                     ),
-                                    Text('Favourite'),
-                                  ],
-                                ),
+                                  ),
+                                  Text('eDriving'),
+                                ],
                               ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                context.router.push(CreateFuelRoute());
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      'assets/menu/Espenses-icon.png',
+                                    ),
+                                  ),
+                                  Text('Expenses'),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                // context.router.push(CreateServiceCarRoute());
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      'assets/menu/Driving-routes-icon.png',
+                                    ),
+                                  ),
+                                  Text('Driving Route'),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                context.router.push(ElearningRoute());
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      'assets/menu/eLearning-icon.png',
+                                    ),
+                                  ),
+                                  Text('eLearning'),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                context.router.push(CreateFavouriteRoute());
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      'assets/menu/Fovourite-icon.png',
+                                    ),
+                                  ),
+                                  Text('Favourite'),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                context.router.push(EmergencyDirectory());
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      'assets/menu/Directory-and-rating-icon.png',
+                                    ),
+                                  ),
+                                  Text(
+                                    'Directory & Rating',
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                // context.router.push(CreateServiceCarRoute());
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      'assets/menu/Jobs-icon.png',
+                                    ),
+                                  ),
+                                  Text('Jobs'),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                // context.router.push(CreateServiceCarRoute());
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: Image.asset(
+                                      'assets/menu/More-icon.png',
+                                    ),
+                                  ),
+                                  Text('More'),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                         SizedBox(
