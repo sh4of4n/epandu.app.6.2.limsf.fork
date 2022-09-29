@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
@@ -7,9 +6,9 @@ import 'package:epandu/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart' as http;
 
 class CreateFavouritePage extends StatefulWidget {
   CreateFavouritePage({Key? key}) : super(key: key);
@@ -20,38 +19,97 @@ class CreateFavouritePage extends StatefulWidget {
 
 class _CreateFavouritePageState extends State<CreateFavouritePage> {
   final _formKey = GlobalKey<FormBuilderState>();
-  List<String> genderOptions = ['F & B', 'Supplier', 'Other'];
+  List<String> genderOptions = ['Cafe', 'Supplier', 'Other'];
   final ImagePicker _picker = ImagePicker();
   List<XFile> _imageFileList = [];
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  GoogleMapController? mapController;
-  double lat = 0;
-  double lng = 0;
+  late GoogleMapController mapController;
+  double _lat = 3.139003;
+  double _lng = 101.68685499999992;
+  final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
 
   @override
   void initState() {
     super.initState();
-    init();
   }
 
-  init() async {
-    http.Response ip = await http.get(Uri.http('ip-api.com', '/json'));
-    print(json.decode(ip.body)['lat'].toString());
-    lat = json.decode(ip.body)['lat'];
-    lng = json.decode(ip.body)['lon'];
-    mapController!.moveCamera(
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handlePermission();
+
+    if (!hasPermission) {
+      return;
+    }
+
+    Position position = await _geolocatorPlatform.getCurrentPosition();
+    setLocationOnMap(position.latitude, position.longitude);
+  }
+
+  void setLocationOnMap(double lat, double lng) {
+    mapController.moveCamera(
       CameraUpdate.newLatLng(
         LatLng(lat, lng),
       ),
     );
+    MarkerId a = MarkerId('value');
+    setState(() {
+      _lat = lat;
+      _lng = lng;
+      markers[a] = Marker(
+        markerId: const MarkerId('value'),
+        position: LatLng(lat, lng),
+        icon: BitmapDescriptor.defaultMarker,
+      );
+    });
   }
+
+  Future<bool> _handlePermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await _geolocatorPlatform.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return false;
+    }
+
+    permission = await _geolocatorPlatform.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await _geolocatorPlatform.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return false;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return false;
+    }
+    return true;
+  }
+
+  // init() async {
+  //   http.Response ip = await http.get(Uri.http('ip-api.com', '/json'));
+  //   print(json.decode(ip.body)['lat'].toString());
+  //   lat = json.decode(ip.body)['lat'];
+  //   lng = json.decode(ip.body)['lon'];
+  //   mapController!.moveCamera(
+  //     CameraUpdate.newLatLng(
+  //       LatLng(lat, lng),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xffffd225),
-        title: Text('Create Favourite'),
+        title: Text('Create Favourite Place'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                context.router.pop();
+              },
+              icon: Icon(Icons.save))
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -134,9 +192,10 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                           setState(() {
                             mapController = controller;
                           });
+                          _getCurrentPosition();
                         },
                         initialCameraPosition: CameraPosition(
-                            target: LatLng(-33.852, 151.211), zoom: 11.0),
+                            target: LatLng(_lat, _lng), zoom: 11.0),
                         markers: Set<Marker>.of(markers.values),
                         scrollGesturesEnabled: false,
                         zoomGesturesEnabled: false,
@@ -144,24 +203,13 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                         onTap: (pos) async {
                           final result =
                               await context.router.push(FavourieMapRoute(
-                            lat: lat,
-                            lng: lng,
+                            lat: _lat,
+                            lng: _lng,
                           ));
                           if (result != null) {
-                            lat = (result as LatLng).latitude;
-                            lng = (result).longitude;
-                            MarkerId a = MarkerId('value');
-                            setState(() {
-                              markers[a] = Marker(
-                                markerId: const MarkerId('value'),
-                                position: result,
-                                icon: BitmapDescriptor.defaultMarker,
-                              );
-                            });
-                            mapController!.moveCamera(
-                              CameraUpdate.newLatLng(
-                                result as LatLng,
-                              ),
+                            setLocationOnMap(
+                              (result as LatLng).latitude,
+                              result.longitude,
                             );
                           }
                         },

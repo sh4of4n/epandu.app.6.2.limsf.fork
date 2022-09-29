@@ -12,6 +12,7 @@ import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:hive/hive.dart';
@@ -102,11 +103,10 @@ void main() async {
       (options) {
         options.dsn = kDebugMode
             ? ''
-            :
-            'https://5525bd569e8849f0940925f93c1b164a@o354605.ingest.sentry.io/6739433';
+            : 'https://5525bd569e8849f0940925f93c1b164a@o354605.ingest.sentry.io/6739433';
       },
     );
-
+    EasyLoading.instance.userInteractions = false;
     runApp(
       MultiProvider(
         providers: [
@@ -358,6 +358,9 @@ class _MyAppState extends State<MyApp> {
         fontFamily: 'Myriad',
         textTheme: FontTheme().primaryFont,
         primaryTextTheme: FontTheme().primaryFont,
+        appBarTheme: AppBarTheme(
+          color: Color(0xffffd225),
+        ),
       ),
       // List all of the app's supported locales here
       supportedLocales: application.supportedLocales(),
@@ -373,6 +376,8 @@ class _MyAppState extends State<MyApp> {
       ],
       routerDelegate: _appRouter.delegate(initialRoutes: [Authentication()]),
       routeInformationParser: _appRouter.defaultRouteParser(),
+      builder: EasyLoading.init(),
+
       // initialRoute: AUTH,
       // onGenerateRoute: RouteGenerator.generateRoute,
     );

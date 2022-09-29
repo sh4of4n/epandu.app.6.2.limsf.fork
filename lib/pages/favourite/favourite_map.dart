@@ -51,7 +51,6 @@ class _FavourieMapPageState extends State<FavourieMapPage> {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Test if location services are enabled.
     serviceEnabled = await _geolocatorPlatform.isLocationServiceEnabled();
     if (!serviceEnabled) {
       return false;

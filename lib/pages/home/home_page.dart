@@ -1015,7 +1015,7 @@ class _HomeState extends State<Home> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                context.router.push(CreateFavouriteRoute());
+                                context.router.push(FavouritePlaceListRoute());
                               },
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,

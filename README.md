@@ -1,3 +1,11 @@
+30/09/2022 V.6.1.1
+ePandu ws 6.1.147.0 
+- Favourite Place
+    - Remove address field
+    - Default zoom in the map able to show the house or building lot number
+    - Allow take photo to add place photo
+    - Favourite Place list UI
+
 29/09/2022 V.6.1.0
 ePandu ws 6.1.147.0 
 - Change the main page UI design and call to the current available pages for the eDriving sub pages
