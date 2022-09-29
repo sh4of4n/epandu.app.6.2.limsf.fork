@@ -1,4 +1,4 @@
-29/09/2022 V.6.0.0
+29/09/2022 V.6.1.0
 ePandu ws 6.1.147.0 
 - Change the main page UI design and call to the current available pages for the eDriving sub pages
 - Change the current banner to show at the top page level 2 after the Shortcut icons
