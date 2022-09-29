@@ -104,8 +104,11 @@ class _PaymentHistoryState extends State<PaymentHistory> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           elevation: 0,
+            iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
           backgroundColor: Colors.transparent,
-          title: Text(AppLocalizations.of(context)!.translate('payment_lbl')),
+          title: Text(AppLocalizations.of(context)!.translate('payment_lbl'), style: TextStyle(color: Colors.black,),),
         ),
         body: _paymentHistoryList(),
       ),

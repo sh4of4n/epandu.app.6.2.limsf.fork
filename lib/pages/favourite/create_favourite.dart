@@ -28,6 +28,7 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xffffd225),
         title: Text('Create Favourite'),
       ),
       body: SafeArea(

@@ -163,10 +163,11 @@ class _ValueClubState extends State<ValueClub> {
         mostPopularProducts = result.data;
       });
     }
-
-    setState(() {
-      mostPopularLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        mostPopularLoading = false;
+      });
+    }
   }
 
   Future<void> _recommended(stkCat, endLimit) async {
@@ -584,7 +585,10 @@ class _ValueClubState extends State<ValueClub> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.translate('value_club')),
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
+          title: Text(AppLocalizations.of(context)!.translate('value_club'), style: TextStyle(color: Colors.black,),),
           elevation: 0,
           backgroundColor: Colors.transparent,
           actions: [
@@ -617,7 +621,8 @@ class _ValueClubState extends State<ValueClub> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
               child: InkWell(
-                onTap: () => context.router.push(MerchantList(merchantType: 'HOCHIAK')),
+                onTap: () =>
+                    context.router.push(MerchantList(merchantType: 'HOCHIAK')),
                 child: FadeInImage(
                   alignment: Alignment.center,
                   placeholder: MemoryImage(kTransparentImage),

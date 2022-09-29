@@ -194,7 +194,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         // _phoneController.text = result.data[0].phone;
         _nickNameController.text = result.data[0].nickName;
         _emailController.text = result.data[0].eMail;
-        _idNameController.text = result.data[0].name;
+        _idNameController.text = result.data[0].name ?? '';
         _icNoController.text = result.data[0].icNo;
         _dobController.text = result.data[0].birthDate;
         if (result.data[0].race == 'MALAY' || result.data[0].race == 'M') {

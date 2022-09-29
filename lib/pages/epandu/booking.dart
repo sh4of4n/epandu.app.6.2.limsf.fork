@@ -66,7 +66,10 @@ class _BookingState extends State<Booking> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.translate('booking')),
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
+          title: Text(AppLocalizations.of(context)!.translate('booking'), style: TextStyle(color: Colors.black),),
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),

@@ -17,6 +17,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xffffd225),
         title: Text('Refuel'),
         actions: [
           IconButton(

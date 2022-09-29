@@ -1,57 +1,75 @@
 import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 import '../../utils/constants.dart';
 
-class MenuPage extends StatelessWidget {
-  const MenuPage({Key? key}) : super(key: key);
+class MenuPage extends StatefulWidget {
+  MenuPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    var _constItem = [
-      {
-        'count': 0,
-        'title': 'eDriving',
-        'icon': 'eDriving-icon.png',
-      },
-      {
-        'count': 0,
-        'title': 'Check Expenses',
-        'icon': 'Espenses-icon.png',
-      },
-      {
-        'count': 0,
-        'title': 'Check Driving Routes',
-        'icon': 'Driving-routes-icon.png',
-      },
-      {
-        'count': 0,
-        'title': 'eLearning',
-        'icon': 'eLearning-icon.png',
-      },
-      {
-        'count': 0,
-        'title': 'Direcotry & Rating',
-        'icon': 'Directory-and-rating-icon.png',
-      },
-      {
-        'count': 0,
-        'title': 'Favourites',
-        'icon': 'Fovourite-icon.png',
-      },
-      {
-        'count': 0,
-        'title': 'Find Jobs',
-        'icon': 'Jobs-icon.png',
-      },
-    ];
+  State<MenuPage> createState() => _MenuPageState();
+}
+
+class _MenuPageState extends State<MenuPage> {
+  final localStorage = LocalStorage();
+
+  String? name = '';
+  var _constItem = [
+    {
+      'count': 0,
+      'title': 'eDriving',
+      'icon': 'eDriving-icon.png',
+      'path': 'EpanduCategory'
+    },
+    {
+      'count': 0,
+      'title': 'Check Expenses',
+      'icon': 'Espenses-icon.png',
+      'path': 'CreateFuelRoute'
+    },
+    {
+      'count': 0,
+      'title': 'Check Driving Routes',
+      'icon': 'Driving-routes-icon.png',
+      'path': ''
+    },
+    {
+      'count': 0,
+      'title': 'eLearning',
+      'icon': 'eLearning-icon.png',
+      'path': 'KppCategory'
+    },
+    {
+      'count': 0,
+      'title': 'Direcotry & Rating',
+      'icon': 'Directory-and-rating-icon.png',
+      'path': ''
+    },
+    {
+      'count': 0,
+      'title': 'Favourites',
+      'icon': 'Fovourite-icon.png',
+      'path': 'EmergencyDirectory'
+    },
+    {
+      'count': 0,
+      'title': 'Find Jobs',
+      'icon': 'Jobs-icon.png',
+      'path': '',
+    },
+  ];
+
+  List<dynamic> items = [];
+
+  void startInit() async {
     var box = Hive.box('menu');
-    List<dynamic> items = [];
-    var itemHive = box.get('menu_item');
+
+    var itemHive = box.get('menu_item_1');
     if (itemHive == null) {
       items = _constItem;
       box.put('menu_item', jsonEncode(items));
@@ -62,7 +80,21 @@ class MenuPage extends StatelessWidget {
         box.put('menu_item', jsonEncode(items));
       }
     }
+    
+    name = await localStorage.getNickName();
+    setState(() {
+      name = name;
+    });
+  }
 
+  @override
+  void initState() {
+    super.initState();
+    startInit();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
         decoration: BoxDecoration(
@@ -104,7 +136,9 @@ class MenuPage extends StatelessWidget {
                   Material(
                     type: MaterialType.transparency,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        context.router.replaceAll([Home()]);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
@@ -171,7 +205,7 @@ class MenuPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Hello Khor',
+                                'Hello $name',
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline4
@@ -229,74 +263,10 @@ class MenuPage extends StatelessWidget {
                         leftPadding: index % 2 != 0,
                         title: items[index]['title'],
                         icon: items[index]['icon'],
+                        path: items[index]['path'],
                       );
                     },
                   ),
-                  // Column(
-                  //   children: [
-                  //     MenuButton(
-                  //       leftPadding: false,
-                  //       title: 'eDriving',
-                  //       icon: 'eDriving-icon.png',
-                  //     ),
-                  //     SizedBox(
-                  //       height: 16.0,
-                  //     ),
-                  //     MenuButton(
-                  //       leftPadding: true,
-                  //       title: 'Check Expenses',
-                  //       icon: 'Espenses-icon.png',
-                  //     ),
-                  //     SizedBox(
-                  //       height: 16.0,
-                  //     ),
-                  //     MenuButton(
-                  //       leftPadding: false,
-                  //       title: 'Check Driving Routes',
-                  //       icon: 'Driving-routes-icon.png',
-                  //     ),
-                  //     SizedBox(
-                  //       height: 16.0,
-                  //     ),
-                  //     MenuButton(
-                  //       leftPadding: true,
-                  //       title: 'eLearning',
-                  //       icon: 'eLearning-icon.png',
-                  //     ),
-                  //     SizedBox(
-                  //       height: 16.0,
-                  //     ),
-                  //     MenuButton(
-                  //       leftPadding: false,
-                  //       title: 'Direcotry & Rating',
-                  //       icon: 'Directory-and-rating-icon.png',
-                  //     ),
-                  //     SizedBox(
-                  //       height: 16.0,
-                  //     ),
-                  //     MenuButton(
-                  //       leftPadding: true,
-                  //       title: 'Favourites',
-                  //       icon: 'Fovourite-icon.png',
-                  //     ),
-                  //     SizedBox(
-                  //       height: 16.0,
-                  //     ),
-                  //     MenuButton(
-                  //       leftPadding: false,
-                  //       title: 'Find Jobs',
-                  //       icon: 'Jobs-icon.png',
-                  //     ),
-                  //     SizedBox(
-                  //       height: 16.0,
-                  //     ),
-                  //     MenuButton(
-                  //       leftPadding: true,
-                  //       title: 'More',
-                  //       icon: 'More-icon.png',
-                  //     ),
-                  //   ],
-                  // ),
                 ),
                 SizedBox(
                   height: 16.0,
@@ -305,6 +275,7 @@ class MenuPage extends StatelessWidget {
                   leftPadding: true,
                   title: 'More',
                   icon: 'More-icon.png',
+                  path: '',
                 ),
               ],
             ),
@@ -319,11 +290,13 @@ class MenuButton extends StatelessWidget {
   final bool leftPadding;
   final String title;
   final String icon;
+  final path;
   const MenuButton({
     Key? key,
     required this.leftPadding,
     required this.title,
     required this.icon,
+    required this.path,
   }) : super(key: key);
 
   @override
@@ -340,7 +313,28 @@ class MenuButton extends StatelessWidget {
           items.sort((a, b) => b['count'].compareTo(a['count']));
           await box.put('menu_item', jsonEncode(items));
         }
-        context.router.replaceAll([Home()]);
+        PageRouteInfo? route;
+        switch (path) {
+          case 'EpanduCategory':
+            route = EpanduCategory();
+            break;
+          case 'CreateFuelRoute':
+            route = CreateFuelRoute();
+            break;
+          case 'KppCategory':
+            route = KppCategory();
+            break;
+          case 'EmergencyDirectory':
+            route = EmergencyDirectory();
+            break;
+          default:
+            route = null;
+        }
+        if (route == null) {
+          await context.router.replaceAll([Home()]);
+        } else {
+          await context.router.replaceAll([Home(), route]);
+        }
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

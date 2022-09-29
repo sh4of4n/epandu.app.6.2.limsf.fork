@@ -514,8 +514,10 @@ class AppRouter extends _i34.RootStackRouter {
           routeData: routeData, child: _i13.MerchantProfile());
     },
     MenuRoute.name: (routeData) {
+      final args =
+          routeData.argsAs<MenuRouteArgs>(orElse: () => const MenuRouteArgs());
       return _i34.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i28.MenuPage());
+          routeData: routeData, child: _i28.MenuPage(key: args.key));
     },
     ElearningRoute.name: (routeData) {
       final args = routeData.argsAs<ElearningRouteArgs>(
@@ -2185,10 +2187,23 @@ class MerchantProfile extends _i34.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i28.MenuPage]
-class MenuRoute extends _i34.PageRouteInfo<void> {
-  const MenuRoute() : super(MenuRoute.name, path: '/menu-page');
+class MenuRoute extends _i34.PageRouteInfo<MenuRouteArgs> {
+  MenuRoute({_i35.Key? key})
+      : super(MenuRoute.name,
+            path: '/menu-page', args: MenuRouteArgs(key: key));
 
   static const String name = 'MenuRoute';
+}
+
+class MenuRouteArgs {
+  const MenuRouteArgs({this.key});
+
+  final _i35.Key? key;
+
+  @override
+  String toString() {
+    return 'MenuRouteArgs{key: $key}';
+  }
 }
 
 /// generated route for
