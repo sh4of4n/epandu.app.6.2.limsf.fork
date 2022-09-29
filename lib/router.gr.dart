@@ -532,10 +532,11 @@ class AppRouter extends _i34.RootStackRouter {
           routeData: routeData, child: _i30.CreateFavouritePage(key: args.key));
     },
     FavourieMapRoute.name: (routeData) {
-      final args = routeData.argsAs<FavourieMapRouteArgs>(
-          orElse: () => const FavourieMapRouteArgs());
+      final args = routeData.argsAs<FavourieMapRouteArgs>();
       return _i34.MaterialPageX<dynamic>(
-          routeData: routeData, child: _i31.FavourieMapPage(key: args.key));
+          routeData: routeData,
+          child: _i31.FavourieMapPage(
+              key: args.key, lat: args.lat, lng: args.lng));
     },
     CreateFuelRoute.name: (routeData) {
       final args = routeData.argsAs<CreateFuelRouteArgs>(
@@ -2253,21 +2254,26 @@ class CreateFavouriteRouteArgs {
 /// generated route for
 /// [_i31.FavourieMapPage]
 class FavourieMapRoute extends _i34.PageRouteInfo<FavourieMapRouteArgs> {
-  FavourieMapRoute({_i35.Key? key})
+  FavourieMapRoute({_i35.Key? key, required double lat, required double lng})
       : super(FavourieMapRoute.name,
-            path: '/favourie-map-page', args: FavourieMapRouteArgs(key: key));
+            path: '/favourie-map-page',
+            args: FavourieMapRouteArgs(key: key, lat: lat, lng: lng));
 
   static const String name = 'FavourieMapRoute';
 }
 
 class FavourieMapRouteArgs {
-  const FavourieMapRouteArgs({this.key});
+  const FavourieMapRouteArgs({this.key, required this.lat, required this.lng});
 
   final _i35.Key? key;
 
+  final double lat;
+
+  final double lng;
+
   @override
   String toString() {
-    return 'FavourieMapRouteArgs{key: $key}';
+    return 'FavourieMapRouteArgs{key: $key, lat: $lat, lng: $lng}';
   }
 }
 

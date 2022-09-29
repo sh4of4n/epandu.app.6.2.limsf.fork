@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 class CreateFavouritePage extends StatefulWidget {
   CreateFavouritePage({Key? key}) : super(key: key);
@@ -23,6 +25,26 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
   List<XFile> _imageFileList = [];
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   GoogleMapController? mapController;
+  double lat = 0;
+  double lng = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  init() async {
+    http.Response ip = await http.get(Uri.http('ip-api.com', '/json'));
+    print(json.decode(ip.body)['lat'].toString());
+    lat = json.decode(ip.body)['lat'];
+    lng = json.decode(ip.body)['lon'];
+    mapController!.moveCamera(
+      CameraUpdate.newLatLng(
+        LatLng(lat, lng),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +66,8 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                     name: 'type',
                     decoration: InputDecoration(
                       labelText: 'Type',
-                      border: OutlineInputBorder(),
                       icon: Icon(Icons.format_list_bulleted),
+                      filled: true,
                     ),
                     validator: FormBuilderValidators.compose(
                         [FormBuilderValidators.required()]),
@@ -65,7 +87,7 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                     name: 'name',
                     decoration: InputDecoration(
                       labelText: 'Location Name',
-                      border: OutlineInputBorder(),
+                      filled: true,
                       icon: Icon(Icons.map),
                     ),
                     onChanged: (val) {},
@@ -81,7 +103,7 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                     name: 'description',
                     decoration: InputDecoration(
                       labelText: 'Description',
-                      border: OutlineInputBorder(),
+                      filled: true,
                       icon: Icon(Icons.description),
                     ),
                     validator: FormBuilderValidators.compose([
@@ -89,116 +111,13 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                     ]),
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
+                    minLines: 2,
                   ),
-                  // SizedBox(
-                  //   height: 16,
-                  // ),
-                  // FormBuilderTextField(
-                  //   name: 'position',
-                  //   decoration: InputDecoration(
-                  //     labelText: 'Position',
-                  //     border: OutlineInputBorder(),
-                  //   ),
-                  //   validator: FormBuilderValidators.compose([
-                  //     FormBuilderValidators.required(),
-                  //   ]),
-                  //   readOnly: true,
-                  //   onTap: () async {
-                  //     final result =
-                  //         await context.router.push(FavourieMapRoute());
-                  //     if (result != null) {
-                  //       _formKey.currentState!.fields['position']!
-                  //           .didChange(result.toString());
-                  //       MarkerId a = MarkerId('value');
-                  //       setState(() {
-                  //         markers[a] = Marker(
-                  //           markerId: const MarkerId('value'),
-                  //           position: result as LatLng,
-                  //           icon: BitmapDescriptor.defaultMarker,
-                  //         );
-                  //       });
-                  //       mapController!.moveCamera(
-                  //         CameraUpdate.newLatLng(
-                  //           result as LatLng,
-                  //         ),
-                  //       );
-                  //     }
-                  //   },
-                  // ),
 
                   SizedBox(
                     height: 16.0,
                   ),
-                  FormBuilderTextField(
-                    name: 'add1',
-                    decoration: InputDecoration(
-                      labelText: 'Address 1',
-                      border: OutlineInputBorder(),
-                      icon: Icon(Icons.place),
-                    ),
-                    validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(),
-                    ]),
-                  ),
-                  SizedBox(
-                    height: 16.0,
-                  ),
-                  FormBuilderTextField(
-                    name: 'add2',
-                    decoration: InputDecoration(
-                      labelText: 'Address 2',
-                      border: OutlineInputBorder(),
-                      icon: Icon(null),
-                    ),
-                    validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(),
-                    ]),
-                  ),
-                  SizedBox(
-                    height: 16.0,
-                  ),
-                  FormBuilderTextField(
-                    name: 'state',
-                    decoration: InputDecoration(
-                      labelText: 'State',
-                      border: OutlineInputBorder(),
-                      icon: Icon(null),
-                    ),
-                    validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(),
-                    ]),
-                  ),
-                  SizedBox(
-                    height: 16.0,
-                  ),
-                  FormBuilderTextField(
-                    name: 'city',
-                    decoration: InputDecoration(
-                      labelText: 'City',
-                      border: OutlineInputBorder(),
-                      icon: Icon(null),
-                    ),
-                    validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(),
-                    ]),
-                  ),
-                  SizedBox(
-                    height: 16.0,
-                  ),
-                  FormBuilderTextField(
-                    name: 'postcode',
-                    decoration: InputDecoration(
-                      labelText: 'Postcode',
-                      border: OutlineInputBorder(),
-                      icon: Icon(null),
-                    ),
-                    validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(),
-                    ]),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
+
                   Text(
                     'Position',
                     style: TextStyle(
@@ -224,13 +143,18 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                         zoomControlsEnabled: false,
                         onTap: (pos) async {
                           final result =
-                              await context.router.push(FavourieMapRoute());
+                              await context.router.push(FavourieMapRoute(
+                            lat: lat,
+                            lng: lng,
+                          ));
                           if (result != null) {
+                            lat = (result as LatLng).latitude;
+                            lng = (result).longitude;
                             MarkerId a = MarkerId('value');
                             setState(() {
                               markers[a] = Marker(
                                 markerId: const MarkerId('value'),
-                                position: result as LatLng,
+                                position: result,
                                 icon: BitmapDescriptor.defaultMarker,
                               );
                             });
@@ -272,13 +196,47 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                       return index == 0
                           ? GestureDetector(
                               onTap: () async {
-                                List<XFile>? pickedFile =
-                                    await _picker.pickMultiImage();
-                                if (pickedFile != null) {
-                                  setState(() {
-                                    _imageFileList.addAll(pickedFile);
-                                  });
-                                }
+                                await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return SimpleDialog(
+                                        title: const Text('Add photos'),
+                                        children: <Widget>[
+                                          SimpleDialogOption(
+                                            onPressed: () async {
+                                              final XFile? photo =
+                                                  await _picker.pickImage(
+                                                      source:
+                                                          ImageSource.camera);
+                                              if (photo != null) {
+                                                setState(() {
+                                                  _imageFileList.add(photo);
+                                                });
+                                              }
+
+                                              context.router.pop();
+                                            },
+                                            child: const Text('Take photo'),
+                                          ),
+                                          SimpleDialogOption(
+                                            onPressed: () async {
+                                              List<XFile>? pickedFile =
+                                                  await _picker
+                                                      .pickMultiImage();
+                                              if (pickedFile != null) {
+                                                setState(() {
+                                                  _imageFileList
+                                                      .addAll(pickedFile);
+                                                });
+                                              }
+                                              context.router.pop();
+                                            },
+                                            child: const Text(
+                                                'Choose existing photo'),
+                                          ),
+                                        ],
+                                      );
+                                    });
                               },
                               child: DottedBorder(
                                 color: Colors.grey,

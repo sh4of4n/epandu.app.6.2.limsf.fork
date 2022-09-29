@@ -7,7 +7,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 // import 'package:huawei_map/map.dart';
 
 class FavourieMapPage extends StatefulWidget {
-  FavourieMapPage({Key? key}) : super(key: key);
+  final double lat;
+  final double lng;
+  FavourieMapPage({
+    Key? key,
+    required this.lat,
+    required this.lng,
+  }) : super(key: key);
 
   @override
   State<FavourieMapPage> createState() => _FavourieMapPageState();
@@ -23,7 +29,6 @@ class _FavourieMapPageState extends State<FavourieMapPage> {
   void initState() {
     // HuaweiMapInitializer.initializeMap();
     super.initState();
-    _getCurrentPosition();
   }
 
   Future<void> _getCurrentPosition() async {
@@ -72,6 +77,15 @@ class _FavourieMapPageState extends State<FavourieMapPage> {
       appBar: AppBar(
         title: Text('Map'),
       ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 64.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            _getCurrentPosition();
+          },
+          child: const Icon(Icons.gps_fixed),
+        ),
+      ),
       body: SafeArea(
         child: Stack(
           children: [
@@ -80,9 +94,14 @@ class _FavourieMapPageState extends State<FavourieMapPage> {
                 setState(() {
                   mapController = controller;
                 });
+                mapController.moveCamera(
+                  CameraUpdate.newLatLng(
+                    LatLng(widget.lat, widget.lng),
+                  ),
+                );
               },
-              initialCameraPosition:
-                  CameraPosition(target: LatLng(-33.852, 151.211), zoom: 11.0),
+              initialCameraPosition: CameraPosition(
+                  target: LatLng(widget.lat, widget.lng), zoom: 17.0),
               zoomControlsEnabled: false,
               onTap: (LatLng pos) {},
               onLongPress: (LatLng pos) async {
