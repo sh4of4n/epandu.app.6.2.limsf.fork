@@ -14,6 +14,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
@@ -373,6 +374,7 @@ class _MyAppState extends State<MyApp> {
         GlobalMaterialLocalizations.delegate,
         // Built-in localization for text direction LTR/RTL
         GlobalWidgetsLocalizations.delegate,
+         FormBuilderLocalizations.delegate,
       ],
       routerDelegate: _appRouter.delegate(initialRoutes: [Authentication()]),
       routeInformationParser: _appRouter.defaultRouteParser(),

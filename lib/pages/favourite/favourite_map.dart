@@ -100,9 +100,12 @@ class _FavourieMapPageState extends State<FavourieMapPage> {
                 );
               },
               initialCameraPosition: CameraPosition(
-                  target: LatLng(widget.lat, widget.lng), zoom: 17.0),
+                  target: LatLng(widget.lat, widget.lng), zoom: 21.0),
               zoomControlsEnabled: false,
               onTap: (LatLng pos) {},
+              onCameraMove: (CameraPosition cameraPosition) {
+                print(cameraPosition.zoom);
+              },
               onLongPress: (LatLng pos) async {
                 // double screenWidth = MediaQuery.of(context).size.width *
                 //     MediaQuery.of(context).devicePixelRatio;

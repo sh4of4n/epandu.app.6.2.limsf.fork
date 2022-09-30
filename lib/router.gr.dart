@@ -738,15 +738,23 @@ class AppRouter extends _i37.RootStackRouter {
       );
     },
     PhotoViewRoute.name: (routeData) {
+      final args = routeData.argsAs<PhotoViewRouteArgs>();
       return _i37.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i35.PhotoViewPage(),
+        child: _i35.PhotoViewPage(
+          key: args.key,
+          url: args.url,
+        ),
       );
     },
     EditFavouritePlaceRoute.name: (routeData) {
+      final args = routeData.argsAs<EditFavouritePlaceRouteArgs>();
       return _i37.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i36.EditFavouritePlacePage(),
+        child: _i36.EditFavouritePlacePage(
+          key: args.key,
+          placeId: args.placeId,
+        ),
       );
     },
   };
@@ -3151,24 +3159,69 @@ class FavouritePlaceListRoute extends _i37.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i35.PhotoViewPage]
-class PhotoViewRoute extends _i37.PageRouteInfo<void> {
-  const PhotoViewRoute()
-      : super(
+class PhotoViewRoute extends _i37.PageRouteInfo<PhotoViewRouteArgs> {
+  PhotoViewRoute({
+    _i38.Key? key,
+    required String url,
+  }) : super(
           PhotoViewRoute.name,
           path: '/photo-view-page',
+          args: PhotoViewRouteArgs(
+            key: key,
+            url: url,
+          ),
         );
 
   static const String name = 'PhotoViewRoute';
 }
 
+class PhotoViewRouteArgs {
+  const PhotoViewRouteArgs({
+    this.key,
+    required this.url,
+  });
+
+  final _i38.Key? key;
+
+  final String url;
+
+  @override
+  String toString() {
+    return 'PhotoViewRouteArgs{key: $key, url: $url}';
+  }
+}
+
 /// generated route for
 /// [_i36.EditFavouritePlacePage]
-class EditFavouritePlaceRoute extends _i37.PageRouteInfo<void> {
-  const EditFavouritePlaceRoute()
-      : super(
+class EditFavouritePlaceRoute
+    extends _i37.PageRouteInfo<EditFavouritePlaceRouteArgs> {
+  EditFavouritePlaceRoute({
+    _i38.Key? key,
+    required String placeId,
+  }) : super(
           EditFavouritePlaceRoute.name,
           path: '/edit-favourite-place-page',
+          args: EditFavouritePlaceRouteArgs(
+            key: key,
+            placeId: placeId,
+          ),
         );
 
   static const String name = 'EditFavouritePlaceRoute';
+}
+
+class EditFavouritePlaceRouteArgs {
+  const EditFavouritePlaceRouteArgs({
+    this.key,
+    required this.placeId,
+  });
+
+  final _i38.Key? key;
+
+  final String placeId;
+
+  @override
+  String toString() {
+    return 'EditFavouritePlaceRouteArgs{key: $key, placeId: $placeId}';
+  }
 }

@@ -39,7 +39,7 @@ class Networking extends BaseRepo {
         url = await wsUrlBox.get('wsUrl');
       }
     }
-
+  // url = 'http://10.0.2.2:53131/MainService.svc';
     try {
       http.Response response;
       // for getWsUrl
@@ -103,7 +103,7 @@ class Networking extends BaseRepo {
           url = await wsUrlBox.get('wsUrl');
         }
       }
-
+ // url = 'http://10.0.2.2:53131/MainService.svc';
       print('$url/webapi/$api${path ?? ""}');
 
       print('body: ' + body);

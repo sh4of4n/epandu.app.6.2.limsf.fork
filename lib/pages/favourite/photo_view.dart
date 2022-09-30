@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
 class PhotoViewPage extends StatefulWidget {
-  const PhotoViewPage({super.key});
+  final String url;
+  const PhotoViewPage({super.key, required this.url});
 
   @override
   State<PhotoViewPage> createState() => _PhotoViewPageState();
@@ -16,8 +17,7 @@ class _PhotoViewPageState extends State<PhotoViewPage> {
         title: Text('The Coffee Bean & Tea Leaf'),
       ),
       body: PhotoView(
-        imageProvider: NetworkImage(
-            "https://3u8dbs16f2emlqxkbc8tbvgf-wpengine.netdna-ssl.com/wp-content/uploads/2019/06/Coffee-bean-Tea-Leaf-Logo-Cups.jpg"),
+        imageProvider: NetworkImage(widget.url),
       ),
     );
   }
