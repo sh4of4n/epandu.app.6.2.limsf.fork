@@ -744,6 +744,8 @@ class AppRouter extends _i37.RootStackRouter {
         child: _i35.PhotoViewPage(
           key: args.key,
           url: args.url,
+          title: args.title,
+          initialIndex: args.initialIndex,
         ),
       );
     },
@@ -3162,13 +3164,17 @@ class FavouritePlaceListRoute extends _i37.PageRouteInfo<void> {
 class PhotoViewRoute extends _i37.PageRouteInfo<PhotoViewRouteArgs> {
   PhotoViewRoute({
     _i38.Key? key,
-    required String url,
+    required List<dynamic> url,
+    required String title,
+    required int initialIndex,
   }) : super(
           PhotoViewRoute.name,
           path: '/photo-view-page',
           args: PhotoViewRouteArgs(
             key: key,
             url: url,
+            title: title,
+            initialIndex: initialIndex,
           ),
         );
 
@@ -3179,15 +3185,21 @@ class PhotoViewRouteArgs {
   const PhotoViewRouteArgs({
     this.key,
     required this.url,
+    required this.title,
+    required this.initialIndex,
   });
 
   final _i38.Key? key;
 
-  final String url;
+  final List<dynamic> url;
+
+  final String title;
+
+  final int initialIndex;
 
   @override
   String toString() {
-    return 'PhotoViewRouteArgs{key: $key, url: $url}';
+    return 'PhotoViewRouteArgs{key: $key, url: $url, title: $title, initialIndex: $initialIndex}';
   }
 }
 

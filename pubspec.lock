@@ -1268,7 +1268,7 @@ packages:
     source: hosted
     version: "5.0.0"
   photo_view:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       path: "."
       ref: master

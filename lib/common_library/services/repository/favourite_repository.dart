@@ -29,12 +29,16 @@ class FavouriteRepo {
       path: 'GetFavPlace?$path',
     );
 
-    if (response.isSuccess && response.data != null) {
-      FavPlaceResponse getPackageListByPackageCodeListResponse =
-          FavPlaceResponse.fromJson(response.data);
-      var responseData = getPackageListByPackageCodeListResponse.favPlace;
+    if (response.isSuccess) {
+      if (response.data != null) {
+        FavPlaceResponse getPackageListByPackageCodeListResponse =
+            FavPlaceResponse.fromJson(response.data);
+        var responseData = getPackageListByPackageCodeListResponse.favPlace;
 
-      return Response(true, data: responseData);
+        return Response(true, data: responseData);
+      } else {
+        return Response(true, data: []);
+      }
     }
 
     return Response(false, message: response.message, data: []);

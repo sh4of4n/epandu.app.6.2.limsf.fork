@@ -33,7 +33,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
   double _lat = 5.244208533751952;
   double _lng = 100.43825519887051;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  List<XFile> _imageFileList = [];
+  List<Map<String, dynamic>> _imageFileList = [];
   final ImagePicker _picker = ImagePicker();
   final favouriteRepo = FavouriteRepo();
   Future? favPlaceFuture;
@@ -64,16 +64,24 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
         if (_imageFileList.length > 0) {
           Iterable<Future> a = [];
           List<Future> b = [];
-          for (XFile element in _imageFileList) {
-            b.add(favouriteRepo.saveFavPlacePicture(
-              placeId: result.data[0].placeId,
-              base64Code: base64Encode(File(element.path).readAsBytesSync()),
-            ));
+          for (var element in _imageFileList) {
+            if (element['fileKey'] == 'new') {
+              b.add(favouriteRepo.saveFavPlacePicture(
+                placeId: result.data[0].placeId,
+                base64Code:
+                    base64Encode(File(element['file'].path).readAsBytesSync()),
+              ));
+            }
+            if (element['file'] == null) {
+              b.add(favouriteRepo.removeFavPlacePicture(
+                  placeId: result.data[0].placeId,
+                  fileKey: element['fileKey']));
+            }
           }
           a = b;
           Future<List> c = Future.wait(a);
           await c;
-        } else {}
+        }
       }
       EasyLoading.dismiss();
       context.router.pop('refresh');
@@ -100,16 +108,16 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
 
         final file = File(p.join(
             documentDirectory.path,
-            p.extension(
-                element.picturePath
+            element.key +
+                p.extension(element.picturePath
                     .replaceAll(removeBracket, '')
-                    .split('\r\n')[0],
-                2)));
+                    .split('\r\n')[0])));
 
         file.writeAsBytesSync(response.bodyBytes);
         if (mounted) {
           setState(() {
-            _imageFileList.add(XFile(file.path));
+            _imageFileList
+                .add({'fileKey': element.key, 'file': XFile(file.path)});
           });
         }
       }
@@ -125,7 +133,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
       placeId: placeId,
     );
     EasyLoading.dismiss();
-    context.router.pop();
+    context.router.pop('refresh');
     return result;
   }
 
@@ -161,24 +169,24 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
     });
   }
 
-  Future<File> _fileFromImageUrl() async {
-    final response = await http.get(Uri.parse(
-        'https://3u8dbs16f2emlqxkbc8tbvgf-wpengine.netdna-ssl.com/wp-content/uploads/2019/06/Coffee-bean-Tea-Leaf-Logo-Cups.jpg'));
+  // Future<File> _fileFromImageUrl() async {
+  //   final response = await http.get(Uri.parse(
+  //       'https://3u8dbs16f2emlqxkbc8tbvgf-wpengine.netdna-ssl.com/wp-content/uploads/2019/06/Coffee-bean-Tea-Leaf-Logo-Cups.jpg'));
 
-    final documentDirectory = await getApplicationDocumentsDirectory();
+  //   final documentDirectory = await getApplicationDocumentsDirectory();
 
-    final file = File(p.join(documentDirectory.path, 'imagetest.png'));
+  //   final file = File(p.join(documentDirectory.path, 'imagetest.png'));
 
-    file.writeAsBytesSync(response.bodyBytes);
-    if (mounted) {
-      setState(() {
-        _imageFileList.add(XFile(file.path));
-      });
-    }
+  //   file.writeAsBytesSync(response.bodyBytes);
+  //   if (mounted) {
+  //     setState(() {
+  //       _imageFileList.add(XFile(file.path));
+  //     });
+  //   }
 
-    EasyLoading.dismiss();
-    return file;
-  }
+  //   EasyLoading.dismiss();
+  //   return file;
+  // }
 
   @override
   void initState() {
@@ -333,8 +341,14 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                                   fontSize: 16,
                                 ),
                               ),
-                              SizedBox(
+                              Container(
                                 height: 200,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black54,
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(4),
                                   child: GoogleMap(
@@ -396,7 +410,17 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                                 mainAxisSpacing: 4,
                                 crossAxisSpacing: 4,
                                 children: List.generate(
-                                    _imageFileList.length + 1, (index) {
+                                    _imageFileList
+                                            .where((element) =>
+                                                element['file'] != null)
+                                            .toList()
+                                            .length +
+                                        1, (index) {
+                                  List<Map<String, dynamic>> leftImage =
+                                      _imageFileList
+                                          .where((element) =>
+                                              element['file'] != null)
+                                          .toList();
                                   return index == 0
                                       ? GestureDetector(
                                           onTap: () async {
@@ -418,7 +442,11 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                                                           if (photo != null) {
                                                             setState(() {
                                                               _imageFileList
-                                                                  .add(photo);
+                                                                  .add({
+                                                                'fileKey':
+                                                                    'new',
+                                                                'file': photo
+                                                              });
                                                             });
                                                           }
 
@@ -436,9 +464,16 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                                                           if (pickedFile !=
                                                               null) {
                                                             setState(() {
-                                                              _imageFileList
-                                                                  .addAll(
-                                                                      pickedFile);
+                                                              for (XFile element
+                                                                  in pickedFile) {
+                                                                _imageFileList
+                                                                    .add({
+                                                                  'fileKey':
+                                                                      'new',
+                                                                  'file':
+                                                                      element
+                                                                });
+                                                              }
                                                             });
                                                           }
                                                           context.router.pop();
@@ -469,15 +504,27 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                                         )
                                       : Stack(
                                           children: [
-                                            Container(
-                                              height: 200,
-                                              width: 200,
-                                              child: Image.file(
-                                                File(
-                                                  _imageFileList[index - 1]
-                                                      .path,
+                                            GestureDetector(
+                                              onTap: () {
+                                                // context.router.push(
+                                                //   PhotoViewRoute(
+                                                //     title: _formKey.currentState
+                                                //         ?.fields['name']?.value,
+                                                //     url: [],
+                                                //     initialIndex: 0,
+                                                //   ),
+                                                // );
+                                              },
+                                              child: Container(
+                                                height: 200,
+                                                width: 200,
+                                                child: Image.file(
+                                                  File(
+                                                    leftImage[index - 1]['file']
+                                                        .path,
+                                                  ),
+                                                  fit: BoxFit.cover,
                                                 ),
-                                                fit: BoxFit.cover,
                                               ),
                                             ),
                                             Positioned(
@@ -489,6 +536,15 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                                                     // _imageFileList
                                                     //     .removeAt(index - 1);
                                                     // removeFavPlacePicture(placeId: wid, fileKey: fileKey)
+                                                    if (leftImage[index - 1]
+                                                            ['fileKey'] ==
+                                                        'new') {
+                                                      leftImage
+                                                          .removeAt(index - 1);
+                                                    } else {
+                                                      leftImage[index - 1]
+                                                          ['file'] = null;
+                                                    }
                                                   });
                                                 },
                                                 child: Container(

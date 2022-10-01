@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -6,8 +6,10 @@ import 'package:epandu/common_library/services/repository/favourite_repository.d
 import 'package:epandu/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:map_launcher/map_launcher.dart';
+import 'package:readmore/readmore.dart';
 
 class FavouritePlaceListPage extends StatefulWidget {
   const FavouritePlaceListPage({super.key});
@@ -25,21 +27,24 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
   Future? favPlaceFuture;
   Map<String, Future> favPlacePictureFuture = {};
   Future? favPlacePictureFutureTest;
+  final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
+  bool _isSearch = false;
+  FocusNode searchFocus = FocusNode();
+  Timer? _debounce;
 
   final RegExp removeBracket =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
 
-  Future getFavPlace() async {
+  Future getFavPlace({
+    required String name,
+  }) async {
     var result = await favouriteRepo.getFavPlace(
-        placeId: '', type: '', name: '', description: '');
+        placeId: '', type: '', name: name, description: '');
     if (result.isSuccess && result.data != null) {
       for (var element in result.data) {
         // setState(() {
         favPlacePictureFuture[element.placeId] =
             getFavPlacePicture(placeId: element.placeId);
-        // favPlacePictureFutureTest =
-        //     getFavPlacePicture(placeId: element.placeId);
-        // });
       }
     }
     return result;
@@ -56,10 +61,41 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
     return result;
   }
 
+  Future<bool> _handlePermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await _geolocatorPlatform.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return false;
+    }
+
+    permission = await _geolocatorPlatform.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await _geolocatorPlatform.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return false;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return false;
+    }
+    return true;
+  }
+
   @override
   void initState() {
     super.initState();
-    favPlaceFuture = getFavPlace();
+    favPlaceFuture = getFavPlace(name: '');
+    _handlePermission();
+  }
+
+  @override
+  void dispose() {
+    searchFocus.dispose();
+    _debounce?.cancel();
+    super.dispose();
   }
 
   @override
@@ -67,24 +103,56 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Favourite Place'),
+        title: _isSearch
+            ? TextField(
+                focusNode: searchFocus,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Search place',
+                  hintStyle: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                textAlignVertical: TextAlignVertical.center,
+                onChanged: (value) {
+                  if (_debounce?.isActive ?? false) _debounce?.cancel();
+                  _debounce = Timer(const Duration(milliseconds: 500), () {
+                    setState(() {
+                      favPlaceFuture = getFavPlace(name: value);
+                    });
+                  });
+                },
+              )
+            : Text('Favourite Places'),
         actions: [
           IconButton(
-              onPressed: () {
-                setState(() {
-                  favPlacePictureFutureTest =
-                      getFavPlacePicture(placeId: "dwdw");
-                });
-              },
-              icon: Icon(Icons.ac_unit))
+            onPressed: () {
+              setState(() {
+                if (_isSearch) {
+                  _isSearch = false;
+                  favPlaceFuture = getFavPlace(name: '');
+                } else {
+                  _isSearch = true;
+                  searchFocus.requestFocus();
+                }
+              });
+            },
+            icon: _isSearch ? Icon(Icons.close) : Icon(Icons.search),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          Object? result = await context.router.push(CreateFavouriteRoute());
+          var result = await context.router.push(CreateFavouriteRoute());
           if (result.toString() == 'refresh') {
             setState(() {
-              favPlaceFuture = getFavPlace();
+              favPlaceFuture = getFavPlace(name: '');
             });
           }
         },
@@ -110,6 +178,9 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
               if (snapshot.hasData) {
                 if (snapshot.data == null) {
                   return Text('error');
+                }
+                if (snapshot.data.data.length == 0) {
+                  return Center(child: Text('No Data Found'));
                 }
                 return ListView.separated(
                   addRepaintBoundaries: false,
@@ -168,15 +239,22 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                         itemBuilder: (context, index2) {
                                           return GestureDetector(
                                             onTap: () {
+                                              List gallery = [];
+                                              for (var element
+                                                  in snapshot2.data.data) {
+                                                gallery.add(element.picturePath
+                                                    .replaceAll(
+                                                        removeBracket, '')
+                                                    .split('\r\n')[0]);
+                                              }
                                               context.router.push(
-                                                  PhotoViewRoute(
-                                                      url: snapshot2
-                                                          .data
-                                                          .data[index2]
-                                                          .picturePath
-                                                          .replaceAll(
-                                                              removeBracket, '')
-                                                          .split('\r\n')[0]));
+                                                PhotoViewRoute(
+                                                  title: snapshot
+                                                      .data.data[index].name,
+                                                  url: gallery,
+                                                  initialIndex: index2,
+                                                ),
+                                              );
                                             },
                                             child: Container(
                                               child: ClipRRect(
@@ -221,10 +299,22 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                     fontSize: 20,
                                   ),
                                 ),
-                                Text(
+                                ReadMoreText(
                                   snapshot.data.data[index].description,
+                                  trimLines: 5,
+                                  trimMode: TrimMode.Line,
+                                  trimCollapsedText: 'Show more',
+                                  trimExpandedText: 'Show less',
                                   style: TextStyle(
                                     fontSize: 16,
+                                  ),
+                                  moreStyle: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  lessStyle: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Row(
@@ -296,7 +386,8 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
 
                                         if (result.toString() == 'refresh') {
                                           setState(() {
-                                            favPlaceFuture = getFavPlace();
+                                            favPlaceFuture =
+                                                getFavPlace(name: '');
                                           });
                                         }
                                       },

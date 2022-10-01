@@ -1,7 +1,7 @@
 name: epandu
 description: ePandu app.
 
-version: 6.1.1+3
+version: 6.1.2+4
 
 environment:
   sdk: '>=2.17.1 <3.0.0'
@@ -91,7 +91,7 @@ dependencies:
   cached_network_image:
   path:
   flutter_easyloading:
-
+  photo_view:
   flutter_localizations:
     sdk: flutter
 

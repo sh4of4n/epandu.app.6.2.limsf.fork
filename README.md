@@ -1,3 +1,10 @@
+01/10/2022 V.6.1.2
+ePandu ws 6.1.150.0 
+- Favourite Place
+    - add/edit place
+    - Can search place
+    - Default zoom in the map into maximum
+
 30/09/2022 V.6.1.1
 ePandu ws 6.1.147.0 
 - Favourite Place

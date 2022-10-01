@@ -68,11 +68,11 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
   }
 
   Future<void> _getCurrentPosition() async {
-    final hasPermission = await _handlePermission();
+    // final hasPermission = await _handlePermission();
 
-    if (!hasPermission) {
-      return;
-    }
+    // if (!hasPermission) {
+    //   return;
+    // }
 
     Position position = await _geolocatorPlatform.getCurrentPosition();
     setLocationOnMap(position.latitude, position.longitude);
@@ -94,29 +94,6 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
         icon: BitmapDescriptor.defaultMarker,
       );
     });
-  }
-
-  Future<bool> _handlePermission() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await _geolocatorPlatform.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return false;
-    }
-
-    permission = await _geolocatorPlatform.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await _geolocatorPlatform.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return false;
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      return false;
-    }
-    return true;
   }
 
   @override
@@ -210,8 +187,14 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                         fontSize: 16,
                       ),
                     ),
-                    SizedBox(
+                    Container(
                       height: 200,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.black54,
+                        ),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(4),
                         child: GoogleMap(
