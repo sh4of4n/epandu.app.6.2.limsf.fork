@@ -80,6 +80,48 @@ class _HomeState extends State<Home> {
 
   final RegExp removeBracket =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
+  List shortcutButton = [
+    {
+      'image': 'assets/menu/Espenses-icon.png',
+      'title': 'eDriving',
+      'router': EpanduCategory(),
+    },
+    {
+      'image': 'assets/menu/Espenses-icon.png',
+      'title': 'Expenses',
+      'router': ExpFuelListRoute(),
+    },
+    {
+      'image': 'assets/menu/Driving-routes-icon.png',
+      'title': 'Driving Route',
+      'router': '',
+    },
+    {
+      'image': 'assets/menu/eLearning-icon.png',
+      'title': 'eLearning',
+      'router': KppCategory(),
+    },
+    {
+      'image': 'assets/menu/Fovourite-icon.png',
+      'title': 'Favourite',
+      'router': FavouritePlaceListRoute(),
+    },
+    {
+      'image': 'assets/menu/Directory-and-rating-icon.png',
+      'title': 'Directory & Rating',
+      'router': EmergencyDirectory(),
+    },
+    {
+      'image': 'assets/menu/Jobs-icon.png',
+      'title': 'Jobs',
+      'router': '',
+    },
+    {
+      'image': 'assets/menu/More-icon.png',
+      'title': 'More',
+      'router': '',
+    },
+  ];
 
   @override
   void initState() {
@@ -917,23 +959,136 @@ class _HomeState extends State<Home> {
                           height: 8,
                         ),
                         GridView.count(
-                          shrinkWrap: true,
-                          primary: false,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0,
-                          ),
-                          // crossAxisSpacing: 8,
-                          // mainAxisSpacing: 8,
-                          crossAxisCount: 4,
-                          children: <Widget>[
-                            // for (int i = 0; i < 8; i++)
+                            shrinkWrap: true,
+                            primary: false,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                            ),
+                            crossAxisCount: 4,
+                            childAspectRatio: 0.9,
+                            children: shortcutButton.map(
+                              (e) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    if (e['route'] != '') {
+                                      context.router.push(e['router']);
+                                    }
+                                  },
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Flexible(
+                                        flex: 2,
+                                        child: Container(
+                                          child: Image.asset(
+                                            e['image'],
+                                          ),
+                                        ),
+                                      ),
+                                      Flexible(
+                                        flex: 1,
+                                        child: Text(
+                                          e['title'],
+                                          style: TextStyle(),
+                                          // overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ).toList()
+
+                            // <Widget>[
+
+                            //     GestureDetector(
+                            //       onTap: () {
+                            //         context.router.push(item);
+                            //       },
+                            //       child: Column(
+                            //         crossAxisAlignment: CrossAxisAlignment.center,
+                            //         mainAxisAlignment:
+                            //             MainAxisAlignment.spaceEvenly,
+                            //         children: [
+                            //           Flexible(
+                            //             flex: 2,
+                            //             child: Container(
+                            //               child: Image.asset(
+                            //                 'assets/menu/Espenses-icon.png',
+                            //               ),
+                            //             ),
+                            //           ),
+                            //           Flexible(
+                            //             flex: 1,
+                            //             child: Text('eDriving'),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ),
                             //   GestureDetector(
-                            //     onTap: (){
-                            //       context.router.push(CreateServiceCarRoute());
+                            //     onTap: () {
+                            //       context.router.push(CreateFuelRoute());
                             //     },
                             //     child: Column(
                             //       crossAxisAlignment: CrossAxisAlignment.center,
-                            //       mainAxisAlignment: MainAxisAlignment.center,
+                            //       mainAxisAlignment:
+                            //           MainAxisAlignment.spaceEvenly,
+                            //       children: [
+                            //         Container(
+                            //           child: Image.asset(
+                            //             'assets/menu/Espenses-icon.png',
+                            //           ),
+                            //         ),
+                            //         Text('Expenses'),
+                            //       ],
+                            //     ),
+                            //   ),
+                            //   GestureDetector(
+                            //     onTap: () {
+                            //       // context.router.push(CreateServiceCarRoute());
+                            //     },
+                            //     child: Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.center,
+                            //       mainAxisAlignment:
+                            //           MainAxisAlignment.spaceEvenly,
+                            //       children: [
+                            //         Container(
+                            //           child: Image.asset(
+                            //             'assets/menu/Driving-routes-icon.png',
+                            //           ),
+                            //         ),
+                            //         Text('Driving Route'),
+                            //       ],
+                            //     ),
+                            //   ),
+                            //   GestureDetector(
+                            //     onTap: () {
+                            //       context.router.push(KppCategory());
+                            //     },
+                            //     child: Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.center,
+                            //       mainAxisAlignment:
+                            //           MainAxisAlignment.spaceEvenly,
+                            //       children: [
+                            //         Container(
+                            //           child: Image.asset(
+                            //             'assets/menu/eLearning-icon.png',
+                            //           ),
+                            //         ),
+                            //         Text('eLearning'),
+                            //       ],
+                            //     ),
+                            //   ),
+                            //   GestureDetector(
+                            //     onTap: () {
+                            //       context.router.push(FavouritePlaceListRoute());
+                            //     },
+                            //     child: Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.center,
+                            //       mainAxisAlignment:
+                            //           MainAxisAlignment.spaceEvenly,
                             //       children: [
                             //         Container(
                             //           child: Image.asset(
@@ -944,148 +1099,65 @@ class _HomeState extends State<Home> {
                             //       ],
                             //     ),
                             //   ),
-
-                            GestureDetector(
-                              onTap: () {
-                                context.router.push(EpanduCategory());
-                              },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    child: Image.asset(
-                                      'assets/menu/eDriving-icon.png',
-                                    ),
-                                  ),
-                                  Text('eDriving'),
-                                ],
-                              ),
+                            //   GestureDetector(
+                            //     onTap: () {
+                            //       context.router.push(EmergencyDirectory());
+                            //     },
+                            //     child: Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.center,
+                            //       mainAxisAlignment:
+                            //           MainAxisAlignment.spaceEvenly,
+                            //       children: [
+                            //         Container(
+                            //           child: Image.asset(
+                            //             'assets/menu/Directory-and-rating-icon.png',
+                            //           ),
+                            //         ),
+                            //         Text(
+                            //           'Directory & Rating',
+                            //           overflow: TextOverflow.ellipsis,
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ),
+                            //   GestureDetector(
+                            //     onTap: () {
+                            //       // context.router.push(CreateServiceCarRoute());
+                            //     },
+                            //     child: Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.center,
+                            //       mainAxisAlignment:
+                            //           MainAxisAlignment.spaceEvenly,
+                            //       children: [
+                            //         Container(
+                            //           child: Image.asset(
+                            //             'assets/menu/Jobs-icon.png',
+                            //           ),
+                            //         ),
+                            //         Text('Jobs'),
+                            //       ],
+                            //     ),
+                            //   ),
+                            //   GestureDetector(
+                            //     onTap: () {
+                            //       // context.router.push(CreateServiceCarRoute());
+                            //     },
+                            //     child: Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.center,
+                            //       mainAxisAlignment:
+                            //           MainAxisAlignment.spaceEvenly,
+                            //       children: [
+                            //         Container(
+                            //           child: Image.asset(
+                            //             'assets/menu/More-icon.png',
+                            //           ),
+                            //         ),
+                            //         Text('More'),
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ],
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                context.router.push(CreateFuelRoute());
-                              },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    child: Image.asset(
-                                      'assets/menu/Espenses-icon.png',
-                                    ),
-                                  ),
-                                  Text('Expenses'),
-                                ],
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                // context.router.push(CreateServiceCarRoute());
-                              },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    child: Image.asset(
-                                      'assets/menu/Driving-routes-icon.png',
-                                    ),
-                                  ),
-                                  Text('Driving Route'),
-                                ],
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                context.router.push(KppCategory());
-                              },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    child: Image.asset(
-                                      'assets/menu/eLearning-icon.png',
-                                    ),
-                                  ),
-                                  Text('eLearning'),
-                                ],
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                context.router.push(FavouritePlaceListRoute());
-                              },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    child: Image.asset(
-                                      'assets/menu/Fovourite-icon.png',
-                                    ),
-                                  ),
-                                  Text('Favourite'),
-                                ],
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                context.router.push(EmergencyDirectory());
-                              },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    child: Image.asset(
-                                      'assets/menu/Directory-and-rating-icon.png',
-                                    ),
-                                  ),
-                                  Text(
-                                    'Directory & Rating',
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                // context.router.push(CreateServiceCarRoute());
-                              },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    child: Image.asset(
-                                      'assets/menu/Jobs-icon.png',
-                                    ),
-                                  ),
-                                  Text('Jobs'),
-                                ],
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                // context.router.push(CreateServiceCarRoute());
-                              },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    child: Image.asset(
-                                      'assets/menu/More-icon.png',
-                                    ),
-                                  ),
-                                  Text('More'),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
                         SizedBox(
                           height: 8,
                         ),

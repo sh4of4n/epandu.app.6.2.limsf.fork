@@ -6,54 +6,31 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
-class CreateFuelPage extends StatefulWidget {
-  CreateFuelPage({Key? key}) : super(key: key);
+class EditExpFuelPage extends StatefulWidget {
+  final fuel;
+  EditExpFuelPage({Key? key, required this.fuel}) : super(key: key);
 
   @override
-  State<CreateFuelPage> createState() => _CreateFuelPageState();
+  State<EditExpFuelPage> createState() => _EditExpFuelPageState();
 }
 
-class _CreateFuelPageState extends State<CreateFuelPage> {
+class _EditExpFuelPageState extends State<EditExpFuelPage> {
   final _formKey = GlobalKey<FormBuilderState>();
-  late GoogleMapController mapController;
+  final expensesRepo = ExpensesRepo();
   double _lat = 3.139003;
   double _lng = 101.68685499999992;
+  late GoogleMapController mapController;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
-  final expensesRepo = ExpensesRepo();
 
-  Future<void> _getCurrentPosition() async {
-    Position position = await _geolocatorPlatform.getCurrentPosition();
-    setLocationOnMap(position.latitude, position.longitude);
-  }
-
-  void setLocationOnMap(double lat, double lng) {
-    mapController.moveCamera(
-      CameraUpdate.newLatLng(
-        LatLng(lat, lng),
-      ),
-    );
-    MarkerId a = MarkerId('value');
-    setState(() {
-      _lat = lat;
-      _lng = lng;
-      markers[a] = Marker(
-        markerId: const MarkerId('value'),
-        position: LatLng(lat, lng),
-        icon: BitmapDescriptor.defaultMarker,
-      );
-    });
-  }
-
-  Future saveExpFuel() async {
+  Future updateExpFuel() async {
     if (_formKey.currentState?.saveAndValidate() ?? false) {
       EasyLoading.show();
       _formKey.currentState?.fields['date']?.value;
-      var result = await expensesRepo.saveExpFuel(
+      var result = await expensesRepo.updateExpFuel(
+        fuelId: widget.fuel.fuelId,
         fuelDatetime:
             '${DateFormat('yyyy-MM-dd').format(_formKey.currentState?.fields['date']?.value)} ${DateFormat('HH:mm:ss').format(_formKey.currentState?.fields['time']?.value)}',
         fuelType: _formKey.currentState?.fields['fuelType']?.value,
@@ -66,7 +43,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
       );
       if (result.isSuccess) {}
       EasyLoading.dismiss();
-      context.router.pop('refresh');
+      context.router.pop(result.data[0]);
     }
   }
 
@@ -99,6 +76,35 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
     }
   }
 
+  void setLocationOnMap(double lat, double lng) {
+    mapController.moveCamera(
+      CameraUpdate.newLatLng(
+        LatLng(lat, lng),
+      ),
+    );
+    MarkerId a = MarkerId('value');
+    setState(() {
+      _lat = lat;
+      _lng = lng;
+      markers[a] = Marker(
+        markerId: const MarkerId('value'),
+        position: LatLng(lat, lng),
+        icon: BitmapDescriptor.defaultMarker,
+      );
+    });
+  }
+
+  Future<void> _getCurrentPosition() async {
+    setLocationOnMap(widget.fuel.lat, widget.fuel.lng);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _lat = double.parse(widget.fuel.lat);
+    _lng = double.parse(widget.fuel.lng);
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -109,11 +115,11 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xffffd225),
-          title: Text('Refuel'),
+          title: Text('Edit Expenses Fuel'),
           actions: [
             IconButton(
               onPressed: () {
-                saveExpFuel();
+                updateExpFuel();
               },
               icon: Icon(Icons.done),
             ),
@@ -133,7 +139,9 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                         child: FormBuilderDateTimePicker(
                           name: 'date',
                           initialEntryMode: DatePickerEntryMode.calendarOnly,
-                          initialValue: DateTime.now(),
+                          initialValue: DateTime.parse(
+                            widget.fuel.fuelDatetime,
+                          ),
                           inputType: InputType.date,
                           decoration: InputDecoration(
                               labelText: 'Date',
@@ -150,7 +158,9 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                         child: FormBuilderDateTimePicker(
                           name: 'time',
                           initialEntryMode: DatePickerEntryMode.input,
-                          initialValue: DateTime.now(),
+                          initialValue: DateTime.parse(
+                            widget.fuel.fuelDatetime,
+                          ).toLocal(),
                           inputType: InputType.time,
                           decoration: InputDecoration(
                             labelText: 'Time',
@@ -165,6 +175,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                   ),
                   FormBuilderTextField(
                     name: 'mileage',
+                    initialValue: widget.fuel.mileage,
                     decoration: InputDecoration(
                       labelText: 'Mileage',
                       filled: true,
@@ -186,6 +197,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                   ),
                   FormBuilderDropdown<String>(
                     name: 'fuelType',
+                    initialValue: widget.fuel.fuelType,
                     decoration: InputDecoration(
                       labelText: 'Fuel Type',
                       filled: true,
@@ -215,6 +227,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                           },
                           child: FormBuilderTextField(
                             name: 'priceLiter',
+                            initialValue: widget.fuel.priceLiter,
                             decoration: InputDecoration(
                               labelText: 'Price/L',
                               filled: true,
@@ -254,6 +267,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                           },
                           child: FormBuilderTextField(
                             name: 'totalAmount',
+                            initialValue: widget.fuel.totalAmount,
                             decoration: InputDecoration(
                               labelText: 'Total Amount',
                               filled: true,
@@ -292,6 +306,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                           },
                           child: FormBuilderTextField(
                             name: 'liter',
+                            initialValue: widget.fuel.liter,
                             decoration: InputDecoration(
                                 labelText: 'Liter',
                                 filled: true,
