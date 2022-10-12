@@ -749,6 +749,7 @@ class AppRouter extends _i40.RootStackRouter {
           url: args.url,
           title: args.title,
           initialIndex: args.initialIndex,
+          type: args.type,
         ),
       );
     },
@@ -3213,6 +3214,7 @@ class PhotoViewRoute extends _i40.PageRouteInfo<PhotoViewRouteArgs> {
     required List<dynamic> url,
     required String title,
     required int initialIndex,
+    required String type,
   }) : super(
           PhotoViewRoute.name,
           path: '/photo-view-page',
@@ -3221,6 +3223,7 @@ class PhotoViewRoute extends _i40.PageRouteInfo<PhotoViewRouteArgs> {
             url: url,
             title: title,
             initialIndex: initialIndex,
+            type: type,
           ),
         );
 
@@ -3233,6 +3236,7 @@ class PhotoViewRouteArgs {
     required this.url,
     required this.title,
     required this.initialIndex,
+    required this.type,
   });
 
   final _i41.Key? key;
@@ -3243,9 +3247,11 @@ class PhotoViewRouteArgs {
 
   final int initialIndex;
 
+  final String type;
+
   @override
   String toString() {
-    return 'PhotoViewRouteArgs{key: $key, url: $url, title: $title, initialIndex: $initialIndex}';
+    return 'PhotoViewRouteArgs{key: $key, url: $url, title: $title, initialIndex: $initialIndex, type: $type}';
   }
 }
 

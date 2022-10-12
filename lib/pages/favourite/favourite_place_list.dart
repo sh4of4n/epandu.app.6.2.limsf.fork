@@ -293,6 +293,7 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                                         .data.data[index].name,
                                                     url: gallery,
                                                     initialIndex: index2,
+                                                    type: 'network',
                                                   ),
                                                 );
                                               },
@@ -423,7 +424,9 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                       ),
                                       OutlinedButton.icon(
                                         onPressed: () async {
-                                          await EasyLoading.show();
+                                          await EasyLoading.show(
+                                            maskType: EasyLoadingMaskType.black,
+                                          );
                                           await favPlacePictureFuture[snapshot
                                               .data.data[index].placeId];
                                           await EasyLoading.dismiss();

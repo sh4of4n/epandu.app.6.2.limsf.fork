@@ -25,11 +25,11 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
   NumberFormat formatter = NumberFormat.currency(locale: 'ms_MY', symbol: 'RM');
 
   Future getExpFuel() async {
-    var result = await expensesRepo.getExpFuel(
-      fuelId: '',
+    var result = await expensesRepo.getExp(
+      expId: '',
       type: '',
-      fuelStartDateString: '',
-      fuelEndDateString: '',
+      expStartDateString: '',
+      expEndDateString: '',
       startIndex: 0,
       noOfRecords: 100,
     );
@@ -40,12 +40,14 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
     required fuels,
     required fuelIndex,
   }) async {
-    EasyLoading.show();
-    var result = await expensesRepo.deleteExpFuel(
-      fuelId: fuels[fuelIndex].fuelId,
+    EasyLoading.show(
+      maskType: EasyLoadingMaskType.black,
+    );
+    var result = await expensesRepo.deleteExp(
+      expId: fuels[fuelIndex].expId,
     );
     setState(() {
-      fuels.removeWhere((item) => item.fuelId == fuels[fuelIndex].fuelId);
+      fuels.removeWhere((item) => item.expId == fuels[fuelIndex].expId);
     });
     EasyLoading.dismiss();
     return result;
@@ -59,190 +61,298 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey.shade300,
-      appBar: AppBar(
-        title: Text('Expenses Fuel'),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              var result = await context.router.push(CreateFuelRoute());
-              if (result.toString() == 'refresh') {
-                setState(() {
-                  expFuelFuture = getExpFuel();
-                });
-              }
-            },
-            icon: Icon(
-              Icons.add,
-            ),
-          ),
-        ],
-      ),
-      body: RefreshIndicator(
-        key: _refresherKey,
-        onRefresh: () async {
-          setState(() {
-            expFuelFuture = getExpFuel();
-          });
-        },
-        child: FutureBuilder(
-          future: expFuelFuture,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-              case ConnectionState.none:
-              case ConnectionState.active:
-                return Center(child: const CircularProgressIndicator());
-              case ConnectionState.done:
-                if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
+    return WillPopScope(
+      onWillPop: () async {
+        EasyLoading.dismiss();
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade200,
+        appBar: AppBar(
+          title: Text('Fuel Expenses'),
+          actions: [
+            IconButton(
+              onPressed: () async {
+                var result = await context.router.push(CreateFuelRoute());
+                if (result.toString() == 'refresh') {
+                  setState(() {
+                    expFuelFuture = getExpFuel();
+                  });
                 }
-                if (snapshot.hasData) {
-                  if (snapshot.data.data.length == 0) {
-                    return SizedBox(
-                      width: double.infinity,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/svg/undraw_void_-3-ggu.svg',
-                            semanticsLabel: 'Acme Logo',
-                            width: 200,
-                          ),
-                          SizedBox(
-                            height: 16.0,
-                          ),
-                          Text(
-                            'You haven\'t refueled',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
+              },
+              icon: Icon(
+                Icons.add,
+              ),
+            ),
+          ],
+        ),
+        body: RefreshIndicator(
+          key: _refresherKey,
+          onRefresh: () async {
+            setState(() {
+              expFuelFuture = getExpFuel();
+            });
+          },
+          child: FutureBuilder(
+            future: expFuelFuture,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                case ConnectionState.none:
+                case ConnectionState.active:
+                  return Center(child: const CircularProgressIndicator());
+                case ConnectionState.done:
+                  if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  }
+                  if (snapshot.hasData) {
+                    if (snapshot.data.data.length == 0) {
+                      return SizedBox(
+                        width: double.infinity,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/svg/undraw_void_-3-ggu.svg',
+                              semanticsLabel: 'Acme Logo',
+                              width: 200,
                             ),
-                          ),
-                        ],
+                            SizedBox(
+                              height: 16.0,
+                            ),
+                            Text(
+                              'No Expenses',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    return ExpandableTheme(
+                      data: const ExpandableThemeData(
+                        iconColor: Colors.blue,
+                        useInkWell: true,
+                      ),
+                      child: ListView.separated(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        itemCount: snapshot.data.data.length + 1,
+                        itemBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            height: 8,
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return ExpandableNotifier(
+                            child: ScrollOnExpand(
+                              scrollOnExpand: true,
+                              scrollOnCollapse: false,
+                              child: Container(
+                                color: Color(0xFFFFFFFF),
+                                child: ExpandablePanel(
+                                  theme: const ExpandableThemeData(
+                                    hasIcon: false,
+                                    headerAlignment:
+                                        ExpandablePanelHeaderAlignment.center,
+                                    tapBodyToCollapse: true,
+                                  ),
+                                  header: Padding(
+                                    padding: EdgeInsets.all(16),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.today,
+                                                ),
+                                                SizedBox(
+                                                  width: 4,
+                                                ),
+                                                Text(
+                                                  '${DateFormat('yyyy-MM-dd').format(DateTime.parse(snapshot.data.data[index].expDatetime))}',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Text(
+                                              formatter.format(
+                                                double.parse(
+                                                  snapshot
+                                                      .data.data[index].amount,
+                                                ),
+                                              ),
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Icon(Icons.pin),
+                                            SizedBox(
+                                              width: 4,
+                                            ),
+                                            Text(
+                                              '${snapshot.data.data[index].mileage} km',
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Icon(Icons.format_list_bulleted),
+                                            SizedBox(
+                                              width: 4,
+                                            ),
+                                            Text(
+                                              snapshot.data.data[index].type,
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Icon(Icons.description),
+                                            SizedBox(
+                                              width: 4,
+                                            ),
+                                            Flexible(
+                                              child: Text(
+                                                snapshot.data.data[index]
+                                                    .description,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  collapsed: SizedBox(),
+                                  expanded: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          showDialog<void>(
+                                            context: context,
+                                            barrierDismissible:
+                                                true, // user must tap button!
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: const Text(
+                                                    'Delete Fuel Expenses'),
+                                                content: SingleChildScrollView(
+                                                  child: ListBody(
+                                                    children: const <Widget>[
+                                                      Text(
+                                                          'Are you sure want to delete?'),
+                                                    ],
+                                                  ),
+                                                ),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    child: const Text('Cancel'),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ),
+                                                  TextButton(
+                                                    child: const Text('Ok'),
+                                                    onPressed: () async {
+                                                      await context.router
+                                                          .pop();
+                                                      deleteExpFuel(
+                                                        fuels:
+                                                            snapshot.data.data,
+                                                        fuelIndex: index,
+                                                      );
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                        icon: Icon(
+                                          Icons.delete,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () async {
+                                          var result = await context.router
+                                              .push(EditExpFuelRoute(
+                                                  fuel: snapshot
+                                                      .data.data[index]));
+                                          if (result != null) {
+                                            var resultFuel = Exp.fromJson(
+                                                jsonDecode(jsonEncode(result)));
+                                            setState(() {
+                                              snapshot.data.data[index].type =
+                                                  resultFuel.type;
+                                              snapshot.data.data[index]
+                                                      .expDatetime =
+                                                  resultFuel.expDatetime;
+                                              snapshot.data.data[index]
+                                                  .mileage = resultFuel.mileage;
+                                              snapshot.data.data[index].amount =
+                                                  resultFuel.amount;
+                                              snapshot.data.data[index].lat =
+                                                  resultFuel.lat;
+                                              snapshot.data.data[index].lng =
+                                                  resultFuel.lng;
+                                              snapshot.data.data[index]
+                                                      .description =
+                                                  resultFuel.description;
+                                            });
+                                          }
+                                        },
+                                        icon: Icon(
+                                          Icons.edit,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  builder: (_, collapsed, expanded) {
+                                    return Expandable(
+                                      collapsed: collapsed,
+                                      expanded: expanded,
+                                      theme: const ExpandableThemeData(
+                                        crossFadePoint: 0,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     );
                   }
-                  return ListView.separated(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    itemCount: snapshot.data.data.length + 1,
-                    itemBuilder: (BuildContext context, int index) {
-                      return SizedBox(
-                        height: 8,
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return Container(
-                        color: Color(0xFFFFFFFF),
-                        child: ExpandablePanel(
-                          theme: const ExpandableThemeData(
-                            hasIcon: false,
-                            headerAlignment:
-                                ExpandablePanelHeaderAlignment.center,
-                            tapBodyToCollapse: true,
-                          ),
-                          header: Padding(
-                            padding: EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                        '${snapshot.data.data[index].fuelType} (${snapshot.data.data[index].liter} L)'),
-                                    Text(
-                                        '${DateFormat('yyyy-MM-dd').format(DateTime.parse(snapshot.data.data[index].fuelDatetime))}'),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                        '${snapshot.data.data[index].mileage} km'),
-                                    Text(
-                                      formatter.format(
-                                        double.parse(
-                                          snapshot.data.data[index].totalAmount,
-                                        ),
-                                      ),
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          collapsed: SizedBox(),
-                          expanded: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  deleteExpFuel(
-                                    fuels: snapshot.data.data,
-                                    fuelIndex: index,
-                                  );
-                                },
-                                icon: Icon(
-                                  Icons.delete,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () async {
-                                  var result = await context.router.push(
-                                      EditExpFuelRoute(
-                                          fuel: snapshot.data.data[index]));
-                                  if (result != null) {
-                                    var resultFuel = ExpFuel.fromJson(
-                                        jsonDecode(jsonEncode(result)));
-                                    setState(() {
-                                      snapshot.data.data[index].fuelType =
-                                          resultFuel.fuelType;
-                                      snapshot.data.data[index].fuelDatetime =
-                                          resultFuel.fuelDatetime;
-                                      snapshot.data.data[index].mileage =
-                                          resultFuel.mileage;
-                                      snapshot.data.data[index].totalAmount =
-                                          resultFuel.totalAmount;
-                                      snapshot.data.data[index].lat =
-                                          resultFuel.lat;
-                                      snapshot.data.data[index].lng =
-                                          resultFuel.lng;
-                                    });
-                                  }
-                                },
-                                icon: Icon(
-                                  Icons.edit,
-                                ),
-                              ),
-                            ],
-                          ),
-                          builder: (_, collapsed, expanded) {
-                            return Expandable(
-                              collapsed: collapsed,
-                              expanded: expanded,
-                              theme:
-                                  const ExpandableThemeData(crossFadePoint: 0),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  );
-                }
-                return Center(child: const CircularProgressIndicator());
-            }
-          },
+                  return Center(child: const CircularProgressIndicator());
+              }
+            },
+          ),
         ),
       ),
     );

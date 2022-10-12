@@ -1,3 +1,12 @@
+12/10/2022 V.6.1.4
+ePandu ws 6.1.161.0 
+- Can add photo for expenses
+
+
+01/10/2022 V.6.1.3
+ePandu ws 6.1.155.0 
+- Fuel Expenses
+
 01/10/2022 V.6.1.2
 ePandu ws 6.1.150.0 
 - Favourite Place

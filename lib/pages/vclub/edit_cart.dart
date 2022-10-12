@@ -386,7 +386,7 @@ class _CartItemEditState extends State<CartItemEdit> with PageBaseClass {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Text(
-                    'Total amount: ',
+                    'Total Cost: ',
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(70),
                       fontWeight: FontWeight.bold,

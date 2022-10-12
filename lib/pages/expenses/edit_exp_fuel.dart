@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:epandu/common_library/services/repository/expenses_repository.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +11,11 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
 
 class EditExpFuelPage extends StatefulWidget {
   final fuel;
@@ -25,54 +33,61 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
   late GoogleMapController mapController;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
+  final RegExp removeBracket =
+      RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
+  List<Map<String, dynamic>> _imageFileList = [];
+  final ImagePicker _picker = ImagePicker();
+
   Future updateExpFuel() async {
     if (_formKey.currentState?.saveAndValidate() ?? false) {
-      EasyLoading.show();
+      EasyLoading.show(
+        maskType: EasyLoadingMaskType.black,
+      );
       _formKey.currentState?.fields['date']?.value;
-      var result = await expensesRepo.updateExpFuel(
-        fuelId: widget.fuel.fuelId,
-        fuelDatetime:
+      var result = await expensesRepo.updateExp(
+        expId: widget.fuel.expId,
+        expDatetimeString:
             '${DateFormat('yyyy-MM-dd').format(_formKey.currentState?.fields['date']?.value)} ${DateFormat('HH:mm:ss').format(_formKey.currentState?.fields['time']?.value)}',
-        fuelType: _formKey.currentState?.fields['fuelType']?.value,
-        liter: _formKey.currentState?.fields['liter']?.value,
+        type: _formKey.currentState?.fields['type']?.value,
+        description: _formKey.currentState?.fields['description']?.value,
         mileage: _formKey.currentState?.fields['mileage']?.value,
-        priceLiter: _formKey.currentState?.fields['priceLiter']?.value,
-        totalAmount: _formKey.currentState?.fields['totalAmount']?.value,
+        amount: _formKey.currentState?.fields['amount']?.value,
         lat: _lat,
         lng: _lng,
       );
-      if (result.isSuccess) {}
       EasyLoading.dismiss();
+      if (result.isSuccess) {
+        if (_imageFileList.length > 0) {
+          Iterable<Future> a = [];
+          List<Future> b = [];
+          for (var element in _imageFileList) {
+            if (element['fileKey'] == 'new') {
+              b.add(expensesRepo.saveExpPicture(
+                expId: result.data[0].expId,
+                base64Code:
+                    base64Encode(File(element['file'].path).readAsBytesSync()),
+              ));
+            }
+            if (element['file'] == null) {
+              b.add(
+                expensesRepo.removeExpPicture(
+                  expId: result.data[0].expId,
+                  fileKey: element['fileKey'],
+                ),
+              );
+            }
+          }
+          a = b;
+          EasyLoading.show(
+            maskType: EasyLoadingMaskType.black,
+          );
+          Future<List> c = Future.wait(a);
+          await c;
+          EasyLoading.dismiss();
+        }
+      }
+
       context.router.pop(result.data[0]);
-    }
-  }
-
-  void calculatePrice(int priority) {
-    double priceLiter =
-        double.parse(_formKey.currentState?.fields['priceLiter']?.value ?? '0');
-
-    double totalAmount = double.parse(
-        _formKey.currentState?.fields['totalAmount']?.value ?? '0');
-
-    double liter =
-        double.parse(_formKey.currentState?.fields['liter']?.value ?? '0');
-
-    if (priceLiter > 0 && totalAmount > 0 && (priority == 1 || priority == 2)) {
-      _formKey.currentState?.fields['liter']
-          ?.didChange((totalAmount / priceLiter).toStringAsFixed(2));
-      return;
-    }
-
-    if (priceLiter > 0 && liter > 0 && priority == 3) {
-      _formKey.currentState?.fields['totalAmount']
-          ?.didChange((priceLiter * liter).toStringAsFixed(2));
-      return;
-    }
-
-    if (totalAmount > 0 && liter > 0) {
-      _formKey.currentState?.fields['priceLiter']
-          ?.didChange((totalAmount / liter).toStringAsFixed(2));
-      return;
     }
   }
 
@@ -95,7 +110,47 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
   }
 
   Future<void> _getCurrentPosition() async {
-    setLocationOnMap(widget.fuel.lat, widget.fuel.lng);
+    setLocationOnMap(_lat, _lng);
+  }
+
+  Future getExpPicture() async {
+    EasyLoading.show(
+      maskType: EasyLoadingMaskType.black,
+    );
+    var result = await expensesRepo.getExpPicture(
+      expId: widget.fuel.expId,
+      bgnLimit: 0,
+      endLimit: 100,
+    );
+
+    if (result.isSuccess && result.data != null) {
+      for (var element in result.data) {
+        final response = await http.get(
+          Uri.parse(
+            element.picturePath.replaceAll(removeBracket, '').split('\r\n')[0],
+          ),
+        );
+
+        final documentDirectory = await getApplicationDocumentsDirectory();
+
+        final file = File(p.join(
+            documentDirectory.path,
+            element.key +
+                p.extension(element.picturePath
+                    .replaceAll(removeBracket, '')
+                    .split('\r\n')[0])));
+
+        file.writeAsBytesSync(response.bodyBytes);
+        if (mounted) {
+          setState(() {
+            _imageFileList
+                .add({'fileKey': element.key, 'file': XFile(file.path)});
+          });
+        }
+      }
+    }
+    await EasyLoading.dismiss();
+    return result;
   }
 
   @override
@@ -103,6 +158,8 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
     super.initState();
     _lat = double.parse(widget.fuel.lat);
     _lng = double.parse(widget.fuel.lng);
+
+    getExpPicture();
   }
 
   @override
@@ -115,7 +172,7 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xffffd225),
-          title: Text('Edit Expenses Fuel'),
+          title: Text('Edit Expenses'),
           actions: [
             IconButton(
               onPressed: () {
@@ -140,7 +197,7 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                           name: 'date',
                           initialEntryMode: DatePickerEntryMode.calendarOnly,
                           initialValue: DateTime.parse(
-                            widget.fuel.fuelDatetime,
+                            widget.fuel.expDatetime,
                           ),
                           inputType: InputType.date,
                           decoration: InputDecoration(
@@ -159,7 +216,7 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                           name: 'time',
                           initialEntryMode: DatePickerEntryMode.input,
                           initialValue: DateTime.parse(
-                            widget.fuel.fuelDatetime,
+                            widget.fuel.expDatetime,
                           ).toLocal(),
                           inputType: InputType.time,
                           decoration: InputDecoration(
@@ -196,8 +253,8 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                     height: 16,
                   ),
                   FormBuilderDropdown<String>(
-                    name: 'fuelType',
-                    initialValue: widget.fuel.fuelType,
+                    name: 'type',
+                    initialValue: widget.fuel.type,
                     decoration: InputDecoration(
                       labelText: 'Fuel Type',
                       filled: true,
@@ -205,7 +262,7 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                     ),
                     validator: FormBuilderValidators.compose(
                         [FormBuilderValidators.required()]),
-                    items: ['RON95', 'RON97', 'Diesel']
+                    items: ['Fuel', 'Tayar', 'Service', 'Others']
                         .map(
                           (gender) => DropdownMenuItem(
                             value: gender,
@@ -217,128 +274,57 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                   SizedBox(
                     height: 16,
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Focus(
-                          onFocusChange: (value) {
-                            if (!value) calculatePrice(1);
-                          },
-                          child: FormBuilderTextField(
-                            name: 'priceLiter',
-                            initialValue: widget.fuel.priceLiter,
-                            decoration: InputDecoration(
-                              labelText: 'Price/L',
-                              filled: true,
-                              icon: Icon(Icons.attach_money),
-                            ),
-                            keyboardType: TextInputType.number,
-                            validator: FormBuilderValidators.compose(
-                              [
-                                FormBuilderValidators.required(),
-                                FormBuilderValidators.numeric(),
-                              ],
-                            ),
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r"[0-9.]")),
-                              TextInputFormatter.withFunction(
-                                  (oldValue, newValue) {
-                                try {
-                                  final text = newValue.text;
-                                  if (text.isNotEmpty) double.parse(text);
-                                  return newValue;
-                                } catch (e) {}
-                                return oldValue;
-                              }),
-                            ],
-                          ),
-                        ),
+                  FormBuilderTextField(
+                    name: 'description',
+                    initialValue: widget.fuel.description,
+                    decoration: InputDecoration(
+                      labelText: 'Description',
+                      filled: true,
+                      icon: Icon(Icons.description),
+                      suffix: IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          _formKey.currentState!.fields['description']?.reset();
+                        },
                       ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Focus(
-                          onFocusChange: (value) {
-                            if (!value) calculatePrice(2);
-                          },
-                          child: FormBuilderTextField(
-                            name: 'totalAmount',
-                            initialValue: widget.fuel.totalAmount,
-                            decoration: InputDecoration(
-                              labelText: 'Total Amount',
-                              filled: true,
-                            ),
-                            keyboardType: TextInputType.number,
-                            validator: FormBuilderValidators.compose(
-                              [
-                                FormBuilderValidators.required(),
-                                FormBuilderValidators.numeric(),
-                              ],
-                            ),
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r"[0-9.]")),
-                              TextInputFormatter.withFunction(
-                                  (oldValue, newValue) {
-                                try {
-                                  final text = newValue.text;
-                                  if (text.isNotEmpty) double.parse(text);
-                                  return newValue;
-                                } catch (e) {}
-                                return oldValue;
-                              }),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Focus(
-                          onFocusChange: (value) {
-                            if (!value) calculatePrice(3);
-                          },
-                          child: FormBuilderTextField(
-                            name: 'liter',
-                            initialValue: widget.fuel.liter,
-                            decoration: InputDecoration(
-                                labelText: 'Liter',
-                                filled: true,
-                                suffix: Text('L')),
-                            keyboardType: TextInputType.number,
-                            validator: FormBuilderValidators.compose(
-                              [
-                                FormBuilderValidators.required(),
-                                FormBuilderValidators.numeric(),
-                              ],
-                            ),
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r"[0-9.]")),
-                              TextInputFormatter.withFunction(
-                                  (oldValue, newValue) {
-                                try {
-                                  final text = newValue.text;
-                                  if (text.isNotEmpty) double.parse(text);
-                                  return newValue;
-                                } catch (e) {}
-                                return oldValue;
-                              }),
-                            ],
-                          ),
-                        ),
-                      ),
+                    ),
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(),
+                    ]),
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    minLines: 2,
+                  ),
+                  SizedBox(
+                    height: 16.0,
+                  ),
+                  FormBuilderTextField(
+                    name: 'amount',
+                    initialValue: widget.fuel.amount,
+                    decoration: InputDecoration(
+                      labelText: 'Amount',
+                      filled: true,
+                      icon: Icon(Icons.attach_money),
+                    ),
+                    keyboardType: TextInputType.number,
+                    validator: FormBuilderValidators.compose(
+                      [
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.numeric(),
+                      ],
+                    ),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r"[0-9.]")),
+                      TextInputFormatter.withFunction((oldValue, newValue) {
+                        try {
+                          final text = newValue.text;
+                          if (text.isNotEmpty) double.parse(text);
+                          return newValue;
+                        } catch (e) {}
+                        return oldValue;
+                      }),
                     ],
                   ),
-                  // SizedBox(
-                  //   height: 16.0,
-                  // ),
                   // FormBuilderTextField(
                   //   name: 'petrol_station',
                   //   decoration: InputDecoration(
@@ -394,6 +380,153 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  GridView.count(
+                    crossAxisCount: 3,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    mainAxisSpacing: 4,
+                    crossAxisSpacing: 4,
+                    children: List.generate(
+                        _imageFileList
+                                .where((element) => element['file'] != null)
+                                .toList()
+                                .length +
+                            1, (index) {
+                      List<Map<String, dynamic>> leftImage = _imageFileList
+                          .where((element) => element['file'] != null)
+                          .toList();
+                      return index == 0
+                          ? GestureDetector(
+                              onTap: () async {
+                                await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return SimpleDialog(
+                                        title: const Text('Add photos'),
+                                        children: <Widget>[
+                                          SimpleDialogOption(
+                                            onPressed: () async {
+                                              final XFile? photo =
+                                                  await _picker.pickImage(
+                                                      source:
+                                                          ImageSource.camera);
+                                              if (photo != null) {
+                                                setState(() {
+                                                  _imageFileList.add({
+                                                    'fileKey': 'new',
+                                                    'file': photo
+                                                  });
+                                                });
+                                              }
+
+                                              context.router.pop();
+                                            },
+                                            child: const Text('Take photo'),
+                                          ),
+                                          SimpleDialogOption(
+                                            onPressed: () async {
+                                              List<XFile>? pickedFile =
+                                                  await _picker
+                                                      .pickMultiImage();
+                                              if (pickedFile != null) {
+                                                setState(() {
+                                                  for (XFile element
+                                                      in pickedFile) {
+                                                    _imageFileList.add({
+                                                      'fileKey': 'new',
+                                                      'file': element
+                                                    });
+                                                  }
+                                                });
+                                              }
+                                              context.router.pop();
+                                            },
+                                            child: const Text(
+                                                'Choose existing photo'),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              },
+                              child: DottedBorder(
+                                color: Colors.grey,
+                                strokeWidth: 1,
+                                child: Container(
+                                  height: 200,
+                                  width: 200,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.image),
+                                      Text('Add photos'),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Stack(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    List gallery = [];
+                                    for (var element in _imageFileList) {
+                                      gallery.add(File(element['file'].path));
+                                    }
+
+                                    context.router.push(
+                                      PhotoViewRoute(
+                                        title: 'Expenses',
+                                        url: gallery,
+                                        initialIndex: index - 1,
+                                        type: 'file',
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 200,
+                                    width: 200,
+                                    child: Image.file(
+                                      File(
+                                        leftImage[index - 1]['file'].path,
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  right: 4,
+                                  top: 4,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        // _imageFileList
+                                        //     .removeAt(index - 1);
+                                        // removeFavPlacePicture(placeId: wid, fileKey: fileKey)
+                                        if (leftImage[index - 1]['fileKey'] ==
+                                            'new') {
+                                          leftImage.removeAt(index - 1);
+                                        } else {
+                                          leftImage[index - 1]['file'] = null;
+                                        }
+                                      });
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey,
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                      ),
+                                      child: Icon(Icons.close),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                    }),
+                  )
                 ],
               ),
             ),

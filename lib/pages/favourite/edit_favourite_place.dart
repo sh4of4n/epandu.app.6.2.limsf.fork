@@ -54,7 +54,9 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
 
   Future updateFavPlace() async {
     if (_formKey.currentState?.saveAndValidate() ?? false) {
-      EasyLoading.show();
+      EasyLoading.show(
+        maskType: EasyLoadingMaskType.black,
+      );
       var result = await favouriteRepo.updateFavPlace(
         type: _formKey.currentState?.fields['type']?.value,
         name: _formKey.currentState?.fields['name']?.value,
@@ -134,7 +136,9 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
   Future deleteFavPlace({
     required String placeId,
   }) async {
-    EasyLoading.show();
+    EasyLoading.show(
+      maskType: EasyLoadingMaskType.black,
+    );
     var result = await favouriteRepo.deleteFavPlace(
       placeId: placeId,
     );
@@ -147,7 +151,9 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
     required String placeId,
     required String fileKey,
   }) async {
-    EasyLoading.show();
+    EasyLoading.show(
+      maskType: EasyLoadingMaskType.black,
+    );
     var result = await favouriteRepo.removeFavPlacePicture(
       placeId: placeId,
       fileKey: fileKey,
@@ -321,11 +327,9 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                       maxLines: null,
                       minLines: 2,
                     ),
-
                     SizedBox(
                       height: 16.0,
                     ),
-
                     Text(
                       'Position',
                       style: TextStyle(
@@ -376,21 +380,6 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                     SizedBox(
                       height: 8,
                     ),
-                    // SizedBox(
-                    //   width: double.infinity,
-                    //   child: ElevatedButton(
-                    //     onPressed: () async {
-                    //       List<XFile>? pickedFile =
-                    //           await _picker.pickMultiImage();
-                    //       if (pickedFile != null) {
-                    //         setState(() {
-                    //           _imageFileList.addAll(pickedFile);
-                    //         });
-                    //       }
-                    //     },
-                    //     child: Text('+ Add Photos'),
-                    //   ),
-                    // ),
                     GridView.count(
                       crossAxisCount: 3,
                       shrinkWrap: true,
@@ -480,14 +469,19 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      // context.router.push(
-                                      //   PhotoViewRoute(
-                                      //     title: _formKey.currentState
-                                      //         ?.fields['name']?.value,
-                                      //     url: [],
-                                      //     initialIndex: 0,
-                                      //   ),
-                                      // );
+                                      List gallery = [];
+                                      for (var element in leftImage) {
+                                        gallery.add(File(element['file'].path));
+                                      }
+
+                                      context.router.push(
+                                        PhotoViewRoute(
+                                          title: 'Favourite Place',
+                                          url: gallery,
+                                          initialIndex: index - 1,
+                                          type: 'file',
+                                        ),
+                                      );
                                     },
                                     child: Container(
                                       height: 200,

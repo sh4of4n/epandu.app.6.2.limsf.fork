@@ -39,7 +39,9 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
 
   Future saveFavPlace() async {
     if (_formKey.currentState?.saveAndValidate() ?? false) {
-      EasyLoading.show();
+      EasyLoading.show(
+        maskType: EasyLoadingMaskType.black,
+      );
       var result = await favouriteRepo.saveFavPlace(
         type: _formKey.currentState?.fields['type']?.value,
         name: _formKey.currentState?.fields['name']?.value,
@@ -316,14 +318,31 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                               )
                             : Stack(
                                 children: [
-                                  Container(
-                                    height: 200,
-                                    width: 200,
-                                    child: Image.file(
-                                      File(
-                                        _imageFileList[index - 1].path,
+                                  GestureDetector(
+                                    onTap: () {
+                                      List gallery = [];
+                                      for (var element in _imageFileList) {
+                                        gallery.add(File(element.path));
+                                      }
+
+                                      context.router.push(
+                                        PhotoViewRoute(
+                                          title: 'Favourite Place',
+                                          url: gallery,
+                                          initialIndex: index - 1,
+                                          type: 'file',
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      height: 200,
+                                      width: 200,
+                                      child: Image.file(
+                                        File(
+                                          _imageFileList[index - 1].path,
+                                        ),
+                                        fit: BoxFit.cover,
                                       ),
-                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                   Positioned(
