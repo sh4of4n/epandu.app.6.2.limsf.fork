@@ -13,7 +13,7 @@ dependencies:
   ## Online
   xml2json: ^5.3.2 
   http: ^0.13.4
-  firebase_messaging: ^11.4.1 
+  # firebase_messaging: ^11.4.1 
 
   ## Widgets
   shimmer: ^2.0.0
@@ -65,7 +65,7 @@ dependencies:
   string_validator: ^0.3.0 
   flutter_widget_from_html: ^0.8.5 
   supercharged: ^2.1.1 
-  firebase_core: ^1.17.1 
+  # firebase_core: ^1.17.1 
   # firebase_analytics: ^6.2.0
   # firebase_crashlytics: ^0.2.3+1
   share: ^2.0.4 
@@ -74,9 +74,29 @@ dependencies:
 
   #chat
   rxdart: ^0.27.4 
-  socket_io_client: ^1.0.2 
-  sqflite: ^2.0.2+1
+  socket_io_client: ^2.0.0
+  sqflite: ^2.0.3 
   uuid: ^3.0.6 
+  get: ^4.6.5 
+  video_player: ^2.4.5
+  flutter_sound: ^9.2.13 
+  permission_handler: ^10.0.0 
+  file_picker: ^4.6.1 
+  open_file: ^3.2.1
+  audio_session: ^0.1.9 
+  bubble: ^1.2.1 
+  full_screen_image_null_safe: ^2.0.0
+  flutter_local_notifications: ^9.7.0 
+  firebase_core: ^1.19.1 
+  firebase_messaging: ^11.4.4 
+  jumping_dot: ^0.0.4
+  scrollable_positioned_list: ^0.3.2
+  flutter_slidable: ^1.3.1 
+  emoji_picker_flutter: ^1.3.0
+  flutter_sound_platform_interface: ^9.2.13
+  native_pdf_renderer: ^5.0.0+1 
+  swipe_to: 
+  flutter_easyloading: ^3.0.5
   flutter_typeahead: ^4.0.0 
 
   flutter_localizations:

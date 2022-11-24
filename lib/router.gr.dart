@@ -41,6 +41,7 @@ import 'pages/promotions/promotions.dart' as _i15;
 import 'pages/register/register.dart' as _i4;
 import 'pages/settings/settings.dart' as _i3;
 import 'pages/vclub/value_club.dart' as _i9;
+import 'pages/chat/chat.dart' as _i31;
 
 class AppRouter extends _i28.RootStackRouter {
   AppRouter([_i29.GlobalKey<_i29.NavigatorState>? navigatorKey])
@@ -388,6 +389,10 @@ class AppRouter extends _i28.RootStackRouter {
       return _i28.MaterialPageX<dynamic>(
           routeData: routeData, child: _i16.Inbox());
     },
+    RoomList.name: (routeData) {
+      return _i28.MaterialPageX<dynamic>(
+          routeData: routeData, child: _i31.RoomList());
+    },
     Invite.name: (routeData) {
       return _i28.MaterialPageX<dynamic>(
           routeData: routeData, child: _i17.Invite());
@@ -575,6 +580,7 @@ class AppRouter extends _i28.RootStackRouter {
         _i28.RouteConfig(EnrolmentInfoDetail.name,
             path: '/enrolmentInfoDetail'),
         _i28.RouteConfig(Inbox.name, path: '/inbox'),
+        _i28.RouteConfig(RoomList.name, path: '/roomList'),
         _i28.RouteConfig(Invite.name, path: '/invite'),
         _i28.RouteConfig(AirtimeTransaction.name, path: '/airtimeTransaction'),
         _i28.RouteConfig(AirtimeBillDetail.name, path: '/airtimeBillDetail'),
@@ -1734,6 +1740,13 @@ class Inbox extends _i28.PageRouteInfo<void> {
   const Inbox() : super(Inbox.name, path: '/inbox');
 
   static const String name = 'Inbox';
+}
+
+/// generated route for [_i31.RoomList]
+class RoomList extends _i28.PageRouteInfo<void> {
+  const RoomList() : super(name, path: '/roomList');
+
+  static const String name = 'RoomList';
 }
 
 /// generated route for

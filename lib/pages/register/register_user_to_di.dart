@@ -21,6 +21,8 @@ import 'package:package_info/package_info.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
 
+import '../../services/repository/chatroom_repository.dart';
+
 class RegisterUserToDi extends StatefulWidget {
   final barcode;
 
@@ -31,6 +33,7 @@ class RegisterUserToDi extends StatefulWidget {
 }
 
 class _RegisterUserToDiState extends State<RegisterUserToDi> {
+  final chatRoomRepo = ChatRoomRepo();
   final authRepo = AuthRepo();
   final localStorage = LocalStorage();
   final customDialog = CustomDialog();
@@ -203,6 +206,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
       );
 
       if (result.isSuccess) {
+        //_createChatRoom();
         context.router.popUntil(ModalRoute.withName('Home'));
         /* customDialog.show(
           context: context,
@@ -239,6 +243,10 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
         _isLoading = false;
       });
     }
+  }
+
+  _createChatRoom() async {
+    var response = await chatRoomRepo.createChatSupport();
   }
 
   @override
