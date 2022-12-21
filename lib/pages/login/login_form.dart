@@ -315,10 +315,10 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(420.w, 45.h),
+                backgroundColor: Color(0xffdd0e0e),
                 padding: EdgeInsets.symmetric(vertical: 11.0),
                 textStyle: TextStyle(color: Colors.white),
                 shape: StadiumBorder(),
-                primary: Color(0xffdd0e0e),
               ),
               onPressed: _submitLogin, // () => localStorage.reset(),
 

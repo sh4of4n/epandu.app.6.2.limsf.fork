@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:readmore/readmore.dart';
 
 class ExpFuelListPage extends StatefulWidget {
   ExpFuelListPage({Key? key}) : super(key: key);
@@ -70,21 +71,25 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
         backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
           title: Text('Fuel Expenses'),
-          actions: [
-            IconButton(
-              onPressed: () async {
-                var result = await context.router.push(CreateFuelRoute());
-                if (result.toString() == 'refresh') {
-                  setState(() {
-                    expFuelFuture = getExpFuel();
-                  });
-                }
-              },
-              icon: Icon(
-                Icons.add,
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () async {
+            var result = await context.router.push(CreateFuelRoute());
+            if (result.toString() == 'refresh') {
+              setState(() {
+                expFuelFuture = getExpFuel();
+              });
+            }
+          },
+          label: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 4.0),
+                child: Icon(Icons.add),
               ),
-            ),
-          ],
+              Text('Add Expenses')
+            ],
+          ),
         ),
         body: RefreshIndicator(
           key: _refresherKey,
@@ -185,17 +190,6 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                                 ),
                                               ],
                                             ),
-                                            Text(
-                                              formatter.format(
-                                                double.parse(
-                                                  snapshot
-                                                      .data.data[index].amount,
-                                                ),
-                                              ),
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
                                           ],
                                         ),
                                         SizedBox(
@@ -230,15 +224,39 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                           height: 8,
                                         ),
                                         Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Icon(Icons.description),
                                             SizedBox(
                                               width: 4,
                                             ),
-                                            Flexible(
-                                              child: Text(
+                                            Expanded(
+                                              child: ReadMoreText(
                                                 snapshot.data.data[index]
                                                     .description,
+                                                trimLines: 2,
+                                                preDataTextStyle: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                                style: TextStyle(
+                                                    color: Colors.black),
+                                                colorClickableText: Colors.pink,
+                                                trimMode: TrimMode.Line,
+                                                trimCollapsedText:
+                                                    '...Show more',
+                                                trimExpandedText: ' show less',
+                                              ),
+                                            ),
+                                            Text(
+                                              formatter.format(
+                                                double.parse(
+                                                  snapshot
+                                                      .data.data[index].amount,
+                                                ),
+                                              ),
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                           ],

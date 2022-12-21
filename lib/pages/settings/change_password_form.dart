@@ -249,7 +249,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 11.0),
-                primary: Color(0xffdd0e0e),
+                backgroundColor: Color(0xffdd0e0e),
                 minimumSize: Size(420.w, 45.h),
                 shape: StadiumBorder(),
                 textStyle: TextStyle(color: Colors.white),

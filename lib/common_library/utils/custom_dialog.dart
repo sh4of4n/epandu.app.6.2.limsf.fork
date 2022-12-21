@@ -12,7 +12,7 @@ enum DialogType {
 class CustomDialog {
   final double _defIconSize = 120;
 
-  show({
+  Future show({
     required context,
     required String content,
     title,
@@ -20,7 +20,7 @@ class CustomDialog {
     required type,
     bool? barrierDismissable,
     onPressed,
-  }) {
+  }) async {
     List<Widget>? actions = <Widget>[
       TextButton(
         child: Text("Ok"),
@@ -106,14 +106,14 @@ class CustomDialog {
     }
   }
 
-  _dialog(
+  Future _dialog(
     context,
     title,
     content,
     actions,
     barrierDismissable,
   ) {
-    showDialog(
+    return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -126,13 +126,13 @@ class CustomDialog {
     );
   }
 
-  _simpleDialog(
+  Future _simpleDialog(
     context,
     title,
     actions,
     barrierDismissible,
   ) {
-    showDialog(
+    return showDialog(
       context: context,
       builder: (BuildContext context) {
         return SimpleDialog(

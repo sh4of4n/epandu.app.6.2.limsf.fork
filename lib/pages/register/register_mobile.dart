@@ -180,10 +180,10 @@ class _RegisterMobileState extends State<RegisterMobile> {
                                 : ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       minimumSize: Size(420.w, 45.h),
+                                      backgroundColor: Color(0xffdd0e0e),
                                       padding:
                                           EdgeInsets.symmetric(vertical: 11.0),
                                       shape: StadiumBorder(),
-                                      primary: Color(0xffdd0e0e),
                                       textStyle: TextStyle(color: Colors.white),
                                     ),
                                     onPressed: _next,
@@ -364,10 +364,10 @@ class _RegisterMobileState extends State<RegisterMobile> {
                                 : ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       minimumSize: Size(420.w, 45.h),
+                                      backgroundColor: Color(0xffdd0e0e),
                                       padding:
                                           EdgeInsets.symmetric(vertical: 11.0),
                                       shape: StadiumBorder(),
-                                      primary: Color(0xffdd0e0e),
                                       textStyle: TextStyle(color: Colors.white),
                                     ),
                                     onPressed: _next,

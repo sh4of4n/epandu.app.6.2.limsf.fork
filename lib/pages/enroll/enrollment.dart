@@ -1383,8 +1383,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(420.w, 45.h),
+                      backgroundColor: Color(0xffdd0e0e),
                       padding: EdgeInsets.symmetric(vertical: 11.0),
-                      primary: Color(0xffdd0e0e),
                       textStyle: TextStyle(color: Colors.white),
                       shape: StadiumBorder(),
                     ),
@@ -1435,9 +1435,9 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 11.0),
+                backgroundColor: Color(0xffdd0e0e),
                 minimumSize: Size(420.w, 45.h),
                 shape: StadiumBorder(),
-                primary: Color(0xffdd0e0e),
                 textStyle: TextStyle(color: Colors.white),
               ),
               onPressed: _next,

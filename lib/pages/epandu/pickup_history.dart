@@ -56,7 +56,8 @@ class _PickupHistoryState extends State<PickupHistory> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.translate('pickup_history')),
+          title:
+              Text(AppLocalizations.of(context)!.translate('pickup_history')),
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
@@ -65,7 +66,7 @@ class _PickupHistoryState extends State<PickupHistory> {
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               shape: CircleBorder(),
-              primary: Color(0xffdd0e0e),
+              backgroundColor: Color(0xffdd0e0e),
               textStyle: TextStyle(color: Colors.white),
               padding: EdgeInsets.all(12),
             ),
@@ -156,7 +157,8 @@ class _PickupHistoryState extends State<PickupHistory> {
                                 TableRow(
                                   decoration: BoxDecoration(
                                       border: Border(
-                                    bottom: BorderSide(color: Colors.grey[400]!),
+                                    bottom:
+                                        BorderSide(color: Colors.grey[400]!),
                                   )),
                                   children: [
                                     Padding(

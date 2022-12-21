@@ -429,8 +429,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               minimumSize: Size(420.w, 45.h),
+              backgroundColor: Color(0xffdd0e0e),
               padding: EdgeInsets.symmetric(vertical: 11.0),
-              primary: Color(0xffdd0e0e),
               shape: StadiumBorder(),
               textStyle: TextStyle(color: Colors.white),
             ),
@@ -452,22 +452,10 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 );
               }
             },
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25.0),
-                gradient: LinearGradient(
-                  colors: [Colors.blueAccent.shade700, Colors.blue],
-                ),
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 40.0,
-                vertical: 15.0,
-              ),
-              child: Text(
-                AppLocalizations.of(context)!.translate('prev_btn'),
-                style: TextStyle(
-                  fontSize: ScreenUtil().setSp(56),
-                ),
+            child: Text(
+              AppLocalizations.of(context)!.translate('prev_btn'),
+              style: TextStyle(
+                fontSize: ScreenUtil().setSp(56),
               ),
             ),
           ),
@@ -485,9 +473,9 @@ class _ExamTemplateState extends State<ExamTemplate> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               minimumSize: Size(420.w, 45.h),
+              backgroundColor: Color(0xffdd0e0e),
               padding: EdgeInsets.symmetric(vertical: 11.0),
               shape: StadiumBorder(),
-              primary: Color(0xffdd0e0e),
               textStyle: TextStyle(color: Colors.white),
             ),
             onPressed: () {
@@ -525,22 +513,10 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 );
               }
             },
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25.0),
-                gradient: LinearGradient(
-                  colors: [Colors.blueAccent.shade700, Colors.blue],
-                ),
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 40.0,
-                vertical: 15.0,
-              ),
-              child: Text(
-                AppLocalizations.of(context)!.translate('next_btn'),
-                style: TextStyle(
-                  fontSize: ScreenUtil().setSp(56),
-                ),
+            child: Text(
+              AppLocalizations.of(context)!.translate('next_btn'),
+              style: TextStyle(
+                fontSize: ScreenUtil().setSp(56),
               ),
             ),
           ),
@@ -556,33 +532,29 @@ class _ExamTemplateState extends State<ExamTemplate> {
         size: ScreenUtil().setSp(90),
       ),
       onPressed: () {
-        _showExitDialog();
+        context.router.pop();
       },
     );
   }
 
-  _showExitDialog() {
-    return CustomDialog().show(
+  Future<bool> _showExitDialog() async {
+    return await CustomDialog().show(
       context: context,
       title: Text(AppLocalizations.of(context)!.translate('warning_title')),
       content: AppLocalizations.of(context)!.translate('confirm_exit_desc'),
       customActions: <Widget>[
         TextButton(
           child: Text(AppLocalizations.of(context)!.translate('yes_lbl')),
-          onPressed: () {
-            context.router.pop();
-            context.router.pop();
-
+          onPressed: () async {
             _timer.cancel();
-
-            // Hive box must be cleared here
-            examDataBox.clear();
+            await examDataBox.clear();
+            context.router.pop(true);
           },
         ),
         TextButton(
           child: Text(AppLocalizations.of(context)!.translate('no_lbl')),
           onPressed: () {
-            context.router.pop();
+            context.router.pop(false);
           },
         ),
       ],
