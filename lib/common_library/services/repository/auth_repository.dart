@@ -1245,7 +1245,7 @@ class AuthRepo {
       merchantNo: merchantNo,
       loginId: loginId,
       userId: userId ?? '',
-      bodyTemperature: bodyTemperature ?? '',
+      bodyTemperature: bodyTemperature ?? '0',
       scannedAppId: scannedAppId ?? '',
       scannedAppVer: scannedAppVer ?? '',
       scannedLoginId: scannedLoginId ?? '',

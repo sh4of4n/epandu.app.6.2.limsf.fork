@@ -844,7 +844,6 @@ class _HomeState extends State<Home> {
                               return GestureDetector(
                                 onTap: () {
                                   var feedValue = items[index].feedNavigate;
-                                  feedValue = 'VCLUB';
                                   if (feedValue != null) {
                                     bool isUrl = isURL(feedValue);
 

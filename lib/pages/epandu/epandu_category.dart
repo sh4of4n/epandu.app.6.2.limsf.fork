@@ -207,7 +207,7 @@ class EpanduCategory extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      context.router.push(RequestPickup());
+                      context.router.push(KppCategory());
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,

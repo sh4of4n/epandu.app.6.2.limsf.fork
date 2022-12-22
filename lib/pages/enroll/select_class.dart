@@ -80,7 +80,6 @@ class _SelectClassState extends State<SelectClass> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(
             AppLocalizations.of(context)!.translate('select_class_lbl'),

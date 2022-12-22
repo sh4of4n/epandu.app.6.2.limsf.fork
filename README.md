@@ -1,39 +1,51 @@
+22/12/2022 V.6.1.5
+ePandu ws 6.1.173.0
+
+- Enrollment Classes
+- Payment History
+- Attendance & Check In
+- Booking
+- Pickup
+- IM near me
+
 12/10/2022 V.6.1.4
-ePandu ws 6.1.161.0 
+ePandu ws 6.1.161.0
+
 - Can add photo for expenses
 
-
 01/10/2022 V.6.1.3
-ePandu ws 6.1.155.0 
+ePandu ws 6.1.155.0
+
 - Fuel Expenses
 
 01/10/2022 V.6.1.2
-ePandu ws 6.1.150.0 
+ePandu ws 6.1.150.0
+
 - Favourite Place
-    - add/edit place
-    - Can search place
-    - Default zoom in the map into maximum
+  - add/edit place
+  - Can search place
+  - Default zoom in the map into maximum
 
 30/09/2022 V.6.1.1
-ePandu ws 6.1.147.0 
+ePandu ws 6.1.147.0
+
 - Favourite Place
-    - Remove address field
-    - Default zoom in the map able to show the house or building lot number
-    - Allow take photo to add place photo
-    - Favourite Place list UI
+  - Remove address field
+  - Default zoom in the map able to show the house or building lot number
+  - Allow take photo to add place photo
+  - Favourite Place list UI
 
 29/09/2022 V.6.1.0
-ePandu ws 6.1.147.0 
+ePandu ws 6.1.147.0
+
 - Change the main page UI design and call to the current available pages for the eDriving sub pages
 - Change the current banner to show at the top page level 2 after the Shortcut icons
-
 
 V.2.0.168
 
 - create favorites places
 - create expenses refuel page
 - update home page ui
-
 
 V.2.0.167
 
@@ -91,7 +103,7 @@ V.2.0.156
 
 - Fix barcode scanning not responding
 
-2.0.155
+  2.0.155
 
 - New barcode scanning module
 - Check condition if scan invalid QR
@@ -115,28 +127,28 @@ V.2.0.150
 
 - Select DI screen UI now displays banner
 
-2.0.149
+  2.0.149
 
 - Update last calling queue number message
 
-2.0.148
+  2.0.148
 
 - Fix QR format in queue number page
 
-2.0.147
+  2.0.147
 
 - Generate QR code in queue number page
 
-2.0.146
+  2.0.146
 
 - Change using default diCode to enrolled Merchant Code
 - Fix attendance record return data
 
-2.0.145
+  2.0.145
 
 - Update merchant no value for getting feeds
 
-2.0.144
+  2.0.144
 
 - Multilevel banner
 - Use "MULTILVL" key on UDF to enable multilevel on banner

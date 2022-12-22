@@ -103,9 +103,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                               color: Color(0xff808080),
                             ),
                           ),
-                          Container(
-                            width: 882.w,
-                            margin: EdgeInsets.only(left: 10.w),
+                          Flexible(
                             child: TextFormField(
                               focusNode: _phoneFocus,
                               keyboardType: TextInputType.phone,

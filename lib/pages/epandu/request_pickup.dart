@@ -88,6 +88,16 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
           ),
           elevation: 0,
           backgroundColor: Colors.transparent,
+          actions: [
+            IconButton(
+              onPressed: () {
+                context.router.push(PickupHistory());
+              },
+              icon: Icon(
+                Icons.history,
+              ),
+            ),
+          ],
         ),
         backgroundColor: Colors.transparent,
         body: Container(

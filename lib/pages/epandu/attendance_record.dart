@@ -39,7 +39,10 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
   attendanceList() {
     if (widget.attendanceData != null && !widget.isLoading!) {
       return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 40.w),
+        padding: EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         child: ListView.builder(
           shrinkWrap: true,
           itemCount: widget.attendanceData.length,

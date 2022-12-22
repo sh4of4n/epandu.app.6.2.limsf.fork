@@ -794,6 +794,12 @@ class AppRouter extends _i40.RootStackRouter {
         ),
       );
     },
+    PickupHistory.name: (routeData) {
+      return _i40.MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: _i10.PickupHistory(),
+      );
+    },
   };
 
   @override
@@ -1159,6 +1165,10 @@ class AppRouter extends _i40.RootStackRouter {
         _i40.RouteConfig(
           EditExpFuelRoute.name,
           path: '/edit-exp-fuel-page',
+        ),
+        _i40.RouteConfig(
+          PickupHistory.name,
+          path: '/pickup-history',
         ),
       ];
 }
@@ -3395,4 +3405,16 @@ class EditExpFuelRouteArgs {
   String toString() {
     return 'EditExpFuelRouteArgs{key: $key, fuel: $fuel}';
   }
+}
+
+/// generated route for
+/// [_i10.PickupHistory]
+class PickupHistory extends _i40.PageRouteInfo<void> {
+  const PickupHistory()
+      : super(
+          PickupHistory.name,
+          path: '/pickup-history',
+        );
+
+  static const String name = 'PickupHistory';
 }

@@ -56,26 +56,33 @@ class _PickupHistoryState extends State<PickupHistory> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          title:
-              Text(AppLocalizations.of(context)!.translate('pickup_history')),
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
+          title: Text(
+            AppLocalizations.of(context)!.translate('pickup_history'),
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
-        bottomNavigationBar: Container(
-          margin: EdgeInsets.only(top: 20.h, bottom: 60.h),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              shape: CircleBorder(),
-              backgroundColor: Color(0xffdd0e0e),
-              textStyle: TextStyle(color: Colors.white),
-              padding: EdgeInsets.all(12),
-            ),
-            onPressed: () => context.router.push(RequestPickup()),
-            child: Icon(
-              Icons.add,
-            ),
-          ),
-        ),
+        // bottomNavigationBar: Container(
+        //   margin: EdgeInsets.only(top: 20.h, bottom: 60.h),
+        //   child: ElevatedButton(
+        //     style: ElevatedButton.styleFrom(
+        //       shape: CircleBorder(),
+        //       backgroundColor: Color(0xffdd0e0e),
+        //       textStyle: TextStyle(color: Colors.white),
+        //       padding: EdgeInsets.all(12),
+        //     ),
+        //     onPressed: () => context.router.push(RequestPickup()),
+        //     child: Icon(
+        //       Icons.add,
+        //     ),
+        //   ),
+        // ),
         backgroundColor: Colors.transparent,
         body: Container(
           height: ScreenUtil().screenHeight,

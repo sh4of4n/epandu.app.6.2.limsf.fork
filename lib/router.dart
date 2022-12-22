@@ -215,6 +215,7 @@ import 'package:epandu/common_library/utils/image_viewer.dart';
     AutoRoute(page: FuelMapPage),
     AutoRoute(page: ExpFuelListPage),
     AutoRoute(page: EditExpFuelPage),
+    AutoRoute(page: PickupHistory),
   ],
 )
 class $AppRouter {}

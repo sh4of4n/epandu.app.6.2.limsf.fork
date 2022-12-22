@@ -245,36 +245,6 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                         ),
                       ),
                     ),
-                    // InkWell(
-                    //   onTap: () => context.router
-                    //       .push(Inbox())
-                    //       .then((value) => getUnreadNotificationCount()),
-                    //   borderRadius: BorderRadius.circular(10.0),
-                    //   child: Padding(
-                    //     padding: EdgeInsets.all(8.0),
-                    //     child: Column(
-                    //       children: <Widget>[
-                    //         Badge(
-                    //           showBadge: showBadge,
-                    //           badgeContent: Text(
-                    //             '$badgeNo',
-                    //             style: TextStyle(color: Colors.white),
-                    //           ),
-                    //           child: Icon(
-                    //             MyCustomIcons.inbox_icon,
-                    //             size: 26,
-                    //             color: Color(0xff808080),
-                    //           ),
-                    //         ),
-                    //         SizedBox(height: ScreenUtil().setHeight(20)),
-                    //         Text(
-                    //             AppLocalizations.of(context)!
-                    //                 .translate('inbox_lbl'),
-                    //             style: widget.iconText),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
                     InkWell(
                       onTap: () => context.router
                           .push(Inbox())
@@ -297,11 +267,41 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                               ),
                             ),
                             SizedBox(height: ScreenUtil().setHeight(20)),
-                            Text('Chat', style: widget.iconText),
+                            Text(
+                                AppLocalizations.of(context)!
+                                    .translate('inbox_lbl'),
+                                style: widget.iconText),
                           ],
                         ),
                       ),
                     ),
+                    // InkWell(
+                    //   onTap: () => context.router
+                    //       .push(Inbox())
+                    //       .then((value) => getUnreadNotificationCount()),
+                    //   borderRadius: BorderRadius.circular(10.0),
+                    //   child: Padding(
+                    //     padding: EdgeInsets.all(8.0),
+                    //     child: Column(
+                    //       children: <Widget>[
+                    //         Badge(
+                    //           showBadge: showBadge,
+                    //           badgeContent: Text(
+                    //             '$badgeNo',
+                    //             style: TextStyle(color: Colors.white),
+                    //           ),
+                    //           child: Icon(
+                    //             MyCustomIcons.inbox_icon,
+                    //             size: 26,
+                    //             color: Color(0xff808080),
+                    //           ),
+                    //         ),
+                    //         SizedBox(height: ScreenUtil().setHeight(20)),
+                    //         Text('Chat', style: widget.iconText),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ],

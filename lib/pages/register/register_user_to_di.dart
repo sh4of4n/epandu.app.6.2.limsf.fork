@@ -88,9 +88,10 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
 
     if (scanResponse.qRCode?[0] != null) {
       setState(() {
-        nameController.text = scanResponse.qRCode![0].name!;
-        phoneController.text = scanResponse.qRCode![0].loginId!;
-        merchantIdController.text = scanResponse.qRCode![0].merchantDbCode!;
+        nameController.text = scanResponse.qRCode![0].name ?? '';
+        phoneController.text = scanResponse.qRCode![0].loginId ?? '';
+        merchantIdController.text =
+            scanResponse.qRCode![0].merchantDbCode ?? '';
         merchantNameController.text = scanResponse.qRCode![0].merchantName!;
       });
     } else {
@@ -262,6 +263,9 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
+            iconTheme: IconThemeData(
+              color: Colors.black, //change your color here
+            ),
             title: Image.asset(image.logo2, height: 90.h),
             elevation: 0,
             backgroundColor: Colors.transparent,
