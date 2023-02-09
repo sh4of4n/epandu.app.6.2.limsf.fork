@@ -80,7 +80,7 @@ class _MenuPageState extends State<MenuPage> {
         box.put('menu_item', jsonEncode(items));
       }
     }
-    
+
     name = await localStorage.getNickName();
     setState(() {
       name = name;
@@ -208,7 +208,7 @@ class _MenuPageState extends State<MenuPage> {
                                 'Hello $name',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline4
+                                    .headlineMedium
                                     ?.merge(
                                       TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -220,7 +220,7 @@ class _MenuPageState extends State<MenuPage> {
                                 'How may i help you today?',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline4
+                                    .headlineMedium
                                     ?.merge(
                                       TextStyle(
                                         color: Colors.black,

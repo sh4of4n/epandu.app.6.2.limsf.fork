@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/services/provider/cart_status.dart';
@@ -588,7 +588,12 @@ class _ValueClubState extends State<ValueClub> {
           iconTheme: IconThemeData(
             color: Colors.black, //change your color here
           ),
-          title: Text(AppLocalizations.of(context)!.translate('value_club'), style: TextStyle(color: Colors.black,),),
+          title: Text(
+            AppLocalizations.of(context)!.translate('value_club'),
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
           elevation: 0,
           backgroundColor: Colors.transparent,
           actions: [
@@ -601,9 +606,11 @@ class _ValueClubState extends State<ValueClub> {
               ),
               child: Padding(
                 padding: EdgeInsets.only(top: 30.h, right: 50.w, bottom: 20.h),
-                child: Badge(
-                  badgeColor: Colors.redAccent[700]!,
-                  animationType: BadgeAnimationType.fade,
+                child: badges.Badge(
+                  badgeStyle: badges.BadgeStyle(
+                    badgeColor: Colors.redAccent[700]!,
+                  ),
+                  badgeAnimation: badges.BadgeAnimation.fade(),
                   showBadge: showBadge,
                   badgeContent: Text(
                     '$badgeNo',

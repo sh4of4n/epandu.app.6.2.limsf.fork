@@ -11,12 +11,14 @@
 // ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i40;
-import 'package:camera/camera.dart' as _i42;
-import 'package:flutter/material.dart' as _i41;
+import 'package:auto_route/auto_route.dart' as _i42;
+import 'package:camera/camera.dart' as _i44;
+import 'package:flutter/material.dart' as _i43;
 
 import 'coming_soon/coming_soon.dart' as _i27;
 import 'common_library/utils/image_viewer.dart' as _i25;
+import 'pages/brief/brief_list.dart' as _i40;
+import 'pages/brief/brief_video.dart' as _i41;
 import 'pages/chat/chat.dart' as _i24;
 import 'pages/di_enroll/di_enrollment.dart' as _i7;
 import 'pages/elearning/elearning.dart' as _i29;
@@ -55,14 +57,14 @@ import 'pages/register/register.dart' as _i4;
 import 'pages/settings/settings.dart' as _i3;
 import 'pages/vclub/value_club.dart' as _i9;
 
-class AppRouter extends _i40.RootStackRouter {
-  AppRouter([_i41.GlobalKey<_i41.NavigatorState>? navigatorKey])
+class AppRouter extends _i42.RootStackRouter {
+  AppRouter([_i43.GlobalKey<_i43.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
-  final Map<String, _i40.PageFactory> pagesMap = {
+  final Map<String, _i42.PageFactory> pagesMap = {
     Authentication.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i1.Authentication(),
       );
@@ -70,64 +72,64 @@ class AppRouter extends _i40.RootStackRouter {
     ClientAccount.name: (routeData) {
       final args = routeData.argsAs<ClientAccountArgs>(
           orElse: () => const ClientAccountArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i1.ClientAccount(data: args.data),
       );
     },
     Login.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i1.Login(),
       );
     },
     ForgotPassword.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i2.ForgotPassword(),
       );
     },
     ChangePassword.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i3.ChangePassword(),
       );
     },
     RegisterMobile.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i4.RegisterMobile(),
       );
     },
     RegisterVerification.name: (routeData) {
       final args = routeData.argsAs<RegisterVerificationArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i4.RegisterVerification(args.data),
       );
     },
     RegisterForm.name: (routeData) {
       final args = routeData.argsAs<RegisterFormArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i4.RegisterForm(args.data),
       );
     },
     Home.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i5.Home(),
       );
     },
     QueueNumber.name: (routeData) {
       final args = routeData.argsAs<QueueNumberArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i5.QueueNumber(data: args.data),
       );
     },
     Enrollment.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i6.Enrollment(),
       );
@@ -135,7 +137,7 @@ class AppRouter extends _i40.RootStackRouter {
     DiEnrollment.name: (routeData) {
       final args = routeData.argsAs<DiEnrollmentArgs>(
           orElse: () => const DiEnrollmentArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i7.DiEnrollment(packageCodeJson: args.packageCodeJson),
       );
@@ -143,7 +145,7 @@ class AppRouter extends _i40.RootStackRouter {
     EnrollConfirmation.name: (routeData) {
       final args = routeData.argsAs<EnrollConfirmationArgs>(
           orElse: () => const EnrollConfirmationArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i7.EnrollConfirmation(
           banner: args.banner,
@@ -160,7 +162,7 @@ class AppRouter extends _i40.RootStackRouter {
     OrderList.name: (routeData) {
       final args =
           routeData.argsAs<OrderListArgs>(orElse: () => const OrderListArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i7.OrderList(
           icNo: args.icNo,
@@ -172,7 +174,7 @@ class AppRouter extends _i40.RootStackRouter {
     BankList.name: (routeData) {
       final args =
           routeData.argsAs<BankListArgs>(orElse: () => const BankListArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i7.BankList(
           icNo: args.icNo,
@@ -187,27 +189,27 @@ class AppRouter extends _i40.RootStackRouter {
     PaymentStatus.name: (routeData) {
       final args = routeData.argsAs<PaymentStatusArgs>(
           orElse: () => const PaymentStatusArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i7.PaymentStatus(icNo: args.icNo),
       );
     },
     KppCategory.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i8.KppCategory(),
       );
     },
     KppResult.name: (routeData) {
       final args = routeData.argsAs<KppResultArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i8.KppResult(args.data),
       );
     },
     KppExam.name: (routeData) {
       final args = routeData.argsAs<KppExamArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i8.KppExam(
           groupId: args.groupId,
@@ -217,20 +219,20 @@ class AppRouter extends _i40.RootStackRouter {
     },
     KppModule.name: (routeData) {
       final args = routeData.argsAs<KppModuleArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i8.KppModule(args.data),
       );
     },
     PinActivation.name: (routeData) {
       final args = routeData.argsAs<PinActivationArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i8.PinActivation(args.data),
       );
     },
     ValueClub.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i9.ValueClub(),
       );
@@ -238,7 +240,7 @@ class AppRouter extends _i40.RootStackRouter {
     Product.name: (routeData) {
       final args =
           routeData.argsAs<ProductArgs>(orElse: () => const ProductArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i9.Product(
           stkCode: args.stkCode,
@@ -255,7 +257,7 @@ class AppRouter extends _i40.RootStackRouter {
     ProductList.name: (routeData) {
       final args = routeData.argsAs<ProductListArgs>(
           orElse: () => const ProductListArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i9.ProductList(
           stkCat: args.stkCat,
@@ -265,7 +267,7 @@ class AppRouter extends _i40.RootStackRouter {
     },
     Cart.name: (routeData) {
       final args = routeData.argsAs<CartArgs>(orElse: () => const CartArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i9.Cart(
           itemName: args.itemName,
@@ -276,7 +278,7 @@ class AppRouter extends _i40.RootStackRouter {
     CartItemEdit.name: (routeData) {
       final args = routeData.argsAs<CartItemEditArgs>(
           orElse: () => const CartItemEditArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i9.CartItemEdit(
           stkCode: args.stkCode,
@@ -296,7 +298,7 @@ class AppRouter extends _i40.RootStackRouter {
     Checkout.name: (routeData) {
       final args =
           routeData.argsAs<CheckoutArgs>(orElse: () => const CheckoutArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i9.Checkout(
           slsDetailData: args.slsDetailData,
@@ -311,85 +313,85 @@ class AppRouter extends _i40.RootStackRouter {
       );
     },
     EpanduCategory.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i10.EpanduCategory(),
       );
     },
     EtestingCategory.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i11.EtestingCategory(),
       );
     },
     EmergencyDirectory.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i12.EmergencyDirectory(),
       );
     },
     DirectoryList.name: (routeData) {
       final args = routeData.argsAs<DirectoryListArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i12.DirectoryList(args.directoryType),
       );
     },
     DirectoryDetail.name: (routeData) {
       final args = routeData.argsAs<DirectoryDetailArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i12.DirectoryDetail(args.snapshot),
       );
     },
     SelectInstitute.name: (routeData) {
       final args = routeData.argsAs<SelectInstituteArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i6.SelectInstitute(args.data),
       );
     },
     SelectClass.name: (routeData) {
       final args = routeData.argsAs<SelectClassArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i6.SelectClass(args.data),
       );
     },
     SelectDrivingInstitute.name: (routeData) {
       final args = routeData.argsAs<SelectDrivingInstituteArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i1.SelectDrivingInstitute(args.diList),
       );
     },
     TakeProfilePicture.name: (routeData) {
       final args = routeData.argsAs<TakeProfilePictureArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i13.TakeProfilePicture(args.camera),
       );
     },
     Booking.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i10.Booking(),
       );
     },
     AddBooking.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i10.AddBooking(),
       );
     },
     Records.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i10.Records(),
       );
     },
     Pay.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i14.Pay(),
       );
@@ -397,7 +399,7 @@ class AppRouter extends _i40.RootStackRouter {
     PurchaseOrderList.name: (routeData) {
       final args = routeData.argsAs<PurchaseOrderListArgs>(
           orElse: () => const PurchaseOrderListArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i14.PurchaseOrderList(
           icNo: args.icNo,
@@ -407,40 +409,40 @@ class AppRouter extends _i40.RootStackRouter {
       );
     },
     PaymentHistory.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i10.PaymentHistory(),
       );
     },
     PaymentHistoryDetail.name: (routeData) {
       final args = routeData.argsAs<PaymentHistoryDetailArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i10.PaymentHistoryDetail(args.recpNo),
       );
     },
     RequestPickup.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i10.RequestPickup(),
       );
     },
     RegisteredCourse.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i10.RegisteredCourse(),
       );
     },
     RegisteredCourseDetail.name: (routeData) {
       final args = routeData.argsAs<RegisteredCourseDetailArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i10.RegisteredCourseDetail(args.groupId),
       );
     },
     AttendanceRecord.name: (routeData) {
       final args = routeData.argsAs<AttendanceRecordArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i10.AttendanceRecord(
           attendanceData: args.attendanceData,
@@ -449,7 +451,7 @@ class AppRouter extends _i40.RootStackRouter {
       );
     },
     AttendanceTab.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i10.AttendanceTab(),
       );
@@ -457,7 +459,7 @@ class AppRouter extends _i40.RootStackRouter {
     Promotions.name: (routeData) {
       final args = routeData.argsAs<PromotionsArgs>(
           orElse: () => const PromotionsArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i15.Promotions(feed: args.feed),
       );
@@ -465,7 +467,7 @@ class AppRouter extends _i40.RootStackRouter {
     Profile.name: (routeData) {
       final args =
           routeData.argsAs<ProfileArgs>(orElse: () => const ProfileArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i13.Profile(
           userProfile: args.userProfile,
@@ -476,104 +478,104 @@ class AppRouter extends _i40.RootStackRouter {
     },
     ProfileTab.name: (routeData) {
       final args = routeData.argsAs<ProfileTabArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i13.ProfileTab(args.positionStream),
       );
     },
     UpdateProfile.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i13.UpdateProfile(),
       );
     },
     RegisterUserToDi.name: (routeData) {
       final args = routeData.argsAs<RegisterUserToDiArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i4.RegisterUserToDi(args.barcode),
       );
     },
     IdentityBarcode.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i13.IdentityBarcode(),
       );
     },
     EnrolmentInfo.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i13.EnrolmentInfo(),
       );
     },
     EnrolmentInfoDetail.name: (routeData) {
       final args = routeData.argsAs<EnrolmentInfoDetailArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i13.EnrolmentInfoDetail(args.groupId),
       );
     },
     Inbox.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i16.Inbox(),
       );
     },
     Invite.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i17.Invite(),
       );
     },
     AirtimeTransaction.name: (routeData) {
       final args = routeData.argsAs<AirtimeTransactionArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i18.AirtimeTransaction(args.data),
       );
     },
     AirtimeBillDetail.name: (routeData) {
       final args = routeData.argsAs<AirtimeBillDetailArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i19.AirtimeBillDetail(args.data),
       );
     },
     AirtimeSelection.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i20.AirtimeSelection(),
       );
     },
     BillTransaction.name: (routeData) {
       final args = routeData.argsAs<BillTransactionArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i21.BillTransaction(args.data),
       );
     },
     BillDetail.name: (routeData) {
       final args = routeData.argsAs<BillDetailArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i22.BillDetail(args.data),
       );
     },
     BillSelection.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i23.BillSelection(),
       );
     },
     MerchantList.name: (routeData) {
       final args = routeData.argsAs<MerchantListArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i9.MerchantList(args.merchantType),
       );
     },
     ChatHome.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i24.ChatHome(),
       );
@@ -581,7 +583,7 @@ class AppRouter extends _i40.RootStackRouter {
     TermsAndCondition.name: (routeData) {
       final args = routeData.argsAs<TermsAndConditionArgs>(
           orElse: () => const TermsAndConditionArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i7.TermsAndCondition(termsAndCondition: args.termsAndCondition),
       );
@@ -589,7 +591,7 @@ class AppRouter extends _i40.RootStackRouter {
     FpxPaymentOption.name: (routeData) {
       final args = routeData.argsAs<FpxPaymentOptionArgs>(
           orElse: () => const FpxPaymentOptionArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i14.FpxPaymentOption(
           icNo: args.icNo,
@@ -607,7 +609,7 @@ class AppRouter extends _i40.RootStackRouter {
     ImageViewer.name: (routeData) {
       final args = routeData.argsAs<ImageViewerArgs>(
           orElse: () => const ImageViewerArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i25.ImageViewer(
           title: args.title,
@@ -617,7 +619,7 @@ class AppRouter extends _i40.RootStackRouter {
     },
     Webview.name: (routeData) {
       final args = routeData.argsAs<WebviewArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i5.Webview(
           url: args.url,
@@ -627,7 +629,7 @@ class AppRouter extends _i40.RootStackRouter {
     },
     Scan.name: (routeData) {
       final args = routeData.argsAs<ScanArgs>(orElse: () => const ScanArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i5.Scan(
           getActiveFeed: args.getActiveFeed,
@@ -639,14 +641,14 @@ class AppRouter extends _i40.RootStackRouter {
     ReadMore.name: (routeData) {
       final args =
           routeData.argsAs<ReadMoreArgs>(orElse: () => const ReadMoreArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i7.ReadMore(packageDesc: args.packageDesc),
       );
     },
     ViewPdf.name: (routeData) {
       final args = routeData.argsAs<ViewPdfArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i26.ViewPdf(
           title: args.title,
@@ -655,13 +657,13 @@ class AppRouter extends _i40.RootStackRouter {
       );
     },
     ComingSoon.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i27.ComingSoon(),
       );
     },
     CheckInSlip.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i11.CheckInSlip(),
       );
@@ -669,7 +671,7 @@ class AppRouter extends _i40.RootStackRouter {
     Multilevel.name: (routeData) {
       final args = routeData.argsAs<MultilevelArgs>(
           orElse: () => const MultilevelArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i15.Multilevel(
           feed: args.feed,
@@ -678,7 +680,7 @@ class AppRouter extends _i40.RootStackRouter {
       );
     },
     MerchantProfile.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i13.MerchantProfile(),
       );
@@ -686,7 +688,7 @@ class AppRouter extends _i40.RootStackRouter {
     MenuRoute.name: (routeData) {
       final args =
           routeData.argsAs<MenuRouteArgs>(orElse: () => const MenuRouteArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i28.MenuPage(key: args.key),
       );
@@ -694,7 +696,7 @@ class AppRouter extends _i40.RootStackRouter {
     ElearningRoute.name: (routeData) {
       final args = routeData.argsAs<ElearningRouteArgs>(
           orElse: () => const ElearningRouteArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i29.ElearningPage(key: args.key),
       );
@@ -702,14 +704,14 @@ class AppRouter extends _i40.RootStackRouter {
     CreateFavouriteRoute.name: (routeData) {
       final args = routeData.argsAs<CreateFavouriteRouteArgs>(
           orElse: () => const CreateFavouriteRouteArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i30.CreateFavouritePage(key: args.key),
       );
     },
     FavourieMapRoute.name: (routeData) {
       final args = routeData.argsAs<FavourieMapRouteArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i31.FavourieMapPage(
           key: args.key,
@@ -721,7 +723,7 @@ class AppRouter extends _i40.RootStackRouter {
     CreateFuelRoute.name: (routeData) {
       final args = routeData.argsAs<CreateFuelRouteArgs>(
           orElse: () => const CreateFuelRouteArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i32.CreateFuelPage(key: args.key),
       );
@@ -729,20 +731,20 @@ class AppRouter extends _i40.RootStackRouter {
     CreateServiceCarRoute.name: (routeData) {
       final args = routeData.argsAs<CreateServiceCarRouteArgs>(
           orElse: () => const CreateServiceCarRouteArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i33.CreateServiceCarPage(key: args.key),
       );
     },
     FavouritePlaceListRoute.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i34.FavouritePlaceListPage(),
       );
     },
     PhotoViewRoute.name: (routeData) {
       final args = routeData.argsAs<PhotoViewRouteArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i35.PhotoViewPage(
           key: args.key,
@@ -755,7 +757,7 @@ class AppRouter extends _i40.RootStackRouter {
     },
     EditFavouritePlaceRoute.name: (routeData) {
       final args = routeData.argsAs<EditFavouritePlaceRouteArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i36.EditFavouritePlacePage(
           key: args.key,
@@ -767,7 +769,7 @@ class AppRouter extends _i40.RootStackRouter {
     },
     FuelMapRoute.name: (routeData) {
       final args = routeData.argsAs<FuelMapRouteArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i37.FuelMapPage(
           key: args.key,
@@ -779,14 +781,14 @@ class AppRouter extends _i40.RootStackRouter {
     ExpFuelListRoute.name: (routeData) {
       final args = routeData.argsAs<ExpFuelListRouteArgs>(
           orElse: () => const ExpFuelListRouteArgs());
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i38.ExpFuelListPage(key: args.key),
       );
     },
     EditExpFuelRoute.name: (routeData) {
       final args = routeData.argsAs<EditExpFuelRouteArgs>();
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i39.EditExpFuelPage(
           key: args.key,
@@ -795,387 +797,411 @@ class AppRouter extends _i40.RootStackRouter {
       );
     },
     PickupHistory.name: (routeData) {
-      return _i40.MaterialPageX<dynamic>(
+      return _i42.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i10.PickupHistory(),
+      );
+    },
+    BriefListRoute.name: (routeData) {
+      return _i42.MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const _i40.BriefListPage(),
+      );
+    },
+    BriefVideoRoute.name: (routeData) {
+      final args = routeData.argsAs<BriefVideoRouteArgs>();
+      return _i42.MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: _i41.BriefVideoPage(
+          key: args.key,
+          fileDetail: args.fileDetail,
+        ),
       );
     },
   };
 
   @override
-  List<_i40.RouteConfig> get routes => [
-        _i40.RouteConfig(
+  List<_i42.RouteConfig> get routes => [
+        _i42.RouteConfig(
           '/#redirect',
           path: '/',
           redirectTo: '/authentication',
           fullMatch: true,
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           Authentication.name,
           path: '/authentication',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           ClientAccount.name,
           path: '/clientAccount',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           Login.name,
           path: '/login',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           ForgotPassword.name,
           path: '/forgotPassword',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           ChangePassword.name,
           path: '/changePassword',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           RegisterMobile.name,
           path: '/registerMobile',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           RegisterVerification.name,
           path: '/registerVerification',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           RegisterForm.name,
           path: '/registerForm',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           Home.name,
           path: '/home',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           QueueNumber.name,
           path: '/queueNumber',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           Enrollment.name,
           path: '/enrollment',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           DiEnrollment.name,
           path: '/diEnrollment',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           EnrollConfirmation.name,
           path: '/enrollConfirmation',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           OrderList.name,
           path: '/orderList',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           BankList.name,
           path: '/bankList',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           PaymentStatus.name,
           path: '/paymentStatus',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           KppCategory.name,
           path: '/kppCategory',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           KppResult.name,
           path: '/kppResult',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           KppExam.name,
           path: '/kppExam',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           KppModule.name,
           path: '/kppModule',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           PinActivation.name,
           path: '/pinActivation',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           ValueClub.name,
           path: '/valueClub',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           Product.name,
           path: '/product',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           ProductList.name,
           path: '/productList',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           Cart.name,
           path: '/cart',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           CartItemEdit.name,
           path: '/cartItemEdit',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           Checkout.name,
           path: '/checkout',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           EpanduCategory.name,
           path: '/epanduCategory',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           EtestingCategory.name,
           path: '/epanduCategory',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           EmergencyDirectory.name,
           path: '/emergencyDirectory',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           DirectoryList.name,
           path: '/directoryList',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           DirectoryDetail.name,
           path: '/directoryDetail',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           SelectInstitute.name,
           path: '/selectInstitute',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           SelectClass.name,
           path: '/selectClass',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           SelectDrivingInstitute.name,
           path: '/selectDrivingInstitute',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           TakeProfilePicture.name,
           path: '/takeProfilePicture',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           Booking.name,
           path: '/booking',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           AddBooking.name,
           path: '/addBooking',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           Records.name,
           path: '/records',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           Pay.name,
           path: '/pay',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           PurchaseOrderList.name,
           path: '/purchaseOrderList',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           PaymentHistory.name,
           path: '/paymentHistory',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           PaymentHistoryDetail.name,
           path: '/paymentHistoryDetail',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           RequestPickup.name,
           path: '/requestPickup',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           RegisteredCourse.name,
           path: '/registeredCourse',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           RegisteredCourseDetail.name,
           path: '/registeredCourseDetail',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           AttendanceRecord.name,
           path: '/attendanceRecord',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           AttendanceTab.name,
           path: '/attendanceTab',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           Promotions.name,
           path: '/promotions',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           Profile.name,
           path: '/profile',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           ProfileTab.name,
           path: '/profileTab',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           UpdateProfile.name,
           path: '/updateProfile',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           RegisterUserToDi.name,
           path: 'registerUserToDi',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           IdentityBarcode.name,
           path: '/identityBarcode',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           EnrolmentInfo.name,
           path: '/enrolmentInfo',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           EnrolmentInfoDetail.name,
           path: '/enrolmentInfoDetail',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           Inbox.name,
           path: '/inbox',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           Invite.name,
           path: '/invite',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           AirtimeTransaction.name,
           path: '/airtimeTransaction',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           AirtimeBillDetail.name,
           path: '/airtimeBillDetail',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           AirtimeSelection.name,
           path: '/airtimeSelection',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           BillTransaction.name,
           path: '/billTransaction',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           BillDetail.name,
           path: '/billDetail',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           BillSelection.name,
           path: '/billSelection',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           MerchantList.name,
           path: '/merchantList',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           ChatHome.name,
           path: '/chatHome',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           TermsAndCondition.name,
           path: '/termsAndCondition',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           FpxPaymentOption.name,
           path: '/fpxPaymentOption',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           ImageViewer.name,
           path: '/imageViewer',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           Webview.name,
           path: '/webview',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           Scan.name,
           path: '/scan',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           ReadMore.name,
           path: '/readMore',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           ViewPdf.name,
           path: '/viewPdf',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           ComingSoon.name,
           path: '/comingSoon',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           CheckInSlip.name,
           path: '/checkInSlip',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           Multilevel.name,
           path: '/multilevel',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           MerchantProfile.name,
           path: '/merchantProfile',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           MenuRoute.name,
           path: '/menu-page',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           ElearningRoute.name,
           path: '/elearning-page',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           CreateFavouriteRoute.name,
           path: '/create-favourite-page',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           FavourieMapRoute.name,
           path: '/favourie-map-page',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           CreateFuelRoute.name,
           path: '/create-fuel-page',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           CreateServiceCarRoute.name,
           path: '/create-service-car-page',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           FavouritePlaceListRoute.name,
           path: '/favourite-place-list-page',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           PhotoViewRoute.name,
           path: '/photo-view-page',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           EditFavouritePlaceRoute.name,
           path: '/edit-favourite-place-page',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           FuelMapRoute.name,
           path: '/fuel-map-page',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           ExpFuelListRoute.name,
           path: '/exp-fuel-list-page',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           EditExpFuelRoute.name,
           path: '/edit-exp-fuel-page',
         ),
-        _i40.RouteConfig(
+        _i42.RouteConfig(
           PickupHistory.name,
           path: '/pickup-history',
+        ),
+        _i42.RouteConfig(
+          BriefListRoute.name,
+          path: '/brief-list-page',
+        ),
+        _i42.RouteConfig(
+          BriefVideoRoute.name,
+          path: '/brief-video-page',
         ),
       ];
 }
 
 /// generated route for
 /// [_i1.Authentication]
-class Authentication extends _i40.PageRouteInfo<void> {
+class Authentication extends _i42.PageRouteInfo<void> {
   const Authentication()
       : super(
           Authentication.name,
@@ -1187,7 +1213,7 @@ class Authentication extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i1.ClientAccount]
-class ClientAccount extends _i40.PageRouteInfo<ClientAccountArgs> {
+class ClientAccount extends _i42.PageRouteInfo<ClientAccountArgs> {
   ClientAccount({dynamic data})
       : super(
           ClientAccount.name,
@@ -1211,7 +1237,7 @@ class ClientAccountArgs {
 
 /// generated route for
 /// [_i1.Login]
-class Login extends _i40.PageRouteInfo<void> {
+class Login extends _i42.PageRouteInfo<void> {
   const Login()
       : super(
           Login.name,
@@ -1223,7 +1249,7 @@ class Login extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.ForgotPassword]
-class ForgotPassword extends _i40.PageRouteInfo<void> {
+class ForgotPassword extends _i42.PageRouteInfo<void> {
   const ForgotPassword()
       : super(
           ForgotPassword.name,
@@ -1235,7 +1261,7 @@ class ForgotPassword extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.ChangePassword]
-class ChangePassword extends _i40.PageRouteInfo<void> {
+class ChangePassword extends _i42.PageRouteInfo<void> {
   const ChangePassword()
       : super(
           ChangePassword.name,
@@ -1247,7 +1273,7 @@ class ChangePassword extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.RegisterMobile]
-class RegisterMobile extends _i40.PageRouteInfo<void> {
+class RegisterMobile extends _i42.PageRouteInfo<void> {
   const RegisterMobile()
       : super(
           RegisterMobile.name,
@@ -1260,7 +1286,7 @@ class RegisterMobile extends _i40.PageRouteInfo<void> {
 /// generated route for
 /// [_i4.RegisterVerification]
 class RegisterVerification
-    extends _i40.PageRouteInfo<RegisterVerificationArgs> {
+    extends _i42.PageRouteInfo<RegisterVerificationArgs> {
   RegisterVerification({required dynamic data})
       : super(
           RegisterVerification.name,
@@ -1284,7 +1310,7 @@ class RegisterVerificationArgs {
 
 /// generated route for
 /// [_i4.RegisterForm]
-class RegisterForm extends _i40.PageRouteInfo<RegisterFormArgs> {
+class RegisterForm extends _i42.PageRouteInfo<RegisterFormArgs> {
   RegisterForm({required dynamic data})
       : super(
           RegisterForm.name,
@@ -1308,7 +1334,7 @@ class RegisterFormArgs {
 
 /// generated route for
 /// [_i5.Home]
-class Home extends _i40.PageRouteInfo<void> {
+class Home extends _i42.PageRouteInfo<void> {
   const Home()
       : super(
           Home.name,
@@ -1320,7 +1346,7 @@ class Home extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.QueueNumber]
-class QueueNumber extends _i40.PageRouteInfo<QueueNumberArgs> {
+class QueueNumber extends _i42.PageRouteInfo<QueueNumberArgs> {
   QueueNumber({required dynamic data})
       : super(
           QueueNumber.name,
@@ -1344,7 +1370,7 @@ class QueueNumberArgs {
 
 /// generated route for
 /// [_i6.Enrollment]
-class Enrollment extends _i40.PageRouteInfo<void> {
+class Enrollment extends _i42.PageRouteInfo<void> {
   const Enrollment()
       : super(
           Enrollment.name,
@@ -1356,7 +1382,7 @@ class Enrollment extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i7.DiEnrollment]
-class DiEnrollment extends _i40.PageRouteInfo<DiEnrollmentArgs> {
+class DiEnrollment extends _i42.PageRouteInfo<DiEnrollmentArgs> {
   DiEnrollment({String? packageCodeJson})
       : super(
           DiEnrollment.name,
@@ -1380,7 +1406,7 @@ class DiEnrollmentArgs {
 
 /// generated route for
 /// [_i7.EnrollConfirmation]
-class EnrollConfirmation extends _i40.PageRouteInfo<EnrollConfirmationArgs> {
+class EnrollConfirmation extends _i42.PageRouteInfo<EnrollConfirmationArgs> {
   EnrollConfirmation({
     String? banner,
     String? packageName,
@@ -1444,7 +1470,7 @@ class EnrollConfirmationArgs {
 
 /// generated route for
 /// [_i7.OrderList]
-class OrderList extends _i40.PageRouteInfo<OrderListArgs> {
+class OrderList extends _i42.PageRouteInfo<OrderListArgs> {
   OrderList({
     String? icNo,
     String? packageCode,
@@ -1483,7 +1509,7 @@ class OrderListArgs {
 
 /// generated route for
 /// [_i7.BankList]
-class BankList extends _i40.PageRouteInfo<BankListArgs> {
+class BankList extends _i42.PageRouteInfo<BankListArgs> {
   BankList({
     String? icNo,
     String? docDoc,
@@ -1537,7 +1563,7 @@ class BankListArgs {
 
 /// generated route for
 /// [_i7.PaymentStatus]
-class PaymentStatus extends _i40.PageRouteInfo<PaymentStatusArgs> {
+class PaymentStatus extends _i42.PageRouteInfo<PaymentStatusArgs> {
   PaymentStatus({String? icNo})
       : super(
           PaymentStatus.name,
@@ -1561,7 +1587,7 @@ class PaymentStatusArgs {
 
 /// generated route for
 /// [_i8.KppCategory]
-class KppCategory extends _i40.PageRouteInfo<void> {
+class KppCategory extends _i42.PageRouteInfo<void> {
   const KppCategory()
       : super(
           KppCategory.name,
@@ -1573,7 +1599,7 @@ class KppCategory extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i8.KppResult]
-class KppResult extends _i40.PageRouteInfo<KppResultArgs> {
+class KppResult extends _i42.PageRouteInfo<KppResultArgs> {
   KppResult({required dynamic data})
       : super(
           KppResult.name,
@@ -1597,7 +1623,7 @@ class KppResultArgs {
 
 /// generated route for
 /// [_i8.KppExam]
-class KppExam extends _i40.PageRouteInfo<KppExamArgs> {
+class KppExam extends _i42.PageRouteInfo<KppExamArgs> {
   KppExam({
     required String? groupId,
     required String? paperNo,
@@ -1631,7 +1657,7 @@ class KppExamArgs {
 
 /// generated route for
 /// [_i8.KppModule]
-class KppModule extends _i40.PageRouteInfo<KppModuleArgs> {
+class KppModule extends _i42.PageRouteInfo<KppModuleArgs> {
   KppModule({required dynamic data})
       : super(
           KppModule.name,
@@ -1655,7 +1681,7 @@ class KppModuleArgs {
 
 /// generated route for
 /// [_i8.PinActivation]
-class PinActivation extends _i40.PageRouteInfo<PinActivationArgs> {
+class PinActivation extends _i42.PageRouteInfo<PinActivationArgs> {
   PinActivation({required String data})
       : super(
           PinActivation.name,
@@ -1679,7 +1705,7 @@ class PinActivationArgs {
 
 /// generated route for
 /// [_i9.ValueClub]
-class ValueClub extends _i40.PageRouteInfo<void> {
+class ValueClub extends _i42.PageRouteInfo<void> {
   const ValueClub()
       : super(
           ValueClub.name,
@@ -1691,7 +1717,7 @@ class ValueClub extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i9.Product]
-class Product extends _i40.PageRouteInfo<ProductArgs> {
+class Product extends _i42.PageRouteInfo<ProductArgs> {
   Product({
     String? stkCode,
     String? stkDesc1,
@@ -1755,7 +1781,7 @@ class ProductArgs {
 
 /// generated route for
 /// [_i9.ProductList]
-class ProductList extends _i40.PageRouteInfo<ProductListArgs> {
+class ProductList extends _i42.PageRouteInfo<ProductListArgs> {
   ProductList({
     String? stkCat,
     String? keywordSearch,
@@ -1789,7 +1815,7 @@ class ProductListArgs {
 
 /// generated route for
 /// [_i9.Cart]
-class Cart extends _i40.PageRouteInfo<CartArgs> {
+class Cart extends _i42.PageRouteInfo<CartArgs> {
   Cart({
     String? itemName,
     String? dbcode,
@@ -1823,7 +1849,7 @@ class CartArgs {
 
 /// generated route for
 /// [_i9.CartItemEdit]
-class CartItemEdit extends _i40.PageRouteInfo<CartItemEditArgs> {
+class CartItemEdit extends _i42.PageRouteInfo<CartItemEditArgs> {
   CartItemEdit({
     String? stkCode,
     String? stkDesc1,
@@ -1902,7 +1928,7 @@ class CartItemEditArgs {
 
 /// generated route for
 /// [_i9.Checkout]
-class Checkout extends _i40.PageRouteInfo<CheckoutArgs> {
+class Checkout extends _i42.PageRouteInfo<CheckoutArgs> {
   Checkout({
     dynamic slsDetailData,
     String? itemName,
@@ -1966,7 +1992,7 @@ class CheckoutArgs {
 
 /// generated route for
 /// [_i10.EpanduCategory]
-class EpanduCategory extends _i40.PageRouteInfo<void> {
+class EpanduCategory extends _i42.PageRouteInfo<void> {
   const EpanduCategory()
       : super(
           EpanduCategory.name,
@@ -1978,7 +2004,7 @@ class EpanduCategory extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i11.EtestingCategory]
-class EtestingCategory extends _i40.PageRouteInfo<void> {
+class EtestingCategory extends _i42.PageRouteInfo<void> {
   const EtestingCategory()
       : super(
           EtestingCategory.name,
@@ -1990,7 +2016,7 @@ class EtestingCategory extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.EmergencyDirectory]
-class EmergencyDirectory extends _i40.PageRouteInfo<void> {
+class EmergencyDirectory extends _i42.PageRouteInfo<void> {
   const EmergencyDirectory()
       : super(
           EmergencyDirectory.name,
@@ -2002,7 +2028,7 @@ class EmergencyDirectory extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.DirectoryList]
-class DirectoryList extends _i40.PageRouteInfo<DirectoryListArgs> {
+class DirectoryList extends _i42.PageRouteInfo<DirectoryListArgs> {
   DirectoryList({required dynamic directoryType})
       : super(
           DirectoryList.name,
@@ -2026,7 +2052,7 @@ class DirectoryListArgs {
 
 /// generated route for
 /// [_i12.DirectoryDetail]
-class DirectoryDetail extends _i40.PageRouteInfo<DirectoryDetailArgs> {
+class DirectoryDetail extends _i42.PageRouteInfo<DirectoryDetailArgs> {
   DirectoryDetail({required dynamic snapshot})
       : super(
           DirectoryDetail.name,
@@ -2050,7 +2076,7 @@ class DirectoryDetailArgs {
 
 /// generated route for
 /// [_i6.SelectInstitute]
-class SelectInstitute extends _i40.PageRouteInfo<SelectInstituteArgs> {
+class SelectInstitute extends _i42.PageRouteInfo<SelectInstituteArgs> {
   SelectInstitute({required dynamic data})
       : super(
           SelectInstitute.name,
@@ -2074,7 +2100,7 @@ class SelectInstituteArgs {
 
 /// generated route for
 /// [_i6.SelectClass]
-class SelectClass extends _i40.PageRouteInfo<SelectClassArgs> {
+class SelectClass extends _i42.PageRouteInfo<SelectClassArgs> {
   SelectClass({required dynamic data})
       : super(
           SelectClass.name,
@@ -2099,7 +2125,7 @@ class SelectClassArgs {
 /// generated route for
 /// [_i1.SelectDrivingInstitute]
 class SelectDrivingInstitute
-    extends _i40.PageRouteInfo<SelectDrivingInstituteArgs> {
+    extends _i42.PageRouteInfo<SelectDrivingInstituteArgs> {
   SelectDrivingInstitute({required dynamic diList})
       : super(
           SelectDrivingInstitute.name,
@@ -2123,8 +2149,8 @@ class SelectDrivingInstituteArgs {
 
 /// generated route for
 /// [_i13.TakeProfilePicture]
-class TakeProfilePicture extends _i40.PageRouteInfo<TakeProfilePictureArgs> {
-  TakeProfilePicture({required List<_i42.CameraDescription>? camera})
+class TakeProfilePicture extends _i42.PageRouteInfo<TakeProfilePictureArgs> {
+  TakeProfilePicture({required List<_i44.CameraDescription>? camera})
       : super(
           TakeProfilePicture.name,
           path: '/takeProfilePicture',
@@ -2137,7 +2163,7 @@ class TakeProfilePicture extends _i40.PageRouteInfo<TakeProfilePictureArgs> {
 class TakeProfilePictureArgs {
   const TakeProfilePictureArgs({required this.camera});
 
-  final List<_i42.CameraDescription>? camera;
+  final List<_i44.CameraDescription>? camera;
 
   @override
   String toString() {
@@ -2147,7 +2173,7 @@ class TakeProfilePictureArgs {
 
 /// generated route for
 /// [_i10.Booking]
-class Booking extends _i40.PageRouteInfo<void> {
+class Booking extends _i42.PageRouteInfo<void> {
   const Booking()
       : super(
           Booking.name,
@@ -2159,7 +2185,7 @@ class Booking extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i10.AddBooking]
-class AddBooking extends _i40.PageRouteInfo<void> {
+class AddBooking extends _i42.PageRouteInfo<void> {
   const AddBooking()
       : super(
           AddBooking.name,
@@ -2171,7 +2197,7 @@ class AddBooking extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i10.Records]
-class Records extends _i40.PageRouteInfo<void> {
+class Records extends _i42.PageRouteInfo<void> {
   const Records()
       : super(
           Records.name,
@@ -2183,7 +2209,7 @@ class Records extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i14.Pay]
-class Pay extends _i40.PageRouteInfo<void> {
+class Pay extends _i42.PageRouteInfo<void> {
   const Pay()
       : super(
           Pay.name,
@@ -2195,7 +2221,7 @@ class Pay extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i14.PurchaseOrderList]
-class PurchaseOrderList extends _i40.PageRouteInfo<PurchaseOrderListArgs> {
+class PurchaseOrderList extends _i42.PageRouteInfo<PurchaseOrderListArgs> {
   PurchaseOrderList({
     String? icNo,
     String? packageCode,
@@ -2234,7 +2260,7 @@ class PurchaseOrderListArgs {
 
 /// generated route for
 /// [_i10.PaymentHistory]
-class PaymentHistory extends _i40.PageRouteInfo<void> {
+class PaymentHistory extends _i42.PageRouteInfo<void> {
   const PaymentHistory()
       : super(
           PaymentHistory.name,
@@ -2247,7 +2273,7 @@ class PaymentHistory extends _i40.PageRouteInfo<void> {
 /// generated route for
 /// [_i10.PaymentHistoryDetail]
 class PaymentHistoryDetail
-    extends _i40.PageRouteInfo<PaymentHistoryDetailArgs> {
+    extends _i42.PageRouteInfo<PaymentHistoryDetailArgs> {
   PaymentHistoryDetail({required dynamic recpNo})
       : super(
           PaymentHistoryDetail.name,
@@ -2271,7 +2297,7 @@ class PaymentHistoryDetailArgs {
 
 /// generated route for
 /// [_i10.RequestPickup]
-class RequestPickup extends _i40.PageRouteInfo<void> {
+class RequestPickup extends _i42.PageRouteInfo<void> {
   const RequestPickup()
       : super(
           RequestPickup.name,
@@ -2283,7 +2309,7 @@ class RequestPickup extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i10.RegisteredCourse]
-class RegisteredCourse extends _i40.PageRouteInfo<void> {
+class RegisteredCourse extends _i42.PageRouteInfo<void> {
   const RegisteredCourse()
       : super(
           RegisteredCourse.name,
@@ -2296,7 +2322,7 @@ class RegisteredCourse extends _i40.PageRouteInfo<void> {
 /// generated route for
 /// [_i10.RegisteredCourseDetail]
 class RegisteredCourseDetail
-    extends _i40.PageRouteInfo<RegisteredCourseDetailArgs> {
+    extends _i42.PageRouteInfo<RegisteredCourseDetailArgs> {
   RegisteredCourseDetail({required dynamic groupId})
       : super(
           RegisteredCourseDetail.name,
@@ -2320,7 +2346,7 @@ class RegisteredCourseDetailArgs {
 
 /// generated route for
 /// [_i10.AttendanceRecord]
-class AttendanceRecord extends _i40.PageRouteInfo<AttendanceRecordArgs> {
+class AttendanceRecord extends _i42.PageRouteInfo<AttendanceRecordArgs> {
   AttendanceRecord({
     required dynamic attendanceData,
     required bool? isLoading,
@@ -2354,7 +2380,7 @@ class AttendanceRecordArgs {
 
 /// generated route for
 /// [_i10.AttendanceTab]
-class AttendanceTab extends _i40.PageRouteInfo<void> {
+class AttendanceTab extends _i42.PageRouteInfo<void> {
   const AttendanceTab()
       : super(
           AttendanceTab.name,
@@ -2366,7 +2392,7 @@ class AttendanceTab extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i15.Promotions]
-class Promotions extends _i40.PageRouteInfo<PromotionsArgs> {
+class Promotions extends _i42.PageRouteInfo<PromotionsArgs> {
   Promotions({dynamic feed})
       : super(
           Promotions.name,
@@ -2390,7 +2416,7 @@ class PromotionsArgs {
 
 /// generated route for
 /// [_i13.Profile]
-class Profile extends _i40.PageRouteInfo<ProfileArgs> {
+class Profile extends _i42.PageRouteInfo<ProfileArgs> {
   Profile({
     dynamic userProfile,
     dynamic enrollData,
@@ -2429,7 +2455,7 @@ class ProfileArgs {
 
 /// generated route for
 /// [_i13.ProfileTab]
-class ProfileTab extends _i40.PageRouteInfo<ProfileTabArgs> {
+class ProfileTab extends _i42.PageRouteInfo<ProfileTabArgs> {
   ProfileTab({required dynamic positionStream})
       : super(
           ProfileTab.name,
@@ -2453,7 +2479,7 @@ class ProfileTabArgs {
 
 /// generated route for
 /// [_i13.UpdateProfile]
-class UpdateProfile extends _i40.PageRouteInfo<void> {
+class UpdateProfile extends _i42.PageRouteInfo<void> {
   const UpdateProfile()
       : super(
           UpdateProfile.name,
@@ -2465,7 +2491,7 @@ class UpdateProfile extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.RegisterUserToDi]
-class RegisterUserToDi extends _i40.PageRouteInfo<RegisterUserToDiArgs> {
+class RegisterUserToDi extends _i42.PageRouteInfo<RegisterUserToDiArgs> {
   RegisterUserToDi({required dynamic barcode})
       : super(
           RegisterUserToDi.name,
@@ -2489,7 +2515,7 @@ class RegisterUserToDiArgs {
 
 /// generated route for
 /// [_i13.IdentityBarcode]
-class IdentityBarcode extends _i40.PageRouteInfo<void> {
+class IdentityBarcode extends _i42.PageRouteInfo<void> {
   const IdentityBarcode()
       : super(
           IdentityBarcode.name,
@@ -2501,7 +2527,7 @@ class IdentityBarcode extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i13.EnrolmentInfo]
-class EnrolmentInfo extends _i40.PageRouteInfo<void> {
+class EnrolmentInfo extends _i42.PageRouteInfo<void> {
   const EnrolmentInfo()
       : super(
           EnrolmentInfo.name,
@@ -2513,7 +2539,7 @@ class EnrolmentInfo extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i13.EnrolmentInfoDetail]
-class EnrolmentInfoDetail extends _i40.PageRouteInfo<EnrolmentInfoDetailArgs> {
+class EnrolmentInfoDetail extends _i42.PageRouteInfo<EnrolmentInfoDetailArgs> {
   EnrolmentInfoDetail({required dynamic groupId})
       : super(
           EnrolmentInfoDetail.name,
@@ -2537,7 +2563,7 @@ class EnrolmentInfoDetailArgs {
 
 /// generated route for
 /// [_i16.Inbox]
-class Inbox extends _i40.PageRouteInfo<void> {
+class Inbox extends _i42.PageRouteInfo<void> {
   const Inbox()
       : super(
           Inbox.name,
@@ -2549,7 +2575,7 @@ class Inbox extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i17.Invite]
-class Invite extends _i40.PageRouteInfo<void> {
+class Invite extends _i42.PageRouteInfo<void> {
   const Invite()
       : super(
           Invite.name,
@@ -2561,7 +2587,7 @@ class Invite extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i18.AirtimeTransaction]
-class AirtimeTransaction extends _i40.PageRouteInfo<AirtimeTransactionArgs> {
+class AirtimeTransaction extends _i42.PageRouteInfo<AirtimeTransactionArgs> {
   AirtimeTransaction({required dynamic data})
       : super(
           AirtimeTransaction.name,
@@ -2585,7 +2611,7 @@ class AirtimeTransactionArgs {
 
 /// generated route for
 /// [_i19.AirtimeBillDetail]
-class AirtimeBillDetail extends _i40.PageRouteInfo<AirtimeBillDetailArgs> {
+class AirtimeBillDetail extends _i42.PageRouteInfo<AirtimeBillDetailArgs> {
   AirtimeBillDetail({required dynamic data})
       : super(
           AirtimeBillDetail.name,
@@ -2609,7 +2635,7 @@ class AirtimeBillDetailArgs {
 
 /// generated route for
 /// [_i20.AirtimeSelection]
-class AirtimeSelection extends _i40.PageRouteInfo<void> {
+class AirtimeSelection extends _i42.PageRouteInfo<void> {
   const AirtimeSelection()
       : super(
           AirtimeSelection.name,
@@ -2621,7 +2647,7 @@ class AirtimeSelection extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i21.BillTransaction]
-class BillTransaction extends _i40.PageRouteInfo<BillTransactionArgs> {
+class BillTransaction extends _i42.PageRouteInfo<BillTransactionArgs> {
   BillTransaction({required dynamic data})
       : super(
           BillTransaction.name,
@@ -2645,7 +2671,7 @@ class BillTransactionArgs {
 
 /// generated route for
 /// [_i22.BillDetail]
-class BillDetail extends _i40.PageRouteInfo<BillDetailArgs> {
+class BillDetail extends _i42.PageRouteInfo<BillDetailArgs> {
   BillDetail({required dynamic data})
       : super(
           BillDetail.name,
@@ -2669,7 +2695,7 @@ class BillDetailArgs {
 
 /// generated route for
 /// [_i23.BillSelection]
-class BillSelection extends _i40.PageRouteInfo<void> {
+class BillSelection extends _i42.PageRouteInfo<void> {
   const BillSelection()
       : super(
           BillSelection.name,
@@ -2681,7 +2707,7 @@ class BillSelection extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i9.MerchantList]
-class MerchantList extends _i40.PageRouteInfo<MerchantListArgs> {
+class MerchantList extends _i42.PageRouteInfo<MerchantListArgs> {
   MerchantList({required dynamic merchantType})
       : super(
           MerchantList.name,
@@ -2705,7 +2731,7 @@ class MerchantListArgs {
 
 /// generated route for
 /// [_i24.ChatHome]
-class ChatHome extends _i40.PageRouteInfo<void> {
+class ChatHome extends _i42.PageRouteInfo<void> {
   const ChatHome()
       : super(
           ChatHome.name,
@@ -2717,7 +2743,7 @@ class ChatHome extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i7.TermsAndCondition]
-class TermsAndCondition extends _i40.PageRouteInfo<TermsAndConditionArgs> {
+class TermsAndCondition extends _i42.PageRouteInfo<TermsAndConditionArgs> {
   TermsAndCondition({String? termsAndCondition})
       : super(
           TermsAndCondition.name,
@@ -2741,7 +2767,7 @@ class TermsAndConditionArgs {
 
 /// generated route for
 /// [_i14.FpxPaymentOption]
-class FpxPaymentOption extends _i40.PageRouteInfo<FpxPaymentOptionArgs> {
+class FpxPaymentOption extends _i42.PageRouteInfo<FpxPaymentOptionArgs> {
   FpxPaymentOption({
     String? icNo,
     String? docDoc,
@@ -2810,10 +2836,10 @@ class FpxPaymentOptionArgs {
 
 /// generated route for
 /// [_i25.ImageViewer]
-class ImageViewer extends _i40.PageRouteInfo<ImageViewerArgs> {
+class ImageViewer extends _i42.PageRouteInfo<ImageViewerArgs> {
   ImageViewer({
     String? title,
-    _i41.NetworkImage? image,
+    _i43.NetworkImage? image,
   }) : super(
           ImageViewer.name,
           path: '/imageViewer',
@@ -2834,7 +2860,7 @@ class ImageViewerArgs {
 
   final String? title;
 
-  final _i41.NetworkImage? image;
+  final _i43.NetworkImage? image;
 
   @override
   String toString() {
@@ -2844,7 +2870,7 @@ class ImageViewerArgs {
 
 /// generated route for
 /// [_i5.Webview]
-class Webview extends _i40.PageRouteInfo<WebviewArgs> {
+class Webview extends _i42.PageRouteInfo<WebviewArgs> {
   Webview({
     required String? url,
     String? backType,
@@ -2878,11 +2904,11 @@ class WebviewArgs {
 
 /// generated route for
 /// [_i5.Scan]
-class Scan extends _i40.PageRouteInfo<ScanArgs> {
+class Scan extends _i42.PageRouteInfo<ScanArgs> {
   Scan({
     dynamic getActiveFeed,
     dynamic getDiProfile,
-    _i41.Key? key,
+    _i43.Key? key,
   }) : super(
           Scan.name,
           path: '/scan',
@@ -2907,7 +2933,7 @@ class ScanArgs {
 
   final dynamic getDiProfile;
 
-  final _i41.Key? key;
+  final _i43.Key? key;
 
   @override
   String toString() {
@@ -2917,7 +2943,7 @@ class ScanArgs {
 
 /// generated route for
 /// [_i7.ReadMore]
-class ReadMore extends _i40.PageRouteInfo<ReadMoreArgs> {
+class ReadMore extends _i42.PageRouteInfo<ReadMoreArgs> {
   ReadMore({String? packageDesc})
       : super(
           ReadMore.name,
@@ -2941,7 +2967,7 @@ class ReadMoreArgs {
 
 /// generated route for
 /// [_i26.ViewPdf]
-class ViewPdf extends _i40.PageRouteInfo<ViewPdfArgs> {
+class ViewPdf extends _i42.PageRouteInfo<ViewPdfArgs> {
   ViewPdf({
     required String? title,
     required String? pdfLink,
@@ -2975,7 +3001,7 @@ class ViewPdfArgs {
 
 /// generated route for
 /// [_i27.ComingSoon]
-class ComingSoon extends _i40.PageRouteInfo<void> {
+class ComingSoon extends _i42.PageRouteInfo<void> {
   const ComingSoon()
       : super(
           ComingSoon.name,
@@ -2987,7 +3013,7 @@ class ComingSoon extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i11.CheckInSlip]
-class CheckInSlip extends _i40.PageRouteInfo<void> {
+class CheckInSlip extends _i42.PageRouteInfo<void> {
   const CheckInSlip()
       : super(
           CheckInSlip.name,
@@ -2999,7 +3025,7 @@ class CheckInSlip extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i15.Multilevel]
-class Multilevel extends _i40.PageRouteInfo<MultilevelArgs> {
+class Multilevel extends _i42.PageRouteInfo<MultilevelArgs> {
   Multilevel({
     dynamic feed,
     String? appVersion,
@@ -3033,7 +3059,7 @@ class MultilevelArgs {
 
 /// generated route for
 /// [_i13.MerchantProfile]
-class MerchantProfile extends _i40.PageRouteInfo<void> {
+class MerchantProfile extends _i42.PageRouteInfo<void> {
   const MerchantProfile()
       : super(
           MerchantProfile.name,
@@ -3045,8 +3071,8 @@ class MerchantProfile extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i28.MenuPage]
-class MenuRoute extends _i40.PageRouteInfo<MenuRouteArgs> {
-  MenuRoute({_i41.Key? key})
+class MenuRoute extends _i42.PageRouteInfo<MenuRouteArgs> {
+  MenuRoute({_i43.Key? key})
       : super(
           MenuRoute.name,
           path: '/menu-page',
@@ -3059,7 +3085,7 @@ class MenuRoute extends _i40.PageRouteInfo<MenuRouteArgs> {
 class MenuRouteArgs {
   const MenuRouteArgs({this.key});
 
-  final _i41.Key? key;
+  final _i43.Key? key;
 
   @override
   String toString() {
@@ -3069,8 +3095,8 @@ class MenuRouteArgs {
 
 /// generated route for
 /// [_i29.ElearningPage]
-class ElearningRoute extends _i40.PageRouteInfo<ElearningRouteArgs> {
-  ElearningRoute({_i41.Key? key})
+class ElearningRoute extends _i42.PageRouteInfo<ElearningRouteArgs> {
+  ElearningRoute({_i43.Key? key})
       : super(
           ElearningRoute.name,
           path: '/elearning-page',
@@ -3083,7 +3109,7 @@ class ElearningRoute extends _i40.PageRouteInfo<ElearningRouteArgs> {
 class ElearningRouteArgs {
   const ElearningRouteArgs({this.key});
 
-  final _i41.Key? key;
+  final _i43.Key? key;
 
   @override
   String toString() {
@@ -3094,8 +3120,8 @@ class ElearningRouteArgs {
 /// generated route for
 /// [_i30.CreateFavouritePage]
 class CreateFavouriteRoute
-    extends _i40.PageRouteInfo<CreateFavouriteRouteArgs> {
-  CreateFavouriteRoute({_i41.Key? key})
+    extends _i42.PageRouteInfo<CreateFavouriteRouteArgs> {
+  CreateFavouriteRoute({_i43.Key? key})
       : super(
           CreateFavouriteRoute.name,
           path: '/create-favourite-page',
@@ -3108,7 +3134,7 @@ class CreateFavouriteRoute
 class CreateFavouriteRouteArgs {
   const CreateFavouriteRouteArgs({this.key});
 
-  final _i41.Key? key;
+  final _i43.Key? key;
 
   @override
   String toString() {
@@ -3118,9 +3144,9 @@ class CreateFavouriteRouteArgs {
 
 /// generated route for
 /// [_i31.FavourieMapPage]
-class FavourieMapRoute extends _i40.PageRouteInfo<FavourieMapRouteArgs> {
+class FavourieMapRoute extends _i42.PageRouteInfo<FavourieMapRouteArgs> {
   FavourieMapRoute({
-    _i41.Key? key,
+    _i43.Key? key,
     required double lat,
     required double lng,
   }) : super(
@@ -3143,7 +3169,7 @@ class FavourieMapRouteArgs {
     required this.lng,
   });
 
-  final _i41.Key? key;
+  final _i43.Key? key;
 
   final double lat;
 
@@ -3157,8 +3183,8 @@ class FavourieMapRouteArgs {
 
 /// generated route for
 /// [_i32.CreateFuelPage]
-class CreateFuelRoute extends _i40.PageRouteInfo<CreateFuelRouteArgs> {
-  CreateFuelRoute({_i41.Key? key})
+class CreateFuelRoute extends _i42.PageRouteInfo<CreateFuelRouteArgs> {
+  CreateFuelRoute({_i43.Key? key})
       : super(
           CreateFuelRoute.name,
           path: '/create-fuel-page',
@@ -3171,7 +3197,7 @@ class CreateFuelRoute extends _i40.PageRouteInfo<CreateFuelRouteArgs> {
 class CreateFuelRouteArgs {
   const CreateFuelRouteArgs({this.key});
 
-  final _i41.Key? key;
+  final _i43.Key? key;
 
   @override
   String toString() {
@@ -3182,8 +3208,8 @@ class CreateFuelRouteArgs {
 /// generated route for
 /// [_i33.CreateServiceCarPage]
 class CreateServiceCarRoute
-    extends _i40.PageRouteInfo<CreateServiceCarRouteArgs> {
-  CreateServiceCarRoute({_i41.Key? key})
+    extends _i42.PageRouteInfo<CreateServiceCarRouteArgs> {
+  CreateServiceCarRoute({_i43.Key? key})
       : super(
           CreateServiceCarRoute.name,
           path: '/create-service-car-page',
@@ -3196,7 +3222,7 @@ class CreateServiceCarRoute
 class CreateServiceCarRouteArgs {
   const CreateServiceCarRouteArgs({this.key});
 
-  final _i41.Key? key;
+  final _i43.Key? key;
 
   @override
   String toString() {
@@ -3206,7 +3232,7 @@ class CreateServiceCarRouteArgs {
 
 /// generated route for
 /// [_i34.FavouritePlaceListPage]
-class FavouritePlaceListRoute extends _i40.PageRouteInfo<void> {
+class FavouritePlaceListRoute extends _i42.PageRouteInfo<void> {
   const FavouritePlaceListRoute()
       : super(
           FavouritePlaceListRoute.name,
@@ -3218,9 +3244,9 @@ class FavouritePlaceListRoute extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i35.PhotoViewPage]
-class PhotoViewRoute extends _i40.PageRouteInfo<PhotoViewRouteArgs> {
+class PhotoViewRoute extends _i42.PageRouteInfo<PhotoViewRouteArgs> {
   PhotoViewRoute({
-    _i41.Key? key,
+    _i43.Key? key,
     required List<dynamic> url,
     required String title,
     required int initialIndex,
@@ -3249,7 +3275,7 @@ class PhotoViewRouteArgs {
     required this.type,
   });
 
-  final _i41.Key? key;
+  final _i43.Key? key;
 
   final List<dynamic> url;
 
@@ -3268,9 +3294,9 @@ class PhotoViewRouteArgs {
 /// generated route for
 /// [_i36.EditFavouritePlacePage]
 class EditFavouritePlaceRoute
-    extends _i40.PageRouteInfo<EditFavouritePlaceRouteArgs> {
+    extends _i42.PageRouteInfo<EditFavouritePlaceRouteArgs> {
   EditFavouritePlaceRoute({
-    _i41.Key? key,
+    _i43.Key? key,
     required String placeId,
     required dynamic place,
     required dynamic images,
@@ -3296,7 +3322,7 @@ class EditFavouritePlaceRouteArgs {
     required this.images,
   });
 
-  final _i41.Key? key;
+  final _i43.Key? key;
 
   final String placeId;
 
@@ -3312,9 +3338,9 @@ class EditFavouritePlaceRouteArgs {
 
 /// generated route for
 /// [_i37.FuelMapPage]
-class FuelMapRoute extends _i40.PageRouteInfo<FuelMapRouteArgs> {
+class FuelMapRoute extends _i42.PageRouteInfo<FuelMapRouteArgs> {
   FuelMapRoute({
-    _i41.Key? key,
+    _i43.Key? key,
     required double lat,
     required double lng,
   }) : super(
@@ -3337,7 +3363,7 @@ class FuelMapRouteArgs {
     required this.lng,
   });
 
-  final _i41.Key? key;
+  final _i43.Key? key;
 
   final double lat;
 
@@ -3351,8 +3377,8 @@ class FuelMapRouteArgs {
 
 /// generated route for
 /// [_i38.ExpFuelListPage]
-class ExpFuelListRoute extends _i40.PageRouteInfo<ExpFuelListRouteArgs> {
-  ExpFuelListRoute({_i41.Key? key})
+class ExpFuelListRoute extends _i42.PageRouteInfo<ExpFuelListRouteArgs> {
+  ExpFuelListRoute({_i43.Key? key})
       : super(
           ExpFuelListRoute.name,
           path: '/exp-fuel-list-page',
@@ -3365,7 +3391,7 @@ class ExpFuelListRoute extends _i40.PageRouteInfo<ExpFuelListRouteArgs> {
 class ExpFuelListRouteArgs {
   const ExpFuelListRouteArgs({this.key});
 
-  final _i41.Key? key;
+  final _i43.Key? key;
 
   @override
   String toString() {
@@ -3375,9 +3401,9 @@ class ExpFuelListRouteArgs {
 
 /// generated route for
 /// [_i39.EditExpFuelPage]
-class EditExpFuelRoute extends _i40.PageRouteInfo<EditExpFuelRouteArgs> {
+class EditExpFuelRoute extends _i42.PageRouteInfo<EditExpFuelRouteArgs> {
   EditExpFuelRoute({
-    _i41.Key? key,
+    _i43.Key? key,
     required dynamic fuel,
   }) : super(
           EditExpFuelRoute.name,
@@ -3397,7 +3423,7 @@ class EditExpFuelRouteArgs {
     required this.fuel,
   });
 
-  final _i41.Key? key;
+  final _i43.Key? key;
 
   final dynamic fuel;
 
@@ -3409,7 +3435,7 @@ class EditExpFuelRouteArgs {
 
 /// generated route for
 /// [_i10.PickupHistory]
-class PickupHistory extends _i40.PageRouteInfo<void> {
+class PickupHistory extends _i42.PageRouteInfo<void> {
   const PickupHistory()
       : super(
           PickupHistory.name,
@@ -3417,4 +3443,50 @@ class PickupHistory extends _i40.PageRouteInfo<void> {
         );
 
   static const String name = 'PickupHistory';
+}
+
+/// generated route for
+/// [_i40.BriefListPage]
+class BriefListRoute extends _i42.PageRouteInfo<void> {
+  const BriefListRoute()
+      : super(
+          BriefListRoute.name,
+          path: '/brief-list-page',
+        );
+
+  static const String name = 'BriefListRoute';
+}
+
+/// generated route for
+/// [_i41.BriefVideoPage]
+class BriefVideoRoute extends _i42.PageRouteInfo<BriefVideoRouteArgs> {
+  BriefVideoRoute({
+    _i43.Key? key,
+    required Map<String, Object> fileDetail,
+  }) : super(
+          BriefVideoRoute.name,
+          path: '/brief-video-page',
+          args: BriefVideoRouteArgs(
+            key: key,
+            fileDetail: fileDetail,
+          ),
+        );
+
+  static const String name = 'BriefVideoRoute';
+}
+
+class BriefVideoRouteArgs {
+  const BriefVideoRouteArgs({
+    this.key,
+    required this.fileDetail,
+  });
+
+  final _i43.Key? key;
+
+  final Map<String, Object> fileDetail;
+
+  @override
+  String toString() {
+    return 'BriefVideoRouteArgs{key: $key, fileDetail: $fileDetail}';
+  }
 }

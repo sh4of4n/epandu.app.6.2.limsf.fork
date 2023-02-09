@@ -114,7 +114,7 @@ class _HomeState extends State<Home> {
     {
       'image': 'assets/menu/Jobs-icon.png',
       'title': 'Jobs',
-      'router': '',
+      'router': BriefListRoute(),
     },
     {
       'image': 'assets/menu/More-icon.png',

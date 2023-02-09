@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:epandu/common_library/services/repository/epandu_repository.dart';
 import 'package:epandu/common_library/services/repository/inbox_repository.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
@@ -254,7 +254,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                         padding: EdgeInsets.all(8.0),
                         child: Column(
                           children: <Widget>[
-                            Badge(
+                            badges.Badge(
                               showBadge: showBadge,
                               badgeContent: Text(
                                 '$badgeNo',

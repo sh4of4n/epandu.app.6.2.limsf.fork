@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/coming_soon/coming_soon.dart';
+import 'package:epandu/pages/brief/brief_video.dart';
+import 'package:epandu/pages/brief/brief_list.dart';
 import 'package:epandu/pages/chat/chat.dart';
 import 'package:epandu/pages/elearning/elearning.dart';
 import 'package:epandu/pages/enroll/enroll.dart';
@@ -216,6 +218,8 @@ import 'package:epandu/common_library/utils/image_viewer.dart';
     AutoRoute(page: ExpFuelListPage),
     AutoRoute(page: EditExpFuelPage),
     AutoRoute(page: PickupHistory),
+    AutoRoute(page: BriefListPage),
+    AutoRoute(page: BriefVideoPage),
   ],
 )
 class $AppRouter {}

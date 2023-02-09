@@ -12,6 +12,8 @@ import 'package:provider/provider.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 // import '../../router.gr.dart';
 import 'navigation_controls.dart';
 
@@ -73,10 +75,51 @@ _confirmBack(customDialog, BuildContext context) {
 }
 
 class _WebviewState extends State<Webview> {
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
+  late final WebViewController _controller;
   final myImage = ImagesConstant();
   final customDialog = CustomDialog();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // #docregion platform_features
+    late final PlatformWebViewControllerCreationParams params;
+    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+      params = WebKitWebViewControllerCreationParams(
+        allowsInlineMediaPlayback: true,
+        mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
+      );
+    } else {
+      params = const PlatformWebViewControllerCreationParams();
+    }
+
+    final WebViewController controller =
+        WebViewController.fromPlatformCreationParams(params);
+    // #enddocregion platform_features
+
+    controller
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..addJavaScriptChannel(
+        'Toaster',
+        onMessageReceived: (JavaScriptMessage message) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(message.message)),
+          );
+        },
+      )
+      ..loadRequest(Uri.parse(widget.url!));
+
+    // #docregion platform_features
+    if (controller.platform is AndroidWebViewController) {
+      AndroidWebViewController.enableDebugging(true);
+      (controller.platform as AndroidWebViewController)
+          .setMediaPlaybackRequiresUserGesture(false);
+    }
+    // #enddocregion platform_features
+
+    _controller = controller;
+  }
 
   getBackType() {
     if (widget.backType == 'HOME') {
@@ -98,7 +141,7 @@ class _WebviewState extends State<Webview> {
       );
     } else {
       return NavigationControls(
-        webViewControllerFuture: _controller.future,
+        webViewControllerFuture: _controller,
         type: 'BACK',
       );
     }
@@ -127,46 +170,11 @@ class _WebviewState extends State<Webview> {
           ),
           actions: <Widget>[
             NavigationControls(
-                webViewControllerFuture: _controller.future, type: 'RELOAD'),
+                webViewControllerFuture: _controller, type: 'RELOAD'),
           ],
         ),
-        body: WebView(
-          initialUrl: widget.url,
-          javascriptMode: JavascriptMode.unrestricted,
-          onWebViewCreated: (WebViewController webViewController) {
-            _controller.complete(webViewController);
-          },
-          // ignore: prefer_collection_literals
-          javascriptChannels: <JavascriptChannel>[
-            _toasterJavascriptChannel(context),
-          ].toSet(),
-          navigationDelegate: (NavigationRequest request) {
-            // if (request.url.startsWith('https://www.youtube.com/')) {
-            //   print('blocking navigation to $request}');
-            //   return NavigationDecision.prevent;
-            // }
-            print('allowing navigation to $request');
-            return NavigationDecision.navigate;
-          },
-          onPageStarted: (String url) {
-            print('Page started loading: $url');
-          },
-          onPageFinished: (String url) {
-            print('Page finished loading: $url');
-          },
-          gestureNavigationEnabled: true,
-        ),
+        body: WebViewWidget(controller: _controller),
       ),
     );
-  }
-
-  JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
-    return JavascriptChannel(
-        name: 'Toaster',
-        onMessageReceived: (JavascriptMessage message) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(message.message)),
-          );
-        });
   }
 }
