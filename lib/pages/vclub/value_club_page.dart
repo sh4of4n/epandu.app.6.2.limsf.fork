@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/services/provider/cart_status.dart';
@@ -597,9 +597,9 @@ class _ValueClubState extends State<ValueClub> {
               ),
               child: Padding(
                 padding: EdgeInsets.only(top: 30.h, right: 50.w, bottom: 20.h),
-                child: Badge(
+                child: badges.Badge(
                   badgeColor: Colors.redAccent[700]!,
-                  animationType: BadgeAnimationType.fade,
+                  animationType: badges.BadgeAnimationType.fade,
                   showBadge: showBadge,
                   badgeContent: Text(
                     '$badgeNo',
@@ -617,7 +617,8 @@ class _ValueClubState extends State<ValueClub> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
               child: InkWell(
-                onTap: () => context.router.push(MerchantList(merchantType: 'HOCHIAK')),
+                onTap: () =>
+                    context.router.push(MerchantList(merchantType: 'HOCHIAK')),
                 child: FadeInImage(
                   alignment: Alignment.center,
                   placeholder: MemoryImage(kTransparentImage),

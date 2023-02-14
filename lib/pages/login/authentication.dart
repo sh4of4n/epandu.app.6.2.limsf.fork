@@ -14,6 +14,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
+import '../chat/socketclient_helper.dart';
+
 class Authentication extends StatefulWidget {
   @override
   _AuthenticationState createState() => _AuthenticationState();
@@ -80,10 +82,11 @@ class _AuthenticationState extends State<Authentication> {
     String? diCode = await localStorage.getMerchantDbCode();
 
     if (userId != null && userId.isNotEmpty && diCode!.isNotEmpty) {
+      context.read<SocketClientHelper>().loginUserRoom();
       context.router.replace(Home());
     } else if (userId != null && userId.isNotEmpty && diCode!.isEmpty) {
+      context.read<SocketClientHelper>().logoutUserRoom();
       await authRepo.logout(context: context, type: '');
-
       context.router.replace(Login());
     } else {
       context.router.replace(Login());

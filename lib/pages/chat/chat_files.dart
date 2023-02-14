@@ -1,0 +1,410 @@
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter_sound/public/flutter_sound_player.dart';
+import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
+import 'package:open_file/open_file.dart';
+import 'package:video_player/video_player.dart';
+
+class ChatFiles extends StatelessWidget {
+  const ChatFiles({Key? key, required this.roomId}) : super(key: key);
+  final String roomId;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: DefaultTabController(
+      length: 4,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.camera_alt)),
+              Tab(icon: Icon(Icons.video_collection_rounded)),
+              Tab(icon: Icon(Icons.headset)),
+              Tab(icon: Icon(Icons.insert_drive_file)),
+            ],
+          ),
+          title: Text('Media and Files'),
+        ),
+        body: TabBarView(
+          children: [
+            GalleryItems(
+              type: 'Images',
+              roomId: roomId,
+            ),
+            GalleryItems(
+              type: 'Videos',
+              roomId: roomId,
+            ),
+            MyAudioList(roomId: roomId),
+            MyFilesList(roomId: roomId),
+          ],
+        ),
+      ),
+    ));
+  }
+}
+
+class GalleryItems extends StatefulWidget {
+  final String type;
+  final String roomId;
+  const GalleryItems({Key? key, required this.type, required this.roomId})
+      : super(key: key);
+
+  @override
+  State<GalleryItems> createState() => _GalleryItemsState();
+}
+
+class _GalleryItemsState extends State<GalleryItems> {
+  bool isFolderExist = false;
+  @override
+  Widget build(BuildContext context) {
+    String path =
+        '/storage/emulated/0/Android/data/my.com.tbs.carser.app/files/' +
+            widget.roomId +
+            '/' +
+            widget.type;
+    isDirectoryExists(path);
+    if (isFolderExist) {
+      var imageList = Directory(path)
+          .listSync()
+          .map((item) => item.path)
+          //.where((item) => item.contains(".png"))
+          .toList(growable: false);
+      return GridView.builder(
+        itemCount: imageList.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4, childAspectRatio: 3.0 / 4.6),
+        itemBuilder: (context, index) {
+          return Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: widget.type == 'Images'
+                ? FullScreenWidget(
+                    child: Center(
+                    child: Hero(
+                      tag: path.split('/').last,
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Image.file(
+                            File(imageList[index]),
+                            fit: BoxFit.cover,
+                            // height: 200,
+                            // width: 200,
+                          )),
+                    ),
+                  ))
+                : VideoItems(file_path: imageList[index]),
+          );
+        },
+      );
+    } else {
+      return Center(
+          child: Text('No ' + widget.type + ' Found.',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
+    }
+  }
+
+  Future<void> isDirectoryExists(String dirPath) async {
+    bool exists = await Directory(dirPath).exists();
+    if (exists) {
+      if (mounted) {
+        setState(() {
+          isFolderExist = true;
+        });
+      }
+    }
+  }
+}
+
+class VideoItems extends StatefulWidget {
+  final String file_path;
+  const VideoItems({Key? key, required this.file_path}) : super(key: key);
+
+  @override
+  State<VideoItems> createState() => _VideoItemsState();
+}
+
+class _VideoItemsState extends State<VideoItems> {
+  late Future<VideoPlayerController> _futureController;
+  late VideoPlayerController _controller;
+
+  Future<VideoPlayerController> createVideoPlayer() async {
+    final File file = new File(widget.file_path);
+    _controller = VideoPlayerController.file(file);
+    await _controller.initialize();
+    await _controller.setLooping(true);
+    return _controller;
+  }
+
+  @override
+  void initState() {
+    _futureController = createVideoPlayer();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.file_path != ''
+        ? FullScreenWidget(
+            child: Center(
+              child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: VideoPlayer(_controller)),
+                      Positioned(
+                          bottom: 0,
+                          width: MediaQuery.of(context).size.width,
+                          child: VideoProgressIndicator(
+                            _controller,
+                            allowScrubbing: false,
+                            colors: VideoProgressColors(
+                                backgroundColor: Colors.blueGrey,
+                                bufferedColor: Colors.blueGrey,
+                                playedColor: Colors.blueAccent),
+                          )),
+                      Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (_controller.value.isPlaying) {
+                                _controller.pause();
+                              } else {
+                                // If the video is paused, play it.
+                                _controller.play();
+                              }
+                            });
+                          },
+                          child: Icon(
+                            _controller.value.isPlaying
+                                ? Icons.pause
+                                : Icons.play_arrow,
+                            color: Colors.white,
+                            size: 80,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
+          )
+        : Container(
+            child: Center(child: Text('No Video From Server')),
+          );
+  }
+}
+
+class MyAudioList extends StatefulWidget {
+  const MyAudioList({Key? key, required this.roomId}) : super(key: key);
+  final String roomId;
+  @override
+  State<MyAudioList> createState() => _MyAudioListState();
+}
+
+class _MyAudioListState extends State<MyAudioList> {
+  bool isFolderExist = false;
+  @override
+  Widget build(BuildContext context) {
+    String path =
+        '/storage/emulated/0/Android/data/my.com.tbs.carser.app/files/' +
+            widget.roomId +
+            '/' +
+            'Audios';
+    isDirectoryExists(path);
+    if (isFolderExist) {
+      var imageList = Directory(path)
+          .listSync()
+          .map((item) => item.path)
+          //.where((item) => item.contains(".png"))
+          .toList(growable: false);
+      return ListView.builder(
+        itemCount: imageList.length,
+        itemBuilder: (context, index) {
+          return AudioItems(
+            file_path: imageList[index],
+          );
+        },
+      );
+    } else {
+      return Center(
+          child: Text('No Audio Files Found.',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
+    }
+  }
+
+  Future<void> isDirectoryExists(String dirPath) async {
+    bool exists = await Directory(dirPath).exists();
+    if (exists) {
+      if (mounted) {
+        setState(() {
+          isFolderExist = true;
+        });
+      }
+    }
+  }
+}
+
+class AudioItems extends StatefulWidget {
+  final String file_path;
+  const AudioItems({
+    Key? key,
+    required this.file_path,
+  }) : super(key: key);
+
+  @override
+  State<AudioItems> createState() => _AudioItemsState();
+}
+
+class _AudioItemsState extends State<AudioItems> {
+  FlutterSoundPlayer? _mPlayer = FlutterSoundPlayer();
+  bool _mPlayerIsInited = false;
+  @override
+  void initState() {
+    _mPlayer!.openPlayer().then((value) {
+      if (mounted) {
+        setState(() {
+          _mPlayerIsInited = true;
+        });
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _mPlayer!.closePlayer();
+    _mPlayer = null;
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        child: ListTile(
+      title: Text(widget.file_path.split('/').last),
+      leading: Icon(Icons.audiotrack),
+      trailing: Icon(
+        _mPlayer!.isPlaying ? Icons.pause : Icons.play_arrow,
+        color: Colors.redAccent,
+      ),
+      onTap: () {
+        if (!_mPlayerIsInited) {
+          return null;
+        }
+        if (_mPlayer!.isStopped) {
+          play(widget.file_path);
+        } else {
+          stopPlayer();
+        }
+      },
+    ));
+  }
+
+  void play(String audioFilPath) {
+    assert(_mPlayerIsInited && _mPlayer!.isStopped);
+    _mPlayer!
+        .startPlayer(
+            fromURI: audioFilPath,
+            whenFinished: () {
+              if (mounted) {
+                setState(() {});
+              }
+            })
+        .then((value) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  void stopPlayer() {
+    _mPlayer!.stopPlayer().then((value) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+}
+
+class FileItems extends StatelessWidget {
+  final String filePath;
+  const FileItems({Key? key, required this.filePath}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        child: ListTile(
+      title: Text(
+        filePath.split('/').last,
+        overflow: TextOverflow.ellipsis,
+      ),
+      leading: Icon(Icons.file_copy),
+      trailing: Icon(
+        Icons.download,
+        color: Colors.redAccent,
+      ),
+      onTap: () {
+        OpenFile.open(filePath);
+      },
+    ));
+  }
+}
+
+class MyFilesList extends StatefulWidget {
+  const MyFilesList({Key? key, required this.roomId}) : super(key: key);
+  final String roomId;
+  @override
+  State<MyFilesList> createState() => _MyFilesListState();
+}
+
+class _MyFilesListState extends State<MyFilesList> {
+  bool isFolderExist = false;
+  @override
+  Widget build(BuildContext context) {
+    String path =
+        '/storage/emulated/0/Android/data/my.com.tbs.carser.app/files/' +
+            widget.roomId +
+            '/' +
+            'Files';
+    isDirectoryExists(path);
+    if (isFolderExist) {
+      var imageList = Directory(path)
+          .listSync()
+          .map((item) => item.path)
+          .toList(growable: false);
+      return ListView.builder(
+        itemCount: imageList.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return FileItems(
+            filePath: imageList[index],
+          );
+        },
+      );
+    } else {
+      return Center(
+          child: Text('No Files Found.',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
+    }
+  }
+
+  Future<void> isDirectoryExists(String dirPath) async {
+    bool exists = await Directory(dirPath).exists();
+    if (exists) {
+      if (mounted) {
+        setState(() {
+          isFolderExist = true;
+        });
+      }
+    }
+  }
+}

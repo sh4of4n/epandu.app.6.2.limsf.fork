@@ -129,7 +129,8 @@ class _MessageInputState extends State<MessageInput> {
                               Icons.keyboard_voice,
                               color: Colors.white,
                             ),
-                            onLongPress: widget.onShowBottom as void Function()?),
+                            onLongPress:
+                                widget.onShowBottom as void Function()?),
                   )
                 ],
               ),
@@ -233,7 +234,8 @@ class _MessageInputState extends State<MessageInput> {
     //D641BDE2C7
   }
 
-  Future<void> _sendMessage(String? author, String? target, ChatBloc bloc) async {
+  Future<void> _sendMessage(
+      String? author, String? target, ChatBloc bloc) async {
     final messageContent = _textEditingController.text;
     var uuid = Uuid();
     String messageId = uuid.v4();

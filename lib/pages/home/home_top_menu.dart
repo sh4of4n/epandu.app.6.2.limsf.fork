@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:epandu/common_library/services/repository/epandu_repository.dart';
 import 'package:epandu/common_library/services/repository/inbox_repository.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
@@ -91,7 +91,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
   Widget build(BuildContext context) {
     bool showBadge = context.watch<NotificationCount>().showBadge;
     int? badgeNo = context.watch<NotificationCount>().notificationBadge;
-
+    int notificationCount = 0;
     return Container(
       height: ScreenUtil().setHeight(350),
       child: Stack(
@@ -213,7 +213,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                         padding: EdgeInsets.all(8.0),
                         child: Column(
                           children: <Widget>[
-                            Badge(
+                            badges.Badge(
                               showBadge: showBadge,
                               badgeContent: Text(
                                 '$badgeNo',
@@ -229,6 +229,33 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                             Text(
                                 AppLocalizations.of(context)!
                                     .translate('inbox_lbl'),
+                                style: widget.iconText),
+                          ],
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () => context.router.push(RoomList()),
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          children: <Widget>[
+                            badges.Badge(
+                              showBadge: notificationCount > 0 ? true : false,
+                              badgeContent: Text(
+                                '$notificationCount',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              child: Icon(
+                                Icons.chat,
+                                size: 26,
+                                color: Color(0xff808080),
+                              ),
+                            ),
+                            SizedBox(height: ScreenUtil().setHeight(20)),
+                            Text(
+                                AppLocalizations.of(context)!.translate('chat'),
                                 style: widget.iconText),
                           ],
                         ),

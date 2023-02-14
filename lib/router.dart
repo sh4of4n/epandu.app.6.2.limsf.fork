@@ -191,6 +191,7 @@ import 'package:epandu/common_library/utils/image_viewer.dart';
         path: '/merchantProfile',
         page: MerchantProfile,
         name: 'MerchantProfile'),
+    AutoRoute(path: '/roomList', page: RoomList, name: 'RoomList'),
   ],
 )
 class $AppRouter {}

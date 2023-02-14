@@ -20,6 +20,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../router.gr.dart';
+import '../../services/repository/chatroom_repository.dart';
 
 enum AppState { free, picked, cropped }
 
@@ -34,6 +35,7 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   final authRepo = AuthRepo();
+  final chatRoomRepo = ChatRoomRepo();
   final customDialog = CustomDialog();
 
   final _formKey = GlobalKey<FormState>();
@@ -1363,6 +1365,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
           await authRepo.getUserRegisteredDI(context: context, type: 'LOGIN');
 
       if (getRegisteredDi.isSuccess) {
+        //_chatRoom();
         localStorage.saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
 
         context.router.pushAndPopUntil(Home(), predicate: (r) => false);
@@ -1376,5 +1379,9 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
     setState(() {
       _loginLoading = false;
     });
+  }
+
+  _chatRoom() async {
+    var response = await chatRoomRepo.createChatSupport();
   }
 }
