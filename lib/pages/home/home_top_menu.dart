@@ -91,7 +91,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
   Widget build(BuildContext context) {
     bool showBadge = context.watch<NotificationCount>().showBadge;
     int? badgeNo = context.watch<NotificationCount>().notificationBadge;
-
+    int notificationCount = 0;
     return Container(
       // height: ScreenUtil().setHeight(350),
       child: Stack(
@@ -275,33 +275,33 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                         ),
                       ),
                     ),
-                    // InkWell(
-                    //   onTap: () => context.router
-                    //       .push(Inbox())
-                    //       .then((value) => getUnreadNotificationCount()),
-                    //   borderRadius: BorderRadius.circular(10.0),
-                    //   child: Padding(
-                    //     padding: EdgeInsets.all(8.0),
-                    //     child: Column(
-                    //       children: <Widget>[
-                    //         Badge(
-                    //           showBadge: showBadge,
-                    //           badgeContent: Text(
-                    //             '$badgeNo',
-                    //             style: TextStyle(color: Colors.white),
-                    //           ),
-                    //           child: Icon(
-                    //             MyCustomIcons.inbox_icon,
-                    //             size: 26,
-                    //             color: Color(0xff808080),
-                    //           ),
-                    //         ),
-                    //         SizedBox(height: ScreenUtil().setHeight(20)),
-                    //         Text('Chat', style: widget.iconText),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
+                    InkWell(
+                      onTap: () => context.router.push(RoomList()),
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          children: <Widget>[
+                            badges.Badge(
+                              showBadge: notificationCount > 0 ? true : false,
+                              badgeContent: Text(
+                                '$notificationCount',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              child: Icon(
+                                Icons.chat,
+                                size: 26,
+                                color: Color(0xff808080),
+                              ),
+                            ),
+                            SizedBox(height: ScreenUtil().setHeight(20)),
+                            Text(
+                                AppLocalizations.of(context)!.translate('chat'),
+                                style: widget.iconText),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ],

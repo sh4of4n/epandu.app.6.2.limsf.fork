@@ -220,6 +220,7 @@ import 'package:epandu/common_library/utils/image_viewer.dart';
     AutoRoute(page: PickupHistory),
     AutoRoute(page: BriefListPage),
     AutoRoute(page: BriefVideoPage),
+    AutoRoute(path: '/roomList', page: RoomList, name: 'RoomList'),
   ],
 )
 class $AppRouter {}

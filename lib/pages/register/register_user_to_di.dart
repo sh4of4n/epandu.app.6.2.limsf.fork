@@ -20,6 +20,15 @@ import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
+import 'package:provider/provider.dart';
+
+import '../../common_library/services/model/createroom_response.dart';
+import '../../common_library/services/model/m_roommember_model.dart';
+import '../../services/database/DatabaseHelper.dart';
+import '../../services/repository/chatroom_repository.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+
+import '../chat/socketclient_helper.dart';
 
 class RegisterUserToDi extends StatefulWidget {
   final barcode;
@@ -31,6 +40,8 @@ class RegisterUserToDi extends StatefulWidget {
 }
 
 class _RegisterUserToDiState extends State<RegisterUserToDi> {
+  late IO.Socket socket;
+  final chatRoomRepo = ChatRoomRepo();
   final authRepo = AuthRepo();
   final localStorage = LocalStorage();
   final customDialog = CustomDialog();
@@ -38,7 +49,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
   final primaryColor = ColorConstant.primaryColor;
   final _formKey = GlobalKey<FormState>();
   late Location location;
-
+  final dbHelper = DatabaseHelper.instance;
   String name = '';
   String merchantId = '';
   String merchantName = '';
@@ -97,6 +108,12 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
     } else {
       _getData();
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    socket = context.watch<SocketClientHelper>().socket;
   }
 
   _getPackageInfo() async {
@@ -204,6 +221,36 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
       );
 
       if (result.isSuccess) {
+        //_createChatRoom();
+
+        var createChatSupportResult = await chatRoomRepo.createChatSupport();
+        if (createChatSupportResult.data != null &&
+            createChatSupportResult.data.length > 0) {
+          await context.read<SocketClientHelper>().loginUserRoom();
+          String userid = await localStorage.getUserId() ?? '';
+          CreateRoomResponse getCreateRoomResponse =
+              createChatSupportResult.data[0];
+
+          List<RoomMembers> roomMembers =
+              await dbHelper.getRoomMembersList(getCreateRoomResponse.roomId!);
+          roomMembers.forEach((roomMember) {
+            if (userid != roomMember.user_id) {
+              var inviteUserToRoomJson = {
+                "invitedRoomId": getCreateRoomResponse.roomId!,
+                "invitedUserId": roomMember.user_id
+              };
+              socket.emitWithAck('inviteUserToRoom', inviteUserToRoomJson,
+                  ack: (data) {
+                //print('ack $data');
+                if (data != null) {
+                  print('inviteUserToRoomJson from server $data');
+                } else {
+                  print("Null from inviteUserToRoomJson");
+                }
+              });
+            }
+          });
+        }
         context.router.popUntil(ModalRoute.withName('Home'));
         /* customDialog.show(
           context: context,
@@ -240,6 +287,10 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
         _isLoading = false;
       });
     }
+  }
+
+  _createChatRoom() async {
+    var response = await chatRoomRepo.createChatSupport();
   }
 
   @override

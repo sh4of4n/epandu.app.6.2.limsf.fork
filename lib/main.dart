@@ -5,6 +5,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/model/inbox_model.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 import 'package:epandu/common_library/services/repository/inbox_repository.dart';
+import 'package:epandu/pages/chat/CustomAnimation.dart';
+import 'package:epandu/pages/chat/rooms_provider.dart';
+import 'package:epandu/pages/chat/socketclient_helper.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:epandu/services/provider/notification_count.dart';
 import 'package:epandu/utils/constants.dart';
@@ -28,6 +31,9 @@ import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 
+import 'pages/chat/chat_history.dart';
+import 'pages/chat/chatnotification_count.dart';
+import 'pages/chat/online_users.dart';
 import 'services/provider/cart_status.dart';
 // import 'package:logging/logging.dart';
 
@@ -126,6 +132,14 @@ void main() async {
           ChangeNotifierProvider(
             create: (context) => NotificationCount(),
           ),
+          ChangeNotifierProvider(
+            create: (context) => ChatNotificationCount(),
+          ),
+          ChangeNotifierProvider(create: (context) => OnlineUsers(context)),
+          ChangeNotifierProvider(create: (context) => ChatHistory()),
+          ChangeNotifierProvider(create: (context) => RoomHistory()),
+          ChangeNotifierProvider(
+              create: (context) => SocketClientHelper(context)),
         ],
         child: MyApp(),
       ),
@@ -133,6 +147,7 @@ void main() async {
   }, (exception, stackTrace) async {
     await Sentry.captureException(exception, stackTrace: stackTrace);
   });
+  configLoading();
 }
 
 // void _setupLogging() {
@@ -141,6 +156,22 @@ void main() async {
 //     print('${rec.level.name}: ${rec.time}: ${rec.message}');
 //   });
 // }
+void configLoading() {
+  EasyLoading.instance
+    ..displayDuration = const Duration(milliseconds: 2000)
+    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..loadingStyle = EasyLoadingStyle.dark
+    ..indicatorSize = 45.0
+    ..radius = 10.0
+    ..progressColor = Colors.yellow
+    ..backgroundColor = Colors.green
+    ..indicatorColor = Colors.yellow
+    ..textColor = Colors.yellow
+    ..maskColor = Colors.blue.withOpacity(0.5)
+    ..userInteractions = true
+    ..dismissOnTap = false
+    ..customAnimation = CustomAnimation();
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -161,7 +192,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-
+    context.read<SocketClientHelper>().initSocket();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print("onMessage: $message");
 
@@ -374,7 +405,7 @@ class _MyAppState extends State<MyApp> {
         GlobalMaterialLocalizations.delegate,
         // Built-in localization for text direction LTR/RTL
         GlobalWidgetsLocalizations.delegate,
-         FormBuilderLocalizations.delegate,
+        FormBuilderLocalizations.delegate,
       ],
       routerDelegate: _appRouter.delegate(initialRoutes: [Authentication()]),
       routeInformationParser: _appRouter.defaultRouteParser(),
