@@ -73,7 +73,7 @@ class _GalleryItemsState extends State<GalleryItems> {
       return GridView.builder(
         itemCount: imageList.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, childAspectRatio: 3.0 / 4.6),
+            crossAxisCount: 4, childAspectRatio: 3.0 / 4.6),
         itemBuilder: (context, index) {
           return Card(
             shape: RoundedRectangleBorder(
@@ -86,8 +86,12 @@ class _GalleryItemsState extends State<GalleryItems> {
                       tag: path.split('/').last,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
-                          child: Image.file(File(imageList[index]),
-                              fit: BoxFit.cover)),
+                          child: Image.file(
+                            File(imageList[index]),
+                            fit: BoxFit.cover,
+                            // height: 200,
+                            // width: 200,
+                          )),
                     ),
                   ))
                 : VideoItems(file_path: imageList[index]),

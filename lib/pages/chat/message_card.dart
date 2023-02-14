@@ -16,7 +16,8 @@ class MessageCard extends StatelessWidget {
       required this.replyMessageDetails,
       required this.onCancelReply,
       required this.callback,
-      required this.resendCallback})
+      required this.resendCallback,
+      required this.roomDesc})
       : super(key: key);
 
   final MessageDetails messageDetails;
@@ -25,6 +26,7 @@ class MessageCard extends StatelessWidget {
   final MyCallback callback;
   final ResendCallback resendCallback;
   final ReplyMessageDetails replyMessageDetails;
+  final String roomDesc;
   @override
   Widget build(BuildContext context) {
     // int timeInMinutes =
@@ -32,26 +34,9 @@ class MessageCard extends StatelessWidget {
     // return getMessage();
     return Container(
         margin: localUser == messageDetails.user_id
-            ? EdgeInsets.fromLTRB(50, 0, 10, 10)
-            : EdgeInsets.fromLTRB(10, 0, 50, 10),
-        child: getMessage()
-        // Row(
-        //   mainAxisSize: MainAxisSize.min,
-        //   mainAxisAlignment:
-        //       localUser == user ? MainAxisAlignment.end : MainAxisAlignment.start,
-        //   children: [
-        //     timeInMinutes > 1 && msgStatus == "SENDING"
-        //         ? InkWell(
-        //             onTap: () {
-        //               resendCallback(messageId);
-        //             },
-        //             child: Icon(Icons.send),
-        //           )
-        //         : SizedBox.shrink(),
-        //     getMessage()
-        //   ],
-        // ),
-        );
+            ? EdgeInsets.fromLTRB(100, 0, 10, 10)
+            : EdgeInsets.fromLTRB(10, 0, 100, 10),
+        child: getMessage());
   }
 
   Widget getMessage() {
@@ -80,81 +65,145 @@ class MessageCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          new Text(
-            messageDetails.nick_name!
-            // .split(" ")
-            // .map((str) =>
-            //     "${nick_name[0].toUpperCase()}${nick_name.substring(1).toLowerCase()}")
-            // .join(" ")
-            ,
-            style: MyTheme.heading2.copyWith(fontSize: 13),
-          ),
-          replyMessageDetails.reply_to_id == 0
-              ? Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: new Text(messageDetails.msg_body!,
-                      style: MyTheme.bodyText1),
-                )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    buildReplyMessage(replyMessageDetails),
-                    Divider(
-                      color: Colors.grey[500],
-                      height: 20,
-                      thickness: 2,
-                      indent: 10,
-                      endIndent: 10,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: new Text(messageDetails.msg_body!,
-                            style: MyTheme.bodyText1),
+          if (roomDesc.toUpperCase().contains("GROUP")) ...[
+            new Text(
+              messageDetails.nick_name!,
+              style: MyTheme.heading2.copyWith(fontSize: 13),
+            ),
+            replyMessageDetails.reply_to_id == 0
+                ? Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: new Text(messageDetails.msg_body!,
+                        style: MyTheme.bodyText1),
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      buildReplyMessage(replyMessageDetails),
+                      Divider(
+                        color: Colors.grey[500],
+                        height: 20,
+                        thickness: 2,
+                        indent: 10,
+                        endIndent: 10,
                       ),
-                    )
-                  ],
-                ),
-          localUser == messageDetails.user_id!
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (messageDetails.edit_datetime != '')
-                      Icon(
-                        Icons.edit,
-                        size: 20,
-                        semanticLabel: "Edited",
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: new Text(messageDetails.msg_body!,
+                              style: MyTheme.bodyText1),
+                        ),
+                      )
+                    ],
+                  ),
+            localUser == messageDetails.user_id!
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (messageDetails.edit_datetime != '')
+                        Icon(
+                          Icons.edit,
+                          size: 20,
+                          semanticLabel: "Edited",
+                        ),
+                      SizedBox(
+                        width: 5,
                       ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      DateFormatter().getVerboseDateTimeRepresentation(
-                          DateTime.parse(messageDetails.send_datetime!)),
-                      style: MyTheme.bodyTextTime,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    getStatusIcon(
-                      messageDetails.msgStatus!,
-                      messageDetails.send_datetime!,
-                    ),
-                  ],
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      DateFormatter().getVerboseDateTimeRepresentation(
-                          DateTime.parse(messageDetails.send_datetime!)),
-                      style: MyTheme.bodyTextTime,
-                    )
-                  ],
-                ),
+                      Text(
+                        DateFormatter().getVerboseDateTimeRepresentation(
+                            DateTime.parse(messageDetails.send_datetime!)),
+                        style: MyTheme.bodyTextTime,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      getStatusIcon(
+                        messageDetails.msgStatus!,
+                        messageDetails.send_datetime!,
+                      ),
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        DateFormatter().getVerboseDateTimeRepresentation(
+                            DateTime.parse(messageDetails.send_datetime!)),
+                        style: MyTheme.bodyTextTime,
+                      )
+                    ],
+                  ),
+          ] else ...[
+            replyMessageDetails.reply_to_id == 0
+                ? Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: new Text(messageDetails.msg_body!,
+                        style: MyTheme.bodyText1),
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      buildReplyMessage(replyMessageDetails),
+                      Divider(
+                        color: Colors.grey[500],
+                        height: 20,
+                        thickness: 2,
+                        indent: 10,
+                        endIndent: 10,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: new Text(messageDetails.msg_body!,
+                              style: MyTheme.bodyText1),
+                        ),
+                      )
+                    ],
+                  ),
+            localUser == messageDetails.user_id!
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (messageDetails.edit_datetime != '')
+                        Icon(
+                          Icons.edit,
+                          size: 20,
+                          semanticLabel: "Edited",
+                        ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        DateFormatter().getVerboseDateTimeRepresentation(
+                            DateTime.parse(messageDetails.send_datetime!)),
+                        style: MyTheme.bodyTextTime,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      getStatusIcon(
+                        messageDetails.msgStatus!,
+                        messageDetails.send_datetime!,
+                      ),
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        DateFormatter().getVerboseDateTimeRepresentation(
+                            DateTime.parse(messageDetails.send_datetime!)),
+                        style: MyTheme.bodyTextTime,
+                      )
+                    ],
+                  ),
+          ]
         ],
       ),
     );

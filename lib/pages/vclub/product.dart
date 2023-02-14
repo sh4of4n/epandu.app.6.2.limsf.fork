@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:epandu/common_library/utils/loading_model.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -332,9 +332,9 @@ class _ProductState extends State<Product> {
               ),
               child: Padding(
                 padding: EdgeInsets.only(top: 30.h, right: 50.w, bottom: 20.h),
-                child: Badge(
+                child: badges.Badge(
                   badgeColor: Colors.redAccent[700]!,
-                  animationType: BadgeAnimationType.fade,
+                  animationType: badges.BadgeAnimationType.fade,
                   showBadge: showBadge,
                   badgeContent: Text(
                     '$badgeNo',

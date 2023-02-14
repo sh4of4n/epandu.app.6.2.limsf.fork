@@ -6,12 +6,14 @@ import 'package:provider/provider.dart';
 import '../../common_library/services/model/invitefriend_model.dart';
 import '../../common_library/services/model/inviteroom_response.dart';
 import '../../common_library/services/model/m_room_model.dart';
+import '../../common_library/services/model/m_roommember_model.dart';
 import '../../common_library/services/repository/auth_repository.dart';
 import '../../common_library/utils/custom_dialog.dart';
 import '../../common_library/utils/local_storage.dart';
 import '../../services/database/DatabaseHelper.dart';
 import '../../services/repository/chatroom_repository.dart';
 import 'chat_home.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class InviteFriend extends StatefulWidget {
   const InviteFriend({
@@ -25,8 +27,9 @@ class InviteFriend extends StatefulWidget {
 }
 
 class _InviteFriendState extends State<InviteFriend> {
+  late IO.Socket socket;
   bool isMultiSelectionEnabled = true;
-  TextEditingController _textFieldController = TextEditingController();
+  //TextEditingController _textFieldController = TextEditingController();
   String codeDialog = "";
   String valueText = "";
   final dbHelper = DatabaseHelper.instance;
@@ -45,6 +48,12 @@ class _InviteFriendState extends State<InviteFriend> {
     super.initState();
     //EasyLoading.showSuccess('Use in initState');
     EasyLoading.addStatusCallback(statusCallback);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    socket = context.watch<SocketClientHelper>().socket;
   }
 
   @override
@@ -115,22 +124,52 @@ class _InviteFriendState extends State<InviteFriend> {
               onPressed: () async {
                 await EasyLoading.show();
 
-                var inviteResult =
-                    await chatRoomRepo.chatWithMember(editingController.text);
+                var inviteResult = await chatRoomRepo
+                    .chatWithMember(memberByPhoneResponseList[0].phone!);
 
                 if (inviteResult.data != null && inviteResult.data.length > 0) {
                   InviteRoomResponse inviteRoomResponse = inviteResult.data[0];
                   await context.read<SocketClientHelper>().loginUserRoom();
-                  // String members = '';
-                  // List<RoomMembers> roomMembers = await dbHelper
-                  //     .getRoomMembersList(inviteRoomResponse.roomId!);
-                  // for (var roomMembers in roomMembers) {
-                  //   if (roomMembers.user_id != inviteRoomResponse.userId!)
-                  //     members += roomMembers.nick_name!.toUpperCase() + ",";
-                  // }
-                  // if (members != '') {
-                  //   members = members.substring(0, members.length - 1);
-                  // }
+
+                  String? userId = await localStorage.getUserId();
+                  //String? userName = await localStorage.getNickName();
+                  List<RoomMembers> roomMembers = await dbHelper
+                      .getRoomMembersList(inviteRoomResponse.roomId!);
+                  memberByPhoneResponseList.forEach((memberByPhoneResponse) {
+                    roomMembers.forEach((roomMember) {
+                      if (userId != roomMember.user_id) {
+                        var inviteUserToRoomJson = {
+                          "invitedRoomId": inviteRoomResponse.roomId!,
+                          "invitedUserId": roomMember.user_id
+                        };
+                        socket.emitWithAck(
+                            'inviteUserToRoom', inviteUserToRoomJson,
+                            ack: (data) {
+                          if (data != null) {
+                            print('inviteUserToRoomJson from server $data');
+                          } else {
+                            print("Null from inviteUserToRoomJson");
+                          }
+                        });
+
+                        // var groupJson = {
+                        //   "notifiedRoomId": widget.roomId,
+                        //   "notifiedUserId": roomMember.user_id,
+                        //   "title": userName! +
+                        //       ' added ' +
+                        //       memberByPhoneResponse.name!,
+                        //   "description": memberByPhoneResponse.userId! +
+                        //       " just joined the room_" +
+                        //       widget.roomId
+                        // };
+                        // //print(messageJson);
+                        // socket.emitWithAck('sendNotification', groupJson,
+                        //     ack: (data) async {
+                        //   print(data);
+                        // });
+                      }
+                    });
+                  });
                   await EasyLoading.dismiss();
                   Navigator.push(
                       context,
@@ -180,6 +219,15 @@ class _InviteFriendState extends State<InviteFriend> {
           memberByPhoneResponseList = memberByPhoneResponseList;
         });
         await EasyLoading.dismiss();
+      } else {
+        await EasyLoading.dismiss();
+        final customDialog = CustomDialog();
+        return customDialog.show(
+          context: context,
+          type: DialogType.ERROR,
+          content: result.message!,
+          onPressed: () => Navigator.pop(context),
+        );
       }
     } else {
       setState(() {});

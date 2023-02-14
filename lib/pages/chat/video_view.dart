@@ -102,7 +102,7 @@ class _VideoViewPageState extends State<VideoViewPage> {
                       suffixIcon: InkWell(
                         onTap: () {
                           widget.onImageSend(
-                              widget.path, _editingController.text.trim());
+                              widget.path, _editingController.text.trim(), '');
                         },
                         child: CircleAvatar(
                           radius: 27,

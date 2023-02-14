@@ -94,6 +94,7 @@ class _ScanState extends State<Scan> {
     setState(() {
       this.controller = controller;
     });
+    controller.resumeCamera();
     controller.scannedDataStream.listen((scanData) async {
       await controller.pauseCamera();
       String? merchantNo = await localStorage.getMerchantDbCode();

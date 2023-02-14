@@ -97,13 +97,13 @@ class _CameraScreenState extends State<CameraScreen> {
                           }),
                       GestureDetector(
                         onLongPress: () async {
-                          /*await _cameraController.startVideoRecording();
+                          await _cameraController.startVideoRecording();
                           setState(() {
                             isRecoring = true;
-                          });*/
+                          });
                         },
                         onLongPressUp: () async {
-                          //takeVideo(context);
+                          takeVideo(context);
                         },
                         onTap: () {
                           if (!isRecoring) takePhoto(context);

@@ -20,6 +20,7 @@ class VideoCard extends StatefulWidget {
   final String localUser;
   final String msgStatus;
   final int messageId;
+  final String roomDesc;
   final MyCallback callback;
   final VoidCallback onCancelReply;
   final ReplyMessageDetails replyMessageDetails;
@@ -35,7 +36,8 @@ class VideoCard extends StatefulWidget {
       required this.messageId,
       required this.replyMessageDetails,
       required this.onCancelReply,
-      required this.callback})
+      required this.callback,
+      required this.roomDesc})
       : super(key: key);
 
   @override
@@ -90,195 +92,369 @@ class _VideoCardState extends State<VideoCard> {
 
     return Container(
       margin: widget.localUser == widget.user
-          ? EdgeInsets.fromLTRB(50, 0, 10, 10)
-          : EdgeInsets.fromLTRB(10, 0, 50, 10),
+          ? EdgeInsets.fromLTRB(100, 0, 10, 10)
+          : EdgeInsets.fromLTRB(10, 0, 100, 10),
       child: Bubble(
           style: widget.localUser == widget.user ? styleMe : styleSomebody,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child:
-                    /* new Text(widget.messageId.toString().toUpperCase(),
+              if (widget.roomDesc.toUpperCase().contains("GROUP")) ...[
+                Align(
+                  alignment: Alignment.topLeft,
+                  child:
+                      /* new Text(widget.messageId.toString().toUpperCase(),
                     style: new TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                       color: Colors.red[300],
                     )),*/
-                    new Text(widget.nick_name,
-                        // widget.nick_name != ''
-                        //     ? widget.nick_name
-                        //         .split(" ")
-                        //         .map((str) =>
-                        //             "${widget.nick_name[0].toUpperCase()}${widget.nick_name.substring(1).toLowerCase()}")
-                        //         .join(" ")
-                        //     : widget.nick_name,
-                        style: MyTheme.heading2.copyWith(fontSize: 13)),
-              ),
-              widget.file_path != ''
-                  ? widget.replyMessageDetails.reply_to_id == 0
-                      ? FullScreenWidget(
-                          child: Center(
-                            child: AspectRatio(
-                                aspectRatio: 16 / 9,
-                                child: Stack(
-                                  children: [
-                                    ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        child: VideoPlayer(_controller)),
-                                    Positioned(
-                                        bottom: 0,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        child: VideoProgressIndicator(
-                                          _controller,
-                                          allowScrubbing: false,
-                                          colors: VideoProgressColors(
-                                              backgroundColor: Colors.blueGrey,
-                                              bufferedColor: Colors.blueGrey,
-                                              playedColor: Colors.blueAccent),
-                                        )),
-                                    Center(
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            if (_controller.value.isPlaying) {
-                                              _controller.pause();
-                                            } else {
-                                              // If the video is paused, play it.
-                                              _controller.play();
-                                            }
-                                          });
-                                        },
-                                        child: Icon(
-                                          _controller.value.isPlaying
-                                              ? Icons.pause
-                                              : Icons.play_arrow,
-                                          color: Colors.white,
-                                          size: 80,
+                      new Text(widget.nick_name,
+                          // widget.nick_name != ''
+                          //     ? widget.nick_name
+                          //         .split(" ")
+                          //         .map((str) =>
+                          //             "${widget.nick_name[0].toUpperCase()}${widget.nick_name.substring(1).toLowerCase()}")
+                          //         .join(" ")
+                          //     : widget.nick_name,
+                          style: MyTheme.heading2.copyWith(fontSize: 13)),
+                ),
+                widget.file_path != ''
+                    ? widget.replyMessageDetails.reply_to_id == 0
+                        ? FullScreenWidget(
+                            child: Center(
+                              child: AspectRatio(
+                                  aspectRatio: 16 / 9,
+                                  child: Stack(
+                                    children: [
+                                      ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: VideoPlayer(_controller)),
+                                      Positioned(
+                                          bottom: 0,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          child: VideoProgressIndicator(
+                                            _controller,
+                                            allowScrubbing: false,
+                                            colors: VideoProgressColors(
+                                                backgroundColor:
+                                                    Colors.blueGrey,
+                                                bufferedColor: Colors.blueGrey,
+                                                playedColor: Colors.blueAccent),
+                                          )),
+                                      Center(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              if (_controller.value.isPlaying) {
+                                                _controller.pause();
+                                              } else {
+                                                // If the video is paused, play it.
+                                                _controller.play();
+                                              }
+                                            });
+                                          },
+                                          child: Icon(
+                                            _controller.value.isPlaying
+                                                ? Icons.pause
+                                                : Icons.play_arrow,
+                                            color: Colors.white,
+                                            size: 80,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                )),
-                          ),
-                        )
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            buildReplyMessage(widget.replyMessageDetails),
-                            Divider(
-                              color: Colors.grey[500],
-                              height: 20,
-                              thickness: 2,
-                              indent: 10,
-                              endIndent: 10,
+                                    ],
+                                  )),
                             ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: FullScreenWidget(
-                                  child: Center(
-                                    child: AspectRatio(
-                                        aspectRatio: 16 / 9,
-                                        child: Stack(
-                                          children: [
-                                            ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(8.0),
-                                                child:
-                                                    VideoPlayer(_controller)),
-                                            Positioned(
-                                                bottom: 0,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                child: VideoProgressIndicator(
-                                                  _controller,
-                                                  allowScrubbing: false,
-                                                  colors: VideoProgressColors(
-                                                      backgroundColor:
-                                                          Colors.blueGrey,
-                                                      bufferedColor:
-                                                          Colors.blueGrey,
-                                                      playedColor:
-                                                          Colors.blueAccent),
-                                                )),
-                                            Center(
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    if (_controller
-                                                        .value.isPlaying) {
-                                                      _controller.pause();
-                                                    } else {
-                                                      // If the video is paused, play it.
-                                                      _controller.play();
-                                                    }
-                                                  });
-                                                },
-                                                child: Icon(
-                                                  _controller.value.isPlaying
-                                                      ? Icons.pause
-                                                      : Icons.play_arrow,
-                                                  color: Colors.white,
-                                                  size: 80,
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              buildReplyMessage(widget.replyMessageDetails),
+                              Divider(
+                                color: Colors.grey[500],
+                                height: 20,
+                                thickness: 2,
+                                indent: 10,
+                                endIndent: 10,
+                              ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: FullScreenWidget(
+                                    child: Center(
+                                      child: AspectRatio(
+                                          aspectRatio: 16 / 9,
+                                          child: Stack(
+                                            children: [
+                                              ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0),
+                                                  child:
+                                                      VideoPlayer(_controller)),
+                                              Positioned(
+                                                  bottom: 0,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  child: VideoProgressIndicator(
+                                                    _controller,
+                                                    allowScrubbing: false,
+                                                    colors: VideoProgressColors(
+                                                        backgroundColor:
+                                                            Colors.blueGrey,
+                                                        bufferedColor:
+                                                            Colors.blueGrey,
+                                                        playedColor:
+                                                            Colors.blueAccent),
+                                                  )),
+                                              Center(
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      if (_controller
+                                                          .value.isPlaying) {
+                                                        _controller.pause();
+                                                      } else {
+                                                        // If the video is paused, play it.
+                                                        _controller.play();
+                                                      }
+                                                    });
+                                                  },
+                                                  child: Icon(
+                                                    _controller.value.isPlaying
+                                                        ? Icons.pause
+                                                        : Icons.play_arrow,
+                                                    color: Colors.white,
+                                                    size: 80,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        )),
+                                            ],
+                                          )),
+                                    ),
                                   ),
                                 ),
+                              )
+                            ],
+                          )
+                    : Container(
+                        child: Center(
+                            child: Text('No Video From Server',
+                                style: MyTheme.bodyText1)),
+                      ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        widget.text,
+                        style: MyTheme.bodyText1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    widget.localUser == widget.user
+                        ? Row(
+                            children: [
+                              Text(
+                                DateFormatter()
+                                    .getVerboseDateTimeRepresentation(
+                                        DateTime.parse(widget.time)),
+                                //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time).toLocal()),
+                                style: MyTheme.bodyTextTime,
                               ),
-                            )
-                          ],
-                        )
-                  : Container(
-                      child: Center(
-                          child: Text('No Video From Server',
-                              style: MyTheme.bodyText1)),
-                    ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      widget.text,
-                      style: MyTheme.bodyText1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  widget.localUser == widget.user
-                      ? Row(
-                          children: [
-                            Text(
-                              DateFormatter().getVerboseDateTimeRepresentation(
-                                  DateTime.parse(widget.time)),
-                              //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time).toLocal()),
-                              style: MyTheme.bodyTextTime,
+                              SizedBox(
+                                width: 5,
+                              ),
+                              getStatusIcon(widget.msgStatus)
+                            ],
+                          )
+                        : Row(
+                            children: [
+                              Text(
+                                DateFormatter()
+                                    .getVerboseDateTimeRepresentation(
+                                        DateTime.parse(widget.time)),
+                                //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time).toLocal()),
+                                style: MyTheme.bodyTextTime,
+                              )
+                            ],
+                          ),
+                  ],
+                ),
+              ] else ...[
+                widget.file_path != ''
+                    ? widget.replyMessageDetails.reply_to_id == 0
+                        ? FullScreenWidget(
+                            child: Center(
+                              child: AspectRatio(
+                                  aspectRatio: 16 / 9,
+                                  child: Stack(
+                                    children: [
+                                      ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: VideoPlayer(_controller)),
+                                      Positioned(
+                                          bottom: 0,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          child: VideoProgressIndicator(
+                                            _controller,
+                                            allowScrubbing: false,
+                                            colors: VideoProgressColors(
+                                                backgroundColor:
+                                                    Colors.blueGrey,
+                                                bufferedColor: Colors.blueGrey,
+                                                playedColor: Colors.blueAccent),
+                                          )),
+                                      Center(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              if (_controller.value.isPlaying) {
+                                                _controller.pause();
+                                              } else {
+                                                // If the video is paused, play it.
+                                                _controller.play();
+                                              }
+                                            });
+                                          },
+                                          child: Icon(
+                                            _controller.value.isPlaying
+                                                ? Icons.pause
+                                                : Icons.play_arrow,
+                                            color: Colors.white,
+                                            size: 80,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )),
                             ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            getStatusIcon(widget.msgStatus)
-                          ],
-                        )
-                      : Row(
-                          children: [
-                            Text(
-                              DateFormatter().getVerboseDateTimeRepresentation(
-                                  DateTime.parse(widget.time)),
-                              //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time).toLocal()),
-                              style: MyTheme.bodyTextTime,
-                            )
-                          ],
-                        ),
-                ],
-              ),
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              buildReplyMessage(widget.replyMessageDetails),
+                              Divider(
+                                color: Colors.grey[500],
+                                height: 20,
+                                thickness: 2,
+                                indent: 10,
+                                endIndent: 10,
+                              ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: FullScreenWidget(
+                                    child: Center(
+                                      child: AspectRatio(
+                                          aspectRatio: 16 / 9,
+                                          child: Stack(
+                                            children: [
+                                              ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0),
+                                                  child:
+                                                      VideoPlayer(_controller)),
+                                              Positioned(
+                                                  bottom: 0,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  child: VideoProgressIndicator(
+                                                    _controller,
+                                                    allowScrubbing: false,
+                                                    colors: VideoProgressColors(
+                                                        backgroundColor:
+                                                            Colors.blueGrey,
+                                                        bufferedColor:
+                                                            Colors.blueGrey,
+                                                        playedColor:
+                                                            Colors.blueAccent),
+                                                  )),
+                                              Center(
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      if (_controller
+                                                          .value.isPlaying) {
+                                                        _controller.pause();
+                                                      } else {
+                                                        // If the video is paused, play it.
+                                                        _controller.play();
+                                                      }
+                                                    });
+                                                  },
+                                                  child: Icon(
+                                                    _controller.value.isPlaying
+                                                        ? Icons.pause
+                                                        : Icons.play_arrow,
+                                                    color: Colors.white,
+                                                    size: 80,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                    : Container(
+                        child: Center(
+                            child: Text('No Video From Server',
+                                style: MyTheme.bodyText1)),
+                      ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        widget.text,
+                        style: MyTheme.bodyText1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    widget.localUser == widget.user
+                        ? Row(
+                            children: [
+                              Text(
+                                DateFormatter()
+                                    .getVerboseDateTimeRepresentation(
+                                        DateTime.parse(widget.time)),
+                                //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time).toLocal()),
+                                style: MyTheme.bodyTextTime,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              getStatusIcon(widget.msgStatus)
+                            ],
+                          )
+                        : Row(
+                            children: [
+                              Text(
+                                DateFormatter()
+                                    .getVerboseDateTimeRepresentation(
+                                        DateTime.parse(widget.time)),
+                                //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time).toLocal()),
+                                style: MyTheme.bodyTextTime,
+                              )
+                            ],
+                          ),
+                  ],
+                ),
+              ]
             ],
           )),
     );

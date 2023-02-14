@@ -45,6 +45,15 @@ class ChatNotificationCount extends ChangeNotifier {
     }
   }
 
+  void removeNotificationRoom({required String? roomId}) {
+    int index = getChatNotificationCountList
+        .indexWhere((element) => element.roomId == roomId);
+    if (index != -1) {
+      getChatNotificationCountList.removeAt(index);
+      notifyListeners();
+    }
+  }
+
   void updateUnreadMessageId({required String? roomId}) {
     int index = getChatNotificationCountList
         .indexWhere((element) => element.roomId == roomId);

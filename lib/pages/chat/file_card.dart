@@ -59,8 +59,8 @@ class FileCard extends StatelessWidget {
 
     return Container(
       margin: localUser == user
-          ? EdgeInsets.fromLTRB(50, 0, 10, 10)
-          : EdgeInsets.fromLTRB(10, 0, 50, 10),
+          ? EdgeInsets.fromLTRB(100, 0, 10, 10)
+          : EdgeInsets.fromLTRB(10, 0, 100, 10),
       child: Bubble(
           style: localUser == user ? styleMe : styleSomebody,
           child: Column(

@@ -35,6 +35,7 @@ class RoomMembersList extends StatefulWidget {
 
 class _RoomMembersListState extends State<RoomMembersList> {
   final chatRoomRepo = ChatRoomRepo();
+  bool _isRoomMemberSearching = false;
   bool loading = true;
   String? profilePicUrl = '';
   final RegExp removeBracket =
@@ -76,103 +77,37 @@ class _RoomMembersListState extends State<RoomMembersList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          iconTheme: IconThemeData(color: Colors.black54),
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 3,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.grey.withOpacity(.3),
-                        offset: Offset(0, 2),
-                        blurRadius: 5)
-                  ],
-                ),
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 3,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey.withOpacity(.3),
-                          offset: Offset(0, 2),
-                          blurRadius: 5)
-                    ],
-                  ),
-                  child: FullScreenWidget(
-                    child: Center(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: widget.picturePath != ''
-                            ? Image.network(widget.picturePath
-                                .replaceAll(removeBracket, '')
-                                .split('\r\n')[0])
-                            : Icon(Icons.account_circle),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(width: 15),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    widget.Room_name + ' - ' + 'Members',
-                    style: Theme.of(context).textTheme.bodyText2,
-                    overflow: TextOverflow.clip,
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
+        appBar: getAppbar(context),
         body: Container(
           child: Column(
             children: [
-              if (widget.roomDesc.toUpperCase().contains("GROUP"))
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    onChanged: (value) {
-                      _updateListview();
-                    },
-                    controller: editingController,
-                    decoration: InputDecoration(
-                        labelText: "Search",
-                        hintText: "Search",
-                        prefixIcon: Icon(Icons.search),
-                        suffixIcon: editingController.text.length > 0
-                            ? IconButton(
-                                // Icon to
-                                icon: Icon(Icons.clear), // clear text
-                                onPressed: () {
-                                  editingController.text = '';
-                                  _updateListview();
-                                },
-                              )
-                            : null,
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25.0)))),
-                  ),
-                ),
+              // if (widget.roomDesc.toUpperCase().contains("GROUP"))
+              //   Padding(
+              //     padding: const EdgeInsets.all(8.0),
+              //     child: TextField(
+              //       onChanged: (value) {
+              //         _updateListview();
+              //       },
+              //       controller: editingController,
+              //       decoration: InputDecoration(
+              //           labelText: "Search",
+              //           hintText: "Search",
+              //           prefixIcon: Icon(Icons.search),
+              //           suffixIcon: editingController.text.length > 0
+              //               ? IconButton(
+              //                   // Icon to
+              //                   icon: Icon(Icons.clear), // clear text
+              //                   onPressed: () {
+              //                     editingController.text = '';
+              //                     _updateListview();
+              //                   },
+              //                 )
+              //               : null,
+              //           border: OutlineInputBorder(
+              //               borderRadius:
+              //                   BorderRadius.all(Radius.circular(25.0)))),
+              //     ),
+              //   ),
               Expanded(child: _populateListView()),
             ],
           ),
@@ -203,6 +138,116 @@ class _RoomMembersListState extends State<RoomMembersList> {
       return Image.network(
           picturePath.replaceAll(removeBracket, '').split('\r\n')[0]);
     return Icon(Icons.account_circle);
+  }
+
+  getAppbar(BuildContext context) {
+    if (!_isRoomMemberSearching) {
+      return AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.black54),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                setState(() {
+                  _isRoomMemberSearching = true;
+                });
+              }),
+        ],
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.white,
+                  width: 3,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(.3),
+                      offset: Offset(0, 2),
+                      blurRadius: 5)
+                ],
+              ),
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 3,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(.3),
+                        offset: Offset(0, 2),
+                        blurRadius: 5)
+                  ],
+                ),
+                child: FullScreenWidget(
+                  child: Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: widget.picturePath != ''
+                          ? Image.network(widget.picturePath
+                              .replaceAll(removeBracket, '')
+                              .split('\r\n')[0])
+                          : Icon(Icons.account_circle),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(width: 15),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(
+                  width: 200.0,
+                  child: Text(
+                    widget.Room_name + ' - ' + 'Members',
+                    maxLines: 1,
+                    softWrap: false,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      );
+    } else {
+      return AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            size: 24,
+          ),
+          onPressed: () {
+            setState(() {
+              _isRoomMemberSearching = false;
+            });
+          },
+        ),
+        title: TextField(
+          controller: editingController,
+          onChanged: (value) {
+            _updateListview();
+          },
+          style: TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+              hintText: "Search RoomMember",
+              hintStyle: TextStyle(color: Colors.white)),
+        ),
+      );
+    }
   }
 
   ListView _populateListView() {

@@ -1,8 +1,10 @@
 import 'dart:convert';
+import '../../common_library/services/model/GetLeaveRoomResponse.dart';
 import '../../common_library/services/model/createroom_response.dart';
 import '../../common_library/services/model/invitefriend_model.dart';
 import '../../common_library/services/model/inviteroom_model.dart';
 import '../../common_library/services/model/inviteroom_response.dart';
+import '../../common_library/services/model/leaveroom_model.dart';
 import '../../common_library/services/model/m_room_model.dart';
 import '../../common_library/services/model/m_roommember_model.dart';
 import '../../common_library/services/model/response.dart';
@@ -371,5 +373,43 @@ class ChatRoomRepo {
 
     return Response(false,
         message: 'Failed to invite friend. Please try again later');
+  }
+
+  Future<Response> leaveRoom(String roomId) async {
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwd();
+    String? merchantNo = await localStorage.getMerchantDbCode();
+    String? mLoginId = await localStorage.getUserPhone();
+    String? deviceId = await localStorage.getLoginDeviceId();
+    // String? userId = await localStorage.getUserId();
+    // String? nickName = await localStorage.getNickName();
+
+    LeaveRoom params = LeaveRoom(
+        wsCodeCrypt: appConfig.wsCodeCrypt,
+        caUid: caUid,
+        caPwd: caPwd,
+        merchantNo: merchantNo,
+        mLoginId: mLoginId,
+        appId: appConfig.appId,
+        deviceId: deviceId,
+        appCode: appConfig.appCode,
+        roomId: roomId);
+
+    String body = jsonEncode(params);
+    String api = 'LeaveRoom';
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+
+    var response =
+        await networking.postData(api: api, body: body, headers: headers);
+
+    // Success
+    if (response.isSuccess && response.data != null) {
+      GetLeaveRoomResponse getLeaveRoomResponse =
+          GetLeaveRoomResponse.fromJson(response.data);
+      return Response(true, data: getLeaveRoomResponse.room);
+    }
+
+    return Response(false,
+        message: 'Failed to leave room. Please try again later.');
   }
 }

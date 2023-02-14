@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:epandu/pages/chat/rooms_provider.dart';
 import 'package:epandu/pages/chat/socketclient_helper.dart';
+import 'package:epandu/pages/chat/userleftjoined_card.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:audio_session/audio_session.dart';
@@ -12,7 +13,6 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_sound/flutter_sound.dart';
-import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:hive/hive.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -32,6 +32,7 @@ import '../../common_library/services/model/readmessagebyId_model.dart';
 import '../../common_library/services/model/replymessage_model.dart';
 import '../../common_library/services/repository/auth_repository.dart';
 import '../../common_library/utils/custom_dialog.dart';
+import '../../common_library/utils/custom_snackbar.dart';
 import '../../common_library/utils/local_storage.dart';
 import '../../services/database/DatabaseHelper.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -80,6 +81,9 @@ class ChatHome2 extends StatefulWidget {
 }
 
 class _ChatHome2State extends State<ChatHome2> {
+  int currentIndex = -1;
+  List filteredMessages = [];
+  bool isSearching = false;
   String valueText = "";
   final chatRoomRepo = ChatRoomRepo();
   List<String> deleteList = [
@@ -90,7 +94,7 @@ class _ChatHome2State extends State<ChatHome2> {
   List<MessageDetails> myFailedList = [];
   bool _showDownArrow = false;
   TextEditingController _textFieldController = TextEditingController();
-  bool _isdesiredItemViewed = false;
+  //bool _isdesiredItemViewed = false;
   int _desiredItemIndex = -1;
   Timer? timer;
   String socketStatus = '';
@@ -104,7 +108,7 @@ class _ChatHome2State extends State<ChatHome2> {
       nick_name: '',
       filePath: '',
       binaryType: '');
-
+  TextEditingController searcheditingController = TextEditingController();
   List<MessageDetails> _selectedItems = [];
   bool isMultiSelectionEnabled = false;
   final appConfig = AppConfig();
@@ -149,7 +153,6 @@ class _ChatHome2State extends State<ChatHome2> {
   TextEditingController editingController = TextEditingController();
   final authRepo = AuthRepo();
   final LocalStorage localStorage = LocalStorage();
-  // ChatController chatController = ChatController();
   final ItemScrollController itemScrollController = ItemScrollController();
   final ItemPositionsListener itemPositionsListener =
       ItemPositionsListener.create();
@@ -222,7 +225,8 @@ class _ChatHome2State extends State<ChatHome2> {
             .getMessageDetailsList
             .where((element) =>
                 element.room_id == widget.Room_id &&
-                element.msgStatus == "UNREAD")
+                element.msgStatus == "UNREAD" &&
+                element.message_id != 0)
             .toList();
 
         mylist.forEach((messageDetails) {
@@ -584,6 +588,7 @@ class _ChatHome2State extends State<ChatHome2> {
                 .toList()
                 .reversed
                 .toList();
+
             int replyId = getMessageDetailsList[index].reply_to_id!;
             if (getMessageDetailsList[index].reply_to_id! > 0) {
               int index = getMessageDetailsList
@@ -603,8 +608,14 @@ class _ChatHome2State extends State<ChatHome2> {
               color: _desiredItemIndex == index ? Colors.grey[200] : null,
               child: InkWell(
                   onLongPress: () {
-                    isMultiSelectionEnabled = true;
-                    doMultiSelectionItem(getMessageDetailsList[index]);
+                    if (!isSearching &&
+                        getMessageDetailsList[index].msg_binaryType !=
+                            'userLeft' &&
+                        getMessageDetailsList[index].msg_binaryType !=
+                            'userJoined') {
+                      isMultiSelectionEnabled = true;
+                      doMultiSelectionItem(getMessageDetailsList[index]);
+                    }
                   },
                   onTap: () {
                     doMultiSelectionItem(getMessageDetailsList[index]);
@@ -644,40 +655,32 @@ class _ChatHome2State extends State<ChatHome2> {
                                           .msg_binaryType!);
                                 },
                                 child: ImageCard(
-                                    time: getMessageDetailsList[index]
-                                            .send_datetime ??
-                                        '',
-                                    nick_name:
-                                        getMessageDetailsList[
-                                                    index]
-                                                .nick_name ??
-                                            '',
-                                    text:
-                                        getMessageDetailsList[
-                                                    index]
-                                                .msg_body ??
-                                            '',
-                                    file_path:
-                                        getMessageDetailsList[
-                                                    index]
-                                                .filePath ??
-                                            '',
-                                    user:
-                                        getMessageDetailsList[
-                                                    index]
-                                                .user_id ??
-                                            '',
-                                    localUser: localUserid,
-                                    msgStatus: getMessageDetailsList[index]
-                                            .msgStatus ??
-                                        '',
-                                    messageId: getMessageDetailsList[index]
-                                            .message_id ??
-                                        0,
-                                    replyMessageDetails:
-                                        existingReplayMessageDetails,
-                                    onCancelReply: cancelReply,
-                                    callback: tapListitem))
+                                  time: getMessageDetailsList[index]
+                                          .send_datetime ??
+                                      '',
+                                  nick_name:
+                                      getMessageDetailsList[index].nick_name ??
+                                          '',
+                                  text: getMessageDetailsList[index].msg_body ??
+                                      '',
+                                  file_path:
+                                      getMessageDetailsList[index].filePath ??
+                                          '',
+                                  user: getMessageDetailsList[index].user_id ??
+                                      '',
+                                  localUser: localUserid,
+                                  msgStatus:
+                                      getMessageDetailsList[index].msgStatus ??
+                                          '',
+                                  messageId:
+                                      getMessageDetailsList[index].message_id ??
+                                          0,
+                                  replyMessageDetails:
+                                      existingReplayMessageDetails,
+                                  onCancelReply: cancelReply,
+                                  callback: tapListitem,
+                                  roomDesc: widget.roomDesc,
+                                ))
                           ] else if (getMessageDetailsList[index]
                                   .msg_binaryType ==
                               "video") ...[
@@ -701,34 +704,32 @@ class _ChatHome2State extends State<ChatHome2> {
                                           .msg_binaryType!);
                                 },
                                 child: VideoCard(
-                                    file_path: getMessageDetailsList[index]
-                                            .filePath ??
-                                        '',
-                                    time: getMessageDetailsList[index]
-                                            .send_datetime ??
-                                        '',
-                                    text: getMessageDetailsList[index]
-                                            .msg_body ??
-                                        '',
-                                    nick_name: getMessageDetailsList[index]
-                                            .nick_name ??
-                                        '',
-                                    user:
-                                        getMessageDetailsList[index].user_id ??
-                                            '',
-                                    localUser: localUserid,
-                                    msgStatus:
-                                        getMessageDetailsList[
-                                                    index]
-                                                .msgStatus ??
-                                            '',
-                                    messageId: getMessageDetailsList[index]
-                                            .message_id ??
-                                        0,
-                                    replyMessageDetails:
-                                        existingReplayMessageDetails,
-                                    onCancelReply: cancelReply,
-                                    callback: tapListitem))
+                                  file_path:
+                                      getMessageDetailsList[index].filePath ??
+                                          '',
+                                  time: getMessageDetailsList[index]
+                                          .send_datetime ??
+                                      '',
+                                  text: getMessageDetailsList[index].msg_body ??
+                                      '',
+                                  nick_name:
+                                      getMessageDetailsList[index].nick_name ??
+                                          '',
+                                  user: getMessageDetailsList[index].user_id ??
+                                      '',
+                                  localUser: localUserid,
+                                  msgStatus:
+                                      getMessageDetailsList[index].msgStatus ??
+                                          '',
+                                  messageId:
+                                      getMessageDetailsList[index].message_id ??
+                                          0,
+                                  replyMessageDetails:
+                                      existingReplayMessageDetails,
+                                  onCancelReply: cancelReply,
+                                  callback: tapListitem,
+                                  roomDesc: widget.roomDesc,
+                                ))
                           ] else if (getMessageDetailsList[index]
                                   .msg_binaryType ==
                               "audio") ...[
@@ -776,6 +777,7 @@ class _ChatHome2State extends State<ChatHome2> {
                                       existingReplayMessageDetails,
                                   onCancelReply: cancelReply,
                                   callback: tapListitem,
+                                  roomDesc: widget.roomDesc,
                                 ))
                           ] else if (getMessageDetailsList[index]
                                   .msg_binaryType ==
@@ -825,6 +827,14 @@ class _ChatHome2State extends State<ChatHome2> {
                                   onCancelReply: cancelReply,
                                   callback: tapListitem,
                                 ))
+                          ] else if (getMessageDetailsList[index]
+                                      .msg_binaryType ==
+                                  "userLeft" ||
+                              getMessageDetailsList[index].msg_binaryType ==
+                                  "userJoined") ...[
+                            UserLeftJoinedCard(
+                              messageDetails: getMessageDetailsList[index],
+                            )
                           ] else ...[
                             SwipeTo(
                                 iconOnLeftSwipe:
@@ -874,20 +884,26 @@ class _ChatHome2State extends State<ChatHome2> {
                                   onCancelReply: cancelReply,
                                   callback: tapListitem,
                                   resendCallback: tapResend,
+                                  roomDesc: widget.roomDesc,
                                 ))
                           ]
                         ],
                       ),
                       Visibility(
                           visible: isMultiSelectionEnabled,
-                          child: Icon(
-                            _selectedItems
-                                    .contains(getMessageDetailsList[index])
-                                ? Icons.check_circle
-                                : Icons.radio_button_unchecked,
-                            size: 30,
-                            color: Colors.blue,
-                          ))
+                          child: getMessageDetailsList[index].msg_binaryType !=
+                                      'userLeft' &&
+                                  getMessageDetailsList[index].msg_binaryType !=
+                                      'userJoined'
+                              ? Icon(
+                                  _selectedItems.contains(
+                                          getMessageDetailsList[index])
+                                      ? Icons.check_circle
+                                      : Icons.radio_button_unchecked,
+                                  size: 30,
+                                  color: Colors.blue,
+                                )
+                              : Text(''))
                     ],
                   )),
             );
@@ -917,100 +933,6 @@ class _ChatHome2State extends State<ChatHome2> {
           type: "SEND",
         ),
       );
-  // Widget getDismissible(MessageDetails messageDetails,
-  //     ReplyMessageDetails? replayMessageDetails) {
-  //   if (messageDetails.room_id == widget.Room_id) {
-  //     return InkWell(
-  //         onLongPress: () {
-  //           isMultiSelectionEnabled = true;
-  //           doMultiSelectionItem(messageDetails);
-  //         },
-  //         onTap: () {
-  //           doMultiSelectionItem(messageDetails);
-  //           if (_selectedItems.length == 0) {
-  //             setState(() {
-  //               isMultiSelectionEnabled = false;
-  //             });
-  //           }
-  //         },
-  //         child: Stack(
-  //           alignment: messageDetails.user_id == localUserid
-  //               ? Alignment.centerRight
-  //               : Alignment.centerLeft,
-  //           children: [
-  //             getCard(messageDetails, replayMessageDetails!),
-  //             Visibility(
-  //                 visible: isMultiSelectionEnabled,
-  //                 child: Icon(
-  //                   _selectedItems.contains(messageDetails)
-  //                       ? Icons.check_circle
-  //                       : Icons.radio_button_unchecked,
-  //                   size: 30,
-  //                   color: Colors.red,
-  //                 ))
-  //           ],
-  //         ));
-  //   } else {
-  //     return SizedBox.shrink();
-  //   }
-  //   /*return Slidable(
-  //     key: Key(messageDetails.message_id.toString()),
-  //     startActionPane: ActionPane(
-  //       motion: const ScrollMotion(),
-  //       dragDismissible: false,
-  //       dismissible: DismissiblePane(onDismissed: () {
-  //         print('DismissiblePane');
-  //       }),
-  //       children: [
-  //         getSlideAction(Color(0xFFFE4A49), Colors.white, Icons.delete,
-  //             'Delete', messageDetails),
-  //         if (messageDetails.user_id == localUserid)
-  //           getSlideAction(Color(0xFF0392CF), Colors.white, Icons.edit, 'Edit',
-  //               messageDetails),
-  //       ],
-  //     ),
-  //     endActionPane: ActionPane(
-  //       motion: ScrollMotion(),
-  //       children: [
-  //         getSlideAction(Color(0xFFFE4A49), Colors.white, Icons.delete,
-  //             'Delete', messageDetails),
-  //         if (messageDetails.user_id == localUserid)
-  //           getSlideAction(Color(0xFF0392CF), Colors.white, Icons.edit, 'Edit',
-  //               messageDetails),
-  //       ],
-  //     ),
-  //     child: InkWell(
-  //         onLongPress: () {
-  //           isMultiSelectionEnabled = true;
-  //           doMultiSelectionItem(messageDetails);
-  //         },
-  //         onTap: () {
-  //           doMultiSelectionItem(messageDetails);
-  //           if (_selectedItems.length == 0) {
-  //             setState(() {
-  //               isMultiSelectionEnabled = false;
-  //             });
-  //           }
-  //         },
-  //         child: Stack(
-  //           alignment: messageDetails.user_id == localUserid
-  //               ? Alignment.centerRight
-  //               : Alignment.centerLeft,
-  //           children: [
-  //             getCard(messageDetails, replayMessageDetails),
-  //             Visibility(
-  //                 visible: isMultiSelectionEnabled,
-  //                 child: Icon(
-  //                   _selectedItems.contains(messageDetails)
-  //                       ? Icons.check_circle
-  //                       : Icons.radio_button_unchecked,
-  //                   size: 30,
-  //                   color: Colors.red,
-  //                 ))
-  //           ],
-  //         )),
-  //   );*/
-  // }
 
   String getSelectedItemCount() {
     return _selectedItems.isNotEmpty
@@ -1340,214 +1262,394 @@ class _ChatHome2State extends State<ChatHome2> {
         if (roomMembers.user_id != localUserid)
           members += roomMembers.nick_name!.toUpperCase() + ",";
       }
-      members = members.substring(0, members.length - 1);
+      if (members.length > 0)
+        members = members.substring(0, members.length - 1);
+
       //}
       membersCount = roomMembers.length;
-      roomName = roomMembers[0].room_name!;
+      if (roomMembers.length > 0) roomName = roomMembers[0].room_name!;
     });
   }
 
   getAppBar(BuildContext context) {
-    Room getRoomName = context
-        .watch<RoomHistory>()
-        .getRoomList
-        .where((element) => element.room_id == widget.Room_id)
-        .toList()[0];
-
-    if (!isMultiSelectionEnabled) {
+    if (isSearching) {
       return AppBar(
-        leadingWidth: 80,
-        titleSpacing: 0,
-        leading: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                size: 24,
-              ),
-              onPressed: () {
-                Provider.of<ChatNotificationCount>(context, listen: false)
-                    .updateNotificationBadge(
-                        roomId: widget.Room_id, type: "DELETE");
-                Provider.of<ChatNotificationCount>(context, listen: false)
-                    .updateUnreadMessageId(roomId: widget.Room_id);
-                Navigator.pop(context);
-                context.read<SocketClientHelper>().setIsEnterRoom(false);
-              },
-            ),
-          ],
-        ),
-        title: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.white,
-                  width: 3,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.withOpacity(.3),
-                      offset: Offset(0, 2),
-                      blurRadius: 5)
-                ],
-              ),
-              child: FullScreenWidget(
-                child: Center(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: widget.picturePath != ''
-                        ? Image.network(widget.picturePath
-                            .replaceAll(removeBracket, '')
-                            .split('\r\n')[0])
-                        : Icon(Icons.account_circle),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => RoomMembersList(
-                              Room_name: roomName,
-                              Room_id: widget.Room_id,
-                              userId: this.localUserid,
-                              picturePath: widget.picturePath,
-                              roomName: widget.roomName,
-                              roomDesc: widget.roomDesc,
-                              // roomMembers: widget.roomMembers
-                            )),
-                  );
-                },
-                child: Container(
-                  margin: EdgeInsets.all(6),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        getRoomName.room_name!,
-                        style: TextStyle(
-                          fontSize: 18.5,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        this.members,
-                        style: TextStyle(
-                          fontSize: 13,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          /*IconButton(icon: Icon(Icons.videocam), onPressed: () {}),
-              IconButton(icon: Icon(Icons.call), onPressed: () {}),*/
-          PopupMenuButton<String>(
-            padding: EdgeInsets.all(0),
-            onSelected: (value) {
-              if (value == "View Contacts") {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RoomMembersList(
-                      Room_name: roomName,
-                      Room_id: widget.Room_id,
-                      userId: this.localUserid,
-                      picturePath: widget.picturePath,
-                      roomName: widget.roomName,
-                      roomDesc: widget.roomDesc,
-                      // roomMembers: widget.roomMembers
-                    ),
-                  ),
-                );
-              } else if (value == "Media and Files") {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ChatFiles(
-                      roomId: widget.Room_id,
-                    ),
-                  ),
-                );
-              } else if (value == "Invite Friend") {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CreateGroup(
-                      roomId: widget.Room_id,
-                    ),
-                  ),
-                );
-              } else if (value == "Change Group Name") {
-                _displayTextInputDialog(context);
-              }
-            },
-            itemBuilder: (BuildContext context) {
-              return [
-                PopupMenuItem(
-                  child: Text("View Contacts"),
-                  value: "View Contacts",
-                ),
-                PopupMenuItem(
-                  child: Text("Media and Files"),
-                  value: "Media and Files",
-                ),
-                if (widget.roomDesc.toUpperCase().contains("GROUP"))
-                  PopupMenuItem(
-                    child: Text("Invite Friend"),
-                    value: "Invite Friend",
-                  ),
-                if (widget.roomDesc.toUpperCase().contains("GROUP"))
-                  PopupMenuItem(
-                    child: Text("Change Group Name"),
-                    value: "Change Group Name",
-                  ),
-              ];
-            },
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            size: 24,
           ),
-        ],
-      );
-    } else {
-      return AppBar(
-        title: Text(
-          getSelectedItemCount(),
-          style: TextStyle(
-            fontSize: 18.5,
-            fontWeight: FontWeight.bold,
-          ),
+          onPressed: () {
+            setState(() {
+              this.isSearching = false;
+              filteredMessages = [];
+              currentIndex = -1;
+              _desiredItemIndex = -1;
+            });
+          },
+        ),
+        title: TextField(
+          controller: searcheditingController,
+          onChanged: (value) {
+            if (value != '') {
+              List<MessageDetails> list1 = getMessageDetailsList
+                  .where((element) =>
+                      element.room_id == widget.Room_id &&
+                      element.msg_body!
+                          .toLowerCase()
+                          .contains(value.toLowerCase()))
+                  .toList();
+              setState(() {
+                filteredMessages = [];
+                list1.forEach((message) {
+                  filteredMessages.add(message.message_id);
+                });
+              });
+            }
+          },
+          style: TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+              hintText: "Search Message",
+              hintStyle: TextStyle(color: Colors.white)),
         ),
         actions: <Widget>[
+          // isSearching
+          //     ?
           IconButton(
-            icon: Icon(
-              Icons.delete,
-              color: Colors.white,
-            ),
+            icon: Icon(Icons.cancel),
             onPressed: () {
-              var contain = _selectedItems
-                  .where((element) => element.user_id != localUserid);
-              if (contain.length > 0) {
-                deleteConfirmation(_selectedItems, '');
+              setState(() {
+                // this.isSearching = false;
+                // filteredMessages = [];
+                // currentIndex = -1;
+                // _desiredItemIndex = -1;
+                filteredMessages = [];
+                currentIndex = -1;
+                _desiredItemIndex = -1;
+                searcheditingController.clear();
+              });
+            },
+          ),
+          //:
+          IconButton(
+            icon: Icon(Icons.arrow_circle_up),
+            onPressed: () {
+              if (filteredMessages.length > 0) {
+                if (currentIndex == -1) {
+                  int index = getMessageDetailsList.indexWhere(
+                      (element) => element.message_id == filteredMessages[0]);
+
+                  setState(() {
+                    _desiredItemIndex = index;
+                    currentIndex = 1;
+                  });
+                  itemScrollController.scrollTo(
+                      index: index,
+                      duration: Duration(seconds: 2),
+                      curve: Curves.easeInOutCubic);
+                } else {
+                  if (currentIndex != -1 &&
+                      currentIndex < filteredMessages.length) {
+                    int messageId = filteredMessages[currentIndex];
+                    int index = getMessageDetailsList.indexWhere(
+                        (element) => element.message_id == messageId);
+
+                    setState(() {
+                      _desiredItemIndex = index;
+                      currentIndex = currentIndex + 1;
+                    });
+                    itemScrollController.scrollTo(
+                        index: index,
+                        duration: Duration(seconds: 2),
+                        curve: Curves.easeInOutCubic);
+                  } else if (currentIndex == filteredMessages.length) {
+                    setState(() {
+                      currentIndex = 0;
+                    });
+                    final customSnackbar = CustomSnackbar();
+                    customSnackbar.show(
+                      context,
+                      message: 'No messages found.',
+                      duration: 5000,
+                      type: MessageType.INFO,
+                    );
+                  }
+                }
               } else {
-                deleteConfirmation(_selectedItems, 'OWN');
+                final customSnackbar = CustomSnackbar();
+                customSnackbar.show(
+                  context,
+                  message: 'No messages found.',
+                  duration: 5000,
+                  type: MessageType.INFO,
+                );
+              }
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.arrow_circle_down),
+            onPressed: () {
+              if (currentIndex < filteredMessages.length &&
+                  currentIndex != -1) {
+                int messageId = filteredMessages[currentIndex];
+                int index = getMessageDetailsList
+                    .indexWhere((element) => element.message_id == messageId);
+                itemScrollController.scrollTo(
+                    index: index,
+                    duration: Duration(seconds: 2),
+                    curve: Curves.easeInOutCubic);
+
+                Timer(Duration(seconds: 5), () {
+                  _desiredItemIndex = -1;
+                });
+                setState(() {
+                  _desiredItemIndex = index;
+                  currentIndex = currentIndex - 1;
+                });
+              } else {
+                final customSnackbar = CustomSnackbar();
+                customSnackbar.show(
+                  context,
+                  message: 'No messages found.',
+                  duration: 5000,
+                  type: MessageType.INFO,
+                );
               }
             },
           )
         ],
       );
+    } else {
+      if (!isMultiSelectionEnabled) {
+        return AppBar(
+          leadingWidth: 80,
+          titleSpacing: 0,
+          leading: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: 24,
+                ),
+                onPressed: () {
+                  Provider.of<ChatNotificationCount>(context, listen: false)
+                      .updateNotificationBadge(
+                          roomId: widget.Room_id, type: "DELETE");
+                  Provider.of<ChatNotificationCount>(context, listen: false)
+                      .updateUnreadMessageId(roomId: widget.Room_id);
+                  Navigator.pop(context);
+                  context.read<SocketClientHelper>().setIsEnterRoom(false);
+                },
+              ),
+            ],
+          ),
+          title: Row(
+            children: [
+              // Container(
+              //   width: 40,
+              //   height: 40,
+              //   decoration: BoxDecoration(
+              //     shape: BoxShape.circle,
+              //     border: Border.all(
+              //       color: Colors.white,
+              //       width: 3,
+              //     ),
+              //     boxShadow: [
+              //       BoxShadow(
+              //           color: Colors.grey.withOpacity(.3),
+              //           offset: Offset(0, 2),
+              //           blurRadius: 5)
+              //     ],
+              //   ),
+              //   child: FullScreenWidget(
+              //     child: Center(
+              //       child: ClipRRect(
+              //         borderRadius: BorderRadius.circular(8.0),
+              //         child: widget.picturePath != ''
+              //             ? Image.network(widget.picturePath
+              //                 .replaceAll(removeBracket, '')
+              //                 .split('\r\n')[0])
+              //             : Icon(Icons.account_circle),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              Expanded(
+                child: Container(
+                  // padding: const EdgeInsets.all(5.0),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RoomMembersList(
+                                  Room_name: roomName,
+                                  Room_id: widget.Room_id,
+                                  userId: this.localUserid,
+                                  picturePath: widget.picturePath,
+                                  roomName: widget.roomName,
+                                  roomDesc: widget.roomDesc,
+                                  // roomMembers: widget.roomMembers
+                                )),
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(6),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.roomName,
+                            maxLines: 1,
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 18.5,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            this.members,
+                            maxLines: 1,
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 13,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            PopupMenuButton<String>(
+              padding: EdgeInsets.all(0),
+              onSelected: (value) {
+                if (value == "View Contacts") {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RoomMembersList(
+                        Room_name: roomName,
+                        Room_id: widget.Room_id,
+                        userId: this.localUserid,
+                        picturePath: widget.picturePath,
+                        roomName: widget.roomName,
+                        roomDesc: widget.roomDesc,
+                      ),
+                    ),
+                  );
+                } else if (value == "Search") {
+                  setState(() {
+                    this.isSearching = true;
+                  });
+                } else if (value == "Media and Files") {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChatFiles(
+                        roomId: widget.Room_id,
+                      ),
+                    ),
+                  );
+                } else if (value == "Invite Friend") {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreateGroup(
+                        roomId: widget.Room_id,
+                      ),
+                    ),
+                  );
+                } else if (value == "Change Group Name") {
+                  _displayTextInputDialog(context);
+                } else if (value == "Leave Group") {
+                  leaveGroup(widget.Room_id);
+                }
+                // else if (value == "Delete Chat") {
+                //   print('Delete Chat');
+                // }
+              },
+              itemBuilder: (BuildContext context) {
+                return [
+                  PopupMenuItem(
+                    child: Text("View Contacts"),
+                    value: "View Contacts",
+                  ),
+                  PopupMenuItem(
+                    child: Text("Search"),
+                    value: "Search",
+                  ),
+                  PopupMenuItem(
+                    child: Text("Media and Files"),
+                    value: "Media and Files",
+                  ),
+                  if (widget.roomDesc.toUpperCase().contains("GROUP"))
+                    PopupMenuItem(
+                      child: Text("Invite Friend"),
+                      value: "Invite Friend",
+                    ),
+                  if (widget.roomDesc.toUpperCase().contains("GROUP"))
+                    PopupMenuItem(
+                      child: Text("Change Group Name"),
+                      value: "Change Group Name",
+                    ),
+                  if (widget.roomDesc.toUpperCase().contains("GROUP"))
+                    PopupMenuItem(
+                      child: Text("Leave Group"),
+                      value: "Leave Group",
+                    ),
+                ];
+              },
+            ),
+          ],
+        );
+      } else {
+        return AppBar(
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              size: 24,
+            ),
+            onPressed: () {
+              setState(() {
+                isMultiSelectionEnabled = false;
+                _selectedItems.clear();
+              });
+            },
+          ),
+          title: Text(
+            getSelectedItemCount(),
+            style: TextStyle(
+              fontSize: 18.5,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                var contain = _selectedItems
+                    .where((element) => element.user_id != localUserid);
+                if (contain.length > 0) {
+                  deleteConfirmation(_selectedItems, '');
+                } else {
+                  deleteConfirmation(_selectedItems, 'OWN');
+                }
+              },
+            )
+          ],
+        );
+      }
     }
   }
 
@@ -1567,9 +1669,9 @@ class _ChatHome2State extends State<ChatHome2> {
               decoration: InputDecoration(hintText: "Group Name"),
             ),
             actions: <Widget>[
-              FlatButton(
-                color: Colors.red,
-                textColor: Colors.white,
+              TextButton(
+                style: TextButton.styleFrom(
+                    foregroundColor: Colors.white, backgroundColor: Colors.red),
                 child: Text('CANCEL'),
                 onPressed: () {
                   setState(() {
@@ -1577,9 +1679,10 @@ class _ChatHome2State extends State<ChatHome2> {
                   });
                 },
               ),
-              FlatButton(
-                color: Colors.green,
-                textColor: Colors.white,
+              TextButton(
+                style: TextButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.green),
                 child: Text('OK'),
                 onPressed: () async {
                   await EasyLoading.show();
@@ -1616,16 +1719,114 @@ class _ChatHome2State extends State<ChatHome2> {
         });
   }
 
-  Text getMembersText() {
-    if (membersCount > 1) {
-      return Text(
-        this.members,
-        style: Theme.of(context).textTheme.caption,
-        overflow: TextOverflow.ellipsis,
-      );
-    } else {
-      return Text('');
-    }
+  // Text getMembersText() {
+  //   if (membersCount > 1) {
+  //     return Text(
+  //       this.members,
+  //       style: Theme.of(context).textTheme.caption,
+  //       overflow: TextOverflow.ellipsis,
+  //     );
+  //   } else {
+  //     return Text('');
+  //   }
+  // }
+
+  void leaveGroup(String roomId) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text("Are you sure you want to  leave the group?"),
+            actions: <Widget>[
+              TextButton(
+                child: Text(
+                  "Cancel",
+                  style: TextStyle(color: Colors.black),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text(
+                  "Leave",
+                  style: TextStyle(color: Colors.red),
+                ),
+                onPressed: () async {
+                  var leaveRoomResponseResult =
+                      await chatRoomRepo.leaveRoom(roomId);
+                  if (leaveRoomResponseResult.data != null &&
+                      leaveRoomResponseResult.data.length > 0) {
+                    // LeaveRoomResponse leaveRoomResponse =
+                    //     leaveRoomResponseResult.data[0];
+
+                    List<RoomMembers> roomMembers =
+                        await dbHelper.getRoomMembersList(widget.Room_id);
+                    roomMembers.forEach((roomMember) {
+                      if (localUserid != roomMember.user_id) {
+                        var leaveGroupJson = {
+                          "notifiedRoomId": widget.Room_id,
+                          "notifiedUserId": roomMember.user_id,
+                          "title": localUserName + " just left the room",
+                          "description":
+                              localUserid + " just left the room_" + roomId
+                        };
+                        //print(messageJson);
+                        socket.emitWithAck('sendNotification', leaveGroupJson,
+                            ack: (data) async {});
+                      }
+                    });
+                    String clientMessageId = generateRandomString(15);
+
+                    var messageJson = {
+                      "roomId": widget.Room_id,
+                      "msgBody": localUserName + ' left',
+                      "msgBinaryType": 'userLeft',
+                      "replyToId": -1,
+                      "clientMessageId": clientMessageId,
+                      "misc": "[FCM_Notification=title:" +
+                          roomName +
+                          ' - ' +
+                          localUserName +
+                          "]"
+                    };
+
+                    socket.emitWithAck('sendMessage', messageJson,
+                        ack: (data) async {
+                      if (data != null) {
+                        print('sendMessage from server $data');
+                      } else {
+                        print("Null from sendMessage");
+                      }
+                    });
+
+                    // Provider.of<RoomHistory>(context, listen: false)
+                    //     .deleteRoom(roomId: widget.Room_id);
+                    Provider.of<ChatNotificationCount>(context, listen: false)
+                        .removeNotificationRoom(roomId: roomId);
+                    await dbHelper.deleteRoomById(widget.Room_id);
+                    await dbHelper.deleteRoomMembersByRoomId(widget.Room_id);
+                    await dbHelper.deleteMessagesByRoomId(widget.Room_id);
+                    final dir = Directory((Platform.isAndroid
+                                ? await getExternalStorageDirectory() //FOR ANDROID
+                                : await getApplicationSupportDirectory() //FOR IOS
+                            )!
+                            .path +
+                        '/' +
+                        roomId);
+                    if ((await dir.exists())) {
+                      await dir.delete();
+                    }
+                    Provider.of<RoomHistory>(context, listen: false)
+                        .getRoomHistory();
+                  }
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
   }
 
   void deleteChatMessage(int messageId, String type) {
@@ -1644,7 +1845,7 @@ class _ChatHome2State extends State<ChatHome2> {
               .toString());
       List<MessageDetails> list = getMessageDetailsList
           .where((element) =>
-              element.message_id == messageId && element.msg_binaryType != '')
+              element.message_id == messageId && element.filePath != '')
           .toList();
 
       if (list.length > 0) {
@@ -1652,7 +1853,7 @@ class _ChatHome2State extends State<ChatHome2> {
       }
     } else {
       //print(messageJson);
-      socket.emitWithAck('deleteMessage', messageJson, ack: (data) {
+      socket.emitWithAck('deleteMessage', messageJson, ack: (data) async {
         //print('deleteMessage ack $data');
         if (data != null) {
           Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
@@ -1660,12 +1861,11 @@ class _ChatHome2State extends State<ChatHome2> {
             context.read<ChatHistory>().deleteChatItem(
                   messageId,
                 );
-            dbHelper.deleteMsg(messageId, result['deleteDateTime']);
+            await dbHelper.deleteMsg(messageId, result['deleteDateTime']);
 
             List<MessageDetails> list = getMessageDetailsList
                 .where((element) =>
-                    element.message_id == messageId &&
-                    element.msg_binaryType != '')
+                    element.message_id == messageId && element.filePath != '')
                 .toList();
 
             if (list.length > 0) {
@@ -1701,7 +1901,7 @@ class _ChatHome2State extends State<ChatHome2> {
           context
               .read<ChatHistory>()
               .updateChatItemMessage(text, messageId, result['editDateTime']);
-          int val = await dbHelper.updateMsgDetailTableText(
+          await dbHelper.updateMsgDetailTableText(
               text, messageId, result['editDateTime']);
         }
 
@@ -1834,7 +2034,7 @@ class _ChatHome2State extends State<ChatHome2> {
     final extension = p.extension(path);
     if (extension.toLowerCase() == ".png" ||
         extension.toLowerCase() == ".jpg") {
-      File f = File(path);
+      //File f = File(path);
       getFileSize(path);
       if (isFileSizeValid) {
         var bytes = await File(path).readAsBytes();
@@ -1870,36 +2070,35 @@ class _ChatHome2State extends State<ChatHome2> {
     }
   }
 
-  Future<void> _editImage(File file, String message) async {
-    CroppedFile? croppedFile = await ImageCropper().cropImage(
-      sourcePath: file.path,
-      aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
-      maxWidth: 512,
-      maxHeight: 512,
-    );
-    if (croppedFile != null) {
-      File croppedImage = File(croppedFile.path);
-      setState(() {
-        compressedFile = base64Encode(croppedImage.readAsBytesSync());
-        getFileSize(croppedFile.path);
-        if (isFileSizeValid) {
-          emitSendMessage('', compressedFile, 'image', message, "",
-              replyMessageDetails, '');
-        } else {
-          final customDialog = CustomDialog();
-          return customDialog.show(
-            context: context,
-            type: DialogType.ERROR,
-            content: "Please try sending file size less than 5MB.",
-            onPressed: () => Navigator.pop(context),
-          );
-        }
-      });
-    }
-  }
+  // Future<void> _editImage(File file, String message) async {
+  //   CroppedFile? croppedFile = await ImageCropper().cropImage(
+  //     sourcePath: file.path,
+  //     aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+  //     maxWidth: 512,
+  //     maxHeight: 512,
+  //   );
+  //   if (croppedFile != null) {
+  //     File croppedImage = File(croppedFile.path);
+  //     setState(() {
+  //       compressedFile = base64Encode(croppedImage.readAsBytesSync());
+  //       getFileSize(croppedFile.path);
+  //       if (isFileSizeValid) {
+  //         emitSendMessage('', compressedFile, 'image', message, "",
+  //             replyMessageDetails, '');
+  //       } else {
+  //         final customDialog = CustomDialog();
+  //         return customDialog.show(
+  //           context: context,
+  //           type: DialogType.ERROR,
+  //           content: "Please try sending file size less than 5MB.",
+  //           onPressed: () => Navigator.pop(context),
+  //         );
+  //       }
+  //     });
+  //   }
+  // }
 
   void onVoiceSend(String path, String fileName, String message) async {
-    //print('Hey there it is working $path');
     var bytes = await File(path).readAsBytes();
     String base64string = base64.encode(bytes);
 
@@ -1919,7 +2118,6 @@ class _ChatHome2State extends State<ChatHome2> {
   }
 
   void onFileSend(String path, String fileName, String message) async {
-    //print('Hey there it is working $path');
     for (int i = 0; i < popTime; i++) {
       Navigator.pop(context);
     }
@@ -1945,15 +2143,11 @@ class _ChatHome2State extends State<ChatHome2> {
       String msgBinary, int messageId, String clientMessageId) async {
     String filePath = "";
     String deviceId = await localStorage.getLoginDeviceId() ?? '';
+    String? nickName = await localStorage.getNickName();
     if (msgBinaryType != '') {
       filePath = await createFile(msgBinaryType, msgBinary, msgBody);
     }
-    String? nickName = '';
-    List<RoomMembers> roomMembersList =
-        await dbHelper.getRoomMemberName(localUserid);
-    for (var item in roomMembersList) {
-      nickName = item.nick_name;
-    }
+
     MessageDetails messageDetails = MessageDetails(
         room_id: widget.Room_id,
         user_id: localUserid,
@@ -1985,7 +2179,6 @@ class _ChatHome2State extends State<ChatHome2> {
     dbHelper.saveMsgDetailTable(messageDetails);
     context.read<ChatHistory>().addChatHistory(messageDetail: messageDetails);
     cancelReply();
-    //_getHistoryMessages();
   }
 
   void emitSendMessage(
@@ -2259,6 +2452,8 @@ class _ChatHome2State extends State<ChatHome2> {
             'txt',
             'html',
             'csv',
+            'mp4',
+            'wmv'
           ]);
 
           if (result != null) {
@@ -2528,7 +2723,7 @@ class _ChatHome2State extends State<ChatHome2> {
 
   Widget emojiSelect() {
     return EmojiPicker(
-        onEmojiSelected: (Category category, Emoji emoji) {
+        onEmojiSelected: (Category? category, Emoji emoji) {
           _onEmojiSelected(emoji);
         },
         onBackspacePressed: _onBackspacePressed,
@@ -2542,7 +2737,7 @@ class _ChatHome2State extends State<ChatHome2> {
             indicatorColor: Colors.blue,
             iconColor: Colors.grey,
             iconColorSelected: Colors.blue,
-            progressIndicatorColor: Colors.blue,
+            // progressIndicatorColor: Colors.blue,
             backspaceColor: Colors.blue,
             skinToneDialogBgColor: Colors.white,
             skinToneIndicatorColor: Colors.grey,

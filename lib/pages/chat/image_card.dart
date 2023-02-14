@@ -21,6 +21,7 @@ class ImageCard extends StatelessWidget {
   final int messageId;
   final VoidCallback onCancelReply;
   final MyCallback callback;
+  final String roomDesc;
   final ReplyMessageDetails replyMessageDetails;
   const ImageCard(
       {Key? key,
@@ -34,7 +35,8 @@ class ImageCard extends StatelessWidget {
       required this.messageId,
       required this.replyMessageDetails,
       required this.onCancelReply,
-      required this.callback})
+      required this.callback,
+      required this.roomDesc})
       : super(key: key);
 
   @override
@@ -62,84 +64,74 @@ class ImageCard extends StatelessWidget {
     );
     return Container(
       margin: localUser == user
-          ? EdgeInsets.fromLTRB(50, 0, 10, 10)
-          : EdgeInsets.fromLTRB(10, 0, 50, 10),
+          ? EdgeInsets.fromLTRB(100, 0, 10, 10)
+          : EdgeInsets.fromLTRB(10, 0, 100, 10),
       child: Bubble(
           style: localUser == user ? styleMe : styleSomebody,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              /*  new Text(messageId.toString().toUpperCase(),
-                  style: new TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Colors.redAccent,
-                  )),*/
-              new Text(
-                nick_name,
-                // nick_name != ''
-                //     ? nick_name
-                //         .split(" ")
-                //         .map((str) =>
-                //             "${nick_name[0].toUpperCase()}${nick_name.substring(1).toLowerCase()}")
-                //         .join(" ")
-                //     : nick_name,
-                style: MyTheme.heading2.copyWith(fontSize: 13),
-              ),
-              Container(
-                  child: file_path != ''
-                      ? replyMessageDetails.reply_to_id == 0
-                          ? FullScreenWidget(
-                              child: Center(
-                              child: Hero(
-                                tag: file_path.split('/').last,
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.file(
-                                      File(file_path),
-                                      fit: BoxFit.cover,
-                                      height: 384,
-                                      width: 384,
-                                    )),
-                              ),
-                            ))
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                buildReplyMessage(replyMessageDetails),
-                                Divider(
-                                  color: Colors.grey[500],
-                                  height: 20,
-                                  thickness: 2,
-                                  indent: 10,
-                                  endIndent: 10,
+              if (roomDesc.toUpperCase().contains("GROUP")) ...[
+                new Text(
+                  nick_name,
+                  style: MyTheme.heading2.copyWith(fontSize: 13),
+                ),
+                Container(
+                    //height: 200,
+                    // width: 200,
+                    child: file_path != ''
+                        ? replyMessageDetails.reply_to_id == 0
+                            ? FullScreenWidget(
+                                child: Center(
+                                child: Hero(
+                                  tag: file_path.split('/').last,
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.file(
+                                        File(file_path),
+                                        fit: BoxFit.cover,
+                                        height: 384,
+                                        width: 384,
+                                      )),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: FullScreenWidget(
-                                        child: Center(
-                                      child: Hero(
-                                        tag: file_path.split('/').last,
-                                        child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            child: Image.file(File(file_path),
-                                                fit: BoxFit.cover)),
-                                      ),
-                                    )),
+                              ))
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  buildReplyMessage(replyMessageDetails),
+                                  Divider(
+                                    color: Colors.grey[500],
+                                    height: 20,
+                                    thickness: 2,
+                                    indent: 10,
+                                    endIndent: 10,
                                   ),
-                                )
-                              ],
-                            )
-                      : Container(
-                          child: Center(
-                              child: Text('No Image from server',
-                                  style: MyTheme.bodyText1)),
-                        ))
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: FullScreenWidget(
+                                          child: Center(
+                                        child: Hero(
+                                          tag: file_path.split('/').last,
+                                          child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              child: Image.file(File(file_path),
+                                                  fit: BoxFit.cover)),
+                                        ),
+                                      )),
+                                    ),
+                                  )
+                                ],
+                              )
+                        : Container(
+                            child: Center(
+                                child: Text('No Image from server',
+                                    style: MyTheme.bodyText1)),
+                          ))
 
-              /* FutureBuilder<double>(
+                /* FutureBuilder<double>(
                 future: getImageHeight(file_path),
                 builder: (context, snapshot) {
                   return Container(
@@ -147,49 +139,161 @@ class ImageCard extends StatelessWidget {
                       child: Image.file(File(file_path), fit: BoxFit.cover));
                 },
               )*/
-              /*Image.memory(base64Decode(binary), fit: BoxFit.fitWidth):*/
-              ,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                    child: Text(
-                      text,
-                      style: MyTheme.bodyText1,
-                      overflow: TextOverflow.ellipsis,
+                /*Image.memory(base64Decode(binary), fit: BoxFit.fitWidth):*/
+                ,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        text,
+                        style: MyTheme.bodyText1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                  localUser == user
-                      ? Row(
-                          children: [
-                            Text(
-                              DateFormatter().getVerboseDateTimeRepresentation(
-                                  DateTime.parse(time)),
-                              //DateFormat('hh:mm:ss').format(DateTime.parse(time)),
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: Colors.grey[600],
+                    localUser == user
+                        ? Row(
+                            children: [
+                              Text(
+                                DateFormatter()
+                                    .getVerboseDateTimeRepresentation(
+                                        DateTime.parse(time)),
+                                //DateFormat('hh:mm:ss').format(DateTime.parse(time)),
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.grey[600],
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            getStatusIcon(msgStatus, time)
-                          ],
-                        )
-                      : Row(
-                          children: [
-                            Text(
-                              DateFormatter().getVerboseDateTimeRepresentation(
-                                  DateTime.parse(time)),
-                              //DateFormat('hh:mm:ss').format(DateTime.parse(time)),
-                              style: MyTheme.bodyTextTime,
-                            ),
-                          ],
-                        ),
-                ],
-              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              getStatusIcon(msgStatus, time)
+                            ],
+                          )
+                        : Row(
+                            children: [
+                              Text(
+                                DateFormatter()
+                                    .getVerboseDateTimeRepresentation(
+                                        DateTime.parse(time)),
+                                //DateFormat('hh:mm:ss').format(DateTime.parse(time)),
+                                style: MyTheme.bodyTextTime,
+                              ),
+                            ],
+                          ),
+                  ],
+                ),
+              ] else ...[
+                Container(
+                    //height: 200,
+                    // width: 200,
+                    child: file_path != ''
+                        ? replyMessageDetails.reply_to_id == 0
+                            ? FullScreenWidget(
+                                child: Center(
+                                child: Hero(
+                                  tag: file_path.split('/').last,
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.file(
+                                        File(file_path),
+                                        fit: BoxFit.cover,
+                                        // height: 384,
+                                        // width: 384,
+                                      )),
+                                ),
+                              ))
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  buildReplyMessage(replyMessageDetails),
+                                  Divider(
+                                    color: Colors.grey[500],
+                                    height: 20,
+                                    thickness: 2,
+                                    indent: 10,
+                                    endIndent: 10,
+                                  ),
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: FullScreenWidget(
+                                          child: Center(
+                                        child: Hero(
+                                          tag: file_path.split('/').last,
+                                          child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              child: Image.file(File(file_path),
+                                                  fit: BoxFit.cover)),
+                                        ),
+                                      )),
+                                    ),
+                                  )
+                                ],
+                              )
+                        : Container(
+                            child: Center(
+                                child: Text('No Image from server',
+                                    style: MyTheme.bodyText1)),
+                          ))
+
+                /* FutureBuilder<double>(
+                future: getImageHeight(file_path),
+                builder: (context, snapshot) {
+                  return Container(
+                      height: snapshot.data,
+                      child: Image.file(File(file_path), fit: BoxFit.cover));
+                },
+              )*/
+                /*Image.memory(base64Decode(binary), fit: BoxFit.fitWidth):*/
+                ,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        text,
+                        style: MyTheme.bodyText1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    localUser == user
+                        ? Row(
+                            children: [
+                              Text(
+                                DateFormatter()
+                                    .getVerboseDateTimeRepresentation(
+                                        DateTime.parse(time)),
+                                //DateFormat('hh:mm:ss').format(DateTime.parse(time)),
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              getStatusIcon(msgStatus, time)
+                            ],
+                          )
+                        : Row(
+                            children: [
+                              Text(
+                                DateFormatter()
+                                    .getVerboseDateTimeRepresentation(
+                                        DateTime.parse(time)),
+                                //DateFormat('hh:mm:ss').format(DateTime.parse(time)),
+                                style: MyTheme.bodyTextTime,
+                              ),
+                            ],
+                          ),
+                  ],
+                ),
+              ]
             ],
           )),
     );

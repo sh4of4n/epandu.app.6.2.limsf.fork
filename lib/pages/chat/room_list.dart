@@ -1,12 +1,18 @@
-import 'package:badges/badges.dart';
+import 'dart:io';
+import 'dart:math';
+
+import 'package:badges/badges.dart' as badges;
 import 'package:epandu/pages/chat/rooms_provider.dart';
+import 'package:epandu/pages/chat/socketclient_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import '../../common_library/services/model/GetLeaveRoomResponse.dart';
 import '../../common_library/services/model/chat_mesagelist.dart';
-import '../../common_library/services/model/m_room_model.dart';
 import '../../common_library/services/model/m_roommember_model.dart';
+import '../../common_library/services/model/roomhistory_model.dart';
 import '../../common_library/services/repository/auth_repository.dart';
 import '../../common_library/utils/local_storage.dart';
 import '../../services/database/DatabaseHelper.dart';
@@ -17,6 +23,7 @@ import 'chatnotification_count.dart';
 import 'create_group.dart';
 import 'date_formater.dart';
 import 'invite_friend.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class RoomList extends StatefulWidget {
   @override
@@ -24,6 +31,7 @@ class RoomList extends StatefulWidget {
 }
 
 class _RoomListState extends State<RoomList> {
+  late IO.Socket socket;
   final RegExp removeBracket =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
   bool loading = true;
@@ -32,9 +40,13 @@ class _RoomListState extends State<RoomList> {
   final dbHelper = DatabaseHelper.instance;
   final authRepo = AuthRepo();
   String userName = '';
-
+  int _selectedIndex = -1;
+  bool _isSelected = false;
+  bool _isRoomSearching = false;
+  String _selectedRoomId = '';
+  String _selectedRoomName = '';
   final LocalStorage localStorage = LocalStorage();
-  List<Room> rooms = [];
+  List<RoomHistoryModel> rooms = [];
   String roomTitle = "";
   List<MessageDetails> messageDetails = [];
   List<MessageDetails> providermessageDetails = [];
@@ -44,11 +56,12 @@ class _RoomListState extends State<RoomList> {
     super.initState();
     EasyLoading.addStatusCallback(statusCallback);
     getRoomName();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      id = await localStorage.getUserId();
-      // Provider.of<RoomHistory>(context, listen: false).getRoomHistory(id!);
-      Provider.of<ChatHistory>(context, listen: false).getChatHistory();
-    });
+    //Provider.of<RoomHistory>(context, listen: false).getRoomHistory();
+    Provider.of<ChatHistory>(context, listen: false).getChatHistory();
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    //   id = await localStorage.getUserId();
+
+    // });
     //dbHelper.deleteDB();
     //_updateListview();
   }
@@ -65,6 +78,12 @@ class _RoomListState extends State<RoomList> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    socket = context.watch<SocketClientHelper>().socket;
+  }
+
+  @override
   void deactivate() {
     EasyLoading.dismiss();
     EasyLoading.removeCallback(statusCallback);
@@ -78,192 +97,308 @@ class _RoomListState extends State<RoomList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              size: 24,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => Home()),
-              // );
-            },
-          ),
-          title: Text(roomTitle),
-          backgroundColor: Colors.blueAccent,
-          actions: [
-            /*IconButton(icon: Icon(Icons.videocam), onPressed: () {}),
-              IconButton(icon: Icon(Icons.call), onPressed: () {}),*/
-            PopupMenuButton<String>(
-              padding: EdgeInsets.all(0),
-              onSelected: (value) {
-                if (value == "Chat With Friend") {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => InviteFriend(
-                        roomId: '',
-                      ),
-                    ),
-                  );
-                } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CreateGroup(
-                        roomId: '',
-                      ),
-                    ),
-                  );
-                }
-              },
-              itemBuilder: (BuildContext context) {
-                return [
-                  PopupMenuItem(
-                    child: Text("Chat With Friend"),
-                    value: "Chat With Friend",
-                  ),
-                  PopupMenuItem(
-                    child: Text("Create Group"),
-                    value: "Create Group",
-                  ),
-                ];
-              },
-            ),
-          ],
-        ),
+        appBar: getAppBar(context),
         body: Container(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  onChanged: (value) {
-                    setState(() {});
-                    _populateListView(id!);
-                  },
-                  controller: editingController,
-                  decoration: InputDecoration(
-                      labelText: "Search",
-                      hintText: "Search",
-                      prefixIcon: Icon(Icons.search),
-                      suffixIcon: editingController.text.length > 0
-                          ? IconButton(
-                              // Icon to
-                              icon: Icon(Icons.clear), // clear text
-                              onPressed: () {
-                                editingController.text = '';
-                                setState(() {});
-                                _populateListView(id!);
-                              },
-                            )
-                          : null,
-                      border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(25.0)))),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: TextField(
+              //     onChanged: (value) {
+              //       setState(() {});
+              //       _populateListView(id!);
+              //     },
+              //     controller: editingController,
+              //     decoration: InputDecoration(
+              //         labelText: "Search",
+              //         hintText: "Search",
+              //         prefixIcon: Icon(Icons.search),
+              //         suffixIcon: editingController.text.length > 0
+              //             ? IconButton(
+              //                 // Icon to
+              //                 icon: Icon(Icons.clear), // clear text
+              //                 onPressed: () {
+              //                   editingController.text = '';
+              //                   setState(() {});
+              //                   _populateListView(id!);
+              //                 },
+              //               )
+              //             : null,
+              //         border: OutlineInputBorder(
+              //             borderRadius:
+              //                 BorderRadius.all(Radius.circular(25.0)))),
+              //   ),
+              // ),
               Expanded(child: _populateListView(id!)),
             ],
           ),
         ));
   }
 
-  // _updateListview() async {
-  //   await EasyLoading.show();
-  //   String? userid = await localStorage.getUserId();
-  //   rooms = await dbHelper.getRoomList(userid ?? '');
-  //   providermessageDetails =
-  //       Provider.of<ChatHistory>(context, listen: false).getMessageDetailsList;
-  //   if (providermessageDetails.length > 0) {
-  //     messageDetails = providermessageDetails;
-  //   } else {
-  //     messageDetails = await dbHelper.getLatestMsgToEachRoom();
-  //   }
+  getAppBar(BuildContext context) {
+    if (!_isSelected && !_isRoomSearching) {
+      return AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            size: 24,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => Home()),
+            // );
+          },
+        ),
+        title: Text(roomTitle),
+        backgroundColor: Colors.blueAccent,
+        actions: [
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                setState(() {
+                  _isRoomSearching = true;
+                });
+              }),
+          PopupMenuButton<String>(
+            padding: EdgeInsets.all(0),
+            onSelected: (value) {
+              if (value == "Chat With Friend") {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => InviteFriend(
+                      roomId: '',
+                    ),
+                  ),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CreateGroup(
+                      roomId: '',
+                    ),
+                  ),
+                );
+              }
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                  child: Text("Chat With Friend"),
+                  value: "Chat With Friend",
+                ),
+                PopupMenuItem(
+                  child: Text("Create Group"),
+                  value: "Create Group",
+                ),
+              ];
+            },
+          ),
+        ],
+      );
+    } else if (_isRoomSearching) {
+      return AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            size: 24,
+          ),
+          onPressed: () {
+            setState(() {
+              _isRoomSearching = false;
+            });
+          },
+        ),
+        title: TextField(
+          controller: editingController,
+          onChanged: (value) {
+            if (value != '') {
+              _populateListView(id!);
+            }
+          },
+          style: TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+              hintText: "Search Room",
+              hintStyle: TextStyle(color: Colors.white)),
+        ),
+      );
+    } else {
+      return AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            size: 24,
+          ),
+          onPressed: () {
+            setState(() {
+              _selectedIndex = -1;
+              _isSelected = false;
+              _selectedRoomId = '';
+              _selectedRoomName = '';
+            });
+          },
+        ),
+        title: Text(roomTitle),
+        backgroundColor: Colors.blueAccent,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () {
+              leaveGroup(_selectedRoomId, _selectedRoomName);
+              setState(() {
+                _selectedIndex = -1;
+                _isSelected = false;
+                _selectedRoomId = '';
+                _selectedRoomName = '';
+              });
+            },
+          ),
+        ],
+      );
+    }
+  }
 
-  //   setState(() {
-  //     rooms = rooms;
-  //     messageDetails = messageDetails;
-  //   });
-  //   await EasyLoading.dismiss();
-  // }
+  void leaveGroup(String roomId, String roomName) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text("Are you sure you want to  leave the group?"),
+            actions: <Widget>[
+              TextButton(
+                child: Text(
+                  "Cancel",
+                  style: TextStyle(color: Colors.black),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text(
+                  "Leave",
+                  style: TextStyle(color: Colors.red),
+                ),
+                onPressed: () async {
+                  var leaveRoomResponseResult =
+                      await chatRoomRepo.leaveRoom(roomId);
+                  if (leaveRoomResponseResult.data != null &&
+                      leaveRoomResponseResult.data.length > 0) {
+                    // LeaveRoomResponse leaveRoomResponse =
+                    //     leaveRoomResponseResult.data[0];
+                    String userid = await localStorage.getUserId() ?? '';
+                    String name = await localStorage.getNickName() ?? '';
+                    List<RoomMembers> roomMembers =
+                        await dbHelper.getRoomMembersList(roomId);
+                    roomMembers.forEach((roomMember) {
+                      if (userid != roomMember.user_id) {
+                        var leaveGroupJson = {
+                          "notifiedRoomId": roomId,
+                          "notifiedUserId": roomMember.user_id,
+                          "title": name + " just left the room",
+                          "description":
+                              userid + " just left the room_" + roomId
+                        };
+                        //print(messageJson);
+                        socket.emitWithAck('sendNotification', leaveGroupJson,
+                            ack: (data) async {});
+                      }
+                    });
 
-  // getMessageDetails() async {
-  //   providermessageDetails =
-  //       Provider.of<ChatHistory>(context, listen: false).getMessageDetailsList;
-  //   if (providermessageDetails.length > 0) {
-  //     messageDetails = providermessageDetails;
-  //   } else {
-  //     messageDetails = await dbHelper.getLatestMsgToEachRoom();
-  //   }
-  // }
+                    String clientMessageId = generateRandomString(15);
+
+                    var messageJson = {
+                      "roomId": roomId,
+                      "msgBody": name + ' left',
+                      "msgBinaryType": 'userLeft',
+                      "replyToId": -1,
+                      "clientMessageId": clientMessageId,
+                      "misc": "[FCM_Notification=title:" +
+                          roomName +
+                          ' - ' +
+                          name +
+                          "]"
+                    };
+
+                    socket.emitWithAck('sendMessage', messageJson,
+                        ack: (data) async {
+                      if (data != null) {
+                        print('sendMessage from server $data');
+                      } else {
+                        print("Null from sendMessage");
+                      }
+                    });
+                    Provider.of<ChatNotificationCount>(context, listen: false)
+                        .updateNotificationBadge(
+                            roomId: roomId, type: "DELETE");
+                    Provider.of<ChatNotificationCount>(context, listen: false)
+                        .removeNotificationRoom(roomId: roomId);
+
+                    Provider.of<RoomHistory>(context, listen: false)
+                        .deleteRoom(roomId: roomId);
+
+                    await dbHelper.deleteRoomById(roomId);
+                    await dbHelper.deleteRoomMembersByRoomId(roomId);
+                    await dbHelper.deleteMessagesByRoomId(roomId);
+                    final dir = Directory((Platform.isAndroid
+                                ? await getExternalStorageDirectory() //FOR ANDROID
+                                : await getApplicationSupportDirectory() //FOR IOS
+                            )!
+                            .path +
+                        '/' +
+                        roomId);
+                    if ((await dir.exists())) {
+                      await dir.delete();
+                    }
+                  }
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  String generateRandomString(int length) {
+    final _random = Random();
+    const _availableChars = '1234567890';
+    // 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    final randomString = List.generate(length,
+            (index) => _availableChars[_random.nextInt(_availableChars.length)])
+        .join();
+
+    return randomString;
+  }
 
   Widget _populateListView(String id) {
-    Provider.of<RoomHistory>(context, listen: false).getRoomHistory(id);
+    Provider.of<RoomHistory>(context, listen: false).getRoomHistory();
     return Consumer<RoomHistory>(
         builder: (ctx, roomLIst, child) => ListView.builder(
             itemCount: roomLIst.getRoomList.length,
             itemBuilder: (context, int index) {
               rooms = roomLIst.getRoomList;
-              Room room = this.rooms[index];
+              RoomHistoryModel room = this.rooms[index];
               List<ChatNotification> chatNotificationCount = context
                   .watch<ChatNotificationCount>()
                   .getChatNotificationCountList;
-              // getMessageDetails();
-              List<MessageDetails> messageDetails =
-                  Provider.of<ChatHistory>(context, listen: false)
-                      .getMessageDetailsList
-                      .where((element) => element.room_id == room.room_id)
-                      .toList();
-              MessageDetails msg = MessageDetails(
-                  room_id: '',
-                  user_id: '',
-                  app_id: '',
-                  ca_uid: '',
-                  device_id: '',
-                  msg_body: '',
-                  msg_binary: '',
-                  msg_binaryType: '',
-                  reply_to_id: 0,
-                  message_id: 0,
-                  read_by: '',
-                  status: '',
-                  status_msg: '',
-                  deleted: 0,
-                  send_datetime: '',
-                  edit_datetime: '',
-                  delete_datetime: '',
-                  transtamp: '',
-                  nick_name: '',
-                  filePath: '',
-                  owner_id: '',
-                  msgStatus: '',
-                  client_message_id: '',
-                  roomName: '');
-              if (messageDetails.length > 0) {
-                msg = messageDetails
-                    .where((element) => element.room_id == room.room_id)
-                    .last;
-              }
-
               if (editingController.text.isEmpty) {
-                return getCard(room, chatNotificationCount, msg);
+                return getCard(room, chatNotificationCount, index);
               } else if (room.room_name
                       ?.toLowerCase()
                       .contains(editingController.text) ==
                   true) {
-                return getCard(room, chatNotificationCount, msg);
+                return getCard(room, chatNotificationCount, index);
               } else {
                 return Container();
               }
             }));
   }
 
-  Widget getCard(Room room, List<ChatNotification> chatNotificationCount,
-      MessageDetails msg) {
+  Widget getCard(RoomHistoryModel room,
+      List<ChatNotification> chatNotificationCount, int index) {
     int badgeCount = 0;
     int chatCountIndex = chatNotificationCount
         .indexWhere((element) => element.roomId == room.room_id);
@@ -273,6 +408,15 @@ class _RoomListState extends State<RoomList> {
     }
     return Card(
       child: ListTile(
+        onLongPress: () {
+          setState(() {
+            _selectedIndex = index;
+            _isSelected = true;
+            _selectedRoomId = room.room_id!;
+            _selectedRoomName = room.room_name!;
+          });
+        },
+        tileColor: _selectedIndex == index ? Colors.blue : null,
         leading: Container(
           width: 40,
           height: 40,
@@ -303,8 +447,8 @@ class _RoomListState extends State<RoomList> {
           ),
         ),
         trailing: badgeCount > 0
-            ? Badge(
-                shape: BadgeShape.circle,
+            ? badges.Badge(
+                shape: badges.BadgeShape.circle,
                 padding: EdgeInsets.all(8),
                 showBadge: badgeCount > 0 ? true : false,
                 badgeColor: Colors.green,
@@ -319,14 +463,19 @@ class _RoomListState extends State<RoomList> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(room.room_name ?? '',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            if (msg.send_datetime != null && msg.send_datetime != '')
+            Expanded(
+              child: Text(room.room_name ?? '',
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+            if (room.send_datetime != null && room.send_datetime != '')
               Text(DateFormatter().getDateTimeRepresentation(
-                  DateTime.parse(msg.send_datetime!))),
+                  DateTime.parse(room.send_datetime!))),
           ],
         ),
-        subtitle: showLatestMessage(msg, room.room_desc ?? ''),
+        subtitle: showLatestMessage(room),
         onTap: () async {
           String members = '';
           List<RoomMembers> roomMembers =
@@ -353,33 +502,34 @@ class _RoomListState extends State<RoomList> {
     );
   }
 
-  Widget showLatestMessage(MessageDetails msg, String description) {
-    if (msg.message_id! > 0 &&
-        (msg.msg_binaryType == '' || msg.msg_binaryType == null)) {
+  Widget showLatestMessage(RoomHistoryModel room) {
+    if (room.message_id != null &&
+        room.message_id! > 0 &&
+        (room.filePath == '' || room.filePath == null)) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
               child: Text(
-            msg.nick_name! + ' : ' + msg.msg_body!,
+            room.nick_name! + ' : ' + room.msg_body!,
             overflow: TextOverflow.ellipsis,
           )),
         ],
       );
-    } else if (msg.message_id! > 0 &&
-        (msg.msg_binaryType != '' || msg.msg_binaryType != null)) {
+    } else if (room.message_id != null &&
+        room.message_id! > 0 &&
+        (room.msg_binaryType != '' || room.msg_binaryType != null)) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Expanded(
               child: Text(
-            msg.nick_name! + ' : ' + msg.filePath!.split('/').last,
+            room.nick_name! + ' : ' + room.filePath!.split('/').last,
             overflow: TextOverflow.ellipsis,
           ))
         ],
       );
     }
-
-    return Text(description);
+    return Text(room.room_desc!);
   }
 }
