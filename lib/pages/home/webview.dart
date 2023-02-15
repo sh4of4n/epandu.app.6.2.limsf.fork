@@ -15,7 +15,6 @@ import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 // import '../../router.gr.dart';
-import 'navigation_controls.dart';
 
 class Webview extends StatefulWidget {
   final String? url;

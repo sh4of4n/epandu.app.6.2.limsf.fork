@@ -9,7 +9,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import '../../common_library/services/model/GetLeaveRoomResponse.dart';
 import '../../common_library/services/model/chat_mesagelist.dart';
 import '../../common_library/services/model/m_roommember_model.dart';
 import '../../common_library/services/model/roomhistory_model.dart';
@@ -448,10 +447,11 @@ class _RoomListState extends State<RoomList> {
         ),
         trailing: badgeCount > 0
             ? badges.Badge(
-                shape: badges.BadgeShape.circle,
-                padding: EdgeInsets.all(8),
                 showBadge: badgeCount > 0 ? true : false,
-                badgeColor: Colors.green,
+                badgeStyle: badges.BadgeStyle(
+                    badgeColor: Colors.green,
+                    shape: badges.BadgeShape.circle,
+                    padding: EdgeInsets.all(8)),
                 badgeContent: Text(
                   badgeCount.toString(),
                   style: TextStyle(
