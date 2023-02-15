@@ -1,9 +1,23 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/coming_soon/coming_soon.dart';
+import 'package:epandu/pages/brief/brief_video.dart';
+import 'package:epandu/pages/brief/brief_list.dart';
 import 'package:epandu/pages/chat/chat.dart';
+import 'package:epandu/pages/elearning/elearning.dart';
 import 'package:epandu/pages/enroll/enroll.dart';
 import 'package:epandu/pages/epandu/epandu.dart';
+import 'package:epandu/pages/expenses/create_fuel.dart';
+import 'package:epandu/pages/expenses/create_service_car.dart';
+import 'package:epandu/pages/expenses/edit_exp_fuel.dart';
+import 'package:epandu/pages/expenses/exp_fuel_list.dart';
+import 'package:epandu/pages/expenses/fuel_map.dart';
+import 'package:epandu/pages/favourite/edit_favourite_place.dart';
+import 'package:epandu/pages/favourite/favourite_map.dart';
+import 'package:epandu/pages/favourite/favourite_place_list.dart';
+import 'package:epandu/pages/favourite/photo_view.dart';
 import 'package:epandu/pages/forgot_password/forgot_password.dart';
+import 'package:epandu/pages/favourite/create_favourite.dart';
+import 'package:epandu/pages/home/menu_page.dart';
 import 'package:epandu/pages/inbox/inbox.dart';
 import 'package:epandu/pages/invite/invite.dart';
 import 'package:epandu/pages/kpp/kpp.dart';
@@ -191,6 +205,21 @@ import 'package:epandu/common_library/utils/image_viewer.dart';
         path: '/merchantProfile',
         page: MerchantProfile,
         name: 'MerchantProfile'),
+    AutoRoute(page: MenuPage),
+    AutoRoute(page: ElearningPage),
+    AutoRoute(page: CreateFavouritePage),
+    AutoRoute(page: FavourieMapPage),
+    AutoRoute(page: CreateFuelPage),
+    AutoRoute(page: CreateServiceCarPage),
+    AutoRoute(page: FavouritePlaceListPage),
+    AutoRoute(page: PhotoViewPage),
+    AutoRoute(page: EditFavouritePlacePage),
+    AutoRoute(page: FuelMapPage),
+    AutoRoute(page: ExpFuelListPage),
+    AutoRoute(page: EditExpFuelPage),
+    AutoRoute(page: PickupHistory),
+    AutoRoute(page: BriefListPage),
+    AutoRoute(page: BriefVideoPage),
     AutoRoute(path: '/roomList', page: RoomList, name: 'RoomList'),
   ],
 )

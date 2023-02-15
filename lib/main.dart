@@ -1,4 +1,6 @@
 // import 'dart:io';
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/model/inbox_model.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
@@ -11,12 +13,15 @@ import 'package:epandu/services/provider/notification_count.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'common_library/services/model/auth_model.dart';
 import 'common_library/utils/app_localizations_delegate.dart';
 import 'common_library/utils/application.dart';
@@ -93,42 +98,55 @@ void main() async {
   // _setupLogging();
   await Hive.openBox('ws_url');
   await Hive.openBox('di_list');
+  await Hive.openBox('menu');
 
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   await Firebase.initializeApp();
 
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => LanguageModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => CallStatusModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => HomeLoadingModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => CartStatus(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => NotificationCount(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => ChatNotificationCount(),
-        ),
-        ChangeNotifierProvider(create: (context) => OnlineUsers(context)),
-        ChangeNotifierProvider(create: (context) => ChatHistory()),
-        ChangeNotifierProvider(create: (context) => RoomHistory()),
-        ChangeNotifierProvider(
-            create: (context) => SocketClientHelper(context)),
-      ],
-      child: MyApp(),
-    ),
-  );
+  runZonedGuarded(() async {
+    await SentryFlutter.init(
+      (options) {
+        options.dsn = kDebugMode
+            ? ''
+            : 'https://5525bd569e8849f0940925f93c1b164a@o354605.ingest.sentry.io/6739433';
+      },
+    );
+    EasyLoading.instance.userInteractions = false;
+    runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => LanguageModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => CallStatusModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => HomeLoadingModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => CartStatus(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => NotificationCount(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => ChatNotificationCount(),
+          ),
+          ChangeNotifierProvider(create: (context) => OnlineUsers(context)),
+          ChangeNotifierProvider(create: (context) => ChatHistory()),
+          ChangeNotifierProvider(create: (context) => RoomHistory()),
+          ChangeNotifierProvider(
+              create: (context) => SocketClientHelper(context)),
+        ],
+        child: MyApp(),
+      ),
+    );
+  }, (exception, stackTrace) async {
+    await Sentry.captureException(exception, stackTrace: stackTrace);
+  });
   configLoading();
 }
 
@@ -372,6 +390,9 @@ class _MyAppState extends State<MyApp> {
         fontFamily: 'Myriad',
         textTheme: FontTheme().primaryFont,
         primaryTextTheme: FontTheme().primaryFont,
+        appBarTheme: AppBarTheme(
+          color: Color(0xffffd225),
+        ),
       ),
       // List all of the app's supported locales here
       supportedLocales: application.supportedLocales(),
@@ -384,9 +405,12 @@ class _MyAppState extends State<MyApp> {
         GlobalMaterialLocalizations.delegate,
         // Built-in localization for text direction LTR/RTL
         GlobalWidgetsLocalizations.delegate,
+        FormBuilderLocalizations.delegate,
       ],
       routerDelegate: _appRouter.delegate(initialRoutes: [Authentication()]),
       routeInformationParser: _appRouter.defaultRouteParser(),
+      builder: EasyLoading.init(),
+
       // initialRoute: AUTH,
       // onGenerateRoute: RouteGenerator.generateRoute,
     );

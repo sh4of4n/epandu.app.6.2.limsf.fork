@@ -21,7 +21,7 @@ class NavigationControls extends StatelessWidget {
     this.backType,
   });
 
-  final Future<WebViewController> webViewControllerFuture;
+  final WebViewController webViewControllerFuture;
 
   backButton(BuildContext context, webViewReady, controller) async {
     final customDialog = CustomDialog();
@@ -92,36 +92,27 @@ class NavigationControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<WebViewController>(
-      future: webViewControllerFuture,
-      builder:
-          (BuildContext context, AsyncSnapshot<WebViewController> snapshot) {
-        final bool webViewReady =
-            snapshot.connectionState == ConnectionState.done;
-        final WebViewController? controller = snapshot.data;
-        controllerGlobal = controller;
+    final bool webViewReady = true;
+    final WebViewController? controller = webViewControllerFuture;
+    controllerGlobal = controller;
 
-        return Row(
-          children: <Widget>[
-            if (type == 'BACK')
-              IconButton(
-                icon: Platform.isIOS
-                    ? const Icon(Icons.arrow_back_ios)
-                    : const Icon(Icons.arrow_back),
-                onPressed: () => backButton(context, webViewReady, controller),
-              ),
-            if (type == 'RELOAD')
-              IconButton(
-                icon: const Icon(Icons.replay),
-                onPressed: !webViewReady
-                    ? null
-                    : () {
-                        controller!.reload();
-                      },
-              ),
-          ],
-        );
-      },
+    return Row(
+      children: <Widget>[
+        if (type == 'BACK')
+          IconButton(
+            icon: Platform.isIOS
+                ? const Icon(Icons.arrow_back_ios)
+                : const Icon(Icons.arrow_back),
+            onPressed: () => backButton(context, webViewReady, controller),
+          ),
+        if (type == 'RELOAD')
+          IconButton(
+            icon: const Icon(Icons.replay),
+            onPressed: () {
+              controller!.reload();
+            },
+          ),
+      ],
     );
   }
 }

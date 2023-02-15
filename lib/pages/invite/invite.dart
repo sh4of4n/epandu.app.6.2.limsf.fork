@@ -103,9 +103,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                               color: Color(0xff808080),
                             ),
                           ),
-                          Container(
-                            width: 882.w,
-                            margin: EdgeInsets.only(left: 10.w),
+                          Flexible(
                             child: TextFormField(
                               focusNode: _phoneFocus,
                               keyboardType: TextInputType.phone,
@@ -191,9 +189,9 @@ class _InviteState extends State<Invite> with PageBaseClass {
                             : ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   shape: StadiumBorder(),
+                                  backgroundColor: Color(0xffdd0e0e),
                                   minimumSize: Size(420.w, 45.h),
                                   padding: EdgeInsets.symmetric(vertical: 11.0),
-                                  primary: Color(0xffdd0e0e),
                                   textStyle: TextStyle(color: Colors.white),
                                 ),
                                 onPressed: _submit,
@@ -399,9 +397,9 @@ class _InviteState extends State<Invite> with PageBaseClass {
                             : ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   minimumSize: Size(420.w, 45.h),
+                                  backgroundColor: Color(0xffdd0e0e),
                                   padding: EdgeInsets.symmetric(vertical: 11.0),
                                   shape: StadiumBorder(),
-                                  primary: Color(0xffdd0e0e),
                                   textStyle: TextStyle(color: Colors.white),
                                 ),
                                 onPressed: _submit,

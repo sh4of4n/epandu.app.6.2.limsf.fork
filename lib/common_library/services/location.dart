@@ -5,12 +5,12 @@ import '../utils/local_storage.dart';
 import 'package:geolocator/geolocator.dart';
 
 class Location {
-
   double? latitude;
   double? longitude;
   String? address;
   String? places;
   double distanceInMeters = 0;
+  final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
 
   final localStorage = LocalStorage();
 
@@ -60,5 +60,28 @@ class Location {
       return distance;
     }
     return 100000000.0;
+  }
+
+  Future<bool> handlePermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await _geolocatorPlatform.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return false;
+    }
+
+    permission = await _geolocatorPlatform.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await _geolocatorPlatform.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return false;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return false;
+    }
+    return true;
   }
 }

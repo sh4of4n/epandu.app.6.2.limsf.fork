@@ -66,7 +66,13 @@ class _BookingState extends State<Booking> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.translate('booking')),
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
+          title: Text(
+            AppLocalizations.of(context)!.translate('booking'),
+            style: TextStyle(color: Colors.black),
+          ),
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
@@ -75,7 +81,7 @@ class _BookingState extends State<Booking> {
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               shape: CircleBorder(),
-              primary: Color(0xffdd0e0e),
+              backgroundColor: Color(0xffdd0e0e),
               textStyle: TextStyle(color: Colors.white),
               padding: EdgeInsets.all(12),
             ),

@@ -190,12 +190,12 @@ class _ProductState extends State<Product> {
         onPressed: () {},
         style: ElevatedButton.styleFrom(
             minimumSize: Size(1300.w, 50.h),
+            backgroundColor: Color(0xffdd0e0e),
             padding: EdgeInsets.symmetric(vertical: 11.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
               side: BorderSide(color: Color(0xffdd0e0e)),
             ),
-            primary: Color(0xffdd0e0e),
             textStyle: TextStyle(color: Colors.white)),
         child: Text(
           'Add To Cart',
@@ -333,8 +333,9 @@ class _ProductState extends State<Product> {
               child: Padding(
                 padding: EdgeInsets.only(top: 30.h, right: 50.w, bottom: 20.h),
                 child: badges.Badge(
-                  badgeStyle:
-                      badges.BadgeStyle(badgeColor: Colors.redAccent[700]!),
+                  badgeStyle: badges.BadgeStyle(
+                    badgeColor: Colors.redAccent[700]!,
+                  ),
                   badgeAnimation: badges.BadgeAnimation.fade(),
                   showBadge: showBadge,
                   badgeContent: Text(
