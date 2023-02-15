@@ -818,6 +818,12 @@ class AppRouter extends _i42.RootStackRouter {
         ),
       );
     },
+    RoomList.name: (routeData) {
+      return _i42.MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: _i24.RoomList(),
+      );
+    },
   };
 
   @override
@@ -1195,6 +1201,10 @@ class AppRouter extends _i42.RootStackRouter {
         _i42.RouteConfig(
           BriefVideoRoute.name,
           path: '/brief-video-page',
+        ),
+        _i42.RouteConfig(
+          RoomList.name,
+          path: '/roomList',
         ),
       ];
 }
@@ -3489,4 +3499,16 @@ class BriefVideoRouteArgs {
   String toString() {
     return 'BriefVideoRouteArgs{key: $key, fileDetail: $fileDetail}';
   }
+}
+
+/// generated route for
+/// [_i24.RoomList]
+class RoomList extends _i42.PageRouteInfo<void> {
+  const RoomList()
+      : super(
+          RoomList.name,
+          path: '/roomList',
+        );
+
+  static const String name = 'RoomList';
 }
