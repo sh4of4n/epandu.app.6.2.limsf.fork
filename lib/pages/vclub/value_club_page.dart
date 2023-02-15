@@ -598,8 +598,9 @@ class _ValueClubState extends State<ValueClub> {
               child: Padding(
                 padding: EdgeInsets.only(top: 30.h, right: 50.w, bottom: 20.h),
                 child: badges.Badge(
-                  badgeColor: Colors.redAccent[700]!,
-                  animationType: badges.BadgeAnimationType.fade,
+                  badgeStyle:
+                      badges.BadgeStyle(badgeColor: Colors.redAccent[700]!),
+                  badgeAnimation: badges.BadgeAnimation.fade(),
                   showBadge: showBadge,
                   badgeContent: Text(
                     '$badgeNo',
