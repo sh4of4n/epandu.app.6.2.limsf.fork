@@ -88,7 +88,7 @@ class ContactList extends StatelessWidget {
         ),
         title: Text(
           contactList!.name!,
-          style: Theme.of(context).textTheme.headline5,
+          style: Theme.of(context).textTheme.headlineSmall,
         ), /*
         subtitle: Text("My last message}",
             style: Theme.of(context)

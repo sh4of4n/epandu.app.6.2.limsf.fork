@@ -90,11 +90,11 @@ class _ScanState extends State<Scan> {
     );
   }
 
-  void _onQRViewCreated(QRViewController controller) {
+  Future<void> _onQRViewCreated(QRViewController controller) async {
     setState(() {
       this.controller = controller;
     });
-    controller.resumeCamera();
+    await controller.resumeCamera();
     controller.scannedDataStream.listen((scanData) async {
       await controller.pauseCamera();
       String? merchantNo = await localStorage.getMerchantDbCode();
@@ -103,20 +103,35 @@ class _ScanState extends State<Scan> {
         CheckInScanResponse checkInScanResponse =
             CheckInScanResponse.fromJson(jsonDecode(scanData.code!));
 
-        print(jsonDecode(scanData.code!)['Table1'][0]['merchant_no']);
+        print(jsonDecode(scanData.code!)['QRCode'][0]['merchant_no']);
 
-        if (merchantNo ==
-            jsonDecode(scanData.code!)['Table1'][0]['merchant_no']) {
-          _scanResult(
-              checkInScanResponse: checkInScanResponse, scanData: scanData);
+        if (jsonDecode(scanData.code!).containsKey('QRCode')) {
+          context.router
+              .replace(
+            RegisterUserToDi(
+              barcode: scanData.code,
+            ),
+          )
+              .then((value) {
+            widget.getActiveFeed();
+            widget.getDiProfile();
+          });
         } else {
-          invalidQr(type: 'MISMATCH');
+          if (merchantNo ==
+              jsonDecode(scanData.code!)['QRCode'][0]['merchant_no']) {
+            _scanResult(
+                checkInScanResponse: checkInScanResponse, scanData: scanData);
+          } else {
+            invalidQr(type: 'MISMATCH');
+          }
         }
       } catch (e) {
         invalidQr();
       }
     });
   }
+
+// {"QRCode":[{"appId": "ePandu.MID", "merchantDbCode": "P1001", "merchantName":"IDI"}]}
 
   Future _scanResult(
       {required CheckInScanResponse checkInScanResponse,

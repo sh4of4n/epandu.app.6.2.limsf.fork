@@ -39,7 +39,10 @@ class _CheckInRecordState extends State<CheckInRecord> {
   checkInList() {
     if (widget.checkInData != null && !widget.isLoading) {
       return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 40.w),
+        padding: EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         child: ListView.builder(
           shrinkWrap: true,
           itemCount: widget.checkInData.length,

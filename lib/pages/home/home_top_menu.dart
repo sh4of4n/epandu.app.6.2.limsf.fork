@@ -93,7 +93,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
     int? badgeNo = context.watch<NotificationCount>().notificationBadge;
     int notificationCount = 0;
     return Container(
-      height: ScreenUtil().setHeight(350),
+      // height: ScreenUtil().setHeight(350),
       child: Stack(
         children: <Widget>[
           Align(
@@ -129,6 +129,27 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                         ),
                       ),
                     ),
+                    // InkWell(
+                    //   onTap: () => context.router.push(Pay()),
+                    //   borderRadius: BorderRadius.circular(10.0),
+                    //   child: Padding(
+                    //     padding: EdgeInsets.all(8.0),
+                    //     child: Column(
+                    //       children: <Widget>[
+                    //         Icon(
+                    //           MyCustomIcons.scan_helper,
+                    //           size: 26,
+                    //           color: Color(0xff808080),
+                    //         ),
+                    //         SizedBox(height: ScreenUtil().setHeight(20)),
+                    //         Text(
+                    //             AppLocalizations.of(context)!
+                    //                 .translate('pay_lbl'),
+                    //             style: widget.iconText),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                     InkWell(
                       onTap: () => context.router.push(Pay()),
                       borderRadius: BorderRadius.circular(10.0),
@@ -137,19 +158,40 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                         child: Column(
                           children: <Widget>[
                             Icon(
-                              MyCustomIcons.scan_helper,
+                              Icons.card_giftcard,
                               size: 26,
                               color: Color(0xff808080),
                             ),
                             SizedBox(height: ScreenUtil().setHeight(20)),
-                            Text(
-                                AppLocalizations.of(context)!
-                                    .translate('pay_lbl'),
-                                style: widget.iconText),
+                            Text('Rewards', style: widget.iconText),
                           ],
                         ),
                       ),
                     ),
+                    // InkWell(
+                    //   onTap: () => context.router.push(Invite()),
+                    //   borderRadius: BorderRadius.circular(10.0),
+                    //   child: Padding(
+                    //     padding: EdgeInsets.symmetric(
+                    //       vertical: 8.0,
+                    //     ),
+                    //     child: Column(
+                    //       children: <Widget>[
+                    //         Icon(
+                    //           MyCustomIcons.invite_icon,
+                    //           size: 26,
+                    //           color: Color(0xff808080),
+                    //         ),
+                    //         SizedBox(height: ScreenUtil().setHeight(20)),
+                    //         Text(
+                    //           AppLocalizations.of(context)!
+                    //               .translate('invite_lbl'),
+                    //           style: widget.iconText,
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                     InkWell(
                       onTap: () => context.router.push(Invite()),
                       borderRadius: BorderRadius.circular(10.0),
@@ -160,14 +202,13 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                         child: Column(
                           children: <Widget>[
                             Icon(
-                              MyCustomIcons.invite_icon,
+                              Icons.share,
                               size: 26,
                               color: Color(0xff808080),
                             ),
                             SizedBox(height: ScreenUtil().setHeight(20)),
                             Text(
-                              AppLocalizations.of(context)!
-                                  .translate('invite_lbl'),
+                              'Share',
                               style: widget.iconText,
                             ),
                           ],

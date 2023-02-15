@@ -103,9 +103,15 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: Text(AppLocalizations.of(context)!.translate('payment_lbl')),
+          title: Text(AppLocalizations.of(context)!.translate('payment_lbl'),
+              style: TextStyle(
+                color: Colors.black,
+              )),
         ),
         body: Container(
           padding: EdgeInsets.symmetric(vertical: 100.h, horizontal: 60.w),

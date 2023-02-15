@@ -3,7 +3,7 @@ class InviteRoom {
   String? caUid;
   String? caPwd;
   String? merchantNo;
-  String? mLoginId;
+  String? loginId;
   String? appId;
   String? deviceId;
   String? appCode;
@@ -15,7 +15,7 @@ class InviteRoom {
       this.caUid,
       this.caPwd,
       this.merchantNo,
-      this.mLoginId,
+      this.loginId,
       this.appId,
       this.deviceId,
       this.appCode,
@@ -28,7 +28,7 @@ class InviteRoom {
     caUid = json['caUid'];
     caPwd = json['caPwd'];
     merchantNo = json['merchantNo'];
-    mLoginId = json['mLoginId'];
+    loginId = json['login_id'];
     appId = json['appId'];
     deviceId = json['deviceId'];
     appCode = json['appCode'];
@@ -43,7 +43,7 @@ class InviteRoom {
     data['caUid'] = this.caUid;
     data['caPwd'] = this.caPwd;
     data['merchantNo'] = this.merchantNo;
-    data['mLoginId'] = this.mLoginId;
+    data['loginId'] = this.loginId;
     data['appId'] = this.appId;
     data['deviceId'] = this.deviceId;
     data['appCode'] = this.appCode;

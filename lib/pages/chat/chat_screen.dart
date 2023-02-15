@@ -227,7 +227,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: <Widget>[
                   Text(
                     widget.name!,
-                    style: Theme.of(context).textTheme.bodyText2,
+                    style: Theme.of(context).textTheme.bodyMedium,
                     overflow: TextOverflow.clip,
                   ),
                 ],

@@ -24,10 +24,10 @@ class CustomButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: 5),
+        backgroundColor: buttonColor,
         textStyle: TextStyle(
           color: fontColor ?? Colors.white,
         ),
-        primary: buttonColor,
         shape: StadiumBorder(),
         minimumSize: Size(minWidth ?? 88.0, height ?? 36.0),
       ),

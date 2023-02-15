@@ -330,6 +330,7 @@ class AuthRepo {
       // Hive.box('ws_url').delete('show_badge');
       Hive.box('inboxStorage').clear();
       Hive.box('di_list').clear();
+      Hive.box('menu').clear();
     }
     // Hive.box('emergencyContact').clear();
 
@@ -1244,7 +1245,7 @@ class AuthRepo {
       merchantNo: merchantNo,
       loginId: loginId,
       userId: userId ?? '',
-      bodyTemperature: bodyTemperature ?? '',
+      bodyTemperature: bodyTemperature ?? '0',
       scannedAppId: scannedAppId ?? '',
       scannedAppVer: scannedAppVer ?? '',
       scannedLoginId: scannedLoginId ?? '',

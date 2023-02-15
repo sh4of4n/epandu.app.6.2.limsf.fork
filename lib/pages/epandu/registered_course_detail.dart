@@ -213,9 +213,9 @@ class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   shape: StadiumBorder(),
+                  backgroundColor: Color(0xffdd0e0e),
                   minimumSize: Size(420.w, 45.h),
                   padding: EdgeInsets.symmetric(vertical: 11.0),
-                  primary: Color(0xffdd0e0e),
                   textStyle: TextStyle(color: Colors.white),
                 ),
                 onPressed: () => context.router.pop(),

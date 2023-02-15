@@ -90,6 +90,9 @@ class _QueueNumberState extends State<QueueNumber> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
         title: FadeInImage(
           alignment: Alignment.center,
           height: 110.h,

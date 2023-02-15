@@ -31,20 +31,20 @@ final ColorScheme colorScheme = ColorScheme.light(
 
 class FontTheme {
   TextTheme primaryFont = TextTheme(
-    headline1: TextStyle(fontSize: 96, color: Color(0xff5c5c5c)),
-    headline2: TextStyle(fontSize: 60, color: Color(0xff5c5c5c)),
-    headline3: TextStyle(fontSize: 48, color: Color(0xff5c5c5c)),
-    headline4: TextStyle(fontSize: 34, color: Color(0xff5c5c5c)),
-    headline5: TextStyle(fontSize: 24, color: Color(0xff5c5c5c)),
-    headline6: TextStyle(
+    displayLarge: TextStyle(fontSize: 96, color: Color(0xff5c5c5c)),
+    displayMedium: TextStyle(fontSize: 60, color: Color(0xff5c5c5c)),
+    displaySmall: TextStyle(fontSize: 48, color: Color(0xff5c5c5c)),
+    headlineMedium: TextStyle(fontSize: 34, color: Color(0xff5c5c5c)),
+    headlineSmall: TextStyle(fontSize: 24, color: Color(0xff5c5c5c)),
+    titleLarge: TextStyle(
         fontSize: 20, fontWeight: FontWeight.w600, color: Color(0xff5c5c5c)),
-    subtitle1: TextStyle(fontSize: 16, color: Color(0xff5c5c5c)),
-    subtitle2: TextStyle(fontSize: 14, color: Color(0xff5c5c5c)),
-    bodyText1: TextStyle(fontSize: 16, color: Color(0xff5c5c5c)),
-    bodyText2: TextStyle(fontSize: 14, color: Color(0xff5c5c5c)),
-    button: TextStyle(fontSize: 14, color: Color(0xff5c5c5c)),
-    caption: TextStyle(fontSize: 12, color: Color(0xff5c5c5c)),
-    overline: TextStyle(fontSize: 10, color: Color(0xff5c5c5c)),
+    titleMedium: TextStyle(fontSize: 16, color: Color(0xff5c5c5c)),
+    titleSmall: TextStyle(fontSize: 14, color: Color(0xff5c5c5c)),
+    bodyLarge: TextStyle(fontSize: 16, color: Color(0xff5c5c5c)),
+    bodyMedium: TextStyle(fontSize: 14, color: Color(0xff5c5c5c)),
+    labelLarge: TextStyle(fontSize: 14, color: Color(0xff5c5c5c)),
+    bodySmall: TextStyle(fontSize: 12, color: Color(0xff5c5c5c)),
+    labelSmall: TextStyle(fontSize: 10, color: Color(0xff5c5c5c)),
   );
 
   /* TextStyle appBarTextStyle = TextStyle(

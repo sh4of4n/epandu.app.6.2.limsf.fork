@@ -70,7 +70,6 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(
             AppLocalizations.of(context)!.translate('enrolled_class'),

@@ -2,8 +2,13 @@ import 'dart:async';
 import 'dart:io';
 
 // import 'package:app_settings/app_settings.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:epandu/common_library/services/location.dart';
+import 'package:epandu/common_library/services/repository/fpx_repository.dart';
 import 'package:epandu/common_library/services/repository/inbox_repository.dart';
+import 'package:epandu/common_library/services/repository/profile_repository.dart';
+import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
@@ -17,15 +22,15 @@ import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:epandu/common_library/utils/loading_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:string_validator/string_validator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // import 'package:epandu/common_library/utils/app_localizations.dart';
-import 'bottom_menu.dart';
-import 'feeds.dart';
 import 'home_page_header.dart';
 import 'home_top_menu.dart';
 
@@ -36,7 +41,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  final fpxRepo = FpxRepo();
+  final profileRepo = ProfileRepo();
   final authRepo = AuthRepo();
   final kppRepo = KppRepo();
   final inboxRepo = InboxRepo();
@@ -54,8 +60,9 @@ class _HomeState extends State<Home> {
   String? instituteLogo = '';
   bool isLogoLoaded = false;
   String appVersion = '';
-  // String latitude = '';
-  // String longitude = '';
+  String latitude = '';
+  String longitude = '';
+  Location location = Location();
 
   final _iconText = TextStyle(
     fontSize: ScreenUtil().setSp(55),
@@ -67,8 +74,54 @@ class _HomeState extends State<Home> {
   bool _isLoading = false;
   int _startIndex = 0;
   List<dynamic> items = [];
+  final appConfig = AppConfig();
 
   ScrollController _scrollController = new ScrollController();
+
+  final RegExp removeBracket =
+      RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
+  List shortcutButton = [
+    {
+      'image': 'assets/menu/Espenses-icon.png',
+      'title': 'eDriving',
+      'router': EpanduCategory(),
+    },
+    {
+      'image': 'assets/menu/Espenses-icon.png',
+      'title': 'Expenses',
+      'router': ExpFuelListRoute(),
+    },
+    {
+      'image': 'assets/menu/Driving-routes-icon.png',
+      'title': 'Driving Route',
+      'router': '',
+    },
+    {
+      'image': 'assets/menu/eLearning-icon.png',
+      'title': 'eLearning',
+      'router': KppCategory(),
+    },
+    {
+      'image': 'assets/menu/Fovourite-icon.png',
+      'title': 'Favourite',
+      'router': FavouritePlaceListRoute(),
+    },
+    {
+      'image': 'assets/menu/Directory-and-rating-icon.png',
+      'title': 'Directory & Rating',
+      'router': EmergencyDirectory(),
+    },
+    {
+      'image': 'assets/menu/Jobs-icon.png',
+      'title': 'Jobs',
+      'router': BriefListRoute(),
+    },
+    {
+      'image': 'assets/menu/More-icon.png',
+      'title': 'More',
+      'router': '',
+    },
+  ];
 
   @override
   void initState() {
@@ -102,6 +155,211 @@ class _HomeState extends State<Home> {
       });
   }
 
+  loadUrl(feed, BuildContext context) async {
+    if (Provider.of<CallStatusModel>(context, listen: false).status == false) {
+      Provider.of<CallStatusModel>(context, listen: false).callStatus(true);
+
+      var caUid = await localStorage.getCaUid();
+      var caPwd = await localStorage.getCaPwd();
+
+      var result = await profileRepo.getUserProfile(context: context);
+
+      if (result.isSuccess) {
+        String merchantNo = 'P1001';
+        String? phone = result.data[0].phone;
+        String? email = result.data[0].eMail;
+        String icName = result.data[0].name;
+        String? icNo = result.data[0].icNo;
+        String? dob = result.data[0].birthDate;
+        String? userId = await localStorage.getUserId();
+        String? loginDeviceId = await localStorage.getLoginDeviceId();
+        // String profilePic = result.data[0].picturePath != null &&
+        //         result.data[0].picturePath.isNotEmpty
+        //     ? result.data[0].picturePath
+        //         .replaceAll(removeBracket, '')
+        //         .split('\r\n')[0]
+        //     : '';
+
+        String? url = feed.feedNavigate +
+            '?' +
+            'appId=${appConfig.appId}' +
+            '&appVersion=$appVersion' +
+            '&userId=$userId' +
+            '&deviceId=$loginDeviceId' +
+            '&caUid=$caUid' +
+            '&caPwd=${Uri.encodeQueryComponent(caPwd!)}' +
+            _getMerchantNo(
+                udf: feed.udfReturnParameter, merchantNo: merchantNo) +
+            _getIcName(
+                udf: feed.udfReturnParameter,
+                icName: Uri.encodeComponent(icName)) +
+            _getIcNo(
+                udf: feed.udfReturnParameter, icNo: icNo == null ? '' : icNo) +
+            _getPhone(udf: feed.udfReturnParameter, phone: phone) +
+            _getEmail(udf: feed.udfReturnParameter, email: email) +
+            _getBirthDate(
+                udf: feed.udfReturnParameter, dob: dob?.substring(0, 10)) +
+            _getLatitude(udf: feed.udfReturnParameter) +
+            _getLongitude(udf: feed.udfReturnParameter) +
+            _getPackageCode(udf: feed.udfReturnParameter);
+
+        context.router.push(
+          Webview(url: url),
+        );
+
+        Provider.of<HomeLoadingModel>(context, listen: false)
+            .loadingStatus(false);
+
+        /* launch(url,
+                              forceWebView: true, enableJavaScript: true); */
+      } else {
+        customDialog.show(
+          context: context,
+          barrierDismissable: false,
+          content: result.message!,
+          customActions: <Widget>[
+            TextButton(
+              child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
+              onPressed: () {
+                context.router.pop();
+                Provider.of<HomeLoadingModel>(context, listen: false)
+                    .loadingStatus(false);
+              },
+            ),
+          ],
+          type: DialogType.GENERAL,
+        );
+      }
+    }
+  }
+
+  String _getPackageCode({udf}) {
+    if (udf != null && udf.contains('package')) {
+      int? startIndex = udf.indexOf('{');
+
+      String? packages = udf.substring(startIndex);
+
+      print(packages);
+
+      return '&package=$packages';
+    }
+    return '';
+  }
+
+  _getCurrentLocation(feed, context) async {
+    // LocationPermission permission = await checkPermission();
+    if (feed.udfReturnParameter != null &&
+        feed.udfReturnParameter.contains('latitude') &&
+        feed.udfReturnParameter.contains('longitude')) {
+      LocationPermission permission = await location.checkLocationPermission();
+
+      if (permission == LocationPermission.whileInUse ||
+          permission == LocationPermission.always) {
+        await location.getCurrentLocation();
+
+        localStorage.saveUserLatitude(location.latitude.toString());
+        localStorage.saveUserLongitude(location.longitude.toString());
+
+        setState(() {
+          latitude = location.latitude.toString();
+          longitude = location.longitude.toString();
+        });
+
+        loadUrl(feed, context);
+      } else {
+        Provider.of<HomeLoadingModel>(context, listen: false)
+            .loadingStatus(false);
+
+        customDialog.show(
+            context: context,
+            content:
+                AppLocalizations.of(context)!.translate('loc_permission_on'),
+            type: DialogType.INFO);
+      }
+    } else {
+      loadUrl(feed, context);
+    }
+  }
+
+  _checkLocationPermission(feed, context) async {
+    Provider.of<HomeLoadingModel>(context, listen: false).loadingStatus(true);
+    // contactBox = Hive.box('emergencyContact');
+
+    // await location.getCurrentLocation();
+
+    bool serviceLocationStatus = await Geolocator.isLocationServiceEnabled();
+
+    // GeolocationStatus geolocationStatus =
+    //     await Geolocator().checkGeolocationPermissionStatus();
+
+    if (serviceLocationStatus) {
+      _getCurrentLocation(feed, context);
+    } else {
+      customDialog.show(
+        context: context,
+        barrierDismissable: false,
+        title: Text(
+            AppLocalizations.of(context)!.translate('loc_permission_title')),
+        content: AppLocalizations.of(context)!.translate('loc_permission_desc'),
+        customActions: <Widget>[
+          TextButton(
+            child: Text(AppLocalizations.of(context)!.translate('yes_lbl')),
+            onPressed: () {
+              Provider.of<HomeLoadingModel>(context, listen: false)
+                  .loadingStatus(false);
+              context.router.pop();
+              AppSettings.openLocationSettings();
+            },
+          ),
+          TextButton(
+            child: Text(AppLocalizations.of(context)!.translate('no_lbl')),
+            onPressed: () {
+              Provider.of<HomeLoadingModel>(context, listen: false)
+                  .loadingStatus(false);
+
+              context.router.pop();
+
+              customDialog.show(
+                  context: context,
+                  content: AppLocalizations.of(context)!
+                      .translate('loc_permission_on'),
+                  type: DialogType.INFO);
+            },
+          ),
+        ],
+        type: DialogType.GENERAL,
+      );
+    }
+  }
+
+  getOnlinePaymentListByIcNo() async {
+    String? icNo = await localStorage.getStudentIc();
+
+    var result = await fpxRepo.getOnlinePaymentListByIcNo(
+      context: context,
+      icNo: icNo ?? '',
+      startIndex: '-1',
+      noOfRecords: '-1',
+    );
+
+    if (result.isSuccess) {
+      return customDialog.show(
+        context: context,
+        title: AppLocalizations.of(context)!.translate('success'),
+        content:
+            'Paid Amount: ${result.data[0].paidAmt}\nTransaction status: ${result.data[0].status}',
+        customActions: <Widget>[
+          TextButton(
+              child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
+              onPressed: () {
+                context.router.pop();
+              }),
+        ],
+        type: DialogType.GENERAL,
+      );
+    }
+  }
+
   getUnreadNotificationCount() async {
     var result = await inboxRepo.getUnreadNotificationCount();
 
@@ -132,6 +390,62 @@ class _HomeState extends State<Home> {
     setState(() {
       appVersion = packageInfo.version;
     });
+  }
+
+  String _getMerchantNo({udf, merchantNo}) {
+    if (udf != null && udf.contains('merchant_no')) {
+      return '&merchantNo=$merchantNo';
+    }
+    return '';
+  }
+
+  String _getIcName({udf, icName}) {
+    if (udf != null && udf.contains('name')) {
+      return '&icName=${Uri.encodeComponent(icName)}';
+    }
+    return '';
+  }
+
+  String _getIcNo({udf, icNo}) {
+    if (udf != null && udf.contains('ic_no')) {
+      return '&icNo=$icNo';
+    }
+    return '';
+  }
+
+  String _getPhone({udf, phone}) {
+    if (udf != null && udf.contains('phone')) {
+      return '&phone=$phone';
+    }
+    return '';
+  }
+
+  String _getEmail({udf, email}) {
+    if (udf != null && udf.contains('e_mail')) {
+      return '&email=${email ?? ''}';
+    }
+    return '';
+  }
+
+  String _getBirthDate({udf, dob}) {
+    if (udf != null && udf.contains('birth_date')) {
+      return '&dob=${dob?.substring(0, 10)}';
+    }
+    return '';
+  }
+
+  String _getLatitude({udf}) {
+    if (udf != null && udf.contains('latitude')) {
+      return '&latitude=$latitude';
+    }
+    return '';
+  }
+
+  String _getLongitude({udf}) {
+    if (udf != null && udf.contains('longitude')) {
+      return '&longitude=$longitude';
+    }
+    return '';
   }
 
   @override
@@ -190,13 +504,6 @@ class _HomeState extends State<Home> {
       startIndex: _startIndex,
       noOfRecords: 10,
     );
-
-    /* if (result.isSuccess) {
-      setState(() {
-        feed = result.data;
-      });
-    } */
-
     if (result.isSuccess) {
       if (result.data.length > 0 && mounted)
         setState(() {
@@ -379,28 +686,105 @@ class _HomeState extends State<Home> {
       ),
       child: Scaffold(
         key: _scaffoldKey,
+        extendBody: true,
         backgroundColor: Colors.transparent,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        // floatingActionButton: Container(
+        //   margin: EdgeInsets.only(top: 120.h),
+        //   height: 350.h,
+        //   width: 450.w,
+        //   child: FloatingActionButton(
+        //     onPressed: () {
+        //       context.router.push(EmergencyDirectory());
+        //     },
+        //     child: Image.asset(
+        //       myImage.sos,
+        //       // width: ScreenUtil().setWidth(300),
+        //     ),
+        //     backgroundColor: Colors.transparent,
+        //   ),
+        // ),
+        // bottomNavigationBar: BottomMenu(
+        //   iconText: _iconText,
+        //   // positionStream: positionStream,
+        // ),
         floatingActionButton: Container(
-          margin: EdgeInsets.only(top: 120.h),
-          height: 350.h,
-          width: 450.w,
-          child: FloatingActionButton(
-            onPressed: () {
-              context.router.push(EmergencyDirectory());
-            },
-            child: Image.asset(
-              myImage.sos,
-              // width: ScreenUtil().setWidth(300),
+          width: 75,
+          child: FittedBox(
+            child: FloatingActionButton(
+              onPressed: () {},
+              child: Image.asset(
+                ImagesConstant().sos,
+              ),
+              backgroundColor: Colors.transparent,
             ),
-            backgroundColor: Colors.transparent,
           ),
         ),
-        bottomNavigationBar: BottomMenu(
-          iconText: _iconText,
-          // positionStream: positionStream,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomAppBar(
+          shape: CircularNotchedRectangle(),
+          color: Colors.white,
+          child: IconTheme(
+            data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Material(
+                  type: MaterialType.transparency,
+                  child: InkWell(
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.home,
+                            color: Colors.grey,
+                          ),
+                          Text(
+                            'Home',
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Material(
+                  type: MaterialType.transparency,
+                  child: InkWell(
+                    onTap: () {},
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.menu,
+                            color: Colors.grey,
+                          ),
+                          Text(
+                            'Menu',
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
         body: SafeArea(
+          bottom: false,
           child: Stack(
             children: <Widget>[
               RefreshIndicator(
@@ -431,9 +815,6 @@ class _HomeState extends State<Home> {
                 child: SingleChildScrollView(
                   controller: _scrollController,
                   child: Container(
-                    // margin:
-                    //     EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(40)),
-                    // height: ScreenUtil.screenHeightDp - ScreenUtil().setHeight(100),
                     child: Column(
                       children: <Widget>[
                         Padding(
@@ -441,8 +822,10 @@ class _HomeState extends State<Home> {
                               horizontal: ScreenUtil().setWidth(60)),
                           child: HomePageHeader(
                             instituteLogo: instituteLogo,
-                            // positionStream: positionStream,
                           ),
+                        ),
+                        SizedBox(
+                          height: 8.0,
                         ),
                         HomeTopMenu(
                           iconText: _iconText,
@@ -450,12 +833,529 @@ class _HomeState extends State<Home> {
                           getActiveFeed: () => _getActiveFeed(),
                         ),
                         LimitedBox(maxHeight: ScreenUtil().setHeight(30)),
-                        Feeds(
-                          feed: items,
-                          isLoading: _isLoading,
-                          appVersion: appVersion,
+                        SizedBox(
+                          height: 200 + 8.8,
+                          child: ListView.separated(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                            ),
+                            scrollDirection: Axis.horizontal,
+                            separatorBuilder: (BuildContext ctx, int index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  var feedValue = items[index].feedNavigate;
+                                  if (feedValue != null) {
+                                    bool isUrl = isURL(feedValue);
+
+                                    // Navigation
+                                    if (!isUrl) {
+                                      switch (feedValue) {
+                                        case 'ETESTING':
+                                          context.router
+                                              .push(EtestingCategory());
+                                          break;
+                                        case 'EDRIVING':
+                                          context.router.push(EpanduCategory());
+                                          break;
+                                        case 'ENROLLMENT':
+                                          context.router.push(Enrollment());
+                                          break;
+                                        case 'DI_ENROLLMENT':
+                                          String packageCodeJson =
+                                              _getPackageCode(
+                                                  udf: items[index]
+                                                      .udfReturnParameter);
+
+                                          context.router
+                                              .push(
+                                                DiEnrollment(
+                                                    packageCodeJson:
+                                                        packageCodeJson
+                                                            .replaceAll(
+                                                                '&package=',
+                                                                '')),
+                                              )
+                                              .then((value) =>
+                                                  getOnlinePaymentListByIcNo());
+                                          break;
+                                        case 'KPP':
+                                          context.router.push(KppCategory());
+                                          break;
+                                        case 'VCLUB':
+                                          context.router.push(ValueClub());
+                                          break;
+                                        case 'MULTILVL':
+                                          context.router.push(
+                                            Multilevel(
+                                              feed: items[index],
+                                            ),
+                                          );
+                                          break;
+                                        default:
+                                          break;
+                                      }
+                                    } else {
+                                      _checkLocationPermission(
+                                          items[index], context);
+                                    }
+                                  }
+                                },
+                                child: Container(
+                                  height: 200,
+                                  width: 300,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10),
+                                          topRight: Radius.circular(10),
+                                        ),
+                                        child: Image.network(
+                                          items[index]
+                                              .feedMediaFilename
+                                              .replaceAll(removeBracket, '')
+                                              .split('\r\n')[0],
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 8,
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                items[index].feedText,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                            Icon(Icons.chevron_right),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                            itemCount: items.length + 1,
+                            itemBuilder: (BuildContext ctx, int index) {
+                              return SizedBox(
+                                width: 8,
+                              );
+                            },
+                          ),
                         ),
-                        if (_loadMore) shimmer(),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        GridView.count(
+                            shrinkWrap: true,
+                            primary: false,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                            ),
+                            crossAxisCount: 4,
+                            childAspectRatio: 0.9,
+                            children: shortcutButton.map(
+                              (e) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    if (e['route'] != '') {
+                                      context.router.push(e['router']);
+                                    }
+                                  },
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Flexible(
+                                        flex: 2,
+                                        child: Container(
+                                          child: Image.asset(
+                                            e['image'],
+                                          ),
+                                        ),
+                                      ),
+                                      Flexible(
+                                        flex: 1,
+                                        child: Text(
+                                          e['title'],
+                                          style: TextStyle(),
+                                          // overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ).toList()
+
+                            // <Widget>[
+
+                            //     GestureDetector(
+                            //       onTap: () {
+                            //         context.router.push(item);
+                            //       },
+                            //       child: Column(
+                            //         crossAxisAlignment: CrossAxisAlignment.center,
+                            //         mainAxisAlignment:
+                            //             MainAxisAlignment.spaceEvenly,
+                            //         children: [
+                            //           Flexible(
+                            //             flex: 2,
+                            //             child: Container(
+                            //               child: Image.asset(
+                            //                 'assets/menu/Espenses-icon.png',
+                            //               ),
+                            //             ),
+                            //           ),
+                            //           Flexible(
+                            //             flex: 1,
+                            //             child: Text('eDriving'),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ),
+                            //   GestureDetector(
+                            //     onTap: () {
+                            //       context.router.push(CreateFuelRoute());
+                            //     },
+                            //     child: Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.center,
+                            //       mainAxisAlignment:
+                            //           MainAxisAlignment.spaceEvenly,
+                            //       children: [
+                            //         Container(
+                            //           child: Image.asset(
+                            //             'assets/menu/Espenses-icon.png',
+                            //           ),
+                            //         ),
+                            //         Text('Expenses'),
+                            //       ],
+                            //     ),
+                            //   ),
+                            //   GestureDetector(
+                            //     onTap: () {
+                            //       // context.router.push(CreateServiceCarRoute());
+                            //     },
+                            //     child: Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.center,
+                            //       mainAxisAlignment:
+                            //           MainAxisAlignment.spaceEvenly,
+                            //       children: [
+                            //         Container(
+                            //           child: Image.asset(
+                            //             'assets/menu/Driving-routes-icon.png',
+                            //           ),
+                            //         ),
+                            //         Text('Driving Route'),
+                            //       ],
+                            //     ),
+                            //   ),
+                            //   GestureDetector(
+                            //     onTap: () {
+                            //       context.router.push(KppCategory());
+                            //     },
+                            //     child: Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.center,
+                            //       mainAxisAlignment:
+                            //           MainAxisAlignment.spaceEvenly,
+                            //       children: [
+                            //         Container(
+                            //           child: Image.asset(
+                            //             'assets/menu/eLearning-icon.png',
+                            //           ),
+                            //         ),
+                            //         Text('eLearning'),
+                            //       ],
+                            //     ),
+                            //   ),
+                            //   GestureDetector(
+                            //     onTap: () {
+                            //       context.router.push(FavouritePlaceListRoute());
+                            //     },
+                            //     child: Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.center,
+                            //       mainAxisAlignment:
+                            //           MainAxisAlignment.spaceEvenly,
+                            //       children: [
+                            //         Container(
+                            //           child: Image.asset(
+                            //             'assets/menu/Fovourite-icon.png',
+                            //           ),
+                            //         ),
+                            //         Text('Favourite'),
+                            //       ],
+                            //     ),
+                            //   ),
+                            //   GestureDetector(
+                            //     onTap: () {
+                            //       context.router.push(EmergencyDirectory());
+                            //     },
+                            //     child: Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.center,
+                            //       mainAxisAlignment:
+                            //           MainAxisAlignment.spaceEvenly,
+                            //       children: [
+                            //         Container(
+                            //           child: Image.asset(
+                            //             'assets/menu/Directory-and-rating-icon.png',
+                            //           ),
+                            //         ),
+                            //         Text(
+                            //           'Directory & Rating',
+                            //           overflow: TextOverflow.ellipsis,
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ),
+                            //   GestureDetector(
+                            //     onTap: () {
+                            //       // context.router.push(CreateServiceCarRoute());
+                            //     },
+                            //     child: Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.center,
+                            //       mainAxisAlignment:
+                            //           MainAxisAlignment.spaceEvenly,
+                            //       children: [
+                            //         Container(
+                            //           child: Image.asset(
+                            //             'assets/menu/Jobs-icon.png',
+                            //           ),
+                            //         ),
+                            //         Text('Jobs'),
+                            //       ],
+                            //     ),
+                            //   ),
+                            //   GestureDetector(
+                            //     onTap: () {
+                            //       // context.router.push(CreateServiceCarRoute());
+                            //     },
+                            //     child: Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.center,
+                            //       mainAxisAlignment:
+                            //           MainAxisAlignment.spaceEvenly,
+                            //       children: [
+                            //         Container(
+                            //           child: Image.asset(
+                            //             'assets/menu/More-icon.png',
+                            //           ),
+                            //         ),
+                            //         Text('More'),
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ],
+                            ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Discover More',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Icon(Icons.chevron_right),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 150,
+                              child: ListView.separated(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
+                                scrollDirection: Axis.horizontal,
+                                separatorBuilder:
+                                    (BuildContext ctx, int index) {
+                                  return Container(
+                                    width: 150,
+                                    height: 150,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(5),
+                                      ),
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          primaryColor,
+                                          Colors.white,
+                                        ],
+                                      ),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text('TYRE'),
+                                            ),
+                                          ],
+                                        ),
+                                        Image.network(
+                                          'https://www.mekanika.com.my/wp-content/uploads/2019/08/uc6-photo-data.png',
+                                          fit: BoxFit.contain,
+                                          height: 100,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                itemCount: 50,
+                                itemBuilder: (BuildContext ctx, int index) {
+                                  return SizedBox(
+                                    width: 8,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Promotions',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Icon(Icons.chevron_right),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 200 + 8.8,
+                              child: ListView.separated(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
+                                scrollDirection: Axis.horizontal,
+                                separatorBuilder:
+                                    (BuildContext ctx, int index) {
+                                  return Container(
+                                    height: 200,
+                                    width: 300,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            topRight: Radius.circular(10),
+                                          ),
+                                          child: Image.network(
+                                            'https://tbsweb.tbsdns.com/WebCache/epandu_devp_3/EPANDU/R3W77BWEY6B6TQI7DB5YM5RC5Q/image/Feed/RW42FFIRRQSB4LGEN3ZX2FWOKM_n0_20210628181116.jpg',
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 8,
+                                              ),
+                                              Text('Find Out More'),
+                                              Spacer(),
+                                              Icon(Icons.chevron_right),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                itemCount: 50,
+                                itemBuilder: (BuildContext ctx, int index) {
+                                  return SizedBox(
+                                    width: 8,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Highlights',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Icon(Icons.chevron_right),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                              ),
+                              child: Image.network(
+                                'https://i.pinimg.com/736x/44/f8/41/44f8418a4afe49d2bbcf213cf9e66b7d.jpg',
+                                fit: BoxFit.contain,
+                                // height: 150,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 64.0,
+                        ),
+                        // Feeds(
+                        //   feed: items,
+                        //   isLoading: _isLoading,
+                        //   appVersion: appVersion,
+                        // ),
+                        // if (_loadMore) shimmer(),
                       ],
                     ),
                   ),
