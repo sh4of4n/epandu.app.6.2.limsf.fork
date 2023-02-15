@@ -3,7 +3,7 @@ class ChnageGroupNameRequest {
   String? caUid;
   String? caPwd;
   String? merchantNo;
-  String? mLoginId;
+  String? loginId;
   String? appId;
   String? deviceId;
   String? appCode;
@@ -14,7 +14,7 @@ class ChnageGroupNameRequest {
       this.caUid,
       this.caPwd,
       this.merchantNo,
-      this.mLoginId,
+      this.loginId,
       this.appId,
       this.deviceId,
       this.appCode,
@@ -26,7 +26,7 @@ class ChnageGroupNameRequest {
     caUid = json['caUid'];
     caPwd = json['caPwd'];
     merchantNo = json['merchantNo'];
-    mLoginId = json['mLoginId'];
+    loginId = json['loginId'];
     appId = json['appId'];
     deviceId = json['deviceId'];
     appCode = json['appCode'];
@@ -40,7 +40,7 @@ class ChnageGroupNameRequest {
     data['caUid'] = this.caUid;
     data['caPwd'] = this.caPwd;
     data['merchantNo'] = this.merchantNo;
-    data['mLoginId'] = this.mLoginId;
+    data['loginId'] = this.loginId;
     data['appId'] = this.appId;
     data['deviceId'] = this.deviceId;
     data['appCode'] = this.appCode;

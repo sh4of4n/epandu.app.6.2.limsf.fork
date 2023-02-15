@@ -115,7 +115,7 @@ dependency_overrides:
     git:
       url: https://github.com/X-SLAYER/qr_code_scanner.git
       ref: flutter-beta
-      
+
   flutter_localizations:
     sdk: flutter
 
@@ -148,8 +148,10 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/menu/
     - assets/lang/en.json
     - assets/lang/ms.json
+    - assets/svg/
 
   fonts:
     - family: Myriad
