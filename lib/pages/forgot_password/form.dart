@@ -216,7 +216,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
           phDeviceId: '');
 
       if (result.isSuccess) {
-        context.router.pop();
+        await context.router.pop();
         CustomSnackbar().show(
           context,
           message: result.message.toString(),

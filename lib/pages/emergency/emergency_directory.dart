@@ -318,8 +318,16 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           elevation: 0,
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
           backgroundColor: Colors.transparent,
-          title: Text(AppLocalizations.of(context)!.translate('sos_lbl')),
+          title: Text(
+            AppLocalizations.of(context)!.translate('sos_lbl'),
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
         ),
         body: Container(
           // margin: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(50)),

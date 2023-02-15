@@ -70,10 +70,14 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+            iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(
             AppLocalizations.of(context)!.translate('registered_class_lbl'),
+            style: TextStyle(color: Colors.black,),
           ),
         ),
         body: SingleChildScrollView(

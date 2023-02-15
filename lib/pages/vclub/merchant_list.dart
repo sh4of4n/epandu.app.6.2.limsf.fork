@@ -117,6 +117,9 @@ class _MerchantListState extends State<MerchantList> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           elevation: 0,
+            iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
           backgroundColor: Colors.transparent,
         ),
         body: SingleChildScrollView(

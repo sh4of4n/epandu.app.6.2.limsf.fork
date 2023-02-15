@@ -39,6 +39,9 @@ class EpanduCategory extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
           title: FadeInImage(
             alignment: Alignment.center,
             height: 110.h,
@@ -64,68 +67,248 @@ class EpanduCategory extends StatelessWidget {
               SizedBox(
                 height: 60.h,
               ),
-              ListView(
-                physics: NeverScrollableScrollPhysics(),
+              GridView.count(
                 shrinkWrap: true,
+                primary: false,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                ),
+                crossAxisCount: 4,
+                // childAspectRatio: 0.9,
+
                 children: [
-                  ListTile(
-                    onTap: () => context.router.push(ComingSoon()),
-                    title: Text(AppLocalizations.of(context)!.translate('info'),
-                        style: iconText),
+                  GestureDetector(
+                    onTap: () {
+                      context.router.push(Enrollment());
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Image.asset(
+                            'assets/menu/enrollment-icon.png',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Text(AppLocalizations.of(context)!
+                            .translate('enroll_lbl')),
+                      ],
+                    ),
                   ),
-                  Divider(color: Colors.grey[400]),
-                  ListTile(
-                    onTap: () => context.router.push(Enrollment()),
-                    title: Text(
-                        AppLocalizations.of(context)!.translate('enroll_lbl'),
-                        style: iconText),
+                  GestureDetector(
+                    onTap: () {
+                      context.router.push(Records());
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Image.asset(
+                            'assets/menu/payment-icon.png',
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Text(
+                            'Payment Record',
+                            // overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  Divider(color: Colors.grey[400]),
-                  ListTile(
-                    onTap: () => context.router.push(Booking()),
-                    title: Text(
-                        AppLocalizations.of(context)!.translate('booking_lbl'),
-                        style: iconText),
+                  GestureDetector(
+                    onTap: () {
+                      context.router.push(Booking());
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Image.asset(
+                            'assets/menu/booking-icon.png',
+                          ),
+                        ),
+                        Text(
+                          AppLocalizations.of(context)!
+                              .translate('booking_lbl'),
+                        ),
+                      ],
+                    ),
                   ),
-                  Divider(color: Colors.grey[400]),
-                  ListTile(
-                    onTap: () => context.router.push(KppCategory()),
-                    title: Text(
-                        AppLocalizations.of(context)!.translate('elearning'),
-                        style: iconText),
+                  GestureDetector(
+                    onTap: () {
+                      // context.router.push(Booking());
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Image.asset(
+                            'assets/menu/training-icon.png',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Text(
+                            'Training Record',
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  Divider(color: Colors.grey[400]),
-                  ListTile(
-                    onTap: () => context.router.push(Records()),
-                    title: Text(
-                        AppLocalizations.of(context)!.translate('records'),
-                        style: iconText),
+                  GestureDetector(
+                    onTap: () {
+                      context.router.push(RequestPickup());
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Image.asset(
+                            ImagesConstant().pickupIcon,
+                          ),
+                        ),
+                        Text(
+                          AppLocalizations.of(context)!.translate('pickup'),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
                   ),
-                  Divider(color: Colors.grey[400]),
-                  ListTile(
-                    onTap: () => context.router.push(RequestPickup()),
-                    title: Text(
-                        AppLocalizations.of(context)!.translate('pickup'),
-                        style: iconText),
+                  GestureDetector(
+                    onTap: () {
+                      // context.router.push(RequestPickup());
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Image.asset(
+                            'assets/menu/account-icon.png',
+                          ),
+                        ),
+                        Text(
+                          'Account',
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
                   ),
-                  Divider(color: Colors.grey[400]),
-                  /* ListTile(
-                    onTap: () =>
-                        context.router.push(Routes.comingSoon),
-                    title: Text(
-                        AppLocalizations.of(context).translate('webinar'),
-                        style: iconText),
+                  GestureDetector(
+                    onTap: () {
+                      context.router.push(KppCategory());
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Image.asset(
+                            'assets/menu/eLearning-icon.png',
+                          ),
+                        ),
+                        Text(
+                          AppLocalizations.of(context)!.translate('elearning'),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
                   ),
-                  Divider(color: Colors.grey[400]),
-                  ListTile(
-                    onTap: () =>
-                        context.router.push(Routes.chatHome),
-                    title: Text(AppLocalizations.of(context).translate('chat'),
-                        style: iconText),
+                  GestureDetector(
+                    onTap: () {
+                      context.router.push(ComingSoon());
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Image.asset(
+                            'assets/menu/info-icon.png',
+                          ),
+                        ),
+                        Text(
+                          AppLocalizations.of(context)!.translate('info'),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
                   ),
-                  Divider(color: Colors.grey[400]), */
                 ],
               ),
+              // ListView(
+              //   physics: NeverScrollableScrollPhysics(),
+              //   shrinkWrap: true,
+              //   children: [
+              //     ListTile(
+              //       onTap: () => context.router.push(ComingSoon()),
+              //       title: Text(AppLocalizations.of(context)!.translate('info'),
+              //           style: iconText),
+              //     ),
+              //     Divider(color: Colors.grey[400]),
+              //     ListTile(
+              //       onTap: () => context.router.push(Enrollment()),
+              //       title: Text(
+              //           AppLocalizations.of(context)!.translate('enroll_lbl'),
+              //           style: iconText),
+              //     ),
+              //     Divider(color: Colors.grey[400]),
+              //     ListTile(
+              //       onTap: () => context.router.push(Booking()),
+              //       title: Text(
+              //           AppLocalizations.of(context)!.translate('booking_lbl'),
+              //           style: iconText),
+              //     ),
+              //     Divider(color: Colors.grey[400]),
+              //     ListTile(
+              //       onTap: () => context.router.push(KppCategory()),
+              //       title: Text(
+              //           AppLocalizations.of(context)!.translate('elearning'),
+              //           style: iconText),
+              //     ),
+              //     Divider(color: Colors.grey[400]),
+              //     ListTile(
+              //       onTap: () => context.router.push(Records()),
+              //       title: Text(
+              //           AppLocalizations.of(context)!.translate('records'),
+              //           style: iconText),
+              //     ),
+              //     Divider(color: Colors.grey[400]),
+              //     ListTile(
+              //       onTap: () => context.router.push(RequestPickup()),
+              //       title: Text(
+              //           AppLocalizations.of(context)!.translate('pickup'),
+              //           style: iconText),
+              //     ),
+              //     Divider(color: Colors.grey[400]),
+              //     /* ListTile(
+              //       onTap: () =>
+              //           context.router.push(Routes.comingSoon),
+              //       title: Text(
+              //           AppLocalizations.of(context).translate('webinar'),
+              //           style: iconText),
+              //     ),
+              //     Divider(color: Colors.grey[400]),
+              //     ListTile(
+              //       onTap: () =>
+              //           context.router.push(Routes.chatHome),
+              //       title: Text(AppLocalizations.of(context).translate('chat'),
+              //           style: iconText),
+              //     ),
+              //     Divider(color: Colors.grey[400]), */
+              //   ],
+              // ),
             ],
           ),
         ),

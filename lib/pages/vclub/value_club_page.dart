@@ -163,10 +163,11 @@ class _ValueClubState extends State<ValueClub> {
         mostPopularProducts = result.data;
       });
     }
-
-    setState(() {
-      mostPopularLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        mostPopularLoading = false;
+      });
+    }
   }
 
   Future<void> _recommended(stkCat, endLimit) async {
@@ -584,7 +585,15 @@ class _ValueClubState extends State<ValueClub> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.translate('value_club')),
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
+          title: Text(
+            AppLocalizations.of(context)!.translate('value_club'),
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
           elevation: 0,
           backgroundColor: Colors.transparent,
           actions: [
@@ -598,8 +607,9 @@ class _ValueClubState extends State<ValueClub> {
               child: Padding(
                 padding: EdgeInsets.only(top: 30.h, right: 50.w, bottom: 20.h),
                 child: badges.Badge(
-                  badgeStyle:
-                      badges.BadgeStyle(badgeColor: Colors.redAccent[700]!),
+                  badgeStyle: badges.BadgeStyle(
+                    badgeColor: Colors.redAccent[700]!,
+                  ),
                   badgeAnimation: badges.BadgeAnimation.fade(),
                   showBadge: showBadge,
                   badgeContent: Text(

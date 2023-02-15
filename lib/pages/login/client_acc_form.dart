@@ -315,8 +315,8 @@ class _ClientAccountFormState extends State<ClientAccountForm>
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
                 textStyle: TextStyle(color: Colors.white),
+                backgroundColor: Color(0xffdd0e0e),
                 shape: StadiumBorder(),
-                primary: Color(0xffdd0e0e),
                 padding: EdgeInsets.symmetric(vertical: 11.0),
                 minimumSize: Size(420.w, 45.h),
               ),

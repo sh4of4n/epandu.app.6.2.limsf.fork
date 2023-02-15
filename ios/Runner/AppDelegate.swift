@@ -7,6 +7,8 @@ import Flutter
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+    GMSServices.provideAPIKey("AIzaSyBh-qtRGyUn68X20rxVcaspxZLbixC-GUQ")
+
     var flutter_native_splash = 1
     UIApplication.shared.isStatusBarHidden = false
 

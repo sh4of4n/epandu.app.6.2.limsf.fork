@@ -3,12 +3,14 @@ import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/common_library/services/repository/pickup_repository.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
+import 'package:epandu/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import '../../router.gr.dart';
 
@@ -70,11 +72,32 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
       ),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            AppLocalizations.of(context)!.translate('request_pickup'),
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
+          // title: Text(
+          //   AppLocalizations.of(context)!.translate('request_pickup'),
+          // ),
+          title: FadeInImage(
+            alignment: Alignment.center,
+            height: 110.h,
+            placeholder: MemoryImage(kTransparentImage),
+            image: AssetImage(
+              ImagesConstant().logo3,
+            ),
           ),
           elevation: 0,
           backgroundColor: Colors.transparent,
+          actions: [
+            IconButton(
+              onPressed: () {
+                context.router.push(PickupHistory());
+              },
+              icon: Icon(
+                Icons.history,
+              ),
+            ),
+          ],
         ),
         backgroundColor: Colors.transparent,
         body: Container(
@@ -297,9 +320,9 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                     : ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           shape: StadiumBorder(),
+                          backgroundColor: Color(0xffdd0e0e),
                           minimumSize: Size(420.w, 45.h),
                           padding: EdgeInsets.symmetric(vertical: 11.0),
-                          primary: Color(0xffdd0e0e),
                           textStyle: TextStyle(color: Colors.white),
                         ),
                         onPressed: _submit,

@@ -194,7 +194,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         // _phoneController.text = result.data[0].phone;
         _nickNameController.text = result.data[0].nickName;
         _emailController.text = result.data[0].eMail;
-        _idNameController.text = result.data[0].name;
+        _idNameController.text = result.data[0].name ?? '';
         _icNoController.text = result.data[0].icNo;
         _dobController.text = result.data[0].birthDate;
         if (result.data[0].race == 'MALAY' || result.data[0].race == 'M') {
@@ -1383,8 +1383,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(420.w, 45.h),
+                      backgroundColor: Color(0xffdd0e0e),
                       padding: EdgeInsets.symmetric(vertical: 11.0),
-                      primary: Color(0xffdd0e0e),
                       textStyle: TextStyle(color: Colors.white),
                       shape: StadiumBorder(),
                     ),
@@ -1435,9 +1435,9 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 11.0),
+                backgroundColor: Color(0xffdd0e0e),
                 minimumSize: Size(420.w, 45.h),
                 shape: StadiumBorder(),
-                primary: Color(0xffdd0e0e),
                 textStyle: TextStyle(color: Colors.white),
               ),
               onPressed: _next,

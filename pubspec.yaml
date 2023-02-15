@@ -98,6 +98,13 @@ dependencies:
   swipe_to: ^1.0.2 
   flutter_easyloading: ^3.0.5
   flutter_typeahead: ^4.3.3 
+  form_builder_validators: ^8.4.0
+  sentry_flutter: ^6.20.1
+  google_maps_flutter: ^2.2.3
+  flutter_form_builder: ^7.7.0
+  dotted_border: ^2.0.0+1
+  scroll_app_bar: ^2.0.0
+  dropdown_search: ^5.0.5
 
 dependency_overrides:
   modal_bottom_sheet:

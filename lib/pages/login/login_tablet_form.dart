@@ -46,10 +46,11 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
   String _longitude = '';
 
   DeviceInfo deviceInfo = DeviceInfo();
-  // String _deviceModel = '';
+  String? _deviceModel = '';
   String? _deviceVersion = '';
   String? _deviceId = '';
   String? _deviceOs = '';
+  String? _deviceBrand = '';
 
   @override
   void initState() {
@@ -63,11 +64,11 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
     // get device info
     await deviceInfo.getDeviceInfo();
 
-    // _deviceModel = deviceInfo.model;
+    _deviceModel = deviceInfo.model;
     _deviceVersion = deviceInfo.version;
     _deviceId = deviceInfo.id;
     _deviceOs = deviceInfo.os;
-
+    _deviceBrand = deviceInfo.manufacturer;
     // print('deviceId: ' + deviceId);
   }
 
@@ -284,9 +285,9 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(420.w, 45.h),
+                backgroundColor: Color(0xffdd0e0e),
                 padding: EdgeInsets.symmetric(vertical: 11.0),
                 shape: StadiumBorder(),
-                primary: Color(0xffdd0e0e),
                 textStyle: TextStyle(color: Colors.white),
               ),
               onPressed: _submitLogin, // () => localStorage.reset(),
@@ -322,8 +323,10 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
         context: context,
         phone: _phone,
         password: _password,
-        latitude: _latitude,
-        longitude: _longitude,
+        latitude: _latitude.isEmpty ? '999' : _latitude,
+        longitude: _longitude.isEmpty ? '999' : _longitude,
+        deviceBrand: _deviceBrand,
+        deviceModel: Uri.encodeComponent(_deviceModel!),
         deviceRemark: '$_deviceOs $_deviceVersion',
         phDeviceId: _deviceId,
       );
@@ -334,9 +337,9 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
               context: context, type: 'LOGIN');
 
           if (getRegisteredDi.isSuccess) {
-            localStorage.saveMerchantDbCode(getRegisteredDi.data[0].diCode);
+            localStorage.saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
 
-            context.router.replace(Home());
+            context.router.replace(MenuRoute());
           } else {
             setState(() {
               _isLoading = false;
@@ -354,7 +357,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
         } else {
           localStorage.saveMerchantDbCode(result.data[0].merchantNo);
 
-          context.router.replace(Home());
+          context.router.replace(MenuRoute());
         }
       } else {
         setState(() {

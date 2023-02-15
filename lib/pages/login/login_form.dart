@@ -315,10 +315,10 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(420.w, 45.h),
+                backgroundColor: Color(0xffdd0e0e),
                 padding: EdgeInsets.symmetric(vertical: 11.0),
                 textStyle: TextStyle(color: Colors.white),
                 shape: StadiumBorder(),
-                primary: Color(0xffdd0e0e),
               ),
               onPressed: _submitLogin, // () => localStorage.reset(),
 
@@ -369,7 +369,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
           if (getRegisteredDi.isSuccess) {
             localStorage.saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
 
-            context.router.replace(Home());
+            context.router.replace(MenuRoute());
           } else {
             setState(() {
               _isLoading = false;
@@ -387,7 +387,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
         } else {
           localStorage.saveMerchantDbCode(result.data[0].merchantNo);
 
-          context.router.replace(Home());
+          context.router.replace(MenuRoute());
         }
       } else {
         setState(() {

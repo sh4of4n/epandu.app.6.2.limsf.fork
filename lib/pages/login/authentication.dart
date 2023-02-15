@@ -83,7 +83,7 @@ class _AuthenticationState extends State<Authentication> {
 
     if (userId != null && userId.isNotEmpty && diCode!.isNotEmpty) {
       context.read<SocketClientHelper>().loginUserRoom();
-      context.router.replace(Home());
+      context.router.replace(MenuRoute());
     } else if (userId != null && userId.isNotEmpty && diCode!.isEmpty) {
       context.read<SocketClientHelper>().logoutUserRoom();
       await authRepo.logout(context: context, type: '');
