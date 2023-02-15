@@ -387,6 +387,7 @@ class _MyAppState extends State<MyApp> {
       ],
       routerDelegate: _appRouter.delegate(initialRoutes: [Authentication()]),
       routeInformationParser: _appRouter.defaultRouteParser(),
+      builder: EasyLoading.init(),
       // initialRoute: AUTH,
       // onGenerateRoute: RouteGenerator.generateRoute,
     );
