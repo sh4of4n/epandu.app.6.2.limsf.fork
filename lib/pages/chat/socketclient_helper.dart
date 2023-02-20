@@ -348,8 +348,8 @@ class SocketClientHelper extends ChangeNotifier {
     });
     socket.on('notification', (data) async {
       if (data != null) {
-        String description = '';
-        String? userid = await localStorage.getUserId();
+        // String description = '';
+        // String? userid = await localStorage.getUserId();
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result['description'] != null &&
             result['description'].toString() != '') {
@@ -662,7 +662,7 @@ class SocketClientHelper extends ChangeNotifier {
           SendAcknowledge sendAcknowledge = SendAcknowledge.fromJson(data);
           if (sendAcknowledge.clientMessageId ==
               messageDetails.client_message_id) {
-            int val = await dbHelper.updateMsgDetailTable(
+            await dbHelper.updateMsgDetailTable(
                 messageDetails.client_message_id!,
                 "SENT",
                 sendAcknowledge.messageId);

@@ -59,7 +59,7 @@ class _GalleryItemsState extends State<GalleryItems> {
   @override
   Widget build(BuildContext context) {
     String path =
-        '/storage/emulated/0/Android/data/my.com.tbs.carser.app/files/' +
+        '/storage/emulated/0/Android/data/my.com.tbs.epandu.app/files/' +
             widget.roomId +
             '/' +
             widget.type;
@@ -215,7 +215,7 @@ class _MyAudioListState extends State<MyAudioList> {
   @override
   Widget build(BuildContext context) {
     String path =
-        '/storage/emulated/0/Android/data/my.com.tbs.carser.app/files/' +
+        '/storage/emulated/0/Android/data/my.com.tbs.epandu.app/files/' +
             widget.roomId +
             '/' +
             'Audios';
@@ -371,7 +371,7 @@ class _MyFilesListState extends State<MyFilesList> {
   @override
   Widget build(BuildContext context) {
     String path =
-        '/storage/emulated/0/Android/data/my.com.tbs.carser.app/files/' +
+        '/storage/emulated/0/Android/data/my.com.tbs.epandu.app/files/' +
             widget.roomId +
             '/' +
             'Files';
