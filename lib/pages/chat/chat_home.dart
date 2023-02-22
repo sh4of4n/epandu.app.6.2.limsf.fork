@@ -14,7 +14,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:hive/hive.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
@@ -26,11 +25,11 @@ import 'package:swipe_to/swipe_to.dart';
 import '../../common_library/services/model/chat_mesagelist.dart';
 import '../../common_library/services/model/chatsendack_model.dart';
 import '../../common_library/services/model/inviteroom_response.dart';
-import '../../common_library/services/model/m_room_model.dart';
 import '../../common_library/services/model/m_roommember_model.dart';
 import '../../common_library/services/model/readmessagebyId_model.dart';
 import '../../common_library/services/model/replymessage_model.dart';
 import '../../common_library/services/repository/auth_repository.dart';
+import '../../common_library/utils/capitalize_firstletter.dart';
 import '../../common_library/utils/custom_dialog.dart';
 import '../../common_library/utils/custom_snackbar.dart';
 import '../../common_library/utils/local_storage.dart';
@@ -94,7 +93,7 @@ class _ChatHome2State extends State<ChatHome2> {
   List<MessageDetails> myFailedList = [];
   bool _showDownArrow = false;
   TextEditingController _textFieldController = TextEditingController();
-  //bool _isdesiredItemViewed = false;
+  bool _isdesiredItemViewed = false;
   int _desiredItemIndex = -1;
   Timer? timer;
   String socketStatus = '';
@@ -496,6 +495,9 @@ class _ChatHome2State extends State<ChatHome2> {
                                   stopRecorder();
                                 }
                               }),
+                          SizedBox(
+                            width: 5,
+                          ),
                         ],
                       ),
                       // show ? emojiSelect() : Container()
@@ -540,7 +542,10 @@ class _ChatHome2State extends State<ChatHome2> {
 
   Widget getEmojiIcon() {
     if (isLoading) {
-      return CircularProgressIndicator();
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: CircularProgressIndicator(),
+      );
     } else {
       return IconButton(
         icon: Icon(
@@ -826,6 +831,7 @@ class _ChatHome2State extends State<ChatHome2> {
                                       existingReplayMessageDetails,
                                   onCancelReply: cancelReply,
                                   callback: tapListitem,
+                                  // roomDesc: widget.roomDesc,
                                 ))
                           ] else if (getMessageDetailsList[index]
                                       .msg_binaryType ==
@@ -1192,6 +1198,7 @@ class _ChatHome2State extends State<ChatHome2> {
   void cancelAudio() {
     setState(() {
       isAudioRecording = false;
+      sendButton = false;
     });
   }
 
@@ -1255,17 +1262,16 @@ class _ChatHome2State extends State<ChatHome2> {
 
   _getAppBarMembers() async {
     roomMembers = await dbHelper.getRoomMembersList(widget.Room_id);
-
+    for (var roomMembers in roomMembers) {
+      if (roomMembers.user_id != localUserid)
+        members += CapitalizeFirstLetter()
+                .capitalizeFirstLetter(roomMembers.nick_name!) +
+            ",";
+    }
     setState(() {
-      // if (widget.roomMembers == '') {
-      for (var roomMembers in roomMembers) {
-        if (roomMembers.user_id != localUserid)
-          members += roomMembers.nick_name!.toUpperCase() + ",";
-      }
       if (members.length > 0)
         members = members.substring(0, members.length - 1);
 
-      //}
       membersCount = roomMembers.length;
       if (roomMembers.length > 0) roomName = roomMembers[0].room_name!;
     });
@@ -1288,6 +1294,7 @@ class _ChatHome2State extends State<ChatHome2> {
             });
           },
         ),
+        backgroundColor: Colors.blueAccent,
         title: TextField(
           controller: searcheditingController,
           onChanged: (value) {
@@ -1422,8 +1429,9 @@ class _ChatHome2State extends State<ChatHome2> {
     } else {
       if (!isMultiSelectionEnabled) {
         return AppBar(
-          leadingWidth: 80,
+          // leadingWidth: 80,
           titleSpacing: 0,
+          backgroundColor: Colors.blueAccent,
           leading: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -1495,7 +1503,7 @@ class _ChatHome2State extends State<ChatHome2> {
                       );
                     },
                     child: Container(
-                      margin: EdgeInsets.all(6),
+                      // margin: EdgeInsets.all(6),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1558,7 +1566,7 @@ class _ChatHome2State extends State<ChatHome2> {
                       ),
                     ),
                   );
-                } else if (value == "Invite Friend") {
+                } else if (value == "Add New Member") {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -1592,8 +1600,8 @@ class _ChatHome2State extends State<ChatHome2> {
                   ),
                   if (widget.roomDesc.toUpperCase().contains("GROUP"))
                     PopupMenuItem(
-                      child: Text("Invite Friend"),
-                      value: "Invite Friend",
+                      child: Text("Add New Member"),
+                      value: "Add New Member",
                     ),
                   if (widget.roomDesc.toUpperCase().contains("GROUP"))
                     PopupMenuItem(
@@ -1624,6 +1632,7 @@ class _ChatHome2State extends State<ChatHome2> {
               });
             },
           ),
+          backgroundColor: Colors.blueAccent,
           title: Text(
             getSelectedItemCount(),
             style: TextStyle(
@@ -1719,17 +1728,17 @@ class _ChatHome2State extends State<ChatHome2> {
         });
   }
 
-  // Text getMembersText() {
-  //   if (membersCount > 1) {
-  //     return Text(
-  //       this.members,
-  //       style: Theme.of(context).textTheme.caption,
-  //       overflow: TextOverflow.ellipsis,
-  //     );
-  //   } else {
-  //     return Text('');
-  //   }
-  // }
+  Text getMembersText() {
+    if (membersCount > 1) {
+      return Text(
+        this.members,
+        style: Theme.of(context).textTheme.caption,
+        overflow: TextOverflow.ellipsis,
+      );
+    } else {
+      return Text('');
+    }
+  }
 
   void leaveGroup(String roomId) {
     showDialog(
@@ -1901,7 +1910,7 @@ class _ChatHome2State extends State<ChatHome2> {
           context
               .read<ChatHistory>()
               .updateChatItemMessage(text, messageId, result['editDateTime']);
-          await dbHelper.updateMsgDetailTableText(
+          int val = await dbHelper.updateMsgDetailTableText(
               text, messageId, result['editDateTime']);
         }
 
@@ -2034,7 +2043,7 @@ class _ChatHome2State extends State<ChatHome2> {
     final extension = p.extension(path);
     if (extension.toLowerCase() == ".png" ||
         extension.toLowerCase() == ".jpg") {
-      //File f = File(path);
+      File f = File(path);
       getFileSize(path);
       if (isFileSizeValid) {
         var bytes = await File(path).readAsBytes();
@@ -2087,7 +2096,7 @@ class _ChatHome2State extends State<ChatHome2> {
   //             replyMessageDetails, '');
   //       } else {
   //         final customDialog = CustomDialog();
-  //         return customDialog.show(
+  //         customDialog.show(
   //           context: context,
   //           type: DialogType.ERROR,
   //           content: "Please try sending file size less than 5MB.",
@@ -2667,12 +2676,12 @@ class _ChatHome2State extends State<ChatHome2> {
     _mRecorder?.setSubscriptionDuration(Duration(milliseconds: 10));
 
     _recorderSubscription = _mRecorder?.onProgress!.listen((e) {
-      var date = DateTime.fromMillisecondsSinceEpoch(e.duration.inMilliseconds,
-          isUtc: true);
-      var txt = DateFormat('mm:ss:SS', 'en_GB').format(date);
+      // var date = DateTime.fromMillisecondsSinceEpoch(e.duration.inMilliseconds,
+      //     isUtc: true);
+      // var txt = DateFormat('mm:ss', 'en_GB').format(date);
       setState(() {
         custFontSize = 20;
-        editingController.text = txt.substring(0, 8);
+        editingController.text = e.duration.toString().substring(2, 7);
       });
     });
   }

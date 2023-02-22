@@ -70,24 +70,12 @@ class _InviteFriendState extends State<InviteFriend> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            size: 24,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Text('Invite Friend'),
-        backgroundColor: Colors.blueAccent,
-      ),
+      appBar: getAppBar(context),
       body: Container(
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(6.0),
               child: TextField(
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
@@ -112,7 +100,7 @@ class _InviteFriendState extends State<InviteFriend> {
                           )
                         : null,
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)))),
               ),
             ),
             Expanded(child: _populateListView()),
@@ -151,22 +139,6 @@ class _InviteFriendState extends State<InviteFriend> {
                             print("Null from inviteUserToRoomJson");
                           }
                         });
-
-                        // var groupJson = {
-                        //   "notifiedRoomId": widget.roomId,
-                        //   "notifiedUserId": roomMember.user_id,
-                        //   "title": userName! +
-                        //       ' added ' +
-                        //       memberByPhoneResponse.name!,
-                        //   "description": memberByPhoneResponse.userId! +
-                        //       " just joined the room_" +
-                        //       widget.roomId
-                        // };
-                        // //print(messageJson);
-                        // socket.emitWithAck('sendNotification', groupJson,
-                        //     ack: (data) async {
-                        //   print(data);
-                        // });
                       }
                     });
                   });
@@ -196,6 +168,69 @@ class _InviteFriendState extends State<InviteFriend> {
               child: const Icon(Icons.check_circle),
             )
           : null,
+    );
+  }
+
+  AppBar getAppBar(BuildContext context) {
+    return AppBar(
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back,
+          size: 24,
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      title: Row(
+        children: [
+          Icon(
+            Icons.person_add_outlined,
+            color: Colors.white,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('Chat With Friend'),
+          ),
+        ],
+      )
+      // title: TextField(
+      //   keyboardType: TextInputType.number,
+      //   onChanged: (value) {
+      //     if (value.length > 9) {
+      //       getFriendData();
+      //     } else {
+      //       getFriendData();
+      //     }
+      //   },
+      //   controller: editingController,
+      //   decoration: InputDecoration(
+      //     // labelText: "Search Friend By Mobile No.",
+      //     hintText: "Search Friend By Mobile No.",
+      //     hintStyle: TextStyle(fontSize: 15.0, color: Colors.white),
+      //     prefixIcon: Icon(
+      //       Icons.search,
+      //       color: Colors.white,
+      //     ),
+      //     suffixIcon: editingController.text.length > 0
+      //         ? IconButton(
+      //             icon: Icon(
+      //               Icons.clear,
+      //               color: Colors.white,
+      //             ),
+      //             onPressed: () {
+      //               editingController.text = '';
+      //               getFriendData();
+      //             },
+      //           )
+      //         : null,
+      //     // border: OutlineInputBorder(
+      //     //     borderRadius: BorderRadius.all(Radius.circular(25.0))
+      //     //     )
+      //   ),
+      // ),
+      ,
+      backgroundColor: Colors.blueAccent,
     );
   }
 
@@ -283,6 +318,6 @@ class _InviteFriendState extends State<InviteFriend> {
                 ),
               );
             })
-        : Container(child: Text('No friends found'));
+        : Text('');
   }
 }

@@ -143,7 +143,6 @@ class _RoomMembersListState extends State<RoomMembersList> {
   getAppbar(BuildContext context) {
     if (!_isRoomMemberSearching) {
       return AppBar(
-        backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black54),
         actions: [
           IconButton(
@@ -154,55 +153,56 @@ class _RoomMembersListState extends State<RoomMembersList> {
                 });
               }),
         ],
+        backgroundColor: Colors.blueAccent,
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.white,
-                  width: 3,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.withOpacity(.3),
-                      offset: Offset(0, 2),
-                      blurRadius: 5)
-                ],
-              ),
-              child: Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 3,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.grey.withOpacity(.3),
-                        offset: Offset(0, 2),
-                        blurRadius: 5)
-                  ],
-                ),
-                child: FullScreenWidget(
-                  child: Center(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: widget.picturePath != ''
-                          ? Image.network(widget.picturePath
-                              .replaceAll(removeBracket, '')
-                              .split('\r\n')[0])
-                          : Icon(Icons.account_circle),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // Container(
+            //   width: 40,
+            //   height: 40,
+            //   decoration: BoxDecoration(
+            //     shape: BoxShape.circle,
+            //     border: Border.all(
+            //       color: Colors.white,
+            //       width: 3,
+            //     ),
+            //     boxShadow: [
+            //       BoxShadow(
+            //           color: Colors.grey.withOpacity(.3),
+            //           offset: Offset(0, 2),
+            //           blurRadius: 5)
+            //     ],
+            //   ),
+            //   child: Container(
+            //     width: 40,
+            //     height: 40,
+            //     decoration: BoxDecoration(
+            //       shape: BoxShape.circle,
+            //       border: Border.all(
+            //         color: Colors.white,
+            //         width: 3,
+            //       ),
+            //       boxShadow: [
+            //         BoxShadow(
+            //             color: Colors.grey.withOpacity(.3),
+            //             offset: Offset(0, 2),
+            //             blurRadius: 5)
+            //       ],
+            //     ),
+            //     child: FullScreenWidget(
+            //       child: Center(
+            //         child: ClipRRect(
+            //           borderRadius: BorderRadius.circular(8.0),
+            //           child: widget.picturePath != ''
+            //               ? Image.network(widget.picturePath
+            //                   .replaceAll(removeBracket, '')
+            //                   .split('\r\n')[0])
+            //               : Icon(Icons.account_circle),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             SizedBox(width: 15),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -211,11 +211,14 @@ class _RoomMembersListState extends State<RoomMembersList> {
                 SizedBox(
                   width: 200.0,
                   child: Text(
-                    widget.Room_name + ' - ' + 'Members',
+                    widget.Room_name + ' - ' + 'Members List',
                     maxLines: 1,
                     softWrap: false,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: TextStyle(
+                      fontSize: 18.5,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -236,8 +239,10 @@ class _RoomMembersListState extends State<RoomMembersList> {
             });
           },
         ),
+        backgroundColor: Colors.blueAccent,
         title: TextField(
           controller: editingController,
+          autofocus: true,
           onChanged: (value) {
             _updateListview();
           },

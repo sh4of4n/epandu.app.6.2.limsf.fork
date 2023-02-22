@@ -70,27 +70,94 @@ class _CreateGroupState extends State<CreateGroup> {
     print('Test EasyLoading Status $status');
   }
 
+  AppBar getAppBar(BuildContext context) {
+    return AppBar(
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back,
+          size: 24,
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      title: widget.roomId == ''
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.group_add_rounded,
+                  color: Colors.white,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('Create Group'),
+                ),
+              ],
+            )
+          : Row(
+              children: [
+                Icon(
+                  Icons.group_add_rounded,
+                  color: Colors.white,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('Add Member To Group'),
+                ),
+              ],
+            )
+      // Padding(
+      //   padding: const EdgeInsets.all(8.0),
+      //   child: TextField(
+      //     keyboardType: TextInputType.number,
+      //     onChanged: (value) {
+      //       if (value.length > 9) {
+      //         getFriendData();
+      //       } else {
+      //         getFriendData();
+      //       }
+      //     },
+      //     controller: editingController,
+      //     decoration: InputDecoration(
+      //       // labelText: "Search Friend By Mobile No.",
+      //       hintText: "Search Friend By Mobile No.",
+      //       prefixIcon: Icon(
+      //         Icons.search,
+      //         color: Colors.white,
+      //       ),
+      //       suffixIcon: editingController.text.length > 0
+      //           ? IconButton(
+      //               icon: Icon(
+      //                 Icons.clear,
+      //                 color: Colors.white,
+      //               ),
+      //               onPressed: () async {
+      //                 editingController.text = '';
+      //                 getFriendData();
+      //                 await EasyLoading.dismiss();
+      //               },
+      //             )
+      //           : null,
+      //       // border: OutlineInputBorder(
+      //       //     borderRadius: BorderRadius.all(Radius.circular(25.0)))
+      //     ),
+      //   ),
+      // ),
+      ,
+      backgroundColor: Colors.blueAccent,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            size: 24,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Text('Invite Friend To Group'),
-        backgroundColor: Colors.blueAccent,
-      ),
+      appBar: getAppBar(context),
       body: Container(
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(6.0),
               child: TextField(
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
@@ -104,18 +171,23 @@ class _CreateGroupState extends State<CreateGroup> {
                 decoration: InputDecoration(
                     labelText: "Search Friend By Mobile No.",
                     hintText: "Search Friend By Mobile No.",
-                    prefixIcon: Icon(Icons.search),
+                    prefixIcon: Icon(
+                      Icons.search,
+                    ),
                     suffixIcon: editingController.text.length > 0
                         ? IconButton(
-                            icon: Icon(Icons.clear),
-                            onPressed: () {
+                            icon: Icon(
+                              Icons.clear,
+                            ),
+                            onPressed: () async {
                               editingController.text = '';
                               getFriendData();
+                              await EasyLoading.dismiss();
                             },
                           )
                         : null,
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)))),
               ),
             ),
             Expanded(child: _populateListView()),
@@ -335,7 +407,7 @@ class _CreateGroupState extends State<CreateGroup> {
                 ),
               );
             })
-        : Container(child: Text('No friends found'));
+        : Text('');
   }
 
   Future<void> _displayTextInputDialog(BuildContext context) async {

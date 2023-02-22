@@ -9,6 +9,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import '../../common_library/services/model/GetLeaveRoomResponse.dart';
 import '../../common_library/services/model/chat_mesagelist.dart';
 import '../../common_library/services/model/m_roommember_model.dart';
 import '../../common_library/services/model/roomhistory_model.dart';
@@ -150,8 +151,9 @@ class _RoomListState extends State<RoomList> {
             // );
           },
         ),
-        title: Text(roomTitle),
         backgroundColor: Colors.blueAccent,
+        title: Text(roomTitle),
+        // backgroundColor: Colors.blueAccent,
         actions: [
           IconButton(
               icon: Icon(Icons.search),
@@ -213,12 +215,11 @@ class _RoomListState extends State<RoomList> {
         ),
         title: TextField(
           controller: editingController,
+          autofocus: true,
           onChanged: (value) {
-            if (value != '') {
-              _populateListView(id!);
-            }
+            _populateListView(id!);
           },
-          style: TextStyle(color: Colors.white),
+          // style: TextStyle(color: Colors.white),
           decoration: InputDecoration(
               hintText: "Search Room",
               hintStyle: TextStyle(color: Colors.white)),
@@ -241,7 +242,7 @@ class _RoomListState extends State<RoomList> {
           },
         ),
         title: Text(roomTitle),
-        backgroundColor: Colors.blueAccent,
+        // backgroundColor: Colors.blueAccent,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.delete),
@@ -286,8 +287,8 @@ class _RoomListState extends State<RoomList> {
                       await chatRoomRepo.leaveRoom(roomId);
                   if (leaveRoomResponseResult.data != null &&
                       leaveRoomResponseResult.data.length > 0) {
-                    // LeaveRoomResponse leaveRoomResponse =
-                    //     leaveRoomResponseResult.data[0];
+                    LeaveRoomResponse leaveRoomResponse =
+                        leaveRoomResponseResult.data[0];
                     String userid = await localStorage.getUserId() ?? '';
                     String name = await localStorage.getNickName() ?? '';
                     List<RoomMembers> roomMembers =
@@ -415,7 +416,7 @@ class _RoomListState extends State<RoomList> {
             _selectedRoomName = room.room_name!;
           });
         },
-        tileColor: _selectedIndex == index ? Colors.blue : null,
+        tileColor: _selectedIndex == index ? Colors.blueAccent : null,
         leading: Container(
           width: 40,
           height: 40,
@@ -447,7 +448,10 @@ class _RoomListState extends State<RoomList> {
         ),
         trailing: badgeCount > 0
             ? badges.Badge(
+                //shape: BadgeShape.circle,
+                //padding: EdgeInsets.all(8),
                 showBadge: badgeCount > 0 ? true : false,
+                //badgeColor: Colors.green,
                 badgeStyle: badges.BadgeStyle(
                     badgeColor: Colors.green,
                     shape: badges.BadgeShape.circle,
@@ -459,6 +463,20 @@ class _RoomListState extends State<RoomList> {
                       fontSize: 15,
                       fontWeight: FontWeight.bold),
                 ))
+/*             badges.Badge(
+                position: badges.BadgePosition.topEnd(top: -10, end: -12),
+                showBadge: true,
+                ignorePointer: false,
+                onTap: () {},
+                badgeContent: Icon(Icons.check, color: Colors.white, size: 10),
+                badgeStyle: badges.BadgeStyle(
+                  shape: badges.BadgeShape.circle,
+                  badgeColor: Colors.green,
+                  padding: EdgeInsets.all(8),
+                  elevation: 0,
+                ),
+                child: Text(''),
+              ) */
             : null,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
