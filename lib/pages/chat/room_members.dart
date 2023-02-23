@@ -146,7 +146,10 @@ class _RoomMembersListState extends State<RoomMembersList> {
         iconTheme: IconThemeData(color: Colors.black54),
         actions: [
           IconButton(
-              icon: Icon(Icons.search),
+              icon: Icon(
+                Icons.search,
+                color: Colors.white,
+              ),
               onPressed: () {
                 setState(() {
                   _isRoomMemberSearching = true;
@@ -241,6 +244,7 @@ class _RoomMembersListState extends State<RoomMembersList> {
         ),
         backgroundColor: Colors.blueAccent,
         title: TextField(
+          cursorColor: Colors.white,
           controller: editingController,
           autofocus: true,
           onChanged: (value) {

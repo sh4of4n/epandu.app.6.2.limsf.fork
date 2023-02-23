@@ -24,6 +24,7 @@ class ChatFiles extends StatelessWidget {
             ],
           ),
           title: Text('Media and Files'),
+          backgroundColor: Colors.blueAccent,
         ),
         body: TabBarView(
           children: [

@@ -213,8 +213,11 @@ class _RoomListState extends State<RoomList> {
             });
           },
         ),
+        backgroundColor: Colors.blueAccent,
         title: TextField(
           controller: editingController,
+          cursorColor: Colors.white,
+          style: TextStyle(color: Colors.white),
           autofocus: true,
           onChanged: (value) {
             _populateListView(id!);
@@ -224,6 +227,17 @@ class _RoomListState extends State<RoomList> {
               hintText: "Search Room",
               hintStyle: TextStyle(color: Colors.white)),
         ),
+        // actions: <Widget>[
+        //   if (editingController.text != '')
+        //     IconButton(
+        //       icon: Icon(Icons.cancel),
+        //       onPressed: () {
+        //         setState(() {
+        //           editingController.clear();
+        //         });
+        //       },
+        //     ),
+        // ]
       );
     } else {
       return AppBar(
@@ -242,7 +256,7 @@ class _RoomListState extends State<RoomList> {
           },
         ),
         title: Text(roomTitle),
-        // backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.blueAccent,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.delete),

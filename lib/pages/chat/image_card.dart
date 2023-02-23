@@ -90,8 +90,8 @@ class ImageCard extends StatelessWidget {
                                       child: Image.file(
                                         File(file_path),
                                         fit: BoxFit.cover,
-                                        height: 384,
-                                        width: 384,
+                                        // height: 384,
+                                        // width: 384,
                                       )),
                                 ),
                               ))
