@@ -1847,11 +1847,11 @@ class _ChatHome2State extends State<ChatHome2> {
       context.read<ChatHistory>().deleteChatItem(
             messageId,
           );
-      dbHelper.deleteMsg(
-          messageId,
-          DateFormat("yyyy-MM-dd HH:mm:ss")
-              .format(DateTime.now().toLocal())
-              .toString());
+      // dbHelper.deleteMsg(
+      //     messageId,
+      //     DateFormat("yyyy-MM-dd HH:mm:ss")
+      //         .format(DateTime.now().toLocal())
+      //         .toString());
       List<MessageDetails> list = getMessageDetailsList
           .where((element) =>
               element.message_id == messageId && element.filePath != '')
@@ -1860,6 +1860,8 @@ class _ChatHome2State extends State<ChatHome2> {
       if (list.length > 0) {
         deleteFile(File(list[0].filePath!));
       }
+
+      dbHelper.deleteMsgDetailTable(messageId);
     } else {
       //print(messageJson);
       socket.emitWithAck('deleteMessage', messageJson, ack: (data) async {
@@ -1870,7 +1872,7 @@ class _ChatHome2State extends State<ChatHome2> {
             context.read<ChatHistory>().deleteChatItem(
                   messageId,
                 );
-            await dbHelper.deleteMsg(messageId, result['deleteDateTime']);
+            // await dbHelper.deleteMsg(messageId, result['deleteDateTime']);
 
             List<MessageDetails> list = getMessageDetailsList
                 .where((element) =>
@@ -1880,6 +1882,7 @@ class _ChatHome2State extends State<ChatHome2> {
             if (list.length > 0) {
               deleteFile(File(list[0].filePath!));
             }
+            dbHelper.deleteMsgDetailTable(messageId);
           }
           print('deleteMessage from server $data');
         } else {

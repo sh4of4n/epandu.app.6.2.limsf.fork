@@ -514,7 +514,7 @@ class SocketClientHelper extends ChangeNotifier {
         if (result["messageId"] != '') {
           if (_isEnterRoom) {
             ctx.read<ChatHistory>().deleteChatItem(result["messageId"]);
-            dbHelper.deleteMsg(result["messageId"], result["deleteDateTime"]);
+            //dbHelper.deleteMsg(result["messageId"], result["deleteDateTime"]);
             List<MessageDetails> list =
                 Provider.of<ChatHistory>(ctx, listen: false)
                     .getMessageDetailsList
@@ -526,7 +526,11 @@ class SocketClientHelper extends ChangeNotifier {
             if (list.length > 0) {
               deleteFile(File(list[0].filePath!));
             }
+            dbHelper.deleteMsgDetailTable(result["messageId"]);
+            Provider.of<RoomHistory>(ctx, listen: false).getRoomHistory();
           } else {
+            ctx.read<ChatHistory>().deleteChatItem(result["messageId"]);
+            Provider.of<RoomHistory>(ctx, listen: false).getRoomHistory();
             dbHelper.deleteMsgDetailTable(result["messageId"]);
           }
           notifyListeners();
