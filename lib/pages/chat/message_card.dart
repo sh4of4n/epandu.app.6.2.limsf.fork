@@ -1,8 +1,8 @@
-import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 import '../../common_library/services/model/chat_mesagelist.dart';
 import '../../common_library/services/model/replymessage_model.dart';
+import '../../common_library/utils/capitalize_firstletter.dart';
 import 'chat_home.dart';
 import 'chat_theme.dart';
 import 'date_formater.dart';
@@ -40,173 +40,315 @@ class MessageCard extends StatelessWidget {
   }
 
   Widget getMessage() {
-    const styleMe = BubbleStyle(
-      nip: BubbleNip.rightTop,
-      color: Color.fromARGB(255, 225, 255, 199),
-      borderColor: Colors.blue,
-      borderWidth: 1,
-      elevation: 4,
-      margin: BubbleEdges.only(top: 10),
-      alignment: Alignment.topRight,
-    );
-    const styleSomebody = BubbleStyle(
-      nip: BubbleNip.leftTop,
-      color: Colors.white,
-      borderColor: Colors.blueGrey,
-      borderWidth: 1,
-      elevation: 4,
-      margin: BubbleEdges.only(top: 10),
-      alignment: Alignment.topLeft,
-    );
-
-    return Bubble(
-      style: localUser == messageDetails.user_id! ? styleMe : styleSomebody,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (roomDesc.toUpperCase().contains("GROUP")) ...[
-            new Text(
-              messageDetails.nick_name!,
-              style: MyTheme.heading2.copyWith(fontSize: 13),
+    return Padding(
+      // asymmetric padding
+      padding: EdgeInsets.fromLTRB(
+        localUser == messageDetails.user_id! ? 64.0 : 16.0,
+        4,
+        localUser == messageDetails.user_id! ? 16.0 : 64.0,
+        4,
+      ),
+      child: Align(
+        // align the child within the container
+        alignment: localUser == messageDetails.user_id!
+            ? Alignment.centerRight
+            : Alignment.centerLeft,
+        child: Container(
+          decoration: BoxDecoration(
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: Colors.blue,
+            //     blurRadius: 2.0,
+            //     spreadRadius: 2, //New
+            //   )
+            // ],
+            border: localUser != messageDetails.user_id!
+                ? Border.all(
+                    color: Colors.blueAccent,
+                  )
+                : Border.all(color: Colors.grey[300]!),
+            borderRadius: BorderRadius.circular(17),
+          ),
+          child: DecoratedBox(
+            // chat bubble decoration
+            decoration: BoxDecoration(
+              color: localUser == messageDetails.user_id!
+                  ? Colors.blueAccent
+                  : Colors.grey[300],
+              borderRadius: BorderRadius.circular(16),
             ),
-            replyMessageDetails.reply_to_id == 0
-                ? Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: new Text(messageDetails.msg_body!,
-                        style: MyTheme.bodyText1),
-                  )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      buildReplyMessage(replyMessageDetails),
-                      Divider(
-                        color: Colors.grey[500],
-                        height: 20,
-                        thickness: 2,
-                        indent: 10,
-                        endIndent: 10,
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: new Text(messageDetails.msg_body!,
-                              style: MyTheme.bodyText1),
-                        ),
-                      )
-                    ],
-                  ),
-            localUser == messageDetails.user_id!
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (messageDetails.edit_datetime != '')
-                        Icon(
-                          Icons.edit,
-                          size: 20,
-                          semanticLabel: "Edited",
-                        ),
-                      SizedBox(
-                        width: 5,
-                      ),
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (roomDesc.toUpperCase().contains("GROUP"))
+                    if (localUser != messageDetails.user_id!)
                       Text(
-                        DateFormatter().getVerboseDateTimeRepresentation(
-                            DateTime.parse(messageDetails.send_datetime!)),
-                        style: MyTheme.bodyTextTime,
+                        CapitalizeFirstLetter()
+                            .capitalizeFirstLetter(messageDetails.nick_name!),
+                        style: MyTheme.heading2.copyWith(fontSize: 13),
                       ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      getStatusIcon(
-                        messageDetails.msgStatus!,
-                        messageDetails.send_datetime!,
-                      ),
-                    ],
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        DateFormatter().getVerboseDateTimeRepresentation(
-                            DateTime.parse(messageDetails.send_datetime!)),
-                        style: MyTheme.bodyTextTime,
-                      )
-                    ],
-                  ),
-          ] else ...[
-            replyMessageDetails.reply_to_id == 0
-                ? Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: new Text(messageDetails.msg_body!,
-                        style: MyTheme.bodyText1),
-                  )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      buildReplyMessage(replyMessageDetails),
-                      Divider(
-                        color: Colors.grey[500],
-                        height: 20,
-                        thickness: 2,
-                        indent: 10,
-                        endIndent: 10,
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: new Text(messageDetails.msg_body!,
-                              style: MyTheme.bodyText1),
+                  replyMessageDetails.reply_to_id == 0
+                      ? Text(
+                          messageDetails.msg_body!,
+                          style: MyTheme.bodyText1.copyWith(
+                              color: localUser == messageDetails.user_id!
+                                  ? Colors.white
+                                  : Colors.black87),
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            buildReplyMessage(replyMessageDetails),
+                            Divider(
+                              color: Colors.white,
+                              height: 20,
+                              thickness: 2,
+                              indent: 10,
+                              endIndent: 10,
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: new Text(messageDetails.msg_body!,
+                                    style: MyTheme.bodyText1),
+                              ),
+                            )
+                          ],
                         ),
-                      )
-                    ],
-                  ),
-            localUser == messageDetails.user_id!
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (messageDetails.edit_datetime != '')
-                        Icon(
-                          Icons.edit,
-                          size: 20,
-                          semanticLabel: "Edited",
+                  localUser == messageDetails.user_id!
+                      ? Align(
+                          alignment: Alignment.bottomRight,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (messageDetails.edit_datetime != '')
+                                Icon(
+                                  Icons.edit,
+                                  size: 20,
+                                  semanticLabel: "Edited",
+                                ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                DateFormatter()
+                                    .getVerboseDateTimeRepresentation(
+                                        DateTime.parse(
+                                            messageDetails.send_datetime!)),
+                                style: MyTheme.isMebodyTextTime,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              getStatusIcon(
+                                messageDetails.msgStatus!,
+                                messageDetails.send_datetime!,
+                              ),
+                            ],
+                          ),
+                        )
+                      : Align(
+                          alignment: Alignment.bottomRight,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                DateFormatter()
+                                    .getVerboseDateTimeRepresentation(
+                                        DateTime.parse(
+                                            messageDetails.send_datetime!)),
+                                style: MyTheme.bodyTextTime,
+                              )
+                            ],
+                          ),
                         ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        DateFormatter().getVerboseDateTimeRepresentation(
-                            DateTime.parse(messageDetails.send_datetime!)),
-                        style: MyTheme.bodyTextTime,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      getStatusIcon(
-                        messageDetails.msgStatus!,
-                        messageDetails.send_datetime!,
-                      ),
-                    ],
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        DateFormatter().getVerboseDateTimeRepresentation(
-                            DateTime.parse(messageDetails.send_datetime!)),
-                        style: MyTheme.bodyTextTime,
-                      )
-                    ],
-                  ),
-          ]
-        ],
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
+
+    // const styleMe = BubbleStyle(
+    //   nip: BubbleNip.rightTop,
+    //   // color: Color.fromARGB(255, 225, 255, 199),
+    //   color: Colors.lightBlueAccent,
+    //   borderColor: Colors.grey,
+    //   borderWidth: 1,
+    //   elevation: 4,
+    //   margin: BubbleEdges.only(top: 10),
+    //   alignment: Alignment.topRight,
+    // );
+    // const styleSomebody = BubbleStyle(
+    //   nip: BubbleNip.leftTop,
+    //   color: Colors.white,
+    //   borderColor: Colors.blueGrey,
+    //   borderWidth: 1,
+    //   elevation: 4,
+    //   margin: BubbleEdges.only(top: 10),
+    //   alignment: Alignment.topLeft,
+    // );
+
+    // return Bubble(
+    //   style: localUser == messageDetails.user_id! ? styleMe : styleSomebody,
+    //   child: Column(
+    //     mainAxisSize: MainAxisSize.min,
+    //     crossAxisAlignment: CrossAxisAlignment.start,
+    //     children: [
+    //       if (roomDesc.toUpperCase().contains("GROUP")) ...[
+    //         new Text(
+    //           messageDetails.nick_name!,
+    //           style: localUser == messageDetails.user_id!
+    //               ? MyTheme.isMeheading2.copyWith(fontSize: 13)
+    //               : MyTheme.heading2.copyWith(fontSize: 13),
+    //         ),
+    //         replyMessageDetails.reply_to_id == 0
+    //             ? Padding(
+    //                 padding: const EdgeInsets.all(5.0),
+    //                 child: new Text(
+    //                   messageDetails.msg_body!,
+    //                   style: localUser == messageDetails.user_id!
+    //                       ? MyTheme.isMebodyText1
+    //                       : MyTheme.bodyText1,
+    //                 ),
+    //               )
+    //             : Column(
+    //                 crossAxisAlignment: CrossAxisAlignment.end,
+    //                 children: [
+    //                   buildReplyMessage(replyMessageDetails),
+    //                   Divider(
+    //                     color: Colors.grey[500],
+    //                     height: 20,
+    //                     thickness: 2,
+    //                     indent: 10,
+    //                     endIndent: 10,
+    //                   ),
+    //                   Align(
+    //                     alignment: Alignment.centerLeft,
+    //                     child: Padding(
+    //                       padding: const EdgeInsets.all(5.0),
+    //                       child: new Text(messageDetails.msg_body!,
+    //                           style: MyTheme.bodyText1),
+    //                     ),
+    //                   )
+    //                 ],
+    //               ),
+    //         localUser == messageDetails.user_id!
+    //             ? Row(
+    //                 mainAxisAlignment: MainAxisAlignment.end,
+    //                 mainAxisSize: MainAxisSize.min,
+    //                 children: [
+    //                   if (messageDetails.edit_datetime != '')
+    //                     Icon(
+    //                       Icons.edit,
+    //                       size: 20,
+    //                       semanticLabel: "Edited",
+    //                     ),
+    //                   SizedBox(
+    //                     width: 5,
+    //                   ),
+    //                   Text(
+    //                       DateFormatter().getVerboseDateTimeRepresentation(
+    //                           DateTime.parse(messageDetails.send_datetime!)),
+    //                       style: MyTheme.isMebodyTextTime),
+    //                   SizedBox(
+    //                     width: 5,
+    //                   ),
+    //                   getStatusIcon(
+    //                     messageDetails.msgStatus!,
+    //                     messageDetails.send_datetime!,
+    //                   ),
+    //                 ],
+    //               )
+    //             : Row(
+    //                 mainAxisAlignment: MainAxisAlignment.end,
+    //                 mainAxisSize: MainAxisSize.min,
+    //                 children: [
+    //                   Text(
+    //                     DateFormatter().getVerboseDateTimeRepresentation(
+    //                         DateTime.parse(messageDetails.send_datetime!)),
+    //                     style: MyTheme.bodyTextTime,
+    //                   )
+    //                 ],
+    //               ),
+    //       ] else ...[
+    //         replyMessageDetails.reply_to_id == 0
+    //             ? Padding(
+    //                 padding: const EdgeInsets.all(5.0),
+    //                 child: new Text(messageDetails.msg_body!,
+    //                     style: MyTheme.bodyText1),
+    //               )
+    //             : Column(
+    //                 crossAxisAlignment: CrossAxisAlignment.end,
+    //                 children: [
+    //                   buildReplyMessage(replyMessageDetails),
+    //                   Divider(
+    //                     color: Colors.grey[500],
+    //                     height: 20,
+    //                     thickness: 2,
+    //                     indent: 10,
+    //                     endIndent: 10,
+    //                   ),
+    //                   Align(
+    //                     alignment: Alignment.centerLeft,
+    //                     child: Padding(
+    //                       padding: const EdgeInsets.all(5.0),
+    //                       child: new Text(messageDetails.msg_body!,
+    //                           style: MyTheme.bodyText1),
+    //                     ),
+    //                   )
+    //                 ],
+    //               ),
+    //         localUser == messageDetails.user_id!
+    //             ? Row(
+    //                 mainAxisAlignment: MainAxisAlignment.end,
+    //                 mainAxisSize: MainAxisSize.min,
+    //                 children: [
+    //                   if (messageDetails.edit_datetime != '')
+    //                     Icon(
+    //                       Icons.edit,
+    //                       size: 20,
+    //                       semanticLabel: "Edited",
+    //                     ),
+    //                   SizedBox(
+    //                     width: 5,
+    //                   ),
+    //                   Text(
+    //                     DateFormatter().getVerboseDateTimeRepresentation(
+    //                         DateTime.parse(messageDetails.send_datetime!)),
+    //                     style: MyTheme.isMebodyTextTime,
+    //                   ),
+    //                   SizedBox(
+    //                     width: 5,
+    //                   ),
+    //                   getStatusIcon(
+    //                     messageDetails.msgStatus!,
+    //                     messageDetails.send_datetime!,
+    //                   ),
+    //                 ],
+    //               )
+    //             : Row(
+    //                 mainAxisAlignment: MainAxisAlignment.end,
+    //                 mainAxisSize: MainAxisSize.min,
+    //                 children: [
+    //                   Text(
+    //                     DateFormatter().getVerboseDateTimeRepresentation(
+    //                         DateTime.parse(messageDetails.send_datetime!)),
+    //                     style: MyTheme.bodyTextTime,
+    //                   )
+    //                 ],
+    //               ),
+    //       ]
+    //     ],
+    //   ),
+    // );
   }
 
   Widget getStatusIcon(String status, String sentTime) {
@@ -247,7 +389,7 @@ class MessageCard extends StatelessWidget {
       return Container(
         padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.2),
+          color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(12),
             bottomLeft: Radius.circular(12),

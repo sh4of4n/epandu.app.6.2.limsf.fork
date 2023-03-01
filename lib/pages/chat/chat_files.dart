@@ -74,7 +74,8 @@ class _GalleryItemsState extends State<GalleryItems> {
       return GridView.builder(
         itemCount: imageList.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4, childAspectRatio: 3.0 / 4.6),
+            crossAxisCount: widget.type == 'Images' ? 4 : 2,
+            childAspectRatio: 3.0 / 4.6),
         itemBuilder: (context, index) {
           return Card(
             shape: RoundedRectangleBorder(
@@ -84,7 +85,7 @@ class _GalleryItemsState extends State<GalleryItems> {
                 ? FullScreenWidget(
                     child: Center(
                     child: Hero(
-                      tag: path.split('/').last,
+                      tag: index.toString(),
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.file(

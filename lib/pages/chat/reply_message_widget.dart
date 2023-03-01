@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import '../../common_library/services/model/replymessage_model.dart';
+import '../../common_library/utils/capitalize_firstletter.dart';
 import 'chat_theme.dart';
 
 class ReplyMessageWidget extends StatefulWidget {
@@ -39,7 +40,8 @@ class _ReplyMessageWidgetState extends State<ReplyMessageWidget> {
             children: [
               Expanded(
                 child: Text(
-                  widget.messageDetails.nick_name!,
+                  CapitalizeFirstLetter()
+                      .capitalizeFirstLetter(widget.messageDetails.nick_name!),
                   // widget.messageDetails.nick_name != ''
                   //     ? widget.messageDetails.nick_name!
                   //         .split(" ")

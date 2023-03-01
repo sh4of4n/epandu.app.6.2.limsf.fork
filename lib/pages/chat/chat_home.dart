@@ -14,6 +14,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:hive/hive.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
@@ -831,7 +832,7 @@ class _ChatHome2State extends State<ChatHome2> {
                                       existingReplayMessageDetails,
                                   onCancelReply: cancelReply,
                                   callback: tapListitem,
-                                  // roomDesc: widget.roomDesc,
+                                  roomDesc: widget.roomDesc,
                                 ))
                           ] else if (getMessageDetailsList[index]
                                       .msg_binaryType ==
@@ -1863,9 +1864,7 @@ class _ChatHome2State extends State<ChatHome2> {
 
       dbHelper.deleteMsgDetailTable(messageId);
     } else {
-      //print(messageJson);
       socket.emitWithAck('deleteMessage', messageJson, ack: (data) async {
-        //print('deleteMessage ack $data');
         if (data != null) {
           Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
           if (result["messageId"] != '') {
@@ -1898,6 +1897,7 @@ class _ChatHome2State extends State<ChatHome2> {
         await file.delete();
       }
     } catch (e) {
+      print(e.toString());
       // Error in getting access to the file.
     }
   }
@@ -1913,7 +1913,7 @@ class _ChatHome2State extends State<ChatHome2> {
           context
               .read<ChatHistory>()
               .updateChatItemMessage(text, messageId, result['editDateTime']);
-          int val = await dbHelper.updateMsgDetailTableText(
+          await dbHelper.updateMsgDetailTableText(
               text, messageId, result['editDateTime']);
         }
 
@@ -2082,33 +2082,33 @@ class _ChatHome2State extends State<ChatHome2> {
     }
   }
 
-  // Future<void> _editImage(File file, String message) async {
-  //   CroppedFile? croppedFile = await ImageCropper().cropImage(
-  //     sourcePath: file.path,
-  //     aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
-  //     maxWidth: 512,
-  //     maxHeight: 512,
-  //   );
-  //   if (croppedFile != null) {
-  //     File croppedImage = File(croppedFile.path);
-  //     setState(() {
-  //       compressedFile = base64Encode(croppedImage.readAsBytesSync());
-  //       getFileSize(croppedFile.path);
-  //       if (isFileSizeValid) {
-  //         emitSendMessage('', compressedFile, 'image', message, "",
-  //             replyMessageDetails, '');
-  //       } else {
-  //         final customDialog = CustomDialog();
-  //         customDialog.show(
-  //           context: context,
-  //           type: DialogType.ERROR,
-  //           content: "Please try sending file size less than 5MB.",
-  //           onPressed: () => Navigator.pop(context),
-  //         );
-  //       }
-  //     });
-  //   }
-  // }
+  Future<void> _editImage(File file, String message) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: file.path,
+      aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+      maxWidth: 512,
+      maxHeight: 512,
+    );
+    if (croppedFile != null) {
+      File croppedImage = File(croppedFile.path);
+      setState(() {
+        compressedFile = base64Encode(croppedImage.readAsBytesSync());
+        getFileSize(croppedFile.path);
+        if (isFileSizeValid) {
+          emitSendMessage('', compressedFile, 'image', message, "",
+              replyMessageDetails, '');
+        } else {
+          final customDialog = CustomDialog();
+          customDialog.show(
+            context: context,
+            type: DialogType.ERROR,
+            content: "Please try sending file size less than 5MB.",
+            onPressed: () => Navigator.pop(context),
+          );
+        }
+      });
+    }
+  }
 
   void onVoiceSend(String path, String fileName, String message) async {
     var bytes = await File(path).readAsBytes();
