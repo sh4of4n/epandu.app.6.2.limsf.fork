@@ -10,6 +10,8 @@ class ChatFiles extends StatelessWidget {
   final String roomId;
   @override
   Widget build(BuildContext context) {
+    String storagePath =
+        '/storage/emulated/0/Android/data/my.com.tbs.epandu.app/files/';
     return Container(
         child: DefaultTabController(
       length: 4,
@@ -29,15 +31,11 @@ class ChatFiles extends StatelessWidget {
         body: TabBarView(
           children: [
             GalleryItems(
-              type: 'Images',
-              roomId: roomId,
-            ),
+                type: 'Images', roomId: roomId, storagePath: storagePath),
             GalleryItems(
-              type: 'Videos',
-              roomId: roomId,
-            ),
-            MyAudioList(roomId: roomId),
-            MyFilesList(roomId: roomId),
+                type: 'Videos', roomId: roomId, storagePath: storagePath),
+            MyAudioList(roomId: roomId, storagePath: storagePath),
+            MyFilesList(roomId: roomId, storagePath: storagePath),
           ],
         ),
       ),
@@ -48,7 +46,12 @@ class ChatFiles extends StatelessWidget {
 class GalleryItems extends StatefulWidget {
   final String type;
   final String roomId;
-  const GalleryItems({Key? key, required this.type, required this.roomId})
+  final String storagePath;
+  const GalleryItems(
+      {Key? key,
+      required this.type,
+      required this.roomId,
+      required this.storagePath})
       : super(key: key);
 
   @override
@@ -59,11 +62,7 @@ class _GalleryItemsState extends State<GalleryItems> {
   bool isFolderExist = false;
   @override
   Widget build(BuildContext context) {
-    String path =
-        '/storage/emulated/0/Android/data/my.com.tbs.epandu.app/files/' +
-            widget.roomId +
-            '/' +
-            widget.type;
+    String path = widget.storagePath + widget.roomId + '/' + widget.type;
     isDirectoryExists(path);
     if (isFolderExist) {
       var imageList = Directory(path)
@@ -206,8 +205,10 @@ class _VideoItemsState extends State<VideoItems> {
 }
 
 class MyAudioList extends StatefulWidget {
-  const MyAudioList({Key? key, required this.roomId}) : super(key: key);
+  const MyAudioList({Key? key, required this.roomId, required this.storagePath})
+      : super(key: key);
   final String roomId;
+  final String storagePath;
   @override
   State<MyAudioList> createState() => _MyAudioListState();
 }
@@ -216,11 +217,7 @@ class _MyAudioListState extends State<MyAudioList> {
   bool isFolderExist = false;
   @override
   Widget build(BuildContext context) {
-    String path =
-        '/storage/emulated/0/Android/data/my.com.tbs.epandu.app/files/' +
-            widget.roomId +
-            '/' +
-            'Audios';
+    String path = widget.storagePath + widget.roomId + '/Audios';
     isDirectoryExists(path);
     if (isFolderExist) {
       var imageList = Directory(path)
@@ -232,7 +229,7 @@ class _MyAudioListState extends State<MyAudioList> {
         itemCount: imageList.length,
         itemBuilder: (context, index) {
           return AudioItems(
-            file_path: imageList[index],
+            filePath: imageList[index],
           );
         },
       );
@@ -256,11 +253,8 @@ class _MyAudioListState extends State<MyAudioList> {
 }
 
 class AudioItems extends StatefulWidget {
-  final String file_path;
-  const AudioItems({
-    Key? key,
-    required this.file_path,
-  }) : super(key: key);
+  final String filePath;
+  const AudioItems({Key? key, required this.filePath}) : super(key: key);
 
   @override
   State<AudioItems> createState() => _AudioItemsState();
@@ -292,7 +286,7 @@ class _AudioItemsState extends State<AudioItems> {
   Widget build(BuildContext context) {
     return Card(
         child: ListTile(
-      title: Text(widget.file_path.split('/').last),
+      title: Text(widget.filePath.split('/').last),
       leading: Icon(Icons.audiotrack),
       trailing: Icon(
         _mPlayer!.isPlaying ? Icons.pause : Icons.play_arrow,
@@ -303,7 +297,7 @@ class _AudioItemsState extends State<AudioItems> {
           return null;
         }
         if (_mPlayer!.isStopped) {
-          play(widget.file_path);
+          play(widget.filePath);
         } else {
           stopPlayer();
         }
@@ -362,8 +356,10 @@ class FileItems extends StatelessWidget {
 }
 
 class MyFilesList extends StatefulWidget {
-  const MyFilesList({Key? key, required this.roomId}) : super(key: key);
+  const MyFilesList({Key? key, required this.roomId, required this.storagePath})
+      : super(key: key);
   final String roomId;
+  final String storagePath;
   @override
   State<MyFilesList> createState() => _MyFilesListState();
 }
@@ -372,11 +368,7 @@ class _MyFilesListState extends State<MyFilesList> {
   bool isFolderExist = false;
   @override
   Widget build(BuildContext context) {
-    String path =
-        '/storage/emulated/0/Android/data/my.com.tbs.epandu.app/files/' +
-            widget.roomId +
-            '/' +
-            'Files';
+    String path = widget.storagePath + widget.roomId + '/Files';
     isDirectoryExists(path);
     if (isFolderExist) {
       var imageList = Directory(path)
