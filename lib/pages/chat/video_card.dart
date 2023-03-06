@@ -13,8 +13,8 @@ import 'date_formater.dart';
 import 'reply_message_widget.dart';
 
 class VideoCard extends StatefulWidget {
-  final String file_path;
-  final String nick_name;
+  final String filePath;
+  final String nickName;
   final String time;
   final String text;
   final String user;
@@ -27,8 +27,8 @@ class VideoCard extends StatefulWidget {
   final ReplyMessageDetails replyMessageDetails;
   const VideoCard(
       {Key? key,
-      required this.file_path,
-      required this.nick_name,
+      required this.filePath,
+      required this.nickName,
       required this.time,
       required this.text,
       required this.user,
@@ -50,7 +50,7 @@ class _VideoCardState extends State<VideoCard> {
   late VideoPlayerController _controller;
 
   Future<VideoPlayerController> createVideoPlayer() async {
-    final File file = new File(widget.file_path);
+    final File file = new File(widget.filePath);
     _controller = VideoPlayerController.file(file);
     await _controller.initialize();
     await _controller.setLooping(true);
@@ -71,260 +71,6 @@ class _VideoCardState extends State<VideoCard> {
 
   @override
   Widget build(BuildContext context) {
-    const styleSomebody = BubbleStyle(
-      nip: BubbleNip.leftTop,
-      color: Colors.white,
-      borderColor: Colors.blueGrey,
-      borderWidth: 1,
-      elevation: 4,
-      margin: BubbleEdges.only(top: 10),
-      alignment: Alignment.topLeft,
-    );
-    Widget getVideoCard() {
-      return Padding(
-        // asymmetric padding
-        padding: EdgeInsets.fromLTRB(
-          widget.localUser == widget.user ? 64.0 : 16.0,
-          4,
-          widget.localUser == widget.user ? 16.0 : 64.0,
-          4,
-        ),
-        child: Align(
-          // align the child within the container
-          alignment: widget.localUser == widget.user
-              ? Alignment.centerRight
-              : Alignment.centerLeft,
-          child: Container(
-            decoration: BoxDecoration(
-              border: widget.localUser != widget.user
-                  ? Border.all(color: Colors.blueAccent)
-                  : Border.all(color: Colors.grey[300]!),
-              borderRadius: BorderRadius.circular(17),
-            ),
-            child: DecoratedBox(
-              // chat bubble decoration
-              decoration: BoxDecoration(
-                color: widget.localUser == widget.user
-                    ? Colors.blueAccent
-                    : Colors.grey[300],
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (widget.roomDesc.toUpperCase().contains("GROUP"))
-                        if (widget.localUser != widget.user)
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: new Text(
-                                CapitalizeFirstLetter()
-                                    .capitalizeFirstLetter(widget.nick_name),
-                                style: MyTheme.heading2.copyWith(fontSize: 13)),
-                          ),
-                      widget.file_path != ''
-                          ? widget.replyMessageDetails.reply_to_id == 0
-                              ? FullScreenWidget(
-                                  child: Center(
-                                    child: AspectRatio(
-                                        aspectRatio: 16 / 9,
-                                        child: Stack(
-                                          children: [
-                                            ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(8.0),
-                                                child:
-                                                    VideoPlayer(_controller)),
-                                            Positioned(
-                                                bottom: 0,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                child: VideoProgressIndicator(
-                                                  _controller,
-                                                  allowScrubbing: false,
-                                                  colors: VideoProgressColors(
-                                                      backgroundColor:
-                                                          Colors.blueGrey,
-                                                      bufferedColor:
-                                                          Colors.blueGrey,
-                                                      playedColor:
-                                                          Colors.blueAccent),
-                                                )),
-                                            Center(
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    if (_controller
-                                                        .value.isPlaying) {
-                                                      _controller.pause();
-                                                    } else {
-                                                      // If the video is paused, play it.
-                                                      _controller.play();
-                                                    }
-                                                  });
-                                                },
-                                                child: Icon(
-                                                  _controller.value.isPlaying
-                                                      ? Icons.pause
-                                                      : Icons.play_arrow,
-                                                  color: Colors.white,
-                                                  size: 80,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-                                  ),
-                                )
-                              : Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    buildReplyMessage(
-                                        widget.replyMessageDetails),
-                                    Divider(
-                                      color: Colors.white,
-                                      height: 20,
-                                      thickness: 2,
-                                      indent: 10,
-                                      endIndent: 10,
-                                    ),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: FullScreenWidget(
-                                          child: Center(
-                                            child: AspectRatio(
-                                                aspectRatio: 16 / 9,
-                                                child: Stack(
-                                                  children: [
-                                                    ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                        child: VideoPlayer(
-                                                            _controller)),
-                                                    Positioned(
-                                                        bottom: 0,
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        child:
-                                                            VideoProgressIndicator(
-                                                          _controller,
-                                                          allowScrubbing: false,
-                                                          colors: VideoProgressColors(
-                                                              backgroundColor:
-                                                                  Colors
-                                                                      .blueGrey,
-                                                              bufferedColor:
-                                                                  Colors
-                                                                      .blueGrey,
-                                                              playedColor: Colors
-                                                                  .blueAccent),
-                                                        )),
-                                                    Center(
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            if (_controller
-                                                                .value
-                                                                .isPlaying) {
-                                                              _controller
-                                                                  .pause();
-                                                            } else {
-                                                              // If the video is paused, play it.
-                                                              _controller
-                                                                  .play();
-                                                            }
-                                                          });
-                                                        },
-                                                        child: Icon(
-                                                          _controller.value
-                                                                  .isPlaying
-                                                              ? Icons.pause
-                                                              : Icons
-                                                                  .play_arrow,
-                                                          color: Colors.white,
-                                                          size: 80,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                )
-                          : Container(
-                              child: Center(
-                                  child: Text('No Video From Server',
-                                      style: MyTheme.bodyText1)),
-                            ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              // widget.text,
-                              '',
-                              style: MyTheme.bodyText1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          widget.localUser == widget.user
-                              ? Row(
-                                  children: [
-                                    Text(
-                                      DateFormatter()
-                                          .getVerboseDateTimeRepresentation(
-                                              DateTime.parse(widget.time)),
-                                      //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time).toLocal()),
-                                      style: MyTheme.isMebodyTextTime,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    getStatusIcon(widget.msgStatus)
-                                  ],
-                                )
-                              : Row(
-                                  children: [
-                                    Text(
-                                      DateFormatter()
-                                          .getVerboseDateTimeRepresentation(
-                                              DateTime.parse(widget.time)),
-                                      //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time).toLocal()),
-                                      style: MyTheme.bodyTextTime,
-                                    )
-                                  ],
-                                ),
-                        ],
-                      ),
-                    ],
-                  )),
-            ),
-          ),
-        ),
-      );
-    }
-
-    const styleMe = BubbleStyle(
-      nip: BubbleNip.rightTop,
-      color: Color.fromARGB(255, 225, 255, 199),
-      borderColor: Colors.blue,
-      borderWidth: 1,
-      elevation: 4,
-      margin: BubbleEdges.only(top: 10),
-      alignment: Alignment.topRight,
-    );
-
     return Container(
         // margin: widget.localUser == widget.user
         //     ? EdgeInsets.fromLTRB(100, 0, 10, 10)
@@ -694,6 +440,233 @@ class _VideoCardState extends State<VideoCard> {
         //       ],
         //     )),
         );
+  }
+
+  Widget getVideoCard() {
+    return Padding(
+      // asymmetric padding
+      padding: EdgeInsets.fromLTRB(
+        widget.localUser == widget.user ? 64.0 : 16.0,
+        4,
+        widget.localUser == widget.user ? 16.0 : 64.0,
+        4,
+      ),
+      child: Align(
+        // align the child within the container
+        alignment: widget.localUser == widget.user
+            ? Alignment.centerRight
+            : Alignment.centerLeft,
+        child: Container(
+          decoration: BoxDecoration(
+            border: widget.localUser != widget.user
+                ? Border.all(color: Colors.blueAccent)
+                : Border.all(color: Colors.grey[300]!),
+            borderRadius: BorderRadius.circular(17),
+          ),
+          child: DecoratedBox(
+            // chat bubble decoration
+            decoration: BoxDecoration(
+              color: widget.localUser == widget.user
+                  ? Colors.blueAccent
+                  : Colors.grey[300],
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (widget.roomDesc.toUpperCase().contains("GROUP"))
+                      if (widget.localUser != widget.user)
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: new Text(
+                              CapitalizeFirstLetter()
+                                  .capitalizeFirstLetter(widget.nickName),
+                              style: MyTheme.heading2.copyWith(fontSize: 13)),
+                        ),
+                    widget.filePath != ''
+                        ? widget.replyMessageDetails.reply_to_id == 0
+                            ? FullScreenWidget(
+                                child: Center(
+                                  child: AspectRatio(
+                                      aspectRatio: 16 / 9,
+                                      child: Stack(
+                                        children: [
+                                          ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              child: VideoPlayer(_controller)),
+                                          Positioned(
+                                              bottom: 0,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: VideoProgressIndicator(
+                                                _controller,
+                                                allowScrubbing: false,
+                                                colors: VideoProgressColors(
+                                                    backgroundColor:
+                                                        Colors.blueGrey,
+                                                    bufferedColor:
+                                                        Colors.blueGrey,
+                                                    playedColor:
+                                                        Colors.blueAccent),
+                                              )),
+                                          Center(
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  if (_controller
+                                                      .value.isPlaying) {
+                                                    _controller.pause();
+                                                  } else {
+                                                    // If the video is paused, play it.
+                                                    _controller.play();
+                                                  }
+                                                });
+                                              },
+                                              child: Icon(
+                                                _controller.value.isPlaying
+                                                    ? Icons.pause
+                                                    : Icons.play_arrow,
+                                                color: Colors.white,
+                                                size: 80,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                ),
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  buildReplyMessage(widget.replyMessageDetails),
+                                  Divider(
+                                    color: Colors.white,
+                                    height: 20,
+                                    thickness: 2,
+                                    indent: 10,
+                                    endIndent: 10,
+                                  ),
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: FullScreenWidget(
+                                        child: Center(
+                                          child: AspectRatio(
+                                              aspectRatio: 16 / 9,
+                                              child: Stack(
+                                                children: [
+                                                  ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                      child: VideoPlayer(
+                                                          _controller)),
+                                                  Positioned(
+                                                      bottom: 0,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                      child:
+                                                          VideoProgressIndicator(
+                                                        _controller,
+                                                        allowScrubbing: false,
+                                                        colors: VideoProgressColors(
+                                                            backgroundColor:
+                                                                Colors.blueGrey,
+                                                            bufferedColor:
+                                                                Colors.blueGrey,
+                                                            playedColor: Colors
+                                                                .blueAccent),
+                                                      )),
+                                                  Center(
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          if (_controller.value
+                                                              .isPlaying) {
+                                                            _controller.pause();
+                                                          } else {
+                                                            // If the video is paused, play it.
+                                                            _controller.play();
+                                                          }
+                                                        });
+                                                      },
+                                                      child: Icon(
+                                                        _controller
+                                                                .value.isPlaying
+                                                            ? Icons.pause
+                                                            : Icons.play_arrow,
+                                                        color: Colors.white,
+                                                        size: 80,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
+                        : Container(
+                            child: Center(
+                                child: Text('No Video From Server',
+                                    style: MyTheme.bodyText1)),
+                          ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            // widget.text,
+                            '',
+                            style: MyTheme.bodyText1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        widget.localUser == widget.user
+                            ? Row(
+                                children: [
+                                  Text(
+                                    DateFormatter()
+                                        .getVerboseDateTimeRepresentation(
+                                            DateTime.parse(widget.time)),
+                                    //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time).toLocal()),
+                                    style: MyTheme.isMebodyTextTime,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  getStatusIcon(widget.msgStatus)
+                                ],
+                              )
+                            : Row(
+                                children: [
+                                  Text(
+                                    DateFormatter()
+                                        .getVerboseDateTimeRepresentation(
+                                            DateTime.parse(widget.time)),
+                                    //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time).toLocal()),
+                                    style: MyTheme.bodyTextTime,
+                                  )
+                                ],
+                              ),
+                      ],
+                    ),
+                  ],
+                )),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget buildReplyMessage(ReplyMessageDetails replyMessageDetails) {

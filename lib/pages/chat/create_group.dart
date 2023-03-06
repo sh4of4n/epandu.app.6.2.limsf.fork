@@ -267,7 +267,7 @@ class _CreateGroupState extends State<CreateGroup> {
                         context,
                         MaterialPageRoute(
                             builder: (_) => ChatHome2(
-                                  Room_id: inviteRoomResponse.roomId!,
+                                  roomId: inviteRoomResponse.roomId!,
                                   picturePath: '',
                                   roomName: inviteRoomResponse.roomName!,
                                   roomDesc: 'Group Chat',
@@ -507,7 +507,7 @@ class _CreateGroupState extends State<CreateGroup> {
                         context,
                         MaterialPageRoute(
                             builder: (_) => ChatHome2(
-                                  Room_id: inviteRoomResponse.roomId!,
+                                  roomId: inviteRoomResponse.roomId!,
                                   picturePath: '',
                                   roomName: inviteRoomResponse.roomName!,
                                   roomDesc: 'Group Chat',

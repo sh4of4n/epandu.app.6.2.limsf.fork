@@ -95,7 +95,7 @@ class _GalleryItemsState extends State<GalleryItems> {
                           )),
                     ),
                   ))
-                : VideoItems(file_path: imageList[index]),
+                : VideoItems(filePath: imageList[index]),
           );
         },
       );
@@ -119,8 +119,8 @@ class _GalleryItemsState extends State<GalleryItems> {
 }
 
 class VideoItems extends StatefulWidget {
-  final String file_path;
-  const VideoItems({Key? key, required this.file_path}) : super(key: key);
+  final String filePath;
+  const VideoItems({Key? key, required this.filePath}) : super(key: key);
 
   @override
   State<VideoItems> createState() => _VideoItemsState();
@@ -131,7 +131,7 @@ class _VideoItemsState extends State<VideoItems> {
   late VideoPlayerController _controller;
 
   Future<VideoPlayerController> createVideoPlayer() async {
-    final File file = new File(widget.file_path);
+    final File file = new File(widget.filePath);
     _controller = VideoPlayerController.file(file);
     await _controller.initialize();
     await _controller.setLooping(true);
@@ -152,7 +152,7 @@ class _VideoItemsState extends State<VideoItems> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.file_path != ''
+    return widget.filePath != ''
         ? FullScreenWidget(
             child: Center(
               child: AspectRatio(

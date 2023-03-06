@@ -29,9 +29,6 @@ class MessageCard extends StatelessWidget {
   final String roomDesc;
   @override
   Widget build(BuildContext context) {
-    // int timeInMinutes =
-    //     DateTime.now().difference(DateTime.parse(messageDetails.send_datetime!)).inMinutes;
-    // return getMessage();
     return Container(
         margin: localUser == messageDetails.user_id
             ? EdgeInsets.fromLTRB(100, 0, 10, 10)
@@ -55,13 +52,6 @@ class MessageCard extends StatelessWidget {
             : Alignment.centerLeft,
         child: Container(
           decoration: BoxDecoration(
-            // boxShadow: [
-            //   BoxShadow(
-            //     color: Colors.blue,
-            //     blurRadius: 2.0,
-            //     spreadRadius: 2, //New
-            //   )
-            // ],
             border: localUser != messageDetails.user_id!
                 ? Border.all(
                     color: Colors.blueAccent,

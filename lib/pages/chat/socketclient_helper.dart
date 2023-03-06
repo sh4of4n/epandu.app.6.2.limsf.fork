@@ -334,6 +334,7 @@ class SocketClientHelper extends ChangeNotifier {
           Provider.of<ChatNotificationCount>(ctx, listen: false)
               .updateNotificationBadge(
                   roomId: messageDetails.room_id, type: "");
+          Provider.of<RoomHistory>(ctx, listen: false).getRoomHistory();
           // Provider.of<ChatNotificationCount>(ctx, listen: false).addMessageId(
           //     messageDetails.room_id!,
           //     messageDetails.message_id.toString(),
@@ -348,8 +349,6 @@ class SocketClientHelper extends ChangeNotifier {
     });
     socket.on('notification', (data) async {
       if (data != null) {
-        // String description = '';
-        // String? userid = await localStorage.getUserId();
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result['description'] != null &&
             result['description'].toString() != '') {
@@ -365,118 +364,10 @@ class SocketClientHelper extends ChangeNotifier {
               .toString()
               .contains("just joined the room")) {
             loginUserRoom();
-
-            // String clientMessageId = generateRandomString(15);
-            // MessageDetails messageDetails = MessageDetails(
-            //     room_id: result['description'].split('_')[1],
-            //     user_id: result['description'].split(' ')[0],
-            //     app_id: "Carser.App",
-            //     ca_uid: "",
-            //     device_id: "",
-            //     msg_body: result['title'],
-            //     msg_binary: null,
-            //     msg_binaryType: 'userJoined',
-            //     reply_to_id: -1,
-            //     message_id: 0,
-            //     read_by: "",
-            //     status: "",
-            //     status_msg: "",
-            //     deleted: 0,
-            //     send_datetime: DateFormat("yyyy-MM-dd HH:mm:ss")
-            //         .format(DateTime.now().toLocal())
-            //         .toString(),
-            //     edit_datetime: "",
-            //     delete_datetime: "",
-            //     transtamp: "",
-            //     nick_name: result['title'].split(' ')[0],
-            //     filePath: '',
-            //     owner_id: userid,
-            //     msgStatus: "UNREAD",
-            //     client_message_id: clientMessageId,
-            //     roomName: '');
-            // // print(messageDetails.send_datetime);
-            // dbHelper.saveMsgDetailTable(messageDetails);
-            // ctx
-            //     .read<ChatHistory>()
-            //     .addChatHistory(messageDetail: messageDetails);
-
-            // await flutterLocalNotificationsPlugin
-            //     .resolvePlatformSpecificImplementation<
-            //         AndroidFlutterLocalNotificationsPlugin>()
-            //     ?.createNotificationChannel(channel);
-            // flutterLocalNotificationsPlugin.show(
-            //     0,
-            //     result['title'].toString(),
-            //     result['title'].toString(),
-            //     NotificationDetails(
-            //       android: AndroidNotificationDetails(
-            //         channel.id,
-            //         channel.name,
-            //         channelDescription: channel.description,
-            //         color: Colors.blue,
-            //         playSound: true,
-            //         icon: '@mipmap/ic_launcher',
-            //       ),
-            //     ));
           } else if (result['description']
               .toString()
               .contains("just left the room_")) {
             loginUserRoom();
-            // List<RoomMembers> list = await dbHelper.getRoomMemberName(
-            //     result['description'].toString().split(' ')[0]);
-            // description = list[0].nick_name! + ' just left the room';
-            // String clientMessageId = generateRandomString(15);
-            // MessageDetails messageDetails = MessageDetails(
-            //     room_id: result['description'].split('_')[1],
-            //     user_id: result['description'].split(' ')[0],
-            //     app_id: "Carser.App",
-            //     ca_uid: "",
-            //     device_id: "",
-            //     msg_body: list[0].nick_name! + ' left',
-            //     msg_binary: null,
-            //     msg_binaryType: 'userLeft',
-            //     reply_to_id: -1,
-            //     message_id: 0,
-            //     read_by: "",
-            //     status: "",
-            //     status_msg: "",
-            //     deleted: 0,
-            //     send_datetime: DateFormat("yyyy-MM-dd HH:mm:ss")
-            //         .format(DateTime.now().toLocal())
-            //         .toString(),
-            //     edit_datetime: "",
-            //     delete_datetime: "",
-            //     transtamp: "",
-            //     nick_name: list[0].nick_name!,
-            //     filePath: '',
-            //     owner_id: userid,
-            //     msgStatus: "UNREAD",
-            //     client_message_id: clientMessageId,
-            //     roomName: '');
-            // // print(messageDetails.send_datetime);
-            // dbHelper.saveMsgDetailTable(messageDetails);
-            // ctx
-            //     .read<ChatHistory>()
-            //     .addChatHistory(messageDetail: messageDetails);
-
-            // await flutterLocalNotificationsPlugin
-            //     .resolvePlatformSpecificImplementation<
-            //         AndroidFlutterLocalNotificationsPlugin>()
-            //     ?.createNotificationChannel(channel);
-            // flutterLocalNotificationsPlugin.show(
-            //     0,
-            //     description,
-            //     description,
-            //     NotificationDetails(
-            //       android: AndroidNotificationDetails(
-            //         channel.id,
-            //         channel.name,
-            //         channelDescription: channel.description,
-            //         color: Colors.blue,
-            //         playSound: true,
-            //         icon: '@mipmap/ic_launcher',
-            //       ),
-            //     ));
           }
         }
       }

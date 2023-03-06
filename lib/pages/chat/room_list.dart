@@ -9,7 +9,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import '../../common_library/services/model/GetLeaveRoomResponse.dart';
 import '../../common_library/services/model/chat_mesagelist.dart';
 import '../../common_library/services/model/m_roommember_model.dart';
 import '../../common_library/services/model/roomhistory_model.dart';
@@ -56,21 +55,9 @@ class _RoomListState extends State<RoomList> {
     super.initState();
     EasyLoading.addStatusCallback(statusCallback);
     getRoomName();
-    //Provider.of<RoomHistory>(context, listen: false).getRoomHistory();
     Provider.of<ChatHistory>(context, listen: false).getChatHistory();
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-    //   id = await localStorage.getUserId();
-
-    // });
-    //dbHelper.deleteDB();
-    //_updateListview();
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   _updateListview();
-  // }
   getRoomName() async {
     String? name = await localStorage.getName();
     roomTitle = name!;
@@ -101,34 +88,6 @@ class _RoomListState extends State<RoomList> {
         body: Container(
           child: Column(
             children: [
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: TextField(
-              //     onChanged: (value) {
-              //       setState(() {});
-              //       _populateListView(id!);
-              //     },
-              //     controller: editingController,
-              //     decoration: InputDecoration(
-              //         labelText: "Search",
-              //         hintText: "Search",
-              //         prefixIcon: Icon(Icons.search),
-              //         suffixIcon: editingController.text.length > 0
-              //             ? IconButton(
-              //                 // Icon to
-              //                 icon: Icon(Icons.clear), // clear text
-              //                 onPressed: () {
-              //                   editingController.text = '';
-              //                   setState(() {});
-              //                   _populateListView(id!);
-              //                 },
-              //               )
-              //             : null,
-              //         border: OutlineInputBorder(
-              //             borderRadius:
-              //                 BorderRadius.all(Radius.circular(25.0)))),
-              //   ),
-              // ),
               Expanded(child: _populateListView(id!)),
             ],
           ),
@@ -145,15 +104,10 @@ class _RoomListState extends State<RoomList> {
           ),
           onPressed: () {
             Navigator.pop(context);
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => Home()),
-            // );
           },
         ),
         backgroundColor: Colors.blueAccent,
         title: Text(roomTitle),
-        // backgroundColor: Colors.blueAccent,
         actions: [
           IconButton(
               icon: Icon(Icons.search),
@@ -227,17 +181,6 @@ class _RoomListState extends State<RoomList> {
               hintText: "Search Room",
               hintStyle: TextStyle(color: Colors.white)),
         ),
-        // actions: <Widget>[
-        //   if (editingController.text != '')
-        //     IconButton(
-        //       icon: Icon(Icons.cancel),
-        //       onPressed: () {
-        //         setState(() {
-        //           editingController.clear();
-        //         });
-        //       },
-        //     ),
-        // ]
       );
     } else {
       return AppBar(
@@ -301,8 +244,8 @@ class _RoomListState extends State<RoomList> {
                       await chatRoomRepo.leaveRoom(roomId);
                   if (leaveRoomResponseResult.data != null &&
                       leaveRoomResponseResult.data.length > 0) {
-                    LeaveRoomResponse leaveRoomResponse =
-                        leaveRoomResponseResult.data[0];
+                    // LeaveRoomResponse leaveRoomResponse =
+                    //     leaveRoomResponseResult.data[0];
                     String userid = await localStorage.getUserId() ?? '';
                     String name = await localStorage.getNickName() ?? '';
                     List<RoomMembers> roomMembers =
@@ -379,7 +322,6 @@ class _RoomListState extends State<RoomList> {
   String generateRandomString(int length) {
     final _random = Random();
     const _availableChars = '1234567890';
-    // 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     final randomString = List.generate(length,
             (index) => _availableChars[_random.nextInt(_availableChars.length)])
         .join();
@@ -477,20 +419,6 @@ class _RoomListState extends State<RoomList> {
                       fontSize: 15,
                       fontWeight: FontWeight.bold),
                 ))
-/*             badges.Badge(
-                position: badges.BadgePosition.topEnd(top: -10, end: -12),
-                showBadge: true,
-                ignorePointer: false,
-                onTap: () {},
-                badgeContent: Icon(Icons.check, color: Colors.white, size: 10),
-                badgeStyle: badges.BadgeStyle(
-                  shape: badges.BadgeShape.circle,
-                  badgeColor: Colors.green,
-                  padding: EdgeInsets.all(8),
-                  elevation: 0,
-                ),
-                child: Text(''),
-              ) */
             : null,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -521,7 +449,7 @@ class _RoomListState extends State<RoomList> {
             context,
             MaterialPageRoute(
               builder: (context) => ChatHome2(
-                Room_id: room.room_id ?? '',
+                roomId: room.room_id ?? '',
                 picturePath: room.picture_path ?? '',
                 roomName: room.room_name ?? '',
                 roomDesc: room.room_desc ?? '',

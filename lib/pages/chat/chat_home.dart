@@ -14,7 +14,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:hive/hive.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
@@ -65,13 +64,13 @@ typedef void ResendCallback(int messageId);
 class ChatHome2 extends StatefulWidget {
   const ChatHome2({
     Key? key,
-    required this.Room_id,
+    required this.roomId,
     required this.picturePath,
     required this.roomName,
     required this.roomDesc,
     // required this.roomMembers
   }) : super(key: key);
-  final String Room_id; //lowerCamelCase
+  final String roomId; //lowerCamelCase
   final String picturePath;
   final String roomName;
   final String roomDesc;
@@ -94,7 +93,6 @@ class _ChatHome2State extends State<ChatHome2> {
   List<MessageDetails> myFailedList = [];
   bool _showDownArrow = false;
   TextEditingController _textFieldController = TextEditingController();
-  bool _isdesiredItemViewed = false;
   int _desiredItemIndex = -1;
   Timer? timer;
   String socketStatus = '';
@@ -194,7 +192,7 @@ class _ChatHome2State extends State<ChatHome2> {
         await Permission.storage.request();
       }
       Provider.of<ChatNotificationCount>(context, listen: false)
-          .updateNotificationBadge(roomId: widget.Room_id, type: "DELETE");
+          .updateNotificationBadge(roomId: widget.roomId, type: "DELETE");
 
       context.read<SocketClientHelper>().setIsEnterRoom(true);
 
@@ -224,7 +222,7 @@ class _ChatHome2State extends State<ChatHome2> {
             .watch<ChatHistory>()
             .getMessageDetailsList
             .where((element) =>
-                element.room_id == widget.Room_id &&
+                element.room_id == widget.roomId &&
                 element.msgStatus == "UNREAD" &&
                 element.message_id != 0)
             .toList();
@@ -245,7 +243,7 @@ class _ChatHome2State extends State<ChatHome2> {
     List<MessageDetails> getUnreadMessageDetailsList = getMessageDetailsList
         .where((element) =>
             element.user_id == localUserid &&
-            element.room_id == widget.Room_id &&
+            element.room_id == widget.roomId &&
             element.msgStatus == 'SENT')
         .toList();
     if (getUnreadMessageDetailsList.length > 0) {
@@ -520,9 +518,9 @@ class _ChatHome2State extends State<ChatHome2> {
                 } else {
                   Provider.of<ChatNotificationCount>(context, listen: false)
                       .updateNotificationBadge(
-                          roomId: widget.Room_id, type: "DELETE");
+                          roomId: widget.roomId, type: "DELETE");
                   Provider.of<ChatNotificationCount>(context, listen: false)
-                      .updateUnreadMessageId(roomId: widget.Room_id);
+                      .updateUnreadMessageId(roomId: widget.roomId);
 
                   // context.read<SocketClientHelper>().setRoomDetails('', '', '');
                   context.read<SocketClientHelper>().setIsEnterRoom(false);
@@ -571,7 +569,7 @@ class _ChatHome2State extends State<ChatHome2> {
         child: Consumer<ChatHistory>(
       builder: (ctx, msgList, child) => ScrollablePositionedList.builder(
         itemCount: msgList.getMessageDetailsList
-            .where((element) => element.room_id == widget.Room_id)
+            .where((element) => element.room_id == widget.roomId)
             .toList()
             .length,
         shrinkWrap: true,
@@ -590,7 +588,7 @@ class _ChatHome2State extends State<ChatHome2> {
                     binaryType: '');
 
             getMessageDetailsList = msgList.getMessageDetailsList
-                .where((element) => element.room_id == widget.Room_id)
+                .where((element) => element.room_id == widget.roomId)
                 .toList()
                 .reversed
                 .toList();
@@ -664,12 +662,12 @@ class _ChatHome2State extends State<ChatHome2> {
                                   time: getMessageDetailsList[index]
                                           .send_datetime ??
                                       '',
-                                  nick_name:
+                                  nickName:
                                       getMessageDetailsList[index].nick_name ??
                                           '',
                                   text: getMessageDetailsList[index].msg_body ??
                                       '',
-                                  file_path:
+                                  filePath:
                                       getMessageDetailsList[index].filePath ??
                                           '',
                                   user: getMessageDetailsList[index].user_id ??
@@ -710,7 +708,7 @@ class _ChatHome2State extends State<ChatHome2> {
                                           .msg_binaryType!);
                                 },
                                 child: VideoCard(
-                                  file_path:
+                                  filePath:
                                       getMessageDetailsList[index].filePath ??
                                           '',
                                   time: getMessageDetailsList[index]
@@ -718,7 +716,7 @@ class _ChatHome2State extends State<ChatHome2> {
                                       '',
                                   text: getMessageDetailsList[index].msg_body ??
                                       '',
-                                  nick_name:
+                                  nickName:
                                       getMessageDetailsList[index].nick_name ??
                                           '',
                                   user: getMessageDetailsList[index].user_id ??
@@ -759,7 +757,7 @@ class _ChatHome2State extends State<ChatHome2> {
                                           .msg_binaryType!);
                                 },
                                 child: AudioCard(
-                                  nick_name:
+                                  nickName:
                                       getMessageDetailsList[index].nick_name ??
                                           '',
                                   text: getMessageDetailsList[index].msg_body ??
@@ -767,7 +765,7 @@ class _ChatHome2State extends State<ChatHome2> {
                                   time: getMessageDetailsList[index]
                                           .send_datetime ??
                                       '',
-                                  file_path:
+                                  filePath:
                                       getMessageDetailsList[index].filePath ??
                                           '',
                                   user: getMessageDetailsList[index].user_id ??
@@ -808,7 +806,7 @@ class _ChatHome2State extends State<ChatHome2> {
                                           .msg_binaryType!);
                                 },
                                 child: FileCard(
-                                  nick_name:
+                                  nickName:
                                       getMessageDetailsList[index].nick_name ??
                                           '',
                                   text: getMessageDetailsList[index].msg_body ??
@@ -816,7 +814,7 @@ class _ChatHome2State extends State<ChatHome2> {
                                   time: getMessageDetailsList[index]
                                           .send_datetime ??
                                       '',
-                                  file_path:
+                                  filePath:
                                       getMessageDetailsList[index].filePath ??
                                           '',
                                   user: getMessageDetailsList[index].user_id ??
@@ -1262,7 +1260,7 @@ class _ChatHome2State extends State<ChatHome2> {
   }
 
   _getAppBarMembers() async {
-    roomMembers = await dbHelper.getRoomMembersList(widget.Room_id);
+    roomMembers = await dbHelper.getRoomMembersList(widget.roomId);
     for (var roomMembers in roomMembers) {
       if (roomMembers.user_id != localUserid)
         members += CapitalizeFirstLetter()
@@ -1302,7 +1300,7 @@ class _ChatHome2State extends State<ChatHome2> {
             if (value != '') {
               List<MessageDetails> list1 = getMessageDetailsList
                   .where((element) =>
-                      element.room_id == widget.Room_id &&
+                      element.room_id == widget.roomId &&
                       element.msg_body!
                           .toLowerCase()
                           .contains(value.toLowerCase()))
@@ -1444,9 +1442,9 @@ class _ChatHome2State extends State<ChatHome2> {
                 onPressed: () {
                   Provider.of<ChatNotificationCount>(context, listen: false)
                       .updateNotificationBadge(
-                          roomId: widget.Room_id, type: "DELETE");
+                          roomId: widget.roomId, type: "DELETE");
                   Provider.of<ChatNotificationCount>(context, listen: false)
-                      .updateUnreadMessageId(roomId: widget.Room_id);
+                      .updateUnreadMessageId(roomId: widget.roomId);
                   Navigator.pop(context);
                   context.read<SocketClientHelper>().setIsEnterRoom(false);
                 },
@@ -1493,8 +1491,7 @@ class _ChatHome2State extends State<ChatHome2> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => RoomMembersList(
-                                  Room_name: roomName,
-                                  Room_id: widget.Room_id,
+                                  roomId: widget.roomId,
                                   userId: this.localUserid,
                                   picturePath: widget.picturePath,
                                   roomName: widget.roomName,
@@ -1545,8 +1542,7 @@ class _ChatHome2State extends State<ChatHome2> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => RoomMembersList(
-                        Room_name: roomName,
-                        Room_id: widget.Room_id,
+                        roomId: widget.roomId,
                         userId: this.localUserid,
                         picturePath: widget.picturePath,
                         roomName: widget.roomName,
@@ -1563,7 +1559,7 @@ class _ChatHome2State extends State<ChatHome2> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ChatFiles(
-                        roomId: widget.Room_id,
+                        roomId: widget.roomId,
                       ),
                     ),
                   );
@@ -1572,14 +1568,14 @@ class _ChatHome2State extends State<ChatHome2> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => CreateGroup(
-                        roomId: widget.Room_id,
+                        roomId: widget.roomId,
                       ),
                     ),
                   );
                 } else if (value == "Change Group Name") {
                   _displayTextInputDialog(context);
                 } else if (value == "Leave Group") {
-                  leaveGroup(widget.Room_id);
+                  leaveGroup(widget.roomId);
                 }
                 // else if (value == "Delete Chat") {
                 //   print('Delete Chat');
@@ -1697,7 +1693,7 @@ class _ChatHome2State extends State<ChatHome2> {
                 onPressed: () async {
                   await EasyLoading.show();
                   var inviteResult = await chatRoomRepo.changeGroupName(
-                      widget.Room_id, valueText);
+                      widget.roomId, valueText);
 
                   if (inviteResult.data != null &&
                       inviteResult.data.length > 0) {
@@ -1733,7 +1729,7 @@ class _ChatHome2State extends State<ChatHome2> {
     if (membersCount > 1) {
       return Text(
         this.members,
-        style: Theme.of(context).textTheme.caption,
+        style: Theme.of(context).textTheme.bodySmall,
         overflow: TextOverflow.ellipsis,
       );
     } else {
@@ -1771,11 +1767,11 @@ class _ChatHome2State extends State<ChatHome2> {
                     //     leaveRoomResponseResult.data[0];
 
                     List<RoomMembers> roomMembers =
-                        await dbHelper.getRoomMembersList(widget.Room_id);
+                        await dbHelper.getRoomMembersList(widget.roomId);
                     roomMembers.forEach((roomMember) {
                       if (localUserid != roomMember.user_id) {
                         var leaveGroupJson = {
-                          "notifiedRoomId": widget.Room_id,
+                          "notifiedRoomId": widget.roomId,
                           "notifiedUserId": roomMember.user_id,
                           "title": localUserName + " just left the room",
                           "description":
@@ -1789,7 +1785,7 @@ class _ChatHome2State extends State<ChatHome2> {
                     String clientMessageId = generateRandomString(15);
 
                     var messageJson = {
-                      "roomId": widget.Room_id,
+                      "roomId": widget.roomId,
                       "msgBody": localUserName + ' left',
                       "msgBinaryType": 'userLeft',
                       "replyToId": -1,
@@ -1814,9 +1810,9 @@ class _ChatHome2State extends State<ChatHome2> {
                     //     .deleteRoom(roomId: widget.Room_id);
                     Provider.of<ChatNotificationCount>(context, listen: false)
                         .removeNotificationRoom(roomId: roomId);
-                    await dbHelper.deleteRoomById(widget.Room_id);
-                    await dbHelper.deleteRoomMembersByRoomId(widget.Room_id);
-                    await dbHelper.deleteMessagesByRoomId(widget.Room_id);
+                    await dbHelper.deleteRoomById(widget.roomId);
+                    await dbHelper.deleteRoomMembersByRoomId(widget.roomId);
+                    await dbHelper.deleteMessagesByRoomId(widget.roomId);
                     final dir = Directory((Platform.isAndroid
                                 ? await getExternalStorageDirectory() //FOR ANDROID
                                 : await getApplicationSupportDirectory() //FOR IOS
@@ -1932,7 +1928,7 @@ class _ChatHome2State extends State<ChatHome2> {
         storeMyMessage(text, '', '', 0, clientMessageId);
       }
       var messageJson = {
-        "roomId": widget.Room_id,
+        "roomId": widget.roomId,
         "msgBody": text,
         "replyToId": replyMessageDetails.reply_to_id,
         "clientMessageId": clientMessageId,
@@ -2046,7 +2042,6 @@ class _ChatHome2State extends State<ChatHome2> {
     final extension = p.extension(path);
     if (extension.toLowerCase() == ".png" ||
         extension.toLowerCase() == ".jpg") {
-      File f = File(path);
       getFileSize(path);
       if (isFileSizeValid) {
         var bytes = await File(path).readAsBytes();
@@ -2079,34 +2074,6 @@ class _ChatHome2State extends State<ChatHome2> {
           onPressed: () => Navigator.pop(context),
         );
       }
-    }
-  }
-
-  Future<void> _editImage(File file, String message) async {
-    CroppedFile? croppedFile = await ImageCropper().cropImage(
-      sourcePath: file.path,
-      aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
-      maxWidth: 512,
-      maxHeight: 512,
-    );
-    if (croppedFile != null) {
-      File croppedImage = File(croppedFile.path);
-      setState(() {
-        compressedFile = base64Encode(croppedImage.readAsBytesSync());
-        getFileSize(croppedFile.path);
-        if (isFileSizeValid) {
-          emitSendMessage('', compressedFile, 'image', message, "",
-              replyMessageDetails, '');
-        } else {
-          final customDialog = CustomDialog();
-          customDialog.show(
-            context: context,
-            type: DialogType.ERROR,
-            content: "Please try sending file size less than 5MB.",
-            onPressed: () => Navigator.pop(context),
-          );
-        }
-      });
     }
   }
 
@@ -2161,7 +2128,7 @@ class _ChatHome2State extends State<ChatHome2> {
     }
 
     MessageDetails messageDetails = MessageDetails(
-        room_id: widget.Room_id,
+        room_id: widget.roomId,
         user_id: localUserid,
         app_id: appConfig.appId,
         ca_uid: localCaUid,
@@ -2208,7 +2175,7 @@ class _ChatHome2State extends State<ChatHome2> {
       storeMyMessage(message, msgBinaryType, base64string, 0, clientMessageId);
     }
     var messageJson = {
-      "roomId": widget.Room_id,
+      "roomId": widget.roomId,
       "msgBody": message,
       "msgBinaryBuffer": base64string,
       "replyToId": replyMessageDetails.reply_to_id,
@@ -2254,7 +2221,7 @@ class _ChatHome2State extends State<ChatHome2> {
     if (type != '') {
       myFailedList = getMessageDetailsList
           .where((element) =>
-              element.room_id == widget.Room_id &&
+              element.room_id == widget.roomId &&
               element.msgStatus == "SENDING" &&
               DateTime.now()
                       .difference(DateTime.parse(element.send_datetime!))
@@ -2264,7 +2231,7 @@ class _ChatHome2State extends State<ChatHome2> {
     } else {
       myFailedList = getMessageDetailsList
           .where((element) =>
-              element.room_id == widget.Room_id &&
+              element.room_id == widget.roomId &&
               element.msgStatus == "SENDING")
           .toList();
     }
@@ -2340,14 +2307,14 @@ class _ChatHome2State extends State<ChatHome2> {
 
   sendTyping(String value) {
     var messageJson = {
-      "roomId": widget.Room_id,
+      "roomId": widget.roomId,
     };
     socket.emit("typing", messageJson);
   }
 
   sendNotTyping() {
     var messageJson = {
-      "roomId": widget.Room_id,
+      "roomId": widget.roomId,
     };
     socket.emit("notTyping", messageJson);
   }
@@ -2566,7 +2533,7 @@ class _ChatHome2State extends State<ChatHome2> {
               )!
               .path +
           '/' +
-          widget.Room_id +
+          widget.roomId +
           '/' +
           folder);
       var status = await Permission.storage.status;
@@ -2653,7 +2620,7 @@ class _ChatHome2State extends State<ChatHome2> {
   }
 
   void record() async {
-    dirPath = await createFolder(widget.Room_id + '/' + pathToAudio);
+    dirPath = await createFolder(widget.roomId + '/' + pathToAudio);
     audioFilPath = dirPath +
         '/' +
         DateTime.now().millisecondsSinceEpoch.toString() +

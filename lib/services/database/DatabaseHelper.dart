@@ -1008,11 +1008,11 @@ class DatabaseHelper {
   }
 
   Future<int> updateMsgDetailTable(
-      String clientMessageId, String msgStatus, int message_id) async {
+      String clientMessageId, String msgStatus, int messageId) async {
     Database db = await instance.database;
     return await db.rawUpdate(
         "UPDATE $M_MSG_DETAIL_TABLE SET msgStatus = ?,message_id = ?  where clientMessageId = ?",
-        [msgStatus, message_id, clientMessageId]);
+        [msgStatus, messageId, clientMessageId]);
   }
 
   Future<int> updateMsgStatus(String msgStatus, int messageId) async {
@@ -1023,16 +1023,16 @@ class DatabaseHelper {
   }
 
   Future<int> updateMsgDetailTableText(
-      String msg_body, int message_id, String editDateTime) async {
+      String msgBody, int messageId, String editDateTime) async {
     Database db = await instance.database;
     return await db.rawUpdate(
         "UPDATE $M_MSG_DETAIL_TABLE SET msg_body = ?,edit_datetime = ? where message_id = ?",
         [
-          msg_body,
+          msgBody,
           DateFormat("yyyy-MM-dd HH:mm:ss")
               .format(DateTime.parse(editDateTime).toLocal())
               .toString(),
-          message_id
+          messageId
         ]);
   }
 

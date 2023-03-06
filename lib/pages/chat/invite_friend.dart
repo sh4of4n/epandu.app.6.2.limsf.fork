@@ -147,7 +147,7 @@ class _InviteFriendState extends State<InviteFriend> {
                       context,
                       MaterialPageRoute(
                           builder: (_) => ChatHome2(
-                                Room_id: inviteRoomResponse.roomId!,
+                                roomId: inviteRoomResponse.roomId!,
                                 picturePath: '',
                                 roomName: inviteRoomResponse.roomName!,
                                 roomDesc: 'Private Chat',

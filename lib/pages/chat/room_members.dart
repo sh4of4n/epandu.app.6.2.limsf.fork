@@ -14,16 +14,14 @@ import 'online_users.dart';
 class RoomMembersList extends StatefulWidget {
   const RoomMembersList({
     Key? key,
-    required this.Room_name,
-    required this.Room_id,
+    required this.roomId,
     required this.userId,
     required this.picturePath,
     required this.roomName,
     required this.roomDesc,
     // required this.roomMembers
   }) : super(key: key);
-  final String Room_name;
-  final String Room_id;
+  final String roomId;
   final String userId;
   final String picturePath;
   final String roomName;
@@ -116,7 +114,7 @@ class _RoomMembersListState extends State<RoomMembersList> {
 
   _updateListview() async {
     await EasyLoading.show();
-    roomMembers = await dbHelper.getRoomMembersList(widget.Room_id);
+    roomMembers = await dbHelper.getRoomMembersList(widget.roomId);
     if (!widget.roomDesc.toUpperCase().contains("GROUP")) {
       roomMembers.removeWhere((element) => element.user_id == widget.userId);
     }
@@ -160,52 +158,6 @@ class _RoomMembersListState extends State<RoomMembersList> {
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            // Container(
-            //   width: 40,
-            //   height: 40,
-            //   decoration: BoxDecoration(
-            //     shape: BoxShape.circle,
-            //     border: Border.all(
-            //       color: Colors.white,
-            //       width: 3,
-            //     ),
-            //     boxShadow: [
-            //       BoxShadow(
-            //           color: Colors.grey.withOpacity(.3),
-            //           offset: Offset(0, 2),
-            //           blurRadius: 5)
-            //     ],
-            //   ),
-            //   child: Container(
-            //     width: 40,
-            //     height: 40,
-            //     decoration: BoxDecoration(
-            //       shape: BoxShape.circle,
-            //       border: Border.all(
-            //         color: Colors.white,
-            //         width: 3,
-            //       ),
-            //       boxShadow: [
-            //         BoxShadow(
-            //             color: Colors.grey.withOpacity(.3),
-            //             offset: Offset(0, 2),
-            //             blurRadius: 5)
-            //       ],
-            //     ),
-            //     child: FullScreenWidget(
-            //       child: Center(
-            //         child: ClipRRect(
-            //           borderRadius: BorderRadius.circular(8.0),
-            //           child: widget.picturePath != ''
-            //               ? Image.network(widget.picturePath
-            //                   .replaceAll(removeBracket, '')
-            //                   .split('\r\n')[0])
-            //               : Icon(Icons.account_circle),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
             SizedBox(width: 15),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -214,7 +166,7 @@ class _RoomMembersListState extends State<RoomMembersList> {
                 SizedBox(
                   width: 200.0,
                   child: Text(
-                    widget.Room_name + ' - ' + 'Members List',
+                    widget.roomName + ' - ' + 'Members List',
                     maxLines: 1,
                     softWrap: false,
                     overflow: TextOverflow.ellipsis,
@@ -315,7 +267,7 @@ class _RoomMembersListState extends State<RoomMembersList> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ChatHome2(
-                            Room_id: widget.Room_id,
+                            roomId: widget.roomId,
                             picturePath: widget.picturePath,
                             roomName: widget.roomName,
                             roomDesc: widget.roomDesc,
@@ -386,7 +338,7 @@ class _RoomMembersListState extends State<RoomMembersList> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ChatHome2(
-                            Room_id: widget.Room_id,
+                            roomId: widget.roomId,
                             picturePath: widget.picturePath,
                             roomName: widget.roomName,
                             roomDesc: widget.roomDesc,
