@@ -366,7 +366,7 @@ class MessageCard extends StatelessWidget {
     } else {
       return Icon(
         Icons.done_all,
-        color: Colors.blue,
+        color: Colors.black,
         size: 20,
       );
     }
