@@ -66,10 +66,9 @@ class SocketClientHelper extends ChangeNotifier {
     List<Room> rooms = [];
     List<Room> newRooms = [];
     String? userid = await localStorage.getUserId();
-    loginUser('Tbs.Chat.Client-All-Users', userid!, '');
-    rooms = await dbHelper.getRoomList(userid);
+    rooms = await dbHelper.getRoomList(userid!);
     if (rooms.length == 0) {
-      var result = await chatRoomRepo.getRoomList();
+      var result = await chatRoomRepo.getRoomList('');
       if (result.data != null && result.data.length > 0) {
         for (int i = 0; i < result.data.length; i += 1) {
           int val = await dbHelper.saveRoomTable(result.data[i]);
@@ -90,6 +89,8 @@ class SocketClientHelper extends ChangeNotifier {
           }
           loginUser(result.data[i].room_id, userid, result.data[i].create_date);
         }
+      } else {
+        loginUser('Tbs.Chat.Client-All-Users', userid, '');
       }
     } else {
       List<MessageDetails> list =
@@ -101,7 +102,7 @@ class SocketClientHelper extends ChangeNotifier {
         rooms.forEach((Room room) async {
           loginUser(room.room_id!, room.user_id!, room.create_date!);
         });
-        var result = await chatRoomRepo.getRoomList();
+        var result = await chatRoomRepo.getRoomList('');
         if (result.data != null && result.data.length > 0) {
           for (int i = 0; i < result.data.length; i += 1) {
             int indexRoom = rooms.indexWhere(
@@ -146,43 +147,6 @@ class SocketClientHelper extends ChangeNotifier {
                         resultMembers.data[i].picture_path ?? '',
                         resultMembers.data[i].nick_name ?? '',
                         resultMembers.data[i].deleted ?? '');
-
-                    // if (roomMembersList[indexRoomMembers].deleted !=
-                    //     resultMembers.data[i].deleted) {
-                    //   String clientMessageId = generateRandomString(15);
-                    //   MessageDetails messageDetails = MessageDetails(
-                    //       room_id: resultMembers.data[i].room_id,
-                    //       user_id: resultMembers.data[i].user_id,
-                    //       app_id: "Carser.App",
-                    //       ca_uid: "",
-                    //       device_id: "",
-                    //       msg_body: resultMembers.data[i].nick_name + ' left',
-                    //       msg_binary: null,
-                    //       msg_binaryType: 'userLeft',
-                    //       reply_to_id: -1,
-                    //       message_id: 0,
-                    //       read_by: "",
-                    //       status: "",
-                    //       status_msg: "",
-                    //       deleted: 0,
-                    //       send_datetime: DateFormat("yyyy-MM-dd HH:mm:ss")
-                    //           .format(DateTime.now().toLocal())
-                    //           .toString(),
-                    //       edit_datetime: "",
-                    //       delete_datetime: "",
-                    //       transtamp: "",
-                    //       nick_name: resultMembers.data[i].nick_name,
-                    //       filePath: '',
-                    //       owner_id: userid,
-                    //       msgStatus: "UNREAD",
-                    //       client_message_id: clientMessageId,
-                    //       roomName: '');
-                    //   // print(messageDetails.send_datetime);
-                    //   dbHelper.saveMsgDetailTable(messageDetails);
-                    //   ctx
-                    //       .read<ChatHistory>()
-                    //       .addChatHistory(messageDetail: messageDetails);
-                    // }
                   }
                 }
               }
@@ -197,6 +161,42 @@ class SocketClientHelper extends ChangeNotifier {
         }
       }
     }
+  }
+
+  void deleteMessage(int messageId, String roomId) {
+    var messageJson = {
+      "messageId": messageId,
+    };
+    socket.emitWithAck('deleteMessage', messageJson, ack: (data) async {
+      print('deleteMessage from server $data');
+      if (data != null) {
+        Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
+        if (result["messageId"] != '') {
+          ctx.read<ChatHistory>().deleteChatItem(
+                messageId,
+              );
+          List<MessageDetails> mylist = ctx
+              .watch<ChatHistory>()
+              .getMessageDetailsList
+              .where((element) =>
+                  element.room_id == roomId &&
+                  element.msgStatus == "UNREAD" &&
+                  element.message_id != 0)
+              .toList();
+          List<MessageDetails> list = mylist
+              .where((element) =>
+                  element.message_id == messageId && element.filePath != '')
+              .toList();
+
+          if (list.length > 0) {
+            deleteFile(File(list[0].filePath!));
+          }
+          dbHelper.deleteMsgDetailTable(messageId);
+        }
+      } else {
+        print("Null from deleteMessage");
+      }
+    });
   }
 
   String generateRandomString(int length) {
@@ -344,9 +344,49 @@ class SocketClientHelper extends ChangeNotifier {
         print("Null from message response");
       }
     });
-    socket.on('inviteUserToRoom', (data) {
-      loginUserRoom();
+    socket.on('inviteUserToRoom', (data) async {
+      Map<String, dynamic> mapResult = Map<String, dynamic>.from(data as Map);
+      var result = await chatRoomRepo.getRoomList(mapResult['invitedRoomId']!);
+      if (result.data != null && result.data.length > 0) {
+        int val = await dbHelper.saveRoomTable(result.data[0]);
+        RoomHistoryModel roomHistoryModel = new RoomHistoryModel(
+            room_id: result.data[0].room_id ?? '',
+            room_name: result.data[0].room_name ?? '',
+            room_desc: result.data[0].room_desc ?? '',
+            picture_path: result.data[0].picture_path ?? '');
+        ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
+        print('Room Insert value ' + val.toString());
+        var resultMembers =
+            await chatRoomRepo.getRoomMembersList(result.data[0].room_id);
+        print('roomMembers' + resultMembers.data.length.toString());
+        if (resultMembers.data != null && resultMembers.data.length > 0) {
+          for (int i = 0; i < resultMembers.data.length; i += 1) {
+            await dbHelper.saveRoomMembersTable(resultMembers.data[i]);
+          }
+        }
+        String? userId = await localStorage.getUserId();
+        String? caUid = await localStorage.getCaUid();
+        String? caPwd = await localStorage.getCaPwd();
+        String? deviceId = await localStorage.getLoginDeviceId();
+        var messageJson = {
+          "roomId": result.data[0].room_id,
+          "userId": userId,
+          "appId": appConfig.appId,
+          "caUid": caUid,
+          "caPwd": caPwd,
+          "deviceId": deviceId
+        };
+        print('login: $messageJson');
+        socket.emitWithAck('login', messageJson, ack: (data) {
+          if (data != null) {
+            print('login user from server $data');
+          } else {
+            print("Null from login user");
+          }
+        });
+      }
     });
+
     socket.on('notification', (data) async {
       if (data != null) {
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
@@ -707,12 +747,12 @@ class SocketClientHelper extends ChangeNotifier {
       "deviceId": deviceId
     };
     print('login: $messageJson');
+
     socket.emitWithAck('login', messageJson, ack: (data) {
       //print('ack $data');
       if (data != null) {
         notifyListeners();
         if (createDate != '') getMissingMessages(roomId, userId!, createDate);
-
         print('login user from server $data');
       } else {
         print("Null from login user");

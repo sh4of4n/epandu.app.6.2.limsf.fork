@@ -55,13 +55,16 @@ class _RoomListState extends State<RoomList> {
     super.initState();
     EasyLoading.addStatusCallback(statusCallback);
     getRoomName();
+    //dbHelper.deleteDB();
     Provider.of<ChatHistory>(context, listen: false).getChatHistory();
   }
 
   getRoomName() async {
     String? name = await localStorage.getName();
     roomTitle = name!;
-    setState(() {});
+    setState(() {
+      roomTitle = roomTitle;
+    });
   }
 
   @override
@@ -128,6 +131,13 @@ class _RoomListState extends State<RoomList> {
                     ),
                   ),
                 );
+              } else if (value == "Delete Message") {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => DeleteMessage(),
+                //   ),
+                // );
               } else {
                 Navigator.push(
                   context,
@@ -149,6 +159,10 @@ class _RoomListState extends State<RoomList> {
                   child: Text("Create Group"),
                   value: "Create Group",
                 ),
+                // PopupMenuItem(
+                //   child: Text("Delete Message"),
+                //   value: "Delete Message",
+                // ),
               ];
             },
           ),
@@ -283,6 +297,17 @@ class _RoomListState extends State<RoomList> {
                     socket.emitWithAck('sendMessage', messageJson,
                         ack: (data) async {
                       if (data != null) {
+                        var messageJson = {
+                          "roomId": roomId,
+                        };
+                        socket.emitWithAck('logout', messageJson, ack: (data) {
+                          //print('ack $data');
+                          if (data != null) {
+                            print('logout user from server $data');
+                          } else {
+                            print("Null from logout user");
+                          }
+                        });
                         print('sendMessage from server $data');
                       } else {
                         print("Null from sendMessage");
@@ -307,11 +332,12 @@ class _RoomListState extends State<RoomList> {
                             .path +
                         '/' +
                         roomId);
-                    if ((await dir.exists())) {
+                    bool dirExist = await dir.exists();
+                    if (dirExist) {
                       await dir.delete();
                     }
+                    Navigator.of(context).pop();
                   }
-                  Navigator.of(context).pop();
                 },
               ),
             ],
@@ -355,6 +381,19 @@ class _RoomListState extends State<RoomList> {
 
   Widget getCard(RoomHistoryModel room,
       List<ChatNotification> chatNotificationCount, int index) {
+    String splitRoomName = '';
+    if (room.room_desc!.toUpperCase() == 'GROUP CHAT')
+      splitRoomName = room.room_name!;
+    else {
+      if (room.room_name!.contains(','))
+        splitRoomName = roomTitle.toUpperCase() !=
+                room.room_name!.split(',')[0].toUpperCase()
+            ? room.room_name!.split(',')[0]
+            : room.room_name!.split(',')[1];
+      else
+        splitRoomName = room.room_name!;
+    }
+    //splitRoomName = room.room_name!;
     int badgeCount = 0;
     int chatCountIndex = chatNotificationCount
         .indexWhere((element) => element.roomId == room.room_id);
@@ -424,7 +463,7 @@ class _RoomListState extends State<RoomList> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: Text(room.room_name ?? '',
+              child: Text(splitRoomName,
                   maxLines: 1,
                   softWrap: false,
                   overflow: TextOverflow.ellipsis,
@@ -451,7 +490,7 @@ class _RoomListState extends State<RoomList> {
               builder: (context) => ChatHome2(
                 roomId: room.room_id ?? '',
                 picturePath: room.picture_path ?? '',
-                roomName: room.room_name ?? '',
+                roomName: splitRoomName,
                 roomDesc: room.room_desc ?? '',
                 // roomMembers: members
               ),

@@ -488,58 +488,50 @@ class _VideoCardState extends State<VideoCard> {
                         ),
                     widget.filePath != ''
                         ? widget.replyMessageDetails.reply_to_id == 0
-                            ? FullScreenWidget(
-                                child: Center(
-                                  child: AspectRatio(
-                                      aspectRatio: 16 / 9,
-                                      child: Stack(
-                                        children: [
-                                          ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                              child: VideoPlayer(_controller)),
-                                          Positioned(
-                                              bottom: 0,
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              child: VideoProgressIndicator(
-                                                _controller,
-                                                allowScrubbing: false,
-                                                colors: VideoProgressColors(
-                                                    backgroundColor:
-                                                        Colors.blueGrey,
-                                                    bufferedColor:
-                                                        Colors.blueGrey,
-                                                    playedColor:
-                                                        Colors.blueAccent),
-                                              )),
-                                          Center(
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  if (_controller
-                                                      .value.isPlaying) {
-                                                    _controller.pause();
-                                                  } else {
-                                                    // If the video is paused, play it.
-                                                    _controller.play();
-                                                  }
-                                                });
-                                              },
-                                              child: Icon(
-                                                _controller.value.isPlaying
-                                                    ? Icons.pause
-                                                    : Icons.play_arrow,
-                                                color: Colors.white,
-                                                size: 80,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                ),
-                              )
+                            ? AspectRatio(
+                                aspectRatio: _controller.value.aspectRatio,
+                                child: Stack(
+                                  children: [
+                                    ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: VideoPlayer(_controller)),
+                                    Positioned(
+                                        bottom: 0,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: VideoProgressIndicator(
+                                          _controller,
+                                          allowScrubbing: false,
+                                          colors: VideoProgressColors(
+                                              backgroundColor: Colors.blueGrey,
+                                              bufferedColor: Colors.blueGrey,
+                                              playedColor: Colors.blueAccent),
+                                        )),
+                                    Positioned(
+                                      bottom: 0,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            if (_controller.value.isPlaying) {
+                                              _controller.pause();
+                                            } else {
+                                              // If the video is paused, play it.
+                                              _controller.play();
+                                            }
+                                          });
+                                        },
+                                        child: Icon(
+                                          _controller.value.isPlaying
+                                              ? Icons.pause
+                                              : Icons.play_arrow,
+                                          color: Colors.white,
+                                          size: 50,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ))
                             : Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
@@ -558,7 +550,8 @@ class _VideoCardState extends State<VideoCard> {
                                       child: FullScreenWidget(
                                         child: Center(
                                           child: AspectRatio(
-                                              aspectRatio: 16 / 9,
+                                              aspectRatio:
+                                                  _controller.value.aspectRatio,
                                               child: Stack(
                                                 children: [
                                                   ClipRRect(
@@ -585,7 +578,8 @@ class _VideoCardState extends State<VideoCard> {
                                                             playedColor: Colors
                                                                 .blueAccent),
                                                       )),
-                                                  Center(
+                                                  Positioned(
+                                                    bottom: 0,
                                                     child: GestureDetector(
                                                       onTap: () {
                                                         setState(() {
@@ -604,7 +598,7 @@ class _VideoCardState extends State<VideoCard> {
                                                             ? Icons.pause
                                                             : Icons.play_arrow,
                                                         color: Colors.white,
-                                                        size: 80,
+                                                        size: 50,
                                                       ),
                                                     ),
                                                   ),

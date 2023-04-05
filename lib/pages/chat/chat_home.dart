@@ -158,18 +158,18 @@ class _ChatHome2State extends State<ChatHome2> {
   void initState() {
     super.initState();
     // this.members = widget.roomMembers;
-    itemPositionsListener.itemPositions.addListener(() {
-      if (itemPositionsListener.itemPositions.value.length > 0 &&
-          itemPositionsListener.itemPositions.value.last.index >= 8) {
-        setState(() {
-          _showDownArrow = true;
-        });
-      } else {
-        setState(() {
-          _showDownArrow = false;
-        });
-      }
-    });
+    // itemPositionsListener.itemPositions.addListener(() {
+    //   if (itemPositionsListener.itemPositions.value.length > 0 &&
+    //       itemPositionsListener.itemPositions.value.last.index >= 8) {
+    //     setState(() {
+    //       _showDownArrow = true;
+    //     });
+    //   } else {
+    //     setState(() {
+    //       _showDownArrow = false;
+    //     });
+    //   }
+    // });
     openTheRecorder().then((value) {
       setState(() {
         _mRecorderIsInited = true;
@@ -1800,6 +1800,17 @@ class _ChatHome2State extends State<ChatHome2> {
                     socket.emitWithAck('sendMessage', messageJson,
                         ack: (data) async {
                       if (data != null) {
+                        var messageJson = {
+                          "roomId": widget.roomId,
+                        };
+                        socket.emitWithAck('logout', messageJson, ack: (data) {
+                          //print('ack $data');
+                          if (data != null) {
+                            print('logout user from server $data');
+                          } else {
+                            print("Null from logout user");
+                          }
+                        });
                         print('sendMessage from server $data');
                       } else {
                         print("Null from sendMessage");
@@ -1820,7 +1831,8 @@ class _ChatHome2State extends State<ChatHome2> {
                             .path +
                         '/' +
                         roomId);
-                    if ((await dir.exists())) {
+                    bool dirExist = await dir.exists();
+                    if (dirExist) {
                       await dir.delete();
                     }
                     Provider.of<RoomHistory>(context, listen: false)
@@ -1860,15 +1872,16 @@ class _ChatHome2State extends State<ChatHome2> {
 
       dbHelper.deleteMsgDetailTable(messageId);
     } else {
+      print('socket connection:' + socket.connected.toString());
       socket.emitWithAck('deleteMessage', messageJson, ack: (data) async {
+        print('deleteMessage from server $data');
+        print('deletemessage_' + socket.id!);
         if (data != null) {
           Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
           if (result["messageId"] != '') {
             context.read<ChatHistory>().deleteChatItem(
                   messageId,
                 );
-            // await dbHelper.deleteMsg(messageId, result['deleteDateTime']);
-
             List<MessageDetails> list = getMessageDetailsList
                 .where((element) =>
                     element.message_id == messageId && element.filePath != '')
@@ -1879,7 +1892,6 @@ class _ChatHome2State extends State<ChatHome2> {
             }
             dbHelper.deleteMsgDetailTable(messageId);
           }
-          print('deleteMessage from server $data');
         } else {
           print("Null from deleteMessage");
         }
@@ -2102,11 +2114,16 @@ class _ChatHome2State extends State<ChatHome2> {
     }
     var bytes = await File(path).readAsBytes();
     String base64string = base64.encode(bytes);
+    var fileType = 'file';
+    if (path.split(".").last.toUpperCase().contains('MP4') ||
+        path.split(".").last.toUpperCase().contains('WMV')) {
+      fileType = 'video';
+    }
     getFileSize(path);
     if (isFileSizeValid) {
       //sendFailedMessages('');
-      emitSendMessage(
-          fileName, base64string, "file", message, "", replyMessageDetails, '');
+      emitSendMessage(fileName, base64string, fileType, message, "",
+          replyMessageDetails, '');
     } else {
       final customDialog = CustomDialog();
       return customDialog.show(
@@ -2184,15 +2201,23 @@ class _ChatHome2State extends State<ChatHome2> {
       "misc":
           "[FCM_Notification=title:" + roomName + ' - ' + localUserName + "]"
     };
-    //print(messageJson);
+    print(messageJson);
     if (socket.connected) {
       socket.emitWithAck('sendMessage', messageJson, ack: (data) async {
         //print('sendMessage ack $data');
         if (data != null) {
           SendAcknowledge sendAcknowledge = SendAcknowledge.fromJson(data);
+          // String filePath = '';
+          // if (msgBinaryType != '') {
+          //   filePath = await createFile(msgBinaryType, base64string, message);
+          // }
+
           if (sendAcknowledge.clientMessageId == clientMessageId) {
             context.read<ChatHistory>().updateChatItemStatus(
                 clientMessageId, "SENT", sendAcknowledge.messageId);
+            // context
+            //     .read<ChatHistory>()
+            //     .updateChatItemFilepath(clientMessageId, filePath);
             await dbHelper.updateMsgDetailTable(
                 clientMessageId, "SENT", sendAcknowledge.messageId);
             if (myFailedList.length > 0) {
@@ -2419,21 +2444,23 @@ class _ChatHome2State extends State<ChatHome2> {
             popTime = 1;
           });
 
-          FilePickerResult? result = await FilePicker.platform
-              .pickFiles(type: FileType.custom, allowedExtensions: [
-            'pdf',
-            'doc',
-            'docx',
-            'xls',
-            'xlsx',
-            'ppt',
-            'pptx',
-            'txt',
-            'html',
-            'csv',
-            'mp4',
-            'wmv'
-          ]);
+          FilePickerResult? result = await FilePicker.platform.pickFiles(
+              type: FileType.custom,
+              withData: true,
+              allowedExtensions: [
+                'pdf',
+                'doc',
+                'docx',
+                'xls',
+                'xlsx',
+                'ppt',
+                'pptx',
+                'txt',
+                'html',
+                'csv',
+                'mp4',
+                'wmv'
+              ]);
 
           if (result != null) {
             List<File> files = result.paths.map((path) => File(path!)).toList();

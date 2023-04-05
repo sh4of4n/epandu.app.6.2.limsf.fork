@@ -73,7 +73,7 @@ class _GalleryItemsState extends State<GalleryItems> {
       return GridView.builder(
         itemCount: imageList.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: widget.type == 'Images' ? 4 : 2,
+            crossAxisCount: widget.type == 'Images' ? 4 : 1,
             childAspectRatio: 3.0 / 4.6),
         itemBuilder: (context, index) {
           return Card(
@@ -156,7 +156,7 @@ class _VideoItemsState extends State<VideoItems> {
         ? FullScreenWidget(
             child: Center(
               child: AspectRatio(
-                  aspectRatio: 16 / 9,
+                  aspectRatio: _controller.value.aspectRatio,
                   child: Stack(
                     children: [
                       ClipRRect(
@@ -190,7 +190,7 @@ class _VideoItemsState extends State<VideoItems> {
                                 ? Icons.pause
                                 : Icons.play_arrow,
                             color: Colors.white,
-                            size: 80,
+                            size: 50,
                           ),
                         ),
                       ),

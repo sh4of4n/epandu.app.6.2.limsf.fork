@@ -41,6 +41,7 @@ class InviteRoomResponse {
   String? transtamp;
   String? deleted;
   String? merchantNo;
+  String? picturePath;
 
   InviteRoomResponse(
       {this.iD,
@@ -61,7 +62,8 @@ class InviteRoomResponse {
       this.rowKey,
       this.transtamp,
       this.deleted,
-      this.merchantNo});
+      this.merchantNo,
+      this.picturePath});
 
   InviteRoomResponse.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
@@ -83,6 +85,7 @@ class InviteRoomResponse {
     transtamp = json['transtamp'];
     deleted = json['deleted'];
     merchantNo = json['merchant_no'];
+    picturePath = json['picture_path'];
   }
 
   Map<String, dynamic> toJson() {
@@ -106,6 +109,7 @@ class InviteRoomResponse {
     data['transtamp'] = this.transtamp;
     data['deleted'] = this.deleted;
     data['merchant_no'] = this.merchantNo;
+    data['picture_path'] = this.picturePath;
     return data;
   }
 }

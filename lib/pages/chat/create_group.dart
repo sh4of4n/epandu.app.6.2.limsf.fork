@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:epandu/pages/chat/rooms_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
@@ -8,11 +9,13 @@ import '../../common_library/services/model/invitefriend_model.dart';
 import '../../common_library/services/model/inviteroom_response.dart';
 import '../../common_library/services/model/m_room_model.dart';
 import '../../common_library/services/model/m_roommember_model.dart';
+import '../../common_library/services/model/roomhistory_model.dart';
 import '../../common_library/services/repository/auth_repository.dart';
 import '../../common_library/utils/custom_dialog.dart';
 import '../../common_library/utils/local_storage.dart';
 import '../../services/database/DatabaseHelper.dart';
 import '../../services/repository/chatroom_repository.dart';
+import '../../utils/app_config.dart';
 import 'chat_home.dart';
 import 'socketclient_helper.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -29,6 +32,7 @@ class CreateGroup extends StatefulWidget {
 }
 
 class _CreateGroupState extends State<CreateGroup> {
+  final appConfig = AppConfig();
   late IO.Socket socket;
   bool isMultiSelectionEnabled = true;
   TextEditingController _textFieldController = TextEditingController();
@@ -457,48 +461,88 @@ class _CreateGroupState extends State<CreateGroup> {
                       inviteResult.data.length > 0) {
                     InviteRoomResponse inviteRoomResponse =
                         inviteResult.data[0];
-                    await context.read<SocketClientHelper>().loginUserRoom();
-
+                    Room room = new Room(
+                        ID: inviteRoomResponse.iD,
+                        room_id: inviteRoomResponse.roomId,
+                        merchant_user_id: inviteRoomResponse.merchantUserId,
+                        merchant_login_id: inviteRoomResponse.merchantLoginId,
+                        merchant_nick_name: inviteRoomResponse.merchantNickName,
+                        user_id: inviteRoomResponse.userId,
+                        login_id: inviteRoomResponse.loginId,
+                        member_nick_name: inviteRoomResponse.memberNickName,
+                        room_desc: inviteRoomResponse.roomDesc,
+                        room_name: inviteRoomResponse.roomName,
+                        create_user: inviteRoomResponse.createUser,
+                        create_date: inviteRoomResponse.createDate,
+                        edit_user: inviteRoomResponse.editUser,
+                        edit_date: inviteRoomResponse.editDate,
+                        row_key: inviteRoomResponse.rowKey,
+                        transtamp: inviteRoomResponse.transtamp,
+                        deleted: inviteRoomResponse.deleted,
+                        photo_filename: '',
+                        profile_photo: '',
+                        merchant_no: inviteRoomResponse.merchantNo,
+                        picture_path: inviteRoomResponse.picturePath);
+                    int val = await dbHelper.saveRoomTable(room);
+                    RoomHistoryModel roomHistoryModel = new RoomHistoryModel(
+                        room_id: inviteRoomResponse.roomId ?? '',
+                        room_name: inviteRoomResponse.roomName ?? '',
+                        room_desc: inviteRoomResponse.roomDesc ?? '',
+                        picture_path: inviteRoomResponse.picturePath ?? '');
+                    context.read<RoomHistory>().addRoom(room: roomHistoryModel);
+                    print('Room Insert value ' + val.toString());
+                    var resultMembers = await chatRoomRepo
+                        .getRoomMembersList(inviteRoomResponse.roomId!);
+                    print('roomMembers' + resultMembers.data.length.toString());
+                    if (resultMembers.data != null &&
+                        resultMembers.data.length > 0) {
+                      for (int i = 0; i < resultMembers.data.length; i += 1) {
+                        await dbHelper
+                            .saveRoomMembersTable(resultMembers.data[i]);
+                      }
+                    }
                     String? userId = await localStorage.getUserId();
-                    //String? userName = await localStorage.getNickName();
-                    List<RoomMembers> roomMembers =
-                        await dbHelper.getRoomMembersList(widget.roomId);
-                    // _selected.forEach((memberByPhoneResponse) {
+                    String? caUid = await localStorage.getCaUid();
+                    String? caPwd = await localStorage.getCaPwd();
+                    String? deviceId = await localStorage.getLoginDeviceId();
+                    var messageJson = {
+                      "roomId": inviteRoomResponse.roomId!,
+                      "userId": userId,
+                      "appId": appConfig.appId,
+                      "caUid": caUid,
+                      "caPwd": caPwd,
+                      "deviceId": deviceId
+                    };
+                    print('login: $messageJson');
+                    socket.emitWithAck('login', messageJson, ack: (data) {
+                      if (data != null) {
+                        print('login user from server $data');
+                      } else {
+                        print("Null from login user");
+                      }
+                    });
+
+                    //await context.read<SocketClientHelper>().loginUserRoom();
+                    List<RoomMembers> roomMembers = await dbHelper
+                        .getRoomMembersList(inviteRoomResponse.roomId!);
                     roomMembers.forEach((roomMember) {
                       if (userId != roomMember.user_id) {
                         var inviteUserToRoomJson = {
-                          "invitedRoomId": roomMember.room_id,
+                          "invitedRoomId": inviteRoomResponse.roomId!,
                           "invitedUserId": roomMember.user_id
                         };
                         socket.emitWithAck(
                             'inviteUserToRoom', inviteUserToRoomJson,
-                            ack: (data) {
-                          //print('ack $data');
+                            ack: (data) async {
+                          print('inviteUserToRoom ack $data');
                           if (data != null) {
                             print('inviteUserToRoom from server $data');
                           } else {
                             print("Null from inviteUserToRoom");
                           }
                         });
-                        // var groupJson = {
-                        //   "notifiedRoomId": widget.roomId,
-                        //   "notifiedUserId": roomMember.user_id,
-                        //   "title": userName! +
-                        //       ' added ' +
-                        //       memberByPhoneResponse.name!,
-                        //   "description": memberByPhoneResponse.userId! +
-                        //       " just joined the room_" +
-                        //       widget.roomId
-                        // };
-                        // //print(messageJson);
-                        // socket.emitWithAck('sendNotification', groupJson,
-                        //     ack: (data) async {
-                        //   print(data);
-                        // });
                       }
-                      //});
                     });
-
                     await EasyLoading.dismiss();
                     setState(() {
                       Navigator.of(context).pop();
@@ -511,7 +555,6 @@ class _CreateGroupState extends State<CreateGroup> {
                                   picturePath: '',
                                   roomName: inviteRoomResponse.roomName!,
                                   roomDesc: 'Group Chat',
-                                  // roomMembers: members,
                                 ))).then((_) {});
                   } else {
                     await EasyLoading.dismiss();
