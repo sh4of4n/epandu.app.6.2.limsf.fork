@@ -19,10 +19,11 @@ class ChatHistory extends ChangeNotifier {
   }
 
   void updateChatItemStatus(
-      String clientMessageId, String msgStatus, int messageId) {
+      String clientMessageId, String msgStatus, int messageId, String roomId) {
     if (clientMessageId != '') {
-      int index = getMessageDetailsList.indexWhere(
-          (element) => element.client_message_id == clientMessageId);
+      int index = getMessageDetailsList.indexWhere((element) =>
+          element.client_message_id == clientMessageId &&
+          element.room_id == roomId);
       getMessageDetailsList[index].msgStatus = msgStatus;
       getMessageDetailsList[index].message_id = messageId;
     } else {
@@ -35,10 +36,19 @@ class ChatHistory extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateChatItemFilepath(String clientMessageId, String filePath) {
+    if (clientMessageId != '') {
+      int index = getMessageDetailsList.indexWhere(
+          (element) => element.client_message_id == clientMessageId);
+      getMessageDetailsList[index].filePath = filePath;
+    }
+    notifyListeners();
+  }
+
   void updateChatItemMessage(
-      String msgBody, int messageId, String editDatetime) {
-    int index = getMessageDetailsList
-        .indexWhere((element) => element.message_id == messageId);
+      String msgBody, int messageId, String editDatetime, String roomId) {
+    int index = getMessageDetailsList.indexWhere((element) =>
+        element.message_id == messageId && element.room_id == roomId);
     getMessageDetailsList[index].msg_body = msgBody;
     getMessageDetailsList[index].edit_datetime =
         DateFormat("yyyy-MM-dd HH:mm:ss")
@@ -47,9 +57,9 @@ class ChatHistory extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteChatItem(int messageId) {
-    int index = getMessageDetailsList
-        .indexWhere((element) => element.message_id == messageId);
+  void deleteChatItem(int messageId, String roomId) {
+    int index = getMessageDetailsList.indexWhere((element) =>
+        element.message_id == messageId && element.room_id == roomId);
     if (index != -1) {
       getMessageDetailsList.removeAt(index);
       print(

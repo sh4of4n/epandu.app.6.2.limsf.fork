@@ -22,7 +22,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
+import 'package:provider/provider.dart';
+import '../../common_library/services/model/m_roommember_model.dart';
 import '../../router.gr.dart';
+import '../../services/database/DatabaseHelper.dart';
+import '../chat/socketclient_helper.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 enum AppState { free, picked, cropped }
 
@@ -32,6 +37,8 @@ class UpdateProfile extends StatefulWidget {
 }
 
 class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
+  late IO.Socket socket;
+  final dbHelper = DatabaseHelper.instance;
   final profileRepo = ProfileRepo();
   final authRepo = AuthRepo();
   final customSnackbar = CustomSnackbar();
@@ -112,6 +119,11 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
     _getAvailableCameras();
     _getLdlkEnqGroupList();
     _getCdlList();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final getSocket = Provider.of<SocketClientHelper>(context, listen: false);
+      socket = getSocket.socket;
+    });
   }
 
   @override
@@ -1123,7 +1135,26 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         });
 
         await authRepo.getUserRegisteredDI(context: context, type: 'UPDATE');
+        String? userId = await localStorage.getUserId();
+        await dbHelper.updateRoomMemberName(_nickName, userId!);
 
+        List<RoomMembers> roomMembers =
+            await dbHelper.getDistinctRoomMembersList();
+
+        roomMembers.forEach((roomMember) {
+          if (userId != roomMember.user_id) {
+            var groupJson = {
+              "notifiedRoomId": '',
+              "notifiedUserId": roomMember.user_id,
+              "title": userId + ' just changed the name',
+              "description": _nickName + '_just changed the name'
+            };
+            socket.emitWithAck('sendNotification', groupJson,
+                ack: (data) async {
+              print(data);
+            });
+          }
+        });
         context.router.pop(true);
       } else {
         setState(() {

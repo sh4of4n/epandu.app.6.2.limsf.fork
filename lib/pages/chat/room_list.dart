@@ -57,6 +57,11 @@ class _RoomListState extends State<RoomList> {
     getRoomName();
     //dbHelper.deleteDB();
     Provider.of<ChatHistory>(context, listen: false).getChatHistory();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final getSocket = Provider.of<SocketClientHelper>(context, listen: false);
+      socket = getSocket.socket;
+    });
   }
 
   getRoomName() async {
@@ -67,11 +72,11 @@ class _RoomListState extends State<RoomList> {
     });
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    socket = context.watch<SocketClientHelper>().socket;
-  }
+  // @override
+  // void didChangeDependencies() {
+  // super.didChangeDependencies();
+  //socket = context.watch<SocketClientHelper>().socket;
+  // }
 
   @override
   void deactivate() {
@@ -336,7 +341,16 @@ class _RoomListState extends State<RoomList> {
                     if (dirExist) {
                       await dir.delete();
                     }
-                    Navigator.of(context).pop();
+
+                    List<RoomHistoryModel> list =
+                        await Provider.of<RoomHistory>(context, listen: false)
+                            .getRoomHistory();
+                    if (list.length == 0) {
+                      context
+                          .read<SocketClientHelper>()
+                          .loginUser('Tbs.Chat.Client-All-Users', userid, '');
+                    }
+                    Navigator.pop(context);
                   }
                 },
               ),

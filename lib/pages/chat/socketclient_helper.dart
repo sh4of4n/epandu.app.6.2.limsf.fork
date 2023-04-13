@@ -65,8 +65,10 @@ class SocketClientHelper extends ChangeNotifier {
     print('loginUserRoom');
     List<Room> rooms = [];
     List<Room> newRooms = [];
+
     String? userid = await localStorage.getUserId();
-    rooms = await dbHelper.getRoomList(userid!);
+    loginUser('Tbs.Chat.Client-All-Users', userid!, '');
+    rooms = await dbHelper.getRoomList(userid);
     if (rooms.length == 0) {
       var result = await chatRoomRepo.getRoomList('');
       if (result.data != null && result.data.length > 0) {
@@ -89,6 +91,7 @@ class SocketClientHelper extends ChangeNotifier {
           }
           loginUser(result.data[i].room_id, userid, result.data[i].create_date);
         }
+        //logoutDefaultRoom();
       } else {
         loginUser('Tbs.Chat.Client-All-Users', userid, '');
       }
@@ -99,6 +102,7 @@ class SocketClientHelper extends ChangeNotifier {
         await dbHelper.deleteDB();
         loginUserRoom();
       } else {
+        loginUser('Tbs.Chat.Client-All-Users', userid, '');
         rooms.forEach((Room room) async {
           loginUser(room.room_id!, room.user_id!, room.create_date!);
         });
@@ -157,6 +161,7 @@ class SocketClientHelper extends ChangeNotifier {
               loginUser(
                   newroom.room_id!, newroom.user_id!, newroom.create_date!);
             });
+            //logoutDefaultRoom();
           }
         }
       }
@@ -172,9 +177,7 @@ class SocketClientHelper extends ChangeNotifier {
       if (data != null) {
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result["messageId"] != '') {
-          ctx.read<ChatHistory>().deleteChatItem(
-                messageId,
-              );
+          ctx.read<ChatHistory>().deleteChatItem(messageId, roomId);
           List<MessageDetails> mylist = ctx
               .watch<ChatHistory>()
               .getMessageDetailsList
@@ -232,6 +235,20 @@ class SocketClientHelper extends ChangeNotifier {
     //  socket.disconnect();
     //  socket.dispose();
     //  notifyListeners();
+  }
+
+  logoutDefaultRoom() {
+    var messageJson = {
+      "roomId": 'Tbs.Chat.Client-All-Users',
+    };
+    socket.emitWithAck('logout', messageJson, ack: (data) {
+      //print('ack $data');
+      if (data != null) {
+        print('logout Tbs.Chat.Client-All-Users from server $data');
+      } else {
+        print("Null from logout user");
+      }
+    });
   }
 
   setRoomDetails(String id, String roomName, String userName) {
@@ -331,10 +348,13 @@ class SocketClientHelper extends ChangeNotifier {
           // print(messageDetails.send_datetime);
           dbHelper.saveMsgDetailTable(messageDetails);
           ctx.read<ChatHistory>().addChatHistory(messageDetail: messageDetails);
+
+          Provider.of<RoomHistory>(ctx, listen: false).updateRoomMessage(
+              roomId: messageDetails.room_id!, message: receiveMessage.text!);
+          Provider.of<RoomHistory>(ctx, listen: false).getRoomHistory();
           Provider.of<ChatNotificationCount>(ctx, listen: false)
               .updateNotificationBadge(
                   roomId: messageDetails.room_id, type: "");
-          Provider.of<RoomHistory>(ctx, listen: false).getRoomHistory();
           // Provider.of<ChatNotificationCount>(ctx, listen: false).addMessageId(
           //     messageDetails.room_id!,
           //     messageDetails.message_id.toString(),
@@ -380,6 +400,10 @@ class SocketClientHelper extends ChangeNotifier {
         socket.emitWithAck('login', messageJson, ack: (data) {
           if (data != null) {
             print('login user from server $data');
+            Provider.of<ChatNotificationCount>(ctx, listen: false)
+                .addNotificationBadge(
+                    notificationBadge: 0, roomId: result.data[0].room_id);
+            //logoutDefaultRoom();
           } else {
             print("Null from login user");
           }
@@ -444,13 +468,16 @@ class SocketClientHelper extends ChangeNotifier {
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result["messageId"] != '') {
           if (_isEnterRoom) {
-            ctx.read<ChatHistory>().deleteChatItem(result["messageId"]);
+            ctx
+                .read<ChatHistory>()
+                .deleteChatItem(result["messageId"], result["roomId"]);
             //dbHelper.deleteMsg(result["messageId"], result["deleteDateTime"]);
             List<MessageDetails> list =
                 Provider.of<ChatHistory>(ctx, listen: false)
                     .getMessageDetailsList
                     .where((element) =>
                         element.message_id == result["messageId"] &&
+                        element.room_id == result["roomId"] &&
                         element.msg_binaryType != '')
                     .toList();
 
@@ -460,7 +487,9 @@ class SocketClientHelper extends ChangeNotifier {
             dbHelper.deleteMsgDetailTable(result["messageId"]);
             Provider.of<RoomHistory>(ctx, listen: false).getRoomHistory();
           } else {
-            ctx.read<ChatHistory>().deleteChatItem(result["messageId"]);
+            ctx
+                .read<ChatHistory>()
+                .deleteChatItem(result["messageId"], result["roomId"]);
             Provider.of<RoomHistory>(ctx, listen: false).getRoomHistory();
             dbHelper.deleteMsgDetailTable(result["messageId"]);
           }
@@ -477,9 +506,8 @@ class SocketClientHelper extends ChangeNotifier {
           if (_isEnterRoom) {
             if (result["readBy"].contains('[[ALL]]')) {
               dbHelper.updateMsgStatus('READ', result["messageId"]);
-              ctx
-                  .read<ChatHistory>()
-                  .updateChatItemStatus('', "READ", result["messageId"]);
+              ctx.read<ChatHistory>().updateChatItemStatus(
+                  '', "READ", result["messageId"], result["roomId"]);
             }
           } else {
             dbHelper.updateMsgStatus('READ', result["messageId"]);
@@ -499,10 +527,14 @@ class SocketClientHelper extends ChangeNotifier {
                 .getMessageDetailsList
                 .indexWhere((element) =>
                     element.user_id == userid &&
-                    element.message_id == result["messageId"]);
+                    element.message_id == result["messageId"] &&
+                    element.room_id == result["roomId"]);
             if (index == -1) {
-              ctx.read<ChatHistory>().updateChatItemMessage(result["msgBody"],
-                  result["messageId"], result['editDateTime']);
+              ctx.read<ChatHistory>().updateChatItemMessage(
+                  result["msgBody"],
+                  result["messageId"],
+                  result['editDateTime'],
+                  result['roomId']);
               dbHelper.updateMsgDetailTableText(result["msgBody"],
                   result["messageId"], result['editDateTime']);
             }
@@ -564,8 +596,11 @@ class SocketClientHelper extends ChangeNotifier {
           print('[[ALL]]');
           dbHelper.updateMsgStatus(
               'READ', int.parse(readByMessage.message!.readMessage![0].id!));
-          ctx.read<ChatHistory>().updateChatItemStatus('', "READ",
-              int.parse(readByMessage.message!.readMessage![0].id!));
+          ctx.read<ChatHistory>().updateChatItemStatus(
+              '',
+              "READ",
+              int.parse(readByMessage.message!.readMessage![0].id!),
+              readByMessage.message!.readMessage![0].roomId!);
           // if (mounted) {
           //   setState(() {});
           // }
@@ -605,7 +640,8 @@ class SocketClientHelper extends ChangeNotifier {
               Provider.of<ChatHistory>(ctx, listen: false).updateChatItemStatus(
                   messageDetails.client_message_id!,
                   "SENT",
-                  sendAcknowledge.messageId);
+                  sendAcknowledge.messageId,
+                  messageDetails.room_id!);
             }
             if (myFailedList.length > 0) {
               int index = myFailedList.indexWhere((element) =>
@@ -658,7 +694,8 @@ class SocketClientHelper extends ChangeNotifier {
               ctx.read<ChatHistory>().updateChatItemStatus(
                   messageDetails.client_message_id!,
                   "SENT",
-                  sendAcknowledge.messageId);
+                  sendAcknowledge.messageId,
+                  messageDetails.room_id!);
             }
             if (myFailedList.length > 0) {
               int index = myFailedList.indexWhere((element) =>
@@ -752,6 +789,8 @@ class SocketClientHelper extends ChangeNotifier {
       //print('ack $data');
       if (data != null) {
         notifyListeners();
+        Provider.of<ChatNotificationCount>(ctx, listen: false)
+            .addNotificationBadge(notificationBadge: 0, roomId: roomId);
         if (createDate != '') getMissingMessages(roomId, userId!, createDate);
         print('login user from server $data');
       } else {
@@ -765,8 +804,8 @@ class SocketClientHelper extends ChangeNotifier {
     //String? userId = await localStorage.getUserId();
     List<MessageDetails> messageDetailsList =
         await dbHelper.getLatestMsgDetail(roomId);
-    Provider.of<ChatNotificationCount>(ctx, listen: false)
-        .addNotificationBadge(notificationBadge: 0, roomId: roomId);
+    // Provider.of<ChatNotificationCount>(ctx, listen: false)
+    //     .addNotificationBadge(notificationBadge: 0, roomId: roomId);
     var messageRoomJson;
 
     if (messageDetailsList.length > 0) {

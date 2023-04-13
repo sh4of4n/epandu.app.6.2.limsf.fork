@@ -55,13 +55,17 @@ class _CreateGroupState extends State<CreateGroup> {
     super.initState();
     //EasyLoading.showSuccess('Use in initState');
     EasyLoading.addStatusCallback(statusCallback);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final getSocket = Provider.of<SocketClientHelper>(context, listen: false);
+      socket = getSocket.socket;
+    });
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    socket = context.watch<SocketClientHelper>().socket;
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   socket = context.watch<SocketClientHelper>().socket;
+  // }
 
   @override
   void deactivate() {

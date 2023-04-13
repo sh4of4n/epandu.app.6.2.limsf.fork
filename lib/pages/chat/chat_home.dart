@@ -196,9 +196,28 @@ class _ChatHome2State extends State<ChatHome2> {
 
       context.read<SocketClientHelper>().setIsEnterRoom(true);
 
-      // context
-      //     .read<SocketClientHelper>()
-      //     .setRoomDetails(widget.Room_id, widget.roomName, widget.userName);
+      // final getSocket = Provider.of<SocketClientHelper>(context, listen: false);
+      // socket = getSocket.socket;
+
+      // if (socket.connected) {
+      //   onTyping();
+      //   //sendFailedMessages('GREATER1MIN');
+      //   if (localUserid != '') {
+      //     final getmsgList = Provider.of<ChatHistory>(context, listen: false);
+      //     List<MessageDetails> mylist = getmsgList.getMessageDetailsList
+      //         .where((element) =>
+      //             element.room_id == widget.roomId &&
+      //             element.msgStatus == "UNREAD" &&
+      //             element.message_id != 0)
+      //         .toList();
+
+      //     mylist.forEach((messageDetails) {
+      //       updateMessageReadBy(messageDetails.message_id.toString(),
+      //           this.localUserid, widget.roomId);
+      //     });
+      //     getReadByChatHistory();
+      //   }
+      // }
     });
     _getCameras();
 
@@ -213,10 +232,8 @@ class _ChatHome2State extends State<ChatHome2> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     socket = context.watch<SocketClientHelper>().socket;
-    //bool checkSocket = context.watch<SocketClientHelper>().isSocketConnected;
     if (socket.connected) {
       onTyping();
-      //sendFailedMessages('GREATER1MIN');
       if (localUserid != '') {
         List<MessageDetails> mylist = context
             .watch<ChatHistory>()
@@ -228,13 +245,10 @@ class _ChatHome2State extends State<ChatHome2> {
             .toList();
 
         mylist.forEach((messageDetails) {
-          updateMessageReadBy(
-              messageDetails.message_id.toString(), this.localUserid);
+          updateMessageReadBy(messageDetails.message_id.toString(),
+              this.localUserid, widget.roomId);
         });
-
-        // timer = Timer.periodic(Duration(seconds: 15), (Timer t) {
         getReadByChatHistory();
-        // });
       }
     }
   }
@@ -249,7 +263,7 @@ class _ChatHome2State extends State<ChatHome2> {
     if (getUnreadMessageDetailsList.length > 0) {
       getUnreadMessageDetailsList.forEach((MessageDetails messageDetails) {
         if (messageDetails.message_id.toString() != '') {
-          getMessageReadBy(messageDetails.message_id!);
+          getMessageReadBy(messageDetails.message_id!, widget.roomId);
         }
       });
     }
@@ -988,7 +1002,8 @@ class _ChatHome2State extends State<ChatHome2> {
                       onPressed: () {
                         setState(() {
                           //itemsList.removeAt(index);
-                          deleteChatMessage(messageDetails.message_id!, '');
+                          deleteChatMessage(
+                              messageDetails.message_id!, '', widget.roomId);
                         });
 
                         Navigator.of(context).pop();
@@ -1047,7 +1062,8 @@ class _ChatHome2State extends State<ChatHome2> {
                                           (MessageDetails messageDetails) {
                                         deleteChatMessage(
                                             messageDetails.message_id!,
-                                            'FORME');
+                                            'FORME',
+                                            widget.roomId);
                                       });
                                       Navigator.of(context).pop();
                                     } else if (index == 1) {
@@ -1055,7 +1071,8 @@ class _ChatHome2State extends State<ChatHome2> {
                                           (MessageDetails messageDetails) {
                                         deleteChatMessage(
                                             messageDetails.message_id!,
-                                            'EVERYONE');
+                                            'EVERYONE',
+                                            widget.roomId);
                                       });
                                       Navigator.of(context).pop();
                                     } else {
@@ -1104,7 +1121,8 @@ class _ChatHome2State extends State<ChatHome2> {
                   ),
                   onPressed: () {
                     _selectedItems.forEach((MessageDetails messageDetails) {
-                      deleteChatMessage(messageDetails.message_id!, 'FORME');
+                      deleteChatMessage(
+                          messageDetails.message_id!, 'FORME', widget.roomId);
                     });
                     Navigator.of(context).pop();
                     setState(() {
@@ -1847,15 +1865,13 @@ class _ChatHome2State extends State<ChatHome2> {
         });
   }
 
-  void deleteChatMessage(int messageId, String type) {
+  void deleteChatMessage(int messageId, String type, String roomId) {
     var messageJson = {
       "messageId": messageId,
     };
 
     if (type == 'FORME') {
-      context.read<ChatHistory>().deleteChatItem(
-            messageId,
-          );
+      context.read<ChatHistory>().deleteChatItem(messageId, roomId);
       // dbHelper.deleteMsg(
       //     messageId,
       //     DateFormat("yyyy-MM-dd HH:mm:ss")
@@ -1879,9 +1895,7 @@ class _ChatHome2State extends State<ChatHome2> {
         if (data != null) {
           Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
           if (result["messageId"] != '') {
-            context.read<ChatHistory>().deleteChatItem(
-                  messageId,
-                );
+            context.read<ChatHistory>().deleteChatItem(messageId, roomId);
             List<MessageDetails> list = getMessageDetailsList
                 .where((element) =>
                     element.message_id == messageId && element.filePath != '')
@@ -1910,7 +1924,7 @@ class _ChatHome2State extends State<ChatHome2> {
     }
   }
 
-  void updateChatMessage(int messageId, String text) {
+  void updateChatMessage(int messageId, String text, String roomId) {
     var messageJson = {"messageId": messageId, "msgBody": text};
     //print(messageJson);
     socket.emitWithAck('updateMessage', messageJson, ack: (data) async {
@@ -1918,9 +1932,8 @@ class _ChatHome2State extends State<ChatHome2> {
       if (data != null) {
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result['editDateTime'] != null && result['editDateTime'] != '') {
-          context
-              .read<ChatHistory>()
-              .updateChatItemMessage(text, messageId, result['editDateTime']);
+          context.read<ChatHistory>().updateChatItemMessage(
+              text, messageId, result['editDateTime'], roomId);
           await dbHelper.updateMsgDetailTableText(
               text, messageId, result['editDateTime']);
         }
@@ -1953,8 +1966,8 @@ class _ChatHome2State extends State<ChatHome2> {
           if (data != null) {
             SendAcknowledge sendAcknowledge = SendAcknowledge.fromJson(data);
             if (sendAcknowledge.clientMessageId == clientMessageId) {
-              context.read<ChatHistory>().updateChatItemStatus(
-                  clientMessageId, "SENT", sendAcknowledge.messageId);
+              context.read<ChatHistory>().updateChatItemStatus(clientMessageId,
+                  "SENT", sendAcknowledge.messageId, widget.roomId);
               await dbHelper.updateMsgDetailTable(
                   clientMessageId, "SENT", sendAcknowledge.messageId);
               if (myFailedList.length > 0) {
@@ -1978,7 +1991,7 @@ class _ChatHome2State extends State<ChatHome2> {
             curve: Curves.easeInOutCubic);
       });
     } else {
-      updateChatMessage(updateMessageId, text);
+      updateChatMessage(updateMessageId, text, widget.roomId);
       setState(() {
         updateStatus = false;
         editingController.text = '';
@@ -1987,7 +2000,7 @@ class _ChatHome2State extends State<ChatHome2> {
     }
   }
 
-  updateMessageReadBy(String messageId, String userId) {
+  updateMessageReadBy(String messageId, String userId, String roomId) {
     var messageJson = {
       "messageId": messageId,
       "userId": userId,
@@ -2001,7 +2014,7 @@ class _ChatHome2State extends State<ChatHome2> {
         if (result["messageId"] != '') {
           context
               .read<ChatHistory>()
-              .updateChatItemStatus('', "READ", int.parse(messageId));
+              .updateChatItemStatus('', "READ", int.parse(messageId), roomId);
           await dbHelper.updateMsgStatus('READ', int.parse(messageId));
         }
       } else {
@@ -2010,7 +2023,7 @@ class _ChatHome2State extends State<ChatHome2> {
     });
   }
 
-  getMessageReadBy(int messageId) {
+  getMessageReadBy(int messageId, String roomId) {
     if (socket.connected) {
       var messageJson = {
         "messageId": messageId,
@@ -2025,7 +2038,7 @@ class _ChatHome2State extends State<ChatHome2> {
               readByMessage.message!.readMessage![0].readBy!
                   .contains('[[ALL]]')) {
             context.read<ChatHistory>().updateChatItemStatus('', "READ",
-                int.parse(readByMessage.message!.readMessage![0].id!));
+                int.parse(readByMessage.message!.readMessage![0].id!), roomId);
             await dbHelper.updateMsgStatus(
                 'READ', int.parse(readByMessage.message!.readMessage![0].id!));
           }
@@ -2066,7 +2079,7 @@ class _ChatHome2State extends State<ChatHome2> {
         return customDialog.show(
           context: context,
           type: DialogType.ERROR,
-          content: "Please try sending file size less than 5MB.",
+          content: "Please try sending file size less than 2 MB.",
           onPressed: () => Navigator.pop(context),
         );
       }
@@ -2082,7 +2095,7 @@ class _ChatHome2State extends State<ChatHome2> {
         return customDialog.show(
           context: context,
           type: DialogType.ERROR,
-          content: "Please try sending file size less than 5MB.",
+          content: "Please try sending file size less than 2 MB.",
           onPressed: () => Navigator.pop(context),
         );
       }
@@ -2102,7 +2115,7 @@ class _ChatHome2State extends State<ChatHome2> {
       return customDialog.show(
         context: context,
         type: DialogType.ERROR,
-        content: "Please try sending file size less than 5MB.",
+        content: "Please try sending file size less than 2 MB.",
         onPressed: () => Navigator.pop(context),
       );
     }
@@ -2129,7 +2142,7 @@ class _ChatHome2State extends State<ChatHome2> {
       return customDialog.show(
         context: context,
         type: DialogType.ERROR,
-        content: "Please try sending file size less than 5MB.",
+        content: "Please try sending file size less than 2 MB.",
         onPressed: () => Navigator.pop(context),
       );
     }
@@ -2213,8 +2226,8 @@ class _ChatHome2State extends State<ChatHome2> {
           // }
 
           if (sendAcknowledge.clientMessageId == clientMessageId) {
-            context.read<ChatHistory>().updateChatItemStatus(
-                clientMessageId, "SENT", sendAcknowledge.messageId);
+            context.read<ChatHistory>().updateChatItemStatus(clientMessageId,
+                "SENT", sendAcknowledge.messageId, widget.roomId);
             // context
             //     .read<ChatHistory>()
             //     .updateChatItemFilepath(clientMessageId, filePath);
@@ -2307,10 +2320,12 @@ class _ChatHome2State extends State<ChatHome2> {
   onTyping() {
     socket.on('typing', (data) async {
       String? userid = await localStorage.getUserId();
-      if (userid != data) {
+      Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
+      if (userid != result["userId"].toString() &&
+          widget.roomId == result["roomId"].toString()) {
         duplicateMembers = this.members;
         List<RoomMembers> roomMembersList =
-            await dbHelper.getRoomMemberName(data);
+            await dbHelper.getRoomMemberName(result["userId"].toString());
         if (mounted) {
           setState(() {
             this.members = roomMembersList[0].nick_name! + ' Is Typing';
@@ -2319,8 +2334,11 @@ class _ChatHome2State extends State<ChatHome2> {
         }
       }
     });
-    socket.on('notTyping', (data) {
-      if (this.localUserid != data) {
+    socket.on('notTyping', (data) async {
+      String? userid = await localStorage.getUserId();
+      Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
+      if (userid != result["userId"].toString() &&
+          widget.roomId == result["roomId"].toString()) {
         if (mounted) {
           setState(() {
             this.members = duplicateMembers;
@@ -2597,7 +2615,7 @@ class _ChatHome2State extends State<ChatHome2> {
     final file = File(path);
     int sizeInBytes = file.lengthSync();
     double sizeInMb = sizeInBytes / (1024 * 1024);
-    if (sizeInMb <= 5) {
+    if (sizeInMb <= 2) {
       isFileSizeValid = true;
     } else {
       isFileSizeValid = false;

@@ -1,3 +1,4 @@
+import 'package:epandu/pages/chat/rooms_provider.dart';
 import 'package:epandu/pages/chat/socketclient_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -7,11 +8,13 @@ import '../../common_library/services/model/invitefriend_model.dart';
 import '../../common_library/services/model/inviteroom_response.dart';
 import '../../common_library/services/model/m_room_model.dart';
 import '../../common_library/services/model/m_roommember_model.dart';
+import '../../common_library/services/model/roomhistory_model.dart';
 import '../../common_library/services/repository/auth_repository.dart';
 import '../../common_library/utils/custom_dialog.dart';
 import '../../common_library/utils/local_storage.dart';
 import '../../services/database/DatabaseHelper.dart';
 import '../../services/repository/chatroom_repository.dart';
+import '../../utils/app_config.dart';
 import 'chat_home.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -29,6 +32,7 @@ class InviteFriend extends StatefulWidget {
 class _InviteFriendState extends State<InviteFriend> {
   late IO.Socket socket;
   bool isMultiSelectionEnabled = true;
+  final appConfig = AppConfig();
   //TextEditingController _textFieldController = TextEditingController();
   String codeDialog = "";
   String valueText = "";
@@ -48,13 +52,18 @@ class _InviteFriendState extends State<InviteFriend> {
     super.initState();
     //EasyLoading.showSuccess('Use in initState');
     EasyLoading.addStatusCallback(statusCallback);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final getSocket = Provider.of<SocketClientHelper>(context, listen: false);
+      socket = getSocket.socket;
+    });
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    socket = context.watch<SocketClientHelper>().socket;
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   socket = context.watch<SocketClientHelper>().socket;
+  // }
 
   @override
   void deactivate() {
@@ -117,10 +126,70 @@ class _InviteFriendState extends State<InviteFriend> {
 
                 if (inviteResult.data != null && inviteResult.data.length > 0) {
                   InviteRoomResponse inviteRoomResponse = inviteResult.data[0];
-                  await context.read<SocketClientHelper>().loginUserRoom();
 
+                  Room room = new Room(
+                      ID: inviteRoomResponse.iD,
+                      room_id: inviteRoomResponse.roomId,
+                      merchant_user_id: inviteRoomResponse.merchantUserId,
+                      merchant_login_id: inviteRoomResponse.merchantLoginId,
+                      merchant_nick_name: inviteRoomResponse.merchantNickName,
+                      user_id: inviteRoomResponse.userId,
+                      login_id: inviteRoomResponse.loginId,
+                      member_nick_name: inviteRoomResponse.memberNickName,
+                      room_desc: inviteRoomResponse.roomDesc,
+                      room_name: inviteRoomResponse.roomName,
+                      create_user: inviteRoomResponse.createUser,
+                      create_date: inviteRoomResponse.createDate,
+                      edit_user: inviteRoomResponse.editUser,
+                      edit_date: inviteRoomResponse.editDate,
+                      row_key: inviteRoomResponse.rowKey,
+                      transtamp: inviteRoomResponse.transtamp,
+                      deleted: inviteRoomResponse.deleted,
+                      photo_filename: '',
+                      profile_photo: '',
+                      merchant_no: inviteRoomResponse.merchantNo,
+                      picture_path: inviteRoomResponse.picturePath);
+                  int val = await dbHelper.saveRoomTable(room);
+                  RoomHistoryModel roomHistoryModel = new RoomHistoryModel(
+                      room_id: inviteRoomResponse.roomId ?? '',
+                      room_name: inviteRoomResponse.roomName ?? '',
+                      room_desc: inviteRoomResponse.roomDesc ?? '',
+                      picture_path: inviteRoomResponse.picturePath ?? '');
+                  context.read<RoomHistory>().addRoom(room: roomHistoryModel);
+                  print('Room Insert value ' + val.toString());
+                  var resultMembers = await chatRoomRepo
+                      .getRoomMembersList(inviteRoomResponse.roomId!);
+                  print('roomMembers' + resultMembers.data.length.toString());
+                  if (resultMembers.data != null &&
+                      resultMembers.data.length > 0) {
+                    for (int i = 0; i < resultMembers.data.length; i += 1) {
+                      await dbHelper
+                          .saveRoomMembersTable(resultMembers.data[i]);
+                    }
+                  }
                   String? userId = await localStorage.getUserId();
-                  //String? userName = await localStorage.getNickName();
+                  String? caUid = await localStorage.getCaUid();
+                  String? caPwd = await localStorage.getCaPwd();
+                  String? deviceId = await localStorage.getLoginDeviceId();
+                  var messageJson = {
+                    "roomId": inviteRoomResponse.roomId!,
+                    "userId": userId,
+                    "appId": appConfig.appId,
+                    "caUid": caUid,
+                    "caPwd": caPwd,
+                    "deviceId": deviceId
+                  };
+                  print('login: $messageJson');
+                  socket.emitWithAck('login', messageJson, ack: (data) {
+                    if (data != null) {
+                      print('login user from server $data');
+                    } else {
+                      print("Null from login user");
+                    }
+                  });
+
+                  //await context.read<SocketClientHelper>().loginUserRoom();
+
                   List<RoomMembers> roomMembers = await dbHelper
                       .getRoomMembersList(inviteRoomResponse.roomId!);
                   memberByPhoneResponseList.forEach((memberByPhoneResponse) {
@@ -143,13 +212,24 @@ class _InviteFriendState extends State<InviteFriend> {
                     });
                   });
                   await EasyLoading.dismiss();
+                  String? name = await localStorage.getName();
+                  String splitRoomName = '';
+                  if (inviteRoomResponse.roomName!.contains(','))
+                    splitRoomName = name!.toUpperCase() !=
+                            inviteRoomResponse.roomName!
+                                .split(',')[0]
+                                .toUpperCase()
+                        ? inviteRoomResponse.roomName!.split(',')[0]
+                        : inviteRoomResponse.roomName!.split(',')[1];
+                  else
+                    splitRoomName = room.room_name!;
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (_) => ChatHome2(
                                 roomId: inviteRoomResponse.roomId!,
                                 picturePath: '',
-                                roomName: inviteRoomResponse.roomName!,
+                                roomName: splitRoomName,
                                 roomDesc: 'Private Chat',
                                 // roomMembers: '',
                               ))).then((_) {});
