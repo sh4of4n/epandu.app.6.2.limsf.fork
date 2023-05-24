@@ -1,5 +1,6 @@
 // import 'dart:io';
 import 'dart:async';
+import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/model/inbox_model.dart';
@@ -9,6 +10,7 @@ import 'package:epandu/pages/chat/CustomAnimation.dart';
 import 'package:epandu/pages/chat/rooms_provider.dart';
 import 'package:epandu/pages/chat/socketclient_helper.dart';
 import 'package:epandu/router.gr.dart';
+import 'package:epandu/services/database/DatabaseHelper.dart';
 import 'package:epandu/services/provider/notification_count.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
@@ -16,6 +18,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
@@ -35,6 +38,7 @@ import 'pages/chat/chat_history.dart';
 import 'pages/chat/chatnotification_count.dart';
 import 'pages/chat/online_users.dart';
 import 'services/provider/cart_status.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 // import 'package:logging/logging.dart';
 
 /* final Map<String, Item> _items = <String, Item>{};
@@ -84,6 +88,31 @@ class Item {
     );
   }
 } */
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    'high_importance_channel', // id
+    'High Importance Notifications', // title
+    description: 'This channel is used for important notifications.',
+    importance: Importance.high,
+    playSound: true);
+
+// flutter local notification
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+// firebase background message handler
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('A Background message just showed up :  ${message.messageId}');
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -99,6 +128,22 @@ void main() async {
   await Hive.openBox('ws_url');
   await Hive.openBox('di_list');
   await Hive.openBox('menu');
+
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+// Firebase local notification plugin
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+//Firebase messaging
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
 
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -179,6 +224,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final dbHelper = DatabaseHelper.instance;
+  late IO.Socket socket;
+  String userId = '';
   AppLocalizationsDelegate? _newLocaleDelegate;
   final localStorage = LocalStorage();
   final image = ImagesConstant();
@@ -199,9 +247,32 @@ class _MyAppState extends State<MyApp> {
       getUnreadNotificationCount();
     });
 
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
       print("onMessageOpenedApp: $message");
-
+      print('Got a message whilst in the FOREGROUND!');
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      print('Message data: ${message.data}');
+      // NotificationPayload notificationPayload =
+      //     NotificationPayload.fromJson(message.data);
+      if (notification != null && android != null) {
+        if (await Hive.box('ws_url').get('isInChatRoom') == null) {
+          flutterLocalNotificationsPlugin.show(
+              notification.hashCode,
+              notification.title,
+              notification.body,
+              NotificationDetails(
+                android: AndroidNotificationDetails(
+                  channel.id,
+                  channel.name,
+                  channelDescription: channel.description,
+                  color: Colors.blue,
+                  playSound: true,
+                  icon: '@mipmap/ic_launcher',
+                ),
+              ));
+        }
+      }
       getUnreadNotificationCount();
 
       _navigateToItemDetail(message);

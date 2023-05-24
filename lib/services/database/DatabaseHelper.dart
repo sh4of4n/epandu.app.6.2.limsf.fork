@@ -1008,11 +1008,11 @@ class DatabaseHelper {
   }
 
   Future<int> updateMsgDetailTable(
-      String clientMessageId, String msgStatus, int message_id) async {
+      String clientMessageId, String msgStatus, int messageId) async {
     Database db = await instance.database;
     return await db.rawUpdate(
         "UPDATE $M_MSG_DETAIL_TABLE SET msgStatus = ?,message_id = ?  where clientMessageId = ?",
-        [msgStatus, message_id, clientMessageId]);
+        [msgStatus, messageId, clientMessageId]);
   }
 
   Future<int> updateMsgStatus(String msgStatus, int messageId) async {
@@ -1023,16 +1023,16 @@ class DatabaseHelper {
   }
 
   Future<int> updateMsgDetailTableText(
-      String msg_body, int message_id, String editDateTime) async {
+      String msgBody, int messageId, String editDateTime) async {
     Database db = await instance.database;
     return await db.rawUpdate(
         "UPDATE $M_MSG_DETAIL_TABLE SET msg_body = ?,edit_datetime = ? where message_id = ?",
         [
-          msg_body,
+          msgBody,
           DateFormat("yyyy-MM-dd HH:mm:ss")
               .format(DateTime.parse(editDateTime).toLocal())
               .toString(),
-          message_id
+          messageId
         ]);
   }
 
@@ -1129,6 +1129,17 @@ class DatabaseHelper {
     var res = await db.rawQuery(
         "SELECT MAX($M_MSG_DETAIL_TABLE.message_id) as 'message_id',$M_MSG_DETAIL_TABLE.msg_binarytype,$M_MSG_DETAIL_TABLE.msg_body,$M_MSG_DETAIL_TABLE.room_id,$M_MSG_DETAIL_TABLE.send_datetime,$M_ROOM_MEMBERS_TABLE.nick_name,$M_MSG_DETAIL_TABLE.filePath FROM $M_MSG_DETAIL_TABLE left join $M_ROOM_MEMBERS_TABLE on $M_ROOM_MEMBERS_TABLE.room_id=$M_MSG_DETAIL_TABLE.room_id and $M_ROOM_MEMBERS_TABLE.user_id=$M_MSG_DETAIL_TABLE.user_id where $M_MSG_DETAIL_TABLE.msgStatus NOT IN ('SENDING','FAILED') AND $M_MSG_DETAIL_TABLE.message_id>0 AND $M_MSG_DETAIL_TABLE.deleted==0  group by $M_MSG_DETAIL_TABLE.room_id"
         "");
+    List<MessageDetails> list = res.isNotEmpty
+        ? res.map((m) => MessageDetails.fromJson(m)).toList()
+        : [];
+    return list;
+  }
+
+  Future<List<MessageDetails>> getLazyLoadMsgDetailList(
+      String roomId, int batchSize, int offset) async {
+    Database db = await instance.database;
+    var res = await db.rawQuery(
+        "Select DISTINCT $M_MSG_DETAIL_TABLE.room_id as room_id,$M_MSG_DETAIL_TABLE.user_id as user_id,$M_MSG_DETAIL_TABLE.msg_body as msg_body,$M_MSG_DETAIL_TABLE.msg_binaryType as msg_binaryType,$M_MSG_DETAIL_TABLE.send_datetime as send_datetime,$M_MSG_DETAIL_TABLE.reply_to_id as reply_to_id,$M_MSG_DETAIL_TABLE.filePath as filePath,$M_MSG_DETAIL_TABLE.msgStatus as msgStatus,$M_MSG_DETAIL_TABLE.message_id as message_id,$M_MSG_DETAIL_TABLE.clientMessageId as client_message_id,$M_MSG_DETAIL_TABLE.nickName as nick_name from $M_MSG_DETAIL_TABLE  where  $M_MSG_DETAIL_TABLE.deleted == 0 and $M_MSG_DETAIL_TABLE.room_id = '$roomId'  ORDER BY $M_MSG_DETAIL_TABLE.send_datetime DESC LIMIT $batchSize OFFSET $offset;");
     List<MessageDetails> list = res.isNotEmpty
         ? res.map((m) => MessageDetails.fromJson(m)).toList()
         : [];

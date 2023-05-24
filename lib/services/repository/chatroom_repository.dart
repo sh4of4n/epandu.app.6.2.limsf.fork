@@ -56,7 +56,7 @@ class ChatRoomRepo {
         message: 'Failed to create room. Please try again later.');
   }
 
-  Future<Response> getRoomList() async {
+  Future<Response> getRoomList(String roomId) async {
     String? caUid = await localStorage.getCaUid();
     String? caPwd = await localStorage.getCaPwd();
     String? merchantNo = await localStorage.getMerchantDbCode();
@@ -69,9 +69,10 @@ class ChatRoomRepo {
         '&caUid=$caUid' +
         '&caPwd=$caPwd' +
         '&merchantNo=$merchantNo' +
-        '&loginId=$mLoginId' +
+        '&mLoginId=$mLoginId' +
         '&appId=$appId' +
         '&deviceId=$deviceId' +
+        '&roomId=$roomId' +
         '&appCode=$appCode';
 
     var response = await networking.getData(

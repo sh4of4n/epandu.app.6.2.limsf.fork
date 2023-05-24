@@ -37,4 +37,10 @@ class MyTheme {
     fontWeight: FontWeight.bold,
     letterSpacing: 1,
   );
+  static final TextStyle isMebodyTextTime = TextStyle(
+    color: Color(0xff686795),
+    fontSize: 11,
+    fontWeight: FontWeight.bold,
+    letterSpacing: 1,
+  );
 }

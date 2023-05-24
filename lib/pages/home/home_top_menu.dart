@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../chat/chatnotification_count.dart';
+
 class HomeTopMenu extends StatefulWidget {
   final iconText;
   final getDiProfile;
@@ -92,6 +94,11 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
     bool showBadge = context.watch<NotificationCount>().showBadge;
     int? badgeNo = context.watch<NotificationCount>().notificationBadge;
     int notificationCount = 0;
+    List<ChatNotification> chatNotificationCount =
+        context.watch<ChatNotificationCount>().getChatNotificationCountList;
+    chatNotificationCount.forEach((ChatNotification chatNotification) {
+      notificationCount += chatNotification.notificationBadge!;
+    });
     return Container(
       // height: ScreenUtil().setHeight(350),
       child: Stack(

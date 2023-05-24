@@ -55,32 +55,28 @@ class _RoomListState extends State<RoomList> {
     super.initState();
     EasyLoading.addStatusCallback(statusCallback);
     getRoomName();
-    //Provider.of<RoomHistory>(context, listen: false).getRoomHistory();
-    Provider.of<ChatHistory>(context, listen: false).getChatHistory();
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-    //   id = await localStorage.getUserId();
-
-    // });
     //dbHelper.deleteDB();
-    //_updateListview();
+    Provider.of<ChatHistory>(context, listen: false).getChatHistory();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final getSocket = Provider.of<SocketClientHelper>(context, listen: false);
+      socket = getSocket.socket;
+    });
+  }
+
+  getRoomName() async {
+    String? name = await localStorage.getName();
+    roomTitle = name!;
+    setState(() {
+      roomTitle = roomTitle;
+    });
   }
 
   // @override
   // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   _updateListview();
+  // super.didChangeDependencies();
+  //socket = context.watch<SocketClientHelper>().socket;
   // }
-  getRoomName() async {
-    String? name = await localStorage.getName();
-    roomTitle = name!;
-    setState(() {});
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    socket = context.watch<SocketClientHelper>().socket;
-  }
 
   @override
   void deactivate() {
@@ -100,34 +96,6 @@ class _RoomListState extends State<RoomList> {
         body: Container(
           child: Column(
             children: [
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: TextField(
-              //     onChanged: (value) {
-              //       setState(() {});
-              //       _populateListView(id!);
-              //     },
-              //     controller: editingController,
-              //     decoration: InputDecoration(
-              //         labelText: "Search",
-              //         hintText: "Search",
-              //         prefixIcon: Icon(Icons.search),
-              //         suffixIcon: editingController.text.length > 0
-              //             ? IconButton(
-              //                 // Icon to
-              //                 icon: Icon(Icons.clear), // clear text
-              //                 onPressed: () {
-              //                   editingController.text = '';
-              //                   setState(() {});
-              //                   _populateListView(id!);
-              //                 },
-              //               )
-              //             : null,
-              //         border: OutlineInputBorder(
-              //             borderRadius:
-              //                 BorderRadius.all(Radius.circular(25.0)))),
-              //   ),
-              // ),
               Expanded(child: _populateListView(id!)),
             ],
           ),
@@ -144,14 +112,10 @@ class _RoomListState extends State<RoomList> {
           ),
           onPressed: () {
             Navigator.pop(context);
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => Home()),
-            // );
           },
         ),
-        title: Text(roomTitle),
         backgroundColor: Colors.blueAccent,
+        title: Text(roomTitle),
         actions: [
           IconButton(
               icon: Icon(Icons.search),
@@ -172,6 +136,13 @@ class _RoomListState extends State<RoomList> {
                     ),
                   ),
                 );
+              } else if (value == "Delete Message") {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => DeleteMessage(),
+                //   ),
+                // );
               } else {
                 Navigator.push(
                   context,
@@ -193,6 +164,10 @@ class _RoomListState extends State<RoomList> {
                   child: Text("Create Group"),
                   value: "Create Group",
                 ),
+                // PopupMenuItem(
+                //   child: Text("Delete Message"),
+                //   value: "Delete Message",
+                // ),
               ];
             },
           ),
@@ -211,14 +186,16 @@ class _RoomListState extends State<RoomList> {
             });
           },
         ),
+        backgroundColor: Colors.blueAccent,
         title: TextField(
           controller: editingController,
-          onChanged: (value) {
-            if (value != '') {
-              _populateListView(id!);
-            }
-          },
+          cursorColor: Colors.white,
           style: TextStyle(color: Colors.white),
+          autofocus: true,
+          onChanged: (value) {
+            _populateListView(id!);
+          },
+          // style: TextStyle(color: Colors.white),
           decoration: InputDecoration(
               hintText: "Search Room",
               hintStyle: TextStyle(color: Colors.white)),
@@ -325,6 +302,17 @@ class _RoomListState extends State<RoomList> {
                     socket.emitWithAck('sendMessage', messageJson,
                         ack: (data) async {
                       if (data != null) {
+                        var messageJson = {
+                          "roomId": roomId,
+                        };
+                        socket.emitWithAck('logout', messageJson, ack: (data) {
+                          //print('ack $data');
+                          if (data != null) {
+                            print('logout user from server $data');
+                          } else {
+                            print("Null from logout user");
+                          }
+                        });
                         print('sendMessage from server $data');
                       } else {
                         print("Null from sendMessage");
@@ -349,11 +337,21 @@ class _RoomListState extends State<RoomList> {
                             .path +
                         '/' +
                         roomId);
-                    if ((await dir.exists())) {
+                    bool dirExist = await dir.exists();
+                    if (dirExist) {
                       await dir.delete();
                     }
+
+                    List<RoomHistoryModel> list =
+                        await Provider.of<RoomHistory>(context, listen: false)
+                            .getRoomHistory();
+                    if (list.length == 0) {
+                      context
+                          .read<SocketClientHelper>()
+                          .loginUser('Tbs.Chat.Client-All-Users', userid, '');
+                    }
+                    Navigator.pop(context);
                   }
-                  Navigator.of(context).pop();
                 },
               ),
             ],
@@ -364,7 +362,6 @@ class _RoomListState extends State<RoomList> {
   String generateRandomString(int length) {
     final _random = Random();
     const _availableChars = '1234567890';
-    // 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     final randomString = List.generate(length,
             (index) => _availableChars[_random.nextInt(_availableChars.length)])
         .join();
@@ -398,6 +395,19 @@ class _RoomListState extends State<RoomList> {
 
   Widget getCard(RoomHistoryModel room,
       List<ChatNotification> chatNotificationCount, int index) {
+    String splitRoomName = '';
+    if (room.room_desc!.toUpperCase() == 'GROUP CHAT')
+      splitRoomName = room.room_name!;
+    else {
+      if (room.room_name!.contains(','))
+        splitRoomName = roomTitle.toUpperCase() !=
+                room.room_name!.split(',')[0].toUpperCase()
+            ? room.room_name!.split(',')[0]
+            : room.room_name!.split(',')[1];
+      else
+        splitRoomName = room.room_name!;
+    }
+    //splitRoomName = room.room_name!;
     int badgeCount = 0;
     int chatCountIndex = chatNotificationCount
         .indexWhere((element) => element.roomId == room.room_id);
@@ -415,7 +425,7 @@ class _RoomListState extends State<RoomList> {
             _selectedRoomName = room.room_name!;
           });
         },
-        tileColor: _selectedIndex == index ? Colors.blue : null,
+        tileColor: _selectedIndex == index ? Colors.blueAccent : null,
         leading: Container(
           width: 40,
           height: 40,
@@ -447,7 +457,10 @@ class _RoomListState extends State<RoomList> {
         ),
         trailing: badgeCount > 0
             ? badges.Badge(
+                //shape: BadgeShape.circle,
+                //padding: EdgeInsets.all(8),
                 showBadge: badgeCount > 0 ? true : false,
+                //badgeColor: Colors.green,
                 badgeStyle: badges.BadgeStyle(
                     badgeColor: Colors.green,
                     shape: badges.BadgeShape.circle,
@@ -464,7 +477,7 @@ class _RoomListState extends State<RoomList> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: Text(room.room_name ?? '',
+              child: Text(splitRoomName,
                   maxLines: 1,
                   softWrap: false,
                   overflow: TextOverflow.ellipsis,
@@ -489,9 +502,9 @@ class _RoomListState extends State<RoomList> {
             context,
             MaterialPageRoute(
               builder: (context) => ChatHome2(
-                Room_id: room.room_id ?? '',
+                roomId: room.room_id ?? '',
                 picturePath: room.picture_path ?? '',
-                roomName: room.room_name ?? '',
+                roomName: splitRoomName,
                 roomDesc: room.room_desc ?? '',
                 // roomMembers: members
               ),

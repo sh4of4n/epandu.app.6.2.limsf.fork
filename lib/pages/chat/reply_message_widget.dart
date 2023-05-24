@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import '../../common_library/services/model/replymessage_model.dart';
+import '../../common_library/utils/capitalize_firstletter.dart';
 import 'chat_theme.dart';
 
 class ReplyMessageWidget extends StatefulWidget {
@@ -39,14 +40,8 @@ class _ReplyMessageWidgetState extends State<ReplyMessageWidget> {
             children: [
               Expanded(
                 child: Text(
-                  widget.messageDetails.nick_name!,
-                  // widget.messageDetails.nick_name != ''
-                  //     ? widget.messageDetails.nick_name!
-                  //         .split(" ")
-                  //         .map((str) =>
-                  //             "${widget.messageDetails.nick_name![0].toUpperCase()}${widget.messageDetails.nick_name!.substring(1).toLowerCase()}")
-                  //         .join(" ")
-                  //     : widget.messageDetails.nick_name!,
+                  CapitalizeFirstLetter()
+                      .capitalizeFirstLetter(widget.messageDetails.nick_name!),
                   style: MyTheme.heading2.copyWith(fontSize: 13),
                 ),
               ),
@@ -97,22 +92,12 @@ class _ReplyMessageWidgetState extends State<ReplyMessageWidget> {
             size: 30,
           ),
           Text('Audio File', style: MyTheme.bodyText1)
-          /*Flexible(
-            child: Slider(
-              value: 0,
-              min: 0,
-              max:0, onChanged: (double value) {  },
-              //divisions: 100
-            ),
-          ),*/
         ],
       );
     } else if (replyMessageDetails.filePath?.split('.').last.toUpperCase() ==
         "MP4") {
       return Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        /* mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.end,*/
         children: [
           Icon(
             Icons.videocam_sharp,
@@ -122,14 +107,6 @@ class _ReplyMessageWidgetState extends State<ReplyMessageWidget> {
             'video File',
             style: MyTheme.bodyText1,
           )
-          /*Flexible(
-            child: Slider(
-              value: 0,
-              min: 0,
-              max:0, onChanged: (double value) {  },
-              //divisions: 100
-            ),
-          ),*/
         ],
       );
     } else {
@@ -145,14 +122,6 @@ class _ReplyMessageWidgetState extends State<ReplyMessageWidget> {
             'File',
             style: MyTheme.bodyText1,
           )
-          /*Flexible(
-            child: Slider(
-              value: 0,
-              min: 0,
-              max:0, onChanged: (double value) {  },
-              //divisions: 100
-            ),
-          ),*/
         ],
       );
     }

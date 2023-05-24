@@ -1,3 +1,9 @@
+28/02/2023 V.6.1.7
+ - Bugs Fixed and enhancements
+
+28/02/2023 V.6.1.6
+ - Added Chat Features(Text,Audio,Video,Images)
+
 22/12/2022 V.6.1.5
 ePandu ws 6.1.173.0
 

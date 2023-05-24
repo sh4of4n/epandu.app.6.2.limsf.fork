@@ -108,13 +108,17 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
     } else {
       _getData();
     }
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final getSocket = Provider.of<SocketClientHelper>(context, listen: false);
+      socket = getSocket.socket;
+    });
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    socket = context.watch<SocketClientHelper>().socket;
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   socket = context.watch<SocketClientHelper>().socket;
+  // }
 
   _getPackageInfo() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();

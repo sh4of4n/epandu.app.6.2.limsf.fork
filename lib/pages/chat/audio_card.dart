@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart';
 import 'package:flutter_sound/public/util/flutter_sound_helper.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 import '../../common_library/services/model/replymessage_model.dart';
+import '../../common_library/utils/capitalize_firstletter.dart';
 import 'chat_home.dart';
 import 'chat_theme.dart';
 import 'date_formater.dart';
@@ -14,9 +14,9 @@ typedef Fn = void Function();
 
 class AudioCard extends StatefulWidget {
   final String time;
-  final String nick_name;
+  final String nickName;
   final String text;
-  final String file_path;
+  final String filePath;
   final String user;
   final String localUser;
   final String msgStatus;
@@ -28,9 +28,9 @@ class AudioCard extends StatefulWidget {
   const AudioCard(
       {Key? key,
       required this.time,
-      required this.nick_name,
+      required this.nickName,
       required this.text,
-      required this.file_path,
+      required this.filePath,
       required this.user,
       required this.localUser,
       required this.msgStatus,
@@ -86,400 +86,249 @@ class _AudioCardState extends State<AudioCard> {
 
   @override
   Widget build(BuildContext context) {
-    const styleSomebody = BubbleStyle(
-      nip: BubbleNip.leftTop,
-      color: Colors.white,
-      borderColor: Colors.blueGrey,
-      borderWidth: 1,
-      elevation: 4,
-      margin: BubbleEdges.only(top: 10),
-      alignment: Alignment.topLeft,
-    );
+    return Container(child: getAudio());
+  }
 
-    const styleMe = BubbleStyle(
-      nip: BubbleNip.rightTop,
-      color: Color.fromARGB(255, 225, 255, 199),
-      borderColor: Colors.blue,
-      borderWidth: 1,
-      elevation: 4,
-      margin: BubbleEdges.only(top: 10),
-      alignment: Alignment.topRight,
-    );
-    return Container(
-      margin: widget.localUser == widget.user
-          ? EdgeInsets.fromLTRB(100, 0, 10, 10)
-          : EdgeInsets.fromLTRB(10, 0, 100, 10),
-      // width:  MediaQuery.of(context).size.width * 0.5,
-      child: Bubble(
-          style: widget.localUser == widget.user ? styleMe : styleSomebody,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (widget.roomDesc.toUpperCase().contains("GROUP")) ...[
-                new Text(
-                  widget.nick_name,
-                  style: MyTheme.heading2.copyWith(fontSize: 13),
-                ),
-                widget.file_path != ''
-                    ? widget.replyMessageDetails.reply_to_id == 0
-                        ? Container(
-                            height: 50,
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  GestureDetector(
-                                    onTap: getPlaybackFn(_mPlayer),
-                                    child: Icon(
-                                      _mPlayer.isPlaying
-                                          ? Icons.pause
-                                          : Icons.play_arrow,
-                                      size: 40,
+  Widget getAudio() {
+    return Padding(
+      // asymmetric padding
+      padding: EdgeInsets.fromLTRB(
+        widget.localUser == widget.user ? 64.0 : 16.0,
+        4,
+        widget.localUser == widget.user ? 16.0 : 64.0,
+        4,
+      ),
+      child: Align(
+        // align the child within the container
+        alignment: widget.localUser == widget.user
+            ? Alignment.centerRight
+            : Alignment.centerLeft,
+        child: Container(
+          decoration: BoxDecoration(
+            border: widget.localUser != widget.user
+                ? Border.all(color: Colors.blueAccent)
+                : Border.all(color: Colors.grey[300]!),
+            borderRadius: BorderRadius.circular(17),
+          ),
+          child: DecoratedBox(
+            // chat bubble decoration
+            decoration: BoxDecoration(
+              color: widget.localUser == widget.user
+                  ? Colors.blueAccent
+                  : Colors.grey[200],
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (widget.roomDesc.toUpperCase().contains("GROUP"))
+                        if (widget.localUser != widget.user)
+                          Text(
+                            CapitalizeFirstLetter()
+                                .capitalizeFirstLetter(widget.nickName),
+                            style: MyTheme.heading2.copyWith(fontSize: 13),
+                          ),
+                      widget.filePath != ''
+                          ? widget.replyMessageDetails.reply_to_id == 0
+                              ? Container(
+                                  height: 50,
+                                  alignment: Alignment.centerLeft,
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.8,
+                                    padding: EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[300],
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
-                                  ),
-                                  Expanded(
-                                    child: Column(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
                                       children: [
-                                        isPlaying
-                                            ? Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                      pos
-                                                          .toString()
-                                                          .split('.')[0],
-                                                      style: TextStyle(
-                                                          color:
-                                                              Colors.black45)),
-                                                  SizedBox(
-                                                    width: 50,
-                                                  ),
-                                                  Text(
-                                                      (pos - duration)
-                                                          .toString()
-                                                          .split('.')[0],
-                                                      style: TextStyle(
-                                                          color:
-                                                              Colors.black45)),
-                                                ],
-                                              )
-                                            : Container(),
-                                        Flexible(
-                                          child: Slider(
-                                            value: pos.inSeconds.toDouble(),
-                                            min: 0.0,
-                                            max: duration.inSeconds.toDouble(),
-                                            onChanged: seek,
-                                            //divisions: 100
+                                        GestureDetector(
+                                          onTap: getPlaybackFn(_mPlayer),
+                                          child: Icon(
+                                            _mPlayer.isPlaying
+                                                ? Icons.pause
+                                                : Icons.play_arrow,
+                                            size: 40,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            children: [
+                                              isPlaying
+                                                  ? Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                            pos
+                                                                .toString()
+                                                                .split('.')[0],
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black45)),
+                                                        SizedBox(
+                                                          width: 50,
+                                                        ),
+                                                        Text(
+                                                            (pos - duration)
+                                                                .toString()
+                                                                .split('.')[0],
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black45)),
+                                                      ],
+                                                    )
+                                                  : Container(),
+                                              Flexible(
+                                                child: Slider(
+                                                  value:
+                                                      pos.inSeconds.toDouble(),
+                                                  min: 0.0,
+                                                  max: duration.inSeconds
+                                                      .toDouble(),
+                                                  onChanged: seek,
+                                                  //divisions: 100
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          )
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              buildReplyMessage(widget.replyMessageDetails),
-                              Divider(
-                                color: Colors.grey[500],
-                                height: 20,
-                                thickness: 2,
-                                indent: 10,
-                                endIndent: 10,
-                              ),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Container(
-                                    height: 50,
-                                    alignment: Alignment.centerLeft,
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.8,
-                                      padding: EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey[300],
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: getPlaybackFn(_mPlayer),
-                                            child: Icon(
-                                              Icons.play_arrow,
-                                              size: 30,
+                                )
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    buildReplyMessage(
+                                        widget.replyMessageDetails),
+                                    Divider(
+                                      color: Colors.white,
+                                      height: 20,
+                                      thickness: 2,
+                                      indent: 10,
+                                      endIndent: 10,
+                                    ),
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: Container(
+                                          height: 50,
+                                          alignment: Alignment.centerLeft,
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.8,
+                                            padding: EdgeInsets.all(8),
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey[300],
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
                                             ),
-                                          ),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Flexible(
-                                                child: Slider(
-                                                  value: 0,
-                                                  min: 0.0,
-                                                  max: 0,
-                                                  onChanged: (double value) {},
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          )
-                    : Container(
-                        child: Center(
-                          child: Text('No Audio From Server',
-                              style: MyTheme.bodyText1),
-                        ),
-                      ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        widget.text,
-                        style: MyTheme.bodyText1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    widget.localUser == widget.user
-                        ? Row(
-                            children: [
-                              Text(
-                                DateFormatter()
-                                    .getVerboseDateTimeRepresentation(
-                                        DateTime.parse(widget.time)),
-                                //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time)),
-                                style: MyTheme.bodyTextTime,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              getStatusIcon(widget.msgStatus)
-                            ],
-                          )
-                        : Row(
-                            children: [
-                              Text(
-                                DateFormatter()
-                                    .getVerboseDateTimeRepresentation(
-                                        DateTime.parse(widget.time)),
-                                //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time)),
-                                style: MyTheme.bodyTextTime,
-                              ),
-                            ],
-                          ),
-                  ],
-                ),
-              ] else ...[
-                widget.file_path != ''
-                    ? widget.replyMessageDetails.reply_to_id == 0
-                        ? Container(
-                            height: 50,
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  GestureDetector(
-                                    onTap: getPlaybackFn(_mPlayer),
-                                    child: Icon(
-                                      _mPlayer.isPlaying
-                                          ? Icons.pause
-                                          : Icons.play_arrow,
-                                      size: 40,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        isPlaying
-                                            ? Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                      pos
-                                                          .toString()
-                                                          .split('.')[0],
-                                                      style: TextStyle(
-                                                          color:
-                                                              Colors.black45)),
-                                                  SizedBox(
-                                                    width: 50,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                GestureDetector(
+                                                  onTap:
+                                                      getPlaybackFn(_mPlayer),
+                                                  child: Icon(
+                                                    Icons.play_arrow,
+                                                    size: 30,
                                                   ),
-                                                  Text(
-                                                      (pos - duration)
-                                                          .toString()
-                                                          .split('.')[0],
-                                                      style: TextStyle(
-                                                          color:
-                                                              Colors.black45)),
-                                                ],
-                                              )
-                                            : Container(),
-                                        Flexible(
-                                          child: Slider(
-                                            value: pos.inSeconds.toDouble(),
-                                            min: 0.0,
-                                            max: duration.inSeconds.toDouble(),
-                                            onChanged: seek,
-                                            //divisions: 100
+                                                ),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  children: [
+                                                    Flexible(
+                                                      child: Slider(
+                                                        value: 0,
+                                                        min: 0.0,
+                                                        max: 0,
+                                                        onChanged:
+                                                            (double value) {},
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                                      ),
+                                    )
+                                  ],
+                                )
+                          : Container(
+                              child: Center(
+                                child: Text('No Audio From Server',
+                                    style: MyTheme.bodyText1),
                               ),
                             ),
-                          )
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              buildReplyMessage(widget.replyMessageDetails),
-                              Divider(
-                                color: Colors.grey[500],
-                                height: 20,
-                                thickness: 2,
-                                indent: 10,
-                                endIndent: 10,
-                              ),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Container(
-                                    height: 50,
-                                    alignment: Alignment.centerLeft,
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.8,
-                                      padding: EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey[300],
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: getPlaybackFn(_mPlayer),
-                                            child: Icon(
-                                              Icons.play_arrow,
-                                              size: 30,
-                                            ),
-                                          ),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Flexible(
-                                                child: Slider(
-                                                  value: 0,
-                                                  min: 0.0,
-                                                  max: 0,
-                                                  onChanged: (double value) {},
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          )
-                    : Container(
-                        child: Center(
-                          child: Text('No Audio From Server',
-                              style: MyTheme.bodyText1),
-                        ),
-                      ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        widget.text,
-                        style: MyTheme.bodyText1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    widget.localUser == widget.user
-                        ? Row(
-                            children: [
-                              Text(
-                                DateFormatter()
-                                    .getVerboseDateTimeRepresentation(
-                                        DateTime.parse(widget.time)),
-                                //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time)),
-                                style: MyTheme.bodyTextTime,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              getStatusIcon(widget.msgStatus)
-                            ],
-                          )
-                        : Row(
-                            children: [
-                              Text(
-                                DateFormatter()
-                                    .getVerboseDateTimeRepresentation(
-                                        DateTime.parse(widget.time)),
-                                //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time)),
-                                style: MyTheme.bodyTextTime,
-                              ),
-                            ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              // widget.text,
+                              '',
+                              style: MyTheme.bodyText1.copyWith(
+                                  color: widget.localUser == widget.user
+                                      ? Colors.white
+                                      : Colors.black87),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                  ],
-                ),
-              ]
-            ],
-          )),
+                          widget.localUser == widget.user
+                              ? Row(
+                                  children: [
+                                    Text(
+                                      DateFormatter()
+                                          .getVerboseDateTimeRepresentation(
+                                              DateTime.parse(widget.time)),
+                                      //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time)),
+                                      style: MyTheme.isMebodyTextTime,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    getStatusIcon(widget.msgStatus)
+                                  ],
+                                )
+                              : Row(
+                                  children: [
+                                    Text(
+                                      DateFormatter()
+                                          .getVerboseDateTimeRepresentation(
+                                              DateTime.parse(widget.time)),
+                                      //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time)),
+                                      style: MyTheme.bodyTextTime,
+                                    ),
+                                  ],
+                                ),
+                        ],
+                      ),
+                    ])),
+          ),
+        ),
+      ),
     );
   }
 
@@ -490,7 +339,7 @@ class _AudioCardState extends State<AudioCard> {
       return Container(
         padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.2),
+          color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(12),
             bottomLeft: Radius.circular(12),
@@ -535,7 +384,7 @@ class _AudioCardState extends State<AudioCard> {
     } else {
       return Icon(
         Icons.done_all,
-        color: Colors.blue,
+        color: Colors.black,
         size: 20,
       );
     }
@@ -562,7 +411,7 @@ class _AudioCardState extends State<AudioCard> {
 
   void play(FlutterSoundPlayer? player) async {
     await player!.startPlayer(
-        fromURI: widget.file_path,
+        fromURI: widget.filePath,
         whenFinished: () {
           setState(() {
             isPlaying = false;

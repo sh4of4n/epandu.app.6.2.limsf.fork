@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../common_library/services/model/m_room_model.dart';
 import '../../common_library/services/model/roomhistory_model.dart';
 import '../../common_library/utils/local_storage.dart';
 import '../../services/database/DatabaseHelper.dart';
@@ -24,6 +23,15 @@ class RoomHistory extends ChangeNotifier {
         getRoomDetailsList.indexWhere((element) => element.room_id == roomId);
     if (index > -1) {
       getRoomList[index].room_name = roomName;
+      notifyListeners();
+    }
+  }
+
+  void updateRoomMessage({required String roomId, required String message}) {
+    int index =
+        getRoomDetailsList.indexWhere((element) => element.room_id == roomId);
+    if (index > -1) {
+      getRoomList[index].msg_body = message;
       notifyListeners();
     }
   }
