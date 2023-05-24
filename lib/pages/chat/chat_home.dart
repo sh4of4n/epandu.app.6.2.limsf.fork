@@ -80,6 +80,10 @@ class ChatHome2 extends StatefulWidget {
 }
 
 class _ChatHome2State extends State<ChatHome2> {
+  final int batchSize = 10;
+  int offset = 0;
+  bool isDataLoading = false;
+  bool _isFetchingData = false;
   int currentIndex = -1;
   List filteredMessages = [];
   bool isSearching = false;
@@ -157,6 +161,8 @@ class _ChatHome2State extends State<ChatHome2> {
   @override
   void initState() {
     super.initState();
+    //Provider.of<ChatHistory>(context, listen: false).getChatHistory();
+
     // this.members = widget.roomMembers;
     // itemPositionsListener.itemPositions.addListener(() {
     //   if (itemPositionsListener.itemPositions.value.length > 0 &&
@@ -195,37 +201,55 @@ class _ChatHome2State extends State<ChatHome2> {
           .updateNotificationBadge(roomId: widget.roomId, type: "DELETE");
 
       context.read<SocketClientHelper>().setIsEnterRoom(true);
-
-      // final getSocket = Provider.of<SocketClientHelper>(context, listen: false);
-      // socket = getSocket.socket;
-
-      // if (socket.connected) {
-      //   onTyping();
-      //   //sendFailedMessages('GREATER1MIN');
-      //   if (localUserid != '') {
-      //     final getmsgList = Provider.of<ChatHistory>(context, listen: false);
-      //     List<MessageDetails> mylist = getmsgList.getMessageDetailsList
-      //         .where((element) =>
-      //             element.room_id == widget.roomId &&
-      //             element.msgStatus == "UNREAD" &&
-      //             element.message_id != 0)
-      //         .toList();
-
-      //     mylist.forEach((messageDetails) {
-      //       updateMessageReadBy(messageDetails.message_id.toString(),
-      //           this.localUserid, widget.roomId);
-      //     });
-      //     getReadByChatHistory();
-      //   }
-      // }
     });
     _getCameras();
+    //Provider.of<ChatHistory>(context, listen: false).deleteChats(widget.roomId);
 
-    // WidgetsBinding.instance?.addPostFrameCallback((_) async {
-    //   socket=(await Provider.of<SocketClientHelper>(context, listen: false).socket)!;
-    // });
-    // socket=( Provider.of<SocketClientHelper>(context, listen: false).socket);
-    //dbHelper.deleteMsgDetail();
+    //BatchLoad
+    final chatHistoryProvider =
+        Provider.of<ChatHistory>(context, listen: false);
+    chatHistoryProvider.getLazyLoadChatHistory(
+        widget.roomId, offset, batchSize);
+    setState(() {
+      offset += batchSize;
+      isDataLoading = false;
+      _isFetchingData = false;
+    });
+    itemPositionsListener.itemPositions.addListener(_onItemPositionsChanged);
+  }
+
+  void _onItemPositionsChanged() {
+    final positions = itemPositionsListener.itemPositions.value;
+
+    if (positions.isNotEmpty) {
+      final lastVisibleItem = positions.last.index;
+      final itemCount = getMessageDetailsList.length;
+
+      if (!_isFetchingData && lastVisibleItem == itemCount - 1) {
+        setState(() {
+          isDataLoading = true;
+          _isFetchingData = true;
+        });
+        bool isDataExist =
+            Provider.of<ChatHistory>(context, listen: false).isDataExist;
+        if (isDataExist)
+          _loadMoreChatHistory();
+        else {
+          isDataLoading = false;
+          _isFetchingData = false;
+        }
+      }
+    }
+  }
+
+  void _loadMoreChatHistory() {
+    Provider.of<ChatHistory>(context, listen: false)
+        .getLazyLoadChatHistory(widget.roomId, offset, batchSize);
+    setState(() {
+      offset += batchSize;
+      isDataLoading = false;
+      _isFetchingData = false;
+    });
   }
 
   @override
@@ -580,302 +604,92 @@ class _ChatHome2State extends State<ChatHome2> {
 
   Widget getListview() {
     return Expanded(
-        child: Consumer<ChatHistory>(
-      builder: (ctx, msgList, child) => ScrollablePositionedList.builder(
-        itemCount: msgList.getMessageDetailsList
-            .where((element) => element.room_id == widget.roomId)
-            .toList()
-            .length,
-        shrinkWrap: true,
-        reverse: true,
-        itemScrollController: itemScrollController,
-        itemPositionsListener: itemPositionsListener,
-        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-        itemBuilder: (context, index) {
-          if (index >= 0) {
-            ReplyMessageDetails existingReplayMessageDetails =
-                ReplyMessageDetails(
-                    reply_to_id: 0,
-                    msg_body: '',
-                    nick_name: '',
-                    filePath: '',
-                    binaryType: '');
-
-            getMessageDetailsList = msgList.getMessageDetailsList
-                .where((element) => element.room_id == widget.roomId)
-                .toList()
-                .reversed
-                .toList();
-
-            int replyId = getMessageDetailsList[index].reply_to_id!;
-            if (getMessageDetailsList[index].reply_to_id! > 0) {
-              int index = getMessageDetailsList
-                  .indexWhere((element) => element.message_id == replyId);
-              if (index > 0) {
-                MessageDetails msgDetails = getMessageDetailsList[index];
-                existingReplayMessageDetails.reply_to_id =
-                    msgDetails.message_id;
-                existingReplayMessageDetails.nick_name = msgDetails.nick_name;
-                existingReplayMessageDetails.filePath = msgDetails.filePath;
-                existingReplayMessageDetails.msg_body = msgDetails.msg_body;
+        child: Scrollbar(
+      child: Consumer<ChatHistory>(
+        builder: (ctx, msgList, child) => ScrollablePositionedList.builder(
+          itemCount: msgList.getMessageDetailsList
+              .where((element) => element.room_id == widget.roomId)
+              .toList()
+              .length,
+          shrinkWrap: true,
+          reverse: true,
+          itemScrollController: itemScrollController,
+          itemPositionsListener: itemPositionsListener,
+          physics:
+              BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          itemBuilder: (context, index) {
+            if (index == msgList.getMessageDetailsList.length) {
+              if (isDataLoading) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                return Container(); // Reached end of data
               }
             }
+            if (index >= 0) {
+              ReplyMessageDetails existingReplayMessageDetails =
+                  ReplyMessageDetails(
+                      reply_to_id: 0,
+                      msg_body: '',
+                      nick_name: '',
+                      filePath: '',
+                      binaryType: '');
 
-            // if (getMessageDetailsList[index].room_id == widget.Room_id) {
-            return Container(
-              color: _desiredItemIndex == index ? Colors.grey[200] : null,
-              child: InkWell(
-                  onLongPress: () {
-                    if (!isSearching &&
-                        getMessageDetailsList[index].msg_binaryType !=
-                            'userLeft' &&
-                        getMessageDetailsList[index].msg_binaryType !=
-                            'userJoined') {
-                      isMultiSelectionEnabled = true;
+              getMessageDetailsList = msgList.getMessageDetailsList
+                  .where((element) => element.room_id == widget.roomId)
+                  .toList()
+                  .reversed
+                  .toList();
+
+              int replyId = getMessageDetailsList[index].reply_to_id!;
+              if (getMessageDetailsList[index].reply_to_id! > 0) {
+                int index = getMessageDetailsList
+                    .indexWhere((element) => element.message_id == replyId);
+                if (index > 0) {
+                  MessageDetails msgDetails = getMessageDetailsList[index];
+                  existingReplayMessageDetails.reply_to_id =
+                      msgDetails.message_id;
+                  existingReplayMessageDetails.nick_name = msgDetails.nick_name;
+                  existingReplayMessageDetails.filePath = msgDetails.filePath;
+                  existingReplayMessageDetails.msg_body = msgDetails.msg_body;
+                }
+              }
+
+              // if (getMessageDetailsList[index].room_id == widget.Room_id) {
+              return Container(
+                color: _desiredItemIndex == index ? Colors.grey[200] : null,
+                child: InkWell(
+                    onLongPress: () {
+                      if (!isSearching &&
+                          getMessageDetailsList[index].msg_binaryType !=
+                              'userLeft' &&
+                          getMessageDetailsList[index].msg_binaryType !=
+                              'userJoined') {
+                        isMultiSelectionEnabled = true;
+                        doMultiSelectionItem(getMessageDetailsList[index]);
+                      }
+                    },
+                    onTap: () {
                       doMultiSelectionItem(getMessageDetailsList[index]);
-                    }
-                  },
-                  onTap: () {
-                    doMultiSelectionItem(getMessageDetailsList[index]);
-                    if (_selectedItems.length == 0) {
-                      setState(() {
-                        isMultiSelectionEnabled = false;
-                      });
-                    }
-                  },
-                  child: Stack(
-                    alignment:
-                        getMessageDetailsList[index].user_id == localUserid
-                            ? Alignment.centerRight
-                            : Alignment.centerLeft,
-                    children: [
-                      Column(
-                        children: [
-                          if (getMessageDetailsList[index].msg_binaryType ==
-                              "image") ...[
-                            SwipeTo(
-                                onLeftSwipe: () {
-                                  replyToMessage(
-                                      getMessageDetailsList[index].nick_name!,
-                                      getMessageDetailsList[index].filePath!,
-                                      getMessageDetailsList[index].message_id!,
-                                      getMessageDetailsList[index].msg_body!,
-                                      getMessageDetailsList[index]
-                                          .msg_binaryType!);
-                                },
-                                onRightSwipe: () {
-                                  replyToMessage(
-                                      getMessageDetailsList[index].nick_name!,
-                                      getMessageDetailsList[index].filePath!,
-                                      getMessageDetailsList[index].message_id!,
-                                      getMessageDetailsList[index].msg_body!,
-                                      getMessageDetailsList[index]
-                                          .msg_binaryType!);
-                                },
-                                child: ImageCard(
-                                  time: getMessageDetailsList[index]
-                                          .send_datetime ??
-                                      '',
-                                  nickName:
-                                      getMessageDetailsList[index].nick_name ??
-                                          '',
-                                  text: getMessageDetailsList[index].msg_body ??
-                                      '',
-                                  filePath:
-                                      getMessageDetailsList[index].filePath ??
-                                          '',
-                                  user: getMessageDetailsList[index].user_id ??
-                                      '',
-                                  localUser: localUserid,
-                                  msgStatus:
-                                      getMessageDetailsList[index].msgStatus ??
-                                          '',
-                                  messageId:
-                                      getMessageDetailsList[index].message_id ??
-                                          0,
-                                  replyMessageDetails:
-                                      existingReplayMessageDetails,
-                                  onCancelReply: cancelReply,
-                                  callback: tapListitem,
-                                  roomDesc: widget.roomDesc,
-                                ))
-                          ] else if (getMessageDetailsList[index]
-                                  .msg_binaryType ==
-                              "video") ...[
-                            SwipeTo(
-                                onLeftSwipe: () {
-                                  replyToMessage(
-                                      getMessageDetailsList[index].nick_name!,
-                                      getMessageDetailsList[index].filePath!,
-                                      getMessageDetailsList[index].message_id!,
-                                      getMessageDetailsList[index].msg_body!,
-                                      getMessageDetailsList[index]
-                                          .msg_binaryType!);
-                                },
-                                onRightSwipe: () {
-                                  replyToMessage(
-                                      getMessageDetailsList[index].nick_name!,
-                                      getMessageDetailsList[index].filePath!,
-                                      getMessageDetailsList[index].message_id!,
-                                      getMessageDetailsList[index].msg_body!,
-                                      getMessageDetailsList[index]
-                                          .msg_binaryType!);
-                                },
-                                child: VideoCard(
-                                  filePath:
-                                      getMessageDetailsList[index].filePath ??
-                                          '',
-                                  time: getMessageDetailsList[index]
-                                          .send_datetime ??
-                                      '',
-                                  text: getMessageDetailsList[index].msg_body ??
-                                      '',
-                                  nickName:
-                                      getMessageDetailsList[index].nick_name ??
-                                          '',
-                                  user: getMessageDetailsList[index].user_id ??
-                                      '',
-                                  localUser: localUserid,
-                                  msgStatus:
-                                      getMessageDetailsList[index].msgStatus ??
-                                          '',
-                                  messageId:
-                                      getMessageDetailsList[index].message_id ??
-                                          0,
-                                  replyMessageDetails:
-                                      existingReplayMessageDetails,
-                                  onCancelReply: cancelReply,
-                                  callback: tapListitem,
-                                  roomDesc: widget.roomDesc,
-                                ))
-                          ] else if (getMessageDetailsList[index]
-                                  .msg_binaryType ==
-                              "audio") ...[
-                            SwipeTo(
-                                onLeftSwipe: () {
-                                  replyToMessage(
-                                      getMessageDetailsList[index].nick_name!,
-                                      getMessageDetailsList[index].filePath!,
-                                      getMessageDetailsList[index].message_id!,
-                                      getMessageDetailsList[index].msg_body!,
-                                      getMessageDetailsList[index]
-                                          .msg_binaryType!);
-                                },
-                                onRightSwipe: () {
-                                  replyToMessage(
-                                      getMessageDetailsList[index].nick_name!,
-                                      getMessageDetailsList[index].filePath!,
-                                      getMessageDetailsList[index].message_id!,
-                                      getMessageDetailsList[index].msg_body!,
-                                      getMessageDetailsList[index]
-                                          .msg_binaryType!);
-                                },
-                                child: AudioCard(
-                                  nickName:
-                                      getMessageDetailsList[index].nick_name ??
-                                          '',
-                                  text: getMessageDetailsList[index].msg_body ??
-                                      '',
-                                  time: getMessageDetailsList[index]
-                                          .send_datetime ??
-                                      '',
-                                  filePath:
-                                      getMessageDetailsList[index].filePath ??
-                                          '',
-                                  user: getMessageDetailsList[index].user_id ??
-                                      '',
-                                  localUser: localUserid,
-                                  msgStatus:
-                                      getMessageDetailsList[index].msgStatus ??
-                                          '',
-                                  messageId:
-                                      getMessageDetailsList[index].message_id ??
-                                          0,
-                                  replyMessageDetails:
-                                      existingReplayMessageDetails,
-                                  onCancelReply: cancelReply,
-                                  callback: tapListitem,
-                                  roomDesc: widget.roomDesc,
-                                ))
-                          ] else if (getMessageDetailsList[index]
-                                  .msg_binaryType ==
-                              "file") ...[
-                            SwipeTo(
-                                onLeftSwipe: () {
-                                  replyToMessage(
-                                      getMessageDetailsList[index].nick_name!,
-                                      getMessageDetailsList[index].filePath!,
-                                      getMessageDetailsList[index].message_id!,
-                                      getMessageDetailsList[index].msg_body!,
-                                      getMessageDetailsList[index]
-                                          .msg_binaryType!);
-                                },
-                                onRightSwipe: () {
-                                  replyToMessage(
-                                      getMessageDetailsList[index].nick_name!,
-                                      getMessageDetailsList[index].filePath!,
-                                      getMessageDetailsList[index].message_id!,
-                                      getMessageDetailsList[index].msg_body!,
-                                      getMessageDetailsList[index]
-                                          .msg_binaryType!);
-                                },
-                                child: FileCard(
-                                  nickName:
-                                      getMessageDetailsList[index].nick_name ??
-                                          '',
-                                  text: getMessageDetailsList[index].msg_body ??
-                                      '',
-                                  time: getMessageDetailsList[index]
-                                          .send_datetime ??
-                                      '',
-                                  filePath:
-                                      getMessageDetailsList[index].filePath ??
-                                          '',
-                                  user: getMessageDetailsList[index].user_id ??
-                                      '',
-                                  localUser: localUserid,
-                                  msgStatus:
-                                      getMessageDetailsList[index].msgStatus ??
-                                          '',
-                                  messageId:
-                                      getMessageDetailsList[index].message_id ??
-                                          0,
-                                  replyMessageDetails:
-                                      existingReplayMessageDetails,
-                                  onCancelReply: cancelReply,
-                                  callback: tapListitem,
-                                  roomDesc: widget.roomDesc,
-                                ))
-                          ] else if (getMessageDetailsList[index]
-                                      .msg_binaryType ==
-                                  "userLeft" ||
-                              getMessageDetailsList[index].msg_binaryType ==
-                                  "userJoined") ...[
-                            UserLeftJoinedCard(
-                              messageDetails: getMessageDetailsList[index],
-                            )
-                          ] else ...[
-                            SwipeTo(
-                                iconOnLeftSwipe:
-                                    getMessageDetailsList[index].user_id ==
-                                            localUserid
-                                        ? Icons.edit
-                                        : Icons.reply_sharp,
-                                iconSize: 30,
-                                iconColor: Colors.blue,
-                                onLeftSwipe: () {
-                                  if (getMessageDetailsList[index].user_id ==
-                                      localUserid) {
-                                    editingController.text =
-                                        getMessageDetailsList[index].msg_body!;
-
-                                    setState(() {
-                                      updateStatus = true;
-                                      updateMessageId =
-                                          getMessageDetailsList[index]
-                                              .message_id!;
-                                    });
-                                  } else {
+                      if (_selectedItems.length == 0) {
+                        setState(() {
+                          isMultiSelectionEnabled = false;
+                        });
+                      }
+                    },
+                    child: Stack(
+                      alignment:
+                          getMessageDetailsList[index].user_id == localUserid
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                      children: [
+                        Column(
+                          children: [
+                            if (getMessageDetailsList[index].msg_binaryType ==
+                                "image") ...[
+                              SwipeTo(
+                                  onLeftSwipe: () {
                                     replyToMessage(
                                         getMessageDetailsList[index].nick_name!,
                                         getMessageDetailsList[index].filePath!,
@@ -884,55 +698,297 @@ class _ChatHome2State extends State<ChatHome2> {
                                         getMessageDetailsList[index].msg_body!,
                                         getMessageDetailsList[index]
                                             .msg_binaryType!);
-                                  }
-                                },
-                                onRightSwipe: () {
-                                  replyToMessage(
-                                      getMessageDetailsList[index].nick_name!,
-                                      getMessageDetailsList[index].filePath!,
-                                      getMessageDetailsList[index].message_id!,
-                                      getMessageDetailsList[index].msg_body!,
-                                      getMessageDetailsList[index]
-                                          .msg_binaryType!);
-                                },
-                                child: MessageCard(
-                                  messageDetails: getMessageDetailsList[index],
-                                  localUser: localUserid,
-                                  replyMessageDetails:
-                                      existingReplayMessageDetails,
-                                  onCancelReply: cancelReply,
-                                  callback: tapListitem,
-                                  resendCallback: tapResend,
-                                  roomDesc: widget.roomDesc,
-                                ))
-                          ]
-                        ],
-                      ),
-                      Visibility(
-                          visible: isMultiSelectionEnabled,
-                          child: getMessageDetailsList[index].msg_binaryType !=
-                                      'userLeft' &&
-                                  getMessageDetailsList[index].msg_binaryType !=
-                                      'userJoined'
-                              ? Icon(
-                                  _selectedItems.contains(
-                                          getMessageDetailsList[index])
-                                      ? Icons.check_circle
-                                      : Icons.radio_button_unchecked,
-                                  size: 30,
-                                  color: Colors.blue,
-                                )
-                              : Text(''))
-                    ],
-                  )),
-            );
-            // } else {
-            //   return SizedBox.shrink();
-            // }
-          }
+                                  },
+                                  onRightSwipe: () {
+                                    replyToMessage(
+                                        getMessageDetailsList[index].nick_name!,
+                                        getMessageDetailsList[index].filePath!,
+                                        getMessageDetailsList[index]
+                                            .message_id!,
+                                        getMessageDetailsList[index].msg_body!,
+                                        getMessageDetailsList[index]
+                                            .msg_binaryType!);
+                                  },
+                                  child: ImageCard(
+                                    time: getMessageDetailsList[index]
+                                            .send_datetime ??
+                                        '',
+                                    nickName: getMessageDetailsList[index]
+                                            .nick_name ??
+                                        '',
+                                    text:
+                                        getMessageDetailsList[index].msg_body ??
+                                            '',
+                                    filePath:
+                                        getMessageDetailsList[index].filePath ??
+                                            '',
+                                    user:
+                                        getMessageDetailsList[index].user_id ??
+                                            '',
+                                    localUser: localUserid,
+                                    msgStatus: getMessageDetailsList[index]
+                                            .msgStatus ??
+                                        '',
+                                    messageId: getMessageDetailsList[index]
+                                            .message_id ??
+                                        0,
+                                    replyMessageDetails:
+                                        existingReplayMessageDetails,
+                                    onCancelReply: cancelReply,
+                                    callback: tapListitem,
+                                    roomDesc: widget.roomDesc,
+                                  ))
+                            ] else if (getMessageDetailsList[index]
+                                    .msg_binaryType ==
+                                "video") ...[
+                              SwipeTo(
+                                  onLeftSwipe: () {
+                                    replyToMessage(
+                                        getMessageDetailsList[index].nick_name!,
+                                        getMessageDetailsList[index].filePath!,
+                                        getMessageDetailsList[index]
+                                            .message_id!,
+                                        getMessageDetailsList[index].msg_body!,
+                                        getMessageDetailsList[index]
+                                            .msg_binaryType!);
+                                  },
+                                  onRightSwipe: () {
+                                    replyToMessage(
+                                        getMessageDetailsList[index].nick_name!,
+                                        getMessageDetailsList[index].filePath!,
+                                        getMessageDetailsList[index]
+                                            .message_id!,
+                                        getMessageDetailsList[index].msg_body!,
+                                        getMessageDetailsList[index]
+                                            .msg_binaryType!);
+                                  },
+                                  child: VideoCard(
+                                    filePath:
+                                        getMessageDetailsList[index].filePath ??
+                                            '',
+                                    time: getMessageDetailsList[index]
+                                            .send_datetime ??
+                                        '',
+                                    text:
+                                        getMessageDetailsList[index].msg_body ??
+                                            '',
+                                    nickName: getMessageDetailsList[index]
+                                            .nick_name ??
+                                        '',
+                                    user:
+                                        getMessageDetailsList[index].user_id ??
+                                            '',
+                                    localUser: localUserid,
+                                    msgStatus: getMessageDetailsList[index]
+                                            .msgStatus ??
+                                        '',
+                                    messageId: getMessageDetailsList[index]
+                                            .message_id ??
+                                        0,
+                                    replyMessageDetails:
+                                        existingReplayMessageDetails,
+                                    onCancelReply: cancelReply,
+                                    callback: tapListitem,
+                                    roomDesc: widget.roomDesc,
+                                  ))
+                            ] else if (getMessageDetailsList[index]
+                                    .msg_binaryType ==
+                                "audio") ...[
+                              SwipeTo(
+                                  onLeftSwipe: () {
+                                    replyToMessage(
+                                        getMessageDetailsList[index].nick_name!,
+                                        getMessageDetailsList[index].filePath!,
+                                        getMessageDetailsList[index]
+                                            .message_id!,
+                                        getMessageDetailsList[index].msg_body!,
+                                        getMessageDetailsList[index]
+                                            .msg_binaryType!);
+                                  },
+                                  onRightSwipe: () {
+                                    replyToMessage(
+                                        getMessageDetailsList[index].nick_name!,
+                                        getMessageDetailsList[index].filePath!,
+                                        getMessageDetailsList[index]
+                                            .message_id!,
+                                        getMessageDetailsList[index].msg_body!,
+                                        getMessageDetailsList[index]
+                                            .msg_binaryType!);
+                                  },
+                                  child: AudioCard(
+                                    nickName: getMessageDetailsList[index]
+                                            .nick_name ??
+                                        '',
+                                    text:
+                                        getMessageDetailsList[index].msg_body ??
+                                            '',
+                                    time: getMessageDetailsList[index]
+                                            .send_datetime ??
+                                        '',
+                                    filePath:
+                                        getMessageDetailsList[index].filePath ??
+                                            '',
+                                    user:
+                                        getMessageDetailsList[index].user_id ??
+                                            '',
+                                    localUser: localUserid,
+                                    msgStatus: getMessageDetailsList[index]
+                                            .msgStatus ??
+                                        '',
+                                    messageId: getMessageDetailsList[index]
+                                            .message_id ??
+                                        0,
+                                    replyMessageDetails:
+                                        existingReplayMessageDetails,
+                                    onCancelReply: cancelReply,
+                                    callback: tapListitem,
+                                    roomDesc: widget.roomDesc,
+                                  ))
+                            ] else if (getMessageDetailsList[index]
+                                    .msg_binaryType ==
+                                "file") ...[
+                              SwipeTo(
+                                  onLeftSwipe: () {
+                                    replyToMessage(
+                                        getMessageDetailsList[index].nick_name!,
+                                        getMessageDetailsList[index].filePath!,
+                                        getMessageDetailsList[index]
+                                            .message_id!,
+                                        getMessageDetailsList[index].msg_body!,
+                                        getMessageDetailsList[index]
+                                            .msg_binaryType!);
+                                  },
+                                  onRightSwipe: () {
+                                    replyToMessage(
+                                        getMessageDetailsList[index].nick_name!,
+                                        getMessageDetailsList[index].filePath!,
+                                        getMessageDetailsList[index]
+                                            .message_id!,
+                                        getMessageDetailsList[index].msg_body!,
+                                        getMessageDetailsList[index]
+                                            .msg_binaryType!);
+                                  },
+                                  child: FileCard(
+                                    nickName: getMessageDetailsList[index]
+                                            .nick_name ??
+                                        '',
+                                    text:
+                                        getMessageDetailsList[index].msg_body ??
+                                            '',
+                                    time: getMessageDetailsList[index]
+                                            .send_datetime ??
+                                        '',
+                                    filePath:
+                                        getMessageDetailsList[index].filePath ??
+                                            '',
+                                    user:
+                                        getMessageDetailsList[index].user_id ??
+                                            '',
+                                    localUser: localUserid,
+                                    msgStatus: getMessageDetailsList[index]
+                                            .msgStatus ??
+                                        '',
+                                    messageId: getMessageDetailsList[index]
+                                            .message_id ??
+                                        0,
+                                    replyMessageDetails:
+                                        existingReplayMessageDetails,
+                                    onCancelReply: cancelReply,
+                                    callback: tapListitem,
+                                    roomDesc: widget.roomDesc,
+                                  ))
+                            ] else if (getMessageDetailsList[index]
+                                        .msg_binaryType ==
+                                    "userLeft" ||
+                                getMessageDetailsList[index].msg_binaryType ==
+                                    "userJoined") ...[
+                              UserLeftJoinedCard(
+                                messageDetails: getMessageDetailsList[index],
+                              )
+                            ] else ...[
+                              SwipeTo(
+                                  iconOnLeftSwipe:
+                                      getMessageDetailsList[index].user_id ==
+                                              localUserid
+                                          ? Icons.edit
+                                          : Icons.reply_sharp,
+                                  iconSize: 30,
+                                  iconColor: Colors.blue,
+                                  onLeftSwipe: () {
+                                    if (getMessageDetailsList[index].user_id ==
+                                        localUserid) {
+                                      editingController.text =
+                                          getMessageDetailsList[index]
+                                              .msg_body!;
 
-          return SizedBox.shrink();
-        },
+                                      setState(() {
+                                        updateStatus = true;
+                                        updateMessageId =
+                                            getMessageDetailsList[index]
+                                                .message_id!;
+                                      });
+                                    } else {
+                                      replyToMessage(
+                                          getMessageDetailsList[index]
+                                              .nick_name!,
+                                          getMessageDetailsList[index]
+                                              .filePath!,
+                                          getMessageDetailsList[index]
+                                              .message_id!,
+                                          getMessageDetailsList[index]
+                                              .msg_body!,
+                                          getMessageDetailsList[index]
+                                              .msg_binaryType!);
+                                    }
+                                  },
+                                  onRightSwipe: () {
+                                    replyToMessage(
+                                        getMessageDetailsList[index].nick_name!,
+                                        getMessageDetailsList[index].filePath!,
+                                        getMessageDetailsList[index]
+                                            .message_id!,
+                                        getMessageDetailsList[index].msg_body!,
+                                        getMessageDetailsList[index]
+                                            .msg_binaryType!);
+                                  },
+                                  child: MessageCard(
+                                    messageDetails:
+                                        getMessageDetailsList[index],
+                                    localUser: localUserid,
+                                    replyMessageDetails:
+                                        existingReplayMessageDetails,
+                                    onCancelReply: cancelReply,
+                                    callback: tapListitem,
+                                    resendCallback: tapResend,
+                                    roomDesc: widget.roomDesc,
+                                  ))
+                            ]
+                          ],
+                        ),
+                        Visibility(
+                            visible: isMultiSelectionEnabled,
+                            child:
+                                getMessageDetailsList[index].msg_binaryType !=
+                                            'userLeft' &&
+                                        getMessageDetailsList[index]
+                                                .msg_binaryType !=
+                                            'userJoined'
+                                    ? Icon(
+                                        _selectedItems.contains(
+                                                getMessageDetailsList[index])
+                                            ? Icons.check_circle
+                                            : Icons.radio_button_unchecked,
+                                        size: 30,
+                                        color: Colors.blue,
+                                      )
+                                    : Text(''))
+                      ],
+                    )),
+              );
+            }
+            return SizedBox.shrink();
+          },
+        ),
       ),
     ));
   }
@@ -1219,64 +1275,6 @@ class _ChatHome2State extends State<ChatHome2> {
     });
   }
 
-  Widget slideRightBackground() {
-    return Container(
-      color: Colors.green,
-      child: Align(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(
-              width: 20,
-            ),
-            Icon(
-              Icons.edit,
-              color: Colors.white,
-            ),
-            Text(
-              " Edit",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ],
-        ),
-        alignment: Alignment.centerLeft,
-      ),
-    );
-  }
-
-  Widget slideLeftBackground() {
-    return Container(
-      color: Colors.red,
-      child: Align(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Icon(
-              Icons.delete,
-              color: Colors.white,
-            ),
-            Text(
-              " Delete",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-              ),
-              textAlign: TextAlign.right,
-            ),
-            SizedBox(
-              width: 20,
-            ),
-          ],
-        ),
-        alignment: Alignment.centerRight,
-      ),
-    );
-  }
-
   _getAppBarMembers() async {
     roomMembers = await dbHelper.getRoomMembersList(widget.roomId);
     for (var roomMembers in roomMembers) {
@@ -1290,7 +1288,7 @@ class _ChatHome2State extends State<ChatHome2> {
         members = members.substring(0, members.length - 1);
 
       membersCount = roomMembers.length;
-      if (roomMembers.length > 0) roomName = roomMembers[0].room_name!;
+      if (membersCount > 0) roomName = roomMembers[0].room_name!;
     });
   }
 
@@ -1464,7 +1462,11 @@ class _ChatHome2State extends State<ChatHome2> {
                   Provider.of<ChatNotificationCount>(context, listen: false)
                       .updateUnreadMessageId(roomId: widget.roomId);
                   Navigator.pop(context);
+                  //TODO
                   context.read<SocketClientHelper>().setIsEnterRoom(false);
+                  context.read<RoomHistory>().getRoomHistory();
+                  context.read<ChatHistory>().deleteChats(widget.roomId);
+                  context.read<ChatHistory>().updateIsDataExist();
                 },
               ),
             ],
@@ -1781,9 +1783,6 @@ class _ChatHome2State extends State<ChatHome2> {
                       await chatRoomRepo.leaveRoom(roomId);
                   if (leaveRoomResponseResult.data != null &&
                       leaveRoomResponseResult.data.length > 0) {
-                    // LeaveRoomResponse leaveRoomResponse =
-                    //     leaveRoomResponseResult.data[0];
-
                     List<RoomMembers> roomMembers =
                         await dbHelper.getRoomMembersList(widget.roomId);
                     roomMembers.forEach((roomMember) {
@@ -1818,10 +1817,10 @@ class _ChatHome2State extends State<ChatHome2> {
                     socket.emitWithAck('sendMessage', messageJson,
                         ack: (data) async {
                       if (data != null) {
-                        var messageJson = {
+                        var logOutJson = {
                           "roomId": widget.roomId,
                         };
-                        socket.emitWithAck('logout', messageJson, ack: (data) {
+                        socket.emitWithAck('logout', logOutJson, ack: (data) {
                           //print('ack $data');
                           if (data != null) {
                             print('logout user from server $data');
@@ -1866,17 +1865,7 @@ class _ChatHome2State extends State<ChatHome2> {
   }
 
   void deleteChatMessage(int messageId, String type, String roomId) {
-    var messageJson = {
-      "messageId": messageId,
-    };
-
     if (type == 'FORME') {
-      context.read<ChatHistory>().deleteChatItem(messageId, roomId);
-      // dbHelper.deleteMsg(
-      //     messageId,
-      //     DateFormat("yyyy-MM-dd HH:mm:ss")
-      //         .format(DateTime.now().toLocal())
-      //         .toString());
       List<MessageDetails> list = getMessageDetailsList
           .where((element) =>
               element.message_id == messageId && element.filePath != '')
@@ -1885,17 +1874,19 @@ class _ChatHome2State extends State<ChatHome2> {
       if (list.length > 0) {
         deleteFile(File(list[0].filePath!));
       }
-
+      context.read<ChatHistory>().deleteChatItem(messageId, roomId);
       dbHelper.deleteMsgDetailTable(messageId);
     } else {
+      var deleteMessageJson = {
+        "messageId": messageId,
+      };
       print('socket connection:' + socket.connected.toString());
-      socket.emitWithAck('deleteMessage', messageJson, ack: (data) async {
+      socket.emitWithAck('deleteMessage', deleteMessageJson, ack: (data) async {
         print('deleteMessage from server $data');
         print('deletemessage_' + socket.id!);
         if (data != null) {
           Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
           if (result["messageId"] != '') {
-            context.read<ChatHistory>().deleteChatItem(messageId, roomId);
             List<MessageDetails> list = getMessageDetailsList
                 .where((element) =>
                     element.message_id == messageId && element.filePath != '')
@@ -1904,6 +1895,7 @@ class _ChatHome2State extends State<ChatHome2> {
             if (list.length > 0) {
               deleteFile(File(list[0].filePath!));
             }
+            context.read<ChatHistory>().deleteChatItem(messageId, roomId);
             dbHelper.deleteMsgDetailTable(messageId);
           }
         } else {
@@ -1937,7 +1929,6 @@ class _ChatHome2State extends State<ChatHome2> {
           await dbHelper.updateMsgDetailTableText(
               text, messageId, result['editDateTime']);
         }
-
         print('updateMessage from server $data');
       } else {
         print("Null from updateMessage");
@@ -1965,19 +1956,19 @@ class _ChatHome2State extends State<ChatHome2> {
         socket.emitWithAck('sendMessage', messageJson, ack: (data) async {
           if (data != null) {
             SendAcknowledge sendAcknowledge = SendAcknowledge.fromJson(data);
-            if (sendAcknowledge.clientMessageId == clientMessageId) {
-              context.read<ChatHistory>().updateChatItemStatus(clientMessageId,
-                  "SENT", sendAcknowledge.messageId, widget.roomId);
-              await dbHelper.updateMsgDetailTable(
-                  clientMessageId, "SENT", sendAcknowledge.messageId);
-              if (myFailedList.length > 0) {
-                int index = myFailedList.indexWhere(
-                    (element) => element.client_message_id == clientMessageId);
-                if (index > -1) {
-                  myFailedList.removeAt(index);
-                }
+            // if (sendAcknowledge.clientMessageId == clientMessageId) {
+            context.read<ChatHistory>().updateChatItemStatus(clientMessageId,
+                "SENT", sendAcknowledge.messageId, widget.roomId);
+            await dbHelper.updateMsgDetailTable(
+                clientMessageId, "SENT", sendAcknowledge.messageId);
+            if (myFailedList.length > 0) {
+              int index = myFailedList.indexWhere(
+                  (element) => element.client_message_id == clientMessageId);
+              if (index > -1) {
+                myFailedList.removeAt(index);
               }
             }
+            // }
             print('sendMessage from server $data');
           } else {
             print("Null from sendMessage");
@@ -2128,8 +2119,7 @@ class _ChatHome2State extends State<ChatHome2> {
     var bytes = await File(path).readAsBytes();
     String base64string = base64.encode(bytes);
     var fileType = 'file';
-    if (path.split(".").last.toUpperCase().contains('MP4') ||
-        path.split(".").last.toUpperCase().contains('WMV')) {
+    if (path.split(".").last.toUpperCase().contains('MP4')) {
       fileType = 'video';
     }
     getFileSize(path);
@@ -2187,6 +2177,8 @@ class _ChatHome2State extends State<ChatHome2> {
     //print(messageDetails.send_datetime);
     dbHelper.saveMsgDetailTable(messageDetails);
     context.read<ChatHistory>().addChatHistory(messageDetail: messageDetails);
+    context.read<RoomHistory>().updateRoomMessage(
+        roomId: messageDetails.room_id!, message: messageDetails.msg_body!);
     cancelReply();
   }
 
@@ -2225,20 +2217,18 @@ class _ChatHome2State extends State<ChatHome2> {
           //   filePath = await createFile(msgBinaryType, base64string, message);
           // }
 
-          if (sendAcknowledge.clientMessageId == clientMessageId) {
-            context.read<ChatHistory>().updateChatItemStatus(clientMessageId,
-                "SENT", sendAcknowledge.messageId, widget.roomId);
-            // context
-            //     .read<ChatHistory>()
-            //     .updateChatItemFilepath(clientMessageId, filePath);
-            await dbHelper.updateMsgDetailTable(
-                clientMessageId, "SENT", sendAcknowledge.messageId);
-            if (myFailedList.length > 0) {
-              int index = myFailedList.indexWhere(
-                  (element) => element.client_message_id == clientMessageId);
-              if (index > -1) {
-                myFailedList.removeAt(index);
-              }
+          context.read<ChatHistory>().updateChatItemStatus(clientMessageId,
+              "SENT", sendAcknowledge.messageId, widget.roomId);
+          // context
+          //     .read<ChatHistory>()
+          //     .updateChatItemFilepath(clientMessageId, filePath);
+          await dbHelper.updateMsgDetailTable(
+              clientMessageId, "SENT", sendAcknowledge.messageId);
+          if (myFailedList.length > 0) {
+            int index = myFailedList.indexWhere(
+                (element) => element.client_message_id == clientMessageId);
+            if (index > -1) {
+              myFailedList.removeAt(index);
             }
           }
           print('sendMessage from server $data');
@@ -2298,7 +2288,9 @@ class _ChatHome2State extends State<ChatHome2> {
                 filePath: replyList[0].filePath);
           }
 
-          if (messageDetails.msg_binaryType == '') {
+          if (messageDetails.msg_binaryType == '' ||
+              messageDetails.msg_binaryType == 'userLeft' ||
+              messageDetails.msg_binaryType == 'userJoined') {
             sendMessage(messageDetails.msg_body!, "FailedMessages",
                 myreplayList, messageDetails.client_message_id!);
           } else {
@@ -2346,6 +2338,24 @@ class _ChatHome2State extends State<ChatHome2> {
         }
       }
     });
+    // socket.onConnectError((data) {
+    //   print("Connection error occurred: $data");
+    //   // Check if there is no network or a slow network
+    //   Connectivity().checkConnectivity().then((result) {
+    //     if (result == ConnectivityResult.none) {
+    //       final customSnackbar = CustomSnackbar();
+    //       customSnackbar.show(
+    //         context,
+    //         message: 'No network connectivity',
+    //         duration: 5000,
+    //         type: MessageType.INFO,
+    //       );
+    //     } else if (result == ConnectivityResult.mobile ||
+    //         result == ConnectivityResult.wifi) {
+    //       print("Slow network connectivity");
+    //     }
+    //   });
+    // });
   }
 
   sendTyping(String value) {
@@ -2547,7 +2557,7 @@ class _ChatHome2State extends State<ChatHome2> {
       return dir.path;
     } else {
       await dir.create(recursive: true);
-      print(dir.path);
+      //print(dir.path);
       return dir.path;
     }
   }
@@ -2620,7 +2630,6 @@ class _ChatHome2State extends State<ChatHome2> {
     } else {
       isFileSizeValid = false;
     }
-
     setState(() {
       isFileSizeValid = isFileSizeValid;
     });

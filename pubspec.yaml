@@ -105,6 +105,8 @@ dependencies:
   dotted_border: ^2.0.0+1
   scroll_app_bar: ^2.0.0
   dropdown_search: ^5.0.5
+  flick_video_player: ^0.5.0
+  visibility_detector: ^0.4.0+2
 
 dependency_overrides:
   modal_bottom_sheet:

@@ -1134,4 +1134,15 @@ class DatabaseHelper {
         : [];
     return list;
   }
+
+  Future<List<MessageDetails>> getLazyLoadMsgDetailList(
+      String roomId, int batchSize, int offset) async {
+    Database db = await instance.database;
+    var res = await db.rawQuery(
+        "Select DISTINCT $M_MSG_DETAIL_TABLE.room_id as room_id,$M_MSG_DETAIL_TABLE.user_id as user_id,$M_MSG_DETAIL_TABLE.msg_body as msg_body,$M_MSG_DETAIL_TABLE.msg_binaryType as msg_binaryType,$M_MSG_DETAIL_TABLE.send_datetime as send_datetime,$M_MSG_DETAIL_TABLE.reply_to_id as reply_to_id,$M_MSG_DETAIL_TABLE.filePath as filePath,$M_MSG_DETAIL_TABLE.msgStatus as msgStatus,$M_MSG_DETAIL_TABLE.message_id as message_id,$M_MSG_DETAIL_TABLE.clientMessageId as client_message_id,$M_MSG_DETAIL_TABLE.nickName as nick_name from $M_MSG_DETAIL_TABLE  where  $M_MSG_DETAIL_TABLE.deleted == 0 and $M_MSG_DETAIL_TABLE.room_id = '$roomId'  ORDER BY $M_MSG_DETAIL_TABLE.send_datetime DESC LIMIT $batchSize OFFSET $offset;");
+    List<MessageDetails> list = res.isNotEmpty
+        ? res.map((m) => MessageDetails.fromJson(m)).toList()
+        : [];
+    return list;
+  }
 }

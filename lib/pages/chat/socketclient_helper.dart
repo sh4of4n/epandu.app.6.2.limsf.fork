@@ -168,39 +168,39 @@ class SocketClientHelper extends ChangeNotifier {
     }
   }
 
-  void deleteMessage(int messageId, String roomId) {
-    var messageJson = {
-      "messageId": messageId,
-    };
-    socket.emitWithAck('deleteMessage', messageJson, ack: (data) async {
-      print('deleteMessage from server $data');
-      if (data != null) {
-        Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
-        if (result["messageId"] != '') {
-          ctx.read<ChatHistory>().deleteChatItem(messageId, roomId);
-          List<MessageDetails> mylist = ctx
-              .watch<ChatHistory>()
-              .getMessageDetailsList
-              .where((element) =>
-                  element.room_id == roomId &&
-                  element.msgStatus == "UNREAD" &&
-                  element.message_id != 0)
-              .toList();
-          List<MessageDetails> list = mylist
-              .where((element) =>
-                  element.message_id == messageId && element.filePath != '')
-              .toList();
+  // void deleteMessage(int messageId, String roomId) {
+  //   var messageJson = {
+  //     "messageId": messageId,
+  //   };
+  //   socket.emitWithAck('deleteMessage', messageJson, ack: (data) async {
+  //     print('deleteMessage from server $data');
+  //     if (data != null) {
+  //       Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
+  //       if (result["messageId"] != '') {
+  //         ctx.read<ChatHistory>().deleteChatItem(messageId, roomId);
+  //         List<MessageDetails> mylist = ctx
+  //             .watch<ChatHistory>()
+  //             .getMessageDetailsList
+  //             .where((element) =>
+  //                 element.room_id == roomId &&
+  //                 element.msgStatus == "UNREAD" &&
+  //                 element.message_id != 0)
+  //             .toList();
+  //         List<MessageDetails> list = mylist
+  //             .where((element) =>
+  //                 element.message_id == messageId && element.filePath != '')
+  //             .toList();
 
-          if (list.length > 0) {
-            deleteFile(File(list[0].filePath!));
-          }
-          dbHelper.deleteMsgDetailTable(messageId);
-        }
-      } else {
-        print("Null from deleteMessage");
-      }
-    });
-  }
+  //         if (list.length > 0) {
+  //           deleteFile(File(list[0].filePath!));
+  //         }
+  //         dbHelper.deleteMsgDetailTable(messageId);
+  //       }
+  //     } else {
+  //       print("Null from deleteMessage");
+  //     }
+  //   });
+  // }
 
   String generateRandomString(int length) {
     final _random = Random();
@@ -209,7 +209,6 @@ class SocketClientHelper extends ChangeNotifier {
     final randomString = List.generate(length,
             (index) => _availableChars[_random.nextInt(_availableChars.length)])
         .join();
-
     return randomString;
   }
 
@@ -219,10 +218,10 @@ class SocketClientHelper extends ChangeNotifier {
     rooms = await dbHelper.getRoomList(userid!);
     if (rooms.length > 0) {
       rooms.forEach((Room room) {
-        var messageJson = {
+        var logoutJson = {
           "roomId": room.room_id,
         };
-        socket.emitWithAck('logout', messageJson, ack: (data) {
+        socket.emitWithAck('logout', logoutJson, ack: (data) {
           //print('ack $data');
           if (data != null) {
             print('logout user from server $data');
@@ -232,17 +231,13 @@ class SocketClientHelper extends ChangeNotifier {
         });
       });
     }
-    //  socket.disconnect();
-    //  socket.dispose();
-    //  notifyListeners();
   }
 
   logoutDefaultRoom() {
-    var messageJson = {
+    var logoutJson = {
       "roomId": 'Tbs.Chat.Client-All-Users',
     };
-    socket.emitWithAck('logout', messageJson, ack: (data) {
-      //print('ack $data');
+    socket.emitWithAck('logout', logoutJson, ack: (data) {
       if (data != null) {
         print('logout Tbs.Chat.Client-All-Users from server $data');
       } else {
@@ -268,6 +263,28 @@ class SocketClientHelper extends ChangeNotifier {
       isReconnect = 'no';
       notifyListeners();
     });
+    // socket.onReconnect((_) async {
+    //   print('event :server reconnected');
+    //   isSocketConnected = true;
+    //   isReconnect = 'yes';
+    //   String? userid = await localStorage.getUserId();
+    //   if (userid != '') {
+    //     List<CheckOnline> onlineUsersList =
+    //         Provider.of<OnlineUsers>(ctx, listen: false).getOnlineList;
+
+    //     if (onlineUsersList.indexWhere((element) => element.userId == userid) ==
+    //         -1) {
+    //       List<Room> rooms = await dbHelper.getRoomList(userid!);
+    //       rooms.forEach((Room room) {
+    //         loginUser(room.room_id!, room.user_id!, room.create_date!);
+    //       });
+    //       sendFailedMessages();
+    //     } else {
+    //       sendFailedMessages();
+    //     }
+    //   }
+    //   notifyListeners();
+    // });
     socket.onDisconnect((_) {
       print('event : server disconnected');
       isSocketConnected = false;
@@ -276,8 +293,8 @@ class SocketClientHelper extends ChangeNotifier {
       notifyListeners();
     });
     socket.onAny((event, data) async {
-      String? userid = await localStorage.getUserId();
       print('event :$event, data :$data');
+      String? userid = await localStorage.getUserId();
       if (userid != '' && event == 'connect') {
         List<CheckOnline> onlineUsersList =
             Provider.of<OnlineUsers>(ctx, listen: false).getOnlineList;

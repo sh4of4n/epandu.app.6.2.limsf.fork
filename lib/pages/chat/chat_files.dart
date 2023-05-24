@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart';
 import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
@@ -73,7 +74,7 @@ class _GalleryItemsState extends State<GalleryItems> {
       return GridView.builder(
         itemCount: imageList.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: widget.type == 'Images' ? 4 : 1,
+            crossAxisCount: widget.type == 'Images' ? 4 : 2,
             childAspectRatio: 3.0 / 4.6),
         itemBuilder: (context, index) {
           return Card(
@@ -127,77 +128,83 @@ class VideoItems extends StatefulWidget {
 }
 
 class _VideoItemsState extends State<VideoItems> {
-  late Future<VideoPlayerController> _futureController;
-  late VideoPlayerController _controller;
-
-  Future<VideoPlayerController> createVideoPlayer() async {
-    final File file = new File(widget.filePath);
-    _controller = VideoPlayerController.file(file);
-    await _controller.initialize();
-    await _controller.setLooping(true);
-    return _controller;
-  }
+  late FlickManager flickManager;
 
   @override
   void initState() {
-    _futureController = createVideoPlayer();
     super.initState();
+    final File file = new File(widget.filePath);
+    flickManager = FlickManager(
+      videoPlayerController: VideoPlayerController.file(file),
+    );
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    flickManager.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return widget.filePath != ''
-        ? FullScreenWidget(
-            child: Center(
-              child: AspectRatio(
-                  aspectRatio: _controller.value.aspectRatio,
-                  child: Stack(
-                    children: [
-                      ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: VideoPlayer(_controller)),
-                      Positioned(
-                          bottom: 0,
-                          width: MediaQuery.of(context).size.width,
-                          child: VideoProgressIndicator(
-                            _controller,
-                            allowScrubbing: false,
-                            colors: VideoProgressColors(
-                                backgroundColor: Colors.blueGrey,
-                                bufferedColor: Colors.blueGrey,
-                                playedColor: Colors.blueAccent),
-                          )),
-                      Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              if (_controller.value.isPlaying) {
-                                _controller.pause();
-                              } else {
-                                // If the video is paused, play it.
-                                _controller.play();
-                              }
-                            });
-                          },
-                          child: Icon(
-                            _controller.value.isPlaying
-                                ? Icons.pause
-                                : Icons.play_arrow,
-                            color: Colors.white,
-                            size: 50,
-                          ),
-                        ),
-                      ),
-                    ],
-                  )),
+        ? Container(
+            child: FlickVideoPlayer(
+              flickManager: flickManager,
+              flickVideoWithControls: FlickVideoWithControls(
+                closedCaptionTextStyle: TextStyle(fontSize: 8),
+                controls: FlickPortraitControls(),
+              ),
+              flickVideoWithControlsFullscreen: FlickVideoWithControls(
+                controls: FlickLandscapeControls(),
+              ),
             ),
           )
+        // ? FullScreenWidget(
+        //     child: Center(
+        //       child: AspectRatio(
+        //           aspectRatio: _controller.value.aspectRatio,
+        //           child: Stack(
+        //             children: [
+        //               ClipRRect(
+        //                   borderRadius: BorderRadius.circular(8.0),
+        //                   child: VideoPlayer(_controller)),
+        //               Positioned(
+        //                   bottom: 0,
+        //                   width: MediaQuery.of(context).size.width,
+        //                   child: VideoProgressIndicator(
+        //                     _controller,
+        //                     allowScrubbing: false,
+        //                     colors: VideoProgressColors(
+        //                         backgroundColor: Colors.blueGrey,
+        //                         bufferedColor: Colors.blueGrey,
+        //                         playedColor: Colors.blueAccent),
+        //                   )),
+        //               Center(
+        //                 child: GestureDetector(
+        //                   onTap: () {
+        //                     setState(() {
+        //                       if (_controller.value.isPlaying) {
+        //                         _controller.pause();
+        //                       } else {
+        //                         // If the video is paused, play it.
+        //                         _controller.play();
+        //                       }
+        //                     });
+        //                   },
+        //                   child: Icon(
+        //                     _controller.value.isPlaying
+        //                         ? Icons.pause
+        //                         : Icons.play_arrow,
+        //                     color: Colors.white,
+        //                     size: 50,
+        //                   ),
+        //                 ),
+        //               ),
+        //             ],
+        //           )),
+        //     ),
+        //   )
         : Container(
             child: Center(child: Text('No Video From Server')),
           );

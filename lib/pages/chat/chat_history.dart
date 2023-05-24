@@ -5,6 +5,7 @@ import '../../services/database/DatabaseHelper.dart';
 
 class ChatHistory extends ChangeNotifier {
   List<MessageDetails> getMessageDetailsList = [];
+  bool isDataExist = true;
   final dbHelper = DatabaseHelper.instance;
 
   List<MessageDetails> get messageDetailsList => getMessageDetailsList;
@@ -57,6 +58,16 @@ class ChatHistory extends ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteChats(String roomId) {
+    getMessageDetailsList.removeWhere((message) => message.room_id == roomId);
+    notifyListeners();
+  }
+
+  void updateIsDataExist() {
+    isDataExist = true;
+    notifyListeners();
+  }
+
   void deleteChatItem(int messageId, String roomId) {
     int index = getMessageDetailsList.indexWhere((element) =>
         element.message_id == messageId && element.room_id == roomId);
@@ -79,6 +90,28 @@ class ChatHistory extends ChangeNotifier {
     getMessageDetailsList = [];
     getMessageDetailsList = await dbHelper.getMsgDetailList();
     notifyListeners();
+    return getMessageDetailsList;
+  }
+
+  Future<List<MessageDetails>> getLazyLoadChatHistory(
+      String roomId, int offset, int batchSize) async {
+    List<MessageDetails> pastMessageDetailsList = getMessageDetailsList;
+    getMessageDetailsList = [];
+    getMessageDetailsList =
+        await dbHelper.getLazyLoadMsgDetailList(roomId, batchSize, offset);
+
+    if (getMessageDetailsList.length > 0) {
+      pastMessageDetailsList.addAll(getMessageDetailsList);
+      getMessageDetailsList = pastMessageDetailsList;
+    } else {
+      isDataExist = false;
+      getMessageDetailsList = pastMessageDetailsList;
+    }
+    getMessageDetailsList
+        .sort((a, b) => a.send_datetime!.compareTo(b.send_datetime!));
+
+    notifyListeners();
+
     return getMessageDetailsList;
   }
 }
