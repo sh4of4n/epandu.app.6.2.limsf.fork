@@ -5,6 +5,7 @@ import 'package:flutter_sound/public/flutter_sound_player.dart';
 import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:open_file/open_file.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class ChatFiles extends StatelessWidget {
   const ChatFiles({Key? key, required this.roomId}) : super(key: key);
@@ -74,8 +75,12 @@ class _GalleryItemsState extends State<GalleryItems> {
       return GridView.builder(
         itemCount: imageList.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: widget.type == 'Images' ? 4 : 2,
-            childAspectRatio: 3.0 / 4.6),
+          crossAxisCount: widget.type == 'Images' ? 3 : 2,
+          // crossAxisCount: _getCrossAxisCount(context),
+          crossAxisSpacing: 1.0,
+          childAspectRatio: 16 / 9,
+          mainAxisSpacing: 1.0,
+        ),
         itemBuilder: (context, index) {
           return Card(
             shape: RoundedRectangleBorder(
@@ -87,13 +92,12 @@ class _GalleryItemsState extends State<GalleryItems> {
                     child: Hero(
                       tag: index.toString(),
                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.file(
-                            File(imageList[index]),
-                            fit: BoxFit.cover,
-                            // height: 200,
-                            // width: 200,
-                          )),
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.file(
+                          File(imageList[index]),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ))
                 : VideoItems(filePath: imageList[index]),
@@ -148,63 +152,26 @@ class _VideoItemsState extends State<VideoItems> {
   @override
   Widget build(BuildContext context) {
     return widget.filePath != ''
-        ? Container(
+        ? VisibilityDetector(
+            key: ObjectKey(flickManager),
+            onVisibilityChanged: (visibility) {
+              if (visibility.visibleFraction == 0 && this.mounted) {
+                flickManager.flickControlManager?.autoPause();
+              } else if (visibility.visibleFraction == 1) {
+                flickManager.flickControlManager?.autoPause();
+              }
+            },
             child: FlickVideoPlayer(
               flickManager: flickManager,
               flickVideoWithControls: FlickVideoWithControls(
+                videoFit: BoxFit.fitHeight,
                 closedCaptionTextStyle: TextStyle(fontSize: 8),
                 controls: FlickPortraitControls(),
               ),
               flickVideoWithControlsFullscreen: FlickVideoWithControls(
                 controls: FlickLandscapeControls(),
               ),
-            ),
-          )
-        // ? FullScreenWidget(
-        //     child: Center(
-        //       child: AspectRatio(
-        //           aspectRatio: _controller.value.aspectRatio,
-        //           child: Stack(
-        //             children: [
-        //               ClipRRect(
-        //                   borderRadius: BorderRadius.circular(8.0),
-        //                   child: VideoPlayer(_controller)),
-        //               Positioned(
-        //                   bottom: 0,
-        //                   width: MediaQuery.of(context).size.width,
-        //                   child: VideoProgressIndicator(
-        //                     _controller,
-        //                     allowScrubbing: false,
-        //                     colors: VideoProgressColors(
-        //                         backgroundColor: Colors.blueGrey,
-        //                         bufferedColor: Colors.blueGrey,
-        //                         playedColor: Colors.blueAccent),
-        //                   )),
-        //               Center(
-        //                 child: GestureDetector(
-        //                   onTap: () {
-        //                     setState(() {
-        //                       if (_controller.value.isPlaying) {
-        //                         _controller.pause();
-        //                       } else {
-        //                         // If the video is paused, play it.
-        //                         _controller.play();
-        //                       }
-        //                     });
-        //                   },
-        //                   child: Icon(
-        //                     _controller.value.isPlaying
-        //                         ? Icons.pause
-        //                         : Icons.play_arrow,
-        //                     color: Colors.white,
-        //                     size: 50,
-        //                   ),
-        //                 ),
-        //               ),
-        //             ],
-        //           )),
-        //     ),
-        //   )
+            ))
         : Container(
             child: Center(child: Text('No Video From Server')),
           );
