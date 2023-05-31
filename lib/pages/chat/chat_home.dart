@@ -162,7 +162,6 @@ class _ChatHome2State extends State<ChatHome2> {
   void initState() {
     super.initState();
     //Provider.of<ChatHistory>(context, listen: false).getChatHistory();
-
     // this.members = widget.roomMembers;
     // itemPositionsListener.itemPositions.addListener(() {
     //   if (itemPositionsListener.itemPositions.value.length > 0 &&
@@ -562,11 +561,10 @@ class _ChatHome2State extends State<ChatHome2> {
 
                   // context.read<SocketClientHelper>().setRoomDetails('', '', '');
                   context.read<SocketClientHelper>().setIsEnterRoom(false);
+                  context.read<RoomHistory>().getRoomHistory();
+                  context.read<ChatHistory>().deleteChats(widget.roomId);
+                  context.read<ChatHistory>().updateIsDataExist();
                   Navigator.pop(context);
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (_) => RoomList())).then((_) {
-                  //   setState(() {});
-                  // });
                 }
                 return Future.value(false);
               },
@@ -1461,12 +1459,11 @@ class _ChatHome2State extends State<ChatHome2> {
                           roomId: widget.roomId, type: "DELETE");
                   Provider.of<ChatNotificationCount>(context, listen: false)
                       .updateUnreadMessageId(roomId: widget.roomId);
-                  Navigator.pop(context);
-                  //TODO
                   context.read<SocketClientHelper>().setIsEnterRoom(false);
                   context.read<RoomHistory>().getRoomHistory();
                   context.read<ChatHistory>().deleteChats(widget.roomId);
                   context.read<ChatHistory>().updateIsDataExist();
+                  Navigator.pop(context);
                 },
               ),
             ],
@@ -1724,8 +1721,10 @@ class _ChatHome2State extends State<ChatHome2> {
                         roomName: inviteRoomResponse.roomName!);
                     await dbHelper.updateRoomName(inviteRoomResponse.roomName!,
                         inviteRoomResponse.roomId!);
+                    // this.widget.roomName = inviteRoomResponse.roomName!;
                     await EasyLoading.dismiss();
                     setState(() {
+                      Navigator.of(context).pop();
                       Navigator.of(context).pop();
                     });
                   } else {
@@ -1864,7 +1863,7 @@ class _ChatHome2State extends State<ChatHome2> {
         });
   }
 
-  void deleteChatMessage(int messageId, String type, String roomId) {
+  void deleteChatMessage(int messageId, String type, String roomId) async {
     if (type == 'FORME') {
       List<MessageDetails> list = getMessageDetailsList
           .where((element) =>
@@ -1872,18 +1871,18 @@ class _ChatHome2State extends State<ChatHome2> {
           .toList();
 
       if (list.length > 0) {
-        deleteFile(File(list[0].filePath!));
+        await deleteFile(File(list[0].filePath!));
       }
       context.read<ChatHistory>().deleteChatItem(messageId, roomId);
-      dbHelper.deleteMsgDetailTable(messageId);
+      await dbHelper.deleteMsgDetailTable(messageId);
     } else {
       var deleteMessageJson = {
         "messageId": messageId,
       };
       print('socket connection:' + socket.connected.toString());
       socket.emitWithAck('deleteMessage', deleteMessageJson, ack: (data) async {
-        print('deleteMessage from server $data');
-        print('deletemessage_' + socket.id!);
+        // print('deleteMessage from server $data');
+        // print('deletemessage_' + socket.id!);
         if (data != null) {
           Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
           if (result["messageId"] != '') {
@@ -1893,10 +1892,10 @@ class _ChatHome2State extends State<ChatHome2> {
                 .toList();
 
             if (list.length > 0) {
-              deleteFile(File(list[0].filePath!));
+              await deleteFile(File(list[0].filePath!));
             }
             context.read<ChatHistory>().deleteChatItem(messageId, roomId);
-            dbHelper.deleteMsgDetailTable(messageId);
+            await dbHelper.deleteMsgDetailTable(messageId);
           }
         } else {
           print("Null from deleteMessage");
@@ -1951,7 +1950,7 @@ class _ChatHome2State extends State<ChatHome2> {
         "misc":
             "[FCM_Notification=title:" + roomName + ' - ' + localUserName + "]"
       };
-      print('sendMessage: $messageJson');
+      //print('sendMessage: $messageJson');
       if (socket.connected) {
         socket.emitWithAck('sendMessage', messageJson, ack: (data) async {
           if (data != null) {
@@ -1969,7 +1968,7 @@ class _ChatHome2State extends State<ChatHome2> {
               }
             }
             // }
-            print('sendMessage from server $data');
+            //print('sendMessage from server $data');
           } else {
             print("Null from sendMessage");
           }
@@ -2174,8 +2173,7 @@ class _ChatHome2State extends State<ChatHome2> {
         msgStatus: "SENDING",
         client_message_id: clientMessageId,
         roomName: widget.roomName);
-    //print(messageDetails.send_datetime);
-    dbHelper.saveMsgDetailTable(messageDetails);
+    await dbHelper.saveMsgDetailTable(messageDetails);
     context.read<ChatHistory>().addChatHistory(messageDetail: messageDetails);
     context.read<RoomHistory>().updateRoomMessage(
         roomId: messageDetails.room_id!, message: messageDetails.msg_body!);
@@ -2206,22 +2204,14 @@ class _ChatHome2State extends State<ChatHome2> {
       "misc":
           "[FCM_Notification=title:" + roomName + ' - ' + localUserName + "]"
     };
-    print(messageJson);
+    //print(messageJson);
     if (socket.connected) {
       socket.emitWithAck('sendMessage', messageJson, ack: (data) async {
         //print('sendMessage ack $data');
         if (data != null) {
           SendAcknowledge sendAcknowledge = SendAcknowledge.fromJson(data);
-          // String filePath = '';
-          // if (msgBinaryType != '') {
-          //   filePath = await createFile(msgBinaryType, base64string, message);
-          // }
-
           context.read<ChatHistory>().updateChatItemStatus(clientMessageId,
               "SENT", sendAcknowledge.messageId, widget.roomId);
-          // context
-          //     .read<ChatHistory>()
-          //     .updateChatItemFilepath(clientMessageId, filePath);
           await dbHelper.updateMsgDetailTable(
               clientMessageId, "SENT", sendAcknowledge.messageId);
           if (myFailedList.length > 0) {
@@ -2338,24 +2328,6 @@ class _ChatHome2State extends State<ChatHome2> {
         }
       }
     });
-    // socket.onConnectError((data) {
-    //   print("Connection error occurred: $data");
-    //   // Check if there is no network or a slow network
-    //   Connectivity().checkConnectivity().then((result) {
-    //     if (result == ConnectivityResult.none) {
-    //       final customSnackbar = CustomSnackbar();
-    //       customSnackbar.show(
-    //         context,
-    //         message: 'No network connectivity',
-    //         duration: 5000,
-    //         type: MessageType.INFO,
-    //       );
-    //     } else if (result == ConnectivityResult.mobile ||
-    //         result == ConnectivityResult.wifi) {
-    //       print("Slow network connectivity");
-    //     }
-    //   });
-    // });
   }
 
   sendTyping(String value) {
@@ -2596,7 +2568,7 @@ class _ChatHome2State extends State<ChatHome2> {
         await Permission.storage.request();
       }
       if ((await dir.exists())) {
-        print(dir.path);
+        //print(dir.path);
         file = File(dir.path +
             "/" +
             DateTime.now().millisecondsSinceEpoch.toString() +
@@ -2604,7 +2576,7 @@ class _ChatHome2State extends State<ChatHome2> {
         await file.writeAsBytes(bytes);
       } else {
         await dir.create(recursive: true);
-        print(dir.path);
+        //print(dir.path);
         file = File(dir.path +
             "/" +
             DateTime.now().millisecondsSinceEpoch.toString() +
@@ -2700,9 +2672,6 @@ class _ChatHome2State extends State<ChatHome2> {
     _mRecorder?.setSubscriptionDuration(Duration(milliseconds: 10));
 
     _recorderSubscription = _mRecorder?.onProgress!.listen((e) {
-      // var date = DateTime.fromMillisecondsSinceEpoch(e.duration.inMilliseconds,
-      //     isUtc: true);
-      // var txt = DateFormat('mm:ss', 'en_GB').format(date);
       setState(() {
         custFontSize = 20;
         editingController.text = e.duration.toString().substring(2, 7);
