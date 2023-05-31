@@ -31,6 +31,7 @@ import 'package:epandu/pages/profile/profile.dart';
 import 'package:epandu/pages/promotions/promotions.dart';
 import 'package:epandu/pages/register/register.dart';
 import 'package:epandu/pages/vclub/value_club.dart';
+import 'package:epandu/pages/product/product.dart';
 
 import 'pages/di_enroll/di_enrollment.dart';
 import 'pages/emergency/emergency.dart';
@@ -221,6 +222,7 @@ import 'package:epandu/common_library/utils/image_viewer.dart';
     AutoRoute(page: BriefListPage),
     AutoRoute(page: BriefVideoPage),
     AutoRoute(path: '/roomList', page: RoomList, name: 'RoomList'),
+    AutoRoute(page: ProductShowPage),
   ],
 )
 class $AppRouter {}

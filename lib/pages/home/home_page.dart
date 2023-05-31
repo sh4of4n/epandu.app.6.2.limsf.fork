@@ -4,12 +4,14 @@ import 'dart:io';
 // import 'package:app_settings/app_settings.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:epandu/common_library/services/location.dart';
 import 'package:epandu/common_library/services/repository/fpx_repository.dart';
 import 'package:epandu/common_library/services/repository/inbox_repository.dart';
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
+import 'package:epandu/pages/product/product.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 // import 'package:epandu/common_library/services/location.dart';
@@ -123,6 +125,29 @@ class _HomeState extends State<Home> {
     },
   ];
 
+  List<Map<String, String>> _productCategory = [
+    {
+      'title': 'Tyre',
+      'image':
+          'https://www.mekanika.com.my/wp-content/uploads/2019/08/uc6-photo-data.png',
+    },
+    {
+      'title': 'Battery',
+      'image':
+          'https://cdn.shopify.com/s/files/1/1148/7272/products/amaron_hi-life_1024x1024.png?v=1484207380',
+    },
+    {
+      'title': 'Engine Oil',
+      'image':
+          'https://www.nulon.com.au/images/Product%20Images/NEW_Front%20Images/APX0W20GF6-5.png',
+    },
+    {
+      'title': 'Sport Rim',
+      'image':
+          'https://carsomemy.s3.ap-southeast-1.amazonaws.com/wp/Konig-Neoform-Rim.png',
+    },
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -204,7 +229,9 @@ class _HomeState extends State<Home> {
             _getPackageCode(udf: feed.udfReturnParameter);
 
         context.router.push(
-          Webview(url: url),
+          Webview(
+              url:
+                  'https://teal-bavarois-ec49bd.netlify.app/#/institute-near-me?appId=ePandu.App&appVersion=6.1.8&userId=E08FBDC357&deviceId=TVDYF3SD7Q62QSARVKCPZS6FKA&caUid=epandu_devp_3&caPwd=123456&latitude=5.4244367&longitude=100.4003283'),
         );
 
         Provider.of<HomeLoadingModel>(context, listen: false)
@@ -1169,10 +1196,22 @@ class _HomeState extends State<Home> {
                               ),
                               child: Row(
                                 children: [
-                                  Text(
-                                    'Discover More',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
+                                  GestureDetector(
+                                    onTap: () {
+                                      // String url =
+                                      //     'https://joyful-scone-c340bf.netlify.app/';
+                                      // loadUrl(url, context);
+                                      // final Uri telLaunchUri = Uri(
+                                      //   scheme: 'tel',
+                                      //   path: '0124148186',
+                                      // );
+                                      // launchUrl(telLaunchUri);
+                                    },
+                                    child: Text(
+                                      'Discover More',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                   Icon(Icons.chevron_right),
@@ -1211,12 +1250,20 @@ class _HomeState extends State<Home> {
                                             Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
-                                              child: Text('TYRE'),
+                                              child: Text(
+                                                  _productCategory[index]
+                                                      ['title']!),
                                             ),
                                           ],
                                         ),
-                                        Image.network(
-                                          'https://www.mekanika.com.my/wp-content/uploads/2019/08/uc6-photo-data.png',
+                                        // Image.network(
+                                        //   'https://www.mekanika.com.my/wp-content/uploads/2019/08/uc6-photo-data.png',
+                                        //   fit: BoxFit.contain,
+                                        //   height: 100,
+                                        // ),
+                                        CachedNetworkImage(
+                                          imageUrl: _productCategory[index]
+                                              ['image']!,
                                           fit: BoxFit.contain,
                                           height: 100,
                                         ),
@@ -1224,7 +1271,7 @@ class _HomeState extends State<Home> {
                                     ),
                                   );
                                 },
-                                itemCount: 50,
+                                itemCount: _productCategory.length + 1,
                                 itemBuilder: (BuildContext ctx, int index) {
                                   return SizedBox(
                                     width: 8,
@@ -1282,8 +1329,10 @@ class _HomeState extends State<Home> {
                                             topRight: Radius.circular(10),
                                           ),
                                           child: Image.network(
-                                            'https://tbsweb.tbsdns.com/WebCache/epandu_devp_3/EPANDU/R3W77BWEY6B6TQI7DB5YM5RC5Q/image/Feed/RW42FFIRRQSB4LGEN3ZX2FWOKM_n0_20210628181116.jpg',
+                                            'https://www.mekanika.com.my/wp-content/uploads/2019/08/uc6-photo-data.png',
+                                            // 'https://tbsweb.tbsdns.com/WebCache/epandu_devp_3/EPANDU/R3W77BWEY6B6TQI7DB5YM5RC5Q/image/Feed/RW42FFIRRQSB4LGEN3ZX2FWOKM_n0_20210628181116.jpg',
                                             fit: BoxFit.contain,
+                                            height: 165,
                                           ),
                                         ),
                                         Padding(
@@ -1303,7 +1352,7 @@ class _HomeState extends State<Home> {
                                     ),
                                   );
                                 },
-                                itemCount: 50,
+                                itemCount: 10,
                                 itemBuilder: (BuildContext ctx, int index) {
                                   return SizedBox(
                                     width: 8,
