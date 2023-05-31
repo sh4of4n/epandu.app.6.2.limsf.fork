@@ -101,14 +101,24 @@ class ChatHistory extends ChangeNotifier {
         await dbHelper.getLazyLoadMsgDetailList(roomId, batchSize, offset);
 
     if (getMessageDetailsList.length > 0) {
-      pastMessageDetailsList.addAll(getMessageDetailsList);
+      //pastMessageDetailsList.addAll(getMessageDetailsList);
+      // pastMessageDetailsList.addAll(getMessageDetailsList.where((message) {
+      //   // Check if the value already exists in the list
+      //   return !pastMessageDetailsList.contains(message);
+      // }));
+      pastMessageDetailsList.addAll(getMessageDetailsList.where((newMessage) {
+        // Check if the message_id already exists in the list
+        return !pastMessageDetailsList.any((existingMessage) =>
+            existingMessage.message_id == newMessage.message_id);
+      }));
+
       getMessageDetailsList = pastMessageDetailsList;
     } else {
       isDataExist = false;
       getMessageDetailsList = pastMessageDetailsList;
     }
     getMessageDetailsList
-        .sort((a, b) => a.send_datetime!.compareTo(b.send_datetime!));
+        .sort((a, b) => a.message_id!.compareTo(b.message_id!));
 
     notifyListeners();
 

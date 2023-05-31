@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:badges/badges.dart' as badges;
 import 'package:epandu/pages/chat/rooms_provider.dart';
 import 'package:epandu/pages/chat/socketclient_helper.dart';
+import 'package:epandu/pages/chat/webview_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
@@ -56,7 +57,7 @@ class _RoomListState extends State<RoomList> {
     EasyLoading.addStatusCallback(statusCallback);
     getRoomName();
     //dbHelper.deleteDB();
-    Provider.of<ChatHistory>(context, listen: false).getChatHistory();
+    //Provider.of<ChatHistory>(context, listen: false).getChatHistory();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final getSocket = Provider.of<SocketClientHelper>(context, listen: false);
@@ -136,11 +137,11 @@ class _RoomListState extends State<RoomList> {
                     ),
                   ),
                 );
-              } else if (value == "Delete Message") {
+              } else if (value == "Webview") {
                 // Navigator.push(
                 //   context,
                 //   MaterialPageRoute(
-                //     builder: (context) => DeleteMessage(),
+                //     builder: (context) => TestWebview(),
                 //   ),
                 // );
               } else {
@@ -165,8 +166,8 @@ class _RoomListState extends State<RoomList> {
                   value: "Create Group",
                 ),
                 // PopupMenuItem(
-                //   child: Text("Delete Message"),
-                //   value: "Delete Message",
+                //   child: Text("Webview"),
+                //   value: "Webview",
                 // ),
               ];
             },
@@ -193,6 +194,7 @@ class _RoomListState extends State<RoomList> {
           style: TextStyle(color: Colors.white),
           autofocus: true,
           onChanged: (value) {
+            //TODO can call widget class  in function?
             _populateListView(id!);
           },
           // style: TextStyle(color: Colors.white),
@@ -370,27 +372,62 @@ class _RoomListState extends State<RoomList> {
   }
 
   Widget _populateListView(String id) {
+    // return FutureBuilder<List<RoomHistoryModel>>(
+    //   future: Provider.of<RoomHistory>(context, listen: false).getRoomHistory(),
+    //   builder: (context, snapshot) {
+    //     // Items are not available and you need to handle this situation, simple solution is to show a progress indicator
+    //     if (!snapshot.hasData) {
+    //       return Center(child: CircularProgressIndicator());
+    //     }
+    //     return ListView.builder(
+    //       itemCount: snapshot.data!.length,
+    //       itemBuilder: (context, int index) {
+    //         rooms = snapshot.data!;
+    //         RoomHistoryModel room = this.rooms[index];
+    //         List<ChatNotification> chatNotificationCount = context
+    //             .watch<ChatNotificationCount>()
+    //             .getChatNotificationCountList;
+    //         if (editingController.text.isEmpty) {
+    //           return getCard(room, chatNotificationCount, index);
+    //         } else if (room.room_name
+    //                 ?.toLowerCase()
+    //                 .contains(editingController.text) ==
+    //             true) {
+    //           return getCard(room, chatNotificationCount, index);
+    //         } else {
+    //           return Container();
+    //         }
+    //       },
+    //     );
+    //   },
+    // );
+
     Provider.of<RoomHistory>(context, listen: false).getRoomHistory();
-    return Consumer<RoomHistory>(
-        builder: (ctx, roomLIst, child) => ListView.builder(
-            itemCount: roomLIst.getRoomList.length,
-            itemBuilder: (context, int index) {
-              rooms = roomLIst.getRoomList;
-              RoomHistoryModel room = this.rooms[index];
-              List<ChatNotification> chatNotificationCount = context
-                  .watch<ChatNotificationCount>()
-                  .getChatNotificationCountList;
-              if (editingController.text.isEmpty) {
-                return getCard(room, chatNotificationCount, index);
-              } else if (room.room_name
-                      ?.toLowerCase()
-                      .contains(editingController.text) ==
-                  true) {
-                return getCard(room, chatNotificationCount, index);
-              } else {
-                return Container();
-              }
-            }));
+    return Consumer<RoomHistory>(builder: (ctx, roomLIst, child) {
+      // print('print count:1 - ${roomLIst.getRoomList.length}');
+      return ListView.builder(
+        itemCount: roomLIst.getRoomList.length,
+        itemBuilder: (context, int index) {
+          // print('print count:2 - ${roomLIst.getRoomList.length}');
+          rooms = roomLIst.getRoomList;
+          if (rooms.length == 0) return SizedBox();
+          RoomHistoryModel room = this.rooms[index];
+          List<ChatNotification> chatNotificationCount = context
+              .watch<ChatNotificationCount>()
+              .getChatNotificationCountList;
+          if (editingController.text.isEmpty) {
+            return getCard(room, chatNotificationCount, index);
+          } else if (room.room_name
+                  ?.toLowerCase()
+                  .contains(editingController.text) ==
+              true) {
+            return getCard(room, chatNotificationCount, index);
+          } else {
+            return Container();
+          }
+        },
+      );
+    });
   }
 
   Widget getCard(RoomHistoryModel room,
@@ -399,13 +436,13 @@ class _RoomListState extends State<RoomList> {
     if (room.room_desc!.toUpperCase() == 'GROUP CHAT')
       splitRoomName = room.room_name!;
     else {
-      if (room.room_name!.contains(','))
-        splitRoomName = roomTitle.toUpperCase() !=
-                room.room_name!.split(',')[0].toUpperCase()
-            ? room.room_name!.split(',')[0]
-            : room.room_name!.split(',')[1];
-      else
-        splitRoomName = room.room_name!;
+      // if (room.room_name!.contains(','))
+      //   splitRoomName = roomTitle.toUpperCase() !=
+      //           room.room_name!.split(',')[0].toUpperCase()
+      //       ? room.room_name!.split(',')[0]
+      //       : room.room_name!.split(',')[1];
+      // else
+      splitRoomName = room.room_name!;
     }
     //splitRoomName = room.room_name!;
     int badgeCount = 0;

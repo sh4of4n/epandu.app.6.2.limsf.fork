@@ -156,10 +156,10 @@ class _InviteFriendState extends State<InviteFriend> {
                       room_desc: inviteRoomResponse.roomDesc ?? '',
                       picture_path: inviteRoomResponse.picturePath ?? '');
                   context.read<RoomHistory>().addRoom(room: roomHistoryModel);
-                  print('Room Insert value ' + val.toString());
+                  //print('Room Insert value ' + val.toString());
                   var resultMembers = await chatRoomRepo
                       .getRoomMembersList(inviteRoomResponse.roomId!);
-                  print('roomMembers' + resultMembers.data.length.toString());
+                  //print('roomMembers' + resultMembers.data.length.toString());
                   if (resultMembers.data != null &&
                       resultMembers.data.length > 0) {
                     for (int i = 0; i < resultMembers.data.length; i += 1) {

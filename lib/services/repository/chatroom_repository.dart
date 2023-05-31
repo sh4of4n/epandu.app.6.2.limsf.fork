@@ -56,6 +56,44 @@ class ChatRoomRepo {
         message: 'Failed to create room. Please try again later.');
   }
 
+  Future<Response> createChatSupportByMemberFromWebView(
+      String merchantNo) async {
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwd();
+
+    String? mLoginId = await localStorage.getUserPhone();
+    String? deviceId = await localStorage.getLoginDeviceId();
+    // String? userId = await localStorage.getUserId();
+    // String? nickName = await localStorage.getNickName();
+
+    CreateRoom params = CreateRoom(
+        wsCodeCrypt: appConfig.wsCodeCrypt,
+        caUid: caUid,
+        caPwd: caPwd,
+        merchantNo: merchantNo,
+        mLoginId: mLoginId,
+        appId: appConfig.appId,
+        deviceId: deviceId,
+        appCode: appConfig.appCode);
+
+    String body = jsonEncode(params);
+    String api = 'CreateChatSupportByMember';
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+
+    var response =
+        await networking.postData(api: api, body: body, headers: headers);
+
+    // Success
+    if (response.isSuccess && response.data != null) {
+      GetCreateRoomResponse getCreateRoomResponse =
+          GetCreateRoomResponse.fromJson(response.data);
+      return Response(true, data: getCreateRoomResponse.room);
+    }
+
+    return Response(false,
+        message: 'Failed to create room. Please try again later.');
+  }
+
   Future<Response> getRoomList(String roomId) async {
     String? caUid = await localStorage.getCaUid();
     String? caPwd = await localStorage.getCaPwd();
