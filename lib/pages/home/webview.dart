@@ -18,6 +18,17 @@ import 'package:epandu/common_library/services/model/provider_model.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+
+import '../../common_library/services/model/createroom_response.dart';
+import '../../common_library/services/model/m_roommember_model.dart';
+import '../../common_library/utils/local_storage.dart';
+import '../../services/database/DatabaseHelper.dart';
+import '../../services/repository/chatroom_repository.dart';
+import '../chat/chat_home.dart';
+import '../chat/socketclient_helper.dart';
+
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+
 // import '../../router.gr.dart';
 
 class Webview extends StatefulWidget {
@@ -81,9 +92,20 @@ class _WebviewState extends State<Webview> {
   late final WebViewController _controller;
   final myImage = ImagesConstant();
   final customDialog = CustomDialog();
+  final chatRoomRepo = ChatRoomRepo();
+  final localStorage = LocalStorage();
+
+  final dbHelper = DatabaseHelper.instance;
+
+  late IO.Socket socket;
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final getSocket = Provider.of<SocketClientHelper>(context, listen: false);
+      socket = getSocket.socket;
+    });
 
     // #docregion platform_features
     late final PlatformWebViewControllerCreationParams params;
@@ -187,11 +209,57 @@ Page resource error:
         ),
       )
       ..addJavaScriptChannel(
-        'Toaster',
-        onMessageReceived: (JavaScriptMessage message) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(message.message)),
-          );
+        'messageHandler',
+        onMessageReceived: (JavaScriptMessage message) async {
+          var createChatSupportResult = await chatRoomRepo
+              .createChatSupportByMemberFromWebView(message.message.toString());
+          if (createChatSupportResult.isSuccess) {
+            if (createChatSupportResult.data != null &&
+                createChatSupportResult.data.length > 0) {
+              await context.read<SocketClientHelper>().loginUserRoom();
+              String userid = await localStorage.getUserId() ?? '';
+              CreateRoomResponse getCreateRoomResponse =
+                  createChatSupportResult.data[0];
+
+              List<RoomMembers> roomMembers = await dbHelper
+                  .getRoomMembersList(getCreateRoomResponse.roomId!);
+              roomMembers.forEach((roomMember) {
+                if (userid != roomMember.user_id) {
+                  var inviteUserToRoomJson = {
+                    "invitedRoomId": getCreateRoomResponse.roomId!,
+                    "invitedUserId": roomMember.user_id
+                  };
+                  socket.emitWithAck('inviteUserToRoom', inviteUserToRoomJson,
+                      ack: (data) {
+                    if (data != null) {
+                      print('inviteUserToRoomJson from server $data');
+                    } else {
+                      print("Null from inviteUserToRoomJson");
+                    }
+                  });
+                }
+              });
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChatHome2(
+                    roomId: getCreateRoomResponse.roomId!,
+                    picturePath: '',
+                    roomName: getCreateRoomResponse.roomName!,
+                    roomDesc: getCreateRoomResponse.roomDesc!,
+                  ),
+                ),
+              );
+              //print(message.message.toString());
+              //context.router.push(RoomList());
+            }
+          } else {
+            customDialog.show(
+                context: context,
+                content: createChatSupportResult.message ?? "Error",
+                type: DialogType.WARNING);
+          }
         },
       )
       ..loadRequest(Uri.parse(widget.url!));

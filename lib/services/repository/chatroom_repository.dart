@@ -91,7 +91,8 @@ class ChatRoomRepo {
     }
 
     return Response(false,
-        message: 'Failed to create room. Please try again later.');
+        message: response.message ??
+            'Failed to create room. Please try again later.');
   }
 
   Future<Response> getRoomList(String roomId) async {
