@@ -98,6 +98,9 @@ class _WebviewState extends State<Webview> {
   final dbHelper = DatabaseHelper.instance;
 
   late IO.Socket socket;
+
+  String? _message = '';
+
   @override
   void initState() {
     super.initState();
@@ -255,10 +258,15 @@ Page resource error:
               //context.router.push(RoomList());
             }
           } else {
+            if (createChatSupportResult.message!.contains('add merchant user'))
+              _message = 'Not Avaliable Yet';
             customDialog.show(
                 context: context,
-                content: createChatSupportResult.message ?? "Error",
-                type: DialogType.WARNING);
+                content: _message ?? "Error",
+                type: DialogType.WARNING,
+                onPressed: () {
+                  context.router.pop();
+                });
           }
         },
       )

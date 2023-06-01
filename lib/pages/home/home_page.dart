@@ -229,9 +229,8 @@ class _HomeState extends State<Home> {
             _getPackageCode(udf: feed.udfReturnParameter);
 
         context.router.push(
-          Webview(
-              url:
-                  'https://teal-bavarois-ec49bd.netlify.app/#/institute-near-me?appId=ePandu.App&appVersion=6.1.8&userId=E08FBDC357&deviceId=TVDYF3SD7Q62QSARVKCPZS6FKA&caUid=epandu_devp_3&caPwd=123456&latitude=5.4244367&longitude=100.4003283'),
+          Webview(url: url),
+          //'https://teal-bavarois-ec49bd.netlify.app/#/institute-near-me?appId=ePandu.App&appVersion=6.1.8&userId=E08FBDC357&deviceId=TVDYF3SD7Q62QSARVKCPZS6FKA&caUid=epandu_devp_3&caPwd=123456&latitude=5.4244367&longitude=100.4003283'),
         );
 
         Provider.of<HomeLoadingModel>(context, listen: false)
