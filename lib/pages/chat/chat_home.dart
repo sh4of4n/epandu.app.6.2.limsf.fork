@@ -13,6 +13,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -1285,6 +1286,8 @@ class _ChatHome2State extends State<ChatHome2> {
       if (members.length > 0)
         members = members.substring(0, members.length - 1);
 
+      if (widget.roomDesc == 'Chat Support') members = widget.roomDesc;
+
       membersCount = roomMembers.length;
       if (membersCount > 0) roomName = roomMembers[0].room_name!;
     });
@@ -1470,35 +1473,38 @@ class _ChatHome2State extends State<ChatHome2> {
           ),
           title: Row(
             children: [
-              // Container(
-              //   width: 40,
-              //   height: 40,
-              //   decoration: BoxDecoration(
-              //     shape: BoxShape.circle,
-              //     border: Border.all(
-              //       color: Colors.white,
-              //       width: 3,
-              //     ),
-              //     boxShadow: [
-              //       BoxShadow(
-              //           color: Colors.grey.withOpacity(.3),
-              //           offset: Offset(0, 2),
-              //           blurRadius: 5)
-              //     ],
-              //   ),
-              //   child: FullScreenWidget(
-              //     child: Center(
-              //       child: ClipRRect(
-              //         borderRadius: BorderRadius.circular(8.0),
-              //         child: widget.picturePath != ''
-              //             ? Image.network(widget.picturePath
-              //                 .replaceAll(removeBracket, '')
-              //                 .split('\r\n')[0])
-              //             : Icon(Icons.account_circle),
-              //       ),
-              //     ),
-              //   ),
-              // ),
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 3,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(.3),
+                          offset: Offset(0, 2),
+                          blurRadius: 5)
+                    ],
+                  ),
+                  child: FullScreenWidget(
+                    child: Center(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: widget.picturePath != ''
+                            ? Image.network(widget.picturePath
+                                .replaceAll(removeBracket, '')
+                                .split('\r\n')[0])
+                            : Icon(Icons.account_circle),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               Expanded(
                 child: Container(
                   // padding: const EdgeInsets.all(5.0),

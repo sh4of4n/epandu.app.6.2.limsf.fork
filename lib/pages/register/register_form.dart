@@ -1365,7 +1365,6 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
           await authRepo.getUserRegisteredDI(context: context, type: 'LOGIN');
 
       if (getRegisteredDi.isSuccess) {
-        //_chatRoom();
         localStorage.saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
 
         context.router.pushAndPopUntil(Home(), predicate: (r) => false);
@@ -1381,7 +1380,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
     });
   }
 
-  _chatRoom() async {
-    var response = await chatRoomRepo.createChatSupport();
-  }
+  // _chatRoom() async {
+  //   var response = await chatRoomRepo.createChatSupport();
+  // }
 }
