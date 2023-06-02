@@ -19,10 +19,10 @@ class ChatRoomRepo {
   final localStorage = LocalStorage();
   final networking = Networking();
 
-  Future<Response> createChatSupport() async {
+  Future<Response> createChatSupport({String? merchantNo}) async {
     String? caUid = await localStorage.getCaUid();
     String? caPwd = await localStorage.getCaPwd();
-    String? merchantNo = await localStorage.getMerchantDbCode();
+    if (merchantNo == null) merchantNo = await localStorage.getMerchantDbCode();
     String? mLoginId = await localStorage.getUserPhone();
     String? deviceId = await localStorage.getLoginDeviceId();
     // String? userId = await localStorage.getUserId();
@@ -39,7 +39,7 @@ class ChatRoomRepo {
         appCode: appConfig.appCode);
 
     String body = jsonEncode(params);
-    String api = 'CreateChatSupport';
+    String api = 'CreateChatSupportByMember';
     Map<String, String> headers = {'Content-Type': 'application/json'};
 
     var response =

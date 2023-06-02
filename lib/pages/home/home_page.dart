@@ -134,7 +134,7 @@ class _HomeState extends State<Home> {
     {
       'title': 'Battery',
       'image':
-          'https://cdn.shopify.com/s/files/1/1148/7272/products/amaron_hi-life_1024x1024.png?v=1484207380',
+          'https://i5.walmartimages.com/asr/4b81a7f3-1f1e-460c-afc6-62880015aab5.16e923df1ca5c06430d2d9136a5bc792.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF',
     },
     {
       'title': 'Engine Oil',
@@ -186,11 +186,12 @@ class _HomeState extends State<Home> {
 
       var caUid = await localStorage.getCaUid();
       var caPwd = await localStorage.getCaPwd();
+      var merchantNo = await localStorage.getMerchantDbCode();
 
       var result = await profileRepo.getUserProfile(context: context);
 
       if (result.isSuccess) {
-        String merchantNo = 'P1001';
+        // String merchantNo = 'P1001';
         String? phone = result.data[0].phone;
         String? email = result.data[0].eMail;
         String icName = result.data[0].name;

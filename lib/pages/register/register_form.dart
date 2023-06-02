@@ -3,10 +3,13 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
+import 'package:epandu/common_library/services/model/createroom_response.dart';
+import 'package:epandu/common_library/services/model/m_roommember_model.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/common_library/services/location.dart';
 import 'package:epandu/common_library/services/repository/auth_repository.dart';
+import 'package:epandu/services/database/DatabaseHelper.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/common_library/utils/device_info.dart';
@@ -18,9 +21,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../router.gr.dart';
 import '../../services/repository/chatroom_repository.dart';
+import '../chat/socketclient_helper.dart';
 
 enum AppState { free, picked, cropped }
 
@@ -34,6 +40,7 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
+  late IO.Socket socket;
   final authRepo = AuthRepo();
   final chatRoomRepo = ChatRoomRepo();
   final customDialog = CustomDialog();
@@ -48,6 +55,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   final FocusNode _passwordFocus = FocusNode();
   final FocusNode _confirmPasswordFocus = FocusNode();
   final FocusNode _postcodeFocus = FocusNode();
+  final dbHelper = DatabaseHelper.instance;
 
   final primaryColor = ColorConstant.primaryColor;
 
@@ -1365,7 +1373,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
           await authRepo.getUserRegisteredDI(context: context, type: 'LOGIN');
 
       if (getRegisteredDi.isSuccess) {
-        //_chatRoom();
+        _chatRoom();
         localStorage.saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
 
         context.router.pushAndPopUntil(Home(), predicate: (r) => false);
@@ -1382,6 +1390,36 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   }
 
   _chatRoom() async {
-    var response = await chatRoomRepo.createChatSupport();
+    var createChatSupportResult =
+        await chatRoomRepo.createChatSupport(merchantNo: 'EPANDU');
+
+    if (createChatSupportResult.data != null &&
+        createChatSupportResult.data.length > 0) {
+      await context.read<SocketClientHelper>().loginUserRoom();
+      String userid = await localStorage.getUserId() ?? '';
+      CreateRoomResponse getCreateRoomResponse =
+          createChatSupportResult.data[0];
+
+      List<RoomMembers> roomMembers =
+          await dbHelper.getRoomMembersList(getCreateRoomResponse.roomId!);
+      roomMembers.forEach((roomMember) {
+        if (userid != roomMember.user_id) {
+          var inviteUserToRoomJson = {
+            "invitedRoomId": getCreateRoomResponse.roomId!,
+            "invitedUserId": roomMember.user_id
+          };
+          socket.emitWithAck('inviteUserToRoom', inviteUserToRoomJson,
+              ack: (data) {
+            //print('ack $data');
+            if (data != null) {
+              print('inviteUserToRoomJson from server $data');
+            } else {
+              print("Null from inviteUserToRoomJson");
+            }
+          });
+        }
+      });
+    }
+    context.router.popUntil(ModalRoute.withName('Home'));
   }
 }
