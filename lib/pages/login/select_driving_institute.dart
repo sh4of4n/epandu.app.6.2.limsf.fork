@@ -163,7 +163,7 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
                             widget.diList[index].merchantNo);
 
                         var createChatSupportResult =
-                            await chatRoomRepo.createChatSupport();
+                            await chatRoomRepo.createChatSupportByMember();
                         if (createChatSupportResult.data != null &&
                             createChatSupportResult.data.length > 0) {
                           await context

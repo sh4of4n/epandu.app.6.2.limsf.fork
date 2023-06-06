@@ -1391,7 +1391,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
 
   _chatRoom() async {
     var createChatSupportResult =
-        await chatRoomRepo.createChatSupport(merchantNo: 'EPANDU');
+        await chatRoomRepo.createChatSupportByMember(merchantNo: 'EPANDU');
 
     if (createChatSupportResult.data != null &&
         createChatSupportResult.data.length > 0) {

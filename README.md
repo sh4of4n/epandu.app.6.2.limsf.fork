@@ -1,3 +1,12 @@
+06/06/2023 V.6.1.11
+WS 6.1.211
+
+  - Show the merchant name chat room page
+  - Show the merchant banner beside room name on chat room page
+  - Show the default Carser merchant at the top of the room list correct fallowed by latest chat rooms.
+  - Ledger color scheme to rooms in room list page 
+
+
 02/06/2023 V.6.1.10
 WS 6.1.211
 
