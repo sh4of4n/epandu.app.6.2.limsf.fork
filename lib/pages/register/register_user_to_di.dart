@@ -232,10 +232,8 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
         if (di_result.isSuccess) {
           print(di_result.data.length);
         }
-
-        //_createChatRoom();
-
-        var createChatSupportResult = await chatRoomRepo.createChatSupport();
+        var createChatSupportResult =
+            await chatRoomRepo.createChatSupportByMember();
         if (createChatSupportResult.data != null &&
             createChatSupportResult.data.length > 0) {
           await context.read<SocketClientHelper>().loginUserRoom();
@@ -299,10 +297,6 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
         _isLoading = false;
       });
     }
-  }
-
-  _createChatRoom() async {
-    var response = await chatRoomRepo.createChatSupport();
   }
 
   @override
