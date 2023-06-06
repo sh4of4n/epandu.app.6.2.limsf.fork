@@ -1,3 +1,14 @@
+02/06/2023 V.6.1.10
+WS 6.1.211
+
+- Chatting - Creating room with ePandu and with merchant. - Creating room on the selected merchant. - Creating room when register a merchant
+
+01/06/2023 V.6.1.9
+WS 6.1.210
+
+- Chatting
+- Webview on IM - able to call IM, navigate to Map, Able to chat on IM.
+
 24/05/2023 V.6.1.8
 WS 6.1.204
 

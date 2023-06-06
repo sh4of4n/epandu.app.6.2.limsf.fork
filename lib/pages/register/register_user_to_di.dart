@@ -50,6 +50,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
   final _formKey = GlobalKey<FormState>();
   late Location location;
   final dbHelper = DatabaseHelper.instance;
+
   String name = '';
   String merchantId = '';
   String merchantName = '';
@@ -225,6 +226,13 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
       );
 
       if (result.isSuccess) {
+        //save into hive
+        var di_result = await authRepo.getUserRegisteredDI2(
+            context: context, merchantId: merchantId);
+        if (di_result.isSuccess) {
+          print(di_result.data.length);
+        }
+
         //_createChatRoom();
 
         var createChatSupportResult = await chatRoomRepo.createChatSupport();

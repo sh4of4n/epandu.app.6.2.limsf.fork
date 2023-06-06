@@ -2,14 +2,22 @@
 
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/model/auth_model.dart';
+import 'package:epandu/common_library/services/model/createroom_response.dart';
+import 'package:epandu/common_library/services/model/m_roommember_model.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
+import 'package:epandu/pages/chat/socketclient_helper.dart';
+import 'package:epandu/services/database/DatabaseHelper.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
+import 'package:provider/provider.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../router.gr.dart';
+import '../../services/repository/chatroom_repository.dart';
 
 class SelectDrivingInstitute extends StatefulWidget {
   final diList;
@@ -21,10 +29,12 @@ class SelectDrivingInstitute extends StatefulWidget {
 }
 
 class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
+  late IO.Socket socket;
   RegisteredDiArmasterProfile? diListData;
   final primaryColor = ColorConstant.primaryColor;
-
+  final chatRoomRepo = ChatRoomRepo();
   final localStorage = LocalStorage();
+  final dbHelper = DatabaseHelper.instance;
 
   final RegExp exp =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
@@ -34,6 +44,10 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
     super.initState();
 
     saveDiList();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final getSocket = Provider.of<SocketClientHelper>(context, listen: false);
+      socket = getSocket.socket;
+    });
   }
 
   saveDiList() async {
@@ -143,10 +157,47 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: ListTile(
-                      onTap: () {
+                      onTap: () async {
+                        EasyLoading.show();
                         localStorage.saveMerchantDbCode(
                             widget.diList[index].merchantNo);
 
+                        var createChatSupportResult =
+                            await chatRoomRepo.createChatSupport();
+                        if (createChatSupportResult.data != null &&
+                            createChatSupportResult.data.length > 0) {
+                          await context
+                              .read<SocketClientHelper>()
+                              .loginUserRoom();
+                          String userid = await localStorage.getUserId() ?? '';
+                          CreateRoomResponse getCreateRoomResponse =
+                              createChatSupportResult.data[0];
+
+                          List<RoomMembers> roomMembers =
+                              await dbHelper.getRoomMembersList(
+                                  getCreateRoomResponse.roomId!);
+                          roomMembers.forEach((roomMember) {
+                            if (userid != roomMember.user_id) {
+                              var inviteUserToRoomJson = {
+                                "invitedRoomId": getCreateRoomResponse.roomId!,
+                                "invitedUserId": roomMember.user_id
+                              };
+                              socket.emitWithAck(
+                                  'inviteUserToRoom', inviteUserToRoomJson,
+                                  ack: (data) {
+                                //print('ack $data');
+                                if (data != null) {
+                                  print(
+                                      'inviteUserToRoomJson from server $data');
+                                } else {
+                                  print("Null from inviteUserToRoomJson");
+                                }
+                              });
+                            }
+                          });
+                        }
+                        // context.router.popUntil(ModalRoute.withName('Home'));
+                        EasyLoading.dismiss();
                         context.router.replace(Home());
                       },
                       title: loadImage(widget.diList[index]),
