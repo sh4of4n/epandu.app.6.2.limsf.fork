@@ -50,6 +50,15 @@ class RoomHistory extends ChangeNotifier {
     getRoomList = [];
     getRoomList = await dbHelper.getRoomListWithMessage(userId!);
     notifyListeners();
+
+    if (getRoomList.indexWhere((element) => element.merchant_no == "EPANDU") >
+        0) {
+      RoomHistoryModel roomHistoryModel =
+          getRoomList.firstWhere((element) => element.merchant_no == "EPANDU");
+
+      getRoomList.remove(roomHistoryModel);
+      getRoomList.insert(0, roomHistoryModel);
+    }
     return getRoomList;
   }
 }

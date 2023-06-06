@@ -9,19 +9,20 @@ class RoomHistoryModel {
   String? filePath;
   String? nick_name;
   String? send_datetime;
+  String? merchant_no;
 
-  RoomHistoryModel({
-    this.room_id,
-    this.picture_path,
-    this.room_name,
-    this.room_desc,
-    this.message_id,
-    this.msg_body,
-    this.msg_binaryType,
-    this.filePath,
-    this.nick_name,
-    this.send_datetime,
-  });
+  RoomHistoryModel(
+      {this.room_id,
+      this.picture_path,
+      this.room_name,
+      this.room_desc,
+      this.message_id,
+      this.msg_body,
+      this.msg_binaryType,
+      this.filePath,
+      this.nick_name,
+      this.send_datetime,
+      this.merchant_no});
 
   RoomHistoryModel.fromJson(Map<String, dynamic> json) {
     room_id = json['room_id'];
@@ -34,6 +35,7 @@ class RoomHistoryModel {
     filePath = json['filePath'];
     nick_name = json['nick_name'];
     send_datetime = json['send_datetime'];
+    merchant_no = json['merchant_no'];
   }
 
   Map<String, dynamic> toJson() {
@@ -48,7 +50,7 @@ class RoomHistoryModel {
     data['filePath'] = this.filePath;
     data['nick_name'] = this.nick_name;
     data['send_datetime'] = this.send_datetime;
-
+    data['merchant_no'] = this.merchant_no;
     return data;
   }
 }

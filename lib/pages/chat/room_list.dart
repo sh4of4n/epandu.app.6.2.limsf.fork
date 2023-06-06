@@ -141,7 +141,9 @@ class _RoomListState extends State<RoomList> {
                 // Navigator.push(
                 //   context,
                 //   MaterialPageRoute(
-                //     builder: (context) => TestWebview(),
+                //     builder: (context) => TestWebview(
+                //         url:
+                //             "https://tbsweb.tbsdns.com/Tbs.Chat.Client.Web/DEVP/1_0/testwebview.html"),
                 //   ),
                 // );
               } else {
@@ -408,7 +410,15 @@ class _RoomListState extends State<RoomList> {
       return ListView.builder(
         itemCount: roomLIst.getRoomList.length,
         itemBuilder: (context, int index) {
-          // print('print count:2 - ${roomLIst.getRoomList.length}');
+          // final baseColor = Colors.blue.shade100; // Set the base color
+          // final opacity =
+          //     index % 2 == 0 ? 0.5 : 0.95; // Adjust opacity based on index
+
+          // final itemColor = baseColor.withOpacity(opacity);
+
+          final isEvenIndex = index % 2 == 0;
+          final itemColor = isEvenIndex ? Colors.grey[200] : Colors.white;
+
           rooms = roomLIst.getRoomList;
           if (rooms.length == 0) return SizedBox();
           RoomHistoryModel room = this.rooms[index];
@@ -416,12 +426,12 @@ class _RoomListState extends State<RoomList> {
               .watch<ChatNotificationCount>()
               .getChatNotificationCountList;
           if (editingController.text.isEmpty) {
-            return getCard(room, chatNotificationCount, index);
+            return getCard(room, chatNotificationCount, index, itemColor);
           } else if (room.room_name
                   ?.toLowerCase()
                   .contains(editingController.text) ==
               true) {
-            return getCard(room, chatNotificationCount, index);
+            return getCard(room, chatNotificationCount, index, itemColor);
           } else {
             return Container();
           }
@@ -430,8 +440,11 @@ class _RoomListState extends State<RoomList> {
     });
   }
 
-  Widget getCard(RoomHistoryModel room,
-      List<ChatNotification> chatNotificationCount, int index) {
+  Widget getCard(
+      RoomHistoryModel room,
+      List<ChatNotification> chatNotificationCount,
+      int index,
+      Color? itemColor) {
     String splitRoomName = '';
     if (room.room_desc!.toUpperCase() == 'GROUP CHAT')
       splitRoomName = room.room_name!;
@@ -453,6 +466,7 @@ class _RoomListState extends State<RoomList> {
       badgeCount = chatNotification.notificationBadge!;
     }
     return Card(
+      color: itemColor,
       child: ListTile(
         onLongPress: () {
           setState(() {
@@ -479,18 +493,11 @@ class _RoomListState extends State<RoomList> {
                   blurRadius: 5)
             ],
           ),
-          child: FullScreenWidget(
-            child: Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: room.picture_path != null && room.picture_path != ''
-                    ? Image.network(room.picture_path!
-                        .replaceAll(removeBracket, '')
-                        .split('\r\n')[0])
-                    : Icon(Icons.account_circle),
-              ),
-            ),
-          ),
+          child: room.picture_path != null && room.picture_path != ''
+              ? Image.network(room.picture_path!
+                  .replaceAll(removeBracket, '')
+                  .split('\r\n')[0])
+              : Icon(Icons.account_circle),
         ),
         trailing: badgeCount > 0
             ? badges.Badge(
@@ -510,19 +517,23 @@ class _RoomListState extends State<RoomList> {
                       fontWeight: FontWeight.bold),
                 ))
             : null,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        title: Column(
           children: [
-            Expanded(
-              child: Text(splitRoomName,
-                  maxLines: 1,
-                  softWrap: false,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(splitRoomName,
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ),
+                if (room.send_datetime != null && room.send_datetime != '')
+                  Text(DateFormatter().getDateTimeRepresentation(
+                      DateTime.parse(room.send_datetime!))),
+              ],
             ),
-            if (room.send_datetime != null && room.send_datetime != '')
-              Text(DateFormatter().getDateTimeRepresentation(
-                  DateTime.parse(room.send_datetime!))),
           ],
         ),
         subtitle: showLatestMessage(room),
