@@ -149,7 +149,7 @@ class _InviteFriendState extends State<InviteFriend> {
                       profile_photo: '',
                       merchant_no: inviteRoomResponse.merchantNo,
                       picture_path: inviteRoomResponse.picturePath);
-                  int val = await dbHelper.saveRoomTable(room);
+                  await dbHelper.saveRoomTable(room);
                   RoomHistoryModel roomHistoryModel = new RoomHistoryModel(
                       room_id: inviteRoomResponse.roomId ?? '',
                       room_name: inviteRoomResponse.roomName ?? '',

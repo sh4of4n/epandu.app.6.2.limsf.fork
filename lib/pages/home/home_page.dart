@@ -11,7 +11,6 @@ import 'package:epandu/common_library/services/repository/inbox_repository.dart'
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
-import 'package:epandu/pages/product/product.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 // import 'package:epandu/common_library/services/location.dart';

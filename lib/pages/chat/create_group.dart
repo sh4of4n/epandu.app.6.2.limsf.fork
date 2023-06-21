@@ -4,7 +4,9 @@ import 'package:epandu/pages/chat/rooms_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import '../../common_library/services/model/chat_mesagelist.dart';
 import '../../common_library/services/model/invitefriend_model.dart';
 import '../../common_library/services/model/inviteroom_response.dart';
 import '../../common_library/services/model/m_room_model.dart';
@@ -16,6 +18,7 @@ import '../../common_library/utils/local_storage.dart';
 import '../../services/database/DatabaseHelper.dart';
 import '../../services/repository/chatroom_repository.dart';
 import '../../utils/app_config.dart';
+import 'chat_history.dart';
 import 'chat_home.dart';
 import 'socketclient_helper.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -220,10 +223,14 @@ class _CreateGroupState extends State<CreateGroup> {
                     await context.read<SocketClientHelper>().loginUserRoom();
                     String? userId = await localStorage.getUserId();
                     String? userName = await localStorage.getNickName();
+
+                    _selected.forEach((memberByPhoneResponse) async {
+                      int count = await dbHelper.updateRoomMemberStatus(
+                          memberByPhoneResponse.userId, "false", widget.roomId);
+                    });
                     List<RoomMembers> roomMembers =
                         await dbHelper.getRoomMembersList(widget.roomId);
-
-                    _selected.forEach((memberByPhoneResponse) {
+                    _selected.forEach((memberByPhoneResponse) async {
                       roomMembers.forEach((roomMember) {
                         if (userId != roomMember.user_id) {
                           var groupJson = {
@@ -239,17 +246,56 @@ class _CreateGroupState extends State<CreateGroup> {
                           //print(messageJson);
                           socket.emitWithAck('sendNotification', groupJson,
                               ack: (data) async {
-                            print(data);
+                            //print(data);
                           });
                         }
                       });
 
                       String clientMessageId = generateRandomString(15);
+                      String caUid = await localStorage.getCaUid() ?? '';
+                      String deviceId =
+                          await localStorage.getLoginDeviceId() ?? '';
+                      MessageDetails messageDetails = MessageDetails(
+                          room_id: widget.roomId,
+                          user_id: userId,
+                          app_id: appConfig.appId,
+                          ca_uid: caUid,
+                          device_id: deviceId,
+                          msg_body: userName! +
+                              ' added ' +
+                              memberByPhoneResponse.name!,
+                          msg_binary: '',
+                          msg_binaryType: 'userJoined',
+                          reply_to_id: -1,
+                          message_id: 0,
+                          read_by: '',
+                          status: '',
+                          status_msg: '',
+                          deleted: 0,
+                          send_datetime: DateFormat("yyyy-MM-dd HH:mm:ss")
+                              .format(DateTime.now().toLocal())
+                              .toString(),
+                          edit_datetime: '',
+                          delete_datetime: '',
+                          transtamp: '',
+                          nick_name: userName,
+                          filePath: '',
+                          owner_id: userId,
+                          msgStatus: 'SENT',
+                          client_message_id: clientMessageId,
+                          roomName: '');
+                      await dbHelper.saveMsgDetailTable(messageDetails);
+                      context
+                          .read<ChatHistory>()
+                          .addChatHistory(messageDetail: messageDetails);
+                      context.read<RoomHistory>().updateRoomMessage(
+                          roomId: messageDetails.room_id!,
+                          message: messageDetails.msg_body!);
 
                       var messageJson = {
                         "roomId": widget.roomId,
                         "msgBody":
-                            userName! + ' added ' + memberByPhoneResponse.name!,
+                            userName + ' added ' + memberByPhoneResponse.name!,
                         "msgBinaryType": 'userJoined',
                         "replyToId": -1,
                         "clientMessageId": clientMessageId,
@@ -263,9 +309,9 @@ class _CreateGroupState extends State<CreateGroup> {
                       socket.emitWithAck('sendMessage', messageJson,
                           ack: (data) async {
                         if (data != null) {
-                          print('sendMessage from server $data');
+                          //print('sendMessage from server $data');
                         } else {
-                          print("Null from sendMessage");
+                          //print("Null from sendMessage");
                         }
                       });
                     });

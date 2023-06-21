@@ -4,10 +4,8 @@ import 'dart:math';
 import 'package:badges/badges.dart' as badges;
 import 'package:epandu/pages/chat/rooms_provider.dart';
 import 'package:epandu/pages/chat/socketclient_helper.dart';
-import 'package:epandu/pages/chat/webview_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import '../../common_library/services/model/chat_mesagelist.dart';
@@ -17,7 +15,6 @@ import '../../common_library/services/repository/auth_repository.dart';
 import '../../common_library/utils/local_storage.dart';
 import '../../services/database/DatabaseHelper.dart';
 import '../../services/repository/chatroom_repository.dart';
-import 'chat_history.dart';
 import 'chat_home.dart';
 import 'chatnotification_count.dart';
 import 'create_group.dart';
@@ -572,8 +569,12 @@ class _RoomListState extends State<RoomList> {
         children: [
           Expanded(
               child: Text(
-            room.nick_name! + ' : ' + room.msg_body!,
+            room.nick_name! +
+                ' : ' +
+                room.msg_body!.trim().replaceAll('\n', ' '),
             overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            softWrap: false,
           )),
         ],
       );
@@ -587,6 +588,8 @@ class _RoomListState extends State<RoomList> {
               child: Text(
             room.nick_name! + ' : ' + room.filePath!.split('/').last,
             overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            softWrap: false,
           ))
         ],
       );

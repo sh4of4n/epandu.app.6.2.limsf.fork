@@ -73,7 +73,7 @@ class SocketClientHelper extends ChangeNotifier {
       var result = await chatRoomRepo.getRoomList('');
       if (result.data != null && result.data.length > 0) {
         for (int i = 0; i < result.data.length; i += 1) {
-          int val = await dbHelper.saveRoomTable(result.data[i]);
+          await dbHelper.saveRoomTable(result.data[i]);
           RoomHistoryModel roomHistoryModel = new RoomHistoryModel(
               room_id: result.data[i].room_id ?? '',
               room_name: result.data[i].room_name ?? '',
@@ -362,7 +362,7 @@ class SocketClientHelper extends ChangeNotifier {
       Map<String, dynamic> mapResult = Map<String, dynamic>.from(data as Map);
       var result = await chatRoomRepo.getRoomList(mapResult['invitedRoomId']!);
       if (result.data != null && result.data.length > 0) {
-        int val = await dbHelper.saveRoomTable(result.data[0]);
+        await dbHelper.saveRoomTable(result.data[0]);
         RoomHistoryModel roomHistoryModel = new RoomHistoryModel(
             room_id: result.data[0].room_id ?? '',
             room_name: result.data[0].room_name ?? '',
@@ -423,6 +423,10 @@ class SocketClientHelper extends ChangeNotifier {
               .toString()
               .contains("just joined the room")) {
             loginUserRoom();
+            await dbHelper.updateRoomMemberStatus(
+                result['description'].split(' ')[0],
+                "false",
+                result['description'].split('_')[1]);
           } else if (result['description']
               .toString()
               .contains("just left the room_")) {

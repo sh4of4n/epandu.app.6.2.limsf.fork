@@ -552,6 +552,7 @@ class DatabaseHelper {
   static const String M_ROOM_TABLE = 'RoomTable';
   static const String M_ROOM_MEMBERS_TABLE = 'RoomMembersTable';
   static const String M_MSG_DETAIL_TABLE = 'MsgDetailTable';
+  static const String TEST_TABLE = 'TestTable';
   // make this a singleton class
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -564,7 +565,7 @@ class DatabaseHelper {
   _initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
     return await openDatabase(path,
-        version: _databaseVersion, onCreate: _onCreate);
+        version: _databaseVersion, onCreate: _onCreate, onUpgrade: _onUpgrade);
   }
 
   Future<void> deleteDB() async {
@@ -597,6 +598,13 @@ class DatabaseHelper {
         " CREATE TABLE $M_MSG_DETAIL_TABLE (id INTEGER PRIMARY KEY AUTOINCREMENT,room_id TEXT NOT NULL,user_id TEXT NOT NULL,app_id TEXT,ca_uid TEXT,device_id TEXT,msg_body TEXT,msg_binary TEXT,msg_binaryType TEXT,reply_to_id INT,message_id INT,read_by TEXT ,status TEXT,status_msg TEXT,deleted INT,send_datetime TEXT,edit_datetime TEXT,delete_datetime TEXT,transtamp TEXT,filePath TEXT,owner_id TEXT,msgStatus TEXT,clientMessageId TEXT,nickName TEXT);");
   }
 
+  Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 1) {
+      print('Test Upgrade');
+      await db.execute(
+          " CREATE TABLE $TEST_TABLE (id INTEGER PRIMARY KEY AUTOINCREMENT,room_id TEXT NOT NULL);");
+    }
+  }
   // Helper methods
 
   // Inserts a row in the database where each key in the Map is a column name
@@ -1141,5 +1149,13 @@ class DatabaseHelper {
         ? res.map((m) => MessageDetails.fromJson(m)).toList()
         : [];
     return list;
+  }
+
+  Future<int> updateRoomMemberStatus(
+      String? userId, String deleted, String roomId) async {
+    Database db = await instance.database;
+    return await db.rawUpdate(
+        "UPDATE $M_ROOM_MEMBERS_TABLE SET deleted = ? where user_id = ? AND room_id = ?",
+        [deleted, userId, roomId]);
   }
 }

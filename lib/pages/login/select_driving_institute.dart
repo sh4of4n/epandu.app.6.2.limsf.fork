@@ -159,9 +159,8 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
                     child: ListTile(
                       onTap: () async {
                         EasyLoading.show();
-                        localStorage.saveMerchantDbCode(
+                        await localStorage.saveMerchantDbCode(
                             widget.diList[index].merchantNo);
-
                         var createChatSupportResult =
                             await chatRoomRepo.createChatSupportByMember();
                         if (createChatSupportResult.data != null &&
