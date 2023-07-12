@@ -30,22 +30,35 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   void initState() {
     super.initState();
-    _getCamera();
-  }
-
-  _getCamera() async {
-    /*List<CameraDescription> cameras1 =await availableCameras();*/
     _cameraController =
-        CameraController(widget.cameras[0], ResolutionPreset.high);
-    cameraValue = _cameraController.initialize();
-    setState(() {
-      cameraValue = cameraValue;
+        CameraController(widget.cameras[0], ResolutionPreset.max);
+    cameraValue = _cameraController.initialize().then((_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        cameraValue = cameraValue;
+      });
+    }).catchError((Object e) {
+      if (e is CameraException) {
+        switch (e.code) {
+          case 'CameraAccessDenied':
+            // Handle access errors here.
+            break;
+          default:
+            // Handle other errors here.
+            break;
+        }
+      }
     });
   }
 
   @override
   void dispose() {
     super.dispose();
+    if (isRecoring) {
+      _cameraController.stopVideoRecording();
+    }
     _cameraController.dispose();
   }
 
@@ -97,6 +110,15 @@ class _CameraScreenState extends State<CameraScreen> {
                           }),
                       GestureDetector(
                         onLongPress: () async {
+                          // if (!_cameraController.value.isInitialized) {
+                          //   _cameraController = CameraController(
+                          //       widget.cameras[0], ResolutionPreset.high);
+                          //   cameraValue = _cameraController.initialize();
+                          //   setState(() {
+                          //     cameraValue = cameraValue;
+                          //   });
+                          // }
+
                           await _cameraController.startVideoRecording();
                           setState(() {
                             isRecoring = true;

@@ -86,7 +86,7 @@ class _ChatHome2State extends State<ChatHome2> {
   bool isDataLoading = false;
   bool _isFetchingData = false;
   int currentIndex = -1;
-  List filteredMessages = [];
+  List<int> filteredMessages = [];
   bool isSearching = false;
   String valueText = "";
   final chatRoomRepo = ChatRoomRepo();
@@ -138,6 +138,7 @@ class _ChatHome2State extends State<ChatHome2> {
   final dbHelper = DatabaseHelper.instance;
   bool show = false;
   FocusNode focusNode = FocusNode();
+  FocusNode focusNode1 = FocusNode();
   bool sendButton = false;
   //ScrollController _scrollController = ScrollController();
   List<MessageDetails> getMessageDetailsList = [];
@@ -205,51 +206,86 @@ class _ChatHome2State extends State<ChatHome2> {
     _getCameras();
     //Provider.of<ChatHistory>(context, listen: false).deleteChats(widget.roomId);
 
+    // final allChatHistoryProvider =
+    //     Provider.of<ChatHistory>(context, listen: false);
+    // allChatHistoryProvider.getChatHistoryByRoomId(widget.roomId);
+
     //BatchLoad
     final chatHistoryProvider =
         Provider.of<ChatHistory>(context, listen: false);
     chatHistoryProvider.getLazyLoadChatHistory(
         widget.roomId, offset, batchSize);
-    setState(() {
-      offset += batchSize;
-      isDataLoading = false;
-      _isFetchingData = false;
-    });
+    offset += batchSize;
+    _isFetchingData = false;
     itemPositionsListener.itemPositions.addListener(_onItemPositionsChanged);
   }
 
   void _onItemPositionsChanged() {
     final positions = itemPositionsListener.itemPositions.value;
-
-    if (positions.isNotEmpty) {
-      final lastVisibleItem = positions.last.index;
-      final itemCount = getMessageDetailsList.length;
-
-      if (!_isFetchingData && lastVisibleItem == itemCount - 1) {
-        setState(() {
-          isDataLoading = true;
-          _isFetchingData = true;
-        });
-        bool isDataExist =
-            Provider.of<ChatHistory>(context, listen: false).isDataExist;
-        if (isDataExist)
-          _loadMoreChatHistory();
-        else {
-          isDataLoading = false;
-          _isFetchingData = false;
-        }
-      }
+    bool dataExist =
+        Provider.of<ChatHistory>(context, listen: false).isDataExist;
+    if (positions.isNotEmpty &&
+        !_isFetchingData &&
+        dataExist &&
+        positions.last.index == getMessageDetailsList.length - 1) {
+      _isFetchingData = true;
+      _loadMoreChatHistory();
     }
   }
 
-  void _loadMoreChatHistory() {
-    Provider.of<ChatHistory>(context, listen: false)
-        .getLazyLoadChatHistory(widget.roomId, offset, batchSize);
+  Future<void> _loadMoreChatHistory() async {
+    getMessageDetailsList =
+        await Provider.of<ChatHistory>(context, listen: false)
+            .getLazyLoadChatHistory(widget.roomId, offset, batchSize);
     setState(() {
       offset += batchSize;
-      isDataLoading = false;
       _isFetchingData = false;
     });
+  }
+
+  Future<List<int>> searchMessages(String keyword) async {
+    filteredMessages = [];
+    while (true) {
+      //await EasyLoading.show();
+      bool dataExist =
+          Provider.of<ChatHistory>(context, listen: false).isDataExist;
+      if (!dataExist) {
+        List<MessageDetails> list = getMessageDetailsList
+            // .where((element) =>
+            //     element.room_id == widget.roomId &&
+            //     element.msg_body!.toLowerCase() == keyword.toLowerCase())
+            // .toList();
+            .where((element) =>
+                element.room_id == widget.roomId &&
+                element.msg_body!.toLowerCase().contains(keyword.toLowerCase()))
+            .toList();
+        currentIndex = -1;
+
+        list.forEach((message) {
+          filteredMessages.add(message.message_id!);
+        });
+        break;
+      }
+      // setState(() {
+      _isFetchingData = true;
+      // });
+      await _loadMoreChatHistory();
+      List<MessageDetails> list = getMessageDetailsList
+          // .where((element) =>
+          //     element.room_id == widget.roomId &&
+          //     element.msg_body!.toLowerCase() == keyword.toLowerCase())
+          // .toList();
+          .where((element) =>
+              element.room_id == widget.roomId &&
+              element.msg_body!.toLowerCase().contains(keyword.toLowerCase()))
+          .toList();
+      currentIndex = -1;
+      list.forEach((message) {
+        filteredMessages.add(message.message_id!);
+      });
+    }
+    //await EasyLoading.dismiss();
+    return filteredMessages.toSet().toList();
   }
 
   @override
@@ -302,6 +338,7 @@ class _ChatHome2State extends State<ChatHome2> {
   void dispose() {
     editingController.dispose();
     // _scrollController.dispose();
+    searcheditingController.dispose();
     _mRecorder!.closeRecorder();
     cancelRecorderSubscriptions();
     _mRecorder = null;
@@ -617,15 +654,15 @@ class _ChatHome2State extends State<ChatHome2> {
           physics:
               BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           itemBuilder: (context, index) {
-            if (index == msgList.getMessageDetailsList.length) {
-              if (isDataLoading) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else {
-                return Container(); // Reached end of data
-              }
-            }
+            // if (index == msgList.getMessageDetailsList.length) {
+            //   if (isDataLoading) {
+            //     return Center(
+            //       child: CircularProgressIndicator(),
+            //     );
+            //   } else {
+            //     return Container(); // Reached end of data
+            //   }
+            // }
             if (index >= 0) {
               ReplyMessageDetails existingReplayMessageDetails =
                   ReplyMessageDetails(
@@ -1286,11 +1323,67 @@ class _ChatHome2State extends State<ChatHome2> {
       if (members.length > 0)
         members = members.substring(0, members.length - 1);
 
-      if (widget.roomDesc == 'Chat Support') members = widget.roomDesc;
-
       membersCount = roomMembers.length;
       if (membersCount > 0) roomName = roomMembers[0].room_name!;
     });
+  }
+
+  void navigateSearchResults(int direction) {
+    if (filteredMessages.length > 0) {
+      setState(() {
+        if (direction == 1) {
+          if (currentIndex < filteredMessages.length - 1) {
+            currentIndex++;
+            int index = getMessageDetailsList.indexWhere((element) =>
+                element.message_id == filteredMessages[currentIndex]);
+            _desiredItemIndex = index;
+
+            itemScrollController.scrollTo(
+                index: index,
+                duration: Duration(seconds: 2),
+                curve: Curves.easeInOutCubic);
+          } else {
+            currentIndex = 0;
+            int index = getMessageDetailsList.indexWhere((element) =>
+                element.message_id == filteredMessages[currentIndex]);
+            _desiredItemIndex = index;
+
+            itemScrollController.scrollTo(
+                index: index,
+                duration: Duration(seconds: 2),
+                curve: Curves.easeInOutCubic);
+          }
+        } else {
+          if (currentIndex > 0) {
+            currentIndex--;
+            int index = getMessageDetailsList.indexWhere((element) =>
+                element.message_id == filteredMessages[currentIndex]);
+            _desiredItemIndex = index;
+            itemScrollController.scrollTo(
+                index: index,
+                duration: Duration(seconds: 2),
+                curve: Curves.easeInOutCubic);
+          } else {
+            currentIndex = filteredMessages.length - 1;
+            int index = getMessageDetailsList.indexWhere((element) =>
+                element.message_id == filteredMessages[currentIndex]);
+            _desiredItemIndex = index;
+            itemScrollController.scrollTo(
+                index: index,
+                duration: Duration(seconds: 2),
+                curve: Curves.easeInOutCubic);
+          }
+        }
+      });
+    } else {
+      final customSnackbar = CustomSnackbar();
+      customSnackbar.show(
+        context,
+        message: 'No messages found.',
+        duration: 5000,
+        type: MessageType.INFO,
+      );
+    }
   }
 
   getAppBar(BuildContext context) {
@@ -1307,32 +1400,37 @@ class _ChatHome2State extends State<ChatHome2> {
               filteredMessages = [];
               currentIndex = -1;
               _desiredItemIndex = -1;
+              searcheditingController.clear();
             });
           },
         ),
         backgroundColor: Colors.blueAccent,
         title: TextField(
+          focusNode: focusNode1,
+          cursorColor: Colors.white,
           controller: searcheditingController,
-          onChanged: (value) {
+          onChanged: (value) async {
             if (value != '') {
-              List<MessageDetails> list1 = getMessageDetailsList
-                  .where((element) =>
-                      element.room_id == widget.roomId &&
-                      element.msg_body!
-                          .toLowerCase()
-                          .contains(value.toLowerCase()))
-                  .toList();
+              List<int> searchResults = [];
+              searchResults = await searchMessages(value);
+              if (searchResults.length > 0) {
+                searchResults.sort((a, b) => a.compareTo(b));
+                setState(() {
+                  filteredMessages = searchResults;
+                });
+              }
+            } else {
               setState(() {
                 filteredMessages = [];
-                list1.forEach((message) {
-                  filteredMessages.add(message.message_id);
-                });
+                currentIndex = -1;
+                _desiredItemIndex = -1;
               });
             }
           },
           style: TextStyle(color: Colors.white),
           decoration: InputDecoration(
               hintText: "Search Message",
+              contentPadding: EdgeInsets.only(left: 10.0),
               hintStyle: TextStyle(color: Colors.white)),
         ),
         actions: <Widget>[
@@ -1357,87 +1455,93 @@ class _ChatHome2State extends State<ChatHome2> {
           IconButton(
             icon: Icon(Icons.arrow_circle_up),
             onPressed: () {
-              if (filteredMessages.length > 0) {
-                if (currentIndex == -1) {
-                  int index = getMessageDetailsList.indexWhere(
-                      (element) => element.message_id == filteredMessages[0]);
+              focusNode1.unfocus();
+              focusNode1.canRequestFocus = false;
+              navigateSearchResults(-1);
+              // if (filteredMessages.length > 0) {
+              //   if (currentIndex == -1) {
+              //     int index = getMessageDetailsList.indexWhere(
+              //         (element) => element.message_id == filteredMessages[0]);
 
-                  setState(() {
-                    _desiredItemIndex = index;
-                    currentIndex = 1;
-                  });
-                  itemScrollController.scrollTo(
-                      index: index,
-                      duration: Duration(seconds: 2),
-                      curve: Curves.easeInOutCubic);
-                } else {
-                  if (currentIndex != -1 &&
-                      currentIndex < filteredMessages.length) {
-                    int messageId = filteredMessages[currentIndex];
-                    int index = getMessageDetailsList.indexWhere(
-                        (element) => element.message_id == messageId);
+              //     setState(() {
+              //       _desiredItemIndex = index;
+              //       currentIndex = 1;
+              //     });
+              //     itemScrollController.scrollTo(
+              //         index: index,
+              //         duration: Duration(seconds: 2),
+              //         curve: Curves.easeInOutCubic);
+              //   } else {
+              //     if (currentIndex != -1 &&
+              //         currentIndex < filteredMessages.length) {
+              //       int messageId = filteredMessages[currentIndex];
+              //       int index = getMessageDetailsList.indexWhere(
+              //           (element) => element.message_id == messageId);
 
-                    setState(() {
-                      _desiredItemIndex = index;
-                      currentIndex = currentIndex + 1;
-                    });
-                    itemScrollController.scrollTo(
-                        index: index,
-                        duration: Duration(seconds: 2),
-                        curve: Curves.easeInOutCubic);
-                  } else if (currentIndex == filteredMessages.length) {
-                    setState(() {
-                      currentIndex = 0;
-                    });
-                    final customSnackbar = CustomSnackbar();
-                    customSnackbar.show(
-                      context,
-                      message: 'No messages found.',
-                      duration: 5000,
-                      type: MessageType.INFO,
-                    );
-                  }
-                }
-              } else {
-                final customSnackbar = CustomSnackbar();
-                customSnackbar.show(
-                  context,
-                  message: 'No messages found.',
-                  duration: 5000,
-                  type: MessageType.INFO,
-                );
-              }
+              //       setState(() {
+              //         _desiredItemIndex = index;
+              //         currentIndex = currentIndex + 1;
+              //       });
+              //       itemScrollController.scrollTo(
+              //           index: index,
+              //           duration: Duration(seconds: 2),
+              //           curve: Curves.easeInOutCubic);
+              //     } else if (currentIndex == filteredMessages.length) {
+              //       setState(() {
+              //         currentIndex = 0;
+              //       });
+              //       final customSnackbar = CustomSnackbar();
+              //       customSnackbar.show(
+              //         context,
+              //         message: 'No messages found.',
+              //         duration: 5000,
+              //         type: MessageType.INFO,
+              //       );
+              //     }
+              //   }
+              // } else {
+              //   final customSnackbar = CustomSnackbar();
+              //   customSnackbar.show(
+              //     context,
+              //     message: 'No messages found.',
+              //     duration: 5000,
+              //     type: MessageType.INFO,
+              //   );
+              // }
             },
           ),
           IconButton(
             icon: Icon(Icons.arrow_circle_down),
             onPressed: () {
-              if (currentIndex < filteredMessages.length &&
-                  currentIndex != -1) {
-                int messageId = filteredMessages[currentIndex];
-                int index = getMessageDetailsList
-                    .indexWhere((element) => element.message_id == messageId);
-                itemScrollController.scrollTo(
-                    index: index,
-                    duration: Duration(seconds: 2),
-                    curve: Curves.easeInOutCubic);
+              focusNode1.unfocus();
+              focusNode1.canRequestFocus = false;
+              navigateSearchResults(1);
+              // if (currentIndex < filteredMessages.length &&
+              //     currentIndex != -1) {
+              //   int messageId = filteredMessages[currentIndex];
+              //   int index = getMessageDetailsList
+              //       .indexWhere((element) => element.message_id == messageId);
+              //   itemScrollController.scrollTo(
+              //       index: index,
+              //       duration: Duration(seconds: 2),
+              //       curve: Curves.easeInOutCubic);
 
-                Timer(Duration(seconds: 5), () {
-                  _desiredItemIndex = -1;
-                });
-                setState(() {
-                  _desiredItemIndex = index;
-                  currentIndex = currentIndex - 1;
-                });
-              } else {
-                final customSnackbar = CustomSnackbar();
-                customSnackbar.show(
-                  context,
-                  message: 'No messages found.',
-                  duration: 5000,
-                  type: MessageType.INFO,
-                );
-              }
+              //   Timer(Duration(seconds: 5), () {
+              //     _desiredItemIndex = -1;
+              //   });
+              //   setState(() {
+              //     _desiredItemIndex = index;
+              //     currentIndex = currentIndex - 1;
+              //   });
+              // } else {
+              //   final customSnackbar = CustomSnackbar();
+              //   customSnackbar.show(
+              //     context,
+              //     message: 'No messages found.',
+              //     duration: 5000,
+              //     type: MessageType.INFO,
+              //   );
+              // }
             },
           )
         ],
@@ -1462,11 +1566,11 @@ class _ChatHome2State extends State<ChatHome2> {
                           roomId: widget.roomId, type: "DELETE");
                   Provider.of<ChatNotificationCount>(context, listen: false)
                       .updateUnreadMessageId(roomId: widget.roomId);
+                  Navigator.pop(context);
                   context.read<SocketClientHelper>().setIsEnterRoom(false);
                   context.read<RoomHistory>().getRoomHistory();
                   context.read<ChatHistory>().deleteChats(widget.roomId);
                   context.read<ChatHistory>().updateIsDataExist();
-                  Navigator.pop(context);
                 },
               ),
             ],
@@ -1576,6 +1680,7 @@ class _ChatHome2State extends State<ChatHome2> {
                 } else if (value == "Search") {
                   setState(() {
                     this.isSearching = true;
+                    focusNode1.requestFocus();
                   });
                 } else if (value == "Media and Files") {
                   Navigator.push(
@@ -1853,10 +1958,8 @@ class _ChatHome2State extends State<ChatHome2> {
                             .path +
                         '/' +
                         roomId);
-                    bool dirExist = await dir.exists();
-                    if (dirExist) {
-                      await dir.delete();
-                    }
+
+                    deleteDirectory(dir);
                     Provider.of<RoomHistory>(context, listen: false)
                         .getRoomHistory();
                   }
@@ -1867,6 +1970,19 @@ class _ChatHome2State extends State<ChatHome2> {
             ],
           );
         });
+  }
+
+  void deleteDirectory(Directory directory) {
+    if (directory.existsSync()) {
+      directory.listSync().forEach((FileSystemEntity entity) {
+        if (entity is File) {
+          entity.deleteSync();
+        } else if (entity is Directory) {
+          deleteDirectory(entity);
+        }
+      });
+      directory.deleteSync();
+    }
   }
 
   void deleteChatMessage(int messageId, String type, String roomId) async {
@@ -2030,7 +2146,8 @@ class _ChatHome2State extends State<ChatHome2> {
         //print('getMessageById ack $data');
         if (data != null) {
           ReadByMessage readByMessage = ReadByMessage.fromJson(data);
-          if (readByMessage.message!.readMessage![0].readBy != null &&
+          if (readByMessage.message != null &&
+              readByMessage.message!.readMessage![0].readBy != null &&
               readByMessage.message!.readMessage![0].readBy!
                   .contains('[[ALL]]')) {
             context.read<ChatHistory>().updateChatItemStatus('', "READ",
@@ -2180,6 +2297,7 @@ class _ChatHome2State extends State<ChatHome2> {
         client_message_id: clientMessageId,
         roomName: widget.roomName);
     await dbHelper.saveMsgDetailTable(messageDetails);
+    print('StoreFilePath:' + filePath);
     context.read<ChatHistory>().addChatHistory(messageDetail: messageDetails);
     context.read<RoomHistory>().updateRoomMessage(
         roomId: messageDetails.room_id!, message: messageDetails.msg_body!);
@@ -2573,28 +2691,26 @@ class _ChatHome2State extends State<ChatHome2> {
       if (!status.isGranted) {
         await Permission.storage.request();
       }
+
+      final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      final random = Random().nextInt(10000).toString();
+
       if ((await dir.exists())) {
         //print(dir.path);
-        file = File(dir.path +
-            "/" +
-            DateTime.now().millisecondsSinceEpoch.toString() +
-            extension);
+        file = File(dir.path + "/" + timestamp + random + extension);
         await file.writeAsBytes(bytes);
       } else {
         await dir.create(recursive: true);
         //print(dir.path);
-        file = File(dir.path +
-            "/" +
-            DateTime.now().millisecondsSinceEpoch.toString() +
-            extension);
+        file = File(dir.path + "/" + timestamp + random + extension);
         await file.writeAsBytes(bytes);
         //return dir.path;
       }
       return file.path;
     } on Exception catch (exception) {
-      print(exception);
+      //print(exception);
     } catch (error) {
-      print(error);
+      //print(error);
     }
     return '';
   }

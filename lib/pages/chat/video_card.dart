@@ -44,24 +44,18 @@ class VideoCard extends StatefulWidget {
 }
 
 class _VideoCardState extends State<VideoCard> {
-  //late Future<VideoPlayerController> _futureController;
-  // late VideoPlayerController _controller;
   late FlickManager flickManager;
-  // Future<VideoPlayerController> createVideoPlayer() async {
-  //   final File file = new File(widget.filePath);
-  //   _controller = VideoPlayerController.file(file);
-  //   await _controller.initialize();
-  //   await _controller.setLooping(true);
-  //   return _controller;
-  // }
 
   @override
   void initState() {
     super.initState();
+    // print('TE1 :' + widget.filePath);
     flickManager = FlickManager(
       videoPlayerController:
           VideoPlayerController.file(new File(widget.filePath)),
     );
+    // print('TE2 :' +
+    //     flickManager.flickVideoManager!.videoPlayerController!.dataSource);
   }
 
   @override
@@ -72,10 +66,21 @@ class _VideoCardState extends State<VideoCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: getVideoCard());
+    if (flickManager.flickVideoManager!.videoPlayerController!.dataSource
+            .replaceAll('file://', '') ==
+        widget.filePath) {
+      return Container(child: getVideoCard());
+    } else {
+      Future.delayed(Duration(milliseconds: 500)).whenComplete(() {
+        flickManager.handleChangeVideo(
+            VideoPlayerController.file(new File(widget.filePath)));
+      });
+      return Container(child: getVideoCard());
+    }
   }
 
   Widget getVideoCard() {
+    //print('T3 :' + widget.filePath);
     return Padding(
       // asymmetric padding
       padding: EdgeInsets.fromLTRB(
@@ -145,60 +150,6 @@ class _VideoCardState extends State<VideoCard> {
                                   ),
                                 ),
                               )
-                            // FullScreenWidget(
-                            //     child: Center(
-                            //       child: AspectRatio(
-                            //           aspectRatio:
-                            //               _controller.value.aspectRatio,
-                            //           child: Stack(
-                            //             children: [
-                            //               ClipRRect(
-                            //                   borderRadius:
-                            //                       BorderRadius.circular(8.0),
-                            //                   child: VideoPlayer(_controller)),
-                            //               Positioned(
-                            //                   bottom: 0,
-                            //                   width: MediaQuery.of(context)
-                            //                       .size
-                            //                       .width,
-                            //                   child: VideoProgressIndicator(
-                            //                     _controller,
-                            //                     allowScrubbing: false,
-                            //                     colors: VideoProgressColors(
-                            //                         backgroundColor:
-                            //                             Colors.blueGrey,
-                            //                         bufferedColor:
-                            //                             Colors.blueGrey,
-                            //                         playedColor:
-                            //                             Colors.blueAccent),
-                            //                   )),
-                            //               Positioned(
-                            //                 bottom: 0,
-                            //                 child: GestureDetector(
-                            //                   onTap: () {
-                            //                     setState(() {
-                            //                       if (_controller
-                            //                           .value.isPlaying) {
-                            //                         _controller.pause();
-                            //                       } else {
-                            //                         // If the video is paused, play it.
-                            //                         _controller.play();
-                            //                       }
-                            //                     });
-                            //                   },
-                            //                   child: Icon(
-                            //                     _controller.value.isPlaying
-                            //                         ? Icons.pause
-                            //                         : Icons.play_arrow,
-                            //                     color: Colors.white,
-                            //                     size: 50,
-                            //                   ),
-                            //                 ),
-                            //               ),
-                            //             ],
-                            //           )),
-                            //     ),
-                            //   )
                             : Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
@@ -227,67 +178,7 @@ class _VideoCardState extends State<VideoCard> {
                                                   FlickLandscapeControls(),
                                             ),
                                           ),
-                                        )
-                                        // FullScreenWidget(
-                                        //   child: Center(
-                                        //     child: AspectRatio(
-                                        //         aspectRatio:
-                                        //             _controller.value.aspectRatio,
-                                        //         child: Stack(
-                                        //           children: [
-                                        //             ClipRRect(
-                                        //                 borderRadius:
-                                        //                     BorderRadius.circular(
-                                        //                         8.0),
-                                        //                 child: VideoPlayer(
-                                        //                     _controller)),
-                                        //             Positioned(
-                                        //                 bottom: 0,
-                                        //                 width:
-                                        //                     MediaQuery.of(context)
-                                        //                         .size
-                                        //                         .width,
-                                        //                 child:
-                                        //                     VideoProgressIndicator(
-                                        //                   _controller,
-                                        //                   allowScrubbing: false,
-                                        //                   colors: VideoProgressColors(
-                                        //                       backgroundColor:
-                                        //                           Colors.blueGrey,
-                                        //                       bufferedColor:
-                                        //                           Colors.blueGrey,
-                                        //                       playedColor: Colors
-                                        //                           .blueAccent),
-                                        //                 )),
-                                        //             Positioned(
-                                        //               bottom: 0,
-                                        //               child: GestureDetector(
-                                        //                 onTap: () {
-                                        //                   setState(() {
-                                        //                     if (_controller.value
-                                        //                         .isPlaying) {
-                                        //                       _controller.pause();
-                                        //                     } else {
-                                        //                       // If the video is paused, play it.
-                                        //                       _controller.play();
-                                        //                     }
-                                        //                   });
-                                        //                 },
-                                        //                 child: Icon(
-                                        //                   _controller
-                                        //                           .value.isPlaying
-                                        //                       ? Icons.pause
-                                        //                       : Icons.play_arrow,
-                                        //                   color: Colors.white,
-                                        //                   size: 50,
-                                        //                 ),
-                                        //               ),
-                                        //             ),
-                                        //           ],
-                                        //         )),
-                                        //   ),
-                                        // ),
-                                        ),
+                                        )),
                                   )
                                 ],
                               )
@@ -301,8 +192,10 @@ class _VideoCardState extends State<VideoCard> {
                       children: [
                         Expanded(
                           child: Text(
-                            // widget.text,
                             '',
+                            // widget.filePath.replaceAll(
+                            //     '/storage/emulated/0/Android/data/my.com.tbs.carser.app/files/e53a72b7d22514b7be83/Videos/',
+                            //     ''),
                             style: MyTheme.bodyText1,
                             overflow: TextOverflow.ellipsis,
                           ),

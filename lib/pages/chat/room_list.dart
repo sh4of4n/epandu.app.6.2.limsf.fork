@@ -6,6 +6,7 @@ import 'package:epandu/pages/chat/rooms_provider.dart';
 import 'package:epandu/pages/chat/socketclient_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import '../../common_library/services/model/chat_mesagelist.dart';
@@ -134,13 +135,11 @@ class _RoomListState extends State<RoomList> {
                     ),
                   ),
                 );
-              } else if (value == "Webview") {
+              } else if (value == "Delete Message") {
                 // Navigator.push(
                 //   context,
                 //   MaterialPageRoute(
-                //     builder: (context) => TestWebview(
-                //         url:
-                //             "https://tbsweb.tbsdns.com/Tbs.Chat.Client.Web/DEVP/1_0/testwebview.html"),
+                //     builder: (context) => DeleteMessage(),
                 //   ),
                 // );
               } else {
@@ -165,8 +164,8 @@ class _RoomListState extends State<RoomList> {
                   value: "Create Group",
                 ),
                 // PopupMenuItem(
-                //   child: Text("Webview"),
-                //   value: "Webview",
+                //   child: Text("Delete Message"),
+                //   value: "Delete Message",
                 // ),
               ];
             },
@@ -193,7 +192,6 @@ class _RoomListState extends State<RoomList> {
           style: TextStyle(color: Colors.white),
           autofocus: true,
           onChanged: (value) {
-            //TODO can call widget class  in function?
             _populateListView(id!);
           },
           // style: TextStyle(color: Colors.white),
@@ -309,14 +307,14 @@ class _RoomListState extends State<RoomList> {
                         socket.emitWithAck('logout', messageJson, ack: (data) {
                           //print('ack $data');
                           if (data != null) {
-                            print('logout user from server $data');
+                            // print('logout user from server $data');
                           } else {
-                            print("Null from logout user");
+                            //print("Null from logout user");
                           }
                         });
-                        print('sendMessage from server $data');
+                        //print('sendMessage from server $data');
                       } else {
-                        print("Null from sendMessage");
+                        //print("Null from sendMessage");
                       }
                     });
                     Provider.of<ChatNotificationCount>(context, listen: false)
@@ -338,10 +336,9 @@ class _RoomListState extends State<RoomList> {
                             .path +
                         '/' +
                         roomId);
-                    bool dirExist = await dir.exists();
-                    if (dirExist) {
-                      await dir.delete();
-                    }
+                    //bool dirExist = await dir.exists();
+
+                    deleteDirectory(dir);
 
                     List<RoomHistoryModel> list =
                         await Provider.of<RoomHistory>(context, listen: false)
@@ -358,6 +355,19 @@ class _RoomListState extends State<RoomList> {
             ],
           );
         });
+  }
+
+  void deleteDirectory(Directory directory) {
+    if (directory.existsSync()) {
+      directory.listSync().forEach((FileSystemEntity entity) {
+        if (entity is File) {
+          entity.deleteSync();
+        } else if (entity is Directory) {
+          deleteDirectory(entity);
+        }
+      });
+      directory.deleteSync();
+    }
   }
 
   String generateRandomString(int length) {
@@ -407,15 +417,8 @@ class _RoomListState extends State<RoomList> {
       return ListView.builder(
         itemCount: roomLIst.getRoomList.length,
         itemBuilder: (context, int index) {
-          // final baseColor = Colors.blue.shade100; // Set the base color
-          // final opacity =
-          //     index % 2 == 0 ? 0.5 : 0.95; // Adjust opacity based on index
-
-          // final itemColor = baseColor.withOpacity(opacity);
-
           final isEvenIndex = index % 2 == 0;
           final itemColor = isEvenIndex ? Colors.grey[200] : Colors.white;
-
           rooms = roomLIst.getRoomList;
           if (rooms.length == 0) return SizedBox();
           RoomHistoryModel room = this.rooms[index];
@@ -462,8 +465,8 @@ class _RoomListState extends State<RoomList> {
       ChatNotification chatNotification = chatNotificationCount[chatCountIndex];
       badgeCount = chatNotification.notificationBadge!;
     }
+
     return Card(
-      color: itemColor,
       child: ListTile(
         onLongPress: () {
           setState(() {
@@ -490,11 +493,18 @@ class _RoomListState extends State<RoomList> {
                   blurRadius: 5)
             ],
           ),
-          child: room.picture_path != null && room.picture_path != ''
-              ? Image.network(room.picture_path!
-                  .replaceAll(removeBracket, '')
-                  .split('\r\n')[0])
-              : Icon(Icons.account_circle),
+          child: FullScreenWidget(
+            child: Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: room.picture_path != null && room.picture_path != ''
+                    ? Image.network(room.picture_path!
+                        .replaceAll(removeBracket, '')
+                        .split('\r\n')[0])
+                    : Icon(Icons.account_circle),
+              ),
+            ),
+          ),
         ),
         trailing: badgeCount > 0
             ? badges.Badge(
@@ -514,23 +524,19 @@ class _RoomListState extends State<RoomList> {
                       fontWeight: FontWeight.bold),
                 ))
             : null,
-        title: Column(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(splitRoomName,
-                      maxLines: 1,
-                      softWrap: false,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                ),
-                if (room.send_datetime != null && room.send_datetime != '')
-                  Text(DateFormatter().getDateTimeRepresentation(
-                      DateTime.parse(room.send_datetime!))),
-              ],
+            Expanded(
+              child: Text(splitRoomName.trim(),
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontWeight: FontWeight.bold)),
             ),
+            if (room.send_datetime != null && room.send_datetime != '')
+              Text(DateFormatter().getDateTimeRepresentation(
+                  DateTime.parse(room.send_datetime!))),
           ],
         ),
         subtitle: showLatestMessage(room),
@@ -542,7 +548,8 @@ class _RoomListState extends State<RoomList> {
             if (roomMembers.user_id != id)
               members += roomMembers.nick_name!.toUpperCase() + ",";
           }
-          members = members.substring(0, members.length - 1);
+          if (members != '') members = members.substring(0, members.length - 1);
+
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -551,47 +558,133 @@ class _RoomListState extends State<RoomList> {
                 picturePath: room.picture_path ?? '',
                 roomName: splitRoomName,
                 roomDesc: room.room_desc ?? '',
-                // roomMembers: members
               ),
             ),
           );
         },
       ),
     );
+    // return Card(
+    //       color: itemColor,
+    //       child: InkWell(
+    //           onLongPress: () {
+    //             setState(() {
+    //               _selectedIndex = index;
+    //               _isSelected = true;
+    //               _selectedRoomId = room.room_id!;
+    //               _selectedRoomName = room.room_name!;
+    //             });
+    //           },
+    //           onTap: () async {
+    //             String members = '';
+    //             List<RoomMembers> roomMembers =
+    //                 await dbHelper.getRoomMembersList(room.room_id!);
+    //             for (var roomMembers in roomMembers) {
+    //               if (roomMembers.user_id != id)
+    //                 members += roomMembers.nick_name!.toUpperCase() + ",";
+    //             }
+    //             members = members.substring(0, members.length - 1);
+    //             Navigator.push(
+    //               context,
+    //               MaterialPageRoute(
+    //                 builder: (context) => ChatHome2(
+    //                   roomId: room.room_id ?? '',
+    //                   picturePath: room.picture_path ?? '',
+    //                   roomName: splitRoomName,
+    //                   roomDesc: room.room_desc ?? '',
+    //                   // roomMembers: members
+    //                 ),
+    //               ),
+    //             );
+    //           },
+    //           child: Container(
+    //             color: _selectedIndex == index ? Colors.blueAccent : null,
+    //             child: Padding(
+    //               padding: EdgeInsets.all(16.0),
+    //               child: Row(
+    //                 children: [
+    //                   CircleAvatar(
+    //                     radius: 30.0, // Adjust the radius as needed
+    //                     child: room.picture_path != null &&
+    //                             room.picture_path != ''
+    //                         ? Image.network(room.picture_path!
+    //                             .replaceAll(removeBracket, '')
+    //                             .split('\r\n')[0])
+    //                         : Icon(Icons
+    //                             .account_circle), // Replace with your image asset
+    //                   ),
+    //                   Expanded(
+    //                     child: Padding(
+    //                       padding: const EdgeInsets.only(left: 5.0),
+    //                       child: Column(
+    //                         crossAxisAlignment: CrossAxisAlignment.start,
+    //                         children: [
+    //                           Text(
+    //                             splitRoomName,
+    //                             style: TextStyle(
+    //                               fontWeight: FontWeight.bold,
+    //                             ),
+    //                           ),
+    //                           SizedBox(
+    //                             height: 5,
+    //                           ),
+    //                           showLatestMessage(room)
+    //                           // Text(
+    //                           //  room.room_desc!,
+    //                           //   style: TextStyle(
+    //                           //     color: Colors.grey,
+    //                           //   ),
+    //                           // ),
+    //                         ],
+    //                       ),
+    //                     ),
+    //                   ),
+    //                   if (room.send_datetime != null && room.send_datetime != '')
+    //                     Text(DateFormatter().getDateTimeRepresentation(
+    //                         DateTime.parse(room.send_datetime!))),
+    //                   if (badgeCount > 0)
+    //                     badges.Badge(
+    //                         //shape: BadgeShape.circle,
+    //                         //padding: EdgeInsets.all(8),
+    //                         showBadge: badgeCount > 0 ? true : false,
+    //                         //badgeColor: Colors.green,
+    //                         badgeStyle: badges.BadgeStyle(
+    //                             badgeColor: Colors.green,
+    //                             shape: badges.BadgeShape.circle,
+    //                             padding: EdgeInsets.all(8)),
+    //                         badgeContent: Text(
+    //                           badgeCount.toString(),
+    //                           style: TextStyle(
+    //                               color: Colors.white,
+    //                               fontSize: 15,
+    //                               fontWeight: FontWeight.bold),
+    //                         ))
+    //                   else
+    //                     Text(''),
+    //                 ],
+    //               ),
+    //             ),
+    //           )));
   }
 
   Widget showLatestMessage(RoomHistoryModel room) {
     if (room.message_id != null &&
         room.message_id! > 0 &&
         (room.filePath == '' || room.filePath == null)) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-              child: Text(
-            room.nick_name! +
-                ' : ' +
-                room.msg_body!.trim().replaceAll('\n', ' '),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            softWrap: false,
-          )),
-        ],
+      return Text(
+        room.nick_name! + ' : ' + room.msg_body!.trim().replaceAll('\n', ' '),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+        softWrap: false,
       );
     } else if (room.message_id != null &&
         room.message_id! > 0 &&
         (room.msg_binaryType != '' || room.msg_binaryType != null)) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Expanded(
-              child: Text(
-            room.nick_name! + ' : ' + room.filePath!.split('/').last,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            softWrap: false,
-          ))
-        ],
+      return Text(
+        room.nick_name! + ' : ' + room.filePath!.split('/').last,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+        softWrap: false,
       );
     }
     return Text(room.room_desc!);

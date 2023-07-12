@@ -62,7 +62,11 @@ class SocketClientHelper extends ChangeNotifier {
   Socket get socket => _socket;
 
   Future loginUserRoom() async {
-    print('loginUserRoom');
+    var status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+    }
+    //print('loginUserRoom');
     List<Room> rooms = [];
     List<Room> newRooms = [];
 
@@ -78,8 +82,7 @@ class SocketClientHelper extends ChangeNotifier {
               room_id: result.data[i].room_id ?? '',
               room_name: result.data[i].room_name ?? '',
               room_desc: result.data[i].room_desc ?? '',
-              picture_path: result.data[i].picture_path ?? '',
-              merchant_no: result.data[i].merchant_no ?? '');
+              picture_path: result.data[i].picture_path ?? '');
           ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
           //print('Room Insert value ' + val.toString());
           var resultMembers =
@@ -93,28 +96,36 @@ class SocketClientHelper extends ChangeNotifier {
           loginUser(result.data[i].room_id, userid, result.data[i].create_date);
         }
         //logoutDefaultRoom();
-      } else {
-        loginUser('Tbs.Chat.Client-All-Users', userid, '');
       }
+      // else {
+      //   loginUser('Tbs.Chat.Client-All-Users', userid, '');
+      // }
     } else {
-      List<MessageDetails> list =
-          await dbHelper.getLatestMsgDetail(rooms[0].room_id!);
-      if (list.length > 0 && list[0].owner_id != userid) {
-        await dbHelper.deleteDB();
-        final dir = Directory((Platform.isAndroid
-                ? await getExternalStorageDirectory() //FOR ANDROID
-                : await getApplicationSupportDirectory() //FOR IOS
-            )!
-            .path);
-        if ((await dir.exists())) {
-          await dir.delete();
+      bool condition = false;
+      for (int i = 0; i < rooms.length; i++) {
+        List<MessageDetails> list =
+            await dbHelper.getLatestMsgDetail(rooms[i].room_id!);
+        if (list.length > 0 && list[0].owner_id != userid) {
+          await dbHelper.deleteDB();
+          final dir = Directory((Platform.isAndroid
+                  ? await getExternalStorageDirectory() //FOR ANDROID
+                  : await getApplicationSupportDirectory() //FOR IOS
+              )!
+              .path);
+          deleteDirectory(dir);
+          await loginUserRoom();
+          condition = true;
         }
-        loginUserRoom();
-      } else {
-        loginUser('Tbs.Chat.Client-All-Users', userid, '');
+        if (condition) {
+          print('Condition is true. deleted directory and database.');
+          break;
+        }
+      }
+      if (!condition) {
         rooms.forEach((Room room) async {
           loginUser(room.room_id!, room.user_id!, room.create_date!);
         });
+
         var result = await chatRoomRepo.getRoomList('');
         if (result.data != null && result.data.length > 0) {
           for (int i = 0; i < result.data.length; i += 1) {
@@ -126,8 +137,7 @@ class SocketClientHelper extends ChangeNotifier {
                   room_id: result.data[i].room_id ?? '',
                   room_name: result.data[i].room_name ?? '',
                   room_desc: result.data[i].room_desc ?? '',
-                  picture_path: result.data[i].picture_path ?? '',
-                  merchant_no: result.data[i].merchant_no ?? '');
+                  picture_path: result.data[i].picture_path ?? '');
               ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
               newRooms.add(result.data[i]);
             } else {
@@ -200,9 +210,9 @@ class SocketClientHelper extends ChangeNotifier {
         socket.emitWithAck('logout', logoutJson, ack: (data) {
           //print('ack $data');
           if (data != null) {
-            print('logout user from server $data');
+            //print('logout user from server $data');
           } else {
-            print("Null from logout user");
+            //print("Null from logout user");
           }
         });
       });
@@ -215,9 +225,9 @@ class SocketClientHelper extends ChangeNotifier {
     };
     socket.emitWithAck('logout', logoutJson, ack: (data) {
       if (data != null) {
-        print('logout Tbs.Chat.Client-All-Users from server $data');
+        //print('logout Tbs.Chat.Client-All-Users from server $data');
       } else {
-        print("Null from logout user");
+        //print("Null from logout user");
       }
     });
   }
@@ -234,7 +244,7 @@ class SocketClientHelper extends ChangeNotifier {
 
   initSocket() {
     socket.onConnect((_) async {
-      print('event :server connected');
+      //print('event :server connected');
       isSocketConnected = true;
       isReconnect = 'no';
       notifyListeners();
@@ -262,14 +272,14 @@ class SocketClientHelper extends ChangeNotifier {
     //   notifyListeners();
     // });
     socket.onDisconnect((_) {
-      print('event : server disconnected');
+      //print('event : server disconnected');
       isSocketConnected = false;
       isReconnect = 'no';
       loginUserRoom();
       notifyListeners();
     });
     socket.onAny((event, data) async {
-      print('event :$event, data :$data');
+      //print('event :$event, data :$data');
       String? userid = await localStorage.getUserId();
       if (userid != '' && event == 'connect') {
         List<CheckOnline> onlineUsersList =
@@ -355,7 +365,7 @@ class SocketClientHelper extends ChangeNotifier {
           //     'OUT OF ROOM');
         } else {}
       } else {
-        print("Null from message response");
+        //print("Null from message response");
       }
     });
     socket.on('inviteUserToRoom', (data) async {
@@ -367,8 +377,7 @@ class SocketClientHelper extends ChangeNotifier {
             room_id: result.data[0].room_id ?? '',
             room_name: result.data[0].room_name ?? '',
             room_desc: result.data[0].room_desc ?? '',
-            picture_path: result.data[0].picture_path ?? '',
-            merchant_no: result.data[0].merchant_no ?? '');
+            picture_path: result.data[0].picture_path ?? '');
         ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
         //print('Room Insert value ' + val.toString());
         var resultMembers =
@@ -394,13 +403,13 @@ class SocketClientHelper extends ChangeNotifier {
         //print('login: $messageJson');
         socket.emitWithAck('login', messageJson, ack: (data) {
           if (data != null) {
-            print('login user from server $data');
+            //print('login user from server $data');
             Provider.of<ChatNotificationCount>(ctx, listen: false)
                 .addNotificationBadge(
                     notificationBadge: 0, roomId: result.data[0].room_id);
             //logoutDefaultRoom();
           } else {
-            print("Null from login user");
+            //print("Null from login user");
           }
         });
       }
@@ -463,7 +472,7 @@ class SocketClientHelper extends ChangeNotifier {
 
     socket.on('deleteMessage', (data) async {
       if (data != null) {
-        print('deleteMessage $data');
+        //print('deleteMessage $data');
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result["messageId"] != '') {
           if (_isEnterRoom) {
@@ -499,7 +508,7 @@ class SocketClientHelper extends ChangeNotifier {
 
     socket.on('updateMessageReadBy', (data) async {
       if (data != null) {
-        print('updateMessageReadBy $data');
+        //print('updateMessageReadBy $data');
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result["messageId"] != '') {
           if (_isEnterRoom) {
@@ -517,7 +526,7 @@ class SocketClientHelper extends ChangeNotifier {
     });
     socket.on('updateMessage', (data) async {
       if (data != null) {
-        print('updateMessage $data');
+        //print('updateMessage $data');
         String? userid = await localStorage.getUserId();
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result["messageId"] != '') {
@@ -578,6 +587,19 @@ class SocketClientHelper extends ChangeNotifier {
     } catch (e) {}
   }
 
+  void deleteDirectory(Directory directory) {
+    if (directory.existsSync()) {
+      directory.listSync().forEach((FileSystemEntity entity) {
+        if (entity is File) {
+          entity.deleteSync();
+        } else if (entity is Directory) {
+          deleteDirectory(entity);
+        }
+      });
+      directory.deleteSync();
+    }
+  }
+
   getMessageReadBy(int messageId) {
     var messageJson = {
       "messageId": messageId,
@@ -590,7 +612,7 @@ class SocketClientHelper extends ChangeNotifier {
         if (readByMessage.message!.readMessage![0].readBy != null &&
             readByMessage.message!.readMessage![0].readBy!
                 .contains('[[ALL]]')) {
-          print('[[ALL]]');
+          //print('[[ALL]]');
           await dbHelper.updateMsgStatus(
               'READ', int.parse(readByMessage.message!.readMessage![0].id!));
           ctx.read<ChatHistory>().updateChatItemStatus(
@@ -600,7 +622,7 @@ class SocketClientHelper extends ChangeNotifier {
               readByMessage.message!.readMessage![0].roomId!);
         }
       } else {
-        print("Null from getMessageById");
+        //print("Null from getMessageById");
       }
     });
   }
@@ -620,8 +642,8 @@ class SocketClientHelper extends ChangeNotifier {
     //print(messageJson);
     if (socket.connected) {
       socket.emitWithAck('sendMessage', messageJson, ack: (data) async {
-        print('sendMessage $messageJson');
-        print('sendMessage ack $data');
+        // print('sendMessage $messageJson');
+        // print('sendMessage ack $data');
         if (data != null) {
           SendAcknowledge sendAcknowledge = SendAcknowledge.fromJson(data);
           if (sendAcknowledge.clientMessageId ==
@@ -646,9 +668,9 @@ class SocketClientHelper extends ChangeNotifier {
               }
             }
           }
-          print('sendMessage from server $data');
+          //print('sendMessage from server $data');
         } else {
-          print("Null from sendMessage");
+          //print("Null from sendMessage");
         }
       });
     }
@@ -702,9 +724,9 @@ class SocketClientHelper extends ChangeNotifier {
               }
             }
           }
-          print('sendMessage from server $data');
+          // print('sendMessage from server $data');
         } else {
-          print("Null from sendMessage");
+          //print("Null from sendMessage");
         }
       });
     }
@@ -738,32 +760,29 @@ class SocketClientHelper extends ChangeNotifier {
           '/' +
           roomId +
           '/$folder');
-      var status = await Permission.storage.status;
-      if (!status.isGranted) {
-        await Permission.storage.request();
-      }
+      // var status = await Permission.storage.status;
+      // if (!status.isGranted) {
+      //   await Permission.storage.request();
+      // }
+      final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      final random = Random().nextInt(10000).toString();
       if ((await dir.exists())) {
-        file = File(dir.path +
-            "/" +
-            DateTime.now().millisecondsSinceEpoch.toString() +
-            extension);
+        file = File(dir.path + "/" + timestamp + random + extension);
         await file.writeAsBytes(bytes);
       } else {
         await dir.create(recursive: true);
-        file = File(dir.path +
-            "/" +
-            DateTime.now().millisecondsSinceEpoch.toString() +
-            extension);
+        file = File(dir.path + "/" + timestamp + random + extension);
         await file.writeAsBytes(bytes);
         //return dir.path;
       }
       return file.path;
     } on Exception catch (exception) {
-      print(exception);
+      return '';
+      //print(exception);
     } catch (error) {
-      print(error);
+      return '';
+      //print(error);
     }
-    return '';
   }
 
   void loginUser(String roomId, String userId, String createDate) async {
@@ -788,9 +807,9 @@ class SocketClientHelper extends ChangeNotifier {
         Provider.of<ChatNotificationCount>(ctx, listen: false)
             .addNotificationBadge(notificationBadge: 0, roomId: roomId);
         if (createDate != '') getMissingMessages(roomId, userId!, createDate);
-        print('login user from server $data');
+        //print('login user from server $data');
       } else {
-        print("Null from login user");
+        //print("Null from login user");
       }
     });
   }
@@ -805,8 +824,7 @@ class SocketClientHelper extends ChangeNotifier {
       messageRoomJson = {
         "roomId": roomId,
         "returnMsgBinaryAsBase64": "true",
-        "bgnMessageId":
-            int.parse(messageDetailsList[0].message_id.toString()) + 1
+        "bgnMessageId": int.parse(messageDetailsList[0].message_id.toString())
       };
     } else {
       messageRoomJson = {
@@ -817,20 +835,25 @@ class SocketClientHelper extends ChangeNotifier {
                 " 00:00:00"
       };
     }
-    //print(messageRoomJson);
+    print(messageRoomJson);
     socket.emitWithAck('getMessageByRoom', messageRoomJson, ack: (data) async {
-      print('getMessageByRoom $data');
+      //print('getMessageByRoom $data');
       if (data != null) {
         MessageByRoomModel messageByRoomModel =
             MessageByRoomModel.fromJson(data);
         List<MessageList>? messageList =
             messageByRoomModel.message?.messageList;
         if (messageList != null) {
-          Provider.of<ChatNotificationCount>(ctx, listen: false)
-              .addNotificationBadge(
-                  notificationBadge: messageList.length, roomId: roomId);
+          if (messageDetailsList.length > 0) {
+            Provider.of<ChatNotificationCount>(ctx, listen: false)
+                .addNotificationBadge(
+                    notificationBadge: messageList.length - 1, roomId: roomId);
+          } else {
+            Provider.of<ChatNotificationCount>(ctx, listen: false)
+                .addNotificationBadge(
+                    notificationBadge: messageList.length, roomId: roomId);
+          }
 
-          //int i = 0;
           messageList.forEach((f) async {
             List<MessageDetails> isExist =
                 await dbHelper.isMessageExist(f.clientMessageId!);
@@ -871,10 +894,12 @@ class SocketClientHelper extends ChangeNotifier {
 
               messageDetails.msgStatus = "UNREAD";
               if (f.msgBinaryType != '' && f.msgBinary != null) {
-                filePath = await createFile(f.msgBinaryType ?? '',
-                    f.msgBinary ?? '', f.msgBody ?? '', f.roomId ?? '');
+                messageDetails.filePath = await createFile(
+                    f.msgBinaryType ?? '',
+                    f.msgBinary ?? '',
+                    f.msgBody ?? '',
+                    f.roomId ?? '');
               }
-              messageDetails.filePath = filePath;
               await dbHelper.saveMsgDetailTable(messageDetails);
               ctx
                   .read<ChatHistory>()
@@ -882,10 +907,10 @@ class SocketClientHelper extends ChangeNotifier {
             }
           });
         } else {
-          print("Null from getMessageByRoom");
+          //print("Null from getMessageByRoom");
         }
       } else {
-        print("Null from getMessageByRoom");
+        // print("Null from getMessageByRoom");
       }
     });
   }

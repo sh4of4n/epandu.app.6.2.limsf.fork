@@ -78,7 +78,7 @@ class _CreateGroupState extends State<CreateGroup> {
   }
 
   void statusCallback(EasyLoadingStatus status) {
-    print('Test EasyLoading Status $status');
+    //print('Test EasyLoading Status $status');
   }
 
   AppBar getAppBar(BuildContext context) {
@@ -224,13 +224,16 @@ class _CreateGroupState extends State<CreateGroup> {
                     String? userId = await localStorage.getUserId();
                     String? userName = await localStorage.getNickName();
 
-                    _selected.forEach((memberByPhoneResponse) async {
-                      int count = await dbHelper.updateRoomMemberStatus(
-                          memberByPhoneResponse.userId, "false", widget.roomId);
-                    });
+                    // _selected.forEach((memberByPhoneResponse) async {
+                    //   await dbHelper.updateRoomMemberStatus(
+                    //       memberByPhoneResponse.userId, "false", widget.roomId);
+                    // });
                     List<RoomMembers> roomMembers =
                         await dbHelper.getRoomMembersList(widget.roomId);
                     _selected.forEach((memberByPhoneResponse) async {
+                      await dbHelper.updateRoomMemberStatus(
+                          memberByPhoneResponse.userId, "false", widget.roomId);
+
                       roomMembers.forEach((roomMember) {
                         if (userId != roomMember.user_id) {
                           var groupJson = {
@@ -533,80 +536,83 @@ class _CreateGroupState extends State<CreateGroup> {
                         profile_photo: '',
                         merchant_no: inviteRoomResponse.merchantNo,
                         picture_path: inviteRoomResponse.picturePath);
-                    int val = await dbHelper.saveRoomTable(room);
+                    await dbHelper.saveRoomTable(room);
                     RoomHistoryModel roomHistoryModel = new RoomHistoryModel(
                         room_id: inviteRoomResponse.roomId ?? '',
                         room_name: inviteRoomResponse.roomName ?? '',
                         room_desc: inviteRoomResponse.roomDesc ?? '',
-                        picture_path: inviteRoomResponse.picturePath ?? '',
-                        merchant_no: inviteRoomResponse.merchantNo ?? '');
+                        picture_path: inviteRoomResponse.picturePath ?? '');
                     context.read<RoomHistory>().addRoom(room: roomHistoryModel);
-                    print('Room Insert value ' + val.toString());
+                    //print('Room Insert value ' + val.toString());
                     var resultMembers = await chatRoomRepo
                         .getRoomMembersList(inviteRoomResponse.roomId!);
-                    print('roomMembers' + resultMembers.data.length.toString());
+                    //print('roomMembers' + resultMembers.data.length.toString());
                     if (resultMembers.data != null &&
                         resultMembers.data.length > 0) {
                       for (int i = 0; i < resultMembers.data.length; i += 1) {
                         await dbHelper
                             .saveRoomMembersTable(resultMembers.data[i]);
+
+                        if (i == resultMembers.data.length - 1) {
+                          String? userId = await localStorage.getUserId();
+                          String? caUid = await localStorage.getCaUid();
+                          String? caPwd = await localStorage.getCaPwd();
+                          String? deviceId =
+                              await localStorage.getLoginDeviceId();
+                          var messageJson = {
+                            "roomId": inviteRoomResponse.roomId!,
+                            "userId": userId,
+                            "appId": appConfig.appId,
+                            "caUid": caUid,
+                            "caPwd": caPwd,
+                            "deviceId": deviceId
+                          };
+                          //print('login: $messageJson');
+                          socket.emitWithAck('login', messageJson, ack: (data) {
+                            if (data != null) {
+                              //print('login user from server $data');
+                            } else {
+                              //print("Null from login user");
+                            }
+                          });
+
+                          //await context.read<SocketClientHelper>().loginUserRoom();
+                          List<RoomMembers> roomMembers = await dbHelper
+                              .getRoomMembersList(inviteRoomResponse.roomId!);
+                          roomMembers.forEach((roomMember) {
+                            if (userId != roomMember.user_id) {
+                              var inviteUserToRoomJson = {
+                                "invitedRoomId": inviteRoomResponse.roomId!,
+                                "invitedUserId": roomMember.user_id
+                              };
+                              socket.emitWithAck(
+                                  'inviteUserToRoom', inviteUserToRoomJson,
+                                  ack: (data) async {
+                                //print('inviteUserToRoom ack $data');
+                                if (data != null) {
+                                  //print('inviteUserToRoom from server $data');
+                                } else {
+                                  //print("Null from inviteUserToRoom");
+                                }
+                              });
+                            }
+                          });
+                          await EasyLoading.dismiss();
+                          setState(() {
+                            Navigator.of(context).pop();
+                          });
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => ChatHome2(
+                                        roomId: inviteRoomResponse.roomId!,
+                                        picturePath: '',
+                                        roomName: inviteRoomResponse.roomName!,
+                                        roomDesc: 'Group Chat',
+                                      ))).then((_) {});
+                        }
                       }
                     }
-                    String? userId = await localStorage.getUserId();
-                    String? caUid = await localStorage.getCaUid();
-                    String? caPwd = await localStorage.getCaPwd();
-                    String? deviceId = await localStorage.getLoginDeviceId();
-                    var messageJson = {
-                      "roomId": inviteRoomResponse.roomId!,
-                      "userId": userId,
-                      "appId": appConfig.appId,
-                      "caUid": caUid,
-                      "caPwd": caPwd,
-                      "deviceId": deviceId
-                    };
-                    print('login: $messageJson');
-                    socket.emitWithAck('login', messageJson, ack: (data) {
-                      if (data != null) {
-                        print('login user from server $data');
-                      } else {
-                        print("Null from login user");
-                      }
-                    });
-
-                    //await context.read<SocketClientHelper>().loginUserRoom();
-                    List<RoomMembers> roomMembers = await dbHelper
-                        .getRoomMembersList(inviteRoomResponse.roomId!);
-                    roomMembers.forEach((roomMember) {
-                      if (userId != roomMember.user_id) {
-                        var inviteUserToRoomJson = {
-                          "invitedRoomId": inviteRoomResponse.roomId!,
-                          "invitedUserId": roomMember.user_id
-                        };
-                        socket.emitWithAck(
-                            'inviteUserToRoom', inviteUserToRoomJson,
-                            ack: (data) async {
-                          print('inviteUserToRoom ack $data');
-                          if (data != null) {
-                            print('inviteUserToRoom from server $data');
-                          } else {
-                            print("Null from inviteUserToRoom");
-                          }
-                        });
-                      }
-                    });
-                    await EasyLoading.dismiss();
-                    setState(() {
-                      Navigator.of(context).pop();
-                    });
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => ChatHome2(
-                                  roomId: inviteRoomResponse.roomId!,
-                                  picturePath: '',
-                                  roomName: inviteRoomResponse.roomName!,
-                                  roomDesc: 'Group Chat',
-                                ))).then((_) {});
                   } else {
                     await EasyLoading.dismiss();
                     final customDialog = CustomDialog();

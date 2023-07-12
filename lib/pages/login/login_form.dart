@@ -372,7 +372,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
           if (getRegisteredDi.isSuccess) {
             await localStorage
                 .saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
-            context.read<SocketClientHelper>().loginUserRoom();
+            await context.read<SocketClientHelper>().loginUserRoom();
             context.router.replace(Home());
           } else {
             setState(() {
@@ -390,7 +390,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
           );
         } else {
           await localStorage.saveMerchantDbCode(result.data[0].merchantNo);
-          context.read<SocketClientHelper>().loginUserRoom();
+          await context.read<SocketClientHelper>().loginUserRoom();
           context.router.replace(Home());
         }
       } else {
