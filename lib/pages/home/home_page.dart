@@ -11,7 +11,6 @@ import 'package:epandu/common_library/services/repository/inbox_repository.dart'
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
-import 'package:epandu/pages/product/product.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 // import 'package:epandu/common_library/services/location.dart';
@@ -151,7 +150,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-
     _openHiveBoxes();
     // getStudentInfo();
     // _getCurrentLocation();
@@ -739,7 +737,9 @@ class _HomeState extends State<Home> {
           width: 75,
           child: FittedBox(
             child: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                context.router.push(EmergencyDirectory());
+              },
               child: Image.asset(
                 ImagesConstant().sos,
               ),
@@ -855,10 +855,12 @@ class _HomeState extends State<Home> {
                           height: 8.0,
                         ),
                         HomeTopMenu(
-                          iconText: _iconText,
-                          getDiProfile: () => _getDiProfile(),
-                          getActiveFeed: () => _getActiveFeed(),
-                        ),
+                            iconText: _iconText,
+                            getDiProfile: () => _getDiProfile(),
+                            getActiveFeed: () {
+                              items.clear();
+                              _getActiveFeed();
+                            }),
                         LimitedBox(maxHeight: ScreenUtil().setHeight(30)),
                         SizedBox(
                           height: 200 + 8.8,

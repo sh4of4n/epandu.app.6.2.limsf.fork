@@ -154,7 +154,8 @@ class _InviteFriendState extends State<InviteFriend> {
                       room_id: inviteRoomResponse.roomId ?? '',
                       room_name: inviteRoomResponse.roomName ?? '',
                       room_desc: inviteRoomResponse.roomDesc ?? '',
-                      picture_path: inviteRoomResponse.picturePath ?? '');
+                      picture_path: inviteRoomResponse.picturePath ?? '',
+                      merchant_no: inviteRoomResponse.merchantNo ?? '');
                   context.read<RoomHistory>().addRoom(room: roomHistoryModel);
                   //print('Room Insert value ' + val.toString());
                   var resultMembers = await chatRoomRepo

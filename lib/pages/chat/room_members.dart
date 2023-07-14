@@ -158,25 +158,58 @@ class _RoomMembersListState extends State<RoomMembersList> {
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            SizedBox(width: 15),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                SizedBox(
-                  width: 200.0,
-                  child: Text(
-                    widget.roomName + ' - ' + 'Members List',
-                    maxLines: 1,
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 18.5,
-                      fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 3,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(.3),
+                        offset: Offset(0, 2),
+                        blurRadius: 5)
+                  ],
+                ),
+                child: FullScreenWidget(
+                  child: Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: widget.picturePath != ''
+                          ? Image.network(widget.picturePath
+                              .replaceAll(removeBracket, '')
+                              .split('\r\n')[0])
+                          : Icon(Icons.account_circle),
                     ),
                   ),
                 ),
-              ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(
+                    width: 200.0,
+                    child: Text(
+                      widget.roomName + ' - ' + 'Members List',
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 18.5,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             )
           ],
         ),
