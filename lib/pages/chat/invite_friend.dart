@@ -73,7 +73,7 @@ class _InviteFriendState extends State<InviteFriend> {
   }
 
   void statusCallback(EasyLoadingStatus status) {
-    print('Test EasyLoading Status $status');
+    //print('Test EasyLoading Status $status');
   }
 
   @override
@@ -154,8 +154,7 @@ class _InviteFriendState extends State<InviteFriend> {
                       room_id: inviteRoomResponse.roomId ?? '',
                       room_name: inviteRoomResponse.roomName ?? '',
                       room_desc: inviteRoomResponse.roomDesc ?? '',
-                      picture_path: inviteRoomResponse.picturePath ?? '',
-                      merchant_no: inviteRoomResponse.merchantNo ?? '');
+                      picture_path: inviteRoomResponse.picturePath ?? '');
                   context.read<RoomHistory>().addRoom(room: roomHistoryModel);
                   //print('Room Insert value ' + val.toString());
                   var resultMembers = await chatRoomRepo
@@ -166,74 +165,78 @@ class _InviteFriendState extends State<InviteFriend> {
                     for (int i = 0; i < resultMembers.data.length; i += 1) {
                       await dbHelper
                           .saveRoomMembersTable(resultMembers.data[i]);
-                    }
-                  }
-                  String? userId = await localStorage.getUserId();
-                  String? caUid = await localStorage.getCaUid();
-                  String? caPwd = await localStorage.getCaPwd();
-                  String? deviceId = await localStorage.getLoginDeviceId();
-                  var messageJson = {
-                    "roomId": inviteRoomResponse.roomId!,
-                    "userId": userId,
-                    "appId": appConfig.appId,
-                    "caUid": caUid,
-                    "caPwd": caPwd,
-                    "deviceId": deviceId
-                  };
-                  print('login: $messageJson');
-                  socket.emitWithAck('login', messageJson, ack: (data) {
-                    if (data != null) {
-                      print('login user from server $data');
-                    } else {
-                      print("Null from login user");
-                    }
-                  });
-
-                  //await context.read<SocketClientHelper>().loginUserRoom();
-
-                  List<RoomMembers> roomMembers = await dbHelper
-                      .getRoomMembersList(inviteRoomResponse.roomId!);
-                  memberByPhoneResponseList.forEach((memberByPhoneResponse) {
-                    roomMembers.forEach((roomMember) {
-                      if (userId != roomMember.user_id) {
-                        var inviteUserToRoomJson = {
-                          "invitedRoomId": inviteRoomResponse.roomId!,
-                          "invitedUserId": roomMember.user_id
+                      if (i == resultMembers.data.length - 1) {
+                        String? userId = await localStorage.getUserId();
+                        String? caUid = await localStorage.getCaUid();
+                        String? caPwd = await localStorage.getCaPwd();
+                        String? deviceId =
+                            await localStorage.getLoginDeviceId();
+                        var messageJson = {
+                          "roomId": inviteRoomResponse.roomId!,
+                          "userId": userId,
+                          "appId": appConfig.appId,
+                          "caUid": caUid,
+                          "caPwd": caPwd,
+                          "deviceId": deviceId
                         };
-                        socket.emitWithAck(
-                            'inviteUserToRoom', inviteUserToRoomJson,
-                            ack: (data) {
+                        //print('login: $messageJson');
+                        socket.emitWithAck('login', messageJson, ack: (data) {
                           if (data != null) {
-                            print('inviteUserToRoomJson from server $data');
+                            //print('login user from server $data');
                           } else {
-                            print("Null from inviteUserToRoomJson");
+                            //print("Null from login user");
                           }
                         });
+
+                        //await context.read<SocketClientHelper>().loginUserRoom();
+
+                        List<RoomMembers> roomMembers = await dbHelper
+                            .getRoomMembersList(inviteRoomResponse.roomId!);
+                        memberByPhoneResponseList
+                            .forEach((memberByPhoneResponse) {
+                          roomMembers.forEach((roomMember) {
+                            if (userId != roomMember.user_id) {
+                              var inviteUserToRoomJson = {
+                                "invitedRoomId": inviteRoomResponse.roomId!,
+                                "invitedUserId": roomMember.user_id
+                              };
+                              socket.emitWithAck(
+                                  'inviteUserToRoom', inviteUserToRoomJson,
+                                  ack: (data) {
+                                if (data != null) {
+                                  //print('inviteUserToRoomJson from server $data');
+                                } else {
+                                  //print("Null from inviteUserToRoomJson");
+                                }
+                              });
+                            }
+                          });
+                        });
+                        await EasyLoading.dismiss();
+                        String? name = await localStorage.getName();
+                        String splitRoomName = '';
+                        if (inviteRoomResponse.roomName!.contains(','))
+                          splitRoomName = name!.toUpperCase() !=
+                                  inviteRoomResponse.roomName!
+                                      .split(',')[0]
+                                      .toUpperCase()
+                              ? inviteRoomResponse.roomName!.split(',')[0]
+                              : inviteRoomResponse.roomName!.split(',')[1];
+                        else
+                          splitRoomName = room.room_name!;
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => ChatHome2(
+                                      roomId: inviteRoomResponse.roomId!,
+                                      picturePath: '',
+                                      roomName: splitRoomName,
+                                      roomDesc: 'Private Chat',
+                                      // roomMembers: '',
+                                    ))).then((_) {});
                       }
-                    });
-                  });
-                  await EasyLoading.dismiss();
-                  String? name = await localStorage.getName();
-                  String splitRoomName = '';
-                  if (inviteRoomResponse.roomName!.contains(','))
-                    splitRoomName = name!.toUpperCase() !=
-                            inviteRoomResponse.roomName!
-                                .split(',')[0]
-                                .toUpperCase()
-                        ? inviteRoomResponse.roomName!.split(',')[0]
-                        : inviteRoomResponse.roomName!.split(',')[1];
-                  else
-                    splitRoomName = room.room_name!;
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => ChatHome2(
-                                roomId: inviteRoomResponse.roomId!,
-                                picturePath: '',
-                                roomName: splitRoomName,
-                                roomDesc: 'Private Chat',
-                                // roomMembers: '',
-                              ))).then((_) {});
+                    }
+                  }
                 } else {
                   await EasyLoading.dismiss();
                   final customDialog = CustomDialog();

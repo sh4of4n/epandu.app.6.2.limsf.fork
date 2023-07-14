@@ -268,6 +268,63 @@ class AuthRepo {
     return Response(true, data: 'empty');
   }
 
+  Future<Response> getUserRegisteredDI2({context, required merchantId}) async {
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
+
+    String? userId = await localStorage.getUserId();
+    String? diCode = '';
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appCode=${appConfig.appCode}&appId=${appConfig.appId}&diCode=$diCode&userId=$userId';
+
+    var response = await networking.getData(
+      path: 'GetUserRegisteredDI?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      UserRegisteredDiResponse userRegisteredDiResponse =
+          UserRegisteredDiResponse.fromJson(response.data);
+      var responseData = userRegisteredDiResponse.armasterProfile;
+
+      await Hive.box('di_list').clear();
+
+      for (int i = 0; i < responseData!.length; i += 1) {
+        RegisteredDiArmasterProfile diListData = RegisteredDiArmasterProfile(
+          iD: responseData[i].iD,
+          appId: responseData[i].appId,
+          merchantNo: responseData[i].merchantNo,
+          userId: responseData[i].userId,
+          sponsor: responseData[i].sponsor,
+          sponsorAppId: responseData[i].sponsorAppId,
+          appCode: responseData[i].appCode,
+          appVersion: responseData[i].appVersion,
+          deleted: responseData[i].deleted,
+          createUser: responseData[i].createUser,
+          createDate: responseData[i].createDate,
+          editUser: responseData[i].editUser,
+          editDate: responseData[i].editDate,
+          compCode: responseData[i].compCode,
+          branchCode: responseData[i].branchCode,
+          transtamp: responseData[i].transtamp,
+          appBackgroundPhotoPath: responseData[i].appBackgroundPhotoPath,
+          merchantIconFilename: responseData[i].merchantIconFilename,
+          merchantBannerFilename: responseData[i].merchantBannerFilename,
+          merchantProfilePhotoFilename:
+              responseData[i].merchantProfilePhotoFilename,
+          name: responseData[i].name,
+          shortName: responseData[i].shortName,
+        );
+        await Hive.box('di_list').add(diListData);
+      }
+
+      localStorage.saveMerchantDbCode(merchantId);
+      return Response(true, data: responseData);
+    } else {
+      return Response(false, message: 'Please try again later.');
+    }
+  }
+
   Future<Response> getDiProfile({context}) async {
     String? caUid = await localStorage.getCaUid();
     String? caPwd = await localStorage.getCaPwdEncode();

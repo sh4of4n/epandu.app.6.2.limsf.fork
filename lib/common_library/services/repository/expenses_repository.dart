@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:epandu/common_library/services/model/expenses_model.dart';
-import 'package:epandu/common_library/services/model/favourite_model.dart';
 import 'package:epandu/common_library/services/networking.dart';
 import 'package:epandu/common_library/services/response.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';

@@ -14,7 +14,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:package_info/package_info.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../chat/socketclient_helper.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -367,8 +370,9 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
               context: context, type: 'LOGIN');
 
           if (getRegisteredDi.isSuccess) {
-            localStorage.saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
-
+            await localStorage
+                .saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
+            await context.read<SocketClientHelper>().loginUserRoom();
             context.router.replace(Home());
           } else {
             setState(() {
@@ -385,8 +389,8 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
             SelectDrivingInstitute(diList: result.data),
           );
         } else {
-          localStorage.saveMerchantDbCode(result.data[0].merchantNo);
-
+          await localStorage.saveMerchantDbCode(result.data[0].merchantNo);
+          await context.read<SocketClientHelper>().loginUserRoom();
           context.router.replace(Home());
         }
       } else {

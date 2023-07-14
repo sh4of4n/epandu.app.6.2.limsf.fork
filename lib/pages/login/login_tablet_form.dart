@@ -9,8 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import '../../router.gr.dart';
+import '../chat/socketclient_helper.dart';
 
 class LoginTabletForm extends StatefulWidget {
   @override
@@ -338,7 +340,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
 
           if (getRegisteredDi.isSuccess) {
             localStorage.saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
-
+            await context.read<SocketClientHelper>().loginUserRoom();
             context.router.replace(Home());
           } else {
             setState(() {
@@ -356,7 +358,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
           );
         } else {
           localStorage.saveMerchantDbCode(result.data[0].merchantNo);
-
+          await context.read<SocketClientHelper>().loginUserRoom();
           context.router.replace(Home());
         }
       } else {

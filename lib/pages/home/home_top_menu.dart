@@ -170,7 +170,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                               color: Color(0xff808080),
                             ),
                             SizedBox(height: ScreenUtil().setHeight(20)),
-                            Text('Rewards', style: widget.iconText),
+                            Text('Reward', style: widget.iconText),
                           ],
                         ),
                       ),

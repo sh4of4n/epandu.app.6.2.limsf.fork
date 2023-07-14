@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/common_library/services/repository/pickup_repository.dart';
 import 'package:epandu/utils/constants.dart';
@@ -7,8 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 // import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
-
-import '../../router.gr.dart';
 
 class PickupHistory extends StatefulWidget {
   @override

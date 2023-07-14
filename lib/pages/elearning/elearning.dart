@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
 

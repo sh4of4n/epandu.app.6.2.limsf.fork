@@ -63,62 +63,71 @@ class GalleryItems extends StatefulWidget {
 class _GalleryItemsState extends State<GalleryItems> {
   bool isFolderExist = false;
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     String path = widget.storagePath + widget.roomId + '/' + widget.type;
     isDirectoryExists(path);
-    if (isFolderExist) {
-      var imageList = Directory(path)
-          .listSync()
-          .map((item) => item.path)
-          //.where((item) => item.contains(".png"))
-          .toList(growable: false);
-      return GridView.builder(
-        itemCount: imageList.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: widget.type == 'Images' ? 3 : 2,
-          // crossAxisCount: _getCrossAxisCount(context),
-          crossAxisSpacing: 1.0,
-          childAspectRatio: 16 / 9,
-          mainAxisSpacing: 1.0,
-        ),
-        itemBuilder: (context, index) {
-          return Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: widget.type == 'Images'
-                ? FullScreenWidget(
-                    child: Center(
-                    child: Hero(
-                      tag: index.toString(),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.file(
-                          File(imageList[index]),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ))
-                : VideoItems(filePath: imageList[index]),
-          );
-        },
-      );
-    } else {
-      return Center(
-          child: Text('No ' + widget.type + ' Found.',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
-    }
   }
 
   Future<void> isDirectoryExists(String dirPath) async {
     bool exists = await Directory(dirPath).exists();
     if (exists) {
-      if (mounted) {
-        setState(() {
-          isFolderExist = true;
-        });
+      setState(() {
+        isFolderExist = true;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (isFolderExist) {
+      var imageList =
+          Directory(widget.storagePath + widget.roomId + '/' + widget.type)
+              .listSync()
+              .map((item) => item.path)
+              .toList(growable: false);
+      if (imageList.length > 0) {
+        return GridView.builder(
+          itemCount: imageList.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: widget.type == 'Images' ? 3 : 2,
+            // crossAxisCount: _getCrossAxisCount(context),
+            crossAxisSpacing: 1.0,
+            childAspectRatio: 16 / 9,
+            mainAxisSpacing: 1.0,
+          ),
+          itemBuilder: (context, index) {
+            return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: widget.type == 'Images'
+                  ? FullScreenWidget(
+                      child: Center(
+                      child: Hero(
+                        tag: UniqueKey(),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Image.file(
+                            File(imageList[index]),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ))
+                  : VideoItems(filePath: imageList[index]),
+            );
+          },
+        );
+      } else {
+        return Center(
+            child: Text('No ' + widget.type + ' Found.',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
       }
+    } else {
+      return Center(
+          child: Text('No ' + widget.type + ' Found.',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
     }
   }
 }
@@ -190,38 +199,47 @@ class MyAudioList extends StatefulWidget {
 class _MyAudioListState extends State<MyAudioList> {
   bool isFolderExist = false;
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     String path = widget.storagePath + widget.roomId + '/Audios';
     isDirectoryExists(path);
-    if (isFolderExist) {
-      var imageList = Directory(path)
-          .listSync()
-          .map((item) => item.path)
-          //.where((item) => item.contains(".png"))
-          .toList(growable: false);
-      return ListView.builder(
-        itemCount: imageList.length,
-        itemBuilder: (context, index) {
-          return AudioItems(
-            filePath: imageList[index],
-          );
-        },
-      );
-    } else {
-      return Center(
-          child: Text('No Audio Files Found.',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
-    }
   }
 
   Future<void> isDirectoryExists(String dirPath) async {
     bool exists = await Directory(dirPath).exists();
     if (exists) {
-      if (mounted) {
-        setState(() {
-          isFolderExist = true;
-        });
+      setState(() {
+        isFolderExist = true;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String path = widget.storagePath + widget.roomId + '/Audios';
+    if (isFolderExist) {
+      var imageList = Directory(path)
+          .listSync()
+          .map((item) => item.path)
+          .toList(growable: false);
+      if (imageList.length > 0) {
+        return ListView.builder(
+          itemCount: imageList.length,
+          itemBuilder: (context, index) {
+            return AudioItems(
+              filePath: imageList[index],
+            );
+          },
+        );
+      } else {
+        return Center(
+            child: Text('No Audio Files Found.',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
       }
+    } else {
+      return Center(
+          child: Text('No Audio Files Found.',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
     }
   }
 }
@@ -340,39 +358,51 @@ class MyFilesList extends StatefulWidget {
 
 class _MyFilesListState extends State<MyFilesList> {
   bool isFolderExist = false;
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     String path = widget.storagePath + widget.roomId + '/Files';
     isDirectoryExists(path);
-    if (isFolderExist) {
-      var imageList = Directory(path)
-          .listSync()
-          .map((item) => item.path)
-          .toList(growable: false);
-      return ListView.builder(
-        itemCount: imageList.length,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          return FileItems(
-            filePath: imageList[index],
-          );
-        },
-      );
-    } else {
-      return Center(
-          child: Text('No Files Found.',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
-    }
   }
 
   Future<void> isDirectoryExists(String dirPath) async {
     bool exists = await Directory(dirPath).exists();
     if (exists) {
-      if (mounted) {
-        setState(() {
-          isFolderExist = true;
-        });
+      setState(() {
+        isFolderExist = true;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String path = widget.storagePath + widget.roomId + '/Files';
+
+    if (isFolderExist) {
+      var imageList = Directory(path)
+          .listSync()
+          .map((item) => item.path)
+          .toList(growable: false);
+      if (imageList.length > 0) {
+        return ListView.builder(
+          itemCount: imageList.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return FileItems(
+              filePath: imageList[index],
+            );
+          },
+        );
+      } else {
+        return Center(
+            child: Text('No Files Found.',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
       }
+    } else {
+      return Center(
+          child: Text('No Files Found.',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
     }
   }
 }
