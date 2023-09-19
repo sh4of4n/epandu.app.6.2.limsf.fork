@@ -128,10 +128,10 @@ class _TestWebviewState extends State<TestWebview> {
             List<RoomMembers> roomMembers = await dbHelper
                 .getRoomMembersList(getCreateRoomResponse.roomId!);
             roomMembers.forEach((roomMember) {
-              if (userid != roomMember.user_id) {
+              if (userid != roomMember.userId) {
                 var inviteUserToRoomJson = {
                   "invitedRoomId": getCreateRoomResponse.roomId!,
-                  "invitedUserId": roomMember.user_id
+                  "invitedUserId": roomMember.userId
                 };
                 socket.emitWithAck('inviteUserToRoom', inviteUserToRoomJson,
                     ack: (data) {

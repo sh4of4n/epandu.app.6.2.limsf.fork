@@ -235,10 +235,10 @@ class _CreateGroupState extends State<CreateGroup> {
                           memberByPhoneResponse.userId, "false", widget.roomId);
 
                       roomMembers.forEach((roomMember) {
-                        if (userId != roomMember.user_id) {
+                        if (userId != roomMember.userId) {
                           var groupJson = {
                             "notifiedRoomId": widget.roomId,
-                            "notifiedUserId": roomMember.user_id,
+                            "notifiedUserId": roomMember.userId,
                             "title": userName! +
                                 ' added ' +
                                 memberByPhoneResponse.name!,
@@ -259,41 +259,41 @@ class _CreateGroupState extends State<CreateGroup> {
                       String deviceId =
                           await localStorage.getLoginDeviceId() ?? '';
                       MessageDetails messageDetails = MessageDetails(
-                          room_id: widget.roomId,
-                          user_id: userId,
-                          app_id: appConfig.appId,
-                          ca_uid: caUid,
-                          device_id: deviceId,
-                          msg_body: userName! +
+                          roomId: widget.roomId,
+                          userId: userId,
+                          appId: appConfig.appId,
+                          caUid: caUid,
+                          deviceId: deviceId,
+                          msgBody: userName! +
                               ' added ' +
                               memberByPhoneResponse.name!,
-                          msg_binary: '',
-                          msg_binaryType: 'userJoined',
-                          reply_to_id: -1,
-                          message_id: 0,
-                          read_by: '',
+                          msgBinary: '',
+                          msgBinaryType: 'userJoined',
+                          replyToId: -1,
+                          messageId: 0,
+                          readBy: '',
                           status: '',
-                          status_msg: '',
+                          statusMsg: '',
                           deleted: 0,
-                          send_datetime: DateFormat("yyyy-MM-dd HH:mm:ss")
+                          sendDateTime: DateFormat("yyyy-MM-dd HH:mm:ss")
                               .format(DateTime.now().toLocal())
                               .toString(),
-                          edit_datetime: '',
-                          delete_datetime: '',
+                          editDateTime: '',
+                          deleteDateTime: '',
                           transtamp: '',
-                          nick_name: userName,
+                          nickName: userName,
                           filePath: '',
-                          owner_id: userId,
+                          ownerId: userId,
                           msgStatus: 'SENT',
-                          client_message_id: clientMessageId,
+                          clientMessageId: clientMessageId,
                           roomName: '');
                       await dbHelper.saveMsgDetailTable(messageDetails);
                       context
                           .read<ChatHistory>()
                           .addChatHistory(messageDetail: messageDetails);
                       context.read<RoomHistory>().updateRoomMessage(
-                          roomId: messageDetails.room_id!,
-                          message: messageDetails.msg_body!);
+                          roomId: messageDetails.roomId!,
+                          message: messageDetails.msgBody!);
 
                       var messageJson = {
                         "roomId": widget.roomId,
@@ -515,33 +515,33 @@ class _CreateGroupState extends State<CreateGroup> {
                     InviteRoomResponse inviteRoomResponse =
                         inviteResult.data[0];
                     Room room = new Room(
-                        ID: inviteRoomResponse.iD,
-                        room_id: inviteRoomResponse.roomId,
-                        merchant_user_id: inviteRoomResponse.merchantUserId,
-                        merchant_login_id: inviteRoomResponse.merchantLoginId,
-                        merchant_nick_name: inviteRoomResponse.merchantNickName,
-                        user_id: inviteRoomResponse.userId,
-                        login_id: inviteRoomResponse.loginId,
-                        member_nick_name: inviteRoomResponse.memberNickName,
-                        room_desc: inviteRoomResponse.roomDesc,
-                        room_name: inviteRoomResponse.roomName,
-                        create_user: inviteRoomResponse.createUser,
-                        create_date: inviteRoomResponse.createDate,
-                        edit_user: inviteRoomResponse.editUser,
-                        edit_date: inviteRoomResponse.editDate,
-                        row_key: inviteRoomResponse.rowKey,
+                        id: inviteRoomResponse.iD,
+                        roomId: inviteRoomResponse.roomId,
+                        merchantUserId: inviteRoomResponse.merchantUserId,
+                        merchantLoginId: inviteRoomResponse.merchantLoginId,
+                        merchantNickName: inviteRoomResponse.merchantNickName,
+                        userId: inviteRoomResponse.userId,
+                        loginId: inviteRoomResponse.loginId,
+                        memberNickName: inviteRoomResponse.memberNickName,
+                        roomDesc: inviteRoomResponse.roomDesc,
+                        roomName: inviteRoomResponse.roomName,
+                        createUser: inviteRoomResponse.createUser,
+                        createDate: inviteRoomResponse.createDate,
+                        editUser: inviteRoomResponse.editUser,
+                        editDate: inviteRoomResponse.editDate,
+                        rowKey: inviteRoomResponse.rowKey,
                         transtamp: inviteRoomResponse.transtamp,
                         deleted: inviteRoomResponse.deleted,
-                        photo_filename: '',
-                        profile_photo: '',
-                        merchant_no: inviteRoomResponse.merchantNo,
-                        picture_path: inviteRoomResponse.picturePath);
+                        photoFileName: '',
+                        profilePhoto: '',
+                        merchantNo: inviteRoomResponse.merchantNo,
+                        picturePath: inviteRoomResponse.picturePath);
                     await dbHelper.saveRoomTable(room);
                     RoomHistoryModel roomHistoryModel = new RoomHistoryModel(
-                        room_id: inviteRoomResponse.roomId ?? '',
-                        room_name: inviteRoomResponse.roomName ?? '',
-                        room_desc: inviteRoomResponse.roomDesc ?? '',
-                        picture_path: inviteRoomResponse.picturePath ?? '');
+                        roomId: inviteRoomResponse.roomId ?? '',
+                        roomName: inviteRoomResponse.roomName ?? '',
+                        roomDesc: inviteRoomResponse.roomDesc ?? '',
+                        picturePath: inviteRoomResponse.picturePath ?? '');
                     context.read<RoomHistory>().addRoom(room: roomHistoryModel);
                     //print('Room Insert value ' + val.toString());
                     var resultMembers = await chatRoomRepo
@@ -580,10 +580,10 @@ class _CreateGroupState extends State<CreateGroup> {
                           List<RoomMembers> roomMembers = await dbHelper
                               .getRoomMembersList(inviteRoomResponse.roomId!);
                           roomMembers.forEach((roomMember) {
-                            if (userId != roomMember.user_id) {
+                            if (userId != roomMember.userId) {
                               var inviteUserToRoomJson = {
                                 "invitedRoomId": inviteRoomResponse.roomId!,
-                                "invitedUserId": roomMember.user_id
+                                "invitedUserId": roomMember.userId
                               };
                               socket.emitWithAck(
                                   'inviteUserToRoom', inviteUserToRoomJson,

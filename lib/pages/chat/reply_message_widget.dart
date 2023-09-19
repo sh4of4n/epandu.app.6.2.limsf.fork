@@ -41,7 +41,7 @@ class _ReplyMessageWidgetState extends State<ReplyMessageWidget> {
               Expanded(
                 child: Text(
                   CapitalizeFirstLetter()
-                      .capitalizeFirstLetter(widget.messageDetails.nick_name!),
+                      .capitalizeFirstLetter(widget.messageDetails.nickName!),
                   style: MyTheme.heading2.copyWith(fontSize: 13),
                 ),
               ),
@@ -62,7 +62,7 @@ class _ReplyMessageWidgetState extends State<ReplyMessageWidget> {
     if (replyMessageDetails.filePath == '') {
       return Expanded(
         child: Text(
-          '${widget.messageDetails.msg_body}',
+          '${widget.messageDetails.msgBody}',
           style: MyTheme.bodyText1,
           overflow: TextOverflow.ellipsis,
         ),

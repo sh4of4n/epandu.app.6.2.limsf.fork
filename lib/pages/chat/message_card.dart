@@ -17,7 +17,9 @@ class MessageCard extends StatelessWidget {
       required this.onCancelReply,
       required this.callback,
       required this.resendCallback,
-      required this.roomDesc})
+      required this.roomDesc,
+      required this.searchKey,
+      required this.isSearching})
       : super(key: key);
 
   final MessageDetails messageDetails;
@@ -27,10 +29,13 @@ class MessageCard extends StatelessWidget {
   final ResendCallback resendCallback;
   final ReplyMessageDetails replyMessageDetails;
   final String roomDesc;
+  final String searchKey;
+  final bool isSearching;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: localUser == messageDetails.user_id
+        margin: localUser == messageDetails.userId
             ? EdgeInsets.fromLTRB(100, 0, 10, 10)
             : EdgeInsets.fromLTRB(10, 0, 100, 10),
         child: getMessage());
@@ -40,19 +45,19 @@ class MessageCard extends StatelessWidget {
     return Padding(
       // asymmetric padding
       padding: EdgeInsets.fromLTRB(
-        localUser == messageDetails.user_id! ? 64.0 : 16.0,
+        localUser == messageDetails.userId! ? 64.0 : 16.0,
         4,
-        localUser == messageDetails.user_id! ? 16.0 : 64.0,
+        localUser == messageDetails.userId! ? 16.0 : 64.0,
         4,
       ),
       child: Align(
         // align the child within the container
-        alignment: localUser == messageDetails.user_id!
+        alignment: localUser == messageDetails.userId!
             ? Alignment.centerRight
             : Alignment.centerLeft,
         child: Container(
           decoration: BoxDecoration(
-            border: localUser != messageDetails.user_id!
+            border: localUser != messageDetails.userId!
                 ? Border.all(
                     color: Colors.blueAccent,
                   )
@@ -62,7 +67,7 @@ class MessageCard extends StatelessWidget {
           child: DecoratedBox(
             // chat bubble decoration
             decoration: BoxDecoration(
-              color: localUser == messageDetails.user_id!
+              color: localUser == messageDetails.userId!
                   ? Colors.blueAccent
                   : Colors.grey[300],
               borderRadius: BorderRadius.circular(16),
@@ -74,20 +79,22 @@ class MessageCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (roomDesc.toUpperCase().contains("GROUP"))
-                    if (localUser != messageDetails.user_id!)
+                    if (localUser != messageDetails.userId!)
                       Text(
                         CapitalizeFirstLetter()
-                            .capitalizeFirstLetter(messageDetails.nick_name!),
+                            .capitalizeFirstLetter(messageDetails.nickName!),
                         style: MyTheme.heading2.copyWith(fontSize: 13),
                       ),
-                  replyMessageDetails.reply_to_id == 0
-                      ? Text(
-                          messageDetails.msg_body!,
-                          style: MyTheme.bodyText1.copyWith(
-                              color: localUser == messageDetails.user_id!
-                                  ? Colors.white
-                                  : Colors.black87),
-                        )
+                  replyMessageDetails.replyToId == 0
+                      ? !isSearching
+                          ? Text(
+                              messageDetails.msgBody!,
+                              style: MyTheme.bodyText1.copyWith(
+                                  color: localUser == messageDetails.userId!
+                                      ? Colors.white
+                                      : Colors.black87),
+                            )
+                          : buildRichText(searchKey, messageDetails.msgBody!)
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -103,20 +110,20 @@ class MessageCard extends StatelessWidget {
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                 padding: const EdgeInsets.all(5.0),
-                                child: new Text(messageDetails.msg_body!,
+                                child: new Text(messageDetails.msgBody!,
                                     style: MyTheme.bodyText1),
                               ),
                             )
                           ],
                         ),
-                  localUser == messageDetails.user_id!
+                  localUser == messageDetails.userId!
                       ? Align(
                           alignment: Alignment.bottomRight,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              if (messageDetails.edit_datetime != '')
+                              if (messageDetails.editDateTime != '')
                                 Icon(
                                   Icons.edit,
                                   size: 20,
@@ -129,7 +136,7 @@ class MessageCard extends StatelessWidget {
                                 DateFormatter()
                                     .getVerboseDateTimeRepresentation(
                                         DateTime.parse(
-                                            messageDetails.send_datetime!)),
+                                            messageDetails.sendDateTime!)),
                                 style: MyTheme.isMebodyTextTime,
                               ),
                               SizedBox(
@@ -137,7 +144,7 @@ class MessageCard extends StatelessWidget {
                               ),
                               getStatusIcon(
                                 messageDetails.msgStatus!,
-                                messageDetails.send_datetime!,
+                                messageDetails.sendDateTime!,
                               ),
                             ],
                           ),
@@ -152,7 +159,7 @@ class MessageCard extends StatelessWidget {
                                 DateFormatter()
                                     .getVerboseDateTimeRepresentation(
                                         DateTime.parse(
-                                            messageDetails.send_datetime!)),
+                                            messageDetails.sendDateTime!)),
                                 style: MyTheme.bodyTextTime,
                               )
                             ],
@@ -373,7 +380,7 @@ class MessageCard extends StatelessWidget {
   }
 
   Widget buildReplyMessage(ReplyMessageDetails replyMessageDetails) {
-    if (replyMessageDetails.reply_to_id == 0) {
+    if (replyMessageDetails.replyToId == 0) {
       return Container();
     } else {
       return Container(
@@ -388,7 +395,7 @@ class MessageCard extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 8),
         child: InkWell(
           onTap: () {
-            callback(replyMessageDetails.reply_to_id!);
+            callback(replyMessageDetails.replyToId!);
           },
           child: ReplyMessageWidget(
               messageDetails: replyMessageDetails,
@@ -398,4 +405,48 @@ class MessageCard extends StatelessWidget {
       );
     }
   }
+}
+
+RichText buildRichText(String searchText, String fullText) {
+  List<InlineSpan> textSpans = [];
+  final RegExp regex = RegExp(searchText, caseSensitive: false);
+  int startIndex = 0;
+
+  for (final match in regex.allMatches(fullText)) {
+    final String beforeMatch = fullText.substring(startIndex, match.start);
+    final String matchingText = fullText.substring(match.start, match.end);
+
+    if (beforeMatch.isNotEmpty) {
+      textSpans.add(TextSpan(text: beforeMatch));
+    }
+
+    textSpans.add(
+      WidgetSpan(
+        child: Container(
+          padding: EdgeInsets.all(4.0),
+          decoration: BoxDecoration(
+            color: Colors.grey[300], // Light grey background color
+            borderRadius: BorderRadius.circular(4.0),
+          ),
+          child: Text(
+            matchingText,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    );
+
+    startIndex = match.end;
+  }
+
+  if (startIndex < fullText.length) {
+    final String remainingText = fullText.substring(startIndex);
+    textSpans.add(TextSpan(text: remainingText));
+  }
+
+  return RichText(
+    text: TextSpan(
+      children: textSpans,
+    ),
+  );
 }

@@ -79,10 +79,10 @@ class SocketClientHelper extends ChangeNotifier {
         for (int i = 0; i < result.data.length; i += 1) {
           await dbHelper.saveRoomTable(result.data[i]);
           RoomHistoryModel roomHistoryModel = new RoomHistoryModel(
-              room_id: result.data[i].room_id ?? '',
-              room_name: result.data[i].room_name ?? '',
-              room_desc: result.data[i].room_desc ?? '',
-              picture_path: result.data[i].picture_path ?? '');
+              roomId: result.data[i].room_id ?? '',
+              roomName: result.data[i].room_name ?? '',
+              roomDesc: result.data[i].room_desc ?? '',
+              picturePath: result.data[i].picture_path ?? '');
           ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
           //print('Room Insert value ' + val.toString());
           var resultMembers =
@@ -104,8 +104,8 @@ class SocketClientHelper extends ChangeNotifier {
       bool condition = false;
       for (int i = 0; i < rooms.length; i++) {
         List<MessageDetails> list =
-            await dbHelper.getLatestMsgDetail(rooms[i].room_id!);
-        if (list.length > 0 && list[0].owner_id != userid) {
+            await dbHelper.getLatestMsgDetail(rooms[i].roomId!);
+        if (list.length > 0 && list[0].ownerId != userid) {
           await dbHelper.deleteDB();
           final dir = Directory((Platform.isAndroid
                   ? await getExternalStorageDirectory() //FOR ANDROID
@@ -123,26 +123,25 @@ class SocketClientHelper extends ChangeNotifier {
       }
       if (!condition) {
         rooms.forEach((Room room) async {
-          loginUser(room.room_id!, room.user_id!, room.create_date!);
+          loginUser(room.roomId!, room.userId!, room.createDate!);
         });
 
         var result = await chatRoomRepo.getRoomList('');
         if (result.data != null && result.data.length > 0) {
           for (int i = 0; i < result.data.length; i += 1) {
             int indexRoom = rooms.indexWhere(
-                (element) => element.room_id == result.data[i].room_id);
+                (element) => element.roomId == result.data[i].room_id);
             if (indexRoom == -1) {
               await dbHelper.saveRoomTable(result.data[i]);
               RoomHistoryModel roomHistoryModel = new RoomHistoryModel(
-                  room_id: result.data[i].room_id ?? '',
-                  room_name: result.data[i].room_name ?? '',
-                  room_desc: result.data[i].room_desc ?? '',
-                  picture_path: result.data[i].picture_path ?? '');
+                  roomId: result.data[i].room_id ?? '',
+                  roomName: result.data[i].room_name ?? '',
+                  roomDesc: result.data[i].room_desc ?? '',
+                  picturePath: result.data[i].picture_path ?? '');
               ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
               newRooms.add(result.data[i]);
             } else {
-              if (rooms[indexRoom].picture_path !=
-                      result.data[i].picture_path &&
+              if (rooms[indexRoom].picturePath != result.data[i].picture_path &&
                   result.data[i].picture_path != '') {
                 await dbHelper.updateRoomPic(
                     result.data[i].room_id, result.data[i].picture_path);
@@ -156,13 +155,13 @@ class SocketClientHelper extends ChangeNotifier {
 
               for (int i = 0; i < resultMembers.data.length; i += 1) {
                 int indexRoomMembers = roomMembersList.indexWhere((element) =>
-                    element.user_id == resultMembers.data[i].user_id);
+                    element.userId == resultMembers.data[i].user_id);
                 if (indexRoomMembers == -1) {
                   await dbHelper.saveRoomMembersTable(resultMembers.data[i]);
                 } else {
-                  if ((roomMembersList[indexRoomMembers].picture_path !=
+                  if ((roomMembersList[indexRoomMembers].picturePath !=
                           resultMembers.data[i].picture_path) ||
-                      (roomMembersList[indexRoomMembers].nick_name !=
+                      (roomMembersList[indexRoomMembers].nickName !=
                           resultMembers.data[i].nick_name) ||
                       (roomMembersList[indexRoomMembers].deleted !=
                           resultMembers.data[i].deleted)) {
@@ -178,8 +177,7 @@ class SocketClientHelper extends ChangeNotifier {
           }
           if (newRooms.length > 0) {
             newRooms.forEach((Room newroom) {
-              loginUser(
-                  newroom.room_id!, newroom.user_id!, newroom.create_date!);
+              loginUser(newroom.roomId!, newroom.userId!, newroom.createDate!);
             });
             //logoutDefaultRoom();
           }
@@ -205,7 +203,7 @@ class SocketClientHelper extends ChangeNotifier {
     if (rooms.length > 0) {
       rooms.forEach((Room room) {
         var logoutJson = {
-          "roomId": room.room_id,
+          "roomId": room.roomId,
         };
         socket.emitWithAck('logout', logoutJson, ack: (data) {
           //print('ack $data');
@@ -289,7 +287,7 @@ class SocketClientHelper extends ChangeNotifier {
             -1) {
           List<Room> rooms = await dbHelper.getRoomList(userid!);
           rooms.forEach((Room room) {
-            loginUser(room.room_id!, room.user_id!, room.create_date!);
+            loginUser(room.roomId!, room.userId!, room.createDate!);
           });
           sendFailedMessages();
         } else {
@@ -321,44 +319,43 @@ class SocketClientHelper extends ChangeNotifier {
           List<RoomMembers> roomMembersList =
               await dbHelper.getRoomMemberName(receiveMessage.userId);
           for (var item in roomMembersList) {
-            nickName = item.nick_name;
+            nickName = item.nickName;
           }
           MessageDetails messageDetails = MessageDetails(
-              room_id: receiveMessage.roomId,
-              user_id: receiveMessage.userId,
-              app_id: "Carser.App",
-              ca_uid: "",
-              device_id: "",
-              msg_body: receiveMessage.text,
-              msg_binary: receiveMessage.binary ?? '',
-              msg_binaryType: receiveMessage.binaryType ?? '',
-              reply_to_id: receiveMessage.replyToId,
-              message_id: receiveMessage.messageId,
-              read_by: "",
+              roomId: receiveMessage.roomId,
+              userId: receiveMessage.userId,
+              appId: "Carser.App",
+              caUid: "",
+              deviceId: "",
+              msgBody: receiveMessage.text,
+              msgBinary: receiveMessage.binary ?? '',
+              msgBinaryType: receiveMessage.binaryType ?? '',
+              replyToId: receiveMessage.replyToId,
+              messageId: receiveMessage.messageId,
+              readBy: "",
               status: "",
-              status_msg: "",
+              statusMsg: "",
               deleted: 0,
-              send_datetime: DateFormat("yyyy-MM-dd HH:mm:ss")
+              sendDateTime: DateFormat("yyyy-MM-dd HH:mm:ss")
                   .format(
                       DateTime.parse(receiveMessage.datetime ?? '').toLocal())
                   .toString(),
-              edit_datetime: "",
-              delete_datetime: "",
+              editDateTime: "",
+              deleteDateTime: "",
               transtamp: "",
-              nick_name: nickName,
+              nickName: nickName,
               filePath: filePath,
-              owner_id: userid,
+              ownerId: userid,
               msgStatus: "UNREAD",
-              client_message_id: receiveMessage.clientMessageId,
+              clientMessageId: receiveMessage.clientMessageId,
               roomName: '');
           await dbHelper.saveMsgDetailTable(messageDetails);
           ctx.read<ChatHistory>().addChatHistory(messageDetail: messageDetails);
           ctx.read<RoomHistory>().updateRoomMessage(
-              roomId: messageDetails.room_id!, message: receiveMessage.text!);
+              roomId: messageDetails.roomId!, message: receiveMessage.text!);
           ctx.read<RoomHistory>().getRoomHistory();
           Provider.of<ChatNotificationCount>(ctx, listen: false)
-              .updateNotificationBadge(
-                  roomId: messageDetails.room_id, type: "");
+              .updateNotificationBadge(roomId: messageDetails.roomId, type: "");
           // Provider.of<ChatNotificationCount>(ctx, listen: false).addMessageId(
           //     messageDetails.room_id!,
           //     messageDetails.message_id.toString(),
@@ -374,10 +371,10 @@ class SocketClientHelper extends ChangeNotifier {
       if (result.data != null && result.data.length > 0) {
         await dbHelper.saveRoomTable(result.data[0]);
         RoomHistoryModel roomHistoryModel = new RoomHistoryModel(
-            room_id: result.data[0].room_id ?? '',
-            room_name: result.data[0].room_name ?? '',
-            room_desc: result.data[0].room_desc ?? '',
-            picture_path: result.data[0].picture_path ?? '');
+            roomId: result.data[0].room_id ?? '',
+            roomName: result.data[0].room_name ?? '',
+            roomDesc: result.data[0].room_desc ?? '',
+            picturePath: result.data[0].picture_path ?? '');
         ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
         //print('Room Insert value ' + val.toString());
         var resultMembers =
@@ -484,9 +481,9 @@ class SocketClientHelper extends ChangeNotifier {
                 Provider.of<ChatHistory>(ctx, listen: false)
                     .getMessageDetailsList
                     .where((element) =>
-                        element.message_id == result["messageId"] &&
-                        element.room_id == result["roomId"] &&
-                        element.msg_binaryType != '')
+                        element.messageId == result["messageId"] &&
+                        element.roomId == result["roomId"] &&
+                        element.msgBinaryType != '')
                     .toList();
 
             if (list.length > 0) {
@@ -534,9 +531,9 @@ class SocketClientHelper extends ChangeNotifier {
             int index = Provider.of<ChatHistory>(ctx, listen: false)
                 .getMessageDetailsList
                 .indexWhere((element) =>
-                    element.user_id == userid &&
-                    element.message_id == result["messageId"] &&
-                    element.room_id == result["roomId"]);
+                    element.userId == userid &&
+                    element.messageId == result["messageId"] &&
+                    element.roomId == result["roomId"]);
             if (index == -1) {
               ctx.read<ChatHistory>().updateChatItemMessage(
                   result["msgBody"],
@@ -551,7 +548,7 @@ class SocketClientHelper extends ChangeNotifier {
                 await dbHelper.getAllMsgDetail();
             if (messageDetails.length > 0) {
               bool exists = messageDetails
-                  .any((f) => f.user_id == userid && result["messageId"]);
+                  .any((f) => f.userId == userid && result["messageId"]);
               if (!exists) {
                 await dbHelper.updateMsgDetailTableText(result["msgBody"],
                     result["messageId"], result['editDateTime']);
@@ -569,8 +566,8 @@ class SocketClientHelper extends ChangeNotifier {
     String? localUserName = await localStorage.getName();
     myFailedList = await dbHelper.getFailedMsgDetailList();
     myFailedList.forEach((messageDetails) async {
-      if (messageDetails.client_message_id.toString() != '' && userid != '') {
-        if (messageDetails.msg_binaryType == '') {
+      if (messageDetails.clientMessageId.toString() != '' && userid != '') {
+        if (messageDetails.msgBinaryType == '') {
           sendMessage(messageDetails, localUserName!);
         } else {
           emitSendMessage(messageDetails, localUserName!);
@@ -629,10 +626,10 @@ class SocketClientHelper extends ChangeNotifier {
 
   void sendMessage(MessageDetails messageDetails, String localUserName) {
     var messageJson = {
-      "roomId": messageDetails.room_id,
-      "msgBody": messageDetails.msg_body,
-      "replyToId": messageDetails.reply_to_id,
-      "clientMessageId": messageDetails.client_message_id,
+      "roomId": messageDetails.roomId,
+      "msgBody": messageDetails.msgBody,
+      "replyToId": messageDetails.replyToId,
+      "clientMessageId": messageDetails.clientMessageId,
       "misc": "[FCM_Notification=title:" +
           messageDetails.roomName! +
           ' - ' +
@@ -647,22 +644,19 @@ class SocketClientHelper extends ChangeNotifier {
         if (data != null) {
           SendAcknowledge sendAcknowledge = SendAcknowledge.fromJson(data);
           if (sendAcknowledge.clientMessageId ==
-              messageDetails.client_message_id) {
-            await dbHelper.updateMsgDetailTable(
-                messageDetails.client_message_id!,
-                "SENT",
-                sendAcknowledge.messageId);
+              messageDetails.clientMessageId) {
+            await dbHelper.updateMsgDetailTable(messageDetails.clientMessageId!,
+                "SENT", sendAcknowledge.messageId);
             if (isEnterRoom) {
               Provider.of<ChatHistory>(ctx, listen: false).updateChatItemStatus(
-                  messageDetails.client_message_id!,
+                  messageDetails.clientMessageId!,
                   "SENT",
                   sendAcknowledge.messageId,
-                  messageDetails.room_id!);
+                  messageDetails.roomId!);
             }
             if (myFailedList.length > 0) {
               int index = myFailedList.indexWhere((element) =>
-                  element.client_message_id ==
-                  messageDetails.client_message_id!);
+                  element.clientMessageId == messageDetails.clientMessageId!);
               if (index > -1) {
                 myFailedList.removeAt(index);
               }
@@ -680,16 +674,16 @@ class SocketClientHelper extends ChangeNotifier {
     MessageDetails messageDetails,
     String localUserName,
   ) async {
-    if (messageDetails.msg_body == '')
-      messageDetails.msg_body = messageDetails.filePath!.split('/').last;
+    if (messageDetails.msgBody == '')
+      messageDetails.msgBody = messageDetails.filePath!.split('/').last;
     var bytes = await File(messageDetails.filePath!).readAsBytes();
     var messageJson = {
-      "roomId": messageDetails.room_id,
-      "msgBody": messageDetails.msg_body,
+      "roomId": messageDetails.roomId,
+      "msgBody": messageDetails.msgBody,
       "msgBinaryBuffer": base64.encode(bytes),
-      "replyToId": messageDetails.reply_to_id,
-      "msgBinaryType": messageDetails.msg_binaryType,
-      "clientMessageId": messageDetails.client_message_id,
+      "replyToId": messageDetails.replyToId,
+      "msgBinaryType": messageDetails.msgBinaryType,
+      "clientMessageId": messageDetails.clientMessageId,
       "misc": "[FCM_Notification=title:" +
           messageDetails.roomName! +
           ' - ' +
@@ -703,22 +697,19 @@ class SocketClientHelper extends ChangeNotifier {
         if (data != null) {
           SendAcknowledge sendAcknowledge = SendAcknowledge.fromJson(data);
           if (sendAcknowledge.clientMessageId ==
-              messageDetails.client_message_id) {
-            await dbHelper.updateMsgDetailTable(
-                messageDetails.client_message_id!,
-                "SENT",
-                sendAcknowledge.messageId);
+              messageDetails.clientMessageId) {
+            await dbHelper.updateMsgDetailTable(messageDetails.clientMessageId!,
+                "SENT", sendAcknowledge.messageId);
             if (isEnterRoom) {
               ctx.read<ChatHistory>().updateChatItemStatus(
-                  messageDetails.client_message_id!,
+                  messageDetails.clientMessageId!,
                   "SENT",
                   sendAcknowledge.messageId,
-                  messageDetails.room_id!);
+                  messageDetails.roomId!);
             }
             if (myFailedList.length > 0) {
               int index = myFailedList.indexWhere((element) =>
-                  element.client_message_id ==
-                  messageDetails.client_message_id);
+                  element.clientMessageId == messageDetails.clientMessageId);
               if (index > -1) {
                 myFailedList.removeAt(index);
               }
@@ -777,8 +768,8 @@ class SocketClientHelper extends ChangeNotifier {
       }
       return file.path;
     } on Exception catch (exception) {
+      print(exception);
       return '';
-      //print(exception);
     } catch (error) {
       return '';
       //print(error);
@@ -824,7 +815,7 @@ class SocketClientHelper extends ChangeNotifier {
       messageRoomJson = {
         "roomId": roomId,
         "returnMsgBinaryAsBase64": "true",
-        "bgnMessageId": int.parse(messageDetailsList[0].message_id.toString())
+        "bgnMessageId": int.parse(messageDetailsList[0].messageId.toString())
       };
     } else {
       messageRoomJson = {
@@ -862,34 +853,34 @@ class SocketClientHelper extends ChangeNotifier {
               List<RoomMembers> roomMembersList =
                   await dbHelper.getRoomMemberName(f.userId);
               if (roomMembersList.length > 0)
-                nickName = roomMembersList[0].nick_name;
+                nickName = roomMembersList[0].nickName;
 
               MessageDetails messageDetails = MessageDetails(
-                  room_id: f.roomId,
-                  user_id: f.userId,
-                  app_id: f.appId,
-                  ca_uid: f.caUid,
-                  device_id: f.deviceId,
-                  msg_body: f.msgBody ?? '',
-                  msg_binary: f.msgBinary,
-                  msg_binaryType: f.msgBinaryType,
-                  reply_to_id: int.parse(f.replyToId!),
-                  message_id: int.parse(f.id!),
-                  read_by: f.readBy,
+                  roomId: f.roomId,
+                  userId: f.userId,
+                  appId: f.appId,
+                  caUid: f.caUid,
+                  deviceId: f.deviceId,
+                  msgBody: f.msgBody ?? '',
+                  msgBinary: f.msgBinary,
+                  msgBinaryType: f.msgBinaryType,
+                  replyToId: int.parse(f.replyToId!),
+                  messageId: int.parse(f.id!),
+                  readBy: f.readBy,
                   status: f.status,
-                  status_msg: f.statusMsg,
+                  statusMsg: f.statusMsg,
                   deleted: 0,
-                  send_datetime: DateFormat("yyyy-MM-dd HH:mm:ss")
+                  sendDateTime: DateFormat("yyyy-MM-dd HH:mm:ss")
                       .format(DateTime.parse(f.sendDatetime!).toLocal())
                       .toString(),
-                  edit_datetime: f.editDatetime,
-                  delete_datetime: f.deleteDatetime,
+                  editDateTime: f.editDatetime,
+                  deleteDateTime: f.deleteDatetime,
                   transtamp: f.transtamp,
-                  nick_name: nickName,
+                  nickName: nickName,
                   filePath: filePath,
-                  owner_id: userid,
+                  ownerId: userid,
                   msgStatus: "",
-                  client_message_id: f.clientMessageId,
+                  clientMessageId: f.clientMessageId,
                   roomName: '');
 
               messageDetails.msgStatus = "UNREAD";

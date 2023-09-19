@@ -116,7 +116,7 @@ class _RoomMembersListState extends State<RoomMembersList> {
     await EasyLoading.show();
     roomMembers = await dbHelper.getRoomMembersList(widget.roomId);
     if (!widget.roomDesc.toUpperCase().contains("GROUP")) {
-      roomMembers.removeWhere((element) => element.user_id == widget.userId);
+      roomMembers.removeWhere((element) => element.userId == widget.userId);
     }
     setState(() {
       roomMembers = roomMembers;
@@ -272,9 +272,9 @@ class _RoomMembersListState extends State<RoomMembersList> {
                   child: Center(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
-                      child: roomMembers.user_id == widget.userId
+                      child: roomMembers.userId == widget.userId
                           ? _owncircleImage()
-                          : _othersCircleImage(roomMembers.picture_path ?? ''),
+                          : _othersCircleImage(roomMembers.picturePath ?? ''),
                     ),
                   ),
                 ),
@@ -283,7 +283,7 @@ class _RoomMembersListState extends State<RoomMembersList> {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   onlineUsersList.any(
-                          (element) => element.userId == roomMembers.user_id)
+                          (element) => element.userId == roomMembers.userId)
                       ? Icon(
                           Icons.circle,
                           color: Colors.green,
@@ -309,15 +309,15 @@ class _RoomMembersListState extends State<RoomMembersList> {
                         ),
                       );
                     },
-                    child: Text(roomMembers.nick_name!,
+                    child: Text(roomMembers.nickName!,
                         style: TextStyle(fontWeight: FontWeight.bold)),
                   )
                 ],
               ),
-              subtitle: Text(roomMembers.login_id!),
+              subtitle: Text(roomMembers.loginId!),
             ),
           );
-        } else if (roomMembers.nick_name
+        } else if (roomMembers.nickName
                 ?.toLowerCase()
                 .contains(editingController.text) ==
             true) {
@@ -343,9 +343,9 @@ class _RoomMembersListState extends State<RoomMembersList> {
                   child: Center(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
-                      child: roomMembers.user_id == widget.userId
+                      child: roomMembers.userId == widget.userId
                           ? _owncircleImage()
-                          : _othersCircleImage(roomMembers.picture_path ?? ''),
+                          : _othersCircleImage(roomMembers.picturePath ?? ''),
                     ),
                   ),
                 ),
@@ -354,7 +354,7 @@ class _RoomMembersListState extends State<RoomMembersList> {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   onlineUsersList.any(
-                          (element) => element.userId == roomMembers.user_id)
+                          (element) => element.userId == roomMembers.userId)
                       ? Icon(
                           Icons.circle,
                           color: Colors.green,
@@ -380,12 +380,12 @@ class _RoomMembersListState extends State<RoomMembersList> {
                         ),
                       );
                     },
-                    child: Text(roomMembers.nick_name!,
+                    child: Text(roomMembers.nickName!,
                         style: TextStyle(fontWeight: FontWeight.bold)),
                   )
                 ],
               ),
-              subtitle: Text(roomMembers.login_id!),
+              subtitle: Text(roomMembers.loginId!),
             ),
           );
         } else {

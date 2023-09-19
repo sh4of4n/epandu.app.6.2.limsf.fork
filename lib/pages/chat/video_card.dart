@@ -125,7 +125,7 @@ class _VideoCardState extends State<VideoCard> {
                               style: MyTheme.heading2.copyWith(fontSize: 13)),
                         ),
                     widget.filePath != ''
-                        ? widget.replyMessageDetails.reply_to_id == 0
+                        ? widget.replyMessageDetails.replyToId == 0
                             ? Container(
                                 child: FlickVideoPlayer(
                                   flickManager: flickManager,
@@ -238,7 +238,7 @@ class _VideoCardState extends State<VideoCard> {
   }
 
   Widget buildReplyMessage(ReplyMessageDetails replyMessageDetails) {
-    if (replyMessageDetails.reply_to_id == 0) {
+    if (replyMessageDetails.replyToId == 0) {
       return Container();
     } else {
       return Container(
@@ -253,7 +253,7 @@ class _VideoCardState extends State<VideoCard> {
         margin: EdgeInsets.only(bottom: 8),
         child: InkWell(
             onTap: () {
-              widget.callback(replyMessageDetails.reply_to_id!);
+              widget.callback(replyMessageDetails.replyToId!);
             },
             child: ReplyMessageWidget(
                 messageDetails: replyMessageDetails,

@@ -431,7 +431,7 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                                               List<XFile>? pickedFile =
                                                   await _picker
                                                       .pickMultiImage();
-                                              if (pickedFile != null) {
+                                              if (pickedFile.isNotEmpty) {
                                                 setState(() {
                                                   for (XFile element
                                                       in pickedFile) {

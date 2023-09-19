@@ -227,10 +227,10 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
 
       if (result.isSuccess) {
         //save into hive
-        var di_result = await authRepo.getUserRegisteredDI2(
+        var diResult = await authRepo.getUserRegisteredDI2(
             context: context, merchantId: merchantId);
-        if (di_result.isSuccess) {
-          print(di_result.data.length);
+        if (diResult.isSuccess) {
+          print(diResult.data.length);
         }
         var createChatSupportResult =
             await chatRoomRepo.createChatSupportByMember();
@@ -244,10 +244,10 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
           List<RoomMembers> roomMembers =
               await dbHelper.getRoomMembersList(getCreateRoomResponse.roomId!);
           roomMembers.forEach((roomMember) {
-            if (userid != roomMember.user_id) {
+            if (userid != roomMember.userId) {
               var inviteUserToRoomJson = {
                 "invitedRoomId": getCreateRoomResponse.roomId!,
-                "invitedUserId": roomMember.user_id
+                "invitedUserId": roomMember.userId
               };
               socket.emitWithAck('inviteUserToRoom', inviteUserToRoomJson,
                   ack: (data) {

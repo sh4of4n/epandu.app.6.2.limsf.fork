@@ -106,11 +106,7 @@ class _ChatHome2State extends State<ChatHome2> {
   bool isReplying = false;
   late final ValueChanged<ReplyMessageDetails> onSwipedMessage;
   ReplyMessageDetails replyMessageDetails = ReplyMessageDetails(
-      msg_body: '',
-      reply_to_id: 0,
-      nick_name: '',
-      filePath: '',
-      binaryType: '');
+      msgBody: '', replyToId: 0, nickName: '', filePath: '', binaryType: '');
   TextEditingController searcheditingController = TextEditingController();
   List<MessageDetails> _selectedItems = [];
   bool isMultiSelectionEnabled = false;
@@ -256,13 +252,13 @@ class _ChatHome2State extends State<ChatHome2> {
             //     element.msg_body!.toLowerCase() == keyword.toLowerCase())
             // .toList();
             .where((element) =>
-                element.room_id == widget.roomId &&
-                element.msg_body!.toLowerCase().contains(keyword.toLowerCase()))
+                element.roomId == widget.roomId &&
+                element.msgBody!.toLowerCase().contains(keyword.toLowerCase()))
             .toList();
         currentIndex = -1;
 
         list.forEach((message) {
-          filteredMessages.add(message.message_id!);
+          filteredMessages.add(message.messageId!);
         });
         break;
       }
@@ -276,12 +272,12 @@ class _ChatHome2State extends State<ChatHome2> {
           //     element.msg_body!.toLowerCase() == keyword.toLowerCase())
           // .toList();
           .where((element) =>
-              element.room_id == widget.roomId &&
-              element.msg_body!.toLowerCase().contains(keyword.toLowerCase()))
+              element.roomId == widget.roomId &&
+              element.msgBody!.toLowerCase().contains(keyword.toLowerCase()))
           .toList();
       currentIndex = -1;
       list.forEach((message) {
-        filteredMessages.add(message.message_id!);
+        filteredMessages.add(message.messageId!);
       });
     }
     //await EasyLoading.dismiss();
@@ -299,13 +295,13 @@ class _ChatHome2State extends State<ChatHome2> {
             .watch<ChatHistory>()
             .getMessageDetailsList
             .where((element) =>
-                element.room_id == widget.roomId &&
+                element.roomId == widget.roomId &&
                 element.msgStatus == "UNREAD" &&
-                element.message_id != 0)
+                element.messageId != 0)
             .toList();
 
         mylist.forEach((messageDetails) {
-          updateMessageReadBy(messageDetails.message_id.toString(),
+          updateMessageReadBy(messageDetails.messageId.toString(),
               this.localUserid, widget.roomId);
         });
         getReadByChatHistory();
@@ -316,14 +312,14 @@ class _ChatHome2State extends State<ChatHome2> {
   void getReadByChatHistory() {
     List<MessageDetails> getUnreadMessageDetailsList = getMessageDetailsList
         .where((element) =>
-            element.user_id == localUserid &&
-            element.room_id == widget.roomId &&
+            element.userId == localUserid &&
+            element.roomId == widget.roomId &&
             element.msgStatus == 'SENT')
         .toList();
     if (getUnreadMessageDetailsList.length > 0) {
       getUnreadMessageDetailsList.forEach((MessageDetails messageDetails) {
-        if (messageDetails.message_id.toString() != '') {
-          getMessageReadBy(messageDetails.message_id!, widget.roomId);
+        if (messageDetails.messageId.toString() != '') {
+          getMessageReadBy(messageDetails.messageId!, widget.roomId);
         }
       });
     }
@@ -393,7 +389,7 @@ class _ChatHome2State extends State<ChatHome2> {
                           Expanded(
                             child: Column(
                               children: [
-                                if (replyMessageDetails.reply_to_id! > 0)
+                                if (replyMessageDetails.replyToId! > 0)
                                   buildReply(replyMessageDetails),
                                 if (isAudioRecording) buildConfirmAudio(),
                                 Container(
@@ -644,7 +640,7 @@ class _ChatHome2State extends State<ChatHome2> {
       child: Consumer<ChatHistory>(
         builder: (ctx, msgList, child) => ScrollablePositionedList.builder(
           itemCount: msgList.getMessageDetailsList
-              .where((element) => element.room_id == widget.roomId)
+              .where((element) => element.roomId == widget.roomId)
               .toList()
               .length,
           shrinkWrap: true,
@@ -666,29 +662,28 @@ class _ChatHome2State extends State<ChatHome2> {
             if (index >= 0) {
               ReplyMessageDetails existingReplayMessageDetails =
                   ReplyMessageDetails(
-                      reply_to_id: 0,
-                      msg_body: '',
-                      nick_name: '',
+                      replyToId: 0,
+                      msgBody: '',
+                      nickName: '',
                       filePath: '',
                       binaryType: '');
 
               getMessageDetailsList = msgList.getMessageDetailsList
-                  .where((element) => element.room_id == widget.roomId)
+                  .where((element) => element.roomId == widget.roomId)
                   .toList()
                   .reversed
                   .toList();
 
-              int replyId = getMessageDetailsList[index].reply_to_id!;
-              if (getMessageDetailsList[index].reply_to_id! > 0) {
+              int replyId = getMessageDetailsList[index].replyToId!;
+              if (getMessageDetailsList[index].replyToId! > 0) {
                 int index = getMessageDetailsList
-                    .indexWhere((element) => element.message_id == replyId);
+                    .indexWhere((element) => element.messageId == replyId);
                 if (index > 0) {
                   MessageDetails msgDetails = getMessageDetailsList[index];
-                  existingReplayMessageDetails.reply_to_id =
-                      msgDetails.message_id;
-                  existingReplayMessageDetails.nick_name = msgDetails.nick_name;
+                  existingReplayMessageDetails.replyToId = msgDetails.messageId;
+                  existingReplayMessageDetails.nickName = msgDetails.nickName;
                   existingReplayMessageDetails.filePath = msgDetails.filePath;
-                  existingReplayMessageDetails.msg_body = msgDetails.msg_body;
+                  existingReplayMessageDetails.msgBody = msgDetails.msgBody;
                 }
               }
 
@@ -698,9 +693,9 @@ class _ChatHome2State extends State<ChatHome2> {
                 child: InkWell(
                     onLongPress: () {
                       if (!isSearching &&
-                          getMessageDetailsList[index].msg_binaryType !=
+                          getMessageDetailsList[index].msgBinaryType !=
                               'userLeft' &&
-                          getMessageDetailsList[index].msg_binaryType !=
+                          getMessageDetailsList[index].msgBinaryType !=
                               'userJoined') {
                         isMultiSelectionEnabled = true;
                         doMultiSelectionItem(getMessageDetailsList[index]);
@@ -716,57 +711,54 @@ class _ChatHome2State extends State<ChatHome2> {
                     },
                     child: Stack(
                       alignment:
-                          getMessageDetailsList[index].user_id == localUserid
+                          getMessageDetailsList[index].userId == localUserid
                               ? Alignment.centerRight
                               : Alignment.centerLeft,
                       children: [
                         Column(
                           children: [
-                            if (getMessageDetailsList[index].msg_binaryType ==
+                            if (getMessageDetailsList[index].msgBinaryType ==
                                 "image") ...[
                               SwipeTo(
                                   onLeftSwipe: () {
                                     replyToMessage(
-                                        getMessageDetailsList[index].nick_name!,
+                                        getMessageDetailsList[index].nickName!,
                                         getMessageDetailsList[index].filePath!,
+                                        getMessageDetailsList[index].messageId!,
+                                        getMessageDetailsList[index].msgBody!,
                                         getMessageDetailsList[index]
-                                            .message_id!,
-                                        getMessageDetailsList[index].msg_body!,
-                                        getMessageDetailsList[index]
-                                            .msg_binaryType!);
+                                            .msgBinaryType!);
                                   },
                                   onRightSwipe: () {
                                     replyToMessage(
-                                        getMessageDetailsList[index].nick_name!,
+                                        getMessageDetailsList[index].nickName!,
                                         getMessageDetailsList[index].filePath!,
+                                        getMessageDetailsList[index].messageId!,
+                                        getMessageDetailsList[index].msgBody!,
                                         getMessageDetailsList[index]
-                                            .message_id!,
-                                        getMessageDetailsList[index].msg_body!,
-                                        getMessageDetailsList[index]
-                                            .msg_binaryType!);
+                                            .msgBinaryType!);
                                   },
                                   child: ImageCard(
                                     time: getMessageDetailsList[index]
-                                            .send_datetime ??
+                                            .sendDateTime ??
                                         '',
-                                    nickName: getMessageDetailsList[index]
-                                            .nick_name ??
-                                        '',
+                                    nickName:
+                                        getMessageDetailsList[index].nickName ??
+                                            '',
                                     text:
-                                        getMessageDetailsList[index].msg_body ??
+                                        getMessageDetailsList[index].msgBody ??
                                             '',
                                     filePath:
                                         getMessageDetailsList[index].filePath ??
                                             '',
-                                    user:
-                                        getMessageDetailsList[index].user_id ??
-                                            '',
+                                    user: getMessageDetailsList[index].userId ??
+                                        '',
                                     localUser: localUserid,
                                     msgStatus: getMessageDetailsList[index]
                                             .msgStatus ??
                                         '',
                                     messageId: getMessageDetailsList[index]
-                                            .message_id ??
+                                            .messageId ??
                                         0,
                                     replyMessageDetails:
                                         existingReplayMessageDetails,
@@ -775,51 +767,48 @@ class _ChatHome2State extends State<ChatHome2> {
                                     roomDesc: widget.roomDesc,
                                   ))
                             ] else if (getMessageDetailsList[index]
-                                    .msg_binaryType ==
+                                    .msgBinaryType ==
                                 "video") ...[
                               SwipeTo(
                                   onLeftSwipe: () {
                                     replyToMessage(
-                                        getMessageDetailsList[index].nick_name!,
+                                        getMessageDetailsList[index].nickName!,
                                         getMessageDetailsList[index].filePath!,
+                                        getMessageDetailsList[index].messageId!,
+                                        getMessageDetailsList[index].msgBody!,
                                         getMessageDetailsList[index]
-                                            .message_id!,
-                                        getMessageDetailsList[index].msg_body!,
-                                        getMessageDetailsList[index]
-                                            .msg_binaryType!);
+                                            .msgBinaryType!);
                                   },
                                   onRightSwipe: () {
                                     replyToMessage(
-                                        getMessageDetailsList[index].nick_name!,
+                                        getMessageDetailsList[index].nickName!,
                                         getMessageDetailsList[index].filePath!,
+                                        getMessageDetailsList[index].messageId!,
+                                        getMessageDetailsList[index].msgBody!,
                                         getMessageDetailsList[index]
-                                            .message_id!,
-                                        getMessageDetailsList[index].msg_body!,
-                                        getMessageDetailsList[index]
-                                            .msg_binaryType!);
+                                            .msgBinaryType!);
                                   },
                                   child: VideoCard(
                                     filePath:
                                         getMessageDetailsList[index].filePath ??
                                             '',
                                     time: getMessageDetailsList[index]
-                                            .send_datetime ??
+                                            .sendDateTime ??
                                         '',
                                     text:
-                                        getMessageDetailsList[index].msg_body ??
+                                        getMessageDetailsList[index].msgBody ??
                                             '',
-                                    nickName: getMessageDetailsList[index]
-                                            .nick_name ??
+                                    nickName:
+                                        getMessageDetailsList[index].nickName ??
+                                            '',
+                                    user: getMessageDetailsList[index].userId ??
                                         '',
-                                    user:
-                                        getMessageDetailsList[index].user_id ??
-                                            '',
                                     localUser: localUserid,
                                     msgStatus: getMessageDetailsList[index]
                                             .msgStatus ??
                                         '',
                                     messageId: getMessageDetailsList[index]
-                                            .message_id ??
+                                            .messageId ??
                                         0,
                                     replyMessageDetails:
                                         existingReplayMessageDetails,
@@ -828,51 +817,48 @@ class _ChatHome2State extends State<ChatHome2> {
                                     roomDesc: widget.roomDesc,
                                   ))
                             ] else if (getMessageDetailsList[index]
-                                    .msg_binaryType ==
+                                    .msgBinaryType ==
                                 "audio") ...[
                               SwipeTo(
                                   onLeftSwipe: () {
                                     replyToMessage(
-                                        getMessageDetailsList[index].nick_name!,
+                                        getMessageDetailsList[index].nickName!,
                                         getMessageDetailsList[index].filePath!,
+                                        getMessageDetailsList[index].messageId!,
+                                        getMessageDetailsList[index].msgBody!,
                                         getMessageDetailsList[index]
-                                            .message_id!,
-                                        getMessageDetailsList[index].msg_body!,
-                                        getMessageDetailsList[index]
-                                            .msg_binaryType!);
+                                            .msgBinaryType!);
                                   },
                                   onRightSwipe: () {
                                     replyToMessage(
-                                        getMessageDetailsList[index].nick_name!,
+                                        getMessageDetailsList[index].nickName!,
                                         getMessageDetailsList[index].filePath!,
+                                        getMessageDetailsList[index].messageId!,
+                                        getMessageDetailsList[index].msgBody!,
                                         getMessageDetailsList[index]
-                                            .message_id!,
-                                        getMessageDetailsList[index].msg_body!,
-                                        getMessageDetailsList[index]
-                                            .msg_binaryType!);
+                                            .msgBinaryType!);
                                   },
                                   child: AudioCard(
-                                    nickName: getMessageDetailsList[index]
-                                            .nick_name ??
-                                        '',
+                                    nickName:
+                                        getMessageDetailsList[index].nickName ??
+                                            '',
                                     text:
-                                        getMessageDetailsList[index].msg_body ??
+                                        getMessageDetailsList[index].msgBody ??
                                             '',
                                     time: getMessageDetailsList[index]
-                                            .send_datetime ??
+                                            .sendDateTime ??
                                         '',
                                     filePath:
                                         getMessageDetailsList[index].filePath ??
                                             '',
-                                    user:
-                                        getMessageDetailsList[index].user_id ??
-                                            '',
+                                    user: getMessageDetailsList[index].userId ??
+                                        '',
                                     localUser: localUserid,
                                     msgStatus: getMessageDetailsList[index]
                                             .msgStatus ??
                                         '',
                                     messageId: getMessageDetailsList[index]
-                                            .message_id ??
+                                            .messageId ??
                                         0,
                                     replyMessageDetails:
                                         existingReplayMessageDetails,
@@ -881,51 +867,48 @@ class _ChatHome2State extends State<ChatHome2> {
                                     roomDesc: widget.roomDesc,
                                   ))
                             ] else if (getMessageDetailsList[index]
-                                    .msg_binaryType ==
+                                    .msgBinaryType ==
                                 "file") ...[
                               SwipeTo(
                                   onLeftSwipe: () {
                                     replyToMessage(
-                                        getMessageDetailsList[index].nick_name!,
+                                        getMessageDetailsList[index].nickName!,
                                         getMessageDetailsList[index].filePath!,
+                                        getMessageDetailsList[index].messageId!,
+                                        getMessageDetailsList[index].msgBody!,
                                         getMessageDetailsList[index]
-                                            .message_id!,
-                                        getMessageDetailsList[index].msg_body!,
-                                        getMessageDetailsList[index]
-                                            .msg_binaryType!);
+                                            .msgBinaryType!);
                                   },
                                   onRightSwipe: () {
                                     replyToMessage(
-                                        getMessageDetailsList[index].nick_name!,
+                                        getMessageDetailsList[index].nickName!,
                                         getMessageDetailsList[index].filePath!,
+                                        getMessageDetailsList[index].messageId!,
+                                        getMessageDetailsList[index].msgBody!,
                                         getMessageDetailsList[index]
-                                            .message_id!,
-                                        getMessageDetailsList[index].msg_body!,
-                                        getMessageDetailsList[index]
-                                            .msg_binaryType!);
+                                            .msgBinaryType!);
                                   },
                                   child: FileCard(
-                                    nickName: getMessageDetailsList[index]
-                                            .nick_name ??
-                                        '',
+                                    nickName:
+                                        getMessageDetailsList[index].nickName ??
+                                            '',
                                     text:
-                                        getMessageDetailsList[index].msg_body ??
+                                        getMessageDetailsList[index].msgBody ??
                                             '',
                                     time: getMessageDetailsList[index]
-                                            .send_datetime ??
+                                            .sendDateTime ??
                                         '',
                                     filePath:
                                         getMessageDetailsList[index].filePath ??
                                             '',
-                                    user:
-                                        getMessageDetailsList[index].user_id ??
-                                            '',
+                                    user: getMessageDetailsList[index].userId ??
+                                        '',
                                     localUser: localUserid,
                                     msgStatus: getMessageDetailsList[index]
                                             .msgStatus ??
                                         '',
                                     messageId: getMessageDetailsList[index]
-                                            .message_id ??
+                                            .messageId ??
                                         0,
                                     replyMessageDetails:
                                         existingReplayMessageDetails,
@@ -934,9 +917,9 @@ class _ChatHome2State extends State<ChatHome2> {
                                     roomDesc: widget.roomDesc,
                                   ))
                             ] else if (getMessageDetailsList[index]
-                                        .msg_binaryType ==
+                                        .msgBinaryType ==
                                     "userLeft" ||
-                                getMessageDetailsList[index].msg_binaryType ==
+                                getMessageDetailsList[index].msgBinaryType ==
                                     "userJoined") ...[
                               UserLeftJoinedCard(
                                 messageDetails: getMessageDetailsList[index],
@@ -944,48 +927,45 @@ class _ChatHome2State extends State<ChatHome2> {
                             ] else ...[
                               SwipeTo(
                                   iconOnLeftSwipe:
-                                      getMessageDetailsList[index].user_id ==
+                                      getMessageDetailsList[index].userId ==
                                               localUserid
                                           ? Icons.edit
                                           : Icons.reply_sharp,
                                   iconSize: 30,
                                   iconColor: Colors.blue,
                                   onLeftSwipe: () {
-                                    if (getMessageDetailsList[index].user_id ==
+                                    if (getMessageDetailsList[index].userId ==
                                         localUserid) {
                                       editingController.text =
-                                          getMessageDetailsList[index]
-                                              .msg_body!;
+                                          getMessageDetailsList[index].msgBody!;
 
                                       setState(() {
                                         updateStatus = true;
                                         updateMessageId =
                                             getMessageDetailsList[index]
-                                                .message_id!;
+                                                .messageId!;
                                       });
                                     } else {
                                       replyToMessage(
                                           getMessageDetailsList[index]
-                                              .nick_name!,
+                                              .nickName!,
                                           getMessageDetailsList[index]
                                               .filePath!,
                                           getMessageDetailsList[index]
-                                              .message_id!,
+                                              .messageId!,
+                                          getMessageDetailsList[index].msgBody!,
                                           getMessageDetailsList[index]
-                                              .msg_body!,
-                                          getMessageDetailsList[index]
-                                              .msg_binaryType!);
+                                              .msgBinaryType!);
                                     }
                                   },
                                   onRightSwipe: () {
                                     replyToMessage(
-                                        getMessageDetailsList[index].nick_name!,
+                                        getMessageDetailsList[index].nickName!,
                                         getMessageDetailsList[index].filePath!,
+                                        getMessageDetailsList[index].messageId!,
+                                        getMessageDetailsList[index].msgBody!,
                                         getMessageDetailsList[index]
-                                            .message_id!,
-                                        getMessageDetailsList[index].msg_body!,
-                                        getMessageDetailsList[index]
-                                            .msg_binaryType!);
+                                            .msgBinaryType!);
                                   },
                                   child: MessageCard(
                                     messageDetails:
@@ -997,27 +977,31 @@ class _ChatHome2State extends State<ChatHome2> {
                                     callback: tapListitem,
                                     resendCallback: tapResend,
                                     roomDesc: widget.roomDesc,
+                                    searchKey: _desiredItemIndex == index &&
+                                            isSearching
+                                        ? searcheditingController.text
+                                        : '',
+                                    isSearching: isSearching,
                                   ))
                             ]
                           ],
                         ),
                         Visibility(
                             visible: isMultiSelectionEnabled,
-                            child:
-                                getMessageDetailsList[index].msg_binaryType !=
-                                            'userLeft' &&
-                                        getMessageDetailsList[index]
-                                                .msg_binaryType !=
-                                            'userJoined'
-                                    ? Icon(
-                                        _selectedItems.contains(
-                                                getMessageDetailsList[index])
-                                            ? Icons.check_circle
-                                            : Icons.radio_button_unchecked,
-                                        size: 30,
-                                        color: Colors.blue,
-                                      )
-                                    : Text(''))
+                            child: getMessageDetailsList[index].msgBinaryType !=
+                                        'userLeft' &&
+                                    getMessageDetailsList[index]
+                                            .msgBinaryType !=
+                                        'userJoined'
+                                ? Icon(
+                                    _selectedItems.contains(
+                                            getMessageDetailsList[index])
+                                        ? Icons.check_circle
+                                        : Icons.radio_button_unchecked,
+                                    size: 30,
+                                    color: Colors.blue,
+                                  )
+                                : Text(''))
                       ],
                     )),
               );
@@ -1075,7 +1059,7 @@ class _ChatHome2State extends State<ChatHome2> {
               builder: (BuildContext context) {
                 return AlertDialog(
                   content: Text(
-                      "Are you sure you want to delete ${messageDetails.msg_body}?"),
+                      "Are you sure you want to delete ${messageDetails.msgBody}?"),
                   actions: <Widget>[
                     TextButton(
                       child: Text(
@@ -1095,7 +1079,7 @@ class _ChatHome2State extends State<ChatHome2> {
                         setState(() {
                           //itemsList.removeAt(index);
                           deleteChatMessage(
-                              messageDetails.message_id!, '', widget.roomId);
+                              messageDetails.messageId!, '', widget.roomId);
                         });
 
                         Navigator.of(context).pop();
@@ -1105,11 +1089,11 @@ class _ChatHome2State extends State<ChatHome2> {
                 );
               });
         } else {
-          editingController.text = messageDetails.msg_body!;
+          editingController.text = messageDetails.msgBody!;
 
           setState(() {
             updateStatus = true;
-            updateMessageId = messageDetails.message_id!;
+            updateMessageId = messageDetails.messageId!;
           });
         }
       },
@@ -1153,7 +1137,7 @@ class _ChatHome2State extends State<ChatHome2> {
                                       _selectedItems.forEach(
                                           (MessageDetails messageDetails) {
                                         deleteChatMessage(
-                                            messageDetails.message_id!,
+                                            messageDetails.messageId!,
                                             'FORME',
                                             widget.roomId);
                                       });
@@ -1162,7 +1146,7 @@ class _ChatHome2State extends State<ChatHome2> {
                                       _selectedItems.forEach(
                                           (MessageDetails messageDetails) {
                                         deleteChatMessage(
-                                            messageDetails.message_id!,
+                                            messageDetails.messageId!,
                                             'EVERYONE',
                                             widget.roomId);
                                       });
@@ -1188,7 +1172,7 @@ class _ChatHome2State extends State<ChatHome2> {
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               title: Text(
                 selectedItems.length == 1
-                    ? 'Delete Message From ${selectedItems[0].nick_name}?'
+                    ? 'Delete Message From ${selectedItems[0].nickName}?'
                     : 'Delete ${selectedItems.length} Messages?',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
@@ -1214,7 +1198,7 @@ class _ChatHome2State extends State<ChatHome2> {
                   onPressed: () {
                     _selectedItems.forEach((MessageDetails messageDetails) {
                       deleteChatMessage(
-                          messageDetails.message_id!, 'FORME', widget.roomId);
+                          messageDetails.messageId!, 'FORME', widget.roomId);
                     });
                     Navigator.of(context).pop();
                     setState(() {
@@ -1233,9 +1217,9 @@ class _ChatHome2State extends State<ChatHome2> {
       String binaryType) {
     focusNode.requestFocus();
     replyMessageDetails = ReplyMessageDetails(
-        msg_body: message,
-        reply_to_id: messageId,
-        nick_name: name,
+        msgBody: message,
+        replyToId: messageId,
+        nickName: name,
         filePath: path,
         binaryType: binaryType);
 
@@ -1246,11 +1230,7 @@ class _ChatHome2State extends State<ChatHome2> {
 
   void cancelReply() {
     replyMessageDetails = ReplyMessageDetails(
-        msg_body: '',
-        reply_to_id: 0,
-        nick_name: '',
-        filePath: '',
-        binaryType: '');
+        msgBody: '', replyToId: 0, nickName: '', filePath: '', binaryType: '');
 
     setState(() {
       replyMessageDetails = replyMessageDetails;
@@ -1259,7 +1239,7 @@ class _ChatHome2State extends State<ChatHome2> {
 
   void tapListitem(int messageId) {
     int index = getMessageDetailsList
-        .indexWhere((element) => element.message_id == messageId);
+        .indexWhere((element) => element.messageId == messageId);
     itemScrollController.scrollTo(
         index: index,
         duration: Duration(seconds: 2),
@@ -1276,7 +1256,7 @@ class _ChatHome2State extends State<ChatHome2> {
 
   void tapResend(int messageId) {
     List<MessageDetails> list = getMessageDetailsList
-        .where((element) => element.message_id == messageId)
+        .where((element) => element.messageId == messageId)
         .toList();
     Future.delayed(Duration(milliseconds: 500), () {
       itemScrollController.scrollTo(
@@ -1285,7 +1265,7 @@ class _ChatHome2State extends State<ChatHome2> {
           curve: Curves.easeInOutCubic);
     });
     setState(() {
-      editingController.text = list[0].msg_body!;
+      editingController.text = list[0].msgBody!;
     });
   }
 
@@ -1314,9 +1294,9 @@ class _ChatHome2State extends State<ChatHome2> {
   _getAppBarMembers() async {
     roomMembers = await dbHelper.getRoomMembersList(widget.roomId);
     for (var roomMembers in roomMembers) {
-      if (roomMembers.user_id != localUserid)
+      if (roomMembers.userId != localUserid)
         members += CapitalizeFirstLetter()
-                .capitalizeFirstLetter(roomMembers.nick_name!) +
+                .capitalizeFirstLetter(roomMembers.nickName!) +
             ",";
     }
     setState(() {
@@ -1324,7 +1304,7 @@ class _ChatHome2State extends State<ChatHome2> {
         members = members.substring(0, members.length - 1);
 
       membersCount = roomMembers.length;
-      if (membersCount > 0) roomName = roomMembers[0].room_name!;
+      if (membersCount > 0) roomName = roomMembers[0].roomName!;
     });
   }
 
@@ -1335,7 +1315,7 @@ class _ChatHome2State extends State<ChatHome2> {
           if (currentIndex < filteredMessages.length - 1) {
             currentIndex++;
             int index = getMessageDetailsList.indexWhere((element) =>
-                element.message_id == filteredMessages[currentIndex]);
+                element.messageId == filteredMessages[currentIndex]);
             _desiredItemIndex = index;
 
             itemScrollController.scrollTo(
@@ -1345,7 +1325,7 @@ class _ChatHome2State extends State<ChatHome2> {
           } else {
             currentIndex = 0;
             int index = getMessageDetailsList.indexWhere((element) =>
-                element.message_id == filteredMessages[currentIndex]);
+                element.messageId == filteredMessages[currentIndex]);
             _desiredItemIndex = index;
 
             itemScrollController.scrollTo(
@@ -1357,7 +1337,7 @@ class _ChatHome2State extends State<ChatHome2> {
           if (currentIndex > 0) {
             currentIndex--;
             int index = getMessageDetailsList.indexWhere((element) =>
-                element.message_id == filteredMessages[currentIndex]);
+                element.messageId == filteredMessages[currentIndex]);
             _desiredItemIndex = index;
             itemScrollController.scrollTo(
                 index: index,
@@ -1366,7 +1346,7 @@ class _ChatHome2State extends State<ChatHome2> {
           } else {
             currentIndex = filteredMessages.length - 1;
             int index = getMessageDetailsList.indexWhere((element) =>
-                element.message_id == filteredMessages[currentIndex]);
+                element.messageId == filteredMessages[currentIndex]);
             _desiredItemIndex = index;
             itemScrollController.scrollTo(
                 index: index,
@@ -1773,7 +1753,7 @@ class _ChatHome2State extends State<ChatHome2> {
               ),
               onPressed: () {
                 var contain = _selectedItems
-                    .where((element) => element.user_id != localUserid);
+                    .where((element) => element.userId != localUserid);
                 if (contain.length > 0) {
                   deleteConfirmation(_selectedItems, '');
                 } else {
@@ -1896,10 +1876,10 @@ class _ChatHome2State extends State<ChatHome2> {
                     List<RoomMembers> roomMembers =
                         await dbHelper.getRoomMembersList(widget.roomId);
                     roomMembers.forEach((roomMember) {
-                      if (localUserid != roomMember.user_id) {
+                      if (localUserid != roomMember.userId) {
                         var leaveGroupJson = {
                           "notifiedRoomId": widget.roomId,
-                          "notifiedUserId": roomMember.user_id,
+                          "notifiedUserId": roomMember.userId,
                           "title": localUserName + " just left the room",
                           "description":
                               localUserid + " just left the room_" + roomId
@@ -1989,7 +1969,7 @@ class _ChatHome2State extends State<ChatHome2> {
     if (type == 'FORME') {
       List<MessageDetails> list = getMessageDetailsList
           .where((element) =>
-              element.message_id == messageId && element.filePath != '')
+              element.messageId == messageId && element.filePath != '')
           .toList();
 
       if (list.length > 0) {
@@ -2010,7 +1990,7 @@ class _ChatHome2State extends State<ChatHome2> {
           if (result["messageId"] != '') {
             List<MessageDetails> list = getMessageDetailsList
                 .where((element) =>
-                    element.message_id == messageId && element.filePath != '')
+                    element.messageId == messageId && element.filePath != '')
                 .toList();
 
             if (list.length > 0) {
@@ -2067,7 +2047,7 @@ class _ChatHome2State extends State<ChatHome2> {
       var messageJson = {
         "roomId": widget.roomId,
         "msgBody": text,
-        "replyToId": replyMessageDetails.reply_to_id,
+        "replyToId": replyMessageDetails.replyToId,
         "clientMessageId": clientMessageId,
         "misc":
             "[FCM_Notification=title:" + roomName + ' - ' + localUserName + "]"
@@ -2084,7 +2064,7 @@ class _ChatHome2State extends State<ChatHome2> {
                 clientMessageId, "SENT", sendAcknowledge.messageId);
             if (myFailedList.length > 0) {
               int index = myFailedList.indexWhere(
-                  (element) => element.client_message_id == clientMessageId);
+                  (element) => element.clientMessageId == clientMessageId);
               if (index > -1) {
                 myFailedList.removeAt(index);
               }
@@ -2270,37 +2250,37 @@ class _ChatHome2State extends State<ChatHome2> {
     }
 
     MessageDetails messageDetails = MessageDetails(
-        room_id: widget.roomId,
-        user_id: localUserid,
-        app_id: appConfig.appId,
-        ca_uid: localCaUid,
-        device_id: deviceId,
-        msg_body: msgBody,
-        msg_binary: msgBinary,
-        msg_binaryType: msgBinaryType,
-        reply_to_id: replyMessageDetails.reply_to_id,
-        message_id: messageId,
-        read_by: '',
+        roomId: widget.roomId,
+        userId: localUserid,
+        appId: appConfig.appId,
+        caUid: localCaUid,
+        deviceId: deviceId,
+        msgBody: msgBody,
+        msgBinary: msgBinary,
+        msgBinaryType: msgBinaryType,
+        replyToId: replyMessageDetails.replyToId,
+        messageId: messageId,
+        readBy: '',
         status: '',
-        status_msg: '',
+        statusMsg: '',
         deleted: 0,
-        send_datetime: DateFormat("yyyy-MM-dd HH:mm:ss")
+        sendDateTime: DateFormat("yyyy-MM-dd HH:mm:ss")
             .format(DateTime.now().toLocal())
             .toString(),
-        edit_datetime: '',
-        delete_datetime: '',
+        editDateTime: '',
+        deleteDateTime: '',
         transtamp: '',
-        nick_name: nickName,
+        nickName: nickName,
         filePath: filePath,
-        owner_id: localUserid,
+        ownerId: localUserid,
         msgStatus: "SENDING",
-        client_message_id: clientMessageId,
+        clientMessageId: clientMessageId,
         roomName: widget.roomName);
     await dbHelper.saveMsgDetailTable(messageDetails);
     print('StoreFilePath:' + filePath);
     context.read<ChatHistory>().addChatHistory(messageDetail: messageDetails);
     context.read<RoomHistory>().updateRoomMessage(
-        roomId: messageDetails.room_id!, message: messageDetails.msg_body!);
+        roomId: messageDetails.roomId!, message: messageDetails.msgBody!);
     cancelReply();
   }
 
@@ -2322,7 +2302,7 @@ class _ChatHome2State extends State<ChatHome2> {
       "roomId": widget.roomId,
       "msgBody": message,
       "msgBinaryBuffer": base64string,
-      "replyToId": replyMessageDetails.reply_to_id,
+      "replyToId": replyMessageDetails.replyToId,
       "msgBinaryType": msgBinaryType,
       "clientMessageId": clientMessageId,
       "misc":
@@ -2340,7 +2320,7 @@ class _ChatHome2State extends State<ChatHome2> {
               clientMessageId, "SENT", sendAcknowledge.messageId);
           if (myFailedList.length > 0) {
             int index = myFailedList.indexWhere(
-                (element) => element.client_message_id == clientMessageId);
+                (element) => element.clientMessageId == clientMessageId);
             if (index > -1) {
               myFailedList.removeAt(index);
             }
@@ -2363,60 +2343,59 @@ class _ChatHome2State extends State<ChatHome2> {
     if (type != '') {
       myFailedList = getMessageDetailsList
           .where((element) =>
-              element.room_id == widget.roomId &&
+              element.roomId == widget.roomId &&
               element.msgStatus == "SENDING" &&
               DateTime.now()
-                      .difference(DateTime.parse(element.send_datetime!))
+                      .difference(DateTime.parse(element.sendDateTime!))
                       .inMinutes >
                   1)
           .toList();
     } else {
       myFailedList = getMessageDetailsList
           .where((element) =>
-              element.room_id == widget.roomId &&
-              element.msgStatus == "SENDING")
+              element.roomId == widget.roomId && element.msgStatus == "SENDING")
           .toList();
     }
 
     if (myFailedList.length > 0) {
       ReplyMessageDetails myreplayList = ReplyMessageDetails(
           binaryType: '',
-          msg_body: '',
-          reply_to_id: 0,
-          nick_name: '',
+          msgBody: '',
+          replyToId: 0,
+          nickName: '',
           filePath: '');
       myFailedList.forEach((messageDetails) async {
-        if (messageDetails.client_message_id.toString() != '' &&
+        if (messageDetails.clientMessageId.toString() != '' &&
             localUserid != '') {
-          if (messageDetails.reply_to_id! > 0) {
+          if (messageDetails.replyToId! > 0) {
             List<MessageDetails> replyList = getMessageDetailsList
-                .where((element) =>
-                    element.message_id == messageDetails.reply_to_id!)
+                .where(
+                    (element) => element.messageId == messageDetails.replyToId!)
                 .toList();
 
             myreplayList = ReplyMessageDetails(
-                binaryType: replyList[0].msg_binaryType,
-                msg_body: replyList[0].msg_body,
-                reply_to_id: replyList[0].reply_to_id,
-                nick_name: replyList[0].nick_name,
+                binaryType: replyList[0].msgBinaryType,
+                msgBody: replyList[0].msgBody,
+                replyToId: replyList[0].replyToId,
+                nickName: replyList[0].nickName,
                 filePath: replyList[0].filePath);
           }
 
-          if (messageDetails.msg_binaryType == '' ||
-              messageDetails.msg_binaryType == 'userLeft' ||
-              messageDetails.msg_binaryType == 'userJoined') {
-            sendMessage(messageDetails.msg_body!, "FailedMessages",
-                myreplayList, messageDetails.client_message_id!);
+          if (messageDetails.msgBinaryType == '' ||
+              messageDetails.msgBinaryType == 'userLeft' ||
+              messageDetails.msgBinaryType == 'userJoined') {
+            sendMessage(messageDetails.msgBody!, "FailedMessages", myreplayList,
+                messageDetails.clientMessageId!);
           } else {
             var bytes = await File(messageDetails.filePath!).readAsBytes();
             emitSendMessage(
                 messageDetails.filePath!.split('/').last,
                 base64.encode(bytes),
-                messageDetails.msg_binaryType!,
-                messageDetails.msg_body!,
+                messageDetails.msgBinaryType!,
+                messageDetails.msgBody!,
                 "FailedMessages",
                 myreplayList,
-                messageDetails.client_message_id!);
+                messageDetails.clientMessageId!);
           }
         }
       });
@@ -2434,7 +2413,7 @@ class _ChatHome2State extends State<ChatHome2> {
             await dbHelper.getRoomMemberName(result["userId"].toString());
         if (mounted) {
           setState(() {
-            this.members = roomMembersList[0].nick_name! + ' Is Typing';
+            this.members = roomMembersList[0].nickName! + ' Is Typing';
             duplicateMembers = duplicateMembers;
           });
         }
@@ -2708,7 +2687,7 @@ class _ChatHome2State extends State<ChatHome2> {
       }
       return file.path;
     } on Exception catch (exception) {
-      //print(exception);
+      print(exception);
     } catch (error) {
       //print(error);
     }

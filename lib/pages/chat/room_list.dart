@@ -269,10 +269,10 @@ class _RoomListState extends State<RoomList> {
                     List<RoomMembers> roomMembers =
                         await dbHelper.getRoomMembersList(roomId);
                     roomMembers.forEach((roomMember) {
-                      if (userid != roomMember.user_id) {
+                      if (userid != roomMember.userId) {
                         var leaveGroupJson = {
                           "notifiedRoomId": roomId,
-                          "notifiedUserId": roomMember.user_id,
+                          "notifiedUserId": roomMember.userId,
                           "title": name + " just left the room",
                           "description":
                               userid + " just left the room_" + roomId
@@ -427,7 +427,7 @@ class _RoomListState extends State<RoomList> {
               .getChatNotificationCountList;
           if (editingController.text.isEmpty) {
             return getCard(room, chatNotificationCount, index, itemColor);
-          } else if (room.room_name
+          } else if (room.roomName
                   ?.toLowerCase()
                   .contains(editingController.text) ==
               true) {
@@ -446,8 +446,8 @@ class _RoomListState extends State<RoomList> {
       int index,
       Color? itemColor) {
     String splitRoomName = '';
-    if (room.room_desc!.toUpperCase() == 'GROUP CHAT')
-      splitRoomName = room.room_name!;
+    if (room.roomDesc!.toUpperCase() == 'GROUP CHAT')
+      splitRoomName = room.roomName!;
     else {
       // if (room.room_name!.contains(','))
       //   splitRoomName = roomTitle.toUpperCase() !=
@@ -455,12 +455,12 @@ class _RoomListState extends State<RoomList> {
       //       ? room.room_name!.split(',')[0]
       //       : room.room_name!.split(',')[1];
       // else
-      splitRoomName = room.room_name!;
+      splitRoomName = room.roomName!;
     }
     //splitRoomName = room.room_name!;
     int badgeCount = 0;
     int chatCountIndex = chatNotificationCount
-        .indexWhere((element) => element.roomId == room.room_id);
+        .indexWhere((element) => element.roomId == room.roomId);
     if (chatCountIndex != -1) {
       ChatNotification chatNotification = chatNotificationCount[chatCountIndex];
       badgeCount = chatNotification.notificationBadge!;
@@ -472,8 +472,8 @@ class _RoomListState extends State<RoomList> {
           setState(() {
             _selectedIndex = index;
             _isSelected = true;
-            _selectedRoomId = room.room_id!;
-            _selectedRoomName = room.room_name!;
+            _selectedRoomId = room.roomId!;
+            _selectedRoomName = room.roomName!;
           });
         },
         tileColor: _selectedIndex == index ? Colors.blueAccent : null,
@@ -497,8 +497,8 @@ class _RoomListState extends State<RoomList> {
             child: Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: room.picture_path != null && room.picture_path != ''
-                    ? Image.network(room.picture_path!
+                child: room.picturePath != null && room.picturePath != ''
+                    ? Image.network(room.picturePath!
                         .replaceAll(removeBracket, '')
                         .split('\r\n')[0])
                     : Icon(Icons.account_circle),
@@ -534,19 +534,19 @@ class _RoomListState extends State<RoomList> {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontWeight: FontWeight.bold)),
             ),
-            if (room.send_datetime != null && room.send_datetime != '')
+            if (room.sendDateTime != null && room.sendDateTime != '')
               Text(DateFormatter().getDateTimeRepresentation(
-                  DateTime.parse(room.send_datetime!))),
+                  DateTime.parse(room.sendDateTime!))),
           ],
         ),
         subtitle: showLatestMessage(room),
         onTap: () async {
           String members = '';
           List<RoomMembers> roomMembers =
-              await dbHelper.getRoomMembersList(room.room_id!);
+              await dbHelper.getRoomMembersList(room.roomId!);
           for (var roomMembers in roomMembers) {
-            if (roomMembers.user_id != id)
-              members += roomMembers.nick_name!.toUpperCase() + ",";
+            if (roomMembers.userId != id)
+              members += roomMembers.nickName!.toUpperCase() + ",";
           }
           if (members != '') members = members.substring(0, members.length - 1);
 
@@ -554,10 +554,10 @@ class _RoomListState extends State<RoomList> {
             context,
             MaterialPageRoute(
               builder: (context) => ChatHome2(
-                roomId: room.room_id ?? '',
-                picturePath: room.picture_path ?? '',
+                roomId: room.roomId ?? '',
+                picturePath: room.picturePath ?? '',
                 roomName: splitRoomName,
-                roomDesc: room.room_desc ?? '',
+                roomDesc: room.roomDesc ?? '',
               ),
             ),
           );
@@ -668,25 +668,25 @@ class _RoomListState extends State<RoomList> {
   }
 
   Widget showLatestMessage(RoomHistoryModel room) {
-    if (room.message_id != null &&
-        room.message_id! > 0 &&
+    if (room.messageId != null &&
+        room.messageId! > 0 &&
         (room.filePath == '' || room.filePath == null)) {
       return Text(
-        room.nick_name! + ' : ' + room.msg_body!.trim().replaceAll('\n', ' '),
+        room.nickName! + ' : ' + room.msgBody!.trim().replaceAll('\n', ' '),
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
         softWrap: false,
       );
-    } else if (room.message_id != null &&
-        room.message_id! > 0 &&
-        (room.msg_binaryType != '' || room.msg_binaryType != null)) {
+    } else if (room.messageId != null &&
+        room.messageId! > 0 &&
+        (room.msgBinaryType != '' || room.msgBinaryType != null)) {
       return Text(
-        room.nick_name! + ' : ' + room.filePath!.split('/').last,
+        room.nickName! + ' : ' + room.filePath!.split('/').last,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
         softWrap: false,
       );
     }
-    return Text(room.room_desc!);
+    return Text(room.roomDesc!);
   }
 }
