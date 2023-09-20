@@ -81,7 +81,7 @@ class FileCard extends StatelessWidget {
                                 .capitalizeFirstLetter(nickName),
                             style: MyTheme.heading2.copyWith(fontSize: 13)),
                     filePath != ''
-                        ? replyMessageDetails.reply_to_id == 0
+                        ? replyMessageDetails.replyToId == 0
                             ? Container(
                                 alignment: Alignment.centerLeft,
                                 child: GestureDetector(
@@ -251,7 +251,7 @@ class FileCard extends StatelessWidget {
   }
 
   Widget buildReplyMessage(ReplyMessageDetails replyMessageDetails) {
-    if (replyMessageDetails.reply_to_id == 0) {
+    if (replyMessageDetails.replyToId == 0) {
       return Container();
     } else {
       return Container(
@@ -266,7 +266,7 @@ class FileCard extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 8),
         child: InkWell(
           onTap: () {
-            callback(replyMessageDetails.reply_to_id!);
+            callback(replyMessageDetails.replyToId!);
           },
           child: ReplyMessageWidget(
               messageDetails: replyMessageDetails,

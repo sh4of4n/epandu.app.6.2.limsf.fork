@@ -132,7 +132,7 @@ class _AudioCardState extends State<AudioCard> {
                             style: MyTheme.heading2.copyWith(fontSize: 13),
                           ),
                       widget.filePath != ''
-                          ? widget.replyMessageDetails.reply_to_id == 0
+                          ? widget.replyMessageDetails.replyToId == 0
                               ? Container(
                                   height: 50,
                                   alignment: Alignment.centerLeft,
@@ -333,7 +333,7 @@ class _AudioCardState extends State<AudioCard> {
   }
 
   Widget buildReplyMessage(ReplyMessageDetails replyMessageDetails) {
-    if (replyMessageDetails.reply_to_id == 0) {
+    if (replyMessageDetails.replyToId == 0) {
       return Container();
     } else {
       return Container(
@@ -348,7 +348,7 @@ class _AudioCardState extends State<AudioCard> {
         margin: EdgeInsets.only(bottom: 8),
         child: InkWell(
           onTap: () {
-            widget.callback(replyMessageDetails.reply_to_id!);
+            widget.callback(replyMessageDetails.replyToId!);
           },
           child: ReplyMessageWidget(
               messageDetails: replyMessageDetails,

@@ -1,11 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:epandu/common_library/services/model/favourite_model.dart';
 import 'package:epandu/common_library/services/repository/favourite_repository.dart';
-import 'package:epandu/common_library/services/response.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +23,8 @@ class FavouritePlaceListPage extends StatefulWidget {
 class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
     with AutomaticKeepAliveClientMixin {
   late GoogleMapController mapController;
-  double _lat = 3.139003;
-  double _lng = 101.68685499999992;
+  // double _lat = 3.139003;
+  // double _lng = 101.68685499999992;
   final favouriteRepo = FavouriteRepo();
   Future? favPlaceFuture;
   Map<String, Future> favPlacePictureFuture = {};

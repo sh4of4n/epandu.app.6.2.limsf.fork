@@ -91,7 +91,7 @@ class ImageCard extends StatelessWidget {
                         //height: 200,
                         // width: 200,
                         child: filePath != ''
-                            ? replyMessageDetails.reply_to_id == 0
+                            ? replyMessageDetails.replyToId == 0
                                 ? FullScreenWidget(
                                     child: Center(
                                     child: Hero(
@@ -191,7 +191,7 @@ class ImageCard extends StatelessWidget {
   }
 
   Widget buildReplyMessage(ReplyMessageDetails replyMessageDetails) {
-    if (replyMessageDetails.reply_to_id == 0) {
+    if (replyMessageDetails.replyToId == 0) {
       return Container();
     } else {
       return Container(
@@ -206,7 +206,7 @@ class ImageCard extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 8),
         child: InkWell(
           onTap: () {
-            callback(replyMessageDetails.reply_to_id!);
+            callback(replyMessageDetails.replyToId!);
           },
           child: ReplyMessageWidget(
               messageDetails: replyMessageDetails,

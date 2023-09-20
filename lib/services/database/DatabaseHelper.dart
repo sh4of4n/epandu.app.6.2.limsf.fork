@@ -775,36 +775,36 @@ class DatabaseHelper {
   Future<int> saveRoomTable(Room room) async {
     Database db = await instance.database;
     String? userId = await localStorage.getUserId();
-    String roomId = room.room_id!;
+    String roomId = room.roomId!;
     var res = await db.rawQuery(
         "Select room_id from $M_ROOM_TABLE where room_id = '$roomId'");
     List<Room> list =
         res.isNotEmpty ? res.map((m) => Room.fromJson(m)).toList() : [];
     if (list.length == 0) {
-      print('RoomId_' + room.room_id!);
+      print('RoomId_' + room.roomId!);
       return await db.insert(M_ROOM_TABLE, {
-        'ID': room.ID,
-        'room_id': room.room_id,
-        'app_code': room.app_code,
-        'merchant_user_id': room.merchant_user_id,
-        'merchant_login_id': room.merchant_login_id,
-        'merchant_nick_name': room.merchant_nick_name,
-        'user_id': room.user_id,
-        'login_id': room.login_id,
-        'member_nick_name': room.member_nick_name,
-        'room_name': room.room_name,
-        'room_desc': room.room_desc,
-        'create_user': room.create_user,
-        'create_date': room.create_date,
-        'edit_user': room.edit_user,
-        'edit_date': room.edit_date,
-        'row_key': room.row_key,
+        'ID': room.id,
+        'room_id': room.roomId,
+        'app_code': room.appCode,
+        'merchant_user_id': room.merchantUserId,
+        'merchant_login_id': room.merchantLoginId,
+        'merchant_nick_name': room.merchantNickName,
+        'user_id': room.userId,
+        'login_id': room.loginId,
+        'member_nick_name': room.memberNickName,
+        'room_name': room.roomName,
+        'room_desc': room.roomDesc,
+        'create_user': room.createUser,
+        'create_date': room.createDate,
+        'edit_user': room.editUser,
+        'edit_date': room.editDate,
+        'row_key': room.rowKey,
         'transtamp': room.transtamp,
         'deleted': room.deleted,
-        'photo_filename': room.photo_filename,
-        'profile_photo': room.profile_photo,
-        'merchant_no': room.merchant_no,
-        'picture_path': room.picture_path,
+        'photo_filename': room.photoFileName,
+        'profile_photo': room.profilePhoto,
+        'merchant_no': room.merchantNo,
+        'picture_path': room.picturePath,
         'owner_id': userId
       });
     } else
@@ -850,30 +850,30 @@ class DatabaseHelper {
 
   Future<int> saveRoomMembersTable(RoomMembers roomMembers) async {
     Database db = await instance.database;
-    String roomId = roomMembers.room_id!;
-    String roomMemberId = roomMembers.user_id!;
+    String roomId = roomMembers.roomId!;
+    String roomMemberId = roomMembers.userId!;
     var res = await db.rawQuery(
         "Select room_id from $M_ROOM_MEMBERS_TABLE where room_id = '$roomId' AND user_id = '$roomMemberId' ");
     List<RoomMembers> list =
         res.isNotEmpty ? res.map((m) => RoomMembers.fromJson(m)).toList() : [];
     if (list.length == 0) {
       return await db.insert(M_ROOM_MEMBERS_TABLE, {
-        'ID': roomMembers.ID,
-        'room_id': roomMembers.room_id,
-        'app_code': roomMembers.app_code,
-        'user_id': roomMembers.user_id,
-        'login_id': roomMembers.login_id,
-        'user_type': roomMembers.user_type,
-        'create_user': roomMembers.create_user,
-        'create_date': roomMembers.create_date,
-        'edit_user': roomMembers.edit_user,
-        'edit_date': roomMembers.edit_date,
-        'row_key': roomMembers.row_key,
+        'ID': roomMembers.id,
+        'room_id': roomMembers.roomId,
+        'app_code': roomMembers.appCode,
+        'user_id': roomMembers.userId,
+        'login_id': roomMembers.loginId,
+        'user_type': roomMembers.userType,
+        'create_user': roomMembers.createUser,
+        'create_date': roomMembers.createDate,
+        'edit_user': roomMembers.editUser,
+        'edit_date': roomMembers.editDate,
+        'row_key': roomMembers.rowKey,
         'transtamp': roomMembers.transtamp,
         'deleted': roomMembers.deleted,
-        'merchant_no': roomMembers.merchant_no,
-        'nick_name': roomMembers.nick_name,
-        'picture_path': roomMembers.picture_path
+        'merchant_no': roomMembers.merchantNo,
+        'nick_name': roomMembers.nickName,
+        'picture_path': roomMembers.picturePath
       });
     } else
       return 0;
@@ -986,29 +986,29 @@ class DatabaseHelper {
     //     : [];
     // if (list.length == 0)
     return await db.insert(M_MSG_DETAIL_TABLE, {
-      'room_id': messageDetails.room_id,
-      'user_id': messageDetails.user_id,
-      'app_id': messageDetails.app_id,
-      'ca_uid': messageDetails.ca_uid,
-      'device_id': messageDetails.device_id,
-      'msg_body': messageDetails.msg_body,
-      'msg_binary': messageDetails.msg_binary,
-      'msg_binaryType': messageDetails.msg_binaryType,
-      'reply_to_id': messageDetails.reply_to_id,
-      'message_id': messageDetails.message_id,
-      'read_by': messageDetails.read_by,
+      'room_id': messageDetails.roomId,
+      'user_id': messageDetails.userId,
+      'app_id': messageDetails.appId,
+      'ca_uid': messageDetails.caUid,
+      'device_id': messageDetails.deviceId,
+      'msg_body': messageDetails.msgBody,
+      'msg_binary': messageDetails.msgBinary,
+      'msg_binaryType': messageDetails.msgBinaryType,
+      'reply_to_id': messageDetails.replyToId,
+      'message_id': messageDetails.messageId,
+      'read_by': messageDetails.readBy,
       'status': messageDetails.status,
-      'status_msg': messageDetails.status_msg,
+      'status_msg': messageDetails.statusMsg,
       'deleted': messageDetails.deleted,
-      'send_datetime': messageDetails.send_datetime,
-      'edit_datetime': messageDetails.edit_datetime,
-      'delete_datetime': messageDetails.delete_datetime,
+      'send_datetime': messageDetails.sendDateTime,
+      'edit_datetime': messageDetails.editDateTime,
+      'delete_datetime': messageDetails.deleteDateTime,
       'transtamp': messageDetails.transtamp,
       'filePath': messageDetails.filePath,
-      'owner_id': messageDetails.owner_id,
+      'owner_id': messageDetails.ownerId,
       'msgStatus': messageDetails.msgStatus,
-      'clientMessageId': messageDetails.client_message_id,
-      'nickName': messageDetails.nick_name,
+      'clientMessageId': messageDetails.clientMessageId,
+      'nickName': messageDetails.nickName,
     });
     // else
     //   return 0;

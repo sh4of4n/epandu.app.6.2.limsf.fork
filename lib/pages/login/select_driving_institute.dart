@@ -176,10 +176,10 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
                               await dbHelper.getRoomMembersList(
                                   getCreateRoomResponse.roomId!);
                           roomMembers.forEach((roomMember) {
-                            if (userid != roomMember.user_id) {
+                            if (userid != roomMember.userId) {
                               var inviteUserToRoomJson = {
                                 "invitedRoomId": getCreateRoomResponse.roomId!,
-                                "invitedUserId": roomMember.user_id
+                                "invitedUserId": roomMember.userId
                               };
                               socket.emitWithAck(
                                   'inviteUserToRoom', inviteUserToRoomJson,

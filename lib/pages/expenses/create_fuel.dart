@@ -372,7 +372,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                                               List<XFile>? pickedFile =
                                                   await _picker
                                                       .pickMultiImage();
-                                              if (pickedFile != null) {
+                                              if (pickedFile.isNotEmpty) {
                                                 setState(() {
                                                   _imageFileList
                                                       .addAll(pickedFile);

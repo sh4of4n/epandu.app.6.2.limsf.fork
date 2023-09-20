@@ -284,7 +284,7 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                                                 List<XFile>? pickedFile =
                                                     await _picker
                                                         .pickMultiImage();
-                                                if (pickedFile != null) {
+                                                if (pickedFile.isNotEmpty) {
                                                   setState(() {
                                                     _imageFileList
                                                         .addAll(pickedFile);

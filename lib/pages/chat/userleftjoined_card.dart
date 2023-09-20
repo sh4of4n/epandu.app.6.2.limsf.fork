@@ -24,7 +24,7 @@ class UserLeftJoinedCard extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(20))),
           padding: EdgeInsets.all(10.0),
           child: Text(
-            messageDetails.msg_body!,
+            messageDetails.msgBody!,
             style: TextStyle(color: Colors.white),
           )),
     );

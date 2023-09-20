@@ -1142,10 +1142,10 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
             await dbHelper.getDistinctRoomMembersList();
 
         roomMembers.forEach((roomMember) {
-          if (userId != roomMember.user_id) {
+          if (userId != roomMember.userId) {
             var groupJson = {
               "notifiedRoomId": '',
-              "notifiedUserId": roomMember.user_id,
+              "notifiedUserId": roomMember.userId,
               "title": userId + ' just changed the name',
               "description": _nickName + '_just changed the name'
             };
