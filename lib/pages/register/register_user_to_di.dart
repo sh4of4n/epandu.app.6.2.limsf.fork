@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:epandu/common_library/services/repository/auth_repository.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
 
@@ -48,7 +49,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
   final image = ImagesConstant();
   final primaryColor = ColorConstant.primaryColor;
   final _formKey = GlobalKey<FormState>();
-  late Location location;
+  final location = Location();
   final dbHelper = DatabaseHelper.instance;
 
   String name = '';
@@ -60,6 +61,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
   // String _bodyTemp = '';
   String _message = '';
   bool _isLoading = false;
+  bool duplicateMerchant = false;
 
   String latitude = '';
   String longitude = '';
@@ -76,6 +78,8 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
   String? _deviceId = '';
   // String _deviceOs = '';
   String? _deviceModel = '';
+
+  var _di_list = Hive.box('di_list');
 
   @override
   void initState() {
@@ -197,72 +201,82 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
   }
 
   registerUserToDi() async {
+    for (var i = 0; i < _di_list.length; i++) {
+      if (_di_list.getAt(i).merchantNo == merchantId) {
+        duplicateMerchant = true;
+        break;
+      }
+    }
     if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      FocusScope.of(context).requestFocus(new FocusNode());
+      if (duplicateMerchant) {
+        localStorage.saveMerchantDbCode(merchantId);
+        context.router.popUntil((route) => route.settings.name == 'Home');
+      } else {
+        _formKey.currentState!.save();
+        FocusScope.of(context).requestFocus(new FocusNode());
 
-      setState(() {
-        _isLoading = true;
-        _message = '';
-      });
+        setState(() {
+          _isLoading = true;
+          _message = '';
+        });
 
-      ScanResponse scanResponse =
-          ScanResponse.fromJson(jsonDecode(widget.barcode));
+        ScanResponse scanResponse =
+            ScanResponse.fromJson(jsonDecode(widget.barcode));
 
-      var result = await authRepo.registerUserToDI(
-        context: context,
-        // bodyTemperature: _bodyTemp,
-        appVersion: appVersion,
-        scannedAppId: scanResponse.qRCode![0].appId,
-        scannedAppVer: scanResponse.qRCode![0].appVersion,
-        scannedLoginId: scanResponse.qRCode![0].loginId,
-        scannedUserId: scanResponse.qRCode![0].userId,
-        scanCode: widget.barcode,
-        phDeviceId: _deviceId,
-        bdBrand: _deviceManufacturer,
-        bdModel: Uri.encodeComponent(_deviceModel!),
-        latitude: latitude,
-        longitude: longitude,
-      );
+        var result = await authRepo.registerUserToDI(
+          context: context,
+          // bodyTemperature: _bodyTemp,
+          appVersion: appVersion,
+          scannedAppId: scanResponse.qRCode![0].appId,
+          scannedAppVer: scanResponse.qRCode![0].appVersion,
+          scannedLoginId: scanResponse.qRCode![0].loginId,
+          scannedUserId: scanResponse.qRCode![0].userId,
+          scanCode: widget.barcode,
+          phDeviceId: _deviceId,
+          bdBrand: _deviceManufacturer,
+          bdModel: Uri.encodeComponent(_deviceModel!),
+          latitude: latitude,
+          longitude: longitude,
+        );
 
-      if (result.isSuccess) {
-        //save into hive
-        var diResult = await authRepo.getUserRegisteredDI2(
-            context: context, merchantId: merchantId);
-        if (diResult.isSuccess) {
-          print(diResult.data.length);
-        }
-        var createChatSupportResult =
-            await chatRoomRepo.createChatSupportByMember();
-        if (createChatSupportResult.data != null &&
-            createChatSupportResult.data.length > 0) {
-          await context.read<SocketClientHelper>().loginUserRoom();
-          String userid = await localStorage.getUserId() ?? '';
-          CreateRoomResponse getCreateRoomResponse =
-              createChatSupportResult.data[0];
+        if (result.isSuccess) {
+          //save into hive
+          var diResult = await authRepo.getUserRegisteredDI2(
+              context: context, merchantId: merchantId);
+          if (diResult.isSuccess) {
+            print(diResult.data.length);
+          }
+          var createChatSupportResult =
+              await chatRoomRepo.createChatSupportByMember();
+          if (createChatSupportResult.data != null &&
+              createChatSupportResult.data.length > 0) {
+            await context.read<SocketClientHelper>().loginUserRoom();
+            String userid = await localStorage.getUserId() ?? '';
+            CreateRoomResponse getCreateRoomResponse =
+                createChatSupportResult.data[0];
 
-          List<RoomMembers> roomMembers =
-              await dbHelper.getRoomMembersList(getCreateRoomResponse.roomId!);
-          roomMembers.forEach((roomMember) {
-            if (userid != roomMember.userId) {
-              var inviteUserToRoomJson = {
-                "invitedRoomId": getCreateRoomResponse.roomId!,
-                "invitedUserId": roomMember.userId
-              };
-              socket.emitWithAck('inviteUserToRoom', inviteUserToRoomJson,
-                  ack: (data) {
-                //print('ack $data');
-                if (data != null) {
-                  print('inviteUserToRoomJson from server $data');
-                } else {
-                  print("Null from inviteUserToRoomJson");
-                }
-              });
-            }
-          });
-        }
-        context.router.popUntil(ModalRoute.withName('Home'));
-        /* customDialog.show(
+            List<RoomMembers> roomMembers = await dbHelper
+                .getRoomMembersList(getCreateRoomResponse.roomId!);
+            roomMembers.forEach((roomMember) {
+              if (userid != roomMember.userId) {
+                var inviteUserToRoomJson = {
+                  "invitedRoomId": getCreateRoomResponse.roomId!,
+                  "invitedUserId": roomMember.userId
+                };
+                socket.emitWithAck('inviteUserToRoom', inviteUserToRoomJson,
+                    ack: (data) {
+                  //print('ack $data');
+                  if (data != null) {
+                    print('inviteUserToRoomJson from server $data');
+                  } else {
+                    print("Null from inviteUserToRoomJson");
+                  }
+                });
+              }
+            });
+          }
+          context.router.popUntil(ModalRoute.withName('Home'));
+          /* customDialog.show(
           context: context,
           title: Center(
             child: Icon(
@@ -284,18 +298,19 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
           ],
           type: DialogType.GENERAL,
         ); */
-      } else {
-        customDialog.show(
-          context: context,
-          content: result.message.toString(),
-          onPressed: () => context.router.pop(),
-          type: DialogType.ERROR,
-        );
-      }
+        } else {
+          customDialog.show(
+            context: context,
+            content: result.message.toString(),
+            onPressed: () => context.router.pop(),
+            type: DialogType.ERROR,
+          );
+        }
 
-      setState(() {
-        _isLoading = false;
-      });
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
