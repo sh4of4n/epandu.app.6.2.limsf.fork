@@ -11,11 +11,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hive/hive.dart';
 
+@RoutePage(name: 'KppExam')
 class KppExam extends StatefulWidget {
   final String? groupId;
   final String? paperNo;
 
-  KppExam({
+  const KppExam({
+    super.key,
     required this.groupId,
     required this.paperNo,
   });
@@ -53,7 +55,7 @@ class _KppExamState extends State<KppExam> {
 
       return customDialog.show(
         context: context,
-        title: Center(child: Icon(Icons.info_outline, size: 120)),
+        title: const Center(child: Icon(Icons.info_outline, size: 120)),
         content:
             '${AppLocalizations.of(context)!.translate("existing_session")} ${data!.groupId} ${data.paperNo}. ${AppLocalizations.of(context)!.translate("existing_session_two")}',
         customActions: <Widget>[

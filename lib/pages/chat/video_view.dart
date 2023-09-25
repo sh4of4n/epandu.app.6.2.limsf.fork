@@ -14,7 +14,7 @@ class VideoViewPage extends StatefulWidget {
 
 class _VideoViewPageState extends State<VideoViewPage> {
   late VideoPlayerController _controller;
-  static TextEditingController _editingController = TextEditingController();
+  static final TextEditingController _editingController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -33,37 +33,37 @@ class _VideoViewPageState extends State<VideoViewPage> {
         backgroundColor: Colors.black,
         actions: [
           IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.crop_rotate,
                 size: 27,
               ),
               onPressed: () {}),
           IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.emoji_emotions_outlined,
                 size: 27,
               ),
               onPressed: () {}),
           IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.title,
                 size: 27,
               ),
               onPressed: () {}),
           IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.edit,
                 size: 27,
               ),
               onPressed: () {}),
         ],
       ),
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Stack(
           children: [
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height - 150,
               child: _controller.value.isInitialized
@@ -78,10 +78,10 @@ class _VideoViewPageState extends State<VideoViewPage> {
               child: Container(
                 color: Colors.black38,
                 width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                 child: TextFormField(
                   controller: _editingController,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 17,
                   ),
@@ -90,12 +90,12 @@ class _VideoViewPageState extends State<VideoViewPage> {
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: "Add Caption....",
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.add_photo_alternate,
                         color: Colors.white,
                         size: 27,
                       ),
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                         color: Colors.white,
                         fontSize: 17,
                       ),
@@ -107,7 +107,7 @@ class _VideoViewPageState extends State<VideoViewPage> {
                         child: CircleAvatar(
                           radius: 27,
                           backgroundColor: Colors.tealAccent[700],
-                          child: Icon(
+                          child: const Icon(
                             Icons.check,
                             color: Colors.white,
                             size: 27,

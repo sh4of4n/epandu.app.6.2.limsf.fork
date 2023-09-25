@@ -7,7 +7,7 @@ class BottomMenu extends StatelessWidget {
   final iconText;
   final positionStream;
 
-  BottomMenu({this.iconText, this.positionStream});
+  BottomMenu({super.key, this.iconText, this.positionStream});
 
   final myImage = ImagesConstant();
   final primaryColor = ColorConstant.primaryColor;

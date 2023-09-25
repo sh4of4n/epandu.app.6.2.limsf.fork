@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/repository/vclub_repository.dart';
 import 'package:epandu/common_library/services/response.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
@@ -6,7 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+@RoutePage(name: 'MerchantProfile')
 class MerchantProfile extends StatefulWidget {
+  const MerchantProfile({super.key});
+
   @override
   _MerchantProfileState createState() => _MerchantProfileState();
 }
@@ -21,7 +25,7 @@ class _MerchantProfileState extends State<MerchantProfile> {
   final RegExp removeBracket =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
 
-  TextStyle _subtitleStyle = TextStyle(
+  final TextStyle _subtitleStyle = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w600,
     color: Colors.grey.shade700,
@@ -76,22 +80,22 @@ class _MerchantProfileState extends State<MerchantProfile> {
   _merchantInfo(data) {
     return ListView(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       children: [
         ListTile(
-            title: Text('Name'),
+            title: const Text('Name'),
             subtitle: Text(data.name ?? '-', style: _subtitleStyle)),
         ListTile(
-            title: Text('Description'),
+            title: const Text('Description'),
             subtitle: Text(data.merchantDesc ?? '-')),
         ListTile(
-            title: Text('City'),
+            title: const Text('City'),
             subtitle: Text(data.cityName ?? '-', style: _subtitleStyle)),
         ListTile(
-            title: Text('Business Hours'),
+            title: const Text('Business Hours'),
             subtitle: Text(data.businessHour ?? '-', style: _subtitleStyle)),
         ListTile(
-            title: Text('Business Day'),
+            title: const Text('Business Day'),
             subtitle: Text(data.businessDay ?? '-', style: _subtitleStyle)),
       ],
     );
@@ -104,14 +108,14 @@ class _MerchantProfileState extends State<MerchantProfile> {
       decoration: BoxDecoration(
         gradient: RadialGradient(
           colors: [Colors.amber.shade300, primaryColor],
-          stops: [0.5, 1],
+          stops: const [0.5, 1],
           radius: 0.9,
         ),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text('Merchant Profile'),
+          title: const Text('Merchant Profile'),
           elevation: 0,
           backgroundColor: Colors.transparent,
         ),
@@ -121,9 +125,9 @@ class _MerchantProfileState extends State<MerchantProfile> {
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
-                  return Container(
+                  return SizedBox(
                     height: ScreenUtil().screenHeight,
-                    child: Center(
+                    child: const Center(
                       child: SpinKitFoldingCube(
                         color: Colors.blue,
                       ),
@@ -142,7 +146,7 @@ class _MerchantProfileState extends State<MerchantProfile> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
-                      child: Container(
+                      child: SizedBox(
                         width: ScreenUtil().screenWidth,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -156,7 +160,7 @@ class _MerchantProfileState extends State<MerchantProfile> {
                     ),
                   );
                 default:
-                  return Center(
+                  return const Center(
                     child: Text(
                         'Failed to get merchant profile. Please try again.'),
                   );

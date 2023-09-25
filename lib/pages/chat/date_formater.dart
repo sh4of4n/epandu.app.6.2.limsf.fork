@@ -5,7 +5,7 @@ class DateFormatter {
 
   String getVerboseDateTimeRepresentation(DateTime dateTime) {
     DateTime now = DateTime.now();
-    DateTime justNow = now.subtract(Duration(seconds: 5));
+    DateTime justNow = now.subtract(const Duration(seconds: 5));
     DateTime localDateTime = dateTime.toLocal();
 
     if (!localDateTime.difference(justNow).isNegative) {
@@ -19,12 +19,12 @@ class DateFormatter {
       return roughTimeString;
     }
 
-    DateTime yesterday = now.subtract(Duration(days: 1));
+    DateTime yesterday = now.subtract(const Duration(days: 1));
 
     if (localDateTime.day == yesterday.day &&
         localDateTime.month == now.month &&
         localDateTime.year == now.year) {
-      return 'Yesterday ' + DateFormat('jm').format(dateTime);
+      return 'Yesterday ${DateFormat('jm').format(dateTime)}';
     }
 
     return '${DateFormat('dd MMM').format(dateTime)} $roughTimeString';
@@ -32,7 +32,7 @@ class DateFormatter {
 
   String getDateTimeRepresentation(DateTime dateTime) {
     DateTime now = DateTime.now();
-    DateTime justNow = now.subtract(Duration(seconds: 5));
+    DateTime justNow = now.subtract(const Duration(seconds: 5));
     DateTime localDateTime = dateTime.toLocal();
 
     if (!localDateTime.difference(justNow).isNegative) {
@@ -46,7 +46,7 @@ class DateFormatter {
       return roughTimeString;
     }
 
-    DateTime yesterday = now.subtract(Duration(days: 1));
+    DateTime yesterday = now.subtract(const Duration(days: 1));
 
     if (localDateTime.day == yesterday.day &&
         localDateTime.month == now.month &&
@@ -54,6 +54,6 @@ class DateFormatter {
       return 'Yesterday ';
     }
 
-    return '${DateFormat('MM-dd-yy').format(dateTime)}';
+    return DateFormat('MM-dd-yy').format(dateTime);
   }
 }

@@ -48,7 +48,7 @@ import 'chatnotification_count.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform_interface.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-
+import 'package:flutter/foundation.dart' as foundation;
 import 'confirm_audio.dart';
 import 'create_group.dart';
 import 'file_card.dart';
@@ -59,8 +59,8 @@ import 'room_members.dart';
 import 'video_card.dart';
 
 const theSource = AudioSource.microphone;
-typedef void MyCallback(int messageId);
-typedef void ResendCallback(int messageId);
+typedef MyCallback = void Function(int messageId);
+typedef ResendCallback = void Function(int messageId);
 
 class ChatHome2 extends StatefulWidget {
   const ChatHome2({
@@ -96,8 +96,8 @@ class _ChatHome2State extends State<ChatHome2> {
     'CANCEL',
   ];
   List<MessageDetails> myFailedList = [];
-  bool _showDownArrow = false;
-  TextEditingController _textFieldController = TextEditingController();
+  final bool _showDownArrow = false;
+  final TextEditingController _textFieldController = TextEditingController();
   int _desiredItemIndex = -1;
   Timer? timer;
   String socketStatus = '';
@@ -108,7 +108,7 @@ class _ChatHome2State extends State<ChatHome2> {
   ReplyMessageDetails replyMessageDetails = ReplyMessageDetails(
       msgBody: '', replyToId: 0, nickName: '', filePath: '', binaryType: '');
   TextEditingController searcheditingController = TextEditingController();
-  List<MessageDetails> _selectedItems = [];
+  final List<MessageDetails> _selectedItems = [];
   bool isMultiSelectionEnabled = false;
   final appConfig = AppConfig();
   bool updateStatus = false;
@@ -257,9 +257,9 @@ class _ChatHome2State extends State<ChatHome2> {
             .toList();
         currentIndex = -1;
 
-        list.forEach((message) {
+        for (var message in list) {
           filteredMessages.add(message.messageId!);
-        });
+        }
         break;
       }
       // setState(() {
@@ -276,9 +276,9 @@ class _ChatHome2State extends State<ChatHome2> {
               element.msgBody!.toLowerCase().contains(keyword.toLowerCase()))
           .toList();
       currentIndex = -1;
-      list.forEach((message) {
+      for (var message in list) {
         filteredMessages.add(message.messageId!);
-      });
+      }
     }
     //await EasyLoading.dismiss();
     return filteredMessages.toSet().toList();
@@ -300,10 +300,10 @@ class _ChatHome2State extends State<ChatHome2> {
                 element.messageId != 0)
             .toList();
 
-        mylist.forEach((messageDetails) {
-          updateMessageReadBy(messageDetails.messageId.toString(),
-              this.localUserid, widget.roomId);
-        });
+        for (var messageDetails in mylist) {
+          updateMessageReadBy(
+              messageDetails.messageId.toString(), localUserid, widget.roomId);
+        }
         getReadByChatHistory();
       }
     }
@@ -316,12 +316,12 @@ class _ChatHome2State extends State<ChatHome2> {
             element.roomId == widget.roomId &&
             element.msgStatus == 'SENT')
         .toList();
-    if (getUnreadMessageDetailsList.length > 0) {
-      getUnreadMessageDetailsList.forEach((MessageDetails messageDetails) {
+    if (getUnreadMessageDetailsList.isNotEmpty) {
+      for (var messageDetails in getUnreadMessageDetailsList) {
         if (messageDetails.messageId.toString() != '') {
           getMessageReadBy(messageDetails.messageId!, widget.roomId);
         }
-      });
+      }
     }
   }
 
@@ -349,14 +349,14 @@ class _ChatHome2State extends State<ChatHome2> {
       children: [
         Scaffold(
           appBar: getAppBar(context),
-          body: Container(
+          body: SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: WillPopScope(
               child: Column(
                 children: [
                   getListview(),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Align(
@@ -364,11 +364,11 @@ class _ChatHome2State extends State<ChatHome2> {
                     child: Visibility(
                       visible: _showDownArrow,
                       child: FloatingActionButton(
-                        child: Icon(Icons.arrow_downward_sharp),
+                        child: const Icon(Icons.arrow_downward_sharp),
                         onPressed: () {
                           itemScrollController.scrollTo(
                               index: 0,
-                              duration: Duration(seconds: 2),
+                              duration: const Duration(seconds: 2),
                               curve: Curves.easeInOutCubic);
                           // setState(() {
                           //   _showDownArrow = false;
@@ -377,7 +377,7 @@ class _ChatHome2State extends State<ChatHome2> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Container(
@@ -392,10 +392,10 @@ class _ChatHome2State extends State<ChatHome2> {
                                 if (replyMessageDetails.replyToId! > 0)
                                   buildReply(replyMessageDetails),
                                 if (isAudioRecording) buildConfirmAudio(),
-                                Container(
+                                SizedBox(
                                   width: MediaQuery.of(context).size.width - 60,
                                   child: Card(
-                                    margin: EdgeInsets.only(
+                                    margin: const EdgeInsets.only(
                                         left: 2, right: 2, bottom: 8),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(25),
@@ -417,12 +417,12 @@ class _ChatHome2State extends State<ChatHome2> {
                                         maxLines: 5,
                                         minLines: 1,
                                         onChanged: (value) {
-                                          if (value.length > 0) {
+                                          if (value.isNotEmpty) {
                                             if (!_isWriting) {
                                               _isWriting = true;
                                               sendTyping(value);
-                                              Future.delayed(
-                                                      Duration(seconds: 2))
+                                              Future.delayed(const Duration(
+                                                      seconds: 2))
                                                   .whenComplete(() {
                                                 _isWriting = false;
                                                 sendNotTyping();
@@ -447,23 +447,25 @@ class _ChatHome2State extends State<ChatHome2> {
                                             borderRadius: BorderRadius.only(
                                               topLeft: isReplying
                                                   ? Radius.zero
-                                                  : Radius.circular(24),
+                                                  : const Radius.circular(24),
                                               topRight: isReplying
                                                   ? Radius.zero
-                                                  : Radius.circular(24),
-                                              bottomLeft: Radius.circular(24),
-                                              bottomRight: Radius.circular(24),
+                                                  : const Radius.circular(24),
+                                              bottomLeft:
+                                                  const Radius.circular(24),
+                                              bottomRight:
+                                                  const Radius.circular(24),
                                             ),
                                           ),
                                           hintText: "Type a message",
-                                          hintStyle:
-                                              TextStyle(color: Colors.grey),
+                                          hintStyle: const TextStyle(
+                                              color: Colors.grey),
                                           prefixIcon: getEmojiIcon(),
                                           suffixIcon: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               IconButton(
-                                                icon: Icon(
+                                                icon: const Icon(
                                                   Icons.attach_file,
                                                   color: Colors.blue,
                                                 ),
@@ -477,7 +479,7 @@ class _ChatHome2State extends State<ChatHome2> {
                                                 },
                                               ),
                                               IconButton(
-                                                icon: Icon(
+                                                icon: const Icon(
                                                   Icons.camera_alt,
                                                   color: Colors.blue,
                                                 ),
@@ -499,7 +501,8 @@ class _ChatHome2State extends State<ChatHome2> {
                                               ),
                                             ],
                                           ),
-                                          contentPadding: EdgeInsets.all(5),
+                                          contentPadding:
+                                              const EdgeInsets.all(5),
                                         ),
                                       ),
                                     ),
@@ -508,7 +511,7 @@ class _ChatHome2State extends State<ChatHome2> {
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           GestureDetector(
@@ -549,7 +552,7 @@ class _ChatHome2State extends State<ChatHome2> {
                               onLongPressStart: (_) async {
                                 if (!sendButton) {
                                   if (!_mRecorderIsInited) {
-                                    return null;
+                                    return;
                                   }
                                   if (_mRecorder!.isStopped) {
                                     record();
@@ -560,12 +563,12 @@ class _ChatHome2State extends State<ChatHome2> {
                               onLongPressEnd: (_) async {
                                 if (!sendButton) {
                                   if (!_mRecorderIsInited) {
-                                    return null;
+                                    return;
                                   }
                                   stopRecorder();
                                 }
                               }),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                         ],
@@ -611,8 +614,8 @@ class _ChatHome2State extends State<ChatHome2> {
 
   Widget getEmojiIcon() {
     if (isLoading) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
+      return const Padding(
+        padding: EdgeInsets.all(8.0),
         child: CircularProgressIndicator(),
       );
     } else {
@@ -1014,10 +1017,10 @@ class _ChatHome2State extends State<ChatHome2> {
   }
 
   Widget buildReply(ReplyMessageDetails replyMessageDetails) => Container(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: Colors.grey.withOpacity(0.2),
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(12),
             topRight: Radius.circular(24),
           ),
@@ -1031,7 +1034,7 @@ class _ChatHome2State extends State<ChatHome2> {
 
   String getSelectedItemCount() {
     return _selectedItems.isNotEmpty
-        ? _selectedItems.length.toString() + " item selected"
+        ? "${_selectedItems.length} item selected"
         : "No item selected";
   }
 
@@ -1062,7 +1065,7 @@ class _ChatHome2State extends State<ChatHome2> {
                       "Are you sure you want to delete ${messageDetails.msgBody}?"),
                   actions: <Widget>[
                     TextButton(
-                      child: Text(
+                      child: const Text(
                         "Cancel",
                         style: TextStyle(color: Colors.black),
                       ),
@@ -1071,7 +1074,7 @@ class _ChatHome2State extends State<ChatHome2> {
                       },
                     ),
                     TextButton(
-                      child: Text(
+                      child: const Text(
                         "Delete",
                         style: TextStyle(color: Colors.red),
                       ),
@@ -1109,19 +1112,19 @@ class _ChatHome2State extends State<ChatHome2> {
         builder: (BuildContext context) {
           if (type == 'OWN') {
             return AlertDialog(
-                shape: RoundedRectangleBorder(
+                shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 title: Text(
                   'Delete ${selectedItems.length} Message?',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 content: SingleChildScrollView(
-                  child: Container(
+                  child: SizedBox(
                     width: double.maxFinite,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        Divider(),
+                        const Divider(),
                         ConstrainedBox(
                           constraints: BoxConstraints(
                             maxHeight: MediaQuery.of(context).size.height * 0.4,
@@ -1134,22 +1137,22 @@ class _ChatHome2State extends State<ChatHome2> {
                                   title: Text(deleteList[index]),
                                   onTap: () {
                                     if (index == 0) {
-                                      _selectedItems.forEach(
-                                          (MessageDetails messageDetails) {
+                                      for (var messageDetails
+                                          in _selectedItems) {
                                         deleteChatMessage(
                                             messageDetails.messageId!,
                                             'FORME',
                                             widget.roomId);
-                                      });
+                                      }
                                       Navigator.of(context).pop();
                                     } else if (index == 1) {
-                                      _selectedItems.forEach(
-                                          (MessageDetails messageDetails) {
+                                      for (var messageDetails
+                                          in _selectedItems) {
                                         deleteChatMessage(
                                             messageDetails.messageId!,
                                             'EVERYONE',
                                             widget.roomId);
-                                      });
+                                      }
                                       Navigator.of(context).pop();
                                     } else {
                                       Navigator.of(context).pop();
@@ -1168,17 +1171,17 @@ class _ChatHome2State extends State<ChatHome2> {
                 ));
           } else {
             return AlertDialog(
-              shape: RoundedRectangleBorder(
+              shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               title: Text(
                 selectedItems.length == 1
                     ? 'Delete Message From ${selectedItems[0].nickName}?'
                     : 'Delete ${selectedItems.length} Messages?',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               actions: <Widget>[
                 TextButton(
-                  child: Text(
+                  child: const Text(
                     "CANCEL",
                     style: TextStyle(color: Colors.blue),
                   ),
@@ -1191,15 +1194,15 @@ class _ChatHome2State extends State<ChatHome2> {
                   },
                 ),
                 TextButton(
-                  child: Text(
+                  child: const Text(
                     "DELETE FOR ME",
                     style: TextStyle(color: Colors.blue),
                   ),
                   onPressed: () {
-                    _selectedItems.forEach((MessageDetails messageDetails) {
+                    for (var messageDetails in _selectedItems) {
                       deleteChatMessage(
                           messageDetails.messageId!, 'FORME', widget.roomId);
-                    });
+                    }
                     Navigator.of(context).pop();
                     setState(() {
                       isMultiSelectionEnabled = false;
@@ -1242,10 +1245,10 @@ class _ChatHome2State extends State<ChatHome2> {
         .indexWhere((element) => element.messageId == messageId);
     itemScrollController.scrollTo(
         index: index,
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
         curve: Curves.easeInOutCubic);
 
-    Timer(Duration(seconds: 5), () {
+    Timer(const Duration(seconds: 5), () {
       _desiredItemIndex = -1;
       //print('Timer');
     });
@@ -1258,10 +1261,10 @@ class _ChatHome2State extends State<ChatHome2> {
     List<MessageDetails> list = getMessageDetailsList
         .where((element) => element.messageId == messageId)
         .toList();
-    Future.delayed(Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       itemScrollController.scrollTo(
           index: 0,
-          duration: Duration(seconds: 2),
+          duration: const Duration(seconds: 2),
           curve: Curves.easeInOutCubic);
     });
     setState(() {
@@ -1271,10 +1274,10 @@ class _ChatHome2State extends State<ChatHome2> {
 
   Widget buildConfirmAudio() {
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.grey.withOpacity(0.2),
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(12),
           topRight: Radius.circular(24),
         ),
@@ -1294,14 +1297,15 @@ class _ChatHome2State extends State<ChatHome2> {
   _getAppBarMembers() async {
     roomMembers = await dbHelper.getRoomMembersList(widget.roomId);
     for (var roomMembers in roomMembers) {
-      if (roomMembers.userId != localUserid)
-        members += CapitalizeFirstLetter()
-                .capitalizeFirstLetter(roomMembers.nickName!) +
-            ",";
+      if (roomMembers.userId != localUserid) {
+        members +=
+            "${CapitalizeFirstLetter().capitalizeFirstLetter(roomMembers.nickName!)},";
+      }
     }
     setState(() {
-      if (members.length > 0)
+      if (members.isNotEmpty) {
         members = members.substring(0, members.length - 1);
+      }
 
       membersCount = roomMembers.length;
       if (membersCount > 0) roomName = roomMembers[0].roomName!;
@@ -1309,7 +1313,7 @@ class _ChatHome2State extends State<ChatHome2> {
   }
 
   void navigateSearchResults(int direction) {
-    if (filteredMessages.length > 0) {
+    if (filteredMessages.isNotEmpty) {
       setState(() {
         if (direction == 1) {
           if (currentIndex < filteredMessages.length - 1) {
@@ -1320,7 +1324,7 @@ class _ChatHome2State extends State<ChatHome2> {
 
             itemScrollController.scrollTo(
                 index: index,
-                duration: Duration(seconds: 2),
+                duration: const Duration(seconds: 2),
                 curve: Curves.easeInOutCubic);
           } else {
             currentIndex = 0;
@@ -1330,7 +1334,7 @@ class _ChatHome2State extends State<ChatHome2> {
 
             itemScrollController.scrollTo(
                 index: index,
-                duration: Duration(seconds: 2),
+                duration: const Duration(seconds: 2),
                 curve: Curves.easeInOutCubic);
           }
         } else {
@@ -1341,7 +1345,7 @@ class _ChatHome2State extends State<ChatHome2> {
             _desiredItemIndex = index;
             itemScrollController.scrollTo(
                 index: index,
-                duration: Duration(seconds: 2),
+                duration: const Duration(seconds: 2),
                 curve: Curves.easeInOutCubic);
           } else {
             currentIndex = filteredMessages.length - 1;
@@ -1350,7 +1354,7 @@ class _ChatHome2State extends State<ChatHome2> {
             _desiredItemIndex = index;
             itemScrollController.scrollTo(
                 index: index,
-                duration: Duration(seconds: 2),
+                duration: const Duration(seconds: 2),
                 curve: Curves.easeInOutCubic);
           }
         }
@@ -1370,13 +1374,13 @@ class _ChatHome2State extends State<ChatHome2> {
     if (isSearching) {
       return AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             size: 24,
           ),
           onPressed: () {
             setState(() {
-              this.isSearching = false;
+              isSearching = false;
               filteredMessages = [];
               currentIndex = -1;
               _desiredItemIndex = -1;
@@ -1393,7 +1397,7 @@ class _ChatHome2State extends State<ChatHome2> {
             if (value != '') {
               List<int> searchResults = [];
               searchResults = await searchMessages(value);
-              if (searchResults.length > 0) {
+              if (searchResults.isNotEmpty) {
                 searchResults.sort((a, b) => a.compareTo(b));
                 setState(() {
                   filteredMessages = searchResults;
@@ -1407,8 +1411,8 @@ class _ChatHome2State extends State<ChatHome2> {
               });
             }
           },
-          style: TextStyle(color: Colors.white),
-          decoration: InputDecoration(
+          style: const TextStyle(color: Colors.white),
+          decoration: const InputDecoration(
               hintText: "Search Message",
               contentPadding: EdgeInsets.only(left: 10.0),
               hintStyle: TextStyle(color: Colors.white)),
@@ -1417,7 +1421,7 @@ class _ChatHome2State extends State<ChatHome2> {
           // isSearching
           //     ?
           IconButton(
-            icon: Icon(Icons.cancel),
+            icon: const Icon(Icons.cancel),
             onPressed: () {
               setState(() {
                 // this.isSearching = false;
@@ -1433,7 +1437,7 @@ class _ChatHome2State extends State<ChatHome2> {
           ),
           //:
           IconButton(
-            icon: Icon(Icons.arrow_circle_up),
+            icon: const Icon(Icons.arrow_circle_up),
             onPressed: () {
               focusNode1.unfocus();
               focusNode1.canRequestFocus = false;
@@ -1491,7 +1495,7 @@ class _ChatHome2State extends State<ChatHome2> {
             },
           ),
           IconButton(
-            icon: Icon(Icons.arrow_circle_down),
+            icon: const Icon(Icons.arrow_circle_down),
             onPressed: () {
               focusNode1.unfocus();
               focusNode1.canRequestFocus = false;
@@ -1536,7 +1540,7 @@ class _ChatHome2State extends State<ChatHome2> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_back,
                   size: 24,
                 ),
@@ -1571,7 +1575,7 @@ class _ChatHome2State extends State<ChatHome2> {
                     boxShadow: [
                       BoxShadow(
                           color: Colors.grey.withOpacity(.3),
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                           blurRadius: 5)
                     ],
                   ),
@@ -1583,7 +1587,7 @@ class _ChatHome2State extends State<ChatHome2> {
                             ? Image.network(widget.picturePath
                                 .replaceAll(removeBracket, '')
                                 .split('\r\n')[0])
-                            : Icon(Icons.account_circle),
+                            : const Icon(Icons.account_circle),
                       ),
                     ),
                   ),
@@ -1599,7 +1603,7 @@ class _ChatHome2State extends State<ChatHome2> {
                         MaterialPageRoute(
                             builder: (context) => RoomMembersList(
                                   roomId: widget.roomId,
-                                  userId: this.localUserid,
+                                  userId: localUserid,
                                   picturePath: widget.picturePath,
                                   roomName: widget.roomName,
                                   roomDesc: widget.roomDesc,
@@ -1618,17 +1622,17 @@ class _ChatHome2State extends State<ChatHome2> {
                             maxLines: 1,
                             softWrap: false,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 18.5,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
-                            this.members,
+                            members,
                             maxLines: 1,
                             softWrap: false,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 13,
                             ),
                           )
@@ -1642,7 +1646,7 @@ class _ChatHome2State extends State<ChatHome2> {
           ),
           actions: [
             PopupMenuButton<String>(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               onSelected: (value) {
                 if (value == "View Contacts") {
                   Navigator.push(
@@ -1650,7 +1654,7 @@ class _ChatHome2State extends State<ChatHome2> {
                     MaterialPageRoute(
                       builder: (context) => RoomMembersList(
                         roomId: widget.roomId,
-                        userId: this.localUserid,
+                        userId: localUserid,
                         picturePath: widget.picturePath,
                         roomName: widget.roomName,
                         roomDesc: widget.roomDesc,
@@ -1659,7 +1663,7 @@ class _ChatHome2State extends State<ChatHome2> {
                   );
                 } else if (value == "Search") {
                   setState(() {
-                    this.isSearching = true;
+                    isSearching = true;
                     focusNode1.requestFocus();
                   });
                 } else if (value == "Media and Files") {
@@ -1691,32 +1695,32 @@ class _ChatHome2State extends State<ChatHome2> {
               },
               itemBuilder: (BuildContext context) {
                 return [
-                  PopupMenuItem(
-                    child: Text("View Contacts"),
+                  const PopupMenuItem(
                     value: "View Contacts",
+                    child: Text("View Contacts"),
                   ),
-                  PopupMenuItem(
-                    child: Text("Search"),
+                  const PopupMenuItem(
                     value: "Search",
+                    child: Text("Search"),
                   ),
-                  PopupMenuItem(
-                    child: Text("Media and Files"),
+                  const PopupMenuItem(
                     value: "Media and Files",
+                    child: Text("Media and Files"),
                   ),
                   if (widget.roomDesc.toUpperCase().contains("GROUP"))
-                    PopupMenuItem(
-                      child: Text("Add New Member"),
+                    const PopupMenuItem(
                       value: "Add New Member",
+                      child: Text("Add New Member"),
                     ),
                   if (widget.roomDesc.toUpperCase().contains("GROUP"))
-                    PopupMenuItem(
-                      child: Text("Change Group Name"),
+                    const PopupMenuItem(
                       value: "Change Group Name",
+                      child: Text("Change Group Name"),
                     ),
                   if (widget.roomDesc.toUpperCase().contains("GROUP"))
-                    PopupMenuItem(
-                      child: Text("Leave Group"),
+                    const PopupMenuItem(
                       value: "Leave Group",
+                      child: Text("Leave Group"),
                     ),
                 ];
               },
@@ -1726,7 +1730,7 @@ class _ChatHome2State extends State<ChatHome2> {
       } else {
         return AppBar(
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               size: 24,
             ),
@@ -1740,21 +1744,21 @@ class _ChatHome2State extends State<ChatHome2> {
           backgroundColor: Colors.blueAccent,
           title: Text(
             getSelectedItemCount(),
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18.5,
               fontWeight: FontWeight.bold,
             ),
           ),
           actions: <Widget>[
             IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.delete,
                 color: Colors.white,
               ),
               onPressed: () {
                 var contain = _selectedItems
                     .where((element) => element.userId != localUserid);
-                if (contain.length > 0) {
+                if (contain.isNotEmpty) {
                   deleteConfirmation(_selectedItems, '');
                 } else {
                   deleteConfirmation(_selectedItems, 'OWN');
@@ -1772,7 +1776,7 @@ class _ChatHome2State extends State<ChatHome2> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Add Group Name'),
+            title: const Text('Add Group Name'),
             content: TextField(
               onChanged: (value) {
                 setState(() {
@@ -1780,13 +1784,13 @@ class _ChatHome2State extends State<ChatHome2> {
                 });
               },
               controller: _textFieldController,
-              decoration: InputDecoration(hintText: "Group Name"),
+              decoration: const InputDecoration(hintText: "Group Name"),
             ),
             actions: <Widget>[
               TextButton(
                 style: TextButton.styleFrom(
                     foregroundColor: Colors.white, backgroundColor: Colors.red),
-                child: Text('CANCEL'),
+                child: const Text('CANCEL'),
                 onPressed: () {
                   setState(() {
                     Navigator.pop(context);
@@ -1797,7 +1801,7 @@ class _ChatHome2State extends State<ChatHome2> {
                 style: TextButton.styleFrom(
                     foregroundColor: Colors.white,
                     backgroundColor: Colors.green),
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () async {
                   await EasyLoading.show();
                   var inviteResult = await chatRoomRepo.changeGroupName(
@@ -1838,12 +1842,12 @@ class _ChatHome2State extends State<ChatHome2> {
   Text getMembersText() {
     if (membersCount > 1) {
       return Text(
-        this.members,
+        members,
         style: Theme.of(context).textTheme.bodySmall,
         overflow: TextOverflow.ellipsis,
       );
     } else {
-      return Text('');
+      return const Text('');
     }
   }
 
@@ -1852,10 +1856,10 @@ class _ChatHome2State extends State<ChatHome2> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Text("Are you sure you want to  leave the group?"),
+            content: const Text("Are you sure you want to  leave the group?"),
             actions: <Widget>[
               TextButton(
-                child: Text(
+                child: const Text(
                   "Cancel",
                   style: TextStyle(color: Colors.black),
                 ),
@@ -1864,7 +1868,7 @@ class _ChatHome2State extends State<ChatHome2> {
                 },
               ),
               TextButton(
-                child: Text(
+                child: const Text(
                   "Leave",
                   style: TextStyle(color: Colors.red),
                 ),
@@ -1875,25 +1879,25 @@ class _ChatHome2State extends State<ChatHome2> {
                       leaveRoomResponseResult.data.length > 0) {
                     List<RoomMembers> roomMembers =
                         await dbHelper.getRoomMembersList(widget.roomId);
-                    roomMembers.forEach((roomMember) {
+                    for (var roomMember in roomMembers) {
                       if (localUserid != roomMember.userId) {
                         var leaveGroupJson = {
                           "notifiedRoomId": widget.roomId,
                           "notifiedUserId": roomMember.userId,
-                          "title": localUserName + " just left the room",
+                          "title": "$localUserName just left the room",
                           "description":
-                              localUserid + " just left the room_" + roomId
+                              "$localUserid just left the room_$roomId"
                         };
                         //print(messageJson);
                         socket.emitWithAck('sendNotification', leaveGroupJson,
                             ack: (data) async {});
                       }
-                    });
+                    }
                     String clientMessageId = generateRandomString(15);
 
                     var messageJson = {
                       "roomId": widget.roomId,
-                      "msgBody": localUserName + ' left',
+                      "msgBody": '$localUserName left',
                       "msgBinaryType": 'userLeft',
                       "replyToId": -1,
                       "clientMessageId": clientMessageId,
@@ -1931,13 +1935,10 @@ class _ChatHome2State extends State<ChatHome2> {
                     await dbHelper.deleteRoomById(widget.roomId);
                     await dbHelper.deleteRoomMembersByRoomId(widget.roomId);
                     await dbHelper.deleteMessagesByRoomId(widget.roomId);
-                    final dir = Directory((Platform.isAndroid
-                                ? await getExternalStorageDirectory() //FOR ANDROID
+                    final dir = Directory(
+                        '${(Platform.isAndroid ? await getExternalStorageDirectory() //FOR ANDROID
                                 : await getApplicationSupportDirectory() //FOR IOS
-                            )!
-                            .path +
-                        '/' +
-                        roomId);
+                            )!.path}/$roomId');
 
                     deleteDirectory(dir);
                     Provider.of<RoomHistory>(context, listen: false)
@@ -1972,7 +1973,7 @@ class _ChatHome2State extends State<ChatHome2> {
               element.messageId == messageId && element.filePath != '')
           .toList();
 
-      if (list.length > 0) {
+      if (list.isNotEmpty) {
         await deleteFile(File(list[0].filePath!));
       }
       context.read<ChatHistory>().deleteChatItem(messageId, roomId);
@@ -1981,7 +1982,7 @@ class _ChatHome2State extends State<ChatHome2> {
       var deleteMessageJson = {
         "messageId": messageId,
       };
-      print('socket connection:' + socket.connected.toString());
+      print('socket connection:${socket.connected}');
       socket.emitWithAck('deleteMessage', deleteMessageJson, ack: (data) async {
         // print('deleteMessage from server $data');
         // print('deletemessage_' + socket.id!);
@@ -1993,7 +1994,7 @@ class _ChatHome2State extends State<ChatHome2> {
                     element.messageId == messageId && element.filePath != '')
                 .toList();
 
-            if (list.length > 0) {
+            if (list.isNotEmpty) {
               await deleteFile(File(list[0].filePath!));
             }
             context.read<ChatHistory>().deleteChatItem(messageId, roomId);
@@ -2062,7 +2063,7 @@ class _ChatHome2State extends State<ChatHome2> {
                 "SENT", sendAcknowledge.messageId, widget.roomId);
             await dbHelper.updateMsgDetailTable(
                 clientMessageId, "SENT", sendAcknowledge.messageId);
-            if (myFailedList.length > 0) {
+            if (myFailedList.isNotEmpty) {
               int index = myFailedList.indexWhere(
                   (element) => element.clientMessageId == clientMessageId);
               if (index > -1) {
@@ -2076,10 +2077,10 @@ class _ChatHome2State extends State<ChatHome2> {
           }
         });
       }
-      Future.delayed(Duration(milliseconds: 500), () {
+      Future.delayed(const Duration(milliseconds: 500), () {
         itemScrollController.scrollTo(
             index: 0,
-            duration: Duration(seconds: 2),
+            duration: const Duration(seconds: 2),
             curve: Curves.easeInOutCubic);
       });
     } else {
@@ -2143,11 +2144,11 @@ class _ChatHome2State extends State<ChatHome2> {
   }
 
   String generateRandomString(int length) {
-    final _random = Random();
-    const _availableChars = '1234567890';
+    final random = Random();
+    const availableChars = '1234567890';
     // 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     final randomString = List.generate(length,
-            (index) => _availableChars[_random.nextInt(_availableChars.length)])
+            (index) => availableChars[random.nextInt(availableChars.length)])
         .join();
 
     return randomString;
@@ -2277,7 +2278,7 @@ class _ChatHome2State extends State<ChatHome2> {
         clientMessageId: clientMessageId,
         roomName: widget.roomName);
     await dbHelper.saveMsgDetailTable(messageDetails);
-    print('StoreFilePath:' + filePath);
+    print('StoreFilePath:$filePath');
     context.read<ChatHistory>().addChatHistory(messageDetail: messageDetails);
     context.read<RoomHistory>().updateRoomMessage(
         roomId: messageDetails.roomId!, message: messageDetails.msgBody!);
@@ -2318,7 +2319,7 @@ class _ChatHome2State extends State<ChatHome2> {
               "SENT", sendAcknowledge.messageId, widget.roomId);
           await dbHelper.updateMsgDetailTable(
               clientMessageId, "SENT", sendAcknowledge.messageId);
-          if (myFailedList.length > 0) {
+          if (myFailedList.isNotEmpty) {
             int index = myFailedList.indexWhere(
                 (element) => element.clientMessageId == clientMessageId);
             if (index > -1) {
@@ -2331,10 +2332,10 @@ class _ChatHome2State extends State<ChatHome2> {
         }
       });
     }
-    Future.delayed(Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       itemScrollController.scrollTo(
           index: 0,
-          duration: Duration(seconds: 2),
+          duration: const Duration(seconds: 2),
           curve: Curves.easeInOutCubic);
     });
   }
@@ -2357,7 +2358,7 @@ class _ChatHome2State extends State<ChatHome2> {
           .toList();
     }
 
-    if (myFailedList.length > 0) {
+    if (myFailedList.isNotEmpty) {
       ReplyMessageDetails myreplayList = ReplyMessageDetails(
           binaryType: '',
           msgBody: '',
@@ -2408,12 +2409,12 @@ class _ChatHome2State extends State<ChatHome2> {
       Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
       if (userid != result["userId"].toString() &&
           widget.roomId == result["roomId"].toString()) {
-        duplicateMembers = this.members;
+        duplicateMembers = members;
         List<RoomMembers> roomMembersList =
             await dbHelper.getRoomMemberName(result["userId"].toString());
         if (mounted) {
           setState(() {
-            this.members = roomMembersList[0].nickName! + ' Is Typing';
+            members = '${roomMembersList[0].nickName!} Is Typing';
             duplicateMembers = duplicateMembers;
           });
         }
@@ -2426,7 +2427,7 @@ class _ChatHome2State extends State<ChatHome2> {
           widget.roomId == result["roomId"].toString()) {
         if (mounted) {
           setState(() {
-            this.members = duplicateMembers;
+            members = duplicateMembers;
           });
         }
       }
@@ -2460,7 +2461,7 @@ class _ChatHome2State extends State<ChatHome2> {
   }
 
   Widget bottomSheet() {
-    return Container(
+    return SizedBox(
       // height: 278,
       height: 139,
       width: MediaQuery.of(context).size.width,
@@ -2477,11 +2478,11 @@ class _ChatHome2State extends State<ChatHome2> {
                   children: [
                     iconCreation(
                         Icons.insert_drive_file, Colors.indigo, "Document"),
-                    SizedBox(
+                    const SizedBox(
                       width: 40,
                     ),
                     iconCreation(Icons.camera_alt, Colors.pink, "Camera"),
-                    SizedBox(
+                    const SizedBox(
                       width: 40,
                     ),
                     iconCreation(Icons.insert_photo, Colors.purple, "Gallery"),
@@ -2567,7 +2568,7 @@ class _ChatHome2State extends State<ChatHome2> {
 
           if (result != null) {
             List<File> files = result.paths.map((path) => File(path!)).toList();
-            if (files.length == 0) return;
+            if (files.isEmpty) return;
 
             for (var file in files) {
               onFileSend(file.path, file.path.split('/').last, '');
@@ -2602,12 +2603,12 @@ class _ChatHome2State extends State<ChatHome2> {
               color: Colors.white,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12,
               // fontWeight: FontWeight.w100,
             ),
@@ -2618,12 +2619,10 @@ class _ChatHome2State extends State<ChatHome2> {
   }
 
   Future<String> createFolder(String folder) async {
-    final dir = Directory((Platform.isAndroid
-                ? await getExternalStorageDirectory() //FOR ANDROID
+    final dir = Directory(
+        '${(Platform.isAndroid ? await getExternalStorageDirectory() //FOR ANDROID
                 : await getApplicationSupportDirectory() //FOR IOS
-            )!
-            .path +
-        '/$folder');
+            )!.path}/$folder');
     var status = await Permission.storage.status;
     if (!status.isGranted) {
       await Permission.storage.request();
@@ -2653,19 +2652,14 @@ class _ChatHome2State extends State<ChatHome2> {
       extension = ".mp4";
     } else if (fileType == "file") {
       folder = "Files";
-      extension = "." + fileName.split('.').last;
+      extension = ".${fileName.split('.').last}";
     }
     try {
       Uint8List bytes = base64.decode(base64String);
-      final dir = Directory((Platform.isAndroid
-                  ? await getExternalStorageDirectory() //FOR ANDROID
+      final dir = Directory(
+          '${(Platform.isAndroid ? await getExternalStorageDirectory() //FOR ANDROID
                   : await getApplicationSupportDirectory() //FOR IOS
-              )!
-              .path +
-          '/' +
-          widget.roomId +
-          '/' +
-          folder);
+              )!.path}/${widget.roomId}/$folder');
       var status = await Permission.storage.status;
       if (!status.isGranted) {
         await Permission.storage.request();
@@ -2676,12 +2670,12 @@ class _ChatHome2State extends State<ChatHome2> {
 
       if ((await dir.exists())) {
         //print(dir.path);
-        file = File(dir.path + "/" + timestamp + random + extension);
+        file = File("${dir.path}/$timestamp$random$extension");
         await file.writeAsBytes(bytes);
       } else {
         await dir.create(recursive: true);
         //print(dir.path);
-        file = File(dir.path + "/" + timestamp + random + extension);
+        file = File("${dir.path}/$timestamp$random$extension");
         await file.writeAsBytes(bytes);
         //return dir.path;
       }
@@ -2747,11 +2741,8 @@ class _ChatHome2State extends State<ChatHome2> {
   }
 
   void record() async {
-    dirPath = await createFolder(widget.roomId + '/' + pathToAudio);
-    audioFilPath = dirPath +
-        '/' +
-        DateTime.now().millisecondsSinceEpoch.toString() +
-        '.mp4';
+    dirPath = await createFolder('${widget.roomId}/$pathToAudio');
+    audioFilPath = '$dirPath/${DateTime.now().millisecondsSinceEpoch}.mp4';
 
     setState(() {
       isLoading = true;
@@ -2770,7 +2761,7 @@ class _ChatHome2State extends State<ChatHome2> {
       });
     });
 
-    _mRecorder?.setSubscriptionDuration(Duration(milliseconds: 10));
+    _mRecorder?.setSubscriptionDuration(const Duration(milliseconds: 10));
 
     _recorderSubscription = _mRecorder?.onProgress!.listen((e) {
       setState(() {
@@ -2826,34 +2817,40 @@ class _ChatHome2State extends State<ChatHome2> {
 
   Widget emojiSelect() {
     return EmojiPicker(
-        onEmojiSelected: (Category? category, Emoji emoji) {
-          _onEmojiSelected(emoji);
-        },
-        onBackspacePressed: _onBackspacePressed,
-        config: Config(
-            columns: 7,
-            emojiSizeMax: 32 * (Platform.isIOS ? 1.30 : 1.0),
-            verticalSpacing: 0,
-            horizontalSpacing: 0,
-            initCategory: Category.RECENT,
-            bgColor: const Color(0xFFF2F2F2),
-            indicatorColor: Colors.blue,
-            iconColor: Colors.grey,
-            iconColorSelected: Colors.blue,
-            // progressIndicatorColor: Colors.blue,
-            backspaceColor: Colors.blue,
-            skinToneDialogBgColor: Colors.white,
-            skinToneIndicatorColor: Colors.grey,
-            enableSkinTones: true,
-            showRecentsTab: true,
-            recentsLimit: 28,
-            noRecents: const Text(
-              'No Recents',
-              style: TextStyle(fontSize: 20, color: Colors.black26),
-              textAlign: TextAlign.center,
-            ),
-            tabIndicatorAnimDuration: kTabScrollDuration,
-            categoryIcons: const CategoryIcons(),
-            buttonMode: ButtonMode.MATERIAL));
+      onEmojiSelected: (Category? category, Emoji emoji) {
+        _onEmojiSelected(emoji);
+      },
+      onBackspacePressed: _onBackspacePressed,
+      config: Config(
+        columns: 7,
+        emojiSizeMax: 32 *
+            (foundation.defaultTargetPlatform == TargetPlatform.iOS
+                ? 1.30
+                : 1.0), // Issue: https://github.com/flutter/flutter/issues/28894
+        verticalSpacing: 0,
+        horizontalSpacing: 0,
+        gridPadding: EdgeInsets.zero,
+        initCategory: Category.RECENT,
+        bgColor: Color(0xFFF2F2F2),
+        indicatorColor: Colors.blue,
+        iconColor: Colors.grey,
+        iconColorSelected: Colors.blue,
+        backspaceColor: Colors.blue,
+        skinToneDialogBgColor: Colors.white,
+        skinToneIndicatorColor: Colors.grey,
+        enableSkinTones: true,
+        recentTabBehavior: RecentTabBehavior.RECENT,
+        recentsLimit: 28,
+        noRecents: const Text(
+          'No Recents',
+          style: TextStyle(fontSize: 20, color: Colors.black26),
+          textAlign: TextAlign.center,
+        ), // Needs to be const Widget
+        loadingIndicator: const SizedBox.shrink(), // Needs to be const Widget
+        tabIndicatorAnimDuration: kTabScrollDuration,
+        categoryIcons: const CategoryIcons(),
+        buttonMode: ButtonMode.MATERIAL,
+      ),
+    );
   }
 }

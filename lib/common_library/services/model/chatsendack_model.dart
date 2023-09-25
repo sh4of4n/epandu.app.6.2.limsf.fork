@@ -17,10 +17,10 @@ class SendAcknowledge {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['messageId'] = this.messageId;
-    data['sendDateTime'] = this.sendDateTime;
-    data['clientMessageId'] = this.clientMessageId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['messageId'] = messageId;
+    data['sendDateTime'] = sendDateTime;
+    data['clientMessageId'] = clientMessageId;
     return data;
   }
 }

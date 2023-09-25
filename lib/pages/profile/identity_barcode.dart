@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/constants.dart';
@@ -8,7 +9,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:package_info/package_info.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+@RoutePage(name: 'IdentityBarcode')
 class IdentityBarcode extends StatefulWidget {
+  const IdentityBarcode({super.key});
+
   @override
   _IdentityBarcodeState createState() => _IdentityBarcodeState();
 }
@@ -65,10 +69,10 @@ class _IdentityBarcodeState extends State<IdentityBarcode> {
   }
 
   _loadQr() {
-    if (id.isNotEmpty)
-      return QrImage(
+    if (id.isNotEmpty) {
+      return QrImageView(
         embeddedImage: AssetImage(image.ePanduIcon),
-        embeddedImageStyle: QrEmbeddedImageStyle(
+        embeddedImageStyle: const QrEmbeddedImageStyle(
           size: Size(40, 40),
         ),
         data:
@@ -76,7 +80,8 @@ class _IdentityBarcodeState extends State<IdentityBarcode> {
         version: QrVersions.auto,
         size: 250.0,
       );
-    return Center(
+    }
+    return const Center(
       child: SpinKitFoldingCube(
         color: Colors.blue,
       ),
@@ -86,7 +91,7 @@ class _IdentityBarcodeState extends State<IdentityBarcode> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfffdc013),
+      backgroundColor: const Color(0xfffdc013),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,

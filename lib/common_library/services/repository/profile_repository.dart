@@ -123,10 +123,7 @@ class ProfileRepo {
     // String phone = await localStorage.getUserPhone();
     // String loginId = (phoneCountryCode + phone).replaceAll('+6', '');
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
-        '&caUid=$caUid' +
-        '&caPwd=$caPwd' +
-        '&diCode=$merchantNo';
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$merchantNo';
 
     var response = await networking.getData(
       path: 'GetTrainerList?$path',
@@ -151,10 +148,7 @@ class ProfileRepo {
     // String phone = await localStorage.getUserPhone();
     // String loginId = (phoneCountryCode + phone).replaceAll('+6', '');
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
-        '&caUid=$caUid' +
-        '&caPwd=$caPwd' +
-        '&diCode=$merchantNo';
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$merchantNo';
 
     var response = await networking.getData(
       path: 'GetVehicleList?$path',

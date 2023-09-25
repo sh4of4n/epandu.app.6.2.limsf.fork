@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/painting.dart';
 
 class ColorConstant {
-  static final primaryColor = Color(0xffffcd0e);
+  static const primaryColor = Color(0xffffcd0e);
   static const green = Colors.green;
   static const red = Colors.red;
   static const amberAccent = Colors.amberAccent;
@@ -15,7 +15,7 @@ class RemoveBracket {
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
 }
 
-final ColorScheme colorScheme = ColorScheme.light(
+const ColorScheme colorScheme = ColorScheme.light(
   primary: Color(0xFF501049),
   secondary: Color(0xFFE30425),
   surface: Color(0xFFFFFFFF),
@@ -30,7 +30,7 @@ final ColorScheme colorScheme = ColorScheme.light(
 );
 
 class FontTheme {
-  TextTheme primaryFont = TextTheme(
+  TextTheme primaryFont = const TextTheme(
     displayLarge: TextStyle(fontSize: 96, color: Color(0xff5c5c5c)),
     displayMedium: TextStyle(fontSize: 60, color: Color(0xff5c5c5c)),
     displaySmall: TextStyle(fontSize: 48, color: Color(0xff5c5c5c)),

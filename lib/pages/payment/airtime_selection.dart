@@ -10,12 +10,15 @@ import 'package:hive/hive.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
+@RoutePage(name: 'AirtimeSelection')
 class AirtimeSelection extends StatelessWidget {
   final primaryColor = ColorConstant.primaryColor;
 
   final billRepo = BillRepo();
 
   final Box<dynamic> telcoList = Hive.box('telcoList');
+
+  AirtimeSelection({super.key});
 
   Future<dynamic> _getTelco(context) async {
     if (telcoList.get('telcoList') == null) {
@@ -50,11 +53,11 @@ class AirtimeSelection extends StatelessWidget {
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
               if (snapshot.hasData) {
                 return GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     // childAspectRatio: MediaQuery.of(context).size.height / 530,
                   ),
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(

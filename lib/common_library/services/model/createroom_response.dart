@@ -7,15 +7,15 @@ class GetCreateRoomResponse {
     if (json['Room'] != null) {
       room = <CreateRoomResponse>[];
       json['Room'].forEach((v) {
-        room!.add(new CreateRoomResponse.fromJson(v));
+        room!.add(CreateRoomResponse.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.room != null) {
-      data['Room'] = this.room!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (room != null) {
+      data['Room'] = room!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -92,28 +92,28 @@ class CreateRoomResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['room_id'] = this.roomId;
-    data['app_code'] = this.appCode;
-    data['merchant_user_id'] = this.merchantUserId;
-    data['merchant_login_id'] = this.merchantLoginId;
-    data['merchant_nick_name'] = this.merchantNickName;
-    data['user_id'] = this.userId;
-    data['login_id'] = this.loginId;
-    data['member_nick_name'] = this.memberNickName;
-    data['room_name'] = this.roomName;
-    data['room_desc'] = this.roomDesc;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['row_key'] = this.rowKey;
-    data['transtamp'] = this.transtamp;
-    data['deleted'] = this.deleted;
-    data['merchant_no'] = this.merchantNo;
-    data['photo_filename'] = this.photoFilename;
-    data['profile_photo'] = this.profilePhoto;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['room_id'] = roomId;
+    data['app_code'] = appCode;
+    data['merchant_user_id'] = merchantUserId;
+    data['merchant_login_id'] = merchantLoginId;
+    data['merchant_nick_name'] = merchantNickName;
+    data['user_id'] = userId;
+    data['login_id'] = loginId;
+    data['member_nick_name'] = memberNickName;
+    data['room_name'] = roomName;
+    data['room_desc'] = roomDesc;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['row_key'] = rowKey;
+    data['transtamp'] = transtamp;
+    data['deleted'] = deleted;
+    data['merchant_no'] = merchantNo;
+    data['photo_filename'] = photoFilename;
+    data['profile_photo'] = profilePhoto;
 
     return data;
   }

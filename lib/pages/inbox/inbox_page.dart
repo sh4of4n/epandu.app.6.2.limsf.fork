@@ -15,7 +15,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../router.gr.dart';
 
+@RoutePage(name: 'Inbox')
 class Inbox extends StatefulWidget {
+  const Inbox({super.key});
+
   @override
   _InboxState createState() => _InboxState();
 }
@@ -72,10 +75,10 @@ class _InboxState extends State<Inbox> {
 
       // print(items);
 
-      matches.forEach((match) {
+      for (var match in matches) {
         links.add(text.substring(match.start, match.end));
         // print(text.substring(match.start, match.end));
-      });
+      }
 
       // print(links);
 
@@ -83,7 +86,7 @@ class _InboxState extends State<Inbox> {
 
       return RichText(
         text: TextSpan(
-          style: TextStyle(color: Color(0xff5c5c5c)),
+          style: const TextStyle(color: Color(0xff5c5c5c)),
           children: [
             TextSpan(
               text: items[0],
@@ -140,13 +143,13 @@ class _InboxState extends State<Inbox> {
       List items = text.split(exp);
       List links = [];
 
-      matches.forEach((match) {
+      for (var match in matches) {
         links.add(text.substring(match.start, match.end));
-      });
+      }
 
       return RichText(
         text: TextSpan(
-          style: TextStyle(color: Color(0xff5c5c5c)),
+          style: const TextStyle(color: Color(0xff5c5c5c)),
           children: [
             TextSpan(
               text: items[0],
@@ -187,13 +190,13 @@ class _InboxState extends State<Inbox> {
       List items = text.split(exp);
       List links = [];
 
-      matches.forEach((match) {
+      for (var match in matches) {
         links.add(text.substring(match.start, match.end));
-      });
+      }
 
       return RichText(
         text: TextSpan(
-          style: TextStyle(color: Color(0xff5c5c5c)),
+          style: const TextStyle(color: Color(0xff5c5c5c)),
           children: [
             TextSpan(
               text: items[0],
@@ -259,16 +262,16 @@ class _InboxState extends State<Inbox> {
     }
 
     return Container(
-      color: Color(0xfff5f2e9),
+      color: const Color(0xfff5f2e9),
       child: ListView.separated(
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: sortedInboxData.length,
         // reverse: true,
         separatorBuilder: (BuildContext context, int index) =>
             Divider(color: Colors.grey[400]),
         itemBuilder: (BuildContext context, int index) {
-          if (sortedInboxData[index]?.msgType == 'PDF')
+          if (sortedInboxData[index]?.msgType == 'PDF') {
             /* return ListTile(
               leading: Icon(Icons.mail, color: Color(0xff808080)),
               title: parseInboxMessage(sortedInboxData[index].sendMsg),
@@ -279,7 +282,7 @@ class _InboxState extends State<Inbox> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   parseInboxMessage(sortedInboxData[index]!.sendMsg!),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   if (sortedInboxData[index]!.createDate != null)
                     Text(sortedInboxData[index]!.createDate!),
                   if (sortedInboxData[index]!.merchantName != null)
@@ -287,8 +290,9 @@ class _InboxState extends State<Inbox> {
                 ],
               ),
             );
+          }
           return ListTile(
-            leading: Icon(Icons.mail, color: Color(0xff808080)),
+            leading: const Icon(Icons.mail, color: Color(0xff808080)),
             title: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
@@ -304,7 +308,7 @@ class _InboxState extends State<Inbox> {
                     },
                     text: sortedInboxData[index]!.sendMsg!,
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   if (sortedInboxData[index]!.createDate != null)
                     Text(sortedInboxData[index]!.createDate!),
                   if (sortedInboxData[index]!.merchantName != null)
@@ -345,7 +349,7 @@ class _InboxState extends State<Inbox> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             parseInboxMessage(msgData.sendMsg),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             if (msgData.createDate != null) Text(msgData.createDate),
             if (msgData.merchantName != null) Text(msgData.merchantName),
           ],
@@ -366,7 +370,7 @@ class _InboxState extends State<Inbox> {
             },
             text: msgData.sendMsg,
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           if (msgData.createDate != null) Text(msgData.createDate),
           if (msgData.merchantName != null) Text(msgData.merchantName),
         ],
@@ -377,7 +381,7 @@ class _InboxState extends State<Inbox> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfffdc013),
+      backgroundColor: const Color(0xfffdc013),
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.translate('notifications')),
         elevation: 0,
@@ -391,9 +395,9 @@ class _InboxState extends State<Inbox> {
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
-                    return Container(
+                    return SizedBox(
                       height: ScreenUtil().screenHeight,
-                      child: Center(
+                      child: const Center(
                         child: SpinKitFoldingCube(
                           color: Colors.blue,
                         ),
@@ -403,7 +407,7 @@ class _InboxState extends State<Inbox> {
                     if (snapshot.data is String) {
                       if (inboxStorage.isEmpty &&
                           snapshot.data == 'No records found.') {
-                        return Container(
+                        return SizedBox(
                             height: ScreenUtil().screenHeight,
                             child: Center(
                               child: Text(
@@ -414,16 +418,16 @@ class _InboxState extends State<Inbox> {
                       return Container();
                     }
                     return Container(
-                      color: Color(0xfff5f2e9),
+                      color: const Color(0xfff5f2e9),
                       child: ListView.separated(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: snapshot.data.length,
                         separatorBuilder: (BuildContext context, int index) =>
                             Divider(color: Colors.grey[400]),
                         itemBuilder: (BuildContext context, int index) {
                           return ListTile(
-                            leading: Icon(Icons.mail, color: Color(0xff808080)),
+                            leading: const Icon(Icons.mail, color: Color(0xff808080)),
                             title: displayInboxMessage(snapshot.data[index]),
                           );
                         },

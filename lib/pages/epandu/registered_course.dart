@@ -12,7 +12,10 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
+@RoutePage(name: 'RegisteredCourse')
 class RegisteredCourse extends StatefulWidget {
+  const RegisteredCourse({super.key});
+
   @override
   _RegisteredCourseState createState() => _RegisteredCourseState();
 }
@@ -62,7 +65,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
             Colors.white,
             primaryColor,
           ],
-          stops: [0.45, 0.95],
+          stops: const [0.45, 0.95],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -70,14 +73,14 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-            iconTheme: IconThemeData(
+            iconTheme: const IconThemeData(
             color: Colors.black, //change your color here
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(
             AppLocalizations.of(context)!.translate('registered_class_lbl'),
-            style: TextStyle(color: Colors.black,),
+            style: const TextStyle(color: Colors.black,),
           ),
         ),
         body: SingleChildScrollView(
@@ -87,7 +90,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                 alignment: Alignment.center,
                 height: 300.h,
                 width: double.infinity,
-                color: Color(0xff0290b7),
+                color: const Color(0xff0290b7),
                 child: Text(
                   AppLocalizations.of(context)!.translate('installment_scheme'),
                   style: TextStyle(
@@ -109,7 +112,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
               ),
               SizedBox(
                 width: 1000.w,
-                child: Divider(
+                child: const Divider(
                   height: 1.0,
                   color: Color(0xffc73143),
                   thickness: 1.0,
@@ -128,7 +131,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
               ),
               SizedBox(
                 height: 50.h,
-                child: Divider(
+                child: const Divider(
                   height: 1.0,
                   color: Color(0xffaaaaaa),
                   thickness: 1.3,
@@ -139,7 +142,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                 child: Text(
                   AppLocalizations.of(context)!.translate('class_title'),
                   style: TextStyle(
-                    color: Color(0xffdd0e0e),
+                    color: const Color(0xffdd0e0e),
                     fontSize: 85.sp,
                     fontWeight: FontWeight.w700,
                   ),
@@ -164,7 +167,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                       }
                       return ListView.builder(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
@@ -194,12 +197,11 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                                               ),
                                               children: [
                                                 TextSpan(
-                                                  text: AppLocalizations.of(
+                                                  text: '${AppLocalizations.of(
                                                               context)!
                                                           .translate(
-                                                              'class_lbl') +
-                                                      ' ',
-                                                  style: TextStyle(
+                                                              'class_lbl')} ',
+                                                  style: const TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     color: Color(
                                                       0xff666666,
@@ -212,7 +214,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                                                   text: snapshot.data[index]
                                                           .groupId ??
                                                       '',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     color: Color(0xffdd0e0e),
                                                     decoration: TextDecoration
                                                         .underline,
@@ -223,12 +225,11 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                                           ),
                                           if (snapshot.data[index].fee != null)
                                             Text(
-                                              'RM' +
-                                                  NumberFormat('#,##0.00')
+                                              'RM${NumberFormat('#,##0.00')
                                                       .format(double.tryParse(
                                                           snapshot.data[index]
-                                                              .fee)),
-                                              style: TextStyle(
+                                                              .fee))}',
+                                              style: const TextStyle(
                                                 color: Color(
                                                   0xff666666,
                                                 ),
@@ -237,16 +238,15 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                                           Text(
                                             snapshot.data[index].totalTime !=
                                                     null
-                                                ? AppLocalizations.of(context)!
+                                                ? '${AppLocalizations.of(context)!
                                                         .translate(
-                                                            'total_time') +
-                                                    ' ' +
+                                                            'total_time')} ' +
                                                     snapshot
                                                         .data[index].totalTime
                                                 : /* AppLocalizations.of(context)
                                                     .translate('no_total_time') */
                                                 'Total time 00:00',
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Color(
                                                 0xff666666,
                                               ),
@@ -258,12 +258,10 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 100.w),
                                         child: Text(
-                                          snapshot.data[index].status != null
-                                              ? snapshot.data[index].status
-                                              : '',
+                                          snapshot.data[index].status ?? '',
                                           style: TextStyle(
                                             fontSize: 70.sp,
-                                            color: Color(
+                                            color: const Color(
                                               0xff666666,
                                             ),
                                           ),
@@ -274,7 +272,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                                   Padding(
                                     padding: EdgeInsets.only(
                                         top: ScreenUtil().setHeight(30)),
-                                    child: Divider(
+                                    child: const Divider(
                                       height: 1.0,
                                       color: Colors.white,
                                       thickness: 1.0,

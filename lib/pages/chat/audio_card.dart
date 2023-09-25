@@ -47,12 +47,12 @@ class AudioCard extends StatefulWidget {
 
 class _AudioCardState extends State<AudioCard> {
   bool isPlaying = false;
-  Duration duration = new Duration();
+  Duration duration = const Duration();
   final FlutterSoundPlayer _mPlayer = FlutterSoundPlayer();
   final FlutterSoundHelper flutterSoundHelper = FlutterSoundHelper();
   bool _mPlayerIsInited = false;
   StreamSubscription? _mPlayerSubscription;
-  Duration pos = new Duration();
+  Duration pos = const Duration();
   @override
   void initState() {
     super.initState();
@@ -68,7 +68,7 @@ class _AudioCardState extends State<AudioCard> {
     duration=d;*/
     //print(widget.file_path + '_' + duration.toString());
     await _mPlayer.openPlayer();
-    await _mPlayer.setSubscriptionDuration(Duration(milliseconds: 10));
+    await _mPlayer.setSubscriptionDuration(const Duration(milliseconds: 10));
     _mPlayerSubscription = _mPlayer.onProgress!.listen((e) {
       duration = e.duration;
       setPos(e.position);
@@ -139,7 +139,7 @@ class _AudioCardState extends State<AudioCard> {
                                   child: Container(
                                     width:
                                         MediaQuery.of(context).size.width * 0.8,
-                                    padding: EdgeInsets.all(8),
+                                    padding: const EdgeInsets.all(8),
                                     decoration: BoxDecoration(
                                       color: Colors.grey[300],
                                       borderRadius: BorderRadius.circular(10),
@@ -172,17 +172,17 @@ class _AudioCardState extends State<AudioCard> {
                                                             pos
                                                                 .toString()
                                                                 .split('.')[0],
-                                                            style: TextStyle(
+                                                            style: const TextStyle(
                                                                 color: Colors
                                                                     .black45)),
-                                                        SizedBox(
+                                                        const SizedBox(
                                                           width: 50,
                                                         ),
                                                         Text(
                                                             (pos - duration)
                                                                 .toString()
                                                                 .split('.')[0],
-                                                            style: TextStyle(
+                                                            style: const TextStyle(
                                                                 color: Colors
                                                                     .black45)),
                                                       ],
@@ -211,7 +211,7 @@ class _AudioCardState extends State<AudioCard> {
                                   children: [
                                     buildReplyMessage(
                                         widget.replyMessageDetails),
-                                    Divider(
+                                    const Divider(
                                       color: Colors.white,
                                       height: 20,
                                       thickness: 2,
@@ -230,7 +230,7 @@ class _AudioCardState extends State<AudioCard> {
                                                     .size
                                                     .width *
                                                 0.8,
-                                            padding: EdgeInsets.all(8),
+                                            padding: const EdgeInsets.all(8),
                                             decoration: BoxDecoration(
                                               color: Colors.grey[300],
                                               borderRadius:
@@ -246,7 +246,7 @@ class _AudioCardState extends State<AudioCard> {
                                                 GestureDetector(
                                                   onTap:
                                                       getPlaybackFn(_mPlayer),
-                                                  child: Icon(
+                                                  child: const Icon(
                                                     Icons.play_arrow,
                                                     size: 30,
                                                   ),
@@ -306,7 +306,7 @@ class _AudioCardState extends State<AudioCard> {
                                       //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time)),
                                       style: MyTheme.isMebodyTextTime,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 5,
                                     ),
                                     getStatusIcon(widget.msgStatus)
@@ -337,15 +337,15 @@ class _AudioCardState extends State<AudioCard> {
       return Container();
     } else {
       return Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.all(8),
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(12),
             bottomLeft: Radius.circular(12),
           ),
         ),
-        margin: EdgeInsets.only(bottom: 8),
+        margin: const EdgeInsets.only(bottom: 8),
         child: InkWell(
           onTap: () {
             widget.callback(replyMessageDetails.replyToId!);
@@ -363,7 +363,7 @@ class _AudioCardState extends State<AudioCard> {
     int timeInMinutes =
         DateTime.now().difference(DateTime.parse(widget.time)).inMinutes;
     if (timeInMinutes == 1 && status == "SENDING") {
-      return Icon(
+      return const Icon(
         Icons.sms_failed_outlined,
         size: 20,
         semanticLabel: "Failed",
@@ -374,15 +374,15 @@ class _AudioCardState extends State<AudioCard> {
         color: Colors.yellow,
         radius: 10,
         numberOfDots: 3,
-        animationDuration: Duration(milliseconds: 200),
+        animationDuration: const Duration(milliseconds: 200),
       );
     } else if (status == "SENT") {
-      return Icon(
+      return const Icon(
         Icons.done,
         size: 20,
       );
     } else {
-      return Icon(
+      return const Icon(
         Icons.done_all,
         color: Colors.black,
         size: 20,

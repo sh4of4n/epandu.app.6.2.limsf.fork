@@ -10,11 +10,12 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../router.gr.dart';
 
+@RoutePage(name: 'ProductList')
 class ProductList extends StatefulWidget {
   final String? stkCat;
   final String? keywordSearch;
 
-  ProductList({this.stkCat, this.keywordSearch});
+  const ProductList({super.key, this.stkCat, this.keywordSearch});
 
   @override
   _ProductListState createState() => _ProductListState();
@@ -24,7 +25,7 @@ class _ProductListState extends State<ProductList> {
   final productsRepo = ProductsRepo();
   final customDialog = CustomDialog();
   final primaryColor = ColorConstant.primaryColor;
-  final unescape = new HtmlUnescape();
+  final unescape = HtmlUnescape();
   final formatter = NumberFormat('#,##0.00');
   final RegExp removeBracket =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
@@ -38,7 +39,7 @@ class _ProductListState extends State<ProductList> {
   int _startIndex = 0;
   List<dynamic> items = [];
 
-  ScrollController _scrollController = new ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -47,7 +48,7 @@ class _ProductListState extends State<ProductList> {
     getStock();
 
     _scrollController
-      ..addListener(() {
+      .addListener(() {
         if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent) {
           setState(() {
@@ -59,6 +60,7 @@ class _ProductListState extends State<ProductList> {
       });
   }
 
+  @override
   void dispose() {
     super.dispose();
 
@@ -66,32 +68,34 @@ class _ProductListState extends State<ProductList> {
   }
 
   getStock() async {
-    var _result = await productsRepo.getStock(
+    var result = await productsRepo.getStock(
         context: context,
         stkCat: Uri.encodeComponent(widget.stkCat!),
         keywordSearch: widget.keywordSearch,
         bgnLimit: _startIndex,
         endLimit: 20);
 
-    if (_result.isSuccess) {
-      if (_result.data.length > 0)
+    if (result.isSuccess) {
+      if (result.data.length > 0) {
         setState(() {
-          for (int i = 0; i < _result.data.length; i += 1) {
-            items.add(_result.data[i]);
+          for (int i = 0; i < result.data.length; i += 1) {
+            items.add(result.data[i]);
           }
         });
-      else
+      } else {
         setState(() {
           _isLoading = false;
         });
+      }
 
-      if (_result.data.length < 20)
+      if (result.data.length < 20) {
         setState(() {
           _isLoading = false;
         });
+      }
     } else {
       setState(() {
-        _message = _result.message;
+        _message = result.message;
         _isLoading = false;
       });
     }
@@ -101,20 +105,20 @@ class _ProductListState extends State<ProductList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Products'),
+        title: const Text('Products'),
       ),
       body: _productList(),
     );
   }
 
   _productList() {
-    if (items.length == 0 && _message!.isNotEmpty) {
+    if (items.isEmpty && _message!.isNotEmpty) {
       return Center(
         child: Text(_message!),
       );
-    } else if (items.length > 0) {
+    } else if (items.isNotEmpty) {
       return GridView(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
         ),
         padding: EdgeInsets.symmetric(vertical: 30.h),
@@ -127,7 +131,7 @@ class _ProductListState extends State<ProductList> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.black26,
                     offset: Offset(0.0, 5.0),
@@ -166,7 +170,7 @@ class _ProductListState extends State<ProductList> {
                       title: item.stkCode,
                       images: item.stkpicturePath),
                   footer: GridTileBar(
-                    backgroundColor: Color(0xB3353536),
+                    backgroundColor: const Color(0xB3353536),
                     // width: 220.w,
                     title: Text(
                       item.stkCode,
@@ -253,7 +257,7 @@ class _ProductListState extends State<ProductList> {
     return SizedBox(
       // width: 180.w,
       height: 500.h,
-      child: Icon(Icons.broken_image, size: 40),
+      child: const Icon(Icons.broken_image, size: 40),
     );
   }
 

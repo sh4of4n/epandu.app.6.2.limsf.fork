@@ -13,6 +13,7 @@ import 'package:map_launcher/map_launcher.dart';
 // import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:readmore/readmore.dart';
 
+@RoutePage()
 class FavouritePlaceListPage extends StatefulWidget {
   const FavouritePlaceListPage({super.key});
 
@@ -33,7 +34,7 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
   bool _isSearch = false;
   FocusNode searchFocus = FocusNode();
   Timer? _debounce;
-  GlobalKey<RefreshIndicatorState> _refresherKey =
+  final GlobalKey<RefreshIndicatorState> _refresherKey =
       GlobalKey<RefreshIndicatorState>();
   Map imageMap = {};
   final localStorage = LocalStorage();
@@ -129,12 +130,12 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
         title: _isSearch
             ? TextField(
                 focusNode: searchFocus,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Search place',
                   hintStyle: TextStyle(
@@ -152,7 +153,7 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                   });
                 },
               )
-            : Text('Favourite Places'),
+            : const Text('Favourite Places'),
         actions: [
           IconButton(
             onPressed: () {
@@ -166,7 +167,8 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                 }
               });
             },
-            icon: _isSearch ? Icon(Icons.close) : Icon(Icons.search),
+            icon:
+                _isSearch ? const Icon(Icons.close) : const Icon(Icons.search),
           ),
         ],
       ),
@@ -179,10 +181,10 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
             });
           }
         },
-        label: Row(
+        label: const Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 4.0),
+              padding: EdgeInsets.only(right: 4.0),
               child: Icon(Icons.add),
             ),
             Text('Add Place')
@@ -204,20 +206,20 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
               case ConnectionState.waiting:
               case ConnectionState.none:
               case ConnectionState.active:
-                return Center(child: const CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               case ConnectionState.done:
                 if (snapshot.hasData) {
                   if (snapshot.data == null) {
-                    return Text('empty');
+                    return const Text('empty');
                   }
                   if (snapshot.data.data.length == 0) {
-                    return Center(child: Text('No Data Found'));
+                    return const Center(child: Text('No Data Found'));
                   }
                   print(snapshot.data);
                   return ListView.separated(
                     addRepaintBoundaries: false,
                     addAutomaticKeepAlives: true,
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       vertical: 16,
                     ),
                     itemCount: snapshot.data.data.length,
@@ -243,23 +245,22 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                   case ConnectionState.waiting:
                                   case ConnectionState.none:
                                   case ConnectionState.active:
-                                    return Center(
+                                    return const Center(
                                       child: Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child:
-                                            const CircularProgressIndicator(),
+                                        padding: EdgeInsets.all(16.0),
+                                        child: CircularProgressIndicator(),
                                       ),
                                     );
                                   case ConnectionState.done:
-                                    if (snapshot2.data.data.length == 0)
-                                      return SizedBox();
-                                    else {
-                                      return Container(
+                                    if (snapshot2.data.data.length == 0) {
+                                      return const SizedBox();
+                                    } else {
+                                      return SizedBox(
                                         height: 150,
                                         child: ListView.separated(
                                           addRepaintBoundaries: false,
                                           addAutomaticKeepAlives: true,
-                                          padding: EdgeInsets.only(
+                                          padding: const EdgeInsets.only(
                                             top: 8,
                                             left: 16,
                                             right: 16,
@@ -267,7 +268,7 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                           scrollDirection: Axis.horizontal,
                                           itemCount: snapshot2.data.data.length,
                                           separatorBuilder: (context, index) {
-                                            return SizedBox(
+                                            return const SizedBox(
                                               width: 8,
                                             );
                                           },
@@ -296,7 +297,7 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                               child: Container(
                                                 child: ClipRRect(
                                                   borderRadius:
-                                                      BorderRadius.all(
+                                                      const BorderRadius.all(
                                                           Radius.circular(10)),
                                                   child: AspectRatio(
                                                     aspectRatio: 1 / 1,
@@ -328,11 +329,12 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                 children: [
                                   Text(
                                     snapshot.data.data[index].type,
-                                    style: TextStyle(color: Colors.black54),
+                                    style:
+                                        const TextStyle(color: Colors.black54),
                                   ),
                                   Text(
                                     snapshot.data.data[index].name,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20,
                                     ),
@@ -343,14 +345,14 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                     trimMode: TrimMode.Line,
                                     trimCollapsedText: 'Show more',
                                     trimExpandedText: 'Show less',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 16,
                                     ),
-                                    moreStyle: TextStyle(
+                                    moreStyle: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                     ),
-                                    lessStyle: TextStyle(
+                                    lessStyle: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -389,7 +391,10 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                                                       .lng),
                                                             ),
                                                           );
-                                                          context.router.pop();
+                                                          if (context.mounted) {
+                                                            context.router
+                                                                .pop();
+                                                          }
                                                         },
                                                         title:
                                                             Text(map.mapName),
@@ -406,8 +411,8 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                             },
                                           );
                                         },
-                                        icon: Icon(Icons.directions),
-                                        label: Text('Directions'),
+                                        icon: const Icon(Icons.directions),
+                                        label: const Text('Directions'),
                                         style: OutlinedButton.styleFrom(
                                           shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -415,7 +420,7 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 8,
                                       ),
                                       OutlinedButton.icon(
@@ -426,6 +431,7 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                           await favPlacePictureFuture[snapshot
                                               .data.data[index].placeId];
                                           await EasyLoading.dismiss();
+
                                           var result =
                                               await context.router.push(
                                             EditFavouritePlaceRoute(
@@ -463,8 +469,8 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                           //   });
                                           // }
                                         },
-                                        icon: Icon(Icons.edit),
-                                        label: Text('Edit'),
+                                        icon: const Icon(Icons.edit),
+                                        label: const Text('Edit'),
                                         style: OutlinedButton.styleFrom(
                                           shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
@@ -483,9 +489,9 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                     },
                   );
                 } else if (snapshot.hasError) {
-                  return Text('error');
+                  return const Text('error');
                 } else {
-                  return Text('else');
+                  return const Text('else');
                 }
             }
           },

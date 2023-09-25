@@ -29,7 +29,7 @@ class DatabaseCreator {
   }
 
   Future<void> createTodoTable(Database db) async {
-    final String todoSql = '''CREATE TABLE $todoTable
+    const String todoSql = '''CREATE TABLE $todoTable
     (
       $id INTEGER PRIMARY KEY,
       $name TEXT,

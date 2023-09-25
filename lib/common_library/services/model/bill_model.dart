@@ -9,17 +9,17 @@ class GetTelcoResponse {
 
   GetTelcoResponse.fromJson(Map<String, dynamic> json) {
     if (json['TelcoComm'] != null) {
-      telcoComm = new List<TelcoComm>.empty(growable: true);
+      telcoComm = List<TelcoComm>.empty(growable: true);
       json['TelcoComm'].forEach((v) {
-        telcoComm!.add(new TelcoComm.fromJson(v));
+        telcoComm!.add(TelcoComm.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.telcoComm != null) {
-      data['TelcoComm'] = this.telcoComm!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (telcoComm != null) {
+      data['TelcoComm'] = telcoComm!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -70,16 +70,16 @@ class TelcoComm {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['telco_name'] = this.telcoName;
-    data['telco_image_uri'] = this.telcoImageUri;
-    data['acct_no'] = this.acctNo;
-    data['prepaid_access_menu'] = this.prepaidAccessMenu;
-    data['sponsor_markup_rate1'] = this.sponsorMarkupRate1;
-    data['sponsor_markup_rate_uom1'] = this.sponsorMarkupRateUom1;
-    data['sponsor_markup_rate2'] = this.sponsorMarkupRate2;
-    data['sponsor_markup_rate_uom2'] = this.sponsorMarkupRateUom2;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['telco_name'] = telcoName;
+    data['telco_image_uri'] = telcoImageUri;
+    data['acct_no'] = acctNo;
+    data['prepaid_access_menu'] = prepaidAccessMenu;
+    data['sponsor_markup_rate1'] = sponsorMarkupRate1;
+    data['sponsor_markup_rate_uom1'] = sponsorMarkupRateUom1;
+    data['sponsor_markup_rate2'] = sponsorMarkupRate2;
+    data['sponsor_markup_rate_uom2'] = sponsorMarkupRateUom2;
     return data;
   }
 }
@@ -91,17 +91,17 @@ class GetServiceResponse {
 
   GetServiceResponse.fromJson(Map<String, dynamic> json) {
     if (json['ServiceComm'] != null) {
-      serviceComm = new List<ServiceComm>.empty(growable: true);
+      serviceComm = List<ServiceComm>.empty(growable: true);
       json['ServiceComm'].forEach((v) {
-        serviceComm!.add(new ServiceComm.fromJson(v));
+        serviceComm!.add(ServiceComm.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.serviceComm != null) {
-      data['ServiceComm'] = this.serviceComm!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (serviceComm != null) {
+      data['ServiceComm'] = serviceComm!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -192,26 +192,26 @@ class ServiceComm {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['telco_name'] = this.telcoName;
-    data['telco_image_uri'] = this.telcoImageUri;
-    data['acct_no'] = this.acctNo;
-    data['prepaid_access_menu'] = this.prepaidAccessMenu;
-    data['markup_rate'] = this.markupRate;
-    data['markup_rate_uom'] = this.markupRateUom;
-    data['sponsor_markup_rate1'] = this.sponsorMarkupRate1;
-    data['sponsor_markup_rate_uom1'] = this.sponsorMarkupRateUom1;
-    data['sponsor_markup_rate2'] = this.sponsorMarkupRate2;
-    data['sponsor_markup_rate_uom2'] = this.sponsorMarkupRateUom2;
-    data['member_disc_rate'] = this.memberDiscRate;
-    data['member_disc_rate_uom'] = this.memberDiscRateUom;
-    data['incentive_rate'] = this.incentiveRate;
-    data['incentive_rate_uom'] = this.incentiveRateUom;
-    data['serv_chrg'] = this.servChrg;
-    data['serv_chrg_uom'] = this.servChrgUom;
-    data['serv_chrg_entitle'] = this.servChrgEntitle;
-    data['serv_chrg_entitle_uom'] = this.servChrgEntitleUom;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['telco_name'] = telcoName;
+    data['telco_image_uri'] = telcoImageUri;
+    data['acct_no'] = acctNo;
+    data['prepaid_access_menu'] = prepaidAccessMenu;
+    data['markup_rate'] = markupRate;
+    data['markup_rate_uom'] = markupRateUom;
+    data['sponsor_markup_rate1'] = sponsorMarkupRate1;
+    data['sponsor_markup_rate_uom1'] = sponsorMarkupRateUom1;
+    data['sponsor_markup_rate2'] = sponsorMarkupRate2;
+    data['sponsor_markup_rate_uom2'] = sponsorMarkupRateUom2;
+    data['member_disc_rate'] = memberDiscRate;
+    data['member_disc_rate_uom'] = memberDiscRateUom;
+    data['incentive_rate'] = incentiveRate;
+    data['incentive_rate_uom'] = incentiveRateUom;
+    data['serv_chrg'] = servChrg;
+    data['serv_chrg_uom'] = servChrgUom;
+    data['serv_chrg_entitle'] = servChrgEntitle;
+    data['serv_chrg_entitle_uom'] = servChrgEntitleUom;
     return data;
   }
 }

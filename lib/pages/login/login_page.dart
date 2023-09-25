@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
@@ -8,7 +9,10 @@ import 'login_form.dart';
 import 'login_tablet_bottom_card.dart';
 import 'login_tablet_form.dart';
 
+@RoutePage(name: 'Login')
 class Login extends StatefulWidget {
+  const Login({super.key});
+
   @override
   _LoginState createState() => _LoginState();
 }
@@ -44,7 +48,7 @@ class _LoginState extends State<Login> {
               Colors.amber.shade300,
               primaryColor
             ],
-            stops: [0.2, 0.4, 0.6, 0.7, 1],
+            stops: const [0.2, 0.4, 0.6, 0.7, 1],
             radius: 0.7,
           ),
         ),
@@ -52,7 +56,7 @@ class _LoginState extends State<Login> {
           backgroundColor: Colors.transparent,
           resizeToAvoidBottomInset: true,
           body: SingleChildScrollView(
-            child: Container(
+            child: SizedBox(
               height: MediaQuery.of(context).size.height,
               child: Column(
                 children: <Widget>[
@@ -71,11 +75,11 @@ class _LoginState extends State<Login> {
                         SizedBox(
                           height: 120.h,
                         ),
-                        LoginForm(),
+                        const LoginForm(),
                       ],
                     ),
                   ),
-                  LoginBottomCard(),
+                  const LoginBottomCard(),
                 ],
               ),
             ),
@@ -100,7 +104,7 @@ class _LoginState extends State<Login> {
               Colors.amber.shade300,
               primaryColor
             ],
-            stops: [0.2, 0.4, 0.6, 0.7, 1],
+            stops: const [0.2, 0.4, 0.6, 0.7, 1],
             radius: 0.7,
           ),
         ),
@@ -108,7 +112,7 @@ class _LoginState extends State<Login> {
           backgroundColor: Colors.transparent,
           resizeToAvoidBottomInset: true,
           body: SingleChildScrollView(
-            child: Container(
+            child: SizedBox(
               height: MediaQuery.of(context).size.height,
               child: Column(
                 children: <Widget>[
@@ -127,11 +131,11 @@ class _LoginState extends State<Login> {
                         SizedBox(
                           height: 120.h,
                         ),
-                        LoginTabletForm(),
+                        const LoginTabletForm(),
                       ],
                     ),
                   ),
-                  LoginTabletBottomCard(),
+                  const LoginTabletBottomCard(),
                 ],
               ),
             ),

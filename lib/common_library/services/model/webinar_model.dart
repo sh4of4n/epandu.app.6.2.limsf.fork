@@ -8,18 +8,18 @@ class GetUserMeetingAccountResponse {
 
   GetUserMeetingAccountResponse.fromJson(Map<String, dynamic> json) {
     if (json['ZmMeetingUser'] != null) {
-      zmMeetingUser = new List<ZmMeetingUser>.empty(growable: true);
+      zmMeetingUser = List<ZmMeetingUser>.empty(growable: true);
       json['ZmMeetingUser'].forEach((v) {
-        zmMeetingUser!.add(new ZmMeetingUser.fromJson(v));
+        zmMeetingUser!.add(ZmMeetingUser.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.zmMeetingUser != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (zmMeetingUser != null) {
       data['ZmMeetingUser'] =
-          this.zmMeetingUser!.map((v) => v.toJson()).toList();
+          zmMeetingUser!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -48,12 +48,12 @@ class ZmMeetingUser {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['dbcode'] = this.dbCode;
-    data['meeting_tool'] = this.meetingTool;
-    data['meeting_user_id'] = this.meetingUserId;
-    data['personal_meeting_id'] = this.personalMeetingId;
-    data['refresh_token'] = this.refreshToken;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['dbcode'] = dbCode;
+    data['meeting_tool'] = meetingTool;
+    data['meeting_user_id'] = meetingUserId;
+    data['personal_meeting_id'] = personalMeetingId;
+    data['refresh_token'] = refreshToken;
     return data;
   }
 }
@@ -91,15 +91,15 @@ class SaveUserMeetingAccount {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['wsCodeCrypt'] = this.wsCodeCrypt;
-    data['caUid'] = this.caUid;
-    data['caPwd'] = this.caPwd;
-    data['dbcode'] = this.dbcode;
-    data['meetingTool'] = this.meetingTool;
-    data['meetingUserID'] = this.meetingUserID;
-    data['personalMeetingId'] = this.personalMeetingId;
-    data['refrshToken'] = this.refrshToken;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['wsCodeCrypt'] = wsCodeCrypt;
+    data['caUid'] = caUid;
+    data['caPwd'] = caPwd;
+    data['dbcode'] = dbcode;
+    data['meetingTool'] = meetingTool;
+    data['meetingUserID'] = meetingUserID;
+    data['personalMeetingId'] = personalMeetingId;
+    data['refrshToken'] = refrshToken;
     return data;
   }
 }
@@ -187,32 +187,32 @@ class SaveMeeting {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['wsCodeCrypt'] = this.wsCodeCrypt;
-    data['caUid'] = this.caUid;
-    data['caPwd'] = this.caPwd;
-    data['dbcode'] = this.dbcode;
-    data['meetingTool'] = this.meetingTool;
-    data['uuid'] = this.uuid;
-    data['meetingId'] = this.meetingId;
-    data['password'] = this.password;
-    data['meetingUrl'] = this.meetingUrl;
-    data['meetingUserId'] = this.meetingUserId;
-    data['meetingStatus'] = this.meetingStatus;
-    data['purpose'] = this.purpose;
-    data['subject'] = this.subject;
-    data['description'] = this.description;
-    data['meetingDateString'] = this.meetingDateString;
-    data['startTime'] = this.startTime;
-    data['endTime'] = this.endTime;
-    data['meetingSpeaker'] = this.meetingSpeaker;
-    data['meetingLanguage'] = this.meetingLanguage;
-    data['audiences'] = this.audiences;
-    data['fees'] = this.fees;
-    data['banner'] = this.banner;
-    data['bannerBase64String'] = this.bannerBase64String;
-    data['removeBanner'] = this.removeBanner;
-    data['dataKey'] = this.dataKey;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['wsCodeCrypt'] = wsCodeCrypt;
+    data['caUid'] = caUid;
+    data['caPwd'] = caPwd;
+    data['dbcode'] = dbcode;
+    data['meetingTool'] = meetingTool;
+    data['uuid'] = uuid;
+    data['meetingId'] = meetingId;
+    data['password'] = password;
+    data['meetingUrl'] = meetingUrl;
+    data['meetingUserId'] = meetingUserId;
+    data['meetingStatus'] = meetingStatus;
+    data['purpose'] = purpose;
+    data['subject'] = subject;
+    data['description'] = description;
+    data['meetingDateString'] = meetingDateString;
+    data['startTime'] = startTime;
+    data['endTime'] = endTime;
+    data['meetingSpeaker'] = meetingSpeaker;
+    data['meetingLanguage'] = meetingLanguage;
+    data['audiences'] = audiences;
+    data['fees'] = fees;
+    data['banner'] = banner;
+    data['bannerBase64String'] = bannerBase64String;
+    data['removeBanner'] = removeBanner;
+    data['dataKey'] = dataKey;
 
     return data;
   }
@@ -225,17 +225,17 @@ class GetMeetingByStatusResponse {
 
   GetMeetingByStatusResponse.fromJson(Map<String, dynamic> json) {
     if (json['Meeting'] != null) {
-      zoomMeeting = new List<ZoomMeeting>.empty(growable: true);
+      zoomMeeting = List<ZoomMeeting>.empty(growable: true);
       json['Meeting'].forEach((v) {
-        zoomMeeting!.add(new ZoomMeeting.fromJson(v));
+        zoomMeeting!.add(ZoomMeeting.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.zoomMeeting != null) {
-      data['Meeting'] = this.zoomMeeting!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (zoomMeeting != null) {
+      data['Meeting'] = zoomMeeting!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -291,21 +291,21 @@ class ZoomMeeting {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['meeting_tool'] = this.meetingTool;
-    data['dbcode'] = this.dbCode;
-    data['meeting_url'] = this.meetingUrl;
-    data['meeting_id'] = this.meetingId;
-    data['password'] = this.password;
-    data['meeting_subject'] = this.meetingSubject;
-    data['meeting_desc'] = this.meetingDesc;
-    data['meeting_date'] = this.meetingDate;
-    data['meeting_start_time'] = this.meetingStartTime;
-    data['meeting_end_time'] = this.meetingEndTime;
-    data['meeting_speaker'] = this.meetingSpeaker;
-    data['meeting_lang'] = this.meetingLang;
-    data['picture_path'] = this.picturePath;
-    data['key'] = this.key;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['meeting_tool'] = meetingTool;
+    data['dbcode'] = dbCode;
+    data['meeting_url'] = meetingUrl;
+    data['meeting_id'] = meetingId;
+    data['password'] = password;
+    data['meeting_subject'] = meetingSubject;
+    data['meeting_desc'] = meetingDesc;
+    data['meeting_date'] = meetingDate;
+    data['meeting_start_time'] = meetingStartTime;
+    data['meeting_end_time'] = meetingEndTime;
+    data['meeting_speaker'] = meetingSpeaker;
+    data['meeting_lang'] = meetingLang;
+    data['picture_path'] = picturePath;
+    data['key'] = key;
 
     return data;
   }
@@ -318,18 +318,18 @@ class GetUserRegisteredDIResponse {
 
   GetUserRegisteredDIResponse.fromJson(Map<String, dynamic> json) {
     if (json['ArmasterProfile'] != null) {
-      zoomUser = new List<ZmUser>.empty(growable: true);
+      zoomUser = List<ZmUser>.empty(growable: true);
       json['ArmasterProfile'].forEach((v) {
-        zoomUser!.add(new ZmUser.fromJson(v));
+        zoomUser!.add(ZmUser.fromJson(v));
       });
-      print("Zoom User length" + zoomUser!.length.toString());
+      print("Zoom User length${zoomUser!.length}");
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.zoomUser != null) {
-      data['ArmasterProfile'] = this.zoomUser!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (zoomUser != null) {
+      data['ArmasterProfile'] = zoomUser!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -345,8 +345,8 @@ class ZmUser {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
     return data;
   }
 }
@@ -380,7 +380,7 @@ class MeetingDB {
       this.uuid});
 
   factory MeetingDB.fromMap(Map<String, dynamic> json) {
-    return new MeetingDB(
+    return MeetingDB(
       uuid: json["uuid"] as String?,
       meetingid: json["meetingid"] as String?,
       password: json["password"] as String?,
@@ -435,7 +435,7 @@ class ScheduleDB {
   });
 
   factory ScheduleDB.fromMap(Map<String, dynamic> json) {
-    return new ScheduleDB(
+    return ScheduleDB(
       uuid: json["uuid"],
       meetingid: json["id"],
       hostid: json["host_id"],
@@ -470,7 +470,7 @@ class UserDB {
 
   UserDB({userID, username, zoomUID, pmi, code});
 
-  factory UserDB.fromMap(Map<String, dynamic> json) => new UserDB(
+  factory UserDB.fromMap(Map<String, dynamic> json) => UserDB(
         userID: json["user_id"],
         username: json["username"],
         zoomUID: json["zoom_uid"],
@@ -495,7 +495,7 @@ class ParticipantsDB {
   ParticipantsDB({this.id, this.name, this.useremail});
 
   factory ParticipantsDB.fromMap(Map<String, dynamic> json) =>
-      new ParticipantsDB(
+      ParticipantsDB(
         id: json["id"],
         name: json["name"],
         useremail: json["user_email"],

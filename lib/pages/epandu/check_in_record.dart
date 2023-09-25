@@ -10,7 +10,7 @@ class CheckInRecord extends StatefulWidget {
   final checkInData;
   final bool isLoading;
 
-  CheckInRecord({required this.checkInData, required this.isLoading});
+  const CheckInRecord({super.key, required this.checkInData, required this.isLoading});
 
   @override
   _CheckInRecordState createState() => _CheckInRecordState();
@@ -29,7 +29,7 @@ class _CheckInRecordState extends State<CheckInRecord> {
   final TextStyle _subtitleStyle = TextStyle(
     fontSize: 56.sp,
     fontWeight: FontWeight.w400,
-    color: Color(
+    color: const Color(
       0xff666666,
     ),
   );
@@ -39,7 +39,7 @@ class _CheckInRecordState extends State<CheckInRecord> {
   checkInList() {
     if (widget.checkInData != null && !widget.isLoading) {
       return Padding(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 16,
         ),
@@ -123,7 +123,7 @@ class _CheckInRecordState extends State<CheckInRecord> {
             Colors.white,
             primaryColor,
           ],
-          stops: [0.45, 0.95],
+          stops: const [0.45, 0.95],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),

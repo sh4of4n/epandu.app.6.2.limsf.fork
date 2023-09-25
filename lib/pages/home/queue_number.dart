@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/repository/epandu_repository.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/utils/constants.dart';
@@ -7,10 +8,11 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+@RoutePage(name: 'QueueNumber')
 class QueueNumber extends StatefulWidget {
   final data;
 
-  QueueNumber({required this.data});
+  const QueueNumber({super.key, required this.data});
 
   @override
   _QueueNumberState createState() => _QueueNumberState();
@@ -67,10 +69,10 @@ class _QueueNumberState extends State<QueueNumber> {
   }
 
   renderQr() {
-    if (!isLoading && checkInData != null)
-      return QrImage(
+    if (!isLoading && checkInData != null) {
+      return QrImageView(
         embeddedImage: AssetImage(image.ePanduIcon),
-        embeddedImageStyle: QrEmbeddedImageStyle(
+        embeddedImageStyle: const QrEmbeddedImageStyle(
           size: Size(40, 40),
         ),
         data:
@@ -78,10 +80,10 @@ class _QueueNumberState extends State<QueueNumber> {
         version: QrVersions.auto,
         size: 250.0,
       );
-    else if (checkInData == null) {
+    } else if (checkInData == null) {
       return Container();
     }
-    SpinKitFoldingCube(
+    const SpinKitFoldingCube(
       color: ColorConstant.primaryColor,
     );
   }
@@ -90,7 +92,7 @@ class _QueueNumberState extends State<QueueNumber> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.black, //change your color here
         ),
         title: FadeInImage(

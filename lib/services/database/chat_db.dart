@@ -102,7 +102,7 @@ class ChatDatabase {
     List<Map> maps = await dbClient.rawQuery(
         "SELECT $MESSAGE_AND_AUTHOR_TABLE.id AS id, $MESSAGE_AND_AUTHOR_TABLE.author AS author, $MESSAGE_AND_AUTHOR_TABLE.data AS data, $MESSAGE_AND_AUTHOR_TABLE.sent_date_time AS sent_date_time, $MESSAGE_AND_AUTHOR_TABLE.type AS type,$MESSAGE_AND_AUTHOR_TABLE.is_seen AS is_seen FROM $MESSAGE_AND_AUTHOR_TABLE INNER JOIN $MESSAGE_TARGET_TABLE ON $MESSAGE_TARGET_TABLE.message_id = $MESSAGE_AND_AUTHOR_TABLE.id where $MESSAGE_AND_AUTHOR_TABLE.author = '$userId' AND $MESSAGE_TARGET_TABLE.target_id = '$targetId' OR $MESSAGE_AND_AUTHOR_TABLE.author = '$targetId' AND $MESSAGE_TARGET_TABLE.target_id = '$userId' ORDER BY $MESSAGE_AND_AUTHOR_TABLE.sent_date_time DESC LIMIT $startIndex,$noOfRecords ;");
     List<Message> messages = [];
-    if (maps.length > 0) {
+    if (maps.isNotEmpty) {
       for (int i = 0; i < maps.length; i++) {
         messages.add(Message.fromJson(maps[maps.length - 1 - i] as Map<String, dynamic>));
       }
@@ -122,7 +122,7 @@ class ChatDatabase {
     */
 
     List<UserProfile> users = [];
-    if (maps.length > 0) {
+    if (maps.isNotEmpty) {
       for (int i = 0; i < maps.length; i++) {
         users.add(UserProfile.fromJson(maps[i] as Map<String, dynamic>));
         print("phone: ${users[i].iD}");
@@ -141,7 +141,7 @@ class ChatDatabase {
         "Select id As ID from $RELATIONSHIP_TABLE where host_id = '$userId' And friend_id = '$friendId' ");
 
     UserProfile? user;
-    if (maps.length > 0) {
+    if (maps.isNotEmpty) {
       for (int i = 0; i < maps.length; i++) {
         user = UserProfile.fromJson(maps[i] as Map<String, dynamic>);
       }
@@ -158,7 +158,7 @@ class ChatDatabase {
         .rawQuery("Select id As ID from $USER_TABLE where id = '$userId'");
 
     UserProfile? user;
-    if (maps.length > 0) {
+    if (maps.isNotEmpty) {
       for (int i = 0; i < maps.length; i++) {
         user = UserProfile.fromJson(maps[i] as Map<String, dynamic>);
       }

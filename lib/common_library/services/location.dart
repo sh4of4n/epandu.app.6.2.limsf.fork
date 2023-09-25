@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:flutter_geocoder/geocoder.dart';
+import 'package:geocoder/geocoder.dart';
 
 import '../utils/local_storage.dart';
 import 'package:geolocator/geolocator.dart';
@@ -29,7 +29,7 @@ class Location {
   }
 
   Future<void> getAddress(double? lat, double? long) async {
-    final coordinates = Coordinates(lat, long);
+    final coordinates = Coordinates(lat!, long!);
 
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
@@ -41,9 +41,9 @@ class Location {
 
   Future<double> getDistance(
       {required double locLatitude, required double locLongitude}) async {
-    double? _savedLatitude =
+    double? savedLatitude =
         double.tryParse((await localStorage.getUserLatitude())!);
-    double? _savedLongitude =
+    double? savedLongitude =
         double.tryParse((await localStorage.getUserLongitude())!);
 
     double distance;
@@ -53,7 +53,7 @@ class Location {
         locLongitude > -180 &&
         locLongitude < 180) {
       distanceInMeters = Geolocator.distanceBetween(
-          _savedLatitude!, _savedLongitude!, locLatitude, locLongitude);
+          savedLatitude!, savedLongitude!, locLatitude, locLongitude);
 
       distance = distanceInMeters;
 

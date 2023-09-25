@@ -26,7 +26,7 @@ class TestWebview extends StatefulWidget {
   final String? url;
   final String? backType;
 
-  TestWebview({required this.url, this.backType});
+  const TestWebview({super.key, required this.url, this.backType});
 
   @override
   _TestWebviewState createState() => _TestWebviewState();
@@ -127,7 +127,7 @@ class _TestWebviewState extends State<TestWebview> {
 
             List<RoomMembers> roomMembers = await dbHelper
                 .getRoomMembersList(getCreateRoomResponse.roomId!);
-            roomMembers.forEach((roomMember) {
+            for (var roomMember in roomMembers) {
               if (userid != roomMember.userId) {
                 var inviteUserToRoomJson = {
                   "invitedRoomId": getCreateRoomResponse.roomId!,
@@ -142,7 +142,7 @@ class _TestWebviewState extends State<TestWebview> {
                   }
                 });
               }
-            });
+            }
 
             Navigator.push(
               context,
@@ -213,7 +213,7 @@ class _TestWebviewState extends State<TestWebview> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.black, //change your color here
           ),
           title: FadeInImage(

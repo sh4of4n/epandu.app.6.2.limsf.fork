@@ -13,8 +13,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
+@RoutePage()
 class CreateFavouritePage extends StatefulWidget {
-  CreateFavouritePage({Key? key}) : super(key: key);
+  const CreateFavouritePage({Key? key}) : super(key: key);
 
   @override
   State<CreateFavouritePage> createState() => _CreateFavouritePageState();
@@ -24,7 +25,7 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
   final _formKey = GlobalKey<FormBuilderState>();
   List<String> genderOptions = ['Cafe', 'Supplier', 'Other'];
   final ImagePicker _picker = ImagePicker();
-  List<XFile> _imageFileList = [];
+  final List<XFile> _imageFileList = [];
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   late GoogleMapController mapController;
   double _lat = 3.139003;
@@ -50,7 +51,7 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
         lng: _lng,
       );
       if (result.isSuccess) {
-        if (_imageFileList.length > 0) {
+        if (_imageFileList.isNotEmpty) {
           Iterable<Future> a = [];
           List<Future> b = [];
           for (XFile element in _imageFileList) {
@@ -86,7 +87,7 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
         LatLng(lat, lng),
       ),
     );
-    MarkerId a = MarkerId('value');
+    MarkerId a = const MarkerId('value');
     setState(() {
       _lat = lat;
       _lng = lng;
@@ -107,14 +108,14 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xffffd225),
-          title: Text('Create Favourite Place'),
+          backgroundColor: const Color(0xffffd225),
+          title: const Text('Create Favourite Place'),
           actions: [
             IconButton(
                 onPressed: () {
                   saveFavPlace();
                 },
-                icon: Icon(Icons.save))
+                icon: const Icon(Icons.save))
           ],
         ),
         body: SafeArea(
@@ -128,7 +129,7 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                   children: [
                     FormBuilderDropdown<String>(
                       name: 'type',
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Type',
                         icon: Icon(Icons.format_list_bulleted),
                         filled: true,
@@ -144,12 +145,12 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                           )
                           .toList(),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     FormBuilderTextField(
                       name: 'name',
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Location Name',
                         filled: true,
                         icon: Icon(Icons.map),
@@ -160,12 +161,12 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                         FormBuilderValidators.required(),
                       ]),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     FormBuilderTextField(
                       name: 'description',
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Description',
                         filled: true,
                         icon: Icon(Icons.description),
@@ -178,11 +179,11 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                       minLines: 2,
                     ),
 
-                    SizedBox(
+                    const SizedBox(
                       height: 16.0,
                     ),
 
-                    Text(
+                    const Text(
                       'Position',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -228,7 +229,7 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     // SizedBox(
@@ -249,7 +250,7 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                     GridView.count(
                       crossAxisCount: 3,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       mainAxisSpacing: 4,
                       crossAxisSpacing: 4,
                       children:
@@ -302,7 +303,7 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                                 child: DottedBorder(
                                   color: Colors.grey,
                                   strokeWidth: 1,
-                                  child: Container(
+                                  child: const SizedBox(
                                     height: 200,
                                     width: 200,
                                     child: Column(
@@ -334,7 +335,7 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                                         ),
                                       );
                                     },
-                                    child: Container(
+                                    child: SizedBox(
                                       height: 200,
                                       width: 200,
                                       child: Image.file(
@@ -360,7 +361,7 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                                           borderRadius:
                                               BorderRadius.circular(100),
                                         ),
-                                        child: Icon(Icons.close),
+                                        child: const Icon(Icons.close),
                                       ),
                                     ),
                                   ),

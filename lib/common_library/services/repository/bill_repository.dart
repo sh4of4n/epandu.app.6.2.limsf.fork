@@ -19,13 +19,13 @@ class BillRepo {
     final String caUid = appConfig.eWalletCaUid;
     final String caPwd = Uri.encodeQueryComponent(appConfig.eWalletCaPwd);
     final String businessType = appConfig.businessTypePass;
-    var responseData;
+    List<TelcoComm>? responseData;
     Box<dynamic> telcoList = Hive.box('telcoList');
 
     String path =
         'wsCodeCrypt=CARSERWS&caUid=$caUid&caPwd=$caPwd&businessType=$businessType&userId=8435615081';
 
-    var response = await Networking(customUrl: '$url').getData(
+    var response = await Networking(customUrl: url).getData(
       path: 'GetAllTelco?$path',
     );
 
@@ -52,13 +52,13 @@ class BillRepo {
     final String caUid = appConfig.eWalletCaUid;
     final String caPwd = Uri.encodeQueryComponent(appConfig.eWalletCaPwd);
     final String businessType = appConfig.businessTypePass;
-    var responseData;
+    List<ServiceComm>? responseData;
     Box<dynamic> serviceList = Hive.box('serviceList');
 
     String path =
         'wsCodeCrypt=CARSERWS&caUid=$caUid&caPwd=$caPwd&businessType=$businessType&userId=8435615081';
 
-    var response = await Networking(customUrl: '$url').getData(
+    var response = await Networking(customUrl: url).getData(
       path: 'GetAllService?$path',
     );
 

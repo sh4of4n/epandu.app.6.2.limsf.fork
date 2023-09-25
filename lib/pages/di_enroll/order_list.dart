@@ -11,12 +11,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../router.gr.dart';
 
+@RoutePage(name: 'OrderList')
 class OrderList extends StatefulWidget {
   final String? icNo;
   final String? packageCode;
   final String? diCode;
 
-  OrderList({
+  const OrderList({super.key, 
     this.icNo,
     this.packageCode,
     this.diCode,
@@ -93,13 +94,13 @@ class _OrderListState extends State<OrderList> {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                   return Container(
-                    padding: EdgeInsets.all(15.0),
+                    padding: const EdgeInsets.all(15.0),
                     margin:
-                        EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
+                        const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15.0),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(0, 8.0),
@@ -123,7 +124,7 @@ class _OrderListState extends State<OrderList> {
                   return ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
-                      if (snapshot.data[index].packageCode != 'PURCHASE')
+                      if (snapshot.data[index].packageCode != 'PURCHASE') {
                         return Container(
                           margin: EdgeInsets.symmetric(
                               horizontal: 40.w, vertical: 20.h),
@@ -131,7 +132,7 @@ class _OrderListState extends State<OrderList> {
                             onTap: () {
                               if (snapshot.data[index].trnStatus
                                       .toUpperCase() !=
-                                  'PAID')
+                                  'PAID') {
                                 context.router.push(
                                   FpxPaymentOption(
                                     icNo: widget.icNo,
@@ -147,7 +148,7 @@ class _OrderListState extends State<OrderList> {
                                         .toStringAsFixed(2),
                                   ),
                                 );
-                              else {
+                              } else {
                                 /* customDialog.show(
                                 context: context,
                                 content: AppLocalizations.of(context)
@@ -163,7 +164,7 @@ class _OrderListState extends State<OrderList> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 20.w, vertical: 20.h),
                                 child: Table(
-                                  columnWidths: {1: FractionColumnWidth(.35)},
+                                  columnWidths: const {1: FractionColumnWidth(.35)},
                                   children: [
                                     TableRow(
                                       children: [
@@ -209,27 +210,25 @@ class _OrderListState extends State<OrderList> {
                                       children: [
                                         Text(
                                           '${AppLocalizations.of(context)!.translate('status_lbl')}: ${snapshot.data[index].trnStatus}',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         Text(
-                                          '${AppLocalizations.of(context)!.translate('discount')}: ' +
-                                              double.tryParse(snapshot
+                                          '${AppLocalizations.of(context)!.translate('discount')}: ${double.tryParse(snapshot
                                                       .data[index].tlDiscAmt)!
-                                                  .toStringAsFixed(2),
+                                                  .toStringAsFixed(2)}',
                                         ),
                                       ],
                                     ),
                                     TableRow(
                                       children: [
-                                        Text(''),
+                                        const Text(''),
                                         Text(
-                                          '${AppLocalizations.of(context)!.translate('total_lbl')}: ' +
-                                              double.tryParse(snapshot
+                                          '${AppLocalizations.of(context)!.translate('total_lbl')}: ${double.tryParse(snapshot
                                                       .data[index].tlOrdAmt)!
-                                                  .toStringAsFixed(2),
-                                          style: TextStyle(
+                                                  .toStringAsFixed(2)}',
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -241,6 +240,7 @@ class _OrderListState extends State<OrderList> {
                             ),
                           ),
                         );
+                      }
                       return Container();
                     },
                   );

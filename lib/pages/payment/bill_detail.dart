@@ -11,10 +11,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../router.gr.dart';
 
+@RoutePage(name: 'BillDetail')
 class BillDetail extends StatefulWidget {
   final data;
 
-  BillDetail(this.data);
+  const BillDetail(this.data, {super.key});
 
   @override
   _BillDetailState createState() => _BillDetailState();
@@ -23,9 +24,9 @@ class BillDetail extends StatefulWidget {
 class _BillDetailState extends State<BillDetail> {
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
-  TextStyle _topUpStyle =
-      TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600);
-  TextStyle _labelStyle = TextStyle(fontSize: 18.0);
+  final TextStyle _topUpStyle =
+      const TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600);
+  final TextStyle _labelStyle = const TextStyle(fontSize: 18.0);
 
   String _account = '';
   String _amount = '0.00';
@@ -121,10 +122,10 @@ class _BillDetailState extends State<BillDetail> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Container(
+                        SizedBox(
                           width: ScreenUtil().setWidth(1100),
                           child: TextField(
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 18.0,
                             ),
                             keyboardType: TextInputType.phone,
@@ -141,7 +142,7 @@ class _BillDetailState extends State<BillDetail> {
                               filled: true,
                               enabledBorder: OutlineInputBorder(
                                 borderSide:
-                                    BorderSide(color: Colors.transparent),
+                                    const BorderSide(color: Colors.transparent),
                                 borderRadius: BorderRadius.circular(30),
                               ),
                               border: OutlineInputBorder(
@@ -239,7 +240,7 @@ class _BillDetailState extends State<BillDetail> {
                     if (_message.isNotEmpty)
                       Text(
                         _message,
-                        style: TextStyle(color: Colors.red),
+                        style: const TextStyle(color: Colors.red),
                       ),
                     SizedBox(height: ScreenUtil().setHeight(50)),
                     Padding(
@@ -253,7 +254,7 @@ class _BillDetailState extends State<BillDetail> {
                               Text(
                                 AppLocalizations.of(context)!
                                     .translate('total_lbl'),
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -264,7 +265,7 @@ class _BillDetailState extends State<BillDetail> {
                                   inputFormatters: [
                                     LengthLimitingTextInputFormatter(6),
                                   ],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 22.0,
                                     fontWeight: FontWeight.w900,
                                   ),
@@ -281,8 +282,8 @@ class _BillDetailState extends State<BillDetail> {
                                     extentOffset: _amountController.text.length,
                                   ),
                                   controller: _amountController,
-                                  decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(
+                                  decoration: const InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(
                                         vertical: 10.0),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide.none,
@@ -304,10 +305,10 @@ class _BillDetailState extends State<BillDetail> {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               minimumSize: Size(420.w, 45.h),
-                              backgroundColor: Color(0xffdd0e0e),
-                              padding: EdgeInsets.symmetric(vertical: 11.0),
-                              shape: StadiumBorder(),
-                              textStyle: TextStyle(color: Colors.white),
+                              backgroundColor: const Color(0xffdd0e0e),
+                              padding: const EdgeInsets.symmetric(vertical: 11.0),
+                              shape: const StadiumBorder(),
+                              textStyle: const TextStyle(color: Colors.white),
                             ),
                             onPressed: _submitDetails,
                             child: Container(

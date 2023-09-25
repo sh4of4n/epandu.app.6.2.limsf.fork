@@ -10,7 +10,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../router.gr.dart';
 
+@RoutePage(name: 'RegisterMobile')
 class RegisterMobile extends StatefulWidget {
+  const RegisterMobile({super.key});
+
   @override
   _RegisterMobileState createState() => _RegisterMobileState();
 }
@@ -53,7 +56,7 @@ class _RegisterMobileState extends State<RegisterMobile> {
               Colors.white,
               primaryColor,
             ],
-            stops: [0.45, 0.85],
+            stops: const [0.45, 0.85],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -94,13 +97,13 @@ class _RegisterMobileState extends State<RegisterMobile> {
                               },
                               padding: EdgeInsets.only(top: 62.h),
                               initialSelection: 'MY',
-                              favorite: ['+60', 'MY'],
+                              favorite: const ['+60', 'MY'],
                               showFlagMain: true,
                               alignLeft: false,
                               enabled: false,
                               textStyle: TextStyle(
                                 fontSize: 58.sp,
-                                color: Color(0xff808080),
+                                color: const Color(0xff808080),
                               ),
                             ),
                             Container(
@@ -109,7 +112,7 @@ class _RegisterMobileState extends State<RegisterMobile> {
                               child: TextFormField(
                                 style: TextStyle(
                                   fontSize: 58.sp,
-                                  color: Color(0xff808080),
+                                  color: const Color(0xff808080),
                                 ),
                                 keyboardType: TextInputType.phone,
                                 decoration: InputDecoration(
@@ -166,7 +169,7 @@ class _RegisterMobileState extends State<RegisterMobile> {
                                   width: 1300.w,
                                   child: Text(
                                     _message!,
-                                    style: TextStyle(color: Colors.red),
+                                    style: const TextStyle(color: Colors.red),
                                   ),
                                 )
                               : Container(
@@ -174,17 +177,18 @@ class _RegisterMobileState extends State<RegisterMobile> {
                                 ),
                           Container(
                             child: _isLoading
-                                ? SpinKitFoldingCube(
+                                ? const SpinKitFoldingCube(
                                     color: Colors.blue,
                                   )
                                 : ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       minimumSize: Size(420.w, 45.h),
-                                      backgroundColor: Color(0xffdd0e0e),
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 11.0),
-                                      shape: StadiumBorder(),
-                                      textStyle: TextStyle(color: Colors.white),
+                                      backgroundColor: const Color(0xffdd0e0e),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 11.0),
+                                      shape: const StadiumBorder(),
+                                      textStyle:
+                                          const TextStyle(color: Colors.white),
                                     ),
                                     onPressed: _next,
                                     child: Container(
@@ -234,7 +238,7 @@ class _RegisterMobileState extends State<RegisterMobile> {
               Colors.white,
               primaryColor,
             ],
-            stops: [0.45, 0.85],
+            stops: const [0.45, 0.85],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -278,13 +282,13 @@ class _RegisterMobileState extends State<RegisterMobile> {
                               },
                               padding: EdgeInsets.only(top: 62.h),
                               initialSelection: 'MY',
-                              favorite: ['+60', 'MY'],
+                              favorite: const ['+60', 'MY'],
                               showFlagMain: true,
                               alignLeft: false,
                               enabled: false,
                               textStyle: TextStyle(
                                 fontSize: 40.sp,
-                                color: Color(0xff808080),
+                                color: const Color(0xff808080),
                               ),
                             ),
                             Container(
@@ -293,7 +297,7 @@ class _RegisterMobileState extends State<RegisterMobile> {
                               child: TextFormField(
                                 style: TextStyle(
                                   fontSize: 40.sp,
-                                  color: Color(0xff808080),
+                                  color: const Color(0xff808080),
                                 ),
                                 keyboardType: TextInputType.phone,
                                 decoration: InputDecoration(
@@ -350,7 +354,7 @@ class _RegisterMobileState extends State<RegisterMobile> {
                                   width: 1300.w,
                                   child: Text(
                                     _message!,
-                                    style: TextStyle(color: Colors.red),
+                                    style: const TextStyle(color: Colors.red),
                                   ),
                                 )
                               : Container(
@@ -358,17 +362,18 @@ class _RegisterMobileState extends State<RegisterMobile> {
                                 ),
                           Container(
                             child: _isLoading
-                                ? SpinKitFoldingCube(
+                                ? const SpinKitFoldingCube(
                                     color: Colors.blue,
                                   )
                                 : ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       minimumSize: Size(420.w, 45.h),
-                                      backgroundColor: Color(0xffdd0e0e),
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 11.0),
-                                      shape: StadiumBorder(),
-                                      textStyle: TextStyle(color: Colors.white),
+                                      backgroundColor: const Color(0xffdd0e0e),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 11.0),
+                                      shape: const StadiumBorder(),
+                                      textStyle:
+                                          const TextStyle(color: Colors.white),
                                     ),
                                     onPressed: _next,
                                     child: Text(
@@ -396,15 +401,16 @@ class _RegisterMobileState extends State<RegisterMobile> {
   _next() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      FocusScope.of(context).requestFocus(new FocusNode());
+      FocusScope.of(context).requestFocus(FocusNode());
 
       String mobileNo = '';
 
       // print(_phone.substring(0, 1));
-      if (_phone.substring(0, 1) == '0')
+      if (_phone.substring(0, 1) == '0') {
         mobileNo = _phone.substring(1);
-      else
+      } else {
         mobileNo = _phone;
+      }
 
       // print(_countryCode + mobileNo);
 

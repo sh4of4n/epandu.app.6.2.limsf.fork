@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'dart:io';
 import 'dart:math';
 
@@ -23,7 +24,10 @@ import 'date_formater.dart';
 import 'invite_friend.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
+@RoutePage(name: 'RoomList')
 class RoomList extends StatefulWidget {
+  const RoomList({super.key});
+
   @override
   _RoomListState createState() => _RoomListState();
 }
@@ -54,7 +58,7 @@ class _RoomListState extends State<RoomList> {
     super.initState();
     EasyLoading.addStatusCallback(statusCallback);
     getRoomName();
-    //dbHelper.deleteDB();
+    dbHelper.deleteDB();
     //Provider.of<ChatHistory>(context, listen: false).getChatHistory();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -105,7 +109,7 @@ class _RoomListState extends State<RoomList> {
     if (!_isSelected && !_isRoomSearching) {
       return AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             size: 24,
           ),
@@ -117,20 +121,20 @@ class _RoomListState extends State<RoomList> {
         title: Text(roomTitle),
         actions: [
           IconButton(
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
               onPressed: () {
                 setState(() {
                   _isRoomSearching = true;
                 });
               }),
           PopupMenuButton<String>(
-            padding: EdgeInsets.all(0),
+            padding: const EdgeInsets.all(0),
             onSelected: (value) {
               if (value == "Chat With Friend") {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => InviteFriend(
+                    builder: (context) => const InviteFriend(
                       roomId: '',
                     ),
                   ),
@@ -146,7 +150,7 @@ class _RoomListState extends State<RoomList> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CreateGroup(
+                    builder: (context) => const CreateGroup(
                       roomId: '',
                     ),
                   ),
@@ -155,13 +159,13 @@ class _RoomListState extends State<RoomList> {
             },
             itemBuilder: (BuildContext context) {
               return [
-                PopupMenuItem(
-                  child: Text("Chat With Friend"),
+                const PopupMenuItem(
                   value: "Chat With Friend",
+                  child: Text("Chat With Friend"),
                 ),
-                PopupMenuItem(
-                  child: Text("Create Group"),
+                const PopupMenuItem(
                   value: "Create Group",
+                  child: Text("Create Group"),
                 ),
                 // PopupMenuItem(
                 //   child: Text("Delete Message"),
@@ -175,7 +179,7 @@ class _RoomListState extends State<RoomList> {
     } else if (_isRoomSearching) {
       return AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             size: 24,
           ),
@@ -189,13 +193,13 @@ class _RoomListState extends State<RoomList> {
         title: TextField(
           controller: editingController,
           cursorColor: Colors.white,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
           autofocus: true,
           onChanged: (value) {
             _populateListView(id!);
           },
           // style: TextStyle(color: Colors.white),
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
               hintText: "Search Room",
               hintStyle: TextStyle(color: Colors.white)),
         ),
@@ -203,7 +207,7 @@ class _RoomListState extends State<RoomList> {
     } else {
       return AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             size: 24,
           ),
@@ -220,7 +224,7 @@ class _RoomListState extends State<RoomList> {
         backgroundColor: Colors.blueAccent,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.delete),
+            icon: const Icon(Icons.delete),
             onPressed: () {
               leaveGroup(_selectedRoomId, _selectedRoomName);
               setState(() {
@@ -241,10 +245,10 @@ class _RoomListState extends State<RoomList> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Text("Are you sure you want to  leave the group?"),
+            content: const Text("Are you sure you want to  leave the group?"),
             actions: <Widget>[
               TextButton(
-                child: Text(
+                child: const Text(
                   "Cancel",
                   style: TextStyle(color: Colors.black),
                 ),
@@ -253,7 +257,7 @@ class _RoomListState extends State<RoomList> {
                 },
               ),
               TextButton(
-                child: Text(
+                child: const Text(
                   "Leave",
                   style: TextStyle(color: Colors.red),
                 ),
@@ -268,26 +272,25 @@ class _RoomListState extends State<RoomList> {
                     String name = await localStorage.getNickName() ?? '';
                     List<RoomMembers> roomMembers =
                         await dbHelper.getRoomMembersList(roomId);
-                    roomMembers.forEach((roomMember) {
+                    for (var roomMember in roomMembers) {
                       if (userid != roomMember.userId) {
                         var leaveGroupJson = {
                           "notifiedRoomId": roomId,
                           "notifiedUserId": roomMember.userId,
-                          "title": name + " just left the room",
-                          "description":
-                              userid + " just left the room_" + roomId
+                          "title": "$name just left the room",
+                          "description": "$userid just left the room_$roomId"
                         };
                         //print(messageJson);
                         socket.emitWithAck('sendNotification', leaveGroupJson,
                             ack: (data) async {});
                       }
-                    });
+                    }
 
                     String clientMessageId = generateRandomString(15);
 
                     var messageJson = {
                       "roomId": roomId,
-                      "msgBody": name + ' left',
+                      "msgBody": '$name left',
                       "msgBinaryType": 'userLeft',
                       "replyToId": -1,
                       "clientMessageId": clientMessageId,
@@ -329,13 +332,10 @@ class _RoomListState extends State<RoomList> {
                     await dbHelper.deleteRoomById(roomId);
                     await dbHelper.deleteRoomMembersByRoomId(roomId);
                     await dbHelper.deleteMessagesByRoomId(roomId);
-                    final dir = Directory((Platform.isAndroid
-                                ? await getExternalStorageDirectory() //FOR ANDROID
+                    final dir = Directory(
+                        '${(Platform.isAndroid ? await getExternalStorageDirectory() //FOR ANDROID
                                 : await getApplicationSupportDirectory() //FOR IOS
-                            )!
-                            .path +
-                        '/' +
-                        roomId);
+                            )!.path}/$roomId');
                     //bool dirExist = await dir.exists();
 
                     deleteDirectory(dir);
@@ -343,7 +343,7 @@ class _RoomListState extends State<RoomList> {
                     List<RoomHistoryModel> list =
                         await Provider.of<RoomHistory>(context, listen: false)
                             .getRoomHistory();
-                    if (list.length == 0) {
+                    if (list.isEmpty) {
                       context
                           .read<SocketClientHelper>()
                           .loginUser('Tbs.Chat.Client-All-Users', userid, '');
@@ -371,10 +371,10 @@ class _RoomListState extends State<RoomList> {
   }
 
   String generateRandomString(int length) {
-    final _random = Random();
-    const _availableChars = '1234567890';
+    final random = Random();
+    const availableChars = '1234567890';
     final randomString = List.generate(length,
-            (index) => _availableChars[_random.nextInt(_availableChars.length)])
+            (index) => availableChars[random.nextInt(availableChars.length)])
         .join();
 
     return randomString;
@@ -420,8 +420,8 @@ class _RoomListState extends State<RoomList> {
           final isEvenIndex = index % 2 == 0;
           final itemColor = isEvenIndex ? Colors.grey[200] : Colors.white;
           rooms = roomLIst.getRoomList;
-          if (rooms.length == 0) return SizedBox();
-          RoomHistoryModel room = this.rooms[index];
+          if (rooms.isEmpty) return const SizedBox();
+          RoomHistoryModel room = rooms[index];
           List<ChatNotification> chatNotificationCount = context
               .watch<ChatNotificationCount>()
               .getChatNotificationCountList;
@@ -446,9 +446,9 @@ class _RoomListState extends State<RoomList> {
       int index,
       Color? itemColor) {
     String splitRoomName = '';
-    if (room.roomDesc!.toUpperCase() == 'GROUP CHAT')
+    if (room.roomDesc!.toUpperCase() == 'GROUP CHAT') {
       splitRoomName = room.roomName!;
-    else {
+    } else {
       // if (room.room_name!.contains(','))
       //   splitRoomName = roomTitle.toUpperCase() !=
       //           room.room_name!.split(',')[0].toUpperCase()
@@ -489,7 +489,7 @@ class _RoomListState extends State<RoomList> {
             boxShadow: [
               BoxShadow(
                   color: Colors.grey.withOpacity(.3),
-                  offset: Offset(0, 2),
+                  offset: const Offset(0, 2),
                   blurRadius: 5)
             ],
           ),
@@ -501,7 +501,7 @@ class _RoomListState extends State<RoomList> {
                     ? Image.network(room.picturePath!
                         .replaceAll(removeBracket, '')
                         .split('\r\n')[0])
-                    : Icon(Icons.account_circle),
+                    : const Icon(Icons.account_circle),
               ),
             ),
           ),
@@ -512,13 +512,13 @@ class _RoomListState extends State<RoomList> {
                 //padding: EdgeInsets.all(8),
                 showBadge: badgeCount > 0 ? true : false,
                 //badgeColor: Colors.green,
-                badgeStyle: badges.BadgeStyle(
+                badgeStyle: const badges.BadgeStyle(
                     badgeColor: Colors.green,
                     shape: badges.BadgeShape.circle,
                     padding: EdgeInsets.all(8)),
                 badgeContent: Text(
                   badgeCount.toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontSize: 15,
                       fontWeight: FontWeight.bold),
@@ -532,7 +532,7 @@ class _RoomListState extends State<RoomList> {
                   maxLines: 1,
                   softWrap: false,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
             ),
             if (room.sendDateTime != null && room.sendDateTime != '')
               Text(DateFormatter().getDateTimeRepresentation(
@@ -545,8 +545,9 @@ class _RoomListState extends State<RoomList> {
           List<RoomMembers> roomMembers =
               await dbHelper.getRoomMembersList(room.roomId!);
           for (var roomMembers in roomMembers) {
-            if (roomMembers.userId != id)
-              members += roomMembers.nickName!.toUpperCase() + ",";
+            if (roomMembers.userId != id) {
+              members += "${roomMembers.nickName!.toUpperCase()},";
+            }
           }
           if (members != '') members = members.substring(0, members.length - 1);
 
@@ -672,7 +673,7 @@ class _RoomListState extends State<RoomList> {
         room.messageId! > 0 &&
         (room.filePath == '' || room.filePath == null)) {
       return Text(
-        room.nickName! + ' : ' + room.msgBody!.trim().replaceAll('\n', ' '),
+        '${room.nickName!} : ${room.msgBody!.trim().replaceAll('\n', ' ')}',
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
         softWrap: false,
@@ -681,7 +682,7 @@ class _RoomListState extends State<RoomList> {
         room.messageId! > 0 &&
         (room.msgBinaryType != '' || room.msgBinaryType != null)) {
       return Text(
-        room.nickName! + ' : ' + room.filePath!.split('/').last,
+        '${room.nickName!} : ${room.filePath!.split('/').last}',
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
         softWrap: false,

@@ -20,7 +20,8 @@ class HomeTopMenu extends StatefulWidget {
   final getDiProfile;
   final getActiveFeed;
 
-  HomeTopMenu({
+  const HomeTopMenu({
+    super.key,
     this.iconText,
     this.getDiProfile,
     this.getActiveFeed,
@@ -51,10 +52,11 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
             .updateNotificationBadge(
           notificationBadge: int.tryParse(result.data[0].msgCount),
         );
-      } else
+      } else {
         Provider.of<NotificationCount>(context, listen: false).setShowBadge(
           showBadge: false,
         );
+      }
     } else {
       Provider.of<NotificationCount>(context, listen: false).setShowBadge(
         showBadge: false,
@@ -96,9 +98,9 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
     int notificationCount = 0;
     List<ChatNotification> chatNotificationCount =
         context.watch<ChatNotificationCount>().getChatNotificationCountList;
-    chatNotificationCount.forEach((ChatNotification chatNotification) {
+    for (var chatNotification in chatNotificationCount) {
       notificationCount += chatNotification.notificationBadge!;
-    });
+    }
     return Container(
       // height: ScreenUtil().setHeight(350),
       child: Stack(
@@ -119,10 +121,10 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                       ),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: <Widget>[
-                            Icon(
+                            const Icon(
                               MyCustomIcons.scan_icon,
                               size: 26,
                               color: Color(0xff808080),
@@ -158,13 +160,13 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                     //   ),
                     // ),
                     InkWell(
-                      onTap: () => context.router.push(Pay()),
+                      onTap: () => context.router.push(const Pay()),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: <Widget>[
-                            Icon(
+                            const Icon(
                               Icons.card_giftcard,
                               size: 26,
                               color: Color(0xff808080),
@@ -200,15 +202,15 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                     //   ),
                     // ),
                     InkWell(
-                      onTap: () => context.router.push(Invite()),
+                      onTap: () => context.router.push(const Invite()),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           vertical: 8.0,
                         ),
                         child: Column(
                           children: <Widget>[
-                            Icon(
+                            const Icon(
                               Icons.share,
                               size: 26,
                               color: Color(0xff808080),
@@ -232,13 +234,13 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                       ),
                     ), */
                     InkWell(
-                      onTap: () => context.router.push(IdentityBarcode()),
+                      onTap: () => context.router.push(const IdentityBarcode()),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: <Widget>[
-                            Icon(
+                            const Icon(
                               MyCustomIcons.id_icon,
                               size: 26,
                               color: Color(0xff808080),
@@ -254,20 +256,20 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                     ),
                     InkWell(
                       onTap: () => context.router
-                          .push(Inbox())
+                          .push(const Inbox())
                           .then((value) => getUnreadNotificationCount()),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: <Widget>[
                             badges.Badge(
                               showBadge: showBadge,
                               badgeContent: Text(
                                 '$badgeNo',
-                                style: TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white),
                               ),
-                              child: Icon(
+                              child: const Icon(
                                 MyCustomIcons.inbox_icon,
                                 size: 26,
                                 color: Color(0xff808080),
@@ -283,19 +285,19 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
                       ),
                     ),
                     InkWell(
-                      onTap: () => context.router.push(RoomList()),
+                      onTap: () => context.router.push(const RoomList()),
                       borderRadius: BorderRadius.circular(10.0),
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: <Widget>[
                             badges.Badge(
                               showBadge: notificationCount > 0 ? true : false,
                               badgeContent: Text(
                                 '$notificationCount',
-                                style: TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white),
                               ),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.chat,
                                 size: 26,
                                 color: Color(0xff808080),

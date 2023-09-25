@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/repository/epandu_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +8,11 @@ import 'package:intl/intl.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
 
+@RoutePage(name: 'PaymentHistoryDetail')
 class PaymentHistoryDetail extends StatefulWidget {
   final recpNo;
 
-  PaymentHistoryDetail(this.recpNo);
+  const PaymentHistoryDetail(this.recpNo, {super.key});
 
   @override
   _PaymentHistoryDetailState createState() => _PaymentHistoryDetailState();
@@ -22,7 +24,7 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
   Future? _getPaymentDetail;
   final primaryColor = ColorConstant.primaryColor;
 
-  final headerStyle = TextStyle(
+  final headerStyle = const TextStyle(
     fontWeight: FontWeight.bold,
   );
 
@@ -52,12 +54,12 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
     }
 
     return Table(
-      columnWidths: {0: FractionColumnWidth(.35)},
+      columnWidths: const {0: FractionColumnWidth(.35)},
       children: [
         TableRow(
           children: [
             Text(
-              AppLocalizations.of(context)!.translate('tax_lbl') + ': ',
+              '${AppLocalizations.of(context)!.translate('tax_lbl')}: ',
             ),
             Text(
               _taxAmt != 0
@@ -70,7 +72,7 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
         TableRow(
           children: [
             Text(
-              AppLocalizations.of(context)!.translate('total_lbl') + ': ',
+              '${AppLocalizations.of(context)!.translate('total_lbl')}: ',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 70.sp),
             ),
             Text(
@@ -95,7 +97,7 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
             Colors.white,
             primaryColor,
           ],
-          stops: [0.45, 0.95],
+          stops: const [0.45, 0.95],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -103,13 +105,13 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.black, //change your color here
           ),
           elevation: 0,
           backgroundColor: Colors.transparent,
           title: Text(AppLocalizations.of(context)!.translate('payment_lbl'),
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.black,
               )),
         ),
@@ -173,7 +175,7 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
                           TableRow(
                             children: [
                               Padding(
-                                padding: EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(5),
                                 child: Text(
                                   AppLocalizations.of(context)!
                                       .translate('description'),
@@ -182,7 +184,7 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(5),
                                 child: Text(
                                   AppLocalizations.of(context)!
                                       .translate('subtotal'),
@@ -205,7 +207,7 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
                                     height: 1500.h,
                                     child: Center(child: Text('Payment details'))), */
                               Table(
-                                border: TableBorder(
+                                border: const TableBorder(
                                   left: BorderSide(width: 1.0),
                                   right: BorderSide(width: 1.0),
                                   bottom: BorderSide(width: 1.0),
@@ -215,7 +217,7 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
                                   TableRow(
                                     children: [
                                       Padding(
-                                        padding: EdgeInsets.all(3.0),
+                                        padding: const EdgeInsets.all(3.0),
                                         child: Text(
                                           snapshot.data[index].trnDesc ??
                                               // AppLocalizations.of(context)
@@ -225,12 +227,11 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.all(3.0),
+                                        padding: const EdgeInsets.all(3.0),
                                         child: Text(
-                                          'RM' +
-                                              NumberFormat('#,##0.00').format(
+                                          'RM${NumberFormat('#,##0.00').format(
                                                   double.tryParse(snapshot
-                                                      .data[index].tranTotal))
+                                                      .data[index].tranTotal))}'
                                           // AppLocalizations.of(context)
                                           //     .translate('no_package_desc'),
                                           ,
@@ -249,7 +250,7 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-                          Container(
+                          SizedBox(
                             width: 800.w,
                             child: _getTotal(snapshot.data),
                           ),

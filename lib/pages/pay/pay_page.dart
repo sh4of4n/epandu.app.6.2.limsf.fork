@@ -14,7 +14,10 @@ import 'package:supercharged/supercharged.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
+@RoutePage(name: 'Pay')
 class Pay extends StatefulWidget {
+  const Pay({super.key});
+
   @override
   _PayState createState() => _PayState();
 }
@@ -38,11 +41,11 @@ class _PayState extends State<Pay> {
 
   String? _icNo = '';
   // String _name = '';
-  String _eMail = '';
-  String _birthDate = '';
-  String _race = '';
+  final String eMail = '';
+  final String birthDate = '';
+  final String race = '';
   // String _nationality = '';
-  String _gender = '';
+  final String gender = '';
 
   String message = '';
 
@@ -90,7 +93,7 @@ class _PayState extends State<Pay> {
           TextButton(
             child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
             onPressed: () => context.router.pushAndPopUntil(
-              UpdateProfile(),
+              const UpdateProfile(),
               predicate: ModalRoute.withName('Home'),
             ),
           ),
@@ -110,10 +113,10 @@ class _PayState extends State<Pay> {
   }
 
   _getUserInfo() async {
-    String? _getStudentIc = await localStorage.getStudentIc();
+    String? getStudentIc = await localStorage.getStudentIc();
 
     setState(() {
-      _icNo = _getStudentIc;
+      _icNo = getStudentIc;
     });
   }
 
@@ -144,7 +147,7 @@ class _PayState extends State<Pay> {
     if (payBy!.isNotEmpty && paymentFor!.isNotEmpty) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
-        FocusScope.of(context).requestFocus(new FocusNode());
+        FocusScope.of(context).requestFocus(FocusNode());
         setState(() {
           isLoading = true;
           message = '';
@@ -176,6 +179,7 @@ class _PayState extends State<Pay> {
                   .tlOrdAmt, // same with totalAmount but used for different purposes, this is available in pay_page and not di_enrollment),
             ),
           );
+
           /* context.router.push(
             Routes.purchaseOrderList,
             arguments: PurchaseOrderListArguments(
@@ -206,7 +210,7 @@ class _PayState extends State<Pay> {
 
   defaultLayout() {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
             Colors.white,
@@ -238,7 +242,7 @@ class _PayState extends State<Pay> {
                   onTap: () async {
                     String? diCode = await localStorage.getMerchantDbCode();
 
-                    if (paymentFor!.isNotEmpty)
+                    if (paymentFor!.isNotEmpty) {
                       context.router.push(
                         PurchaseOrderList(
                           icNo: _icNo,
@@ -246,16 +250,17 @@ class _PayState extends State<Pay> {
                           diCode: diCode,
                         ),
                       );
-                    else
+                    } else {
                       setState(() {
                         message = AppLocalizations.of(context)!
                             .translate('select_payment_for');
                       });
+                    }
                   },
                   child: Center(
                     child: Text(
                       AppLocalizations.of(context)!.translate('orders'),
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
@@ -309,14 +314,15 @@ class _PayState extends State<Pay> {
                       TextFormField(
                         cursorWidth: 0,
                         controller: amountController,
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: 10.0),
-                          hintStyle: TextStyle(
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 10.0),
+                          hintStyle: const TextStyle(
                             color: ColorConstant.primaryColor,
                           ),
-                          labelStyle: TextStyle(
+                          labelStyle: const TextStyle(
                             color: Color(0xff808080),
                           ),
                           labelText:
@@ -328,7 +334,7 @@ class _PayState extends State<Pay> {
                           ),
                           suffixIcon: IconButton(
                             onPressed: () => amountController.text = '0.00',
-                            icon: Icon(Icons.close),
+                            icon: const Icon(Icons.close),
                           ),
                         ),
                         validator: (value) {
@@ -379,9 +385,10 @@ class _PayState extends State<Pay> {
                       ),
                       SizedBox(height: 20.h),
                       if (message.isNotEmpty)
-                        Text(message, style: TextStyle(color: Colors.red)),
+                        Text(message,
+                            style: const TextStyle(color: Colors.red)),
                       CustomButton(
-                        buttonColor: Color(0xffdd0e0e),
+                        buttonColor: const Color(0xffdd0e0e),
                         onPressed: createOrderWithAmt,
                         title:
                             AppLocalizations.of(context)!.translate('next_btn'),
@@ -426,7 +433,7 @@ class _PayState extends State<Pay> {
 
   tabLayout() {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
             Colors.white,
@@ -458,7 +465,7 @@ class _PayState extends State<Pay> {
                   onTap: () async {
                     String? diCode = await localStorage.getMerchantDbCode();
 
-                    if (paymentFor!.isNotEmpty)
+                    if (paymentFor!.isNotEmpty) {
                       context.router.push(
                         PurchaseOrderList(
                           icNo: _icNo,
@@ -466,16 +473,17 @@ class _PayState extends State<Pay> {
                           diCode: diCode,
                         ),
                       );
-                    else
+                    } else {
                       setState(() {
                         message = AppLocalizations.of(context)!
                             .translate('select_payment_for');
                       });
+                    }
                   },
                   child: Center(
                     child: Text(
                       AppLocalizations.of(context)!.translate('orders'),
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
@@ -494,7 +502,7 @@ class _PayState extends State<Pay> {
                       DropdownButtonFormField<String>(
                         isExpanded: true,
                         style: TextStyle(
-                            color: Color(0xff5c5c5c), fontSize: 42.sp),
+                            color: const Color(0xff5c5c5c), fontSize: 42.sp),
                         decoration: InputDecoration(
                           hintStyle: TextStyle(
                             fontSize: 42.sp,
@@ -534,15 +542,16 @@ class _PayState extends State<Pay> {
                       TextFormField(
                         cursorWidth: 0,
                         controller: amountController,
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(vertical: 10.0),
-                          hintStyle: TextStyle(
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 10.0),
+                          hintStyle: const TextStyle(
                             color: ColorConstant.primaryColor,
                           ),
                           labelStyle: TextStyle(
-                            color: Color(0xff808080),
+                            color: const Color(0xff808080),
                             fontSize: 44.sp,
                           ),
                           labelText:
@@ -554,7 +563,7 @@ class _PayState extends State<Pay> {
                           ),
                           suffixIcon: IconButton(
                             onPressed: () => amountController.text = '0.00',
-                            icon: Icon(Icons.close),
+                            icon: const Icon(Icons.close),
                           ),
                         ),
                         validator: (value) {
@@ -570,7 +579,7 @@ class _PayState extends State<Pay> {
                       ),
                       DropdownButtonFormField<String>(
                         style: TextStyle(
-                          color: Color(0xff5c5c5c),
+                          color: const Color(0xff5c5c5c),
                           fontSize: 42.sp,
                         ),
                         decoration: InputDecoration(
@@ -612,11 +621,12 @@ class _PayState extends State<Pay> {
                       ),
                       SizedBox(height: 20.h),
                       if (message.isNotEmpty)
-                        Text(message, style: TextStyle(color: Colors.red)),
+                        Text(message,
+                            style: const TextStyle(color: Colors.red)),
                       CustomButton(
                         minWidth: 250.w,
                         height: 140.h,
-                        buttonColor: Color(0xffdd0e0e),
+                        buttonColor: const Color(0xffdd0e0e),
                         onPressed: createOrderWithAmt,
                         title:
                             AppLocalizations.of(context)!.translate('next_btn'),

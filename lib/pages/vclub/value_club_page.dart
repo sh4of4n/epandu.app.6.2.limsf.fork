@@ -16,7 +16,10 @@ import 'package:transparent_image/transparent_image.dart';
 
 import '../../router.gr.dart';
 
+@RoutePage(name: 'ValueClub')
 class ValueClub extends StatefulWidget {
+  const ValueClub({super.key});
+
   @override
   _ValueClubState createState() => _ValueClubState();
 }
@@ -60,7 +63,7 @@ class _ValueClubState extends State<ValueClub> {
   final bubbleDecoration = BoxDecoration(
     color: Colors.white,
     borderRadius: BorderRadius.circular(10),
-    boxShadow: [
+    boxShadow: const [
       BoxShadow(
         color: Colors.black26,
         offset: Offset(0.0, 5.0),
@@ -194,22 +197,23 @@ class _ValueClubState extends State<ValueClub> {
   }
 
   loadImage(image) {
-    if (image != null)
+    if (image != null) {
       return Image.network(
         image.replaceAll(removeBracket, '').split('\r\n')[0],
         height: 300.h,
         gaplessPlayback: true,
       );
+    }
 
     return SizedBox(
       // width: 180.w,
       height: 300.h,
-      child: Icon(Icons.broken_image, size: 40, color: Colors.grey),
+      child: const Icon(Icons.broken_image, size: 40, color: Colors.grey),
     );
   }
 
   mostPopularList() {
-    if (mostPopularProducts != null)
+    if (mostPopularProducts != null) {
       return Container(
         margin: EdgeInsets.symmetric(horizontal: 40.w),
         decoration: bubbleDecoration,
@@ -239,15 +243,15 @@ class _ValueClubState extends State<ValueClub> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: GridView.builder(
                 shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   // childAspectRatio: MediaQuery.of(context).size.height / 530,
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 40.w),
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 itemCount: mostPopularProducts.length,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
@@ -279,7 +283,7 @@ class _ValueClubState extends State<ValueClub> {
                       children: <Widget>[
                         loadImage(mostPopularProducts[index].stkpicturePath),
                         SizedBox(height: 20.h),
-                        Container(
+                        SizedBox(
                             width: 220.w,
                             child: Text(
                               mostPopularProducts[index].stkCode,
@@ -294,9 +298,9 @@ class _ValueClubState extends State<ValueClub> {
           ],
         ),
       );
-    else if (mostPopularProducts == null && mostPopularLoading == true)
+    } else if (mostPopularProducts == null && mostPopularLoading == true)
       return Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Shimmer.fromColors(
           baseColor: Colors.grey[300]!,
           highlightColor: Colors.white,
@@ -311,7 +315,7 @@ class _ValueClubState extends State<ValueClub> {
   }
 
   recommendedList() {
-    if (recommendedProducts != null)
+    if (recommendedProducts != null) {
       return Container(
         margin: EdgeInsets.symmetric(horizontal: 40.w),
         decoration: bubbleDecoration,
@@ -341,14 +345,14 @@ class _ValueClubState extends State<ValueClub> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: GridView.builder(
                 shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 40.w),
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 itemCount: recommendedProducts.length,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
@@ -380,7 +384,7 @@ class _ValueClubState extends State<ValueClub> {
                       children: <Widget>[
                         loadImage(recommendedProducts[index].stkpicturePath),
                         SizedBox(height: 30.h),
-                        Container(
+                        SizedBox(
                             width: 220.w,
                             child: Text(
                               recommendedProducts[index].stkCode,
@@ -395,9 +399,9 @@ class _ValueClubState extends State<ValueClub> {
           ],
         ),
       );
-    else if (recommendedProducts == null && recommendedLoading == true)
+    } else if (recommendedProducts == null && recommendedLoading == true)
       return Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Shimmer.fromColors(
           baseColor: Colors.grey[300]!,
           highlightColor: Colors.white,
@@ -412,9 +416,9 @@ class _ValueClubState extends State<ValueClub> {
   }
 
   categories() {
-    if (mostPopularProducts != null)
+    if (mostPopularProducts != null) {
       return Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           boxShadow: [
             BoxShadow(
@@ -457,11 +461,11 @@ class _ValueClubState extends State<ValueClub> {
             ),
             Container(
               height: 1200.h,
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: GridView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   // childAspectRatio: MediaQuery.of(context).size.height / 530,
                 ),
@@ -499,7 +503,7 @@ class _ValueClubState extends State<ValueClub> {
                       children: <Widget>[
                         // loadImage(mostPopularProducts[index].stkpicturePath),
                         SizedBox(height: 20.h),
-                        Container(
+                        SizedBox(
                             width: 220.w,
                             child: Text(
                               categoryItems[index],
@@ -514,9 +518,9 @@ class _ValueClubState extends State<ValueClub> {
           ],
         ),
       );
-    else if (mostPopularProducts == null && mostPopularLoading == true)
+    } else if (mostPopularProducts == null && mostPopularLoading == true)
       return Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Shimmer.fromColors(
           baseColor: Colors.grey[300]!,
           highlightColor: Colors.white,
@@ -540,8 +544,8 @@ class _ValueClubState extends State<ValueClub> {
         enableInfiniteScroll: true,
         reverse: false,
         autoPlay: true,
-        autoPlayInterval: Duration(seconds: 10),
-        autoPlayAnimationDuration: Duration(milliseconds: 800),
+        autoPlayInterval: const Duration(seconds: 10),
+        autoPlayAnimationDuration: const Duration(milliseconds: 800),
         autoPlayCurve: Curves.fastOutSlowIn,
         enlargeCenterPage: true,
         scrollDirection: Axis.horizontal,
@@ -554,7 +558,7 @@ class _ValueClubState extends State<ValueClub> {
       items: brands.map((banner) {
         return Builder(
           builder: (BuildContext context) {
-            return Container(
+            return SizedBox(
               width: MediaQuery.of(context).size.width,
               // margin: EdgeInsets.symmetric(horizontal: 5.0),
               child: Image.asset(banner),
@@ -571,7 +575,7 @@ class _ValueClubState extends State<ValueClub> {
     int? badgeNo = context.watch<CartStatus>().cartItem;
 
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
             Colors.white,
@@ -585,12 +589,12 @@ class _ValueClubState extends State<ValueClub> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.black, //change your color here
           ),
           title: Text(
             AppLocalizations.of(context)!.translate('value_club'),
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black,
             ),
           ),
@@ -610,13 +614,13 @@ class _ValueClubState extends State<ValueClub> {
                   badgeStyle: badges.BadgeStyle(
                     badgeColor: Colors.redAccent[700]!,
                   ),
-                  badgeAnimation: badges.BadgeAnimation.fade(),
+                  badgeAnimation: const badges.BadgeAnimation.fade(),
                   showBadge: showBadge,
                   badgeContent: Text(
                     '$badgeNo',
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
-                  child: Icon(Icons.shopping_cart),
+                  child: const Icon(Icons.shopping_cart),
                 ),
               ),
             ),
@@ -653,8 +657,9 @@ class _ValueClubState extends State<ValueClub> {
                       enableInfiniteScroll: true,
                       reverse: false,
                       autoPlay: true,
-                      autoPlayInterval: Duration(seconds: 10),
-                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      autoPlayInterval: const Duration(seconds: 10),
+                      autoPlayAnimationDuration:
+                          const Duration(milliseconds: 800),
                       autoPlayCurve: Curves.fastOutSlowIn,
                       enlargeCenterPage: true,
                       scrollDirection: Axis.horizontal,
@@ -667,7 +672,7 @@ class _ValueClubState extends State<ValueClub> {
                     items: banners.map((banner) {
                       return Builder(
                         builder: (BuildContext context) {
-                          return Container(
+                          return SizedBox(
                             width: MediaQuery.of(context).size.width,
                             // margin: EdgeInsets.symmetric(horizontal: 5.0),
                             child: Image.asset(banner),
@@ -683,7 +688,7 @@ class _ValueClubState extends State<ValueClub> {
                   child: AnimatedSmoothIndicator(
                     activeIndex: _carouselIndex,
                     count: banners.length,
-                    effect: ExpandingDotsEffect(),
+                    effect: const ExpandingDotsEffect(),
                   ),
                 ),
               ],

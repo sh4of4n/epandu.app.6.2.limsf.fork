@@ -10,11 +10,14 @@ import 'package:hive/hive.dart';
 
 import '../../router.gr.dart';
 
+@RoutePage(name: 'BillSelection')
 class BillSelection extends StatelessWidget {
   final primaryColor = ColorConstant.primaryColor;
   final billRepo = BillRepo();
 
   final Box<dynamic> serviceList = Hive.box('serviceList');
+
+  BillSelection({super.key});
 
   Future<dynamic> _getService(context) async {
     if (serviceList.get('serviceList') == null) {
@@ -49,12 +52,12 @@ class BillSelection extends StatelessWidget {
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
               if (snapshot.hasData) {
                 return GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     // childAspectRatio: MediaQuery.of(context).size.height / 530,
                   ),
                   shrinkWrap: true,
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(

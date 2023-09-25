@@ -39,18 +39,18 @@ class RoomHistoryModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['room_id'] = this.roomId;
-    data['picture_path'] = this.picturePath;
-    data['room_name'] = this.roomName;
-    data['room_desc'] = this.roomDesc;
-    data['message_id'] = this.messageId;
-    data['msg_body'] = this.msgBody;
-    data['msg_binaryType'] = this.msgBinaryType;
-    data['filePath'] = this.filePath;
-    data['nick_name'] = this.nickName;
-    data['send_datetime'] = this.sendDateTime;
-    data['merchant_no'] = this.merchantNo;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['room_id'] = roomId;
+    data['picture_path'] = picturePath;
+    data['room_name'] = roomName;
+    data['room_desc'] = roomDesc;
+    data['message_id'] = messageId;
+    data['msg_body'] = msgBody;
+    data['msg_binaryType'] = msgBinaryType;
+    data['filePath'] = filePath;
+    data['nick_name'] = nickName;
+    data['send_datetime'] = sendDateTime;
+    data['merchant_no'] = merchantNo;
     return data;
   }
 }

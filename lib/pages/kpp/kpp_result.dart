@@ -3,14 +3,15 @@ import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+@RoutePage(name: 'KppResult')
 class KppResult extends StatelessWidget {
   final primaryColor = ColorConstant.primaryColor;
   final data;
-  final descStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.w500);
+  final descStyle = const TextStyle(fontSize: 20, fontWeight: FontWeight.w500);
   final resultStyle =
-      TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: Colors.blue);
+      const TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: Colors.blue);
 
-  KppResult(this.data);
+  const KppResult(this.data, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,29 +19,29 @@ class KppResult extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: RadialGradient(
           colors: [Colors.amber.shade300, primaryColor],
-          stops: [0.5, 1],
+          stops: const [0.5, 1],
           radius: 0.9,
         ),
       ),
       child: Scaffold(
           appBar: AppBar(
-            title: Text('Response'),
+            title: const Text('Response'),
             elevation: 0,
             backgroundColor: Colors.transparent,
           ),
           backgroundColor: Colors.transparent,
           body: Column(
             children: <Widget>[
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-                padding: EdgeInsets.all(17),
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                padding: const EdgeInsets.all(17),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     color: Colors.white,
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
                         offset: Offset(0.0, 1),
@@ -57,12 +58,12 @@ class KppResult extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-                padding: EdgeInsets.all(17),
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                padding: const EdgeInsets.all(17),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     color: Colors.white,
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
                         offset: Offset(0.0, 1),
@@ -78,14 +79,14 @@ class KppResult extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 5.0),
+              const SizedBox(height: 5.0),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(420.w, 45.h),
-                  backgroundColor: Color(0xffdd0e0e),
-                  padding: EdgeInsets.symmetric(vertical: 11.0),
-                  shape: StadiumBorder(),
-                  textStyle: TextStyle(color: Colors.white),
+                  backgroundColor: const Color(0xffdd0e0e),
+                  padding: const EdgeInsets.symmetric(vertical: 11.0),
+                  shape: const StadiumBorder(),
+                  textStyle: const TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
                   context.router.pop();

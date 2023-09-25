@@ -38,7 +38,7 @@ class _CreateGroupState extends State<CreateGroup> {
   final appConfig = AppConfig();
   late IO.Socket socket;
   bool isMultiSelectionEnabled = true;
-  TextEditingController _textFieldController = TextEditingController();
+  final TextEditingController _textFieldController = TextEditingController();
   String codeDialog = "";
   String valueText = "";
   final dbHelper = DatabaseHelper.instance;
@@ -84,7 +84,7 @@ class _CreateGroupState extends State<CreateGroup> {
   AppBar getAppBar(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_back,
           size: 24,
         ),
@@ -93,7 +93,7 @@ class _CreateGroupState extends State<CreateGroup> {
         },
       ),
       title: widget.roomId == ''
-          ? Row(
+          ? const Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Icon(
@@ -101,19 +101,19 @@ class _CreateGroupState extends State<CreateGroup> {
                   color: Colors.white,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Text('Create Group'),
                 ),
               ],
             )
-          : Row(
+          : const Row(
               children: [
                 Icon(
                   Icons.group_add_rounded,
                   color: Colors.white,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Text('Add Member To Group'),
                 ),
               ],
@@ -182,12 +182,12 @@ class _CreateGroupState extends State<CreateGroup> {
                 decoration: InputDecoration(
                     labelText: "Search Friend By Mobile No.",
                     hintText: "Search Friend By Mobile No.",
-                    prefixIcon: Icon(
+                    prefixIcon: const Icon(
                       Icons.search,
                     ),
-                    suffixIcon: editingController.text.length > 0
+                    suffixIcon: editingController.text.isNotEmpty
                         ? IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.clear,
                             ),
                             onPressed: () async {
@@ -197,7 +197,7 @@ class _CreateGroupState extends State<CreateGroup> {
                             },
                           )
                         : null,
-                    border: OutlineInputBorder(
+                    border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10.0)))),
               ),
             ),
@@ -205,7 +205,7 @@ class _CreateGroupState extends State<CreateGroup> {
           ],
         ),
       ),
-      floatingActionButton: _selected.length > 0
+      floatingActionButton: _selected.isNotEmpty
           ? FloatingActionButton(
               onPressed: () async {
                 if (widget.roomId == '') {
@@ -234,17 +234,15 @@ class _CreateGroupState extends State<CreateGroup> {
                       await dbHelper.updateRoomMemberStatus(
                           memberByPhoneResponse.userId, "false", widget.roomId);
 
-                      roomMembers.forEach((roomMember) {
+                      for (var roomMember in roomMembers) {
                         if (userId != roomMember.userId) {
                           var groupJson = {
                             "notifiedRoomId": widget.roomId,
                             "notifiedUserId": roomMember.userId,
-                            "title": userName! +
-                                ' added ' +
-                                memberByPhoneResponse.name!,
-                            "description": memberByPhoneResponse.userId! +
-                                " just joined the room_" +
-                                widget.roomId
+                            "title":
+                                '${userName!} added ${memberByPhoneResponse.name!}',
+                            "description":
+                                "${memberByPhoneResponse.userId!} just joined the room_${widget.roomId}"
                           };
                           //print(messageJson);
                           socket.emitWithAck('sendNotification', groupJson,
@@ -252,7 +250,7 @@ class _CreateGroupState extends State<CreateGroup> {
                             //print(data);
                           });
                         }
-                      });
+                      }
 
                       String clientMessageId = generateRandomString(15);
                       String caUid = await localStorage.getCaUid() ?? '';
@@ -264,9 +262,8 @@ class _CreateGroupState extends State<CreateGroup> {
                           appId: appConfig.appId,
                           caUid: caUid,
                           deviceId: deviceId,
-                          msgBody: userName! +
-                              ' added ' +
-                              memberByPhoneResponse.name!,
+                          msgBody:
+                              '${userName!} added ${memberByPhoneResponse.name!}',
                           msgBinary: '',
                           msgBinaryType: 'userJoined',
                           replyToId: -1,
@@ -298,7 +295,7 @@ class _CreateGroupState extends State<CreateGroup> {
                       var messageJson = {
                         "roomId": widget.roomId,
                         "msgBody":
-                            userName + ' added ' + memberByPhoneResponse.name!,
+                            '$userName added ${memberByPhoneResponse.name!}',
                         "msgBinaryType": 'userJoined',
                         "replyToId": -1,
                         "clientMessageId": clientMessageId,
@@ -350,11 +347,11 @@ class _CreateGroupState extends State<CreateGroup> {
   }
 
   String generateRandomString(int length) {
-    final _random = Random();
-    const _availableChars = '1234567890';
+    final random = Random();
+    const availableChars = '1234567890';
     // 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     final randomString = List.generate(length,
-            (index) => _availableChars[_random.nextInt(_availableChars.length)])
+            (index) => availableChars[random.nextInt(availableChars.length)])
         .join();
 
     return randomString;
@@ -381,11 +378,9 @@ class _CreateGroupState extends State<CreateGroup> {
       if (result.data != null && result.data.length > 0) {
         MemberByPhoneResponse inviteFriendResponse = result.data[0];
         if (memberByPhoneResponseList
-                .where(
-                    (element) => element.userId == inviteFriendResponse.userId)
-                .toList()
-                .length ==
-            0) {
+            .where((element) => element.userId == inviteFriendResponse.userId)
+            .toList()
+            .isEmpty) {
           memberByPhoneResponseList.add(result.data[0]);
         }
         setState(() {
@@ -399,7 +394,7 @@ class _CreateGroupState extends State<CreateGroup> {
   }
 
   Widget _populateListView() {
-    return memberByPhoneResponseList.length > 0
+    return memberByPhoneResponseList.isNotEmpty
         ? ListView.builder(
             itemCount: memberByPhoneResponseList.length,
             itemBuilder: (context, int index) {
@@ -419,7 +414,7 @@ class _CreateGroupState extends State<CreateGroup> {
                       boxShadow: [
                         BoxShadow(
                             color: Colors.grey.withOpacity(.3),
-                            offset: Offset(0, 2),
+                            offset: const Offset(0, 2),
                             blurRadius: 5)
                       ],
                     ),
@@ -431,7 +426,7 @@ class _CreateGroupState extends State<CreateGroup> {
                               ? Image.network(inviteFriendResponse.picturePath!
                                   .replaceAll(removeBracket, '')
                                   .split('\r\n')[0])
-                              : Icon(Icons.account_circle),
+                              : const Icon(Icons.account_circle),
                         ),
                       ),
                     ),
@@ -449,7 +444,7 @@ class _CreateGroupState extends State<CreateGroup> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(inviteFriendResponse.nickName ?? '',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                   subtitle: Text(inviteFriendResponse.phone!),
@@ -464,7 +459,7 @@ class _CreateGroupState extends State<CreateGroup> {
                 ),
               );
             })
-        : Text('');
+        : const Text('');
   }
 
   Future<void> _displayTextInputDialog(BuildContext context) async {
@@ -472,7 +467,7 @@ class _CreateGroupState extends State<CreateGroup> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Add Group Name'),
+            title: const Text('Add Group Name'),
             content: TextField(
               onChanged: (value) {
                 setState(() {
@@ -480,13 +475,13 @@ class _CreateGroupState extends State<CreateGroup> {
                 });
               },
               controller: _textFieldController,
-              decoration: InputDecoration(hintText: "Group Name"),
+              decoration: const InputDecoration(hintText: "Group Name"),
             ),
             actions: <Widget>[
               TextButton(
                 style: TextButton.styleFrom(
                     foregroundColor: Colors.white, backgroundColor: Colors.red),
-                child: Text('CANCEL'),
+                child: const Text('CANCEL'),
                 onPressed: () {
                   setState(() {
                     Navigator.pop(context);
@@ -497,7 +492,7 @@ class _CreateGroupState extends State<CreateGroup> {
                 style: TextButton.styleFrom(
                     foregroundColor: Colors.white,
                     backgroundColor: Colors.green),
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () async {
                   await EasyLoading.show();
                   String usersList = "";
@@ -514,7 +509,7 @@ class _CreateGroupState extends State<CreateGroup> {
                       inviteResult.data.length > 0) {
                     InviteRoomResponse inviteRoomResponse =
                         inviteResult.data[0];
-                    Room room = new Room(
+                    Room room = Room(
                         id: inviteRoomResponse.iD,
                         roomId: inviteRoomResponse.roomId,
                         merchantUserId: inviteRoomResponse.merchantUserId,
@@ -537,7 +532,7 @@ class _CreateGroupState extends State<CreateGroup> {
                         merchantNo: inviteRoomResponse.merchantNo,
                         picturePath: inviteRoomResponse.picturePath);
                     await dbHelper.saveRoomTable(room);
-                    RoomHistoryModel roomHistoryModel = new RoomHistoryModel(
+                    RoomHistoryModel roomHistoryModel = RoomHistoryModel(
                         roomId: inviteRoomResponse.roomId ?? '',
                         roomName: inviteRoomResponse.roomName ?? '',
                         roomDesc: inviteRoomResponse.roomDesc ?? '',
@@ -579,7 +574,7 @@ class _CreateGroupState extends State<CreateGroup> {
                           //await context.read<SocketClientHelper>().loginUserRoom();
                           List<RoomMembers> roomMembers = await dbHelper
                               .getRoomMembersList(inviteRoomResponse.roomId!);
-                          roomMembers.forEach((roomMember) {
+                          for (var roomMember in roomMembers) {
                             if (userId != roomMember.userId) {
                               var inviteUserToRoomJson = {
                                 "invitedRoomId": inviteRoomResponse.roomId!,
@@ -596,7 +591,7 @@ class _CreateGroupState extends State<CreateGroup> {
                                 }
                               });
                             }
-                          });
+                          }
                           await EasyLoading.dismiss();
                           setState(() {
                             Navigator.of(context).pop();

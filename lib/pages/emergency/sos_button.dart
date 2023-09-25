@@ -5,7 +5,7 @@ import 'package:epandu/common_library/utils/app_localizations.dart';
 class SosButton extends StatelessWidget {
   final onTap;
 
-  SosButton({this.onTap});
+  const SosButton({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {

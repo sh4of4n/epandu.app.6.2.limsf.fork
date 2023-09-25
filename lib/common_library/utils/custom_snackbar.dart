@@ -11,13 +11,13 @@ enum MessageType {
 
 class CustomSnackbar {
   static const int _defaultDuration = 2000;
-  double _defaultTextSize = 15.0;
-  double _defaultIconSize = 28.0;
-  EdgeInsets _defaultPadding =
-      EdgeInsets.symmetric(horizontal: 20, vertical: 20);
-  EdgeInsets _defaultMargin =
-      EdgeInsets.symmetric(horizontal: 15, vertical: 15);
-  BorderRadius _defaultBorderRadius = BorderRadius.circular(15.0);
+  final double _defaultTextSize = 15.0;
+  final double _defaultIconSize = 28.0;
+  final EdgeInsets _defaultPadding =
+      const EdgeInsets.symmetric(horizontal: 20, vertical: 20);
+  final EdgeInsets _defaultMargin =
+      const EdgeInsets.symmetric(horizontal: 15, vertical: 15);
+  final BorderRadius _defaultBorderRadius = BorderRadius.circular(15.0);
 
   static int getDuration() {
     return _defaultDuration;
@@ -71,7 +71,7 @@ class CustomSnackbar {
         backgroundColor = Colors.black87;
         break;
       default:
-        backgroundColor = Color(0xFF303030);
+        backgroundColor = const Color(0xFF303030);
         icon = Icon(
           Icons.info_outline,
           size: _defaultIconSize,
@@ -103,18 +103,18 @@ class CustomSnackbar {
       messageText: Text(
         message,
         style: TextStyle(
-          fontSize: textSize != null ? textSize : _defaultTextSize,
-          color: textColor != null ? textColor : Colors.white,
+          fontSize: textSize ?? _defaultTextSize,
+          color: textColor ?? Colors.white,
         ),
       ),
       padding: _defaultPadding,
-      margin: type == MessageType.TOAST ? _defaultMargin : EdgeInsets.all(0.0),
+      margin: type == MessageType.TOAST ? _defaultMargin : const EdgeInsets.all(0.0),
       borderRadius: type == MessageType.TOAST
           ? _defaultBorderRadius
           : BorderRadius.circular(0.0),
       icon: icon,
-      backgroundColor: bgColor != null ? bgColor : Color(0xFF303030),
+      backgroundColor: bgColor ?? const Color(0xFF303030),
       duration: Duration(milliseconds: duration ?? _defaultDuration),
-    )..show(context);
+    ).show(context);
   }
 }

@@ -10,10 +10,11 @@ import 'package:geolocator/geolocator.dart';
 
 import '../../router.gr.dart';
 
+@RoutePage(name: 'DirectoryList')
 class DirectoryList extends StatefulWidget {
   final directoryType;
 
-  DirectoryList(this.directoryType);
+  const DirectoryList(this.directoryType, {super.key});
 
   @override
   _DirectoryListState createState() => _DirectoryListState();
@@ -45,10 +46,11 @@ class _DirectoryListState extends State<DirectoryList> {
       localStorage.saveUserLatitude(location.latitude.toString());
       localStorage.saveUserLongitude(location.longitude.toString());
 
-      if (widget.directoryType == 'INSURANCE')
+      if (widget.directoryType == 'INSURANCE') {
         setState(() {
           maxRadius = '0';
         });
+      }
 
       var response = await emergencyRepo.getSosContactSortByNearest(
           context: context,
@@ -87,15 +89,14 @@ class _DirectoryListState extends State<DirectoryList> {
               Text(snapshot.data[index].sosContactName),
             if (snapshot.data[index].phone != null)
               Text(snapshot.data[index].phone),
-            Text(double.tryParse(snapshot.data[index].distance)!
-                    .toStringAsFixed(2) +
-                'km'),
-            SizedBox(height: 10.0),
-            Divider(
+            Text('${double.tryParse(snapshot.data[index].distance)!
+                    .toStringAsFixed(2)}km'),
+            const SizedBox(height: 10.0),
+            const Divider(
               height: 1.0,
               thickness: 1.0,
             ),
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
           ],
         ),
       ),
@@ -127,7 +128,7 @@ class _DirectoryListState extends State<DirectoryList> {
       decoration: BoxDecoration(
         gradient: RadialGradient(
           colors: [Colors.amber.shade300, primaryColor],
-          stops: [0.5, 1],
+          stops: const [0.5, 1],
           radius: 0.9,
         ),
       ),
@@ -144,12 +145,12 @@ class _DirectoryListState extends State<DirectoryList> {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
                 return Container(
-                  padding: EdgeInsets.all(15.0),
-                  margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
+                  padding: const EdgeInsets.all(15.0),
+                  margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15.0),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
                         offset: Offset(0, 8.0),
@@ -171,12 +172,12 @@ class _DirectoryListState extends State<DirectoryList> {
                 }
 
                 return Container(
-                  padding: EdgeInsets.all(15.0),
-                  margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
+                  padding: const EdgeInsets.all(15.0),
+                  margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15.0),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
                         offset: Offset(0, 8.0),
@@ -200,7 +201,7 @@ class _DirectoryListState extends State<DirectoryList> {
                           snapshot.data[0].sosContactType == 'BIKEWORKSHOP') {
                         return _listItem(snapshot, index);
                       }
-                      return Container(height: 0, width: 0);
+                      return const SizedBox(height: 0, width: 0);
                     },
                   ),
                 );

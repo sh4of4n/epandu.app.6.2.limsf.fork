@@ -4,6 +4,8 @@ import 'package:epandu/router.gr.dart';
 import 'package:flutter/material.dart';
 
 class CheckEnrollment extends StatefulWidget {
+  const CheckEnrollment({super.key});
+
   @override
   _CheckEnrollmentState createState() => _CheckEnrollmentState();
 }
@@ -29,6 +31,6 @@ class _CheckEnrollmentState extends State<CheckEnrollment> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return const Scaffold();
   }
 }

@@ -26,7 +26,7 @@ class ChatScreen extends StatefulWidget {
   final String? picturePath;
   final String? name;
 
-  ChatScreen({this.targetId, this.picturePath, this.name});
+  const ChatScreen({super.key, this.targetId, this.picturePath, this.name});
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -39,7 +39,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final profileRepo = ProfileRepo();
   Socket? socket;
 
-  ScrollController _scrollController = new ScrollController();
+  final ScrollController _scrollController = ScrollController();
   bool _isLoading = false;
   final webinarRepo = ChatRepo();
   int _startIndex = 0;
@@ -78,7 +78,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   final TextEditingController _textEditingController =
-      new TextEditingController();
+      TextEditingController();
 
   List<Message> messages = [];
   List<String> messageDuplicationIdentifier = [];
@@ -110,16 +110,16 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<bool> _addMessagesIntoDB(Message message) async {
-    var uuid = Uuid();
+    var uuid = const Uuid();
     String messageTargetTableId = uuid.v4();
-    MessageAndAuthorTable messageAndAuthorTable = new MessageAndAuthorTable(
+    MessageAndAuthorTable messageAndAuthorTable = MessageAndAuthorTable(
         id: message.id,
         author: message.author,
         data: message.data,
         sentDateTime: message.sentDateTime,
         type: message.type,
         isSeen: message.isSeen);
-    MessageTargetTable messageTargetTable = new MessageTargetTable(
+    MessageTargetTable messageTargetTable = MessageTargetTable(
         id: messageTargetTableId,
         messageId: message.id,
         targetId: message.target);
@@ -147,29 +147,30 @@ class _ChatScreenState extends State<ChatScreen> {
         context: context, customUserId: widget.targetId);
 
     if (result.isSuccess) {
-      if (result.data.length > 0) if (mounted)
+      if (result.data.length > 0) if (mounted) {
         setState(() {
           for (int i = 0; i < result.data.length; i += 1) {
             //print(result.data[i].meetingDate);
             messageTargetProfile = result.data[i];
           }
         });
-      else if (mounted)
+      } else if (mounted)
         setState(() {
           _isLoading = false;
         });
     } else {
-      if (mounted)
+      if (mounted) {
         setState(() {
           // _message = result.message;
           _isLoading = false;
         });
+      }
     }
   }
 
   initSocketIO() async {
     String userId = await (localStorage.getUserId() as FutureOr<String>);
-    String combinedID = userId + "," + widget.targetId!;
+    String combinedID = "$userId,${widget.targetId!}";
     // print(combinedID);
     setState(() {
       SocketHelper().socket.then((value) {
@@ -196,7 +197,7 @@ class _ChatScreenState extends State<ChatScreen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          iconTheme: IconThemeData(color: Colors.black54),
+          iconTheme: const IconThemeData(color: Colors.black54),
           title: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -212,7 +213,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   boxShadow: [
                     BoxShadow(
                         color: Colors.grey.withOpacity(.3),
-                        offset: Offset(0, 2),
+                        offset: const Offset(0, 2),
                         blurRadius: 5)
                   ],
                 ),
@@ -220,7 +221,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: _circleImage(),
                 ),
               ),
-              SizedBox(width: 15),
+              const SizedBox(width: 15),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,7 +261,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                 (message.target == widget.targetId &&
                                     message.author == userId)) {
                               if (messageDuplicationIdentifier.contains(msg)) {
-                                print("meesges existed" + msg);
+                                print("meesges existed$msg");
                               } else if (message.author == widget.targetId) {
                                 socket!.emit("acknowledgementReceive", msg);
 
@@ -306,7 +307,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(35.0),
-                                boxShadow: [
+                                boxShadow: const [
                                   BoxShadow(
                                       offset: Offset(0, 3),
                                       blurRadius: 5,
@@ -316,7 +317,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               child: Row(
                                 children: [
                                   IconButton(
-                                      icon: Icon(Icons.face), onPressed: () {}),
+                                      icon: const Icon(Icons.face), onPressed: () {}),
                                   Expanded(
                                     child: TextFormField(
                                       onTap: () {
@@ -324,20 +325,20 @@ class _ChatScreenState extends State<ChatScreen> {
                                       },
                                       maxLines: null,
                                       controller: _textEditingController,
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                           hintText: "Type Something...",
                                           border: InputBorder.none),
                                       onChanged: (value) {
-                                        if (value.length > 0) {
+                                        if (value.isNotEmpty) {
                                           bloc.onTextValueChange(value);
 
                                           setState(() {
-                                            this._isTyping = true;
+                                            _isTyping = true;
                                           });
-                                        } else if (value.length == 0) {
+                                        } else if (value.isEmpty) {
                                           bloc.onTextValueChange(value);
                                           setState(() {
-                                            this._isTyping = false;
+                                            _isTyping = false;
                                           });
                                         }
                                       },
@@ -347,22 +348,22 @@ class _ChatScreenState extends State<ChatScreen> {
                                   Visibility(
                                     visible: _isTyping == true ? false : true,
                                     child: IconButton(
-                                      icon: Icon(Icons.photo_camera),
+                                      icon: const Icon(Icons.photo_camera),
                                       onPressed: () {},
                                     ),
                                   ),
                                   IconButton(
-                                    icon: Icon(Icons.attach_file),
+                                    icon: const Icon(Icons.attach_file),
                                     onPressed: () {},
                                   )
                                 ],
                               ),
                             ),
                           ),
-                          SizedBox(width: 15),
+                          const SizedBox(width: 15),
                           Container(
                             padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: Colors.green, shape: BoxShape.circle),
                             child: _isTyping == true
                                 ? StreamProvider.value(
@@ -371,20 +372,20 @@ class _ChatScreenState extends State<ChatScreen> {
                                     value: bloc.submitButtonStream,
                                     child: Consumer<bool>(
                                       builder: (ctx, isEnable, _) => InkWell(
-                                        child: Icon(
-                                          Icons.send,
-                                          color: Colors.white,
-                                        ),
                                         onTap: isEnable
                                             ? () {
                                                 _sendMessage(userId,
                                                     widget.targetId, bloc);
                                               }
                                             : null,
+                                        child: const Icon(
+                                          Icons.send,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
                                   )
-                                : InkWell(
+                                : const InkWell(
                                     child: Icon(
                                       Icons.keyboard_voice,
                                       color: Colors.white,
@@ -406,9 +407,10 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   _circleImage() {
-    if (widget.picturePath != null && widget.picturePath!.isNotEmpty)
+    if (widget.picturePath != null && widget.picturePath!.isNotEmpty) {
       return Image.network(
           widget.picturePath!.replaceAll(removeBracket, '').split('\r\n')[0]);
+    }
     return Image.memory(kTransparentImage);
   }
 
@@ -449,14 +451,14 @@ class _ChatScreenState extends State<ChatScreen> {
   } */
 
   _messageList() {
-    if (messages.length == 0 && messages.isNotEmpty) {
+    if (messages.isEmpty && messages.isNotEmpty) {
       return Center(
           child: Container(
-              child: Align(
+              child: const Align(
         alignment: Alignment.center,
         child: Text("Empty Message"),
       )));
-    } else if (messages.length > 0) {
+    } else if (messages.isNotEmpty) {
       return Column(
         children: <Widget>[
           for (int i = 0; i < messages.length; i++)
@@ -486,7 +488,7 @@ class _ChatScreenState extends State<ChatScreen> {
     }
     return Center(
       child: Container(
-        child: Align(
+        child: const Align(
           alignment: Alignment.center,
           child: Text("Empty Message"),
         ),
@@ -497,7 +499,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Future<void> _sendMessage(
       String? author, String? target, ChatBloc bloc) async {
     final messageContent = _textEditingController.text;
-    var uuid = Uuid();
+    var uuid = const Uuid();
     String messageId = uuid.v4();
 
     DateTime parsedDate = DateTime.now();
@@ -508,7 +510,7 @@ class _ChatScreenState extends State<ChatScreen> {
         sentDateTime: DateTime.now().toString(),
         type: "text",
         isSeen: "false"); */
-    final Message message = new Message(
+    final Message message = Message(
         id: messageId,
         author: author,
         target: target,
@@ -521,14 +523,14 @@ class _ChatScreenState extends State<ChatScreen> {
 
     bloc.sendMessage(jsonMessage);
     String messageTargetTableId = uuid.v1();
-    MessageAndAuthorTable messageAndAuthorTable = new MessageAndAuthorTable(
+    MessageAndAuthorTable messageAndAuthorTable = MessageAndAuthorTable(
         id: message.id,
         author: message.author,
         data: message.data,
         sentDateTime: message.sentDateTime,
         type: message.type,
         isSeen: message.isSeen);
-    MessageTargetTable messageTargetTable = new MessageTargetTable(
+    MessageTargetTable messageTargetTable = MessageTargetTable(
         id: messageTargetTableId,
         messageId: message.id,
         targetId: message.target);
@@ -544,11 +546,11 @@ class _ChatScreenState extends State<ChatScreen> {
         messages.add(message);
         _textEditingController.clear();
         focusNode!.requestFocus();
-        this._isTyping = false;
+        _isTyping = false;
         _scrollToBottom(100);
       } else {
         print("data insert fail");
-        this._isTyping = false;
+        _isTyping = false;
       }
     });
   }

@@ -12,7 +12,10 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
+@RoutePage(name: 'EnrolmentInfo')
 class EnrolmentInfo extends StatefulWidget {
+  const EnrolmentInfo({super.key});
+
   @override
   _EnrolmentInfoState createState() => _EnrolmentInfoState();
 }
@@ -62,7 +65,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
             Colors.white,
             primaryColor,
           ],
-          stops: [0.45, 0.95],
+          stops: const [0.45, 0.95],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -82,7 +85,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
                 alignment: Alignment.center,
                 height: 300.h,
                 width: double.infinity,
-                color: Color(0xff0290b7),
+                color: const Color(0xff0290b7),
                 child: Text(
                   AppLocalizations.of(context)!.translate('installment_scheme'),
                   style: TextStyle(
@@ -104,7 +107,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
               ),
               SizedBox(
                 width: 1000.w,
-                child: Divider(
+                child: const Divider(
                   height: 1.0,
                   color: Color(0xffc73143),
                   thickness: 1.0,
@@ -123,7 +126,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
               ),
               SizedBox(
                 height: 50.h,
-                child: Divider(
+                child: const Divider(
                   height: 1.0,
                   color: Color(0xffaaaaaa),
                   thickness: 1.3,
@@ -134,7 +137,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
                 child: Text(
                   AppLocalizations.of(context)!.translate('class_title'),
                   style: TextStyle(
-                    color: Color(0xffdd0e0e),
+                    color: const Color(0xffdd0e0e),
                     fontSize: 85.sp,
                     fontWeight: FontWeight.w700,
                   ),
@@ -157,7 +160,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
                       }
                       return ListView.builder(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
@@ -187,12 +190,11 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
                                               ),
                                               children: [
                                                 TextSpan(
-                                                  text: AppLocalizations.of(
+                                                  text: '${AppLocalizations.of(
                                                               context)!
                                                           .translate(
-                                                              'class_lbl') +
-                                                      ' ',
-                                                  style: TextStyle(
+                                                              'class_lbl')} ',
+                                                  style: const TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     color: Color(
                                                       0xff666666,
@@ -205,7 +207,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
                                                   text: snapshot.data[index]
                                                           .groupId ??
                                                       '',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     color: Color(0xffdd0e0e),
                                                     decoration: TextDecoration
                                                         .underline,
@@ -216,7 +218,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
                                           ),
                                           Text(
                                             'RM${snapshot.data[index].fee != null ? NumberFormat("#,##0.00").format(double.tryParse(snapshot.data[index].fee)) : '0.00'}',
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Color(
                                                 0xff666666,
                                               ),
@@ -225,16 +227,15 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
                                           Text(
                                             snapshot.data[index].totalTime !=
                                                     null
-                                                ? AppLocalizations.of(context)!
+                                                ? '${AppLocalizations.of(context)!
                                                         .translate(
-                                                            'total_time') +
-                                                    ' ' +
+                                                            'total_time')} ' +
                                                     snapshot
                                                         .data[index].totalTime
                                                 : /* AppLocalizations.of(context)
                                                     .translate('no_total_time') */
                                                 'Total time 00:00',
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Color(
                                                 0xff666666,
                                               ),
@@ -246,12 +247,10 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 100.w),
                                         child: Text(
-                                          snapshot.data[index].status != null
-                                              ? snapshot.data[index].status
-                                              : '',
+                                          snapshot.data[index].status ?? '',
                                           style: TextStyle(
                                             fontSize: 70.sp,
-                                            color: Color(
+                                            color: const Color(
                                               0xff666666,
                                             ),
                                           ),
@@ -262,7 +261,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
                                   Padding(
                                     padding: EdgeInsets.only(
                                         top: ScreenUtil().setHeight(30)),
-                                    child: Divider(
+                                    child: const Divider(
                                       height: 1.0,
                                       color: Colors.white,
                                       thickness: 1.0,

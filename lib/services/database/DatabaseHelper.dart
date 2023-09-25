@@ -543,8 +543,8 @@ import '../../common_library/utils/local_storage.dart';
 //   }
 // }
 class DatabaseHelper {
-  static final _databaseName = "ePanduChat.db";
-  static final _databaseVersion = 1;
+  static const _databaseName = "ePanduChat.db";
+  static const _databaseVersion = 1;
   static const String MESSAGE_AND_AUTHOR_TABLE = 'MessageAndAuthorTable';
   static const String MESSAGE_TARGET_TABLE = 'MessageTargetTable';
   static const String USER_TABLE = 'UserTable';
@@ -704,7 +704,7 @@ class DatabaseHelper {
         "SELECT $MESSAGE_AND_AUTHOR_TABLE.id AS id, $MESSAGE_AND_AUTHOR_TABLE.author AS author, $MESSAGE_AND_AUTHOR_TABLE.data AS data, $MESSAGE_AND_AUTHOR_TABLE.sent_date_time AS sent_date_time, $MESSAGE_AND_AUTHOR_TABLE.type AS type,$MESSAGE_AND_AUTHOR_TABLE.is_seen AS is_seen FROM $MESSAGE_AND_AUTHOR_TABLE INNER JOIN $MESSAGE_TARGET_TABLE ON $MESSAGE_TARGET_TABLE.message_id = $MESSAGE_AND_AUTHOR_TABLE.id where $MESSAGE_AND_AUTHOR_TABLE.author = '$userId' AND $MESSAGE_TARGET_TABLE.target_id = '$targetId' OR $MESSAGE_AND_AUTHOR_TABLE.author = '$targetId' AND $MESSAGE_TARGET_TABLE.target_id = '$userId' ORDER BY $MESSAGE_AND_AUTHOR_TABLE.send_datetime DESC LIMIT $startIndex,$noOfRecords ;");
 
     List<Message> messages = [];
-    if (maps.length > 0) {
+    if (maps.isNotEmpty) {
       for (int i = 0; i < maps.length; i++) {
         messages.add(Message.fromJson(
             maps[maps.length - 1 - i] as Map<String, dynamic>));
@@ -719,7 +719,7 @@ class DatabaseHelper {
     List<Map> maps = await db.rawQuery(
         "Select $USER_TABLE.id As user_id, $USER_TABLE.name As name, $USER_TABLE.phone_number As phone, $USER_TABLE.picture_path As picture_path from $USER_TABLE Inner Join $RELATIONSHIP_TABLE On $USER_TABLE.id = $RELATIONSHIP_TABLE.friend_id where $RELATIONSHIP_TABLE.host_id = '$userId'  ORDER BY $USER_TABLE.name LIMIT $startIndex,$noOfRecords;");
     List<UserProfile> users = [];
-    if (maps.length > 0) {
+    if (maps.isNotEmpty) {
       for (int i = 0; i < maps.length; i++) {
         users.add(UserProfile.fromJson(maps[i] as Map<String, dynamic>));
       }
@@ -735,7 +735,7 @@ class DatabaseHelper {
         "Select id As ID from $RELATIONSHIP_TABLE where host_id = '$userId' And friend_id = '$friendId' ");
 
     UserProfile? user;
-    if (maps.length > 0) {
+    if (maps.isNotEmpty) {
       for (int i = 0; i < maps.length; i++) {
         user = UserProfile.fromJson(maps[i] as Map<String, dynamic>);
       }
@@ -749,7 +749,7 @@ class DatabaseHelper {
         .rawQuery("Select id As ID from $USER_TABLE where id = '$userId'");
 
     UserProfile? user;
-    if (maps.length > 0) {
+    if (maps.isNotEmpty) {
       for (int i = 0; i < maps.length; i++) {
         user = UserProfile.fromJson(maps[i] as Map<String, dynamic>);
       }
@@ -780,8 +780,8 @@ class DatabaseHelper {
         "Select room_id from $M_ROOM_TABLE where room_id = '$roomId'");
     List<Room> list =
         res.isNotEmpty ? res.map((m) => Room.fromJson(m)).toList() : [];
-    if (list.length == 0) {
-      print('RoomId_' + room.roomId!);
+    if (list.isEmpty) {
+      print('RoomId_${room.roomId!}');
       return await db.insert(M_ROOM_TABLE, {
         'ID': room.id,
         'room_id': room.roomId,
@@ -807,8 +807,9 @@ class DatabaseHelper {
         'picture_path': room.picturePath,
         'owner_id': userId
       });
-    } else
+    } else {
       return 0;
+    }
   }
 
   Future<List<Room>> getRoomList(String userId) async {
@@ -835,14 +836,8 @@ class DatabaseHelper {
 
   Future<List<Room>> getRoomListDesc(String userId) async {
     Database db = await instance.database;
-    var res = await db.rawQuery("Select DISTINCT user_id,create_date,room_id,picture_path,room_name,room_desc,message FROM " +
-        "(Select ROW_NUMBER() OVER (ORDER BY $M_MSG_DETAIL_TABLE.send_datetime desc) as RowNum,$M_ROOM_MEMBERS_TABLE.user_id,$M_ROOM_TABLE.create_date, $M_ROOM_TABLE.room_id,$M_ROOM_TABLE.picture_path,$M_ROOM_TABLE.room_name,$M_ROOM_TABLE.room_desc," +
-        "(select $M_MSG_DETAIL_TABLE.msg_body from $M_MSG_DETAIL_TABLE  where $M_MSG_DETAIL_TABLE.room_id=$M_ROOM_TABLE.room_id) AS 'message'," +
-        "(select $M_MSG_DETAIL_TABLE.send_datetime from $M_MSG_DETAIL_TABLE  where $M_MSG_DETAIL_TABLE.room_id=$M_ROOM_TABLE.room_id) AS 'send_datetime' " +
-        "from $M_ROOM_TABLE" +
-        " left JOIN $M_MSG_DETAIL_TABLE ON $M_ROOM_TABLE.room_id=$M_MSG_DETAIL_TABLE.room_id  " +
-        "left JOIN $M_ROOM_MEMBERS_TABLE ON $M_ROOM_MEMBERS_TABLE.room_id=$M_ROOM_TABLE.room_id" +
-        "WHERE $M_ROOM_MEMBERS_TABLE.user_id='$userId' ORDER BY $M_MSG_DETAIL_TABLE.send_datetime desc) AS T;");
+    var res = await db.rawQuery(
+        "Select DISTINCT user_id,create_date,room_id,picture_path,room_name,room_desc,message FROM (Select ROW_NUMBER() OVER (ORDER BY $M_MSG_DETAIL_TABLE.send_datetime desc) as RowNum,$M_ROOM_MEMBERS_TABLE.user_id,$M_ROOM_TABLE.create_date, $M_ROOM_TABLE.room_id,$M_ROOM_TABLE.picture_path,$M_ROOM_TABLE.room_name,$M_ROOM_TABLE.room_desc,(select $M_MSG_DETAIL_TABLE.msg_body from $M_MSG_DETAIL_TABLE  where $M_MSG_DETAIL_TABLE.room_id=$M_ROOM_TABLE.room_id) AS 'message',(select $M_MSG_DETAIL_TABLE.send_datetime from $M_MSG_DETAIL_TABLE  where $M_MSG_DETAIL_TABLE.room_id=$M_ROOM_TABLE.room_id) AS 'send_datetime' from $M_ROOM_TABLE left JOIN $M_MSG_DETAIL_TABLE ON $M_ROOM_TABLE.room_id=$M_MSG_DETAIL_TABLE.room_id  left JOIN $M_ROOM_MEMBERS_TABLE ON $M_ROOM_MEMBERS_TABLE.room_id=$M_ROOM_TABLE.room_idWHERE $M_ROOM_MEMBERS_TABLE.user_id='$userId' ORDER BY $M_MSG_DETAIL_TABLE.send_datetime desc) AS T;");
     List<Room> list =
         res.isNotEmpty ? res.map((m) => Room.fromJson(m)).toList() : [];
     return list;
@@ -856,7 +851,7 @@ class DatabaseHelper {
         "Select room_id from $M_ROOM_MEMBERS_TABLE where room_id = '$roomId' AND user_id = '$roomMemberId' ");
     List<RoomMembers> list =
         res.isNotEmpty ? res.map((m) => RoomMembers.fromJson(m)).toList() : [];
-    if (list.length == 0) {
+    if (list.isEmpty) {
       return await db.insert(M_ROOM_MEMBERS_TABLE, {
         'ID': roomMembers.id,
         'room_id': roomMembers.roomId,
@@ -875,8 +870,9 @@ class DatabaseHelper {
         'nick_name': roomMembers.nickName,
         'picture_path': roomMembers.picturePath
       });
-    } else
+    } else {
       return 0;
+    }
   }
 
   Future<List<RoomMembers>> getRoomMembersList(String roomId) async {

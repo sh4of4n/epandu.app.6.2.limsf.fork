@@ -9,7 +9,10 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+@RoutePage(name: 'CheckInSlip')
 class CheckInSlip extends StatefulWidget {
+  const CheckInSlip({super.key});
+
   @override
   _CheckInSlipState createState() => _CheckInSlipState();
 }
@@ -57,10 +60,10 @@ class _CheckInSlipState extends State<CheckInSlip> {
   }
 
   renderQr() {
-    if (!isLoading && checkInData != null)
-      return QrImage(
+    if (!isLoading && checkInData != null) {
+      return QrImageView(
         embeddedImage: AssetImage(image.ePanduIcon),
-        embeddedImageStyle: QrEmbeddedImageStyle(
+        embeddedImageStyle: const QrEmbeddedImageStyle(
           size: Size(40, 40),
         ),
         data:
@@ -68,10 +71,10 @@ class _CheckInSlipState extends State<CheckInSlip> {
         version: QrVersions.auto,
         size: 250.0,
       );
-    else if (checkInData == null) {
+    } else if (checkInData == null) {
       return Container();
     }
-    SpinKitFoldingCube(
+    const SpinKitFoldingCube(
       color: ColorConstant.primaryColor,
     );
   }
@@ -80,7 +83,7 @@ class _CheckInSlipState extends State<CheckInSlip> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.black, //change your color here
         ),
         title: FadeInImage(

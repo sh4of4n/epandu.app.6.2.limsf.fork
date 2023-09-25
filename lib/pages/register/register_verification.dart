@@ -9,10 +9,11 @@ import 'package:quiver/async.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
+@RoutePage(name: 'RegisterVerification')
 class RegisterVerification extends StatefulWidget {
   final data;
 
-  RegisterVerification(this.data);
+  const RegisterVerification(this.data, {super.key});
 
   @override
   _RegisterVerificationState createState() => _RegisterVerificationState();
@@ -28,7 +29,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
   String? _correctVerificationCode = '';
   String? _message = '';
   TextStyle? _messageStyle;
-  bool _isLoading = false;
+  final bool _isLoading = false;
   bool _resend = false;
 
   int _time = 60;
@@ -58,7 +59,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
           _correctVerificationCode = result.data.toString();
           _resend = true;
           _message = result.message;
-          _messageStyle = TextStyle(color: Colors.green);
+          _messageStyle = const TextStyle(color: Colors.green);
         });
 
         startTimer();
@@ -66,7 +67,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
         setState(() {
           _resend = false;
           _message = result.message;
-          _messageStyle = TextStyle(color: Colors.red);
+          _messageStyle = const TextStyle(color: Colors.red);
         });
       }
     }
@@ -74,7 +75,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
 
   void startTimer() {
     CountdownTimer countdownTimer =
-        CountdownTimer(Duration(seconds: _time), Duration(seconds: 1));
+        CountdownTimer(Duration(seconds: _time), const Duration(seconds: 1));
 
     timer = countdownTimer.listen(null);
 
@@ -138,7 +139,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
               Colors.white,
               primaryColor,
             ],
-            stops: [0.45, 0.85],
+            stops: const [0.45, 0.85],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -170,14 +171,14 @@ class _RegisterVerificationState extends State<RegisterVerification> {
                         child: TextFormField(
                           style: TextStyle(
                             fontSize: 58.sp,
-                            color: Color(0xff808080),
+                            color: const Color(0xff808080),
                           ),
                           keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
                               // contentPadding:
                               //     EdgeInsets.symmetric(vertical: 120.h),
                               suffixIcon: IconButton(
-                            icon: Icon(Icons.refresh),
+                            icon: const Icon(Icons.refresh),
                             onPressed: _resend == false
                                 ? _requestVerificationCode
                                 : null,
@@ -215,17 +216,17 @@ class _RegisterVerificationState extends State<RegisterVerification> {
                           Container(
                             alignment: Alignment.center,
                             child: _isLoading
-                                ? SpinKitFoldingCube(
+                                ? const SpinKitFoldingCube(
                                     color: Colors.greenAccent,
                                   )
                                 : ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       minimumSize: Size(420.w, 45.h),
-                                      backgroundColor: Color(0xffdd0e0e),
+                                      backgroundColor: const Color(0xffdd0e0e),
                                       padding:
-                                          EdgeInsets.symmetric(vertical: 11.0),
-                                      shape: StadiumBorder(),
-                                      textStyle: TextStyle(color: Colors.white),
+                                          const EdgeInsets.symmetric(vertical: 11.0),
+                                      shape: const StadiumBorder(),
+                                      textStyle: const TextStyle(color: Colors.white),
                                     ),
                                     onPressed: _next,
                                     child: Container(
@@ -275,7 +276,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
               Colors.white,
               primaryColor,
             ],
-            stops: [0.45, 0.85],
+            stops: const [0.45, 0.85],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -312,14 +313,14 @@ class _RegisterVerificationState extends State<RegisterVerification> {
                         child: TextFormField(
                           style: TextStyle(
                             fontSize: 40.sp,
-                            color: Color(0xff808080),
+                            color: const Color(0xff808080),
                           ),
                           keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
                               // contentPadding:
                               //     EdgeInsets.symmetric(vertical: 120.h),
                               suffixIcon: IconButton(
-                            icon: Icon(Icons.refresh),
+                            icon: const Icon(Icons.refresh),
                             onPressed: _resend == false
                                 ? _requestVerificationCode
                                 : null,
@@ -357,17 +358,17 @@ class _RegisterVerificationState extends State<RegisterVerification> {
                           Container(
                             alignment: Alignment.center,
                             child: _isLoading
-                                ? SpinKitFoldingCube(
+                                ? const SpinKitFoldingCube(
                                     color: Colors.greenAccent,
                                   )
                                 : ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       minimumSize: Size(420.w, 45.h),
-                                      backgroundColor: Color(0xffdd0e0e),
+                                      backgroundColor: const Color(0xffdd0e0e),
                                       padding:
-                                          EdgeInsets.symmetric(vertical: 11.0),
-                                      shape: StadiumBorder(),
-                                      textStyle: TextStyle(color: Colors.white),
+                                          const EdgeInsets.symmetric(vertical: 11.0),
+                                      shape: const StadiumBorder(),
+                                      textStyle: const TextStyle(color: Colors.white),
                                     ),
                                     onPressed: _next,
                                     child: Container(
@@ -397,7 +398,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
   _next() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      FocusScope.of(context).requestFocus(new FocusNode());
+      FocusScope.of(context).requestFocus(FocusNode());
 
       if (_verificationCode == _correctVerificationCode) {
         context.router.push(
@@ -407,12 +408,13 @@ class _RegisterVerificationState extends State<RegisterVerification> {
         setState(() {
           _message = '';
         });
-      } else
+      } else {
         setState(() {
           _message = AppLocalizations.of(context)!
               .translate('incorrect_verification_code');
-          _messageStyle = TextStyle(color: Colors.red);
+          _messageStyle = const TextStyle(color: Colors.red);
         });
+      }
     }
 
     // Navigator.push(context, SIGN_UP_FORM, arguments: widget.data);

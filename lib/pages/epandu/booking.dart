@@ -10,7 +10,10 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
+@RoutePage(name: 'Booking')
 class Booking extends StatefulWidget {
+  const Booking({super.key});
+
   @override
   _BookingState createState() => _BookingState();
 }
@@ -58,7 +61,7 @@ class _BookingState extends State<Booking> {
             Colors.white,
             primaryColor,
           ],
-          stops: [0.45, 0.95],
+          stops: const [0.45, 0.95],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -66,12 +69,12 @@ class _BookingState extends State<Booking> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.black, //change your color here
           ),
           title: Text(
             AppLocalizations.of(context)!.translate('booking'),
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
           ),
           elevation: 0,
           backgroundColor: Colors.transparent,
@@ -80,13 +83,13 @@ class _BookingState extends State<Booking> {
           margin: EdgeInsets.only(top: 20.h, bottom: 50.h),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              shape: CircleBorder(),
-              backgroundColor: Color(0xffdd0e0e),
-              textStyle: TextStyle(color: Colors.white),
-              padding: EdgeInsets.all(12),
+              shape: const CircleBorder(),
+              backgroundColor: const Color(0xffdd0e0e),
+              textStyle: const TextStyle(color: Colors.white),
+              padding: const EdgeInsets.all(12),
             ),
-            onPressed: () => context.router.push(AddBooking()),
-            child: Icon(
+            onPressed: () => context.router.push(const AddBooking()),
+            child: const Icon(
               Icons.add,
             ),
           ),
@@ -110,9 +113,9 @@ class _BookingState extends State<Booking> {
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
-                      return Container(
+                      return SizedBox(
                         height: 1000.h,
-                        child: Center(
+                        child: const Center(
                           child: SpinKitFoldingCube(
                             color: Colors.blue,
                           ),
@@ -120,7 +123,7 @@ class _BookingState extends State<Booking> {
                       );
                     case ConnectionState.done:
                       if (snapshot.data is String) {
-                        return Container(
+                        return SizedBox(
                           height: 1000.h,
                           child: Center(
                             child: Text(snapshot.data),
@@ -131,7 +134,7 @@ class _BookingState extends State<Booking> {
                         children: <Widget>[
                           ListView.builder(
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: snapshot.data.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Container(
@@ -164,13 +167,13 @@ class _BookingState extends State<Booking> {
                                                 snapshot.data[index].groupId,
                                                 style: textStyle,
                                               )
-                                            : Text(''),
+                                            : const Text(''),
                                         snapshot.data[index].classes != null
                                             ? Text(
                                                 snapshot.data[index].classes,
                                                 style: textStyle,
                                               )
-                                            : Text(''),
+                                            : const Text(''),
                                       ],
                                     ),
                                     Row(
@@ -186,7 +189,7 @@ class _BookingState extends State<Booking> {
                                                     .data[index].testTypeValue,
                                             style: textStyleBold,
                                           ),
-                                        Text(''),
+                                        const Text(''),
                                       ],
                                     ),
                                     Padding(

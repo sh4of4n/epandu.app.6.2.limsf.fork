@@ -12,7 +12,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
 
+@RoutePage(name: 'AddBooking')
 class AddBooking extends StatefulWidget {
+  const AddBooking({super.key});
+
   @override
   _AddBookingState createState() => _AddBookingState();
 }
@@ -49,11 +52,11 @@ class _AddBookingState extends State<AddBooking> {
       context: context,
     );
 
-    if (response.isSuccess)
+    if (response.isSuccess) {
       setState(() {
         testListGroupId = response.data;
       });
-    else {
+    } else {
       customDialog.show(
         context: context,
         content: AppLocalizations.of(context)!.translate('no_enrolled_class'),
@@ -92,12 +95,13 @@ class _AddBookingState extends State<AddBooking> {
       groupId: groupId,
     );
 
-    if (response.isSuccess)
+    if (response.isSuccess) {
       setState(() {
         courseSectionlist = response.data;
       });
-    else
+    } else {
       return response.message;
+    }
   }
 
   _getTestList() async {
@@ -107,18 +111,19 @@ class _AddBookingState extends State<AddBooking> {
       testType: testType,
     );
 
-    if (response.isSuccess)
+    if (response.isSuccess) {
       setState(() {
         testList = response.data;
       });
-    else
+    } else {
       return response.message;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfffdc013),
+      backgroundColor: const Color(0xfffdc013),
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.translate('booking')),
         elevation: 0,
@@ -154,7 +159,7 @@ class _AddBookingState extends State<AddBooking> {
                         filled: true,
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.blue, width: 1.3),
+                              const BorderSide(color: Colors.blue, width: 1.3),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         border: OutlineInputBorder(
@@ -220,7 +225,7 @@ class _AddBookingState extends State<AddBooking> {
                         filled: true,
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.blue, width: 1.3),
+                              const BorderSide(color: Colors.blue, width: 1.3),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         border: OutlineInputBorder(
@@ -235,7 +240,7 @@ class _AddBookingState extends State<AddBooking> {
                       ),
                       disabledHint: Text(
                           AppLocalizations.of(context)!.translate('type'),
-                          style: TextStyle(color: Color(0xff808080))),
+                          style: const TextStyle(color: Color(0xff808080))),
                       value: testType!.isEmpty ? null : testType,
                       onChanged: (value) {
                         setState(() {
@@ -291,7 +296,7 @@ class _AddBookingState extends State<AddBooking> {
                           filled: true,
                           enabledBorder: OutlineInputBorder(
                             borderSide:
-                                BorderSide(color: Colors.blue, width: 1.3),
+                                const BorderSide(color: Colors.blue, width: 1.3),
                             borderRadius: BorderRadius.circular(30),
                           ),
                           border: OutlineInputBorder(
@@ -306,7 +311,7 @@ class _AddBookingState extends State<AddBooking> {
                         ),
                         disabledHint: Text(
                             AppLocalizations.of(context)!.translate('section'),
-                            style: TextStyle(color: Color(0xff808080))),
+                            style: const TextStyle(color: Color(0xff808080))),
                         value: section!.isEmpty ? null : section,
                         onChanged: (value) {
                           setState(() {
@@ -346,7 +351,7 @@ class _AddBookingState extends State<AddBooking> {
                         filled: true,
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.blue, width: 1.3),
+                              const BorderSide(color: Colors.blue, width: 1.3),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         border: OutlineInputBorder(
@@ -361,7 +366,7 @@ class _AddBookingState extends State<AddBooking> {
                       ),
                       disabledHint: Text(
                         AppLocalizations.of(context)!.translate('date'),
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Color(0xff808080),
                         ),
                       ),
@@ -401,16 +406,16 @@ class _AddBookingState extends State<AddBooking> {
   _submitButton() {
     return Container(
       child: _isLoading
-          ? SpinKitFoldingCube(
+          ? const SpinKitFoldingCube(
               color: Colors.blue,
             )
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(420.w, 45.h),
-                backgroundColor: Color(0xffdd0e0e),
-                padding: EdgeInsets.symmetric(vertical: 11.0),
-                shape: StadiumBorder(),
-                textStyle: TextStyle(color: Colors.white),
+                backgroundColor: const Color(0xffdd0e0e),
+                padding: const EdgeInsets.symmetric(vertical: 11.0),
+                shape: const StadiumBorder(),
+                textStyle: const TextStyle(color: Colors.white),
               ),
               onPressed: _submit,
               child: Container(
@@ -435,9 +440,9 @@ class _AddBookingState extends State<AddBooking> {
   _submit() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      FocusScope.of(context).requestFocus(new FocusNode());
+      FocusScope.of(context).requestFocus(FocusNode());
 
-      String? _userId = await LocalStorage().getUserId();
+      String? userId = await LocalStorage().getUserId();
 
       setState(() {
         _isLoading = true;
@@ -450,14 +455,14 @@ class _AddBookingState extends State<AddBooking> {
         testType: testType,
         testDate: testDate,
         courseSection: section,
-        userId: _userId,
+        userId: userId,
       );
 
       if (result.isSuccess) {
         customDialog.show(
           context: context,
           barrierDismissable: false,
-          title: Center(
+          title: const Center(
             child: Icon(
               Icons.check_circle_outline,
               size: 120,
@@ -470,7 +475,7 @@ class _AddBookingState extends State<AddBooking> {
             TextButton(
               child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
               onPressed: () => context.router
-                  .pushAndPopUntil(Home(), predicate: (r) => false),
+                  .pushAndPopUntil(const Home(), predicate: (r) => false),
             ),
           ],
         );

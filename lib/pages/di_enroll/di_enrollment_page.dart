@@ -10,10 +10,11 @@ import 'package:intl/intl.dart';
 
 import '../../router.gr.dart';
 
+@RoutePage(name: 'DiEnrollment')
 class DiEnrollment extends StatefulWidget {
   final String? packageCodeJson;
 
-  DiEnrollment({this.packageCodeJson});
+  const DiEnrollment({super.key, this.packageCodeJson});
 
   @override
   _DiEnrollmentState createState() => _DiEnrollmentState();
@@ -56,7 +57,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Package',
         ),
       ),
@@ -66,12 +67,12 @@ class _DiEnrollmentState extends State<DiEnrollment> {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
               return Container(
-                padding: EdgeInsets.all(15.0),
-                margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
+                padding: const EdgeInsets.all(15.0),
+                margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15.0),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Colors.black26,
                       offset: Offset(0, 8.0),
@@ -105,7 +106,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                       ),
                     ),
                     ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
@@ -157,9 +158,8 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                                     ),
                                   ), */
                                   Text(
-                                    AppLocalizations.of(context)!
-                                            .translate('class_lbl') +
-                                        ': ' +
+                                    '${AppLocalizations.of(context)!
+                                            .translate('class_lbl')}: ' +
                                         snapshot.data[index].groupIdGrouping,
                                     style: TextStyle(
                                       fontSize: 60.sp,
@@ -167,11 +167,9 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                                     ),
                                   ),
                                   Text(
-                                    AppLocalizations.of(context)!
-                                            .translate('amount') +
-                                        ': RM' +
-                                        formatter.format(double.tryParse(
-                                            snapshot.data[index].amt)),
+                                    '${AppLocalizations.of(context)!
+                                            .translate('amount')}: RM${formatter.format(double.tryParse(
+                                            snapshot.data[index].amt))}',
                                     style: TextStyle(
                                       fontSize: 60.sp,
                                       fontWeight: FontWeight.w600,

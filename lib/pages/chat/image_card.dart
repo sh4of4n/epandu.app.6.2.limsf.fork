@@ -43,8 +43,8 @@ class ImageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         margin: localUser == user
-            ? EdgeInsets.fromLTRB(100, 0, 10, 10)
-            : EdgeInsets.fromLTRB(10, 0, 100, 10),
+            ? const EdgeInsets.fromLTRB(100, 0, 10, 10)
+            : const EdgeInsets.fromLTRB(10, 0, 100, 10),
         child: getImageCard());
   }
 
@@ -111,7 +111,7 @@ class ImageCard extends StatelessWidget {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       buildReplyMessage(replyMessageDetails),
-                                      Divider(
+                                      const Divider(
                                         color: Colors.white,
                                         height: 20,
                                         thickness: 2,
@@ -164,7 +164,7 @@ class ImageCard extends StatelessWidget {
                                             DateTime.parse(time)),
                                     style: MyTheme.isMebodyTextTime,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   getStatusIcon(msgStatus, time)
@@ -195,15 +195,15 @@ class ImageCard extends StatelessWidget {
       return Container();
     } else {
       return Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.all(8),
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(12),
             bottomLeft: Radius.circular(12),
           ),
         ),
-        margin: EdgeInsets.only(bottom: 8),
+        margin: const EdgeInsets.only(bottom: 8),
         child: InkWell(
           onTap: () {
             callback(replyMessageDetails.replyToId!);
@@ -221,7 +221,7 @@ class ImageCard extends StatelessWidget {
 Widget getStatusIcon(String status, String time) {
   int timeInMinutes = DateTime.now().difference(DateTime.parse(time)).inMinutes;
   if (timeInMinutes == 1 && status == "SENDING") {
-    return Icon(
+    return const Icon(
       Icons.sms_failed_outlined,
       size: 20,
       semanticLabel: "Failed",
@@ -232,15 +232,15 @@ Widget getStatusIcon(String status, String time) {
       color: Colors.yellow,
       radius: 10,
       numberOfDots: 3,
-      animationDuration: Duration(milliseconds: 200),
+      animationDuration: const Duration(milliseconds: 200),
     );
   } else if (status == "SENT") {
-    return Icon(
+    return const Icon(
       Icons.done,
       size: 20,
     );
   } else {
-    return Icon(
+    return const Icon(
       Icons.done_all,
       color: Colors.black,
       size: 20,
@@ -249,7 +249,7 @@ Widget getStatusIcon(String status, String time) {
 }
 
 Future<double> getImageHeight(String filePath) async {
-  File image = new File(filePath);
+  File image = File(filePath);
   var decodedImage = await decodeImageFromList(image.readAsBytesSync());
   return decodedImage.height.toDouble();
 }

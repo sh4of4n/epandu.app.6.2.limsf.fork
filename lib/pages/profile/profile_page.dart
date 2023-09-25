@@ -10,12 +10,13 @@ import 'package:transparent_image/transparent_image.dart';
 
 import '../../router.gr.dart';
 
+@RoutePage(name: 'Profile')
 class Profile extends StatefulWidget {
   final userProfile;
   final enrollData;
   final isLoading;
 
-  Profile({this.userProfile, this.enrollData, this.isLoading});
+  const Profile({super.key, this.userProfile, this.enrollData, this.isLoading});
 
   @override
   _ProfileState createState() => _ProfileState();
@@ -30,23 +31,23 @@ class _ProfileState extends State<Profile>
   final RegExp removeBracket =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
 
-  TextStyle _titleStyle = TextStyle(
+  final TextStyle _titleStyle = const TextStyle(
     fontSize: 26,
     fontWeight: FontWeight.w800,
   );
 
-  TextStyle _subtitleStyle = TextStyle(
+  final TextStyle _subtitleStyle = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w600,
     color: Colors.grey.shade700,
   );
 
-  TextStyle _tabTitleStyle = TextStyle(
+  final TextStyle _tabTitleStyle = TextStyle(
     fontSize: 60.sp,
     fontWeight: FontWeight.w800,
   );
 
-  TextStyle _tabSubtitleStyle = TextStyle(
+  final TextStyle _tabSubtitleStyle = TextStyle(
     fontSize: 45.sp,
     fontWeight: FontWeight.w600,
     color: Colors.grey.shade700,
@@ -112,7 +113,7 @@ class _ProfileState extends State<Profile>
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  child: Container(
+                  child: SizedBox(
                     width: ScreenUtil().screenWidth,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -147,7 +148,7 @@ class _ProfileState extends State<Profile>
               Text('${widget.userProfile?.name}', style: _titleStyle),
             if (widget.userProfile?.name != null)
               ListTile(
-                leading: Icon(Icons.account_box),
+                leading: const Icon(Icons.account_box),
                 title:
                     Text(AppLocalizations.of(context)!.translate('ic_name_lbl')),
                 subtitle:
@@ -155,7 +156,7 @@ class _ProfileState extends State<Profile>
               ),
             if (widget.userProfile?.nickName != null)
               ListTile(
-                leading: Icon(Icons.account_box),
+                leading: const Icon(Icons.account_box),
                 title: Text(
                     AppLocalizations.of(context)!.translate('nick_name_lbl')),
                 subtitle: Text('${widget.userProfile?.nickName}',
@@ -163,14 +164,14 @@ class _ProfileState extends State<Profile>
               ),
             if (widget.userProfile?.icNo != null)
               ListTile(
-                leading: Icon(Icons.perm_identity),
+                leading: const Icon(Icons.perm_identity),
                 title: Text(AppLocalizations.of(context)!.translate('ic_lbl')),
                 subtitle:
                     Text('${widget.userProfile?.icNo}', style: _subtitleStyle),
               ),
             if (widget.userProfile?.phone != null)
               ListTile(
-                leading: Icon(Icons.phone),
+                leading: const Icon(Icons.phone),
                 title:
                     Text(AppLocalizations.of(context)!.translate('contact_no')),
                 subtitle:
@@ -178,7 +179,7 @@ class _ProfileState extends State<Profile>
               ),
             if (widget.userProfile?.eMail != null)
               ListTile(
-                leading: Icon(Icons.email),
+                leading: const Icon(Icons.email),
                 title:
                     Text(AppLocalizations.of(context)!.translate('email_lbl')),
                 subtitle: Text(
@@ -189,7 +190,7 @@ class _ProfileState extends State<Profile>
               ),
             if (widget.userProfile?.postcode != null)
               ListTile(
-                leading: Icon(Icons.home),
+                leading: const Icon(Icons.home),
                 title: Text(
                     AppLocalizations.of(context)!.translate('postcode_lbl')),
                 subtitle: Text(
@@ -200,7 +201,7 @@ class _ProfileState extends State<Profile>
               ),
             if (widget.userProfile?.birthDate != null)
               ListTile(
-                leading: Icon(Icons.date_range),
+                leading: const Icon(Icons.date_range),
                 title: Text(AppLocalizations.of(context)!.translate('dob_lbl')),
                 subtitle: Text(
                     '${widget.userProfile.birthDate.isNotEmpty ? widget.userProfile.birthDate.substring(0, 10) : ''}',
@@ -215,7 +216,7 @@ class _ProfileState extends State<Profile>
               ), */
             SizedBox(height: ScreenUtil().setHeight(20)),
             InkWell(
-              onTap: () => context.router.push(EnrolmentInfo()),
+              onTap: () => context.router.push(const EnrolmentInfo()),
               child: Column(
                 children: <Widget>[
                   FadeInImage(
@@ -316,7 +317,7 @@ class _ProfileState extends State<Profile>
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  child: Container(
+                  child: SizedBox(
                     width: ScreenUtil().screenWidth,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -351,7 +352,7 @@ class _ProfileState extends State<Profile>
             Text('${widget.userProfile?.name}', style: _tabTitleStyle),
           if (widget.userProfile?.name != null)
             ListTile(
-              leading: Icon(Icons.account_box),
+              leading: const Icon(Icons.account_box),
               title:
                   Text(AppLocalizations.of(context)!.translate('ic_name_lbl')),
               subtitle:
@@ -359,7 +360,7 @@ class _ProfileState extends State<Profile>
             ),
           if (widget.userProfile?.nickName != null)
             ListTile(
-              leading: Icon(Icons.account_box),
+              leading: const Icon(Icons.account_box),
               title:
                   Text(AppLocalizations.of(context)!.translate('nick_name_lbl')),
               subtitle: Text('${widget.userProfile?.nickName}',
@@ -367,21 +368,21 @@ class _ProfileState extends State<Profile>
             ),
           if (widget.userProfile?.icNo != null)
             ListTile(
-              leading: Icon(Icons.perm_identity),
+              leading: const Icon(Icons.perm_identity),
               title: Text(AppLocalizations.of(context)!.translate('ic_lbl')),
               subtitle:
                   Text('${widget.userProfile?.icNo}', style: _tabSubtitleStyle),
             ),
           if (widget.userProfile?.phone != null)
             ListTile(
-              leading: Icon(Icons.phone),
+              leading: const Icon(Icons.phone),
               title: Text(AppLocalizations.of(context)!.translate('contact_no')),
               subtitle: Text('${widget.userProfile?.phone}',
                   style: _tabSubtitleStyle),
             ),
           if (widget.userProfile?.eMail != null)
             ListTile(
-              leading: Icon(Icons.email),
+              leading: const Icon(Icons.email),
               title: Text(AppLocalizations.of(context)!.translate('email_lbl')),
               subtitle: Text(
                   widget.userProfile?.eMail != null
@@ -391,7 +392,7 @@ class _ProfileState extends State<Profile>
             ),
           if (widget.userProfile?.postcode != null)
             ListTile(
-              leading: Icon(Icons.home),
+              leading: const Icon(Icons.home),
               title:
                   Text(AppLocalizations.of(context)!.translate('postcode_lbl')),
               subtitle: Text(
@@ -402,7 +403,7 @@ class _ProfileState extends State<Profile>
             ),
           if (widget.userProfile?.birthDate != null)
             ListTile(
-              leading: Icon(Icons.date_range),
+              leading: const Icon(Icons.date_range),
               title: Text(AppLocalizations.of(context)!.translate('dob_lbl')),
               subtitle: Text(
                   '${widget.userProfile.birthDate.isNotEmpty ? widget.userProfile.birthDate.substring(0, 10) : ''}',
@@ -417,7 +418,7 @@ class _ProfileState extends State<Profile>
             ), */
           SizedBox(height: ScreenUtil().setHeight(20)),
           InkWell(
-            onTap: () => context.router.push(EnrolmentInfo()),
+            onTap: () => context.router.push(const EnrolmentInfo()),
             child: Column(
               children: <Widget>[
                 FadeInImage(

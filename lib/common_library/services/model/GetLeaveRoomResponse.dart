@@ -7,15 +7,15 @@ class GetLeaveRoomResponse {
     if (json['RoomMember'] != null) {
       room = <LeaveRoomResponse>[];
       json['RoomMember'].forEach((v) {
-        room!.add(new LeaveRoomResponse.fromJson(v));
+        room!.add(LeaveRoomResponse.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.room != null) {
-      data['RoomMember'] = this.room!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (room != null) {
+      data['RoomMember'] = room!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -71,21 +71,21 @@ class LeaveRoomResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['room_id'] = this.roomId;
-    data['app_code'] = this.appCode;
-    data['user_id'] = this.userId;
-    data['login_id'] = this.loginId;
-    data['user_type'] = this.userType;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['row_key'] = this.rowKey;
-    data['transtamp'] = this.transtamp;
-    data['deleted'] = this.deleted;
-    data['merchant_no'] = this.merchantNo;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['room_id'] = roomId;
+    data['app_code'] = appCode;
+    data['user_id'] = userId;
+    data['login_id'] = loginId;
+    data['user_type'] = userType;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['row_key'] = rowKey;
+    data['transtamp'] = transtamp;
+    data['deleted'] = deleted;
+    data['merchant_no'] = merchantNo;
     return data;
   }
 }

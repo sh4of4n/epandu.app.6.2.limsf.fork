@@ -125,26 +125,28 @@ class _RoomMembersListState extends State<RoomMembersList> {
   }
 
   _owncircleImage() {
-    if (profilePicUrl != null && profilePicUrl!.isNotEmpty)
+    if (profilePicUrl != null && profilePicUrl!.isNotEmpty) {
       return Image.network(
           profilePicUrl!.replaceAll(removeBracket, '').split('\r\n')[0]);
-    return Icon(Icons.account_circle);
+    }
+    return const Icon(Icons.account_circle);
   }
 
   _othersCircleImage(String picturePath) {
-    if (picturePath.isNotEmpty)
+    if (picturePath.isNotEmpty) {
       return Image.network(
           picturePath.replaceAll(removeBracket, '').split('\r\n')[0]);
-    return Icon(Icons.account_circle);
+    }
+    return const Icon(Icons.account_circle);
   }
 
   getAppbar(BuildContext context) {
     if (!_isRoomMemberSearching) {
       return AppBar(
-        iconTheme: IconThemeData(color: Colors.black54),
+        iconTheme: const IconThemeData(color: Colors.black54),
         actions: [
           IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.search,
                 color: Colors.white,
               ),
@@ -172,7 +174,7 @@ class _RoomMembersListState extends State<RoomMembersList> {
                   boxShadow: [
                     BoxShadow(
                         color: Colors.grey.withOpacity(.3),
-                        offset: Offset(0, 2),
+                        offset: const Offset(0, 2),
                         blurRadius: 5)
                   ],
                 ),
@@ -184,7 +186,7 @@ class _RoomMembersListState extends State<RoomMembersList> {
                           ? Image.network(widget.picturePath
                               .replaceAll(removeBracket, '')
                               .split('\r\n')[0])
-                          : Icon(Icons.account_circle),
+                          : const Icon(Icons.account_circle),
                     ),
                   ),
                 ),
@@ -198,11 +200,11 @@ class _RoomMembersListState extends State<RoomMembersList> {
                   SizedBox(
                     width: 200.0,
                     child: Text(
-                      widget.roomName + ' - ' + 'Members List',
+                      '${widget.roomName} - Members List',
                       maxLines: 1,
                       softWrap: false,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18.5,
                         fontWeight: FontWeight.bold,
                       ),
@@ -217,7 +219,7 @@ class _RoomMembersListState extends State<RoomMembersList> {
     } else {
       return AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             size: 24,
           ),
@@ -235,8 +237,8 @@ class _RoomMembersListState extends State<RoomMembersList> {
           onChanged: (value) {
             _updateListview();
           },
-          style: TextStyle(color: Colors.white),
-          decoration: InputDecoration(
+          style: const TextStyle(color: Colors.white),
+          decoration: const InputDecoration(
               hintText: "Search RoomMember",
               hintStyle: TextStyle(color: Colors.white)),
         ),
@@ -264,7 +266,7 @@ class _RoomMembersListState extends State<RoomMembersList> {
                   boxShadow: [
                     BoxShadow(
                         color: Colors.grey.withOpacity(.3),
-                        offset: Offset(0, 2),
+                        offset: const Offset(0, 2),
                         blurRadius: 5)
                   ],
                 ),
@@ -284,12 +286,12 @@ class _RoomMembersListState extends State<RoomMembersList> {
                 children: [
                   onlineUsersList.any(
                           (element) => element.userId == roomMembers.userId)
-                      ? Icon(
+                      ? const Icon(
                           Icons.circle,
                           color: Colors.green,
                           size: 15,
                         )
-                      : Icon(
+                      : const Icon(
                           Icons.circle,
                           color: Colors.grey,
                           size: 15,
@@ -310,7 +312,7 @@ class _RoomMembersListState extends State<RoomMembersList> {
                       );
                     },
                     child: Text(roomMembers.nickName!,
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
                   )
                 ],
               ),
@@ -335,7 +337,7 @@ class _RoomMembersListState extends State<RoomMembersList> {
                   boxShadow: [
                     BoxShadow(
                         color: Colors.grey.withOpacity(.3),
-                        offset: Offset(0, 2),
+                        offset: const Offset(0, 2),
                         blurRadius: 5)
                   ],
                 ),
@@ -355,12 +357,12 @@ class _RoomMembersListState extends State<RoomMembersList> {
                 children: [
                   onlineUsersList.any(
                           (element) => element.userId == roomMembers.userId)
-                      ? Icon(
+                      ? const Icon(
                           Icons.circle,
                           color: Colors.green,
                           size: 15,
                         )
-                      : Icon(
+                      : const Icon(
                           Icons.circle,
                           color: Colors.grey,
                           size: 15,
@@ -381,7 +383,7 @@ class _RoomMembersListState extends State<RoomMembersList> {
                       );
                     },
                     child: Text(roomMembers.nickName!,
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
                   )
                 ],
               ),

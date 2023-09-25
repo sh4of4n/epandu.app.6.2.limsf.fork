@@ -7,7 +7,7 @@ class AuthoritiesButton extends StatelessWidget {
   final tileFirstColor;
   final tileSecondColor;
 
-  AuthoritiesButton({
+  const AuthoritiesButton({super.key, 
     required this.onTap,
     required this.label,
     required this.tileFirstColor,

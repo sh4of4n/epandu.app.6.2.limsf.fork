@@ -24,7 +24,7 @@ class Feeds extends StatefulWidget {
   final bool? isLoading;
   final String? appVersion;
 
-  Feeds({this.feed, this.isLoading, this.appVersion});
+  const Feeds({super.key, this.feed, this.isLoading, this.appVersion});
 
   @override
   _FeedsState createState() => _FeedsState();
@@ -34,13 +34,13 @@ class _FeedsState extends State<Feeds> {
   final adText = TextStyle(
     fontSize: ScreenUtil().setSp(55),
     fontWeight: FontWeight.w500,
-    color: Color(0xff231f20),
+    color: const Color(0xff231f20),
   );
 
   final adTabText = TextStyle(
     fontSize: ScreenUtil().setSp(45),
     fontWeight: FontWeight.w500,
-    color: Color(0xff231f20),
+    color: const Color(0xff231f20),
   );
 
   final RegExp removeBracket =
@@ -86,7 +86,7 @@ class _FeedsState extends State<Feeds> {
               Provider.of<HomeLoadingModel>(context, listen: false)
                   .loadingStatus(false);
               context.router.pop();
-              AppSettings.openLocationSettings();
+              AppSettings.openAppSettings(type: AppSettingsType.location);
             },
           ),
           TextButton(
@@ -183,8 +183,7 @@ class _FeedsState extends State<Feeds> {
             _getIcName(
                 udf: feed.udfReturnParameter,
                 icName: Uri.encodeComponent(icName)) +
-            _getIcNo(
-                udf: feed.udfReturnParameter, icNo: icNo == null ? '' : icNo) +
+            _getIcNo(udf: feed.udfReturnParameter, icNo: icNo ?? '') +
             _getPhone(udf: feed.udfReturnParameter, phone: phone) +
             _getEmail(udf: feed.udfReturnParameter, email: email) +
             _getBirthDate(
@@ -332,12 +331,12 @@ class _FeedsState extends State<Feeds> {
   }
 
   defaultLayout() {
-    if (widget.feed.length > 0)
+    if (widget.feed.length > 0) {
       return Container(
         // height: ScreenUtil().setHeight(1700),
         child: ListView(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           children: <Widget>[
             for (var item in widget.feed)
               Column(
@@ -346,7 +345,7 @@ class _FeedsState extends State<Feeds> {
                     // height: ScreenUtil().setHeight(780),
                     width: ScreenUtil().setWidth(1300),
                     decoration: BoxDecoration(
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(0, 0.4),
@@ -375,7 +374,7 @@ class _FeedsState extends State<Feeds> {
                                 context.router.push(EpanduCategory());
                                 break;
                               case 'ENROLLMENT':
-                                context.router.push(Enrollment());
+                                context.router.push(const Enrollment());
                                 break;
                               case 'DI_ENROLLMENT':
                                 String packageCodeJson = _getPackageCode(
@@ -391,10 +390,10 @@ class _FeedsState extends State<Feeds> {
                                         getOnlinePaymentListByIcNo());
                                 break;
                               case 'KPP':
-                                context.router.push(KppCategory());
+                                context.router.push(const KppCategory());
                                 break;
                               case 'VCLUB':
-                                context.router.push(ValueClub());
+                                context.router.push(const ValueClub());
                                 break;
                               case 'MULTILVL':
                                 context.router.push(
@@ -440,7 +439,7 @@ class _FeedsState extends State<Feeds> {
                           AspectRatio(
                             aspectRatio: 16 / 9,
                             child: ClipRRect(
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(12),
                                 topRight: Radius.circular(12),
                               ),
@@ -458,7 +457,7 @@ class _FeedsState extends State<Feeds> {
                             // height: ScreenUtil().setHeight(180),
                             padding: EdgeInsets.symmetric(
                                 horizontal: 70.w, vertical: 30.h),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(12),
                                 bottomRight: Radius.circular(12),
@@ -508,17 +507,18 @@ class _FeedsState extends State<Feeds> {
           ],
         ),
       );
+    }
     if (widget.isLoading!) return _loadingShimmer();
     return Text(AppLocalizations.of(context)!.translate('no_active_feeds'));
   }
 
   tabLayout() {
-    if (widget.feed.length > 0)
+    if (widget.feed.length > 0) {
       return Container(
         // height: ScreenUtil().setHeight(1700),
         child: ListView(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           children: <Widget>[
             for (var item in widget.feed)
               Column(
@@ -527,7 +527,7 @@ class _FeedsState extends State<Feeds> {
                     // height: ScreenUtil().setHeight(980),
                     width: ScreenUtil().setWidth(1300),
                     decoration: BoxDecoration(
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(0, 0.4),
@@ -556,7 +556,7 @@ class _FeedsState extends State<Feeds> {
                                 context.router.push(EpanduCategory());
                                 break;
                               case 'ENROLLMENT':
-                                context.router.push(Enrollment());
+                                context.router.push(const Enrollment());
                                 break;
                               case 'DI_ENROLLMENT':
                                 String packageCodeJson = _getPackageCode(
@@ -573,10 +573,10 @@ class _FeedsState extends State<Feeds> {
                                         getOnlinePaymentListByIcNo());
                                 break;
                               case 'KPP':
-                                context.router.push(KppCategory());
+                                context.router.push(const KppCategory());
                                 break;
                               case 'VCLUB':
-                                context.router.push(ValueClub());
+                                context.router.push(const ValueClub());
                                 break;
                               case 'MULTILVL':
                                 context.router.push(
@@ -621,7 +621,7 @@ class _FeedsState extends State<Feeds> {
                           AspectRatio(
                             aspectRatio: 16 / 9,
                             child: ClipRRect(
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(12),
                                 topRight: Radius.circular(12),
                               ),
@@ -639,7 +639,7 @@ class _FeedsState extends State<Feeds> {
                             // height: ScreenUtil().setHeight(180),
                             padding: EdgeInsets.symmetric(
                                 horizontal: 70.w, vertical: 30.h),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(12),
                                 bottomRight: Radius.circular(12),
@@ -689,6 +689,7 @@ class _FeedsState extends State<Feeds> {
           ],
         ),
       );
+    }
     if (widget.isLoading!) return _loadingTabShimmer();
     return Text(AppLocalizations.of(context)!.translate('no_active_feeds'));
   }

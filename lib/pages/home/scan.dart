@@ -14,6 +14,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:auto_route/auto_route.dart';
 import '../../router.gr.dart';
 
+@RoutePage(name: 'Scan')
 class Scan extends StatefulWidget {
   final getDiProfile;
   final getActiveFeed;
@@ -53,7 +54,7 @@ class _ScanState extends State<Scan> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('QR'),
+        title: const Text('QR'),
       ),
       body: Stack(
         children: [
@@ -184,6 +185,7 @@ class _ScanState extends State<Scan> {
                   ],
                   type: DialogType.GENERAL,
                 ); */
+
             context.router.replace(
               QueueNumber(data: result.data),
             );
@@ -214,7 +216,7 @@ class _ScanState extends State<Scan> {
               TextButton(
                 child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
                 onPressed: () => context.router.push(
-                  UpdateProfile(),
+                  const UpdateProfile(),
                 ),
               ),
             ],
@@ -224,6 +226,7 @@ class _ScanState extends State<Scan> {
 
         Provider.of<HomeLoadingModel>(context, listen: false)
             .loadingStatus(false);
+
         break;
       default:
         context.router
@@ -259,7 +262,7 @@ class _ScanState extends State<Scan> {
 
               controller!.resumeCamera();
             },
-            child: Text('Ok'),
+            child: const Text('Ok'),
           ),
         ],
         type: DialogType.GENERAL,
@@ -277,7 +280,7 @@ class _ScanState extends State<Scan> {
 
             controller!.resumeCamera();
           },
-          child: Text('Ok'),
+          child: const Text('Ok'),
         ),
       ],
       type: DialogType.GENERAL,

@@ -5,7 +5,7 @@ class ReceiveMessage {
   String? binary;
   String? binaryType;
   String? datetime;
-  String? nick_name;
+  String? nickName;
   int? replyToId;
   String? filePath;
   int? messageId;
@@ -19,7 +19,7 @@ class ReceiveMessage {
       required this.datetime,
       required this.replyToId,
       required this.messageId,
-      required this.nick_name,
+      required this.nickName,
       required this.filePath,
       required this.clientMessageId});
 
@@ -33,7 +33,7 @@ class ReceiveMessage {
         datetime: json['datetime'] ?? '',
         replyToId: json['replyToId'] ?? 0,
         messageId: json['messageId'] ?? 0,
-        nick_name: json['nick_name'] ?? '',
+        nickName: json['nick_name'] ?? '',
         filePath: json['filePath'] ?? '',
         clientMessageId: json['clientMessageId'] ?? '');
   }

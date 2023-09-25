@@ -16,7 +16,10 @@ import 'package:provider/provider.dart';
 
 import '../chat/socketclient_helper.dart';
 
+@RoutePage()
 class Authentication extends StatefulWidget {
+  const Authentication({super.key});
+
   @override
   _AuthenticationState createState() => _AuthenticationState();
 }
@@ -82,14 +85,17 @@ class _AuthenticationState extends State<Authentication> {
     String? diCode = await localStorage.getMerchantDbCode();
 
     if (userId != null && userId.isNotEmpty && diCode!.isNotEmpty) {
-      context.read<SocketClientHelper>().loginUserRoom();
-      context.router.replace(Home());
+      await context.read<SocketClientHelper>().loginUserRoom();
+
+      context.router.replace(const Home());
     } else if (userId != null && userId.isNotEmpty && diCode!.isEmpty) {
       context.read<SocketClientHelper>().logoutUserRoom();
+
       await authRepo.logout(context: context, type: '');
-      context.router.replace(Login());
+
+      context.router.replace(const Login());
     } else {
-      context.router.replace(Login());
+      context.router.replace(const Login());
     }
   }
 
@@ -97,7 +103,7 @@ class _AuthenticationState extends State<Authentication> {
   Widget build(BuildContext context) {
     ScreenUtil.init(
       context,
-      designSize: Size(1440, 2960),
+      designSize: const Size(1440, 2960),
     );
 
     return Scaffold(
@@ -112,7 +118,7 @@ class _AuthenticationState extends State<Authentication> {
               Colors.amber.shade300,
               primaryColor
             ],
-            stops: [0.2, 0.4, 0.6, 0.7, 1],
+            stops: const [0.2, 0.4, 0.6, 0.7, 1],
             radius: 0.7,
           ),
         ),
@@ -129,7 +135,7 @@ class _AuthenticationState extends State<Authentication> {
               ),
             ), */
             Image.asset(image.logo2),
-            SpinKitThreeBounce(
+            const SpinKitThreeBounce(
               color: Color(0xFFED3833),
               size: 30,
             ),

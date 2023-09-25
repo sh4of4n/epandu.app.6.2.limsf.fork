@@ -11,6 +11,7 @@ import '../../router.gr.dart';
 
 // import 'bottom_menu.dart';
 
+@RoutePage(name: 'EpanduCategory')
 class EpanduCategory extends StatelessWidget {
   final authRepo = AuthRepo();
   final image = ImagesConstant();
@@ -22,10 +23,12 @@ class EpanduCategory extends StatelessWidget {
   );
   final myImage = ImagesConstant();
 
+  EpanduCategory({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
             Colors.white,
@@ -39,7 +42,7 @@ class EpanduCategory extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.black, //change your color here
           ),
           title: FadeInImage(
@@ -79,7 +82,7 @@ class EpanduCategory extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      context.router.push(Enrollment());
+                      context.router.push(const Enrollment());
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -111,7 +114,7 @@ class EpanduCategory extends StatelessWidget {
                             'assets/menu/payment-icon.png',
                           ),
                         ),
-                        FittedBox(
+                        const FittedBox(
                           fit: BoxFit.fitWidth,
                           child: Text(
                             'Payment Record',
@@ -123,7 +126,7 @@ class EpanduCategory extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      context.router.push(Booking());
+                      context.router.push(const Booking());
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -155,7 +158,7 @@ class EpanduCategory extends StatelessWidget {
                             fit: BoxFit.cover,
                           ),
                         ),
-                        FittedBox(
+                        const FittedBox(
                           fit: BoxFit.fitWidth,
                           child: Text(
                             'Training Record',
@@ -167,7 +170,7 @@ class EpanduCategory extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      context.router.push(RequestPickup());
+                      context.router.push(const RequestPickup());
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -198,7 +201,7 @@ class EpanduCategory extends StatelessWidget {
                             'assets/menu/account-icon.png',
                           ),
                         ),
-                        Text(
+                        const Text(
                           'Account',
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -207,7 +210,7 @@ class EpanduCategory extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      context.router.push(KppCategory());
+                      context.router.push(const KppCategory());
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -227,7 +230,7 @@ class EpanduCategory extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      context.router.push(ComingSoon());
+                      context.router.push(const ComingSoon());
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,

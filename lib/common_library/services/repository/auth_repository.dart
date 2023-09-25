@@ -32,14 +32,14 @@ class AuthRepo {
     altWsUrl,
     int? milliseconds,
   }) async {
-    final String wsVer = '1.1';
-    final String wsUrl0 =
+    const String wsVer = '1.1';
+    const String wsUrl0 =
         'https://tbs.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
-    final String wsUrl1 =
+    const String wsUrl1 =
         'https://tbscaws.tbsdns.com:9001/ClientAcct.MainService/_wsver_/MainService.asmx';
-    final String wsUrl2 =
+    const String wsUrl2 =
         'http://tbscaws2.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
-    final String wsUrl3 =
+    const String wsUrl3 =
         'http://tbscaws3.tbsdns.com/ClientAcct.MainService/_wsver_/MainService.asmx';
 
     String wsUrl = wsUrl0;
@@ -53,7 +53,7 @@ class AuthRepo {
         'LoginPub?wsCodeCrypt=$wsCodeCrypt&acctUid=$acctUid&acctPwd=${Uri.encodeQueryComponent(acctPwd)}&loginType=$loginType&misc=';
 
     var response = await Networking(
-            customUrl: '$wsUrl', milliseconds: milliseconds ?? 2000)
+            customUrl: wsUrl, milliseconds: milliseconds ?? 2000)
         .getData(path: params);
 
     if (response.isSuccess && response.data != null) {
@@ -252,10 +252,11 @@ class AuthRepo {
         localStorage.saveGender(profileResult.data[0].gender ?? '');
         localStorage.saveCdl(profileResult.data[0].cdlGroup ?? '');
         localStorage.saveLdl(profileResult.data[0].enqLdlGroup ?? '');
-        if (profileResult.data[0].picturePath != null)
+        if (profileResult.data[0].picturePath != null) {
           localStorage.saveProfilePic(profileResult.data[0].picturePath
               .replaceAll(removeBracket, '')
               .split('\r\n')[0]);
+        }
       }
 
       // save empty on DiCode for user to choose
@@ -663,11 +664,7 @@ class AuthRepo {
     String? userId = await localStorage.getUserId();
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd' +
-            '&appCode=${appConfig.appCode}&appId=${appConfig.appId}' +
-            '&merchantNo=$merchantNo&userId=$userId' +
-            '&startIndex=$startIndex&noOfRecords=$noOfRecords' +
-            '&latitude=$latitude&longitude=$longitude&maxRadius=$maxRadius';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appCode=${appConfig.appCode}&appId=${appConfig.appId}&merchantNo=$merchantNo&userId=$userId&startIndex=$startIndex&noOfRecords=$noOfRecords&latitude=$latitude&longitude=$longitude&maxRadius=$maxRadius';
 
     var response = await networking.getData(
       path: 'GetDINearMe?$path',
@@ -900,9 +897,7 @@ class AuthRepo {
     String? merchantNo = await localStorage.getMerchantDbCode();
 
     String path =
-        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appId=${appConfig.appId}' +
-            '&feedType=${feedType ?? ''}&merchantNo=$merchantNo&sourceDocDoc=${sourceDocDoc ?? ''}&sourceDocRef=${sourceDocRef ?? ''}' +
-            '&startIndex=$startIndex&noOfRecords=$noOfRecords';
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appId=${appConfig.appId}&feedType=${feedType ?? ''}&merchantNo=$merchantNo&sourceDocDoc=${sourceDocDoc ?? ''}&sourceDocRef=${sourceDocRef ?? ''}&startIndex=$startIndex&noOfRecords=$noOfRecords';
 
     var response = await networking.getData(
       path: 'GetActiveFeedByLevelAppId?$path',
@@ -1411,14 +1406,7 @@ class AuthRepo {
     String? merchantNo = await localStorage.getMerchantDbCode();
     String? deviceId = await localStorage.getLoginDeviceId();
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
-        '&caUid=$caUid' +
-        '&caPwd=$caPwd' +
-        '&merchantNo=$merchantNo' +
-        '&userId=$userId' +
-        '&appCode=${appConfig.appCode}' +
-        '&appId=${appConfig.appId}' +
-        '&deviceId=$deviceId';
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantNo=$merchantNo&userId=$userId&appCode=${appConfig.appCode}&appId=${appConfig.appId}&deviceId=$deviceId';
 
     var response = await networking.getData(
       path: 'GetAuthorizationStatusList?$path',
@@ -1452,23 +1440,7 @@ class AuthRepo {
     // String phone = await localStorage.getUserPhone();
     // String loginId = (phoneCountryCode + phone).replaceAll('+6', '');
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
-        '&caUid=$caUid' +
-        '&caPwd=$caPwd' +
-        '&merchantNo=$merchantNo' +
-        '&userId=$userId' +
-        '&appCode=${appConfig.appCode}' +
-        '&appId=${appConfig.appId}' +
-        '&deviceId=$deviceId' +
-        '&searchMerchantNo=$merchantNo' +
-        '&searchUserId=' +
-        '&searchAppCode=' +
-        '&searchAppId=' +
-        '&searchDeviceId=' +
-        '&searchAuthzStatus=$authzStatus' +
-        '&searchLoginId=$phone' +
-        '&startIndex=$startIndex' +
-        '&noOfRecords=$noOfRecords';
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantNo=$merchantNo&userId=$userId&appCode=${appConfig.appCode}&appId=${appConfig.appId}&deviceId=$deviceId&searchMerchantNo=$merchantNo&searchUserId=&searchAppCode=&searchAppId=&searchDeviceId=&searchAuthzStatus=$authzStatus&searchLoginId=$phone&startIndex=$startIndex&noOfRecords=$noOfRecords';
 
     var response = await networking.getData(
       path: 'GetDeviceRequestList?$path',
@@ -1548,19 +1520,7 @@ class AuthRepo {
     String? userId = await localStorage.getUserId();
     String? merchantNo = await localStorage.getMerchantDbCode();
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
-        '&caUid=$caUid' +
-        '&caPwd=$caPwd' +
-        '&diCode=$merchantNo' +
-        '&userId=$userId' +
-        '&dateFromString=$dateFromString' +
-        '&dateToString=$dateToString' +
-        '&orderNo=${orderNo ?? ''}' +
-        '&icNo=${icNo ?? ''}' +
-        '&orderStatus=$orderStatus' +
-        '&paymentStatus=$paymentStatus' +
-        '&startIndex=$startIndex' +
-        '&noOfRecords=$noOfRecords';
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$merchantNo&userId=$userId&dateFromString=$dateFromString&dateToString=$dateToString&orderNo=${orderNo ?? ''}&icNo=${icNo ?? ''}&orderStatus=$orderStatus&paymentStatus=$paymentStatus&startIndex=$startIndex&noOfRecords=$noOfRecords';
 
     var response = await networking.getData(
       path: 'GetOrderListByDateRange?$path',
@@ -1580,12 +1540,7 @@ class AuthRepo {
     String? caUid = await localStorage.getCaUid();
     String? caPwd = await localStorage.getCaPwd();
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
-        '&caUid=$caUid' +
-        '&caPwd=$caPwd' +
-        '&appId=${appConfig.appId}' +
-        '&appCode=${appConfig.appCode}' +
-        '&appVersion=$appVersion';
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appId=${appConfig.appId}&appCode=${appConfig.appCode}&appVersion=$appVersion';
 
     var response = await networking.getData(
       path: 'ValidateAppVersion?$path',

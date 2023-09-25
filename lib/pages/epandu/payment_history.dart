@@ -9,7 +9,10 @@ import 'package:shimmer/shimmer.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
+@RoutePage(name: 'PaymentHistory')
 class PaymentHistory extends StatefulWidget {
+  const PaymentHistory({super.key});
+
   @override
   _PaymentHistoryState createState() => _PaymentHistoryState();
 }
@@ -27,7 +30,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
   final TextStyle _subtitleStyle = TextStyle(
     fontSize: 56.sp,
     fontWeight: FontWeight.w400,
-    color: Color(
+    color: const Color(
       0xff666666,
     ),
   );
@@ -37,7 +40,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
   int _startIndex = 0;
   String? _message = '';
   List<dynamic> items = [];
-  ScrollController _scrollController = new ScrollController();
+  final ScrollController _scrollController = ScrollController();
   bool _isLoading = false;
 
   @override
@@ -47,7 +50,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
     _getData();
 
     _scrollController
-      ..addListener(() {
+      .addListener(() {
         if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent) {
           setState(() {
@@ -68,20 +71,22 @@ class _PaymentHistoryState extends State<PaymentHistory> {
         context: context, startIndex: _startIndex);
 
     if (response.isSuccess) {
-      if (response.data.length > 0) if (mounted)
+      if (response.data.length > 0) if (mounted) {
         setState(() {
           for (int i = 0; i < response.data.length; i += 1) {
             items.add(response.data[i]);
           }
           _isLoading = false;
         });
+      }
       // return response.data;
     } else {
-      if (mounted)
+      if (mounted) {
         setState(() {
           _message = response.message;
           _isLoading = false;
         });
+      }
       // return response.message;
     }
   }
@@ -95,7 +100,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
             Colors.white,
             primaryColor,
           ],
-          stops: [0.45, 0.95],
+          stops: const [0.45, 0.95],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -104,11 +109,11 @@ class _PaymentHistoryState extends State<PaymentHistory> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           elevation: 0,
-            iconTheme: IconThemeData(
+            iconTheme: const IconThemeData(
             color: Colors.black, //change your color here
           ),
           backgroundColor: Colors.transparent,
-          title: Text(AppLocalizations.of(context)!.translate('payment_lbl'), style: TextStyle(color: Colors.black,),),
+          title: Text(AppLocalizations.of(context)!.translate('payment_lbl'), style: const TextStyle(color: Colors.black,),),
         ),
         body: _paymentHistoryList(),
       ),
@@ -120,7 +125,7 @@ class _PaymentHistoryState extends State<PaymentHistory> {
       return Center(
         child: Text(_message!),
       );
-    } else if (items.length > 0) {
+    } else if (items.isNotEmpty) {
       return Column(
         children: <Widget>[
           Expanded(

@@ -17,9 +17,10 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
+@RoutePage()
 class EditExpFuelPage extends StatefulWidget {
   final fuel;
-  EditExpFuelPage({Key? key, required this.fuel}) : super(key: key);
+  const EditExpFuelPage({Key? key, required this.fuel}) : super(key: key);
 
   @override
   State<EditExpFuelPage> createState() => _EditExpFuelPageState();
@@ -35,7 +36,7 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
 
   final RegExp removeBracket =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
-  List<Map<String, dynamic>> _imageFileList = [];
+  final List<Map<String, dynamic>> _imageFileList = [];
   final ImagePicker _picker = ImagePicker();
 
   Future updateExpFuel() async {
@@ -57,7 +58,7 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
       );
       EasyLoading.dismiss();
       if (result.isSuccess) {
-        if (_imageFileList.length > 0) {
+        if (_imageFileList.isNotEmpty) {
           Iterable<Future> a = [];
           List<Future> b = [];
           for (var element in _imageFileList) {
@@ -97,7 +98,7 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
         LatLng(lat, lng),
       ),
     );
-    MarkerId a = MarkerId('value');
+    MarkerId a = const MarkerId('value');
     setState(() {
       _lat = lat;
       _lng = lng;
@@ -171,14 +172,14 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xffffd225),
-          title: Text('Edit Expenses'),
+          backgroundColor: const Color(0xffffd225),
+          title: const Text('Edit Expenses'),
           actions: [
             IconButton(
               onPressed: () {
                 updateExpFuel();
               },
-              icon: Icon(Icons.done),
+              icon: const Icon(Icons.done),
             ),
           ],
         ),
@@ -200,14 +201,14 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                             widget.fuel.expDatetime,
                           ),
                           inputType: InputType.date,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                               labelText: 'Date',
                               filled: true,
                               icon: Icon(Icons.calendar_today)),
                           format: DateFormat('dd/MM/yyyy'),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                       Expanded(
@@ -219,7 +220,7 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                             widget.fuel.expDatetime,
                           ).toLocal(),
                           inputType: InputType.time,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Time',
                             filled: true,
                           ),
@@ -227,13 +228,13 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   FormBuilderTextField(
                     name: 'mileage',
                     initialValue: widget.fuel.mileage,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Mileage',
                       filled: true,
                       icon: Icon(Icons.onetwothree),
@@ -249,13 +250,13 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                       FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   FormBuilderDropdown<String>(
                     name: 'type',
                     initialValue: widget.fuel.type,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Fuel Type',
                       filled: true,
                       icon: Icon(Icons.local_gas_station),
@@ -271,7 +272,7 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                         )
                         .toList(),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   FormBuilderTextField(
@@ -280,7 +281,7 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                     decoration: InputDecoration(
                       labelText: 'Description',
                       filled: true,
-                      icon: Icon(Icons.description),
+                      icon: const Icon(Icons.description),
                       suffix: IconButton(
                         icon: const Icon(Icons.close),
                         onPressed: () {
@@ -295,13 +296,13 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                     maxLines: null,
                     minLines: 2,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16.0,
                   ),
                   FormBuilderTextField(
                     name: 'amount',
                     initialValue: widget.fuel.amount,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Amount',
                       filled: true,
                       icon: Icon(Icons.attach_money),
@@ -338,7 +339,7 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                   //     ],
                   //   ),
                   // ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16.0,
                   ),
                   Container(
@@ -380,13 +381,13 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   GridView.count(
                     crossAxisCount: 3,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     mainAxisSpacing: 4,
                     crossAxisSpacing: 4,
                     children: List.generate(
@@ -454,7 +455,7 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                               child: DottedBorder(
                                 color: Colors.grey,
                                 strokeWidth: 1,
-                                child: Container(
+                                child: const SizedBox(
                                   height: 200,
                                   width: 200,
                                   child: Column(
@@ -485,7 +486,7 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                                       ),
                                     );
                                   },
-                                  child: Container(
+                                  child: SizedBox(
                                     height: 200,
                                     width: 200,
                                     child: Image.file(
@@ -519,7 +520,7 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                                         borderRadius:
                                             BorderRadius.circular(100),
                                       ),
-                                      child: Icon(Icons.close),
+                                      child: const Icon(Icons.close),
                                     ),
                                   ),
                                 ),

@@ -11,12 +11,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../router.gr.dart';
 
+@RoutePage(name: 'PurchaseOrderList')
 class PurchaseOrderList extends StatefulWidget {
   final String? icNo;
   final String? packageCode;
   final String? diCode;
 
-  PurchaseOrderList({
+  const PurchaseOrderList({
+    super.key,
     this.icNo,
     this.packageCode,
     this.diCode,
@@ -93,13 +95,13 @@ class _PurchaseOrderListState extends State<PurchaseOrderList> {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                   return Container(
-                    padding: EdgeInsets.all(15.0),
-                    margin:
-                        EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
+                    padding: const EdgeInsets.all(15.0),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 15.0, horizontal: 8.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15.0),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(0, 8.0),
@@ -123,7 +125,7 @@ class _PurchaseOrderListState extends State<PurchaseOrderList> {
                   return ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
-                      if (snapshot.data[index].packageCode == 'PURCHASE')
+                      if (snapshot.data[index].packageCode == 'PURCHASE') {
                         return Container(
                           margin: EdgeInsets.symmetric(
                               horizontal: 40.w, vertical: 20.h),
@@ -131,7 +133,7 @@ class _PurchaseOrderListState extends State<PurchaseOrderList> {
                             onTap: () {
                               if (snapshot.data[index].trnStatus
                                       .toUpperCase() !=
-                                  'PAID')
+                                  'PAID') {
                                 context.router.push(
                                   FpxPaymentOption(
                                     icNo: widget.icNo,
@@ -148,7 +150,7 @@ class _PurchaseOrderListState extends State<PurchaseOrderList> {
                                     amountString: snapshot.data[index].tlOrdAmt,
                                   ),
                                 );
-                              else {
+                              } else {
                                 /* customDialog.show(
                                 context: context,
                                 content: AppLocalizations.of(context)
@@ -164,7 +166,9 @@ class _PurchaseOrderListState extends State<PurchaseOrderList> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 20.w, vertical: 20.h),
                                 child: Table(
-                                  columnWidths: {1: FractionColumnWidth(.3)},
+                                  columnWidths: const {
+                                    1: FractionColumnWidth(.3)
+                                  },
                                   children: [
                                     TableRow(
                                       children: [
@@ -209,27 +213,21 @@ class _PurchaseOrderListState extends State<PurchaseOrderList> {
                                       children: [
                                         Text(
                                           'Status: ${snapshot.data[index].trnStatus}',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         Text(
-                                          'Discount: ' +
-                                              double.tryParse(snapshot
-                                                      .data[index].tlDiscAmt)!
-                                                  .toStringAsFixed(2),
+                                          'Discount: ${double.tryParse(snapshot.data[index].tlDiscAmt)!.toStringAsFixed(2)}',
                                         ),
                                       ],
                                     ),
                                     TableRow(
                                       children: [
-                                        Text(''),
+                                        const Text(''),
                                         Text(
-                                          'Total: ' +
-                                              double.tryParse(snapshot
-                                                      .data[index].tlOrdAmt)!
-                                                  .toStringAsFixed(2),
-                                          style: TextStyle(
+                                          'Total: ${double.tryParse(snapshot.data[index].tlOrdAmt)!.toStringAsFixed(2)}',
+                                          style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -241,6 +239,7 @@ class _PurchaseOrderListState extends State<PurchaseOrderList> {
                             ),
                           ),
                         );
+                      }
                       return Container();
                     },
                   );

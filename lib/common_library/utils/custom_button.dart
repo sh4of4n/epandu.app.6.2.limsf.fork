@@ -9,7 +9,7 @@ class CustomButton extends StatelessWidget {
   final double? minWidth;
   final double? height;
 
-  CustomButton({
+  const CustomButton({super.key, 
     required this.buttonColor,
     required this.onPressed,
     required this.title,
@@ -28,7 +28,7 @@ class CustomButton extends StatelessWidget {
         textStyle: TextStyle(
           color: fontColor ?? Colors.white,
         ),
-        shape: StadiumBorder(),
+        shape: const StadiumBorder(),
         minimumSize: Size(minWidth ?? 88.0, height ?? 36.0),
       ),
       onPressed: onPressed,

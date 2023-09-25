@@ -7,17 +7,17 @@ class GetCategoryResponse {
 
   GetCategoryResponse.fromJson(Map<String, dynamic> json) {
     if (json['StkCat'] != null) {
-      stkCat = new List<StkCat>.empty(growable: true);
+      stkCat = List<StkCat>.empty(growable: true);
       json['StkCat'].forEach((v) {
-        stkCat!.add(new StkCat.fromJson(v));
+        stkCat!.add(StkCat.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.stkCat != null) {
-      data['StkCat'] = this.stkCat!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (stkCat != null) {
+      data['StkCat'] = stkCat!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -169,53 +169,53 @@ class StkCat {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['stk_cat'] = this.stkCat;
-    data['cat_desc'] = this.catDesc;
-    data['non_gst'] = this.nonGst;
-    data['purchase_tax_code'] = this.purchaseTaxCode;
-    data['supply_tax_code'] = this.supplyTaxCode;
-    data['price_include_gst'] = this.priceIncludeGst;
-    data['deleted'] = this.deleted;
-    data['publish'] = this.publish;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['row_key'] = this.rowKey;
-    data['transtamp'] = this.transtamp;
-    data['crd_sls_acct'] = this.crdSlsAcct;
-    data['crd_sls_dept'] = this.crdSlsDept;
-    data['csh_sls_acct'] = this.cshSlsAcct;
-    data['csh_sls_dept'] = this.cshSlsDept;
-    data['crd_purc_acct'] = this.crdPurcAcct;
-    data['crd_purc_dept'] = this.crdPurcDept;
-    data['open_pos'] = this.openPos;
-    data['open_pos_type'] = this.openPosType;
-    data['picture_path'] = this.picturePath;
-    data['__gst'] = this.sGst;
-    data['trigger_code'] = this.triggerCode;
-    data['tariff_code'] = this.tariffCode;
-    data['zone_code'] = this.zoneCode;
-    data['subject_sls_tax'] = this.subjectSlsTax;
-    data['csh_purc_acct'] = this.cshPurcAcct;
-    data['csh_purc_dept'] = this.cshPurcDept;
-    data['crd_sls_ac'] = this.crdSlsAc;
-    data['crd_sls_dp'] = this.crdSlsDp;
-    data['csh_sls_ac'] = this.cshSlsAc;
-    data['csh_sls_dp'] = this.cshSlsDp;
-    data['crd_purc_ac'] = this.crdPurcAc;
-    data['crd_purc_dp'] = this.crdPurcDp;
-    data['csh_purc_ac'] = this.cshPurcAc;
-    data['csh_purc_dp'] = this.cshPurcDp;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['lastupload'] = this.lastupload;
-    data['duplicate_key'] = this.duplicateKey;
-    data['validate_failed'] = this.validateFailed;
-    data['last_edited_by'] = this.lastEditedBy;
-    data['created_by'] = this.createdBy;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['stk_cat'] = stkCat;
+    data['cat_desc'] = catDesc;
+    data['non_gst'] = nonGst;
+    data['purchase_tax_code'] = purchaseTaxCode;
+    data['supply_tax_code'] = supplyTaxCode;
+    data['price_include_gst'] = priceIncludeGst;
+    data['deleted'] = deleted;
+    data['publish'] = publish;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['row_key'] = rowKey;
+    data['transtamp'] = transtamp;
+    data['crd_sls_acct'] = crdSlsAcct;
+    data['crd_sls_dept'] = crdSlsDept;
+    data['csh_sls_acct'] = cshSlsAcct;
+    data['csh_sls_dept'] = cshSlsDept;
+    data['crd_purc_acct'] = crdPurcAcct;
+    data['crd_purc_dept'] = crdPurcDept;
+    data['open_pos'] = openPos;
+    data['open_pos_type'] = openPosType;
+    data['picture_path'] = picturePath;
+    data['__gst'] = sGst;
+    data['trigger_code'] = triggerCode;
+    data['tariff_code'] = tariffCode;
+    data['zone_code'] = zoneCode;
+    data['subject_sls_tax'] = subjectSlsTax;
+    data['csh_purc_acct'] = cshPurcAcct;
+    data['csh_purc_dept'] = cshPurcDept;
+    data['crd_sls_ac'] = crdSlsAc;
+    data['crd_sls_dp'] = crdSlsDp;
+    data['csh_sls_ac'] = cshSlsAc;
+    data['csh_sls_dp'] = cshSlsDp;
+    data['crd_purc_ac'] = crdPurcAc;
+    data['crd_purc_dp'] = crdPurcDp;
+    data['csh_purc_ac'] = cshPurcAc;
+    data['csh_purc_dp'] = cshPurcDp;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['lastupload'] = lastupload;
+    data['duplicate_key'] = duplicateKey;
+    data['validate_failed'] = validateFailed;
+    data['last_edited_by'] = lastEditedBy;
+    data['created_by'] = createdBy;
     return data;
   }
 }
@@ -228,17 +228,17 @@ class GetStockResponse {
 
   GetStockResponse.fromJson(Map<String, dynamic> json) {
     if (json['Stkmst'] != null) {
-      stkmst = new List<Stkmst>.empty(growable: true);
+      stkmst = List<Stkmst>.empty(growable: true);
       json['Stkmst'].forEach((v) {
-        stkmst!.add(new Stkmst.fromJson(v));
+        stkmst!.add(Stkmst.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.stkmst != null) {
-      data['Stkmst'] = this.stkmst!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (stkmst != null) {
+      data['Stkmst'] = stkmst!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -870,213 +870,213 @@ class Stkmst {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['stk_code'] = this.stkCode;
-    data['stk_desc1'] = this.stkDesc1;
-    data['stk_desc2'] = this.stkDesc2;
-    data['short_desc'] = this.shortDesc;
-    data['short_desc2'] = this.shortDesc2;
-    data['part_no'] = this.partNo;
-    data['stk_cat'] = this.stkCat;
-    data['stk_grp'] = this.stkGrp;
-    data['transport_type'] = this.transportType;
-    data['brand_code'] = this.brandCode;
-    data['grade_code'] = this.gradeCode;
-    data['menu_no'] = this.menuNo;
-    data['int_code'] = this.intCode;
-    data['ext_code'] = this.extCode;
-    data['ext_code1'] = this.extCode1;
-    data['ext_code2'] = this.extCode2;
-    data['ext_code3'] = this.extCode3;
-    data['uom'] = this.uom;
-    data['dual_uom'] = this.dualUom;
-    data['uom2'] = this.uom2;
-    data['qty_uom2'] = this.qtyUom2;
-    data['trn_type'] = this.trnType;
-    data['fg_or_raw'] = this.fgOrRaw;
-    data['deduct_rm'] = this.deductRm;
-    data['non_active'] = this.nonActive;
-    data['publish'] = this.publish;
-    data['bin_no'] = this.binNo;
-    data['upload_itm'] = this.uploadItm;
-    data['open_pos'] = this.openPos;
-    data['non_gst'] = this.nonGst;
-    data['purchase_tax_code'] = this.purchaseTaxCode;
-    data['supply_tax_code'] = this.supplyTaxCode;
-    data['price_include_gst'] = this.priceIncludeGst;
-    data['control_sn'] = this.controlSn;
-    data['sn_doc'] = this.snDoc;
-    data['use_batch'] = this.useBatch;
-    data['ctrl_batch_price'] = this.ctrlBatchPrice;
-    data['batch_doc'] = this.batchDoc;
-    data['qc_check'] = this.qcCheck;
-    data['gst_by_margin'] = this.gstByMargin;
-    data['label_file'] = this.labelFile;
-    data['label_setting'] = this.labelSetting;
-    data['flexi_uom'] = this.flexiUom;
-    data['update_bom'] = this.updateBom;
-    data['warperiod'] = this.warperiod;
-    data['war_mthyr'] = this.warMthyr;
-    data['currency'] = this.currency;
-    data['dbcode'] = this.dbcode;
-    data['crcode'] = this.crcode;
-    data['price_1'] = this.price1;
-    data['price_2'] = this.price2;
-    data['price_3'] = this.price3;
-    data['price_4'] = this.price4;
-    data['price_5'] = this.price5;
-    data['price_6'] = this.price6;
-    data['minprice_1'] = this.minprice1;
-    data['minprice_2'] = this.minprice2;
-    data['minprice_3'] = this.minprice3;
-    data['minprice_4'] = this.minprice4;
-    data['minprice_5'] = this.minprice5;
-    data['minprice_6'] = this.minprice6;
-    data['cost_1'] = this.cost1;
-    data['cost_2'] = this.cost2;
-    data['cost_3'] = this.cost3;
-    data['cost_4'] = this.cost4;
-    data['cost_5'] = this.cost5;
-    data['cost_6'] = this.cost6;
-    data['max_qty'] = this.maxQty;
-    data['min_qty'] = this.minQty;
-    data['min_or_qty'] = this.minOrQty;
-    data['ro_level'] = this.roLevel;
-    data['fillup_level'] = this.fillupLevel;
-    data['ro_qty'] = this.roQty;
-    data['ro_uom'] = this.roUom;
-    data['l_is_price'] = this.lIsPrice;
-    data['l_in_cost'] = this.lInCost;
-    data['l_in_price'] = this.lInPrice;
-    data['l_act_cost'] = this.lActCost;
-    data['amt_sign'] = this.amtSign;
-    data['scom_rate'] = this.scomRate;
-    data['scom_amt'] = this.scomAmt;
-    data['subject_sls_tax'] = this.subjectSlsTax;
-    data['stk_misc1'] = this.stkMisc1;
-    data['stk_misc2'] = this.stkMisc2;
-    data['stk_misc3'] = this.stkMisc3;
-    data['stk_misc4'] = this.stkMisc4;
-    data['stk_misc5'] = this.stkMisc5;
-    data['stk_misc6'] = this.stkMisc6;
-    data['stk_misc7'] = this.stkMisc7;
-    data['stk_misc8'] = this.stkMisc8;
-    data['stk_misc9'] = this.stkMisc9;
-    data['stk_misc10'] = this.stkMisc10;
-    data['stk_misc11'] = this.stkMisc11;
-    data['stk_misc12'] = this.stkMisc12;
-    data['stk_misc13'] = this.stkMisc13;
-    data['stk_misc14'] = this.stkMisc14;
-    data['stk_misc15'] = this.stkMisc15;
-    data['stk_misc16'] = this.stkMisc16;
-    data['stk_misc17'] = this.stkMisc17;
-    data['stk_misc18'] = this.stkMisc18;
-    data['stk_misc19'] = this.stkMisc19;
-    data['stk_misc20'] = this.stkMisc20;
-    data['stk_formula'] = this.stkFormula;
-    data['pi_formula'] = this.piFormula;
-    data['autoassbly'] = this.autoassbly;
-    data['point_earn'] = this.pointEarn;
-    data['point_used'] = this.pointUsed;
-    data['stkpicture_path'] = this.stkpicturePath;
-    data['cost_factr'] = this.costFactr;
-    data['codetariff'] = this.codetariff;
-    data['codetariff_desc'] = this.codetariffDesc;
-    data['drawing_no'] = this.drawingNo;
-    data['engineer_draw_no'] = this.engineerDrawNo;
-    data['engineer_apprv_by'] = this.engineerApprvBy;
-    data['gross_weight'] = this.grossWeight;
-    data['gross_weight_uom'] = this.grossWeightUom;
-    data['net_weight'] = this.netWeight;
-    data['net_weight_uom'] = this.netWeightUom;
-    data['m3'] = this.m3;
-    data['stk_thickness'] = this.stkThickness;
-    data['stk_thickness_uom'] = this.stkThicknessUom;
-    data['stk_width'] = this.stkWidth;
-    data['stk_width_uom'] = this.stkWidthUom;
-    data['stk_length'] = this.stkLength;
-    data['stk_length_uom'] = this.stkLengthUom;
-    data['tlnpct'] = this.tlnpct;
-    data['tlnqty'] = this.tlnqty;
-    data['tlnstatus'] = this.tlnstatus;
-    data['use_matrix'] = this.useMatrix;
-    data['multi_disc'] = this.multiDisc;
-    data['ser_tax'] = this.serTax;
-    data['sales_tax'] = this.salesTax;
-    data['sale_acct'] = this.saleAcct;
-    data['sale_dept'] = this.saleDept;
-    data['sdisc_acct'] = this.sdiscAcct;
-    data['sdisc_dept'] = this.sdiscDept;
-    data['purc_acct'] = this.purcAcct;
-    data['purc_dept'] = this.purcDept;
-    data['pdisc_acct'] = this.pdiscAcct;
-    data['pdisc_dept'] = this.pdiscDept;
-    data['to_gl_acct'] = this.toGlAcct;
-    data['to_gl_dept'] = this.toGlDept;
-    data['remark'] = this.remark;
-    data['ytd_qty'] = this.ytdQty;
-    data['unpostqty'] = this.unpostqty;
-    data['ytd_qtyord'] = this.ytdQtyord;
-    data['ytd_qtyresv'] = this.ytdQtyresv;
-    data['ytd_p_qty'] = this.ytdPQty;
-    data['ytd_s_qty'] = this.ytdSQty;
-    data['ytdavrcost'] = this.ytdavrcost;
-    data['deleted'] = this.deleted;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['row_key'] = this.rowKey;
-    data['transtamp'] = this.transtamp;
-    data['edit_date'] = this.editDate;
-    data['sample_no'] = this.sampleNo;
-    data['version'] = this.version;
-    data['doc_ref'] = this.docRef;
-    data['stk_key'] = this.stkKey;
-    data['verify'] = this.verify;
-    data['qa_spec'] = this.qaSpec;
-    data['sls_min_or_qty'] = this.slsMinOrQty;
-    data['__matrix_1'] = this.sMatrix1;
-    data['__matrix_2'] = this.sMatrix2;
-    data['__matrix_3'] = this.sMatrix3;
-    data['__loc_code'] = this.sLocCode;
-    data['__batch_no'] = this.sBatchNo;
-    data['__batch_key'] = this.sBatchKey;
-    data['__batch_qty'] = this.sBatchQty;
-    data['open_pos_type'] = this.openPosType;
-    data['__gst'] = this.sGst;
-    data['trigger_code'] = this.triggerCode;
-    data['unit_price'] = this.unitPrice;
-    data['lastupload'] = this.lastupload;
-    data['duplicate_key'] = this.duplicateKey;
-    data['validate_failed'] = this.validateFailed;
-    data['validate_remark'] = this.validateRemark;
-    data['last_validate'] = this.lastValidate;
-    data['last_edited_by'] = this.lastEditedBy;
-    data['created_by'] = this.createdBy;
-    data['cat_desc'] = this.catDesc;
-    data['grp_desc'] = this.grpDesc;
-    data['stkqty_ytd_qty'] = this.stkqtyYtdQty;
-    data['stkqty_ytd_qtyresv'] = this.stkqtyYtdQtyresv;
-    data['stkqty_ytd_available_qty'] = this.stkqtyYtdAvailableQty;
-    data['l_in_cost1'] = this.lInCost1;
-    data['l_in_date1'] = this.lInDate1;
-    data['l_is_date1'] = this.lIsDate1;
-    data['l_is_price1'] = this.lIsPrice1;
-    data['disc_rate'] = this.discRate;
-    data['stkprice_unit_price'] = this.stkpriceUnitPrice;
-    data['min_unit_price'] = this.minUnitPrice;
-    data['cust_sell_price'] = this.custSellPrice;
-    data['cust_min_sell_price'] = this.custMinSellPrice;
-    data['rmd_cust_label_price'] = this.rmdCustLabelPrice;
-    data['label_price'] = this.labelPrice;
-    data['stkuom'] = this.stkuom;
-    data['spec_disc_rate'] = this.specDiscRate;
-    data['spec_unit_price'] = this.specUnitPrice;
-    data['spec_nett_price'] = this.specNettPrice;
-    data['effective_date'] = this.effectiveDate;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['stk_code'] = stkCode;
+    data['stk_desc1'] = stkDesc1;
+    data['stk_desc2'] = stkDesc2;
+    data['short_desc'] = shortDesc;
+    data['short_desc2'] = shortDesc2;
+    data['part_no'] = partNo;
+    data['stk_cat'] = stkCat;
+    data['stk_grp'] = stkGrp;
+    data['transport_type'] = transportType;
+    data['brand_code'] = brandCode;
+    data['grade_code'] = gradeCode;
+    data['menu_no'] = menuNo;
+    data['int_code'] = intCode;
+    data['ext_code'] = extCode;
+    data['ext_code1'] = extCode1;
+    data['ext_code2'] = extCode2;
+    data['ext_code3'] = extCode3;
+    data['uom'] = uom;
+    data['dual_uom'] = dualUom;
+    data['uom2'] = uom2;
+    data['qty_uom2'] = qtyUom2;
+    data['trn_type'] = trnType;
+    data['fg_or_raw'] = fgOrRaw;
+    data['deduct_rm'] = deductRm;
+    data['non_active'] = nonActive;
+    data['publish'] = publish;
+    data['bin_no'] = binNo;
+    data['upload_itm'] = uploadItm;
+    data['open_pos'] = openPos;
+    data['non_gst'] = nonGst;
+    data['purchase_tax_code'] = purchaseTaxCode;
+    data['supply_tax_code'] = supplyTaxCode;
+    data['price_include_gst'] = priceIncludeGst;
+    data['control_sn'] = controlSn;
+    data['sn_doc'] = snDoc;
+    data['use_batch'] = useBatch;
+    data['ctrl_batch_price'] = ctrlBatchPrice;
+    data['batch_doc'] = batchDoc;
+    data['qc_check'] = qcCheck;
+    data['gst_by_margin'] = gstByMargin;
+    data['label_file'] = labelFile;
+    data['label_setting'] = labelSetting;
+    data['flexi_uom'] = flexiUom;
+    data['update_bom'] = updateBom;
+    data['warperiod'] = warperiod;
+    data['war_mthyr'] = warMthyr;
+    data['currency'] = currency;
+    data['dbcode'] = dbcode;
+    data['crcode'] = crcode;
+    data['price_1'] = price1;
+    data['price_2'] = price2;
+    data['price_3'] = price3;
+    data['price_4'] = price4;
+    data['price_5'] = price5;
+    data['price_6'] = price6;
+    data['minprice_1'] = minprice1;
+    data['minprice_2'] = minprice2;
+    data['minprice_3'] = minprice3;
+    data['minprice_4'] = minprice4;
+    data['minprice_5'] = minprice5;
+    data['minprice_6'] = minprice6;
+    data['cost_1'] = cost1;
+    data['cost_2'] = cost2;
+    data['cost_3'] = cost3;
+    data['cost_4'] = cost4;
+    data['cost_5'] = cost5;
+    data['cost_6'] = cost6;
+    data['max_qty'] = maxQty;
+    data['min_qty'] = minQty;
+    data['min_or_qty'] = minOrQty;
+    data['ro_level'] = roLevel;
+    data['fillup_level'] = fillupLevel;
+    data['ro_qty'] = roQty;
+    data['ro_uom'] = roUom;
+    data['l_is_price'] = lIsPrice;
+    data['l_in_cost'] = lInCost;
+    data['l_in_price'] = lInPrice;
+    data['l_act_cost'] = lActCost;
+    data['amt_sign'] = amtSign;
+    data['scom_rate'] = scomRate;
+    data['scom_amt'] = scomAmt;
+    data['subject_sls_tax'] = subjectSlsTax;
+    data['stk_misc1'] = stkMisc1;
+    data['stk_misc2'] = stkMisc2;
+    data['stk_misc3'] = stkMisc3;
+    data['stk_misc4'] = stkMisc4;
+    data['stk_misc5'] = stkMisc5;
+    data['stk_misc6'] = stkMisc6;
+    data['stk_misc7'] = stkMisc7;
+    data['stk_misc8'] = stkMisc8;
+    data['stk_misc9'] = stkMisc9;
+    data['stk_misc10'] = stkMisc10;
+    data['stk_misc11'] = stkMisc11;
+    data['stk_misc12'] = stkMisc12;
+    data['stk_misc13'] = stkMisc13;
+    data['stk_misc14'] = stkMisc14;
+    data['stk_misc15'] = stkMisc15;
+    data['stk_misc16'] = stkMisc16;
+    data['stk_misc17'] = stkMisc17;
+    data['stk_misc18'] = stkMisc18;
+    data['stk_misc19'] = stkMisc19;
+    data['stk_misc20'] = stkMisc20;
+    data['stk_formula'] = stkFormula;
+    data['pi_formula'] = piFormula;
+    data['autoassbly'] = autoassbly;
+    data['point_earn'] = pointEarn;
+    data['point_used'] = pointUsed;
+    data['stkpicture_path'] = stkpicturePath;
+    data['cost_factr'] = costFactr;
+    data['codetariff'] = codetariff;
+    data['codetariff_desc'] = codetariffDesc;
+    data['drawing_no'] = drawingNo;
+    data['engineer_draw_no'] = engineerDrawNo;
+    data['engineer_apprv_by'] = engineerApprvBy;
+    data['gross_weight'] = grossWeight;
+    data['gross_weight_uom'] = grossWeightUom;
+    data['net_weight'] = netWeight;
+    data['net_weight_uom'] = netWeightUom;
+    data['m3'] = m3;
+    data['stk_thickness'] = stkThickness;
+    data['stk_thickness_uom'] = stkThicknessUom;
+    data['stk_width'] = stkWidth;
+    data['stk_width_uom'] = stkWidthUom;
+    data['stk_length'] = stkLength;
+    data['stk_length_uom'] = stkLengthUom;
+    data['tlnpct'] = tlnpct;
+    data['tlnqty'] = tlnqty;
+    data['tlnstatus'] = tlnstatus;
+    data['use_matrix'] = useMatrix;
+    data['multi_disc'] = multiDisc;
+    data['ser_tax'] = serTax;
+    data['sales_tax'] = salesTax;
+    data['sale_acct'] = saleAcct;
+    data['sale_dept'] = saleDept;
+    data['sdisc_acct'] = sdiscAcct;
+    data['sdisc_dept'] = sdiscDept;
+    data['purc_acct'] = purcAcct;
+    data['purc_dept'] = purcDept;
+    data['pdisc_acct'] = pdiscAcct;
+    data['pdisc_dept'] = pdiscDept;
+    data['to_gl_acct'] = toGlAcct;
+    data['to_gl_dept'] = toGlDept;
+    data['remark'] = remark;
+    data['ytd_qty'] = ytdQty;
+    data['unpostqty'] = unpostqty;
+    data['ytd_qtyord'] = ytdQtyord;
+    data['ytd_qtyresv'] = ytdQtyresv;
+    data['ytd_p_qty'] = ytdPQty;
+    data['ytd_s_qty'] = ytdSQty;
+    data['ytdavrcost'] = ytdavrcost;
+    data['deleted'] = deleted;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['row_key'] = rowKey;
+    data['transtamp'] = transtamp;
+    data['edit_date'] = editDate;
+    data['sample_no'] = sampleNo;
+    data['version'] = version;
+    data['doc_ref'] = docRef;
+    data['stk_key'] = stkKey;
+    data['verify'] = verify;
+    data['qa_spec'] = qaSpec;
+    data['sls_min_or_qty'] = slsMinOrQty;
+    data['__matrix_1'] = sMatrix1;
+    data['__matrix_2'] = sMatrix2;
+    data['__matrix_3'] = sMatrix3;
+    data['__loc_code'] = sLocCode;
+    data['__batch_no'] = sBatchNo;
+    data['__batch_key'] = sBatchKey;
+    data['__batch_qty'] = sBatchQty;
+    data['open_pos_type'] = openPosType;
+    data['__gst'] = sGst;
+    data['trigger_code'] = triggerCode;
+    data['unit_price'] = unitPrice;
+    data['lastupload'] = lastupload;
+    data['duplicate_key'] = duplicateKey;
+    data['validate_failed'] = validateFailed;
+    data['validate_remark'] = validateRemark;
+    data['last_validate'] = lastValidate;
+    data['last_edited_by'] = lastEditedBy;
+    data['created_by'] = createdBy;
+    data['cat_desc'] = catDesc;
+    data['grp_desc'] = grpDesc;
+    data['stkqty_ytd_qty'] = stkqtyYtdQty;
+    data['stkqty_ytd_qtyresv'] = stkqtyYtdQtyresv;
+    data['stkqty_ytd_available_qty'] = stkqtyYtdAvailableQty;
+    data['l_in_cost1'] = lInCost1;
+    data['l_in_date1'] = lInDate1;
+    data['l_is_date1'] = lIsDate1;
+    data['l_is_price1'] = lIsPrice1;
+    data['disc_rate'] = discRate;
+    data['stkprice_unit_price'] = stkpriceUnitPrice;
+    data['min_unit_price'] = minUnitPrice;
+    data['cust_sell_price'] = custSellPrice;
+    data['cust_min_sell_price'] = custMinSellPrice;
+    data['rmd_cust_label_price'] = rmdCustLabelPrice;
+    data['label_price'] = labelPrice;
+    data['stkuom'] = stkuom;
+    data['spec_disc_rate'] = specDiscRate;
+    data['spec_unit_price'] = specUnitPrice;
+    data['spec_nett_price'] = specNettPrice;
+    data['effective_date'] = effectiveDate;
     return data;
   }
 }
@@ -1089,17 +1089,17 @@ class GetCategoryByPagingResponse {
 
   GetCategoryByPagingResponse.fromJson(Map<String, dynamic> json) {
     if (json['StkCat'] != null) {
-      stkCat = new List<GetCategoryByPagingStkCat>.empty(growable: true);
+      stkCat = List<GetCategoryByPagingStkCat>.empty(growable: true);
       json['StkCat'].forEach((v) {
-        stkCat!.add(new GetCategoryByPagingStkCat.fromJson(v));
+        stkCat!.add(GetCategoryByPagingStkCat.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.stkCat != null) {
-      data['StkCat'] = this.stkCat!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (stkCat != null) {
+      data['StkCat'] = stkCat!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -1269,59 +1269,59 @@ class GetCategoryByPagingStkCat {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['stk_cat'] = this.stkCat;
-    data['cat_desc'] = this.catDesc;
-    data['non_gst'] = this.nonGst;
-    data['purchase_tax_code'] = this.purchaseTaxCode;
-    data['supply_tax_code'] = this.supplyTaxCode;
-    data['price_include_gst'] = this.priceIncludeGst;
-    data['deleted'] = this.deleted;
-    data['publish'] = this.publish;
-    data['ord_lead_time'] = this.ordLeadTime;
-    data['buffer_stk_days'] = this.bufferStkDays;
-    data['stk_holding_days'] = this.stkHoldingDays;
-    data['extra_stk_holding_days'] = this.extraStkHoldingDays;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['row_key'] = this.rowKey;
-    data['transtamp'] = this.transtamp;
-    data['crd_sls_acct'] = this.crdSlsAcct;
-    data['crd_sls_dept'] = this.crdSlsDept;
-    data['csh_sls_acct'] = this.cshSlsAcct;
-    data['csh_sls_dept'] = this.cshSlsDept;
-    data['crd_purc_acct'] = this.crdPurcAcct;
-    data['crd_purc_dept'] = this.crdPurcDept;
-    data['open_pos'] = this.openPos;
-    data['open_pos_type'] = this.openPosType;
-    data['picture_path'] = this.picturePath;
-    data['__gst'] = this.sGst;
-    data['trigger_code'] = this.triggerCode;
-    data['tariff_code'] = this.tariffCode;
-    data['zone_code'] = this.zoneCode;
-    data['subject_sls_tax'] = this.subjectSlsTax;
-    data['csh_purc_acct'] = this.cshPurcAcct;
-    data['csh_purc_dept'] = this.cshPurcDept;
-    data['crd_sls_ac'] = this.crdSlsAc;
-    data['crd_sls_dp'] = this.crdSlsDp;
-    data['csh_sls_ac'] = this.cshSlsAc;
-    data['csh_sls_dp'] = this.cshSlsDp;
-    data['crd_purc_ac'] = this.crdPurcAc;
-    data['crd_purc_dp'] = this.crdPurcDp;
-    data['csh_purc_ac'] = this.cshPurcAc;
-    data['csh_purc_dp'] = this.cshPurcDp;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['lastupload'] = this.lastupload;
-    data['duplicate_key'] = this.duplicateKey;
-    data['validate_failed'] = this.validateFailed;
-    data['validate_remark'] = this.validateRemark;
-    data['last_validate'] = this.lastValidate;
-    data['last_edited_by'] = this.lastEditedBy;
-    data['created_by'] = this.createdBy;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['stk_cat'] = stkCat;
+    data['cat_desc'] = catDesc;
+    data['non_gst'] = nonGst;
+    data['purchase_tax_code'] = purchaseTaxCode;
+    data['supply_tax_code'] = supplyTaxCode;
+    data['price_include_gst'] = priceIncludeGst;
+    data['deleted'] = deleted;
+    data['publish'] = publish;
+    data['ord_lead_time'] = ordLeadTime;
+    data['buffer_stk_days'] = bufferStkDays;
+    data['stk_holding_days'] = stkHoldingDays;
+    data['extra_stk_holding_days'] = extraStkHoldingDays;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['row_key'] = rowKey;
+    data['transtamp'] = transtamp;
+    data['crd_sls_acct'] = crdSlsAcct;
+    data['crd_sls_dept'] = crdSlsDept;
+    data['csh_sls_acct'] = cshSlsAcct;
+    data['csh_sls_dept'] = cshSlsDept;
+    data['crd_purc_acct'] = crdPurcAcct;
+    data['crd_purc_dept'] = crdPurcDept;
+    data['open_pos'] = openPos;
+    data['open_pos_type'] = openPosType;
+    data['picture_path'] = picturePath;
+    data['__gst'] = sGst;
+    data['trigger_code'] = triggerCode;
+    data['tariff_code'] = tariffCode;
+    data['zone_code'] = zoneCode;
+    data['subject_sls_tax'] = subjectSlsTax;
+    data['csh_purc_acct'] = cshPurcAcct;
+    data['csh_purc_dept'] = cshPurcDept;
+    data['crd_sls_ac'] = crdSlsAc;
+    data['crd_sls_dp'] = crdSlsDp;
+    data['csh_sls_ac'] = cshSlsAc;
+    data['csh_sls_dp'] = cshSlsDp;
+    data['crd_purc_ac'] = crdPurcAc;
+    data['crd_purc_dp'] = crdPurcDp;
+    data['csh_purc_ac'] = cshPurcAc;
+    data['csh_purc_dp'] = cshPurcDp;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['lastupload'] = lastupload;
+    data['duplicate_key'] = duplicateKey;
+    data['validate_failed'] = validateFailed;
+    data['validate_remark'] = validateRemark;
+    data['last_validate'] = lastValidate;
+    data['last_edited_by'] = lastEditedBy;
+    data['created_by'] = createdBy;
     return data;
   }
 }
@@ -1335,17 +1335,17 @@ class GetGroupByPagingResponse {
 
   GetGroupByPagingResponse.fromJson(Map<String, dynamic> json) {
     if (json['StkGrp'] != null) {
-      stkGrp = new List<StkGrp>.empty(growable: true);
+      stkGrp = List<StkGrp>.empty(growable: true);
       json['StkGrp'].forEach((v) {
-        stkGrp!.add(new StkGrp.fromJson(v));
+        stkGrp!.add(StkGrp.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.stkGrp != null) {
-      data['StkGrp'] = this.stkGrp!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (stkGrp != null) {
+      data['StkGrp'] = stkGrp!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -1488,50 +1488,50 @@ class StkGrp {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['stk_grp'] = this.stkGrp;
-    data['grp_desc'] = this.grpDesc;
-    data['transport_type'] = this.transportType;
-    data['tariff_code'] = this.tariffCode;
-    data['deleted'] = this.deleted;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['row_key'] = this.rowKey;
-    data['transtamp'] = this.transtamp;
-    data['crd_sls_acct'] = this.crdSlsAcct;
-    data['crd_sls_dept'] = this.crdSlsDept;
-    data['csh_sls_acct'] = this.cshSlsAcct;
-    data['csh_sls_dept'] = this.cshSlsDept;
-    data['crd_purc_acct'] = this.crdPurcAcct;
-    data['crd_purc_dept'] = this.crdPurcDept;
-    data['csh_purc_acct'] = this.cshPurcAcct;
-    data['csh_purc_dept'] = this.cshPurcDept;
-    data['matrix1_def'] = this.matrix1Def;
-    data['matrix2_def'] = this.matrix2Def;
-    data['matrix3_def'] = this.matrix3Def;
-    data['flexi_matrix_pdo'] = this.flexiMatrixPdo;
-    data['flexi_matrix_pi'] = this.flexiMatrixPi;
-    data['flexi_matrix_do'] = this.flexiMatrixDo;
-    data['flexi_matrix_si'] = this.flexiMatrixSi;
-    data['flexi_matrix_pos'] = this.flexiMatrixPos;
-    data['flexi_matrix_stk_received'] = this.flexiMatrixStkReceived;
-    data['flexi_matrix_stk_issues'] = this.flexiMatrixStkIssues;
-    data['matrix_lvl_use'] = this.matrixLvlUse;
-    data['label_file'] = this.labelFile;
-    data['label_setting'] = this.labelSetting;
-    data['trigger_code'] = this.triggerCode;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['lastupload'] = this.lastupload;
-    data['duplicate_key'] = this.duplicateKey;
-    data['validate_failed'] = this.validateFailed;
-    data['validate_remark'] = this.validateRemark;
-    data['last_validate'] = this.lastValidate;
-    data['last_edited_by'] = this.lastEditedBy;
-    data['created_by'] = this.createdBy;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['stk_grp'] = stkGrp;
+    data['grp_desc'] = grpDesc;
+    data['transport_type'] = transportType;
+    data['tariff_code'] = tariffCode;
+    data['deleted'] = deleted;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['row_key'] = rowKey;
+    data['transtamp'] = transtamp;
+    data['crd_sls_acct'] = crdSlsAcct;
+    data['crd_sls_dept'] = crdSlsDept;
+    data['csh_sls_acct'] = cshSlsAcct;
+    data['csh_sls_dept'] = cshSlsDept;
+    data['crd_purc_acct'] = crdPurcAcct;
+    data['crd_purc_dept'] = crdPurcDept;
+    data['csh_purc_acct'] = cshPurcAcct;
+    data['csh_purc_dept'] = cshPurcDept;
+    data['matrix1_def'] = matrix1Def;
+    data['matrix2_def'] = matrix2Def;
+    data['matrix3_def'] = matrix3Def;
+    data['flexi_matrix_pdo'] = flexiMatrixPdo;
+    data['flexi_matrix_pi'] = flexiMatrixPi;
+    data['flexi_matrix_do'] = flexiMatrixDo;
+    data['flexi_matrix_si'] = flexiMatrixSi;
+    data['flexi_matrix_pos'] = flexiMatrixPos;
+    data['flexi_matrix_stk_received'] = flexiMatrixStkReceived;
+    data['flexi_matrix_stk_issues'] = flexiMatrixStkIssues;
+    data['matrix_lvl_use'] = matrixLvlUse;
+    data['label_file'] = labelFile;
+    data['label_setting'] = labelSetting;
+    data['trigger_code'] = triggerCode;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['lastupload'] = lastupload;
+    data['duplicate_key'] = duplicateKey;
+    data['validate_failed'] = validateFailed;
+    data['validate_remark'] = validateRemark;
+    data['last_validate'] = lastValidate;
+    data['last_edited_by'] = lastEditedBy;
+    data['created_by'] = createdBy;
     return data;
   }
 }
@@ -1544,17 +1544,17 @@ class GetUOMByPagingResponse {
 
   GetUOMByPagingResponse.fromJson(Map<String, dynamic> json) {
     if (json['UOM'] != null) {
-      uOM = new List<UOM>.empty(growable: true);
+      uOM = List<UOM>.empty(growable: true);
       json['UOM'].forEach((v) {
-        uOM!.add(new UOM.fromJson(v));
+        uOM!.add(UOM.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.uOM != null) {
-      data['UOM'] = this.uOM!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (uOM != null) {
+      data['UOM'] = uOM!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -1616,23 +1616,23 @@ class UOM {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['uom'] = this.uom;
-    data['uom_desc'] = this.uomDesc;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['row_key'] = this.rowKey;
-    data['transtamp'] = this.transtamp;
-    data['edit_date'] = this.editDate;
-    data['deleted'] = this.deleted;
-    data['trigger_barcode'] = this.triggerBarcode;
-    data['lastupload'] = this.lastupload;
-    data['last_edited_by'] = this.lastEditedBy;
-    data['created_by'] = this.createdBy;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['uom'] = uom;
+    data['uom_desc'] = uomDesc;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['row_key'] = rowKey;
+    data['transtamp'] = transtamp;
+    data['edit_date'] = editDate;
+    data['deleted'] = deleted;
+    data['trigger_barcode'] = triggerBarcode;
+    data['lastupload'] = lastupload;
+    data['last_edited_by'] = lastEditedBy;
+    data['created_by'] = createdBy;
     return data;
   }
 }
@@ -1688,21 +1688,21 @@ class SaveStockRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['wsCodeCrypt'] = this.wsCodeCrypt;
-    data['caUid'] = this.caUid;
-    data['caPwd'] = this.caPwd;
-    data['userId'] = this.userId;
-    data['stkCode'] = this.stkCode;
-    data['stkDesc1'] = this.stkDesc1;
-    data['uom'] = this.uom;
-    data['stkCat'] = this.stkCat;
-    data['stkGrp'] = this.stkGrp;
-    data['publish'] = this.publish;
-    data['useBatch'] = this.useBatch;
-    data['snControl'] = this.snControl;
-    data['stkPicture'] = this.stkPicture;
-    data['stkPictureBase64String'] = this.stkPictureBase64String;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['wsCodeCrypt'] = wsCodeCrypt;
+    data['caUid'] = caUid;
+    data['caPwd'] = caPwd;
+    data['userId'] = userId;
+    data['stkCode'] = stkCode;
+    data['stkDesc1'] = stkDesc1;
+    data['uom'] = uom;
+    data['stkCat'] = stkCat;
+    data['stkGrp'] = stkGrp;
+    data['publish'] = publish;
+    data['useBatch'] = useBatch;
+    data['snControl'] = snControl;
+    data['stkPicture'] = stkPicture;
+    data['stkPictureBase64String'] = stkPictureBase64String;
     return data;
   }
 }
@@ -1752,19 +1752,19 @@ class UpdateStockRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['wsCodeCrypt'] = this.wsCodeCrypt;
-    data['caUid'] = this.caUid;
-    data['caPwd'] = this.caPwd;
-    data['userId'] = this.userId;
-    data['stkCode'] = this.stkCode;
-    data['stkDesc1'] = this.stkDesc1;
-    data['uom'] = this.uom;
-    data['stkCat'] = this.stkCat;
-    data['stkGrp'] = this.stkGrp;
-    data['publish'] = this.publish;
-    data['useBatch'] = this.useBatch;
-    data['snControl'] = this.snControl;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['wsCodeCrypt'] = wsCodeCrypt;
+    data['caUid'] = caUid;
+    data['caPwd'] = caPwd;
+    data['userId'] = userId;
+    data['stkCode'] = stkCode;
+    data['stkDesc1'] = stkDesc1;
+    data['uom'] = uom;
+    data['stkCat'] = stkCat;
+    data['stkGrp'] = stkGrp;
+    data['publish'] = publish;
+    data['useBatch'] = useBatch;
+    data['snControl'] = snControl;
     return data;
   }
 }
@@ -1777,18 +1777,18 @@ class GetStockPictureListResponse {
 
   GetStockPictureListResponse.fromJson(Map<String, dynamic> json) {
     if (json['StkmstFileAttach'] != null) {
-      stkmstFileAttach = new List<StkmstFileAttach>.empty(growable: true);
+      stkmstFileAttach = List<StkmstFileAttach>.empty(growable: true);
       json['StkmstFileAttach'].forEach((v) {
-        stkmstFileAttach!.add(new StkmstFileAttach.fromJson(v));
+        stkmstFileAttach!.add(StkmstFileAttach.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.stkmstFileAttach != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (stkmstFileAttach != null) {
       data['StkmstFileAttach'] =
-          this.stkmstFileAttach!.map((v) => v.toJson()).toList();
+          stkmstFileAttach!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -1871,30 +1871,30 @@ class StkmstFileAttach {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['stk_code'] = this.stkCode;
-    data['key'] = this.key;
-    data['item_no'] = this.itemNo;
-    data['file_attached'] = this.fileAttached;
-    data['file_name'] = this.fileName;
-    data['cancel'] = this.cancel;
-    data['cancel_date'] = this.cancelDate;
-    data['deleted'] = this.deleted;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['row_key'] = this.rowKey;
-    data['lastupload'] = this.lastupload;
-    data['transtamp'] = this.transtamp;
-    data['attach_type'] = this.attachType;
-    data['last_edited_by'] = this.lastEditedBy;
-    data['created_by'] = this.createdBy;
-    data['attached_size'] = this.attachedSize;
-    data['stkpicture_path'] = this.stkpicturePath;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['stk_code'] = stkCode;
+    data['key'] = key;
+    data['item_no'] = itemNo;
+    data['file_attached'] = fileAttached;
+    data['file_name'] = fileName;
+    data['cancel'] = cancel;
+    data['cancel_date'] = cancelDate;
+    data['deleted'] = deleted;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['row_key'] = rowKey;
+    data['lastupload'] = lastupload;
+    data['transtamp'] = transtamp;
+    data['attach_type'] = attachType;
+    data['last_edited_by'] = lastEditedBy;
+    data['created_by'] = createdBy;
+    data['attached_size'] = attachedSize;
+    data['stkpicture_path'] = stkpicturePath;
     return data;
   }
 }
@@ -1935,16 +1935,16 @@ class SaveStockPictureRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['wsCodeCrypt'] = this.wsCodeCrypt;
-    data['caUid'] = this.caUid;
-    data['caPwd'] = this.caPwd;
-    data['userId'] = this.userId;
-    data['stkCode'] = this.stkCode;
-    data['stkPicture'] = this.stkPicture;
-    data['stkPictureBase64String'] = this.stkPictureBase64String;
-    data['key'] = this.key;
-    data['deleteRec'] = this.deleteRec;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['wsCodeCrypt'] = wsCodeCrypt;
+    data['caUid'] = caUid;
+    data['caPwd'] = caPwd;
+    data['userId'] = userId;
+    data['stkCode'] = stkCode;
+    data['stkPicture'] = stkPicture;
+    data['stkPictureBase64String'] = stkPictureBase64String;
+    data['key'] = key;
+    data['deleteRec'] = deleteRec;
     return data;
   }
 }
@@ -1957,17 +1957,17 @@ class GetStkUomResponse {
 
   GetStkUomResponse.fromJson(Map<String, dynamic> json) {
     if (json['PackingUOM'] != null) {
-      packingUOM = new List<PackingUOM>.empty(growable: true);
+      packingUOM = List<PackingUOM>.empty(growable: true);
       json['PackingUOM'].forEach((v) {
-        packingUOM!.add(new PackingUOM.fromJson(v));
+        packingUOM!.add(PackingUOM.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.packingUOM != null) {
-      data['PackingUOM'] = this.packingUOM!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (packingUOM != null) {
+      data['PackingUOM'] = packingUOM!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -2008,16 +2008,16 @@ class PackingUOM {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['stk_code'] = this.stkCode;
-    data['matrix_1'] = this.matrix1;
-    data['matrix_2'] = this.matrix2;
-    data['matrix_3'] = this.matrix3;
-    data['uom'] = this.uom;
-    data['formulae'] = this.formulae;
-    data['last_edited_by'] = this.lastEditedBy;
-    data['created_by'] = this.createdBy;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['stk_code'] = stkCode;
+    data['matrix_1'] = matrix1;
+    data['matrix_2'] = matrix2;
+    data['matrix_3'] = matrix3;
+    data['uom'] = uom;
+    data['formulae'] = formulae;
+    data['last_edited_by'] = lastEditedBy;
+    data['created_by'] = createdBy;
     return data;
   }
 }

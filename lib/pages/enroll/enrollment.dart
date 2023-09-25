@@ -29,7 +29,10 @@ enum Gender { male, female }
 
 enum AppState { free, picked, cropped }
 
+@RoutePage(name: 'Enrollment')
 class Enrollment extends StatefulWidget {
+  const Enrollment({super.key});
+
   @override
   _EnrollmentState createState() => _EnrollmentState();
 }
@@ -92,7 +95,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   var _enrollHistoryData;
   // String genderInt = '1';
 
-  final hintStyle = TextStyle(
+  final hintStyle = const TextStyle(
     color: Colors.black,
   );
 
@@ -102,7 +105,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     fontSize: 62.sp,
   );
 
-  TextStyle _messageStyle = TextStyle(color: Colors.red);
+  TextStyle _messageStyle = const TextStyle(color: Colors.red);
 
   // String countryCode = '';
   String phone = '';
@@ -307,30 +310,30 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       focusNode: _nickNameFocus,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
         hintStyle: TextStyle(
           color: primaryColor,
         ),
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           color: Color(0xff808080),
         ),
         labelText: AppLocalizations.of(context)!.translate('nick_name_lbl'),
         fillColor: Colors.white,
         filled: true,
-        prefixIcon: Icon(Icons.assignment_ind),
+        prefixIcon: const Icon(Icons.assignment_ind),
         suffixIcon: IconButton(
-          icon: Icon(Icons.cancel),
+          icon: const Icon(Icons.cancel),
           onPressed: () {
             WidgetsBinding.instance
                 .addPostFrameCallback((_) => _nickNameController.clear());
           },
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderSide: const BorderSide(color: Colors.blue, width: 1.3),
           borderRadius: BorderRadius.circular(30),
         ),
         border: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderSide: const BorderSide(color: Colors.blue, width: 1.3),
           borderRadius: BorderRadius.circular(30),
         ),
         focusedBorder: OutlineInputBorder(
@@ -368,9 +371,9 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       // textInputAction: TextInputAction.next,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
         suffixIcon: IconButton(
-          icon: Icon(Icons.cancel),
+          icon: const Icon(Icons.cancel),
           onPressed: () {
             WidgetsBinding.instance
                 .addPostFrameCallback((_) => _emailController.clear());
@@ -379,19 +382,19 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         hintStyle: TextStyle(
           color: primaryColor,
         ),
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           color: Color(0xff808080),
         ),
         labelText: AppLocalizations.of(context)!.translate('email_lbl'),
         fillColor: Colors.white,
         filled: true,
-        prefixIcon: Icon(Icons.mail),
+        prefixIcon: const Icon(Icons.mail),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderSide: const BorderSide(color: Colors.blue, width: 1.3),
           borderRadius: BorderRadius.circular(30),
         ),
         border: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderSide: const BorderSide(color: Colors.blue, width: 1.3),
           borderRadius: BorderRadius.circular(30),
         ),
         focusedBorder: OutlineInputBorder(
@@ -418,24 +421,24 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       maxLines: null,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
         hintStyle: TextStyle(
           color: primaryColor,
         ),
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           color: Color(0xff808080),
         ),
         labelText:
             AppLocalizations.of(context)!.translate('ic_name_required_lbl'),
         fillColor: Colors.white,
         filled: true,
-        prefixIcon: Icon(Icons.assignment_ind),
+        prefixIcon: const Icon(Icons.assignment_ind),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderSide: const BorderSide(color: Colors.blue, width: 1.3),
           borderRadius: BorderRadius.circular(30),
         ),
         border: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderSide: const BorderSide(color: Colors.blue, width: 1.3),
           borderRadius: BorderRadius.circular(30),
         ),
         focusedBorder: OutlineInputBorder(
@@ -472,23 +475,23 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       controller: _icNoController,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
         hintStyle: TextStyle(
           color: primaryColor,
         ),
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           color: Color(0xff808080),
         ),
         labelText: AppLocalizations.of(context)!.translate('ic_required_lbl'),
         fillColor: Colors.white,
         filled: true,
-        prefixIcon: Icon(Icons.featured_video),
+        prefixIcon: const Icon(Icons.featured_video),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderSide: const BorderSide(color: Colors.blue, width: 1.3),
           borderRadius: BorderRadius.circular(30),
         ),
         border: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderSide: const BorderSide(color: Colors.blue, width: 1.3),
           borderRadius: BorderRadius.circular(30),
         ),
         focusedBorder: OutlineInputBorder(
@@ -529,18 +532,18 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         contentPadding: EdgeInsets.symmetric(
           vertical: 50.h,
         ),
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           color: Color(0xff808080),
         ),
         labelText: AppLocalizations.of(context)!.translate('dob_required_lbl'),
         fillColor: Colors.white,
         filled: true,
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderSide: const BorderSide(color: Colors.blue, width: 1.3),
           borderRadius: BorderRadius.circular(30),
         ),
         border: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderSide: const BorderSide(color: Colors.blue, width: 1.3),
           borderRadius: BorderRadius.circular(30),
         ),
         focusedBorder: OutlineInputBorder(
@@ -548,7 +551,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           // borderRadius: BorderRadius.circular(0),
           borderRadius: BorderRadius.circular(30),
         ),
-        prefixIcon: Icon(Icons.calendar_today),
+        prefixIcon: const Icon(Icons.calendar_today),
         /* suffixIcon: IconButton(
           icon: Icon(Icons.cancel),
           onPressed: () {
@@ -688,7 +691,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         fillColor: Colors.white,
         filled: true,
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 1.3),
+          borderSide: const BorderSide(color: Colors.blue, width: 1.3),
           borderRadius: BorderRadius.circular(30),
         ),
         border: OutlineInputBorder(
@@ -699,7 +702,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           // borderRadius: BorderRadius.circular(0),
           borderRadius: BorderRadius.circular(30),
         ),
-        prefixIcon: Icon(Icons.people),
+        prefixIcon: const Icon(Icons.people),
       ),
       disabledHint: Text(AppLocalizations.of(context)!.translate('race_lbl')),
       value: _race!.isEmpty ? null : _race,
@@ -710,9 +713,9 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         setState(() {
           _race = value;
           if (value ==
-              AppLocalizations.of(context)!.translate('malay_race_lbl'))
+              AppLocalizations.of(context)!.translate('malay_race_lbl')) {
             _raceParam = 'M';
-          else if (value ==
+          } else if (value ==
               AppLocalizations.of(context)!.translate('chinese_lbl'))
             _raceParam = 'C';
           else if (value ==
@@ -747,12 +750,12 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       children: <Widget>[
         Text(
           AppLocalizations.of(context)!.translate('gender_lbl'),
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
           ),
         ),
         Radio(
-          activeColor: Color(0xffdd0e0e),
+          activeColor: const Color(0xffdd0e0e),
           value: Gender.male,
           groupValue: _gender,
           onChanged: (Gender? value) {
@@ -765,12 +768,12 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         ),
         Text(
           AppLocalizations.of(context)!.translate('gender_male'),
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
           ),
         ),
         Radio(
-          activeColor: Color(0xffdd0e0e),
+          activeColor: const Color(0xffdd0e0e),
           value: Gender.female,
           groupValue: _gender,
           onChanged: (Gender? value) {
@@ -783,7 +786,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         ),
         Text(
           AppLocalizations.of(context)!.translate('gender_female'),
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
           ),
         ),
@@ -796,9 +799,9 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       _raceParam = race;
     });
 
-    if (race == 'M')
+    if (race == 'M') {
       return AppLocalizations.of(context)!.translate('malay_race_lbl');
-    else if (race == 'C')
+    } else if (race == 'C')
       return AppLocalizations.of(context)!.translate('chinese_lbl');
     else if (race == 'I')
       return AppLocalizations.of(context)!.translate('indian_lbl');
@@ -813,23 +816,23 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
       setState(() {
         _potentialDob = value.substring(0, 7);
 
-        String _year = _potentialDob!.substring(0, 2);
-        int _currentYear = DateTime.now().year;
-        int? _birthYear = 0;
-        int _birthMonth = int.tryParse(_potentialDob!.substring(2, 4))!;
-        int _birthDay = int.tryParse(_potentialDob!.substring(4, 6))!;
+        String year = _potentialDob!.substring(0, 2);
+        int currentYear = DateTime.now().year;
+        int? birthYear = 0;
+        int birthMonth = int.tryParse(_potentialDob!.substring(2, 4))!;
+        int birthDay = int.tryParse(_potentialDob!.substring(4, 6))!;
 
-        if (_currentYear - int.tryParse('19' + _year)! < 70) {
-          _birthYear = int.tryParse('19$_year');
+        if (currentYear - int.tryParse('19$year')! < 70) {
+          birthYear = int.tryParse('19$year');
           _message = '';
-        } else if (_currentYear - int.tryParse('20' + _year)! < 16) {
-          _birthYear = int.tryParse('20$_year');
+        } else if (currentYear - int.tryParse('20$year')! < 16) {
+          birthYear = int.tryParse('20$year');
 
           _message = AppLocalizations.of(context)!.translate('enroll_underage');
         }
 
         _dobController.text = DateFormat('yyyy-MM-dd').format(
-          DateTime(_birthYear!, _birthMonth, _birthDay),
+          DateTime(birthYear!, birthMonth, birthDay),
         );
       });
 
@@ -838,10 +841,11 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                   .replaceAll(' ', '')
                   .substring(11))! %
               2 ==
-          0)
+          0) {
         _gender = Gender.female;
-      else
+      } else {
         _gender = Gender.male;
+      }
     }
   }
 
@@ -891,7 +895,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         ),
         OutlinedButton(
           style: OutlinedButton.styleFrom(
-            side: BorderSide(
+            side: const BorderSide(
               color: Colors.blue,
               width: 1.5,
             ),
@@ -917,7 +921,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
             );
 
             // String newProfilePic = await localStorage.getProfilePic();
-            if (newProfilePic != null)
+            if (newProfilePic != null) {
               setState(() {
                 profilePicUrl = '';
                 _image = File(newProfilePic as String);
@@ -925,6 +929,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                 // profilePicBase64 =
                 //     base64Encode(File(newProfilePic).readAsBytesSync());
               });
+            }
           },
         ),
         SimpleDialogOption(
@@ -955,7 +960,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   Future<void> _editImage() async {
     CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: _image.path,
-      aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+      aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
       maxWidth: 512,
       maxHeight: 512,
     );
@@ -980,7 +985,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
 
   _checkEnrollmentStatus() {
     if (_obtainingStatus) {
-      return Column(
+      return const Column(
         children: <Widget>[
           Expanded(
             child: SpinKitFoldingCube(
@@ -1050,18 +1055,18 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                       focusNode: _postcodeFocus,
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
                         hintStyle: TextStyle(
                           color: primaryColor,
                         ),
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           color: Color(0xff808080),
                         ),
                         labelText: AppLocalizations.of(context)!
                             .translate('postcode_lbl'),
-                        prefixIcon: Icon(Icons.home),
+                        prefixIcon: const Icon(Icons.home),
                         suffixIcon: IconButton(
-                          icon: Icon(Icons.cancel),
+                          icon: const Icon(Icons.cancel),
                           onPressed: () {
                             WidgetsBinding.instance.addPostFrameCallback(
                                 (_) => _postcodeController.clear());
@@ -1071,12 +1076,12 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                         filled: true,
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.blue, width: 1.3),
+                              const BorderSide(color: Colors.blue, width: 1.3),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         border: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.blue, width: 1.3),
+                              const BorderSide(color: Colors.blue, width: 1.3),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -1108,12 +1113,12 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                         filled: true,
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.blue, width: 1.3),
+                              const BorderSide(color: Colors.blue, width: 1.3),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         border: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.blue, width: 1.3),
+                              const BorderSide(color: Colors.blue, width: 1.3),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -1122,7 +1127,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                           // borderRadius: BorderRadius.circular(0),
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        prefixIcon: Icon(Icons.badge),
+                        prefixIcon: const Icon(Icons.badge),
                       ),
                       disabledHint:
                           Text(AppLocalizations.of(context)!.translate('ldl')),
@@ -1162,12 +1167,12 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                         filled: true,
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.blue, width: 1.3),
+                              const BorderSide(color: Colors.blue, width: 1.3),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         border: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.blue, width: 1.3),
+                              const BorderSide(color: Colors.blue, width: 1.3),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -1176,7 +1181,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                           // borderRadius: BorderRadius.circular(0),
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        prefixIcon: Icon(Icons.badge),
+                        prefixIcon: const Icon(Icons.badge),
                       ),
                       disabledHint:
                           Text(AppLocalizations.of(context)!.translate('cdl')),
@@ -1228,7 +1233,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                                     _message!,
                                     style: _messageStyle,
                                   )
-                                : SizedBox.shrink(),
+                                : const SizedBox.shrink(),
                             _enrollButton(),
                           ],
                         ),
@@ -1316,9 +1321,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                   style: hintStyle,
                 ),
                 Text(
-                  _enrollHistoryData[0].icNo != null
-                      ? _enrollHistoryData[0].icNo
-                      : '',
+                  _enrollHistoryData[0].icNo ?? '',
                   style: textStyle,
                 ),
                 SizedBox(height: 40.h),
@@ -1327,9 +1330,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                   style: hintStyle,
                 ),
                 Text(
-                  _enrollHistoryData[0].name != null
-                      ? _enrollHistoryData[0].name
-                      : '',
+                  _enrollHistoryData[0].name ?? '',
                   style: textStyle,
                 ),
                 SizedBox(height: 40.h),
@@ -1358,9 +1359,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                   style: hintStyle,
                 ),
                 Text(
-                  _enrollHistoryData[0].citizenship != null
-                      ? _enrollHistoryData[0].citizenship
-                      : '',
+                  _enrollHistoryData[0].citizenship ?? '',
                   style: textStyle,
                 ),
                 SizedBox(height: 40.h),
@@ -1383,10 +1382,10 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(420.w, 45.h),
-                      backgroundColor: Color(0xffdd0e0e),
-                      padding: EdgeInsets.symmetric(vertical: 11.0),
-                      textStyle: TextStyle(color: Colors.white),
-                      shape: StadiumBorder(),
+                      backgroundColor: const Color(0xffdd0e0e),
+                      padding: const EdgeInsets.symmetric(vertical: 11.0),
+                      textStyle: const TextStyle(color: Colors.white),
+                      shape: const StadiumBorder(),
                     ),
                     onPressed: _next,
                     child: Text(
@@ -1413,7 +1412,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
-        backgroundColor: Color(0xfffdc013),
+        backgroundColor: const Color(0xfffdc013),
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
@@ -1429,16 +1428,16 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   _enrollButton() {
     return Container(
       child: _isLoading
-          ? SpinKitFoldingCube(
+          ? const SpinKitFoldingCube(
               color: Colors.blue,
             )
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 11.0),
-                backgroundColor: Color(0xffdd0e0e),
+                padding: const EdgeInsets.symmetric(vertical: 11.0),
+                backgroundColor: const Color(0xffdd0e0e),
                 minimumSize: Size(420.w, 45.h),
-                shape: StadiumBorder(),
-                textStyle: TextStyle(color: Colors.white),
+                shape: const StadiumBorder(),
+                textStyle: const TextStyle(color: Colors.white),
               ),
               onPressed: _next,
               child: Container(
@@ -1464,7 +1463,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     if (_enrollHistoryData == null) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
-        FocusScope.of(context).requestFocus(new FocusNode());
+        FocusScope.of(context).requestFocus(FocusNode());
         if (_message !=
             AppLocalizations.of(context)!.translate('enroll_underage')) {
           setState(() {
@@ -1512,7 +1511,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
           } else {
             setState(() {
               _message = result.message;
-              _messageStyle = TextStyle(color: Colors.red);
+              _messageStyle = const TextStyle(color: Colors.red);
             });
           }
 

@@ -15,8 +15,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+@RoutePage()
 class CreateFuelPage extends StatefulWidget {
-  CreateFuelPage({Key? key}) : super(key: key);
+  const CreateFuelPage({Key? key}) : super(key: key);
 
   @override
   State<CreateFuelPage> createState() => _CreateFuelPageState();
@@ -30,7 +31,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
   final expensesRepo = ExpensesRepo();
-  List<XFile> _imageFileList = [];
+  final List<XFile> _imageFileList = [];
   final ImagePicker _picker = ImagePicker();
 
   Future<void> _getCurrentPosition() async {
@@ -44,7 +45,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
         LatLng(lat, lng),
       ),
     );
-    MarkerId a = MarkerId('value');
+    MarkerId a = const MarkerId('value');
     setState(() {
       _lat = lat;
       _lng = lng;
@@ -73,7 +74,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
       );
       await EasyLoading.dismiss();
       if (result.isSuccess) {
-        if (_imageFileList.length > 0) {
+        if (_imageFileList.isNotEmpty) {
           Iterable<Future> a = [];
           List<Future> b = [];
           for (XFile element in _imageFileList) {
@@ -134,14 +135,14 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xffffd225),
-          title: Text('Expenses'),
+          backgroundColor: const Color(0xffffd225),
+          title: const Text('Expenses'),
           actions: [
             IconButton(
               onPressed: () {
                 saveExpFuel();
               },
-              icon: Icon(Icons.done),
+              icon: const Icon(Icons.done),
             ),
           ],
         ),
@@ -161,14 +162,14 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                           initialEntryMode: DatePickerEntryMode.calendarOnly,
                           initialValue: DateTime.now(),
                           inputType: InputType.date,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                               labelText: 'Date',
                               filled: true,
                               icon: Icon(Icons.calendar_today)),
                           format: DateFormat('dd/MM/yyyy'),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                       Expanded(
@@ -178,7 +179,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                           initialEntryMode: DatePickerEntryMode.input,
                           initialValue: DateTime.now(),
                           inputType: InputType.time,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Time',
                             filled: true,
                           ),
@@ -186,12 +187,12 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   FormBuilderTextField(
                     name: 'mileage',
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Mileage',
                       filled: true,
                       icon: Icon(Icons.onetwothree),
@@ -207,12 +208,12 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                       FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   FormBuilderDropdown<String>(
                     name: 'type',
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Type',
                       filled: true,
                       icon: Icon(Icons.format_list_bulleted),
@@ -238,7 +239,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                       }
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   FormBuilderTextField(
@@ -246,7 +247,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                     decoration: InputDecoration(
                       labelText: 'Description',
                       filled: true,
-                      icon: Icon(Icons.description),
+                      icon: const Icon(Icons.description),
                       suffix: IconButton(
                         icon: const Icon(Icons.close),
                         onPressed: () {
@@ -261,12 +262,12 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                     maxLines: null,
                     minLines: 2,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   FormBuilderTextField(
                     name: 'amount',
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Amount',
                       filled: true,
                       icon: Icon(Icons.attach_money),
@@ -290,7 +291,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                       }),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16.0,
                   ),
                   Container(
@@ -332,13 +333,13 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   GridView.count(
                     crossAxisCount: 3,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     mainAxisSpacing: 4,
                     crossAxisSpacing: 4,
                     children: List.generate(_imageFileList.length + 1, (index) {
@@ -390,7 +391,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                               child: DottedBorder(
                                 color: Colors.grey,
                                 strokeWidth: 1,
-                                child: Container(
+                                child: const SizedBox(
                                   height: 200,
                                   width: 200,
                                   child: Column(
@@ -421,7 +422,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                                       ),
                                     );
                                   },
-                                  child: Container(
+                                  child: SizedBox(
                                     height: 200,
                                     width: 200,
                                     child: Image.file(
@@ -447,7 +448,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                                         borderRadius:
                                             BorderRadius.circular(100),
                                       ),
-                                      child: Icon(Icons.close),
+                                      child: const Icon(Icons.close),
                                     ),
                                   ),
                                 ),

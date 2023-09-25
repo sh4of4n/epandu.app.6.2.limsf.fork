@@ -42,17 +42,17 @@ class GetUserProfileResponse {
 
   GetUserProfileResponse.fromJson(Map<String, dynamic> json) {
     if (json['UserProfile'] != null) {
-      userProfile = new List<UserProfile>.empty(growable: true);
+      userProfile = List<UserProfile>.empty(growable: true);
       json['UserProfile'].forEach((v) {
-        userProfile!.add(new UserProfile.fromJson(v));
+        userProfile!.add(UserProfile.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.userProfile != null) {
-      data['UserProfile'] = this.userProfile!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (userProfile != null) {
+      data['UserProfile'] = userProfile!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -141,32 +141,32 @@ class UserProfile {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['user_id'] = this.userId;
-    data['phone'] = this.phone;
-    data['name'] = this.name;
-    data['nick_name'] = this.nickName;
-    data['e_mail'] = this.eMail;
-    data['add'] = this.add;
-    data['add1'] = this.add1;
-    data['add2'] = this.add2;
-    data['add3'] = this.add3;
-    data['postcode'] = this.postcode;
-    data['city_name'] = this.cityName;
-    data['state_name'] = this.stateName;
-    data['country_name'] = this.countryName;
-    data['ic_no'] = this.icNo;
-    data['birth_date'] = this.birthDate;
-    data['nationality'] = this.nationality;
-    data['race'] = this.race;
-    data['gender'] = this.gender;
-    data['enq_ldl_group'] = this.enqLdlGroup;
-    data['cdl_group'] = this.cdlGroup;
-    data['user_photo'] = this.userPhoto;
-    data['user_photo_filename'] = this.userPhotoFilename;
-    data['edit_date'] = this.editDate;
-    data['picture_path'] = this.picturePath;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['user_id'] = userId;
+    data['phone'] = phone;
+    data['name'] = name;
+    data['nick_name'] = nickName;
+    data['e_mail'] = eMail;
+    data['add'] = add;
+    data['add1'] = add1;
+    data['add2'] = add2;
+    data['add3'] = add3;
+    data['postcode'] = postcode;
+    data['city_name'] = cityName;
+    data['state_name'] = stateName;
+    data['country_name'] = countryName;
+    data['ic_no'] = icNo;
+    data['birth_date'] = birthDate;
+    data['nationality'] = nationality;
+    data['race'] = race;
+    data['gender'] = gender;
+    data['enq_ldl_group'] = enqLdlGroup;
+    data['cdl_group'] = cdlGroup;
+    data['user_photo'] = userPhoto;
+    data['user_photo_filename'] = userPhotoFilename;
+    data['edit_date'] = editDate;
+    data['picture_path'] = picturePath;
     return data;
   }
 }
@@ -257,33 +257,33 @@ class SaveProfileRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['wsCodeCrypt'] = this.wsCodeCrypt;
-    data['appCode'] = this.appCode;
-    data['appId'] = this.appId;
-    data['caUid'] = this.caUid;
-    data['caPwd'] = this.caPwd;
-    data['diCode'] = this.diCode;
-    data['userId'] = this.userId;
-    data['name'] = this.name;
-    data['nickName'] = this.nickName;
-    data['icNo'] = this.icNo;
-    data['nationality'] = this.nationality;
-    data['dateOfBirthString'] = this.dateOfBirthString;
-    data['gender'] = this.gender;
-    data['race'] = this.race;
-    data['address'] = this.address;
-    data['postcode'] = this.postcode;
-    data['state'] = this.state;
-    data['country'] = this.country;
-    data['email'] = this.email;
-    data['userProfileImage'] = this.userProfileImage;
-    data['userProfileImageBase64String'] = this.userProfileImageBase64String;
-    data['removeUserProfileImage'] = this.removeUserProfileImage;
-    data['ldlEnqGroup'] = this.ldlEnqGroup;
-    data['cdlGroup'] = this.cdlGroup;
-    data['langCode'] = this.langCode;
-    data['findDrvJobs'] = this.findDrvJobs;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['wsCodeCrypt'] = wsCodeCrypt;
+    data['appCode'] = appCode;
+    data['appId'] = appId;
+    data['caUid'] = caUid;
+    data['caPwd'] = caPwd;
+    data['diCode'] = diCode;
+    data['userId'] = userId;
+    data['name'] = name;
+    data['nickName'] = nickName;
+    data['icNo'] = icNo;
+    data['nationality'] = nationality;
+    data['dateOfBirthString'] = dateOfBirthString;
+    data['gender'] = gender;
+    data['race'] = race;
+    data['address'] = address;
+    data['postcode'] = postcode;
+    data['state'] = state;
+    data['country'] = country;
+    data['email'] = email;
+    data['userProfileImage'] = userProfileImage;
+    data['userProfileImageBase64String'] = userProfileImageBase64String;
+    data['removeUserProfileImage'] = removeUserProfileImage;
+    data['ldlEnqGroup'] = ldlEnqGroup;
+    data['cdlGroup'] = cdlGroup;
+    data['langCode'] = langCode;
+    data['findDrvJobs'] = findDrvJobs;
     return data;
   }
 }
@@ -295,17 +295,17 @@ class GetTrainerListResponse {
 
   GetTrainerListResponse.fromJson(Map<String, dynamic> json) {
     if (json['Trainer'] != null) {
-      trainer = new List<Trainer>.empty(growable: true);
+      trainer = List<Trainer>.empty(growable: true);
       json['Trainer'].forEach((v) {
-        trainer!.add(new Trainer.fromJson(v));
+        trainer!.add(Trainer.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.trainer != null) {
-      data['Trainer'] = this.trainer!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (trainer != null) {
+      data['Trainer'] = trainer!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -463,55 +463,55 @@ class Trainer {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['trn_code'] = this.trnCode;
-    data['empno'] = this.empno;
-    data['trn_name'] = this.trnName;
-    data['addr1'] = this.addr1;
-    data['addr2'] = this.addr2;
-    data['addr3'] = this.addr3;
-    data['tel_hm'] = this.telHm;
-    data['tel_hp'] = this.telHp;
-    data['work_grp_code'] = this.workGrpCode;
-    data['pager_no'] = this.pagerNo;
-    data['descriptio'] = this.descriptio;
-    data['defa_amt'] = this.defaAmt;
-    data['ser_tax'] = this.serTax;
-    data['hand_chrg'] = this.handChrg;
-    data['ser_chrg'] = this.serChrg;
-    data['dept_code'] = this.deptCode;
-    data['off_catago'] = this.offCatago;
-    data['remarks'] = this.remarks;
-    data['edu_grade'] = this.eduGrade;
-    data['jpj_note'] = this.jpjNote;
-    data['cert_no'] = this.certNo;
-    data['cert_exp_dt'] = this.certExpDt;
-    data['kpp_group_id'] = this.kppGroupId;
-    data['spim_group_id'] = this.spimGroupId;
-    data['qti_group_id'] = this.qtiGroupId;
-    data['sm2_no'] = this.sm2No;
-    data['sm2_exp_dt'] = this.sm2ExpDt;
-    data['cal_code'] = this.calCode;
-    data['transtamp'] = this.transtamp;
-    data['nric'] = this.nric;
-    data['old_ic'] = this.oldIc;
-    data['valid_group_id'] = this.validGroupId;
-    data['blacklist'] = this.blacklist;
-    data['remark'] = this.remark;
-    data['photo'] = this.photo;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['row_key'] = this.rowKey;
-    data['lastupload'] = this.lastupload;
-    data['deleted'] = this.deleted;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['merchant_no'] = this.merchantNo;
-    data['ID'] = this.iD;
-    data['last_edited_by'] = this.lastEditedBy;
-    data['created_by'] = this.createdBy;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['trn_code'] = trnCode;
+    data['empno'] = empno;
+    data['trn_name'] = trnName;
+    data['addr1'] = addr1;
+    data['addr2'] = addr2;
+    data['addr3'] = addr3;
+    data['tel_hm'] = telHm;
+    data['tel_hp'] = telHp;
+    data['work_grp_code'] = workGrpCode;
+    data['pager_no'] = pagerNo;
+    data['descriptio'] = descriptio;
+    data['defa_amt'] = defaAmt;
+    data['ser_tax'] = serTax;
+    data['hand_chrg'] = handChrg;
+    data['ser_chrg'] = serChrg;
+    data['dept_code'] = deptCode;
+    data['off_catago'] = offCatago;
+    data['remarks'] = remarks;
+    data['edu_grade'] = eduGrade;
+    data['jpj_note'] = jpjNote;
+    data['cert_no'] = certNo;
+    data['cert_exp_dt'] = certExpDt;
+    data['kpp_group_id'] = kppGroupId;
+    data['spim_group_id'] = spimGroupId;
+    data['qti_group_id'] = qtiGroupId;
+    data['sm2_no'] = sm2No;
+    data['sm2_exp_dt'] = sm2ExpDt;
+    data['cal_code'] = calCode;
+    data['transtamp'] = transtamp;
+    data['nric'] = nric;
+    data['old_ic'] = oldIc;
+    data['valid_group_id'] = validGroupId;
+    data['blacklist'] = blacklist;
+    data['remark'] = remark;
+    data['photo'] = photo;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['row_key'] = rowKey;
+    data['lastupload'] = lastupload;
+    data['deleted'] = deleted;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['merchant_no'] = merchantNo;
+    data['ID'] = iD;
+    data['last_edited_by'] = lastEditedBy;
+    data['created_by'] = createdBy;
     return data;
   }
 }
@@ -523,17 +523,17 @@ class GetVehicleListResponse {
 
   GetVehicleListResponse.fromJson(Map<String, dynamic> json) {
     if (json['Vehicle'] != null) {
-      vehicle = new List<GetVehicleListVehicle>.empty(growable: true);
+      vehicle = List<GetVehicleListVehicle>.empty(growable: true);
       json['Vehicle'].forEach((v) {
-        vehicle!.add(new GetVehicleListVehicle.fromJson(v));
+        vehicle!.add(GetVehicleListVehicle.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.vehicle != null) {
-      data['Vehicle'] = this.vehicle!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (vehicle != null) {
+      data['Vehicle'] = vehicle!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -685,53 +685,53 @@ class GetVehicleListVehicle {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['veh_no'] = this.vehNo;
-    data['group_id'] = this.groupId;
-    data['trn_code'] = this.trnCode;
-    data['model'] = this.model;
-    data['eng_no'] = this.engNo;
-    data['chasis_no'] = this.chasisNo;
-    data['type_model'] = this.typeModel;
-    data['year'] = this.year;
-    data['make'] = this.make;
-    data['rdtax_exp'] = this.rdtaxExp;
-    data['sm3_no'] = this.sm3No;
-    data['sm3_siri'] = this.sm3Siri;
-    data['sm3_isu_dt'] = this.sm3IsuDt;
-    data['sm3_exp_dt'] = this.sm3ExpDt;
-    data['insp_dt'] = this.inspDt;
-    data['nx_oil_chg'] = this.nxOilChg;
-    data['nx_fil_chg'] = this.nxFilChg;
-    data['capacity'] = this.capacity;
-    data['kegunaan'] = this.kegunaan;
-    data['tonage'] = this.tonage;
-    data['rt_exp_dt'] = this.rtExpDt;
-    data['jpj_rec'] = this.jpjRec;
-    data['isp_date'] = this.ispDate;
-    data['isp_rec_no'] = this.ispRecNo;
-    data['acct_no'] = this.acctNo;
-    data['ic_no'] = this.icNo;
-    data['balance'] = this.balance;
-    data['ins_com1'] = this.insCom1;
-    data['ins_com2'] = this.insCom2;
-    data['exp_dt'] = this.expDt;
-    data['next_inspect_dt'] = this.nextInspectDt;
-    data['transtamp'] = this.transtamp;
-    data['in_used'] = this.inUsed;
-    data['deleted'] = this.deleted;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['row_key'] = this.rowKey;
-    data['lastupload'] = this.lastupload;
-    data['merchant_no'] = this.merchantNo;
-    data['ID'] = this.iD;
-    data['last_edited_by'] = this.lastEditedBy;
-    data['created_by'] = this.createdBy;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['veh_no'] = vehNo;
+    data['group_id'] = groupId;
+    data['trn_code'] = trnCode;
+    data['model'] = model;
+    data['eng_no'] = engNo;
+    data['chasis_no'] = chasisNo;
+    data['type_model'] = typeModel;
+    data['year'] = year;
+    data['make'] = make;
+    data['rdtax_exp'] = rdtaxExp;
+    data['sm3_no'] = sm3No;
+    data['sm3_siri'] = sm3Siri;
+    data['sm3_isu_dt'] = sm3IsuDt;
+    data['sm3_exp_dt'] = sm3ExpDt;
+    data['insp_dt'] = inspDt;
+    data['nx_oil_chg'] = nxOilChg;
+    data['nx_fil_chg'] = nxFilChg;
+    data['capacity'] = capacity;
+    data['kegunaan'] = kegunaan;
+    data['tonage'] = tonage;
+    data['rt_exp_dt'] = rtExpDt;
+    data['jpj_rec'] = jpjRec;
+    data['isp_date'] = ispDate;
+    data['isp_rec_no'] = ispRecNo;
+    data['acct_no'] = acctNo;
+    data['ic_no'] = icNo;
+    data['balance'] = balance;
+    data['ins_com1'] = insCom1;
+    data['ins_com2'] = insCom2;
+    data['exp_dt'] = expDt;
+    data['next_inspect_dt'] = nextInspectDt;
+    data['transtamp'] = transtamp;
+    data['in_used'] = inUsed;
+    data['deleted'] = deleted;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['row_key'] = rowKey;
+    data['lastupload'] = lastupload;
+    data['merchant_no'] = merchantNo;
+    data['ID'] = iD;
+    data['last_edited_by'] = lastEditedBy;
+    data['created_by'] = createdBy;
     return data;
   }
 }

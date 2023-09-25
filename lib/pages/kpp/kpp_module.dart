@@ -12,10 +12,11 @@ import 'package:random_color/random_color.dart';
 import '../../router.gr.dart';
 import 'kpp_module_icon.dart';
 
+@RoutePage(name: 'KppModule')
 class KppModule extends StatefulWidget {
   final data;
 
-  KppModule(this.data);
+  const KppModule(this.data, {super.key});
 
   @override
   _KppModuleState createState() => _KppModuleState();
@@ -24,7 +25,7 @@ class KppModule extends StatefulWidget {
 class _KppModuleState extends State<KppModule> {
   final kppRepo = KppRepo();
   final primaryColor = ColorConstant.primaryColor;
-  RandomColor _randomColor = RandomColor();
+  final RandomColor _randomColor = RandomColor();
   final customDialog = CustomDialog();
   var snapshot;
   String? message = '';
@@ -55,16 +56,18 @@ class _KppModuleState extends State<KppModule> {
     if (result.isSuccess) {
       _getRandomColors(result.data);
 
-      if (mounted)
+      if (mounted) {
         setState(() {
           message = '';
           snapshot = result.data;
         });
+      }
     } else {
-      if (mounted)
+      if (mounted) {
         setState(() {
           message = result.message;
         });
+      }
     }
   }
 
@@ -84,11 +87,11 @@ class _KppModuleState extends State<KppModule> {
   _renderModule() {
     if (snapshot != null) {
       return GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           // childAspectRatio: MediaQuery.of(context).size.height / 530,
         ),
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         itemCount: snapshot.length,
         itemBuilder: (BuildContext context, int index) {
           return Column(
@@ -113,9 +116,8 @@ class _KppModuleState extends State<KppModule> {
                               size: ScreenUtil().setSp(250),
                               color: Colors.white),
                       label: snapshot[index].paperNo.contains('COB')
-                          ? AppLocalizations.of(context)!
-                                  .translate('color_blind_lbl') +
-                              ' ${index + 1}'
+                          ? '${AppLocalizations.of(context)!
+                                  .translate('color_blind_lbl')} ${index + 1}'
                           : null),
                 ],
               ),
@@ -128,11 +130,11 @@ class _KppModuleState extends State<KppModule> {
         children: <Widget>[
           GridView(
             shrinkWrap: true,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               // childAspectRatio: MediaQuery.of(context).size.height / 530,
             ),
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(
@@ -170,10 +172,10 @@ class _KppModuleState extends State<KppModule> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(420.w, 45.h),
-                backgroundColor: Color(0xffdd0e0e),
-                padding: EdgeInsets.symmetric(vertical: 11.0),
-                shape: StadiumBorder(),
-                textStyle: TextStyle(color: Colors.white),
+                backgroundColor: const Color(0xffdd0e0e),
+                padding: const EdgeInsets.symmetric(vertical: 11.0),
+                shape: const StadiumBorder(),
+                textStyle: const TextStyle(color: Colors.white),
               ),
               onPressed: () => context.router.push(
                 PinActivation(data: widget.data),

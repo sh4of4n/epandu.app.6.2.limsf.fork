@@ -19,10 +19,11 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../router.gr.dart';
 import '../../services/repository/chatroom_repository.dart';
 
+@RoutePage(name: 'SelectDrivingInstitute')
 class SelectDrivingInstitute extends StatefulWidget {
   final diList;
 
-  SelectDrivingInstitute(this.diList);
+  const SelectDrivingInstitute(this.diList, {super.key});
 
   @override
   _SelectDrivingInstituteState createState() => _SelectDrivingInstituteState();
@@ -85,13 +86,14 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
   }
 
   loadImage(diList) {
-    if (diList.merchantBannerFilename != null)
+    if (diList.merchantBannerFilename != null) {
       return AspectRatio(
         aspectRatio: 28 / 9,
         child: Image.network(
           diList.merchantBannerFilename.replaceAll(exp, '').split('\r\n')[0],
         ),
       );
+    }
     return AspectRatio(
       aspectRatio: 28 / 9,
       child: Container(
@@ -121,14 +123,14 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Padding(
-          padding: EdgeInsets.symmetric(vertical: 25.0),
+          padding: const EdgeInsets.symmetric(vertical: 25.0),
           child: ListView(
             children: <Widget>[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(top: 20.0),
+                    padding: const EdgeInsets.only(top: 20.0),
                     child: Image.asset(
                       ImagesConstant().logo,
                       width: ScreenUtil().setWidth(1000),
@@ -138,15 +140,15 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
                 ],
               ),
               Container(
-                margin: EdgeInsets.all(10.0),
+                margin: const EdgeInsets.all(10.0),
                 alignment: Alignment.center,
                 child: Text(
                     AppLocalizations.of(context)!.translate('select_di_desc'),
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.w600)),
               ),
               ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: widget.diList.length,
                 shrinkWrap: true,
                 // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -168,6 +170,7 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
                           await context
                               .read<SocketClientHelper>()
                               .loginUserRoom();
+
                           String userid = await localStorage.getUserId() ?? '';
                           CreateRoomResponse getCreateRoomResponse =
                               createChatSupportResult.data[0];
@@ -175,7 +178,7 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
                           List<RoomMembers> roomMembers =
                               await dbHelper.getRoomMembersList(
                                   getCreateRoomResponse.roomId!);
-                          roomMembers.forEach((roomMember) {
+                          for (var roomMember in roomMembers) {
                             if (userid != roomMember.userId) {
                               var inviteUserToRoomJson = {
                                 "invitedRoomId": getCreateRoomResponse.roomId!,
@@ -193,11 +196,12 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
                                 }
                               });
                             }
-                          });
+                          }
                         }
                         // context.router.popUntil(ModalRoute.withName('Home'));
                         EasyLoading.dismiss();
-                        context.router.replace(Home());
+
+                        context.router.replace(const Home());
                       },
                       title: loadImage(widget.diList[index]),
                     ),

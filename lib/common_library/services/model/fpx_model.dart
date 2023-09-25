@@ -5,17 +5,17 @@ class FpxSendB2CBankEnquiryResponse {
 
   FpxSendB2CBankEnquiryResponse.fromJson(Map<String, dynamic> json) {
     if (json['Response'] != null) {
-      response = new List<BankEnquiryResponse>.empty(growable: true);
+      response = List<BankEnquiryResponse>.empty(growable: true);
       json['Response'].forEach((v) {
-        response!.add(new BankEnquiryResponse.fromJson(v));
+        response!.add(BankEnquiryResponse.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.response != null) {
-      data['Response'] = this.response!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (response != null) {
+      data['Response'] = response!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -74,22 +74,22 @@ class BankEnquiryResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['requestUrl'] = this.requestUrl;
-    data['requestData'] = this.requestData;
-    data['responseCode'] = this.responseCode;
-    data['responseDescription'] = this.responseDescription;
-    data['responseData'] = this.responseData;
-    data['transId'] = this.transId;
-    data['sessionId'] = this.sessionId;
-    data['fpx_msgToken'] = this.fpxMsgToken;
-    data['fpx_sellerExId'] = this.fpxSellerExId;
-    data['fpx_bankList'] = this.fpxBankList;
-    data['fpx_checkSum'] = this.fpxCheckSum;
-    data['fpx_msgType'] = this.fpxMsgType;
-    data['finalVerifiMsg'] = this.finalVerifiMsg;
-    data['bankList'] = this.bankList;
-    data['signatureString'] = this.signatureString;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['requestUrl'] = requestUrl;
+    data['requestData'] = requestData;
+    data['responseCode'] = responseCode;
+    data['responseDescription'] = responseDescription;
+    data['responseData'] = responseData;
+    data['transId'] = transId;
+    data['sessionId'] = sessionId;
+    data['fpx_msgToken'] = fpxMsgToken;
+    data['fpx_sellerExId'] = fpxSellerExId;
+    data['fpx_bankList'] = fpxBankList;
+    data['fpx_checkSum'] = fpxCheckSum;
+    data['fpx_msgType'] = fpxMsgType;
+    data['finalVerifiMsg'] = finalVerifiMsg;
+    data['bankList'] = bankList;
+    data['signatureString'] = signatureString;
     return data;
   }
 }
@@ -101,18 +101,18 @@ class GetOnlinePaymentListByIcNoResponse {
 
   GetOnlinePaymentListByIcNoResponse.fromJson(Map<String, dynamic> json) {
     if (json['OnlinePayment'] != null) {
-      onlinePayment = new List<OnlinePayment>.empty(growable: true);
+      onlinePayment = List<OnlinePayment>.empty(growable: true);
       json['OnlinePayment'].forEach((v) {
-        onlinePayment!.add(new OnlinePayment.fromJson(v));
+        onlinePayment!.add(OnlinePayment.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.onlinePayment != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (onlinePayment != null) {
       data['OnlinePayment'] =
-          this.onlinePayment!.map((v) => v.toJson()).toList();
+          onlinePayment!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -134,11 +134,11 @@ class OnlinePayment {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['doc_doc'] = this.docDoc;
-    data['doc_ref'] = this.docRef;
-    data['paid_amt'] = this.paidAmt;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['doc_doc'] = docDoc;
+    data['doc_ref'] = docRef;
+    data['paid_amt'] = paidAmt;
+    data['status'] = status;
     return data;
   }
 }
@@ -172,14 +172,14 @@ class CreateOrderRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['wsCodeCrypt'] = this.wsCodeCrypt;
-    data['caUid'] = this.caUid;
-    data['caPwd'] = this.caPwd;
-    data['diCode'] = this.diCode;
-    data['userId'] = this.userId;
-    data['icNo'] = this.icNo;
-    data['packageCode'] = this.packageCode;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['wsCodeCrypt'] = wsCodeCrypt;
+    data['caUid'] = caUid;
+    data['caPwd'] = caPwd;
+    data['diCode'] = diCode;
+    data['userId'] = userId;
+    data['icNo'] = icNo;
+    data['packageCode'] = packageCode;
     return data;
   }
 }
@@ -216,15 +216,15 @@ class CreateOrderWithAmtRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['wsCodeCrypt'] = this.wsCodeCrypt;
-    data['caUid'] = this.caUid;
-    data['caPwd'] = this.caPwd;
-    data['diCode'] = this.diCode;
-    data['userId'] = this.userId;
-    data['icNo'] = this.icNo;
-    data['packageCode'] = this.packageCode;
-    data['amountString'] = this.amountString;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['wsCodeCrypt'] = wsCodeCrypt;
+    data['caUid'] = caUid;
+    data['caPwd'] = caPwd;
+    data['diCode'] = diCode;
+    data['userId'] = userId;
+    data['icNo'] = icNo;
+    data['packageCode'] = packageCode;
+    data['amountString'] = amountString;
     return data;
   }
 }
@@ -236,17 +236,17 @@ class CreateOrderResponse {
 
   CreateOrderResponse.fromJson(Map<String, dynamic> json) {
     if (json['SlsTrn'] != null) {
-      slsTrn = new List<SlsTrn>.empty(growable: true);
+      slsTrn = List<SlsTrn>.empty(growable: true);
       json['SlsTrn'].forEach((v) {
-        slsTrn!.add(new SlsTrn.fromJson(v));
+        slsTrn!.add(SlsTrn.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.slsTrn != null) {
-      data['SlsTrn'] = this.slsTrn!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (slsTrn != null) {
+      data['SlsTrn'] = slsTrn!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -641,134 +641,134 @@ class SlsTrn {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['merchant_no'] = this.merchantNo;
-    data['doc_doc'] = this.docDoc;
-    data['doc_ref'] = this.docRef;
-    data['sls_doc'] = this.slsDoc;
-    data['sls_ref'] = this.slsRef;
-    data['rev_no'] = this.revNo;
-    data['ord_date'] = this.ordDate;
-    data['ord_time'] = this.ordTime;
-    data['wf_status'] = this.wfStatus;
-    data['ref_no'] = this.refNo;
-    data['subject'] = this.subject;
-    data['validity'] = this.validity;
-    data['lead_time'] = this.leadTime;
-    data['dbcode'] = this.dbcode;
-    data['ic_no'] = this.icNo;
-    data['name'] = this.name;
-    data['branch'] = this.branch;
-    data['loc_code'] = this.locCode;
-    data['area_code'] = this.areaCode;
-    data['currency'] = this.currency;
-    data['rate'] = this.rate;
-    data['terms'] = this.terms;
-    data['sales_per'] = this.salesPer;
-    data['proj_code'] = this.projCode;
-    data['order_by'] = this.orderBy;
-    data['cust_po_no'] = this.custPoNo;
-    data['cust_po_date'] = this.custPoDate;
-    data['shipment_term'] = this.shipmentTerm;
-    data['shipment_term_detl'] = this.shipmentTermDetl;
-    data['ship_mode'] = this.shipMode;
-    data['ship_code'] = this.shipCode;
-    data['ship_to'] = this.shipTo;
-    data['ship_name'] = this.shipName;
-    data['ship_add'] = this.shipAdd;
-    data['ship_add1'] = this.shipAdd1;
-    data['ship_add2'] = this.shipAdd2;
-    data['ship_add3'] = this.shipAdd3;
-    data['ship_add4'] = this.shipAdd4;
-    data['ship_area'] = this.shipArea;
-    data['ship_phone'] = this.shipPhone;
-    data['ship_fax'] = this.shipFax;
-    data['ship_ptc'] = this.shipPtc;
-    data['ship_remark'] = this.shipRemark;
-    data['misc1'] = this.misc1;
-    data['misc2'] = this.misc2;
-    data['misc3'] = this.misc3;
-    data['misc4'] = this.misc4;
-    data['misc5'] = this.misc5;
-    data['misc6'] = this.misc6;
-    data['misc13'] = this.misc13;
-    data['misc14'] = this.misc14;
-    data['misc15'] = this.misc15;
-    data['misc16'] = this.misc16;
-    data['misc17'] = this.misc17;
-    data['misc18'] = this.misc18;
-    data['tl_ord_qty'] = this.tlOrdQty;
-    data['tl_ord_amt'] = this.tlOrdAmt;
-    data['tl_nett_detl_amt'] = this.tlNettDetlAmt;
-    data['tl_loc_detl_amt'] = this.tlLocDetlAmt;
-    data['tl_nett_ord_amt'] = this.tlNettOrdAmt;
-    data['tl_loc_ord_amt'] = this.tlLocOrdAmt;
-    data['tl_disc_amt'] = this.tlDiscAmt;
-    data['tl_loc_disc_amt'] = this.tlLocDiscAmt;
-    data['tl_sls_tax'] = this.tlSlsTax;
-    data['tl_loc_sls_tax'] = this.tlLocSlsTax;
-    data['tl_ser_tax'] = this.tlSerTax;
-    data['tl_loc_ser_tax'] = this.tlLocSerTax;
-    data['bdisc_rate'] = this.bdiscRate;
-    data['bdisc_amt'] = this.bdiscAmt;
-    data['trans_chrg'] = this.transChrg;
-    data['trans_rate'] = this.transRate;
-    data['mfg_currency'] = this.mfgCurrency;
-    data['mfg_rate'] = this.mfgRate;
-    data['mfg_tl_nett_ord_amt'] = this.mfgTlNettOrdAmt;
-    data['mfg_tl_loc_ord_amt'] = this.mfgTlLocOrdAmt;
-    data['hold'] = this.hold;
-    data['cj5_no'] = this.cj5No;
-    data['db_acct'] = this.dbAcct;
-    data['db_dept'] = this.dbDept;
-    data['tl_dlv_qty'] = this.tlDlvQty;
-    data['do_doc'] = this.doDoc;
-    data['do_ref'] = this.doRef;
-    data['inv_doc'] = this.invDoc;
-    data['inv_ref'] = this.invRef;
-    data['title1'] = this.title1;
-    data['title2'] = this.title2;
-    data['title3'] = this.title3;
-    data['remark'] = this.remark;
-    data['remark1'] = this.remark1;
-    data['remark2'] = this.remark2;
-    data['prn_count'] = this.prnCount;
-    data['print_log'] = this.printLog;
-    data['trn_status'] = this.trnStatus;
-    data['credit_block_reason'] = this.creditBlockReason;
-    data['credit_block_info'] = this.creditBlockInfo;
-    data['credit_req_apprv'] = this.creditReqApprv;
-    data['credit_apprv_user'] = this.creditApprvUser;
-    data['credit_apprv_date'] = this.creditApprvDate;
-    data['credit_apprv_amt'] = this.creditApprvAmt;
-    data['credit_apprv_log'] = this.creditApprvLog;
-    data['pending'] = this.pending;
-    data['cancel'] = this.cancel;
-    data['cancel_date'] = this.cancelDate;
-    data['posted'] = this.posted;
-    data['complete'] = this.complete;
-    data['clear'] = this.clear;
-    data['fully_billed'] = this.fullyBilled;
-    data['tl_billed_amt'] = this.tlBilledAmt;
-    data['tl_paid_amt'] = this.tlPaidAmt;
-    data['read_only'] = this.readOnly;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['deleted'] = this.deleted;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['row_key'] = this.rowKey;
-    data['lastupload'] = this.lastupload;
-    data['duplicate_key'] = this.duplicateKey;
-    data['validate_failed'] = this.validateFailed;
-    data['validate_remark'] = this.validateRemark;
-    data['last_validate'] = this.lastValidate;
-    data['transtamp'] = this.transtamp;
-    data['package_code'] = this.packageCode;
-    data['package_desc'] = this.packageDesc;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['merchant_no'] = merchantNo;
+    data['doc_doc'] = docDoc;
+    data['doc_ref'] = docRef;
+    data['sls_doc'] = slsDoc;
+    data['sls_ref'] = slsRef;
+    data['rev_no'] = revNo;
+    data['ord_date'] = ordDate;
+    data['ord_time'] = ordTime;
+    data['wf_status'] = wfStatus;
+    data['ref_no'] = refNo;
+    data['subject'] = subject;
+    data['validity'] = validity;
+    data['lead_time'] = leadTime;
+    data['dbcode'] = dbcode;
+    data['ic_no'] = icNo;
+    data['name'] = name;
+    data['branch'] = branch;
+    data['loc_code'] = locCode;
+    data['area_code'] = areaCode;
+    data['currency'] = currency;
+    data['rate'] = rate;
+    data['terms'] = terms;
+    data['sales_per'] = salesPer;
+    data['proj_code'] = projCode;
+    data['order_by'] = orderBy;
+    data['cust_po_no'] = custPoNo;
+    data['cust_po_date'] = custPoDate;
+    data['shipment_term'] = shipmentTerm;
+    data['shipment_term_detl'] = shipmentTermDetl;
+    data['ship_mode'] = shipMode;
+    data['ship_code'] = shipCode;
+    data['ship_to'] = shipTo;
+    data['ship_name'] = shipName;
+    data['ship_add'] = shipAdd;
+    data['ship_add1'] = shipAdd1;
+    data['ship_add2'] = shipAdd2;
+    data['ship_add3'] = shipAdd3;
+    data['ship_add4'] = shipAdd4;
+    data['ship_area'] = shipArea;
+    data['ship_phone'] = shipPhone;
+    data['ship_fax'] = shipFax;
+    data['ship_ptc'] = shipPtc;
+    data['ship_remark'] = shipRemark;
+    data['misc1'] = misc1;
+    data['misc2'] = misc2;
+    data['misc3'] = misc3;
+    data['misc4'] = misc4;
+    data['misc5'] = misc5;
+    data['misc6'] = misc6;
+    data['misc13'] = misc13;
+    data['misc14'] = misc14;
+    data['misc15'] = misc15;
+    data['misc16'] = misc16;
+    data['misc17'] = misc17;
+    data['misc18'] = misc18;
+    data['tl_ord_qty'] = tlOrdQty;
+    data['tl_ord_amt'] = tlOrdAmt;
+    data['tl_nett_detl_amt'] = tlNettDetlAmt;
+    data['tl_loc_detl_amt'] = tlLocDetlAmt;
+    data['tl_nett_ord_amt'] = tlNettOrdAmt;
+    data['tl_loc_ord_amt'] = tlLocOrdAmt;
+    data['tl_disc_amt'] = tlDiscAmt;
+    data['tl_loc_disc_amt'] = tlLocDiscAmt;
+    data['tl_sls_tax'] = tlSlsTax;
+    data['tl_loc_sls_tax'] = tlLocSlsTax;
+    data['tl_ser_tax'] = tlSerTax;
+    data['tl_loc_ser_tax'] = tlLocSerTax;
+    data['bdisc_rate'] = bdiscRate;
+    data['bdisc_amt'] = bdiscAmt;
+    data['trans_chrg'] = transChrg;
+    data['trans_rate'] = transRate;
+    data['mfg_currency'] = mfgCurrency;
+    data['mfg_rate'] = mfgRate;
+    data['mfg_tl_nett_ord_amt'] = mfgTlNettOrdAmt;
+    data['mfg_tl_loc_ord_amt'] = mfgTlLocOrdAmt;
+    data['hold'] = hold;
+    data['cj5_no'] = cj5No;
+    data['db_acct'] = dbAcct;
+    data['db_dept'] = dbDept;
+    data['tl_dlv_qty'] = tlDlvQty;
+    data['do_doc'] = doDoc;
+    data['do_ref'] = doRef;
+    data['inv_doc'] = invDoc;
+    data['inv_ref'] = invRef;
+    data['title1'] = title1;
+    data['title2'] = title2;
+    data['title3'] = title3;
+    data['remark'] = remark;
+    data['remark1'] = remark1;
+    data['remark2'] = remark2;
+    data['prn_count'] = prnCount;
+    data['print_log'] = printLog;
+    data['trn_status'] = trnStatus;
+    data['credit_block_reason'] = creditBlockReason;
+    data['credit_block_info'] = creditBlockInfo;
+    data['credit_req_apprv'] = creditReqApprv;
+    data['credit_apprv_user'] = creditApprvUser;
+    data['credit_apprv_date'] = creditApprvDate;
+    data['credit_apprv_amt'] = creditApprvAmt;
+    data['credit_apprv_log'] = creditApprvLog;
+    data['pending'] = pending;
+    data['cancel'] = cancel;
+    data['cancel_date'] = cancelDate;
+    data['posted'] = posted;
+    data['complete'] = complete;
+    data['clear'] = clear;
+    data['fully_billed'] = fullyBilled;
+    data['tl_billed_amt'] = tlBilledAmt;
+    data['tl_paid_amt'] = tlPaidAmt;
+    data['read_only'] = readOnly;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['deleted'] = deleted;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['row_key'] = rowKey;
+    data['lastupload'] = lastupload;
+    data['duplicate_key'] = duplicateKey;
+    data['validate_failed'] = validateFailed;
+    data['validate_remark'] = validateRemark;
+    data['last_validate'] = lastValidate;
+    data['transtamp'] = transtamp;
+    data['package_code'] = packageCode;
+    data['package_desc'] = packageDesc;
     return data;
   }
 }
@@ -780,17 +780,17 @@ class GetOrderListByIcNoResponse {
 
   GetOrderListByIcNoResponse.fromJson(Map<String, dynamic> json) {
     if (json['SlsTrn'] != null) {
-      slsTrn = new List<GetOrderListSlsTrn>.empty(growable: true);
+      slsTrn = List<GetOrderListSlsTrn>.empty(growable: true);
       json['SlsTrn'].forEach((v) {
-        slsTrn!.add(new GetOrderListSlsTrn.fromJson(v));
+        slsTrn!.add(GetOrderListSlsTrn.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.slsTrn != null) {
-      data['SlsTrn'] = this.slsTrn!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (slsTrn != null) {
+      data['SlsTrn'] = slsTrn!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -1185,134 +1185,134 @@ class GetOrderListSlsTrn {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['merchant_no'] = this.merchantNo;
-    data['doc_doc'] = this.docDoc;
-    data['doc_ref'] = this.docRef;
-    data['sls_doc'] = this.slsDoc;
-    data['sls_ref'] = this.slsRef;
-    data['rev_no'] = this.revNo;
-    data['ord_date'] = this.ordDate;
-    data['ord_time'] = this.ordTime;
-    data['wf_status'] = this.wfStatus;
-    data['ref_no'] = this.refNo;
-    data['subject'] = this.subject;
-    data['validity'] = this.validity;
-    data['lead_time'] = this.leadTime;
-    data['dbcode'] = this.dbcode;
-    data['ic_no'] = this.icNo;
-    data['name'] = this.name;
-    data['branch'] = this.branch;
-    data['loc_code'] = this.locCode;
-    data['area_code'] = this.areaCode;
-    data['currency'] = this.currency;
-    data['rate'] = this.rate;
-    data['terms'] = this.terms;
-    data['sales_per'] = this.salesPer;
-    data['proj_code'] = this.projCode;
-    data['order_by'] = this.orderBy;
-    data['cust_po_no'] = this.custPoNo;
-    data['cust_po_date'] = this.custPoDate;
-    data['shipment_term'] = this.shipmentTerm;
-    data['shipment_term_detl'] = this.shipmentTermDetl;
-    data['ship_mode'] = this.shipMode;
-    data['ship_code'] = this.shipCode;
-    data['ship_to'] = this.shipTo;
-    data['ship_name'] = this.shipName;
-    data['ship_add'] = this.shipAdd;
-    data['ship_add1'] = this.shipAdd1;
-    data['ship_add2'] = this.shipAdd2;
-    data['ship_add3'] = this.shipAdd3;
-    data['ship_add4'] = this.shipAdd4;
-    data['ship_area'] = this.shipArea;
-    data['ship_phone'] = this.shipPhone;
-    data['ship_fax'] = this.shipFax;
-    data['ship_ptc'] = this.shipPtc;
-    data['ship_remark'] = this.shipRemark;
-    data['misc1'] = this.misc1;
-    data['misc2'] = this.misc2;
-    data['misc3'] = this.misc3;
-    data['misc4'] = this.misc4;
-    data['misc5'] = this.misc5;
-    data['misc6'] = this.misc6;
-    data['misc13'] = this.misc13;
-    data['misc14'] = this.misc14;
-    data['misc15'] = this.misc15;
-    data['misc16'] = this.misc16;
-    data['misc17'] = this.misc17;
-    data['misc18'] = this.misc18;
-    data['tl_ord_qty'] = this.tlOrdQty;
-    data['tl_ord_amt'] = this.tlOrdAmt;
-    data['tl_nett_detl_amt'] = this.tlNettDetlAmt;
-    data['tl_loc_detl_amt'] = this.tlLocDetlAmt;
-    data['tl_nett_ord_amt'] = this.tlNettOrdAmt;
-    data['tl_loc_ord_amt'] = this.tlLocOrdAmt;
-    data['tl_disc_amt'] = this.tlDiscAmt;
-    data['tl_loc_disc_amt'] = this.tlLocDiscAmt;
-    data['tl_sls_tax'] = this.tlSlsTax;
-    data['tl_loc_sls_tax'] = this.tlLocSlsTax;
-    data['tl_ser_tax'] = this.tlSerTax;
-    data['tl_loc_ser_tax'] = this.tlLocSerTax;
-    data['bdisc_rate'] = this.bdiscRate;
-    data['bdisc_amt'] = this.bdiscAmt;
-    data['trans_chrg'] = this.transChrg;
-    data['trans_rate'] = this.transRate;
-    data['mfg_currency'] = this.mfgCurrency;
-    data['mfg_rate'] = this.mfgRate;
-    data['mfg_tl_nett_ord_amt'] = this.mfgTlNettOrdAmt;
-    data['mfg_tl_loc_ord_amt'] = this.mfgTlLocOrdAmt;
-    data['hold'] = this.hold;
-    data['cj5_no'] = this.cj5No;
-    data['db_acct'] = this.dbAcct;
-    data['db_dept'] = this.dbDept;
-    data['tl_dlv_qty'] = this.tlDlvQty;
-    data['do_doc'] = this.doDoc;
-    data['do_ref'] = this.doRef;
-    data['inv_doc'] = this.invDoc;
-    data['inv_ref'] = this.invRef;
-    data['title1'] = this.title1;
-    data['title2'] = this.title2;
-    data['title3'] = this.title3;
-    data['remark'] = this.remark;
-    data['remark1'] = this.remark1;
-    data['remark2'] = this.remark2;
-    data['prn_count'] = this.prnCount;
-    data['print_log'] = this.printLog;
-    data['trn_status'] = this.trnStatus;
-    data['credit_block_reason'] = this.creditBlockReason;
-    data['credit_block_info'] = this.creditBlockInfo;
-    data['credit_req_apprv'] = this.creditReqApprv;
-    data['credit_apprv_user'] = this.creditApprvUser;
-    data['credit_apprv_date'] = this.creditApprvDate;
-    data['credit_apprv_amt'] = this.creditApprvAmt;
-    data['credit_apprv_log'] = this.creditApprvLog;
-    data['pending'] = this.pending;
-    data['cancel'] = this.cancel;
-    data['cancel_date'] = this.cancelDate;
-    data['posted'] = this.posted;
-    data['complete'] = this.complete;
-    data['clear'] = this.clear;
-    data['fully_billed'] = this.fullyBilled;
-    data['tl_billed_amt'] = this.tlBilledAmt;
-    data['tl_paid_amt'] = this.tlPaidAmt;
-    data['read_only'] = this.readOnly;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['deleted'] = this.deleted;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['row_key'] = this.rowKey;
-    data['lastupload'] = this.lastupload;
-    data['duplicate_key'] = this.duplicateKey;
-    data['validate_failed'] = this.validateFailed;
-    data['validate_remark'] = this.validateRemark;
-    data['last_validate'] = this.lastValidate;
-    data['transtamp'] = this.transtamp;
-    data['package_code'] = this.packageCode;
-    data['package_desc'] = this.packageDesc;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['merchant_no'] = merchantNo;
+    data['doc_doc'] = docDoc;
+    data['doc_ref'] = docRef;
+    data['sls_doc'] = slsDoc;
+    data['sls_ref'] = slsRef;
+    data['rev_no'] = revNo;
+    data['ord_date'] = ordDate;
+    data['ord_time'] = ordTime;
+    data['wf_status'] = wfStatus;
+    data['ref_no'] = refNo;
+    data['subject'] = subject;
+    data['validity'] = validity;
+    data['lead_time'] = leadTime;
+    data['dbcode'] = dbcode;
+    data['ic_no'] = icNo;
+    data['name'] = name;
+    data['branch'] = branch;
+    data['loc_code'] = locCode;
+    data['area_code'] = areaCode;
+    data['currency'] = currency;
+    data['rate'] = rate;
+    data['terms'] = terms;
+    data['sales_per'] = salesPer;
+    data['proj_code'] = projCode;
+    data['order_by'] = orderBy;
+    data['cust_po_no'] = custPoNo;
+    data['cust_po_date'] = custPoDate;
+    data['shipment_term'] = shipmentTerm;
+    data['shipment_term_detl'] = shipmentTermDetl;
+    data['ship_mode'] = shipMode;
+    data['ship_code'] = shipCode;
+    data['ship_to'] = shipTo;
+    data['ship_name'] = shipName;
+    data['ship_add'] = shipAdd;
+    data['ship_add1'] = shipAdd1;
+    data['ship_add2'] = shipAdd2;
+    data['ship_add3'] = shipAdd3;
+    data['ship_add4'] = shipAdd4;
+    data['ship_area'] = shipArea;
+    data['ship_phone'] = shipPhone;
+    data['ship_fax'] = shipFax;
+    data['ship_ptc'] = shipPtc;
+    data['ship_remark'] = shipRemark;
+    data['misc1'] = misc1;
+    data['misc2'] = misc2;
+    data['misc3'] = misc3;
+    data['misc4'] = misc4;
+    data['misc5'] = misc5;
+    data['misc6'] = misc6;
+    data['misc13'] = misc13;
+    data['misc14'] = misc14;
+    data['misc15'] = misc15;
+    data['misc16'] = misc16;
+    data['misc17'] = misc17;
+    data['misc18'] = misc18;
+    data['tl_ord_qty'] = tlOrdQty;
+    data['tl_ord_amt'] = tlOrdAmt;
+    data['tl_nett_detl_amt'] = tlNettDetlAmt;
+    data['tl_loc_detl_amt'] = tlLocDetlAmt;
+    data['tl_nett_ord_amt'] = tlNettOrdAmt;
+    data['tl_loc_ord_amt'] = tlLocOrdAmt;
+    data['tl_disc_amt'] = tlDiscAmt;
+    data['tl_loc_disc_amt'] = tlLocDiscAmt;
+    data['tl_sls_tax'] = tlSlsTax;
+    data['tl_loc_sls_tax'] = tlLocSlsTax;
+    data['tl_ser_tax'] = tlSerTax;
+    data['tl_loc_ser_tax'] = tlLocSerTax;
+    data['bdisc_rate'] = bdiscRate;
+    data['bdisc_amt'] = bdiscAmt;
+    data['trans_chrg'] = transChrg;
+    data['trans_rate'] = transRate;
+    data['mfg_currency'] = mfgCurrency;
+    data['mfg_rate'] = mfgRate;
+    data['mfg_tl_nett_ord_amt'] = mfgTlNettOrdAmt;
+    data['mfg_tl_loc_ord_amt'] = mfgTlLocOrdAmt;
+    data['hold'] = hold;
+    data['cj5_no'] = cj5No;
+    data['db_acct'] = dbAcct;
+    data['db_dept'] = dbDept;
+    data['tl_dlv_qty'] = tlDlvQty;
+    data['do_doc'] = doDoc;
+    data['do_ref'] = doRef;
+    data['inv_doc'] = invDoc;
+    data['inv_ref'] = invRef;
+    data['title1'] = title1;
+    data['title2'] = title2;
+    data['title3'] = title3;
+    data['remark'] = remark;
+    data['remark1'] = remark1;
+    data['remark2'] = remark2;
+    data['prn_count'] = prnCount;
+    data['print_log'] = printLog;
+    data['trn_status'] = trnStatus;
+    data['credit_block_reason'] = creditBlockReason;
+    data['credit_block_info'] = creditBlockInfo;
+    data['credit_req_apprv'] = creditReqApprv;
+    data['credit_apprv_user'] = creditApprvUser;
+    data['credit_apprv_date'] = creditApprvDate;
+    data['credit_apprv_amt'] = creditApprvAmt;
+    data['credit_apprv_log'] = creditApprvLog;
+    data['pending'] = pending;
+    data['cancel'] = cancel;
+    data['cancel_date'] = cancelDate;
+    data['posted'] = posted;
+    data['complete'] = complete;
+    data['clear'] = clear;
+    data['fully_billed'] = fullyBilled;
+    data['tl_billed_amt'] = tlBilledAmt;
+    data['tl_paid_amt'] = tlPaidAmt;
+    data['read_only'] = readOnly;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['deleted'] = deleted;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['row_key'] = rowKey;
+    data['lastupload'] = lastupload;
+    data['duplicate_key'] = duplicateKey;
+    data['validate_failed'] = validateFailed;
+    data['validate_remark'] = validateRemark;
+    data['last_validate'] = lastValidate;
+    data['transtamp'] = transtamp;
+    data['package_code'] = packageCode;
+    data['package_desc'] = packageDesc;
     return data;
   }
 }
@@ -1324,17 +1324,17 @@ class GetOrderDetlByOrderNoResponse {
 
   GetOrderDetlByOrderNoResponse.fromJson(Map<String, dynamic> json) {
     if (json['SlsDetl'] != null) {
-      slsDetl = new List<SlsDetl>.empty(growable: true);
+      slsDetl = List<SlsDetl>.empty(growable: true);
       json['SlsDetl'].forEach((v) {
-        slsDetl!.add(new SlsDetl.fromJson(v));
+        slsDetl!.add(SlsDetl.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.slsDetl != null) {
-      data['SlsDetl'] = this.slsDetl!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (slsDetl != null) {
+      data['SlsDetl'] = slsDetl!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -1756,143 +1756,143 @@ class SlsDetl {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['merchant_no'] = this.merchantNo;
-    data['doc_doc'] = this.docDoc;
-    data['doc_ref'] = this.docRef;
-    data['ord_date'] = this.ordDate;
-    data['sls_doc'] = this.slsDoc;
-    data['sls_ref'] = this.slsRef;
-    data['key'] = this.key;
-    data['main_key'] = this.mainKey;
-    data['sub_item'] = this.subItem;
-    data['stk_formula'] = this.stkFormula;
-    data['item_no'] = this.itemNo;
-    data['loc_code'] = this.locCode;
-    data['branch'] = this.branch;
-    data['package_code'] = this.packageCode;
-    data['package_desc'] = this.packageDesc;
-    data['uom'] = this.uom;
-    data['exist_qty'] = this.existQty;
-    data['ord_qty'] = this.ordQty;
-    data['ord_uom'] = this.ordUom;
-    data['ord_price'] = this.ordPrice;
-    data['unit_price'] = this.unitPrice;
-    data['item_qty'] = this.itemQty;
-    data['item_uom'] = this.itemUom;
-    data['item_price'] = this.itemPrice;
-    data['extra_qty'] = this.extraQty;
-    data['extra_uom'] = this.extraUom;
-    data['extra_price'] = this.extraPrice;
-    data['uom2_qty'] = this.uom2Qty;
-    data['uom2_uom'] = this.uom2Uom;
-    data['foc_qty'] = this.focQty;
-    data['foc_uom'] = this.focUom;
-    data['fill_qty'] = this.fillQty;
-    data['manu_qty'] = this.manuQty;
-    data['tlmanu_qty'] = this.tlmanuQty;
-    data['manuf_qty'] = this.manufQty;
-    data['tl_manuf_qty'] = this.tlManufQty;
-    data['packed_qty'] = this.packedQty;
-    data['price_code'] = this.priceCode;
-    data['price_source'] = this.priceSource;
-    data['allow_disc'] = this.allowDisc;
-    data['disc_code'] = this.discCode;
-    data['disc_rate'] = this.discRate;
-    data['multi_disc'] = this.multiDisc;
-    data['disc_amt'] = this.discAmt;
-    data['loc_disc_amt'] = this.locDiscAmt;
-    data['ser_tax'] = this.serTax;
-    data['loc_ser_tax'] = this.locSerTax;
-    data['incl_sls_tax'] = this.inclSlsTax;
-    data['sls_tax'] = this.slsTax;
-    data['loc_sls_tax'] = this.locSlsTax;
-    data['sls_comm_rate'] = this.slsCommRate;
-    data['sls_comm'] = this.slsComm;
-    data['loc_sls_comm'] = this.locSlsComm;
-    data['nett_price'] = this.nettPrice;
-    data['ord_amt'] = this.ordAmt;
-    data['nett_ord_amt'] = this.nettOrdAmt;
-    data['loc_ord_amt'] = this.locOrdAmt;
-    data['mfg_unit_price'] = this.mfgUnitPrice;
-    data['mfg_nett_ord_amt'] = this.mfgNettOrdAmt;
-    data['mfg_loc_ord_amt'] = this.mfgLocOrdAmt;
-    data['unit_cost'] = this.unitCost;
-    data['cust_po_no'] = this.custPoNo;
-    data['cust_po_date'] = this.custPoDate;
-    data['exp_dlvdt'] = this.expDlvdt;
-    data['due_date'] = this.dueDate;
-    data['due_time'] = this.dueTime;
-    data['inv_doc'] = this.invDoc;
-    data['inv_ref'] = this.invRef;
-    data['do_doc'] = this.doDoc;
-    data['do_ref'] = this.doRef;
-    data['inv_key'] = this.invKey;
-    data['do_key'] = this.doKey;
-    data['quo_doc'] = this.quoDoc;
-    data['quo_ref'] = this.quoRef;
-    data['quo_key'] = this.quoKey;
-    data['dlv_qty'] = this.dlvQty;
-    data['dlv_iqty'] = this.dlvIqty;
-    data['dlv_eqty'] = this.dlvEqty;
-    data['dlv_fqty'] = this.dlvFqty;
-    data['wo_qty'] = this.woQty;
-    data['po_qty'] = this.poQty;
-    data['po_doc'] = this.poDoc;
-    data['po_ref'] = this.poRef;
-    data['po_key'] = this.poKey;
-    data['matrlreq_qty'] = this.matrlreqQty;
-    data['matrlreq_closed'] = this.matrlreqClosed;
-    data['billed_qty'] = this.billedQty;
-    data['proj_code'] = this.projCode;
-    data['cust_barcode'] = this.custBarcode;
-    data['cust_sell_price'] = this.custSellPrice;
-    data['misc7'] = this.misc7;
-    data['misc8'] = this.misc8;
-    data['misc9'] = this.misc9;
-    data['misc10'] = this.misc10;
-    data['misc11'] = this.misc11;
-    data['misc12'] = this.misc12;
-    data['dlv_misc10'] = this.dlvMisc10;
-    data['dlv_misc11'] = this.dlvMisc11;
-    data['dlv_misc12'] = this.dlvMisc12;
-    data['stk_misc1'] = this.stkMisc1;
-    data['stk_misc2'] = this.stkMisc2;
-    data['stk_misc3'] = this.stkMisc3;
-    data['cust_ref1'] = this.custRef1;
-    data['cust_ref2'] = this.custRef2;
-    data['undr_minpc'] = this.undrMinpc;
-    data['cj5_no'] = this.cj5No;
-    data['cj5_bgdt'] = this.cj5Bgdt;
-    data['cj5_enddt'] = this.cj5Enddt;
-    data['cj5_totqty'] = this.cj5Totqty;
-    data['cj5_balqty'] = this.cj5Balqty;
-    data['sale_acct'] = this.saleAcct;
-    data['sale_dept'] = this.saleDept;
-    data['remark'] = this.remark;
-    data['trn_status'] = this.trnStatus;
-    data['complete'] = this.complete;
-    data['completed_remark'] = this.completedRemark;
-    data['completed_user'] = this.completedUser;
-    data['completed_date'] = this.completedDate;
-    data['matrl_reserved'] = this.matrlReserved;
-    data['cancel'] = this.cancel;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['deleted'] = this.deleted;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['row_key'] = this.rowKey;
-    data['lastupload'] = this.lastupload;
-    data['duplicate_key'] = this.duplicateKey;
-    data['validate_failed'] = this.validateFailed;
-    data['validate_remark'] = this.validateRemark;
-    data['last_validate'] = this.lastValidate;
-    data['transtamp'] = this.transtamp;
-    data['frm_store_qty'] = this.frmStoreQty;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['merchant_no'] = merchantNo;
+    data['doc_doc'] = docDoc;
+    data['doc_ref'] = docRef;
+    data['ord_date'] = ordDate;
+    data['sls_doc'] = slsDoc;
+    data['sls_ref'] = slsRef;
+    data['key'] = key;
+    data['main_key'] = mainKey;
+    data['sub_item'] = subItem;
+    data['stk_formula'] = stkFormula;
+    data['item_no'] = itemNo;
+    data['loc_code'] = locCode;
+    data['branch'] = branch;
+    data['package_code'] = packageCode;
+    data['package_desc'] = packageDesc;
+    data['uom'] = uom;
+    data['exist_qty'] = existQty;
+    data['ord_qty'] = ordQty;
+    data['ord_uom'] = ordUom;
+    data['ord_price'] = ordPrice;
+    data['unit_price'] = unitPrice;
+    data['item_qty'] = itemQty;
+    data['item_uom'] = itemUom;
+    data['item_price'] = itemPrice;
+    data['extra_qty'] = extraQty;
+    data['extra_uom'] = extraUom;
+    data['extra_price'] = extraPrice;
+    data['uom2_qty'] = uom2Qty;
+    data['uom2_uom'] = uom2Uom;
+    data['foc_qty'] = focQty;
+    data['foc_uom'] = focUom;
+    data['fill_qty'] = fillQty;
+    data['manu_qty'] = manuQty;
+    data['tlmanu_qty'] = tlmanuQty;
+    data['manuf_qty'] = manufQty;
+    data['tl_manuf_qty'] = tlManufQty;
+    data['packed_qty'] = packedQty;
+    data['price_code'] = priceCode;
+    data['price_source'] = priceSource;
+    data['allow_disc'] = allowDisc;
+    data['disc_code'] = discCode;
+    data['disc_rate'] = discRate;
+    data['multi_disc'] = multiDisc;
+    data['disc_amt'] = discAmt;
+    data['loc_disc_amt'] = locDiscAmt;
+    data['ser_tax'] = serTax;
+    data['loc_ser_tax'] = locSerTax;
+    data['incl_sls_tax'] = inclSlsTax;
+    data['sls_tax'] = slsTax;
+    data['loc_sls_tax'] = locSlsTax;
+    data['sls_comm_rate'] = slsCommRate;
+    data['sls_comm'] = slsComm;
+    data['loc_sls_comm'] = locSlsComm;
+    data['nett_price'] = nettPrice;
+    data['ord_amt'] = ordAmt;
+    data['nett_ord_amt'] = nettOrdAmt;
+    data['loc_ord_amt'] = locOrdAmt;
+    data['mfg_unit_price'] = mfgUnitPrice;
+    data['mfg_nett_ord_amt'] = mfgNettOrdAmt;
+    data['mfg_loc_ord_amt'] = mfgLocOrdAmt;
+    data['unit_cost'] = unitCost;
+    data['cust_po_no'] = custPoNo;
+    data['cust_po_date'] = custPoDate;
+    data['exp_dlvdt'] = expDlvdt;
+    data['due_date'] = dueDate;
+    data['due_time'] = dueTime;
+    data['inv_doc'] = invDoc;
+    data['inv_ref'] = invRef;
+    data['do_doc'] = doDoc;
+    data['do_ref'] = doRef;
+    data['inv_key'] = invKey;
+    data['do_key'] = doKey;
+    data['quo_doc'] = quoDoc;
+    data['quo_ref'] = quoRef;
+    data['quo_key'] = quoKey;
+    data['dlv_qty'] = dlvQty;
+    data['dlv_iqty'] = dlvIqty;
+    data['dlv_eqty'] = dlvEqty;
+    data['dlv_fqty'] = dlvFqty;
+    data['wo_qty'] = woQty;
+    data['po_qty'] = poQty;
+    data['po_doc'] = poDoc;
+    data['po_ref'] = poRef;
+    data['po_key'] = poKey;
+    data['matrlreq_qty'] = matrlreqQty;
+    data['matrlreq_closed'] = matrlreqClosed;
+    data['billed_qty'] = billedQty;
+    data['proj_code'] = projCode;
+    data['cust_barcode'] = custBarcode;
+    data['cust_sell_price'] = custSellPrice;
+    data['misc7'] = misc7;
+    data['misc8'] = misc8;
+    data['misc9'] = misc9;
+    data['misc10'] = misc10;
+    data['misc11'] = misc11;
+    data['misc12'] = misc12;
+    data['dlv_misc10'] = dlvMisc10;
+    data['dlv_misc11'] = dlvMisc11;
+    data['dlv_misc12'] = dlvMisc12;
+    data['stk_misc1'] = stkMisc1;
+    data['stk_misc2'] = stkMisc2;
+    data['stk_misc3'] = stkMisc3;
+    data['cust_ref1'] = custRef1;
+    data['cust_ref2'] = custRef2;
+    data['undr_minpc'] = undrMinpc;
+    data['cj5_no'] = cj5No;
+    data['cj5_bgdt'] = cj5Bgdt;
+    data['cj5_enddt'] = cj5Enddt;
+    data['cj5_totqty'] = cj5Totqty;
+    data['cj5_balqty'] = cj5Balqty;
+    data['sale_acct'] = saleAcct;
+    data['sale_dept'] = saleDept;
+    data['remark'] = remark;
+    data['trn_status'] = trnStatus;
+    data['complete'] = complete;
+    data['completed_remark'] = completedRemark;
+    data['completed_user'] = completedUser;
+    data['completed_date'] = completedDate;
+    data['matrl_reserved'] = matrlReserved;
+    data['cancel'] = cancel;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['deleted'] = deleted;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['row_key'] = rowKey;
+    data['lastupload'] = lastupload;
+    data['duplicate_key'] = duplicateKey;
+    data['validate_failed'] = validateFailed;
+    data['validate_remark'] = validateRemark;
+    data['last_validate'] = lastValidate;
+    data['transtamp'] = transtamp;
+    data['frm_store_qty'] = frmStoreQty;
     return data;
   }
 }
@@ -1904,17 +1904,17 @@ class FpxSendB2CAuthResponse {
 
   FpxSendB2CAuthResponse.fromJson(Map<String, dynamic> json) {
     if (json['Response'] != null) {
-      response = new List<FpxResponse>.empty(growable: true);
+      response = List<FpxResponse>.empty(growable: true);
       json['Response'].forEach((v) {
-        response!.add(new FpxResponse.fromJson(v));
+        response!.add(FpxResponse.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.response != null) {
-      data['Response'] = this.response!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (response != null) {
+      data['Response'] = response!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -1952,15 +1952,15 @@ class FpxResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['requestUrl'] = this.requestUrl;
-    data['requestData'] = this.requestData;
-    data['responseCode'] = this.responseCode;
-    data['responseDescription'] = this.responseDescription;
-    data['responseData'] = this.responseData;
-    data['transId'] = this.transId;
-    data['sessionId'] = this.sessionId;
-    data['signatureString'] = this.signatureString;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['requestUrl'] = requestUrl;
+    data['requestData'] = requestData;
+    data['responseCode'] = responseCode;
+    data['responseDescription'] = responseDescription;
+    data['responseData'] = responseData;
+    data['transId'] = transId;
+    data['sessionId'] = sessionId;
+    data['signatureString'] = signatureString;
     return data;
   }
 }
@@ -1972,18 +1972,18 @@ class GetOnlinePaymentByOrderNoResponse {
 
   GetOnlinePaymentByOrderNoResponse.fromJson(Map<String, dynamic> json) {
     if (json['OnlinePayment'] != null) {
-      onlinePayment = new List<OnlinePaymentByOrderNo>.empty(growable: true);
+      onlinePayment = List<OnlinePaymentByOrderNo>.empty(growable: true);
       json['OnlinePayment'].forEach((v) {
-        onlinePayment!.add(new OnlinePaymentByOrderNo.fromJson(v));
+        onlinePayment!.add(OnlinePaymentByOrderNo.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.onlinePayment != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (onlinePayment != null) {
       data['OnlinePayment'] =
-          this.onlinePayment!.map((v) => v.toJson()).toList();
+          onlinePayment!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -2114,46 +2114,46 @@ class OnlinePaymentByOrderNo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['merchant_no'] = this.merchantNo;
-    data['doc_doc'] = this.docDoc;
-    data['doc_ref'] = this.docRef;
-    data['payment_date'] = this.paymentDate;
-    data['payment_time'] = this.paymentTime;
-    data['dbcode'] = this.dbcode;
-    data['ic_no'] = this.icNo;
-    data['name'] = this.name;
-    data['source'] = this.source;
-    data['source_doc'] = this.sourceDoc;
-    data['source_ref'] = this.sourceRef;
-    data['currency'] = this.currency;
-    data['paid_amt'] = this.paidAmt;
-    data['gateway_id'] = this.gatewayId;
-    data['trans_id'] = this.transId;
-    data['trans_datetime'] = this.transDatetime;
-    data['gateway_trans_id'] = this.gatewayTransId;
-    data['bank_id'] = this.bankId;
-    data['bank_name'] = this.bankName;
-    data['session_id'] = this.sessionId;
-    data['response_code'] = this.responseCode;
-    data['response_data'] = this.responseData;
-    data['status'] = this.status;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['deleted'] = this.deleted;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['row_key'] = this.rowKey;
-    data['lastupload'] = this.lastupload;
-    data['duplicate_key'] = this.duplicateKey;
-    data['validate_failed'] = this.validateFailed;
-    data['validate_remark'] = this.validateRemark;
-    data['last_validate'] = this.lastValidate;
-    data['transtamp'] = this.transtamp;
-    data['receipt_url'] = this.receiptUrl;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['merchant_no'] = merchantNo;
+    data['doc_doc'] = docDoc;
+    data['doc_ref'] = docRef;
+    data['payment_date'] = paymentDate;
+    data['payment_time'] = paymentTime;
+    data['dbcode'] = dbcode;
+    data['ic_no'] = icNo;
+    data['name'] = name;
+    data['source'] = source;
+    data['source_doc'] = sourceDoc;
+    data['source_ref'] = sourceRef;
+    data['currency'] = currency;
+    data['paid_amt'] = paidAmt;
+    data['gateway_id'] = gatewayId;
+    data['trans_id'] = transId;
+    data['trans_datetime'] = transDatetime;
+    data['gateway_trans_id'] = gatewayTransId;
+    data['bank_id'] = bankId;
+    data['bank_name'] = bankName;
+    data['session_id'] = sessionId;
+    data['response_code'] = responseCode;
+    data['response_data'] = responseData;
+    data['status'] = status;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['deleted'] = deleted;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['row_key'] = rowKey;
+    data['lastupload'] = lastupload;
+    data['duplicate_key'] = duplicateKey;
+    data['validate_failed'] = validateFailed;
+    data['validate_remark'] = validateRemark;
+    data['last_validate'] = lastValidate;
+    data['transtamp'] = transtamp;
+    data['receipt_url'] = receiptUrl;
     return data;
   }
 }
@@ -2165,18 +2165,18 @@ class GetAppPaymentMenuResponse {
 
   GetAppPaymentMenuResponse.fromJson(Map<String, dynamic> json) {
     if (json['AppPaymentMenu'] != null) {
-      appPaymentMenu = new List<AppPaymentMenu>.empty(growable: true);
+      appPaymentMenu = List<AppPaymentMenu>.empty(growable: true);
       json['AppPaymentMenu'].forEach((v) {
-        appPaymentMenu!.add(new AppPaymentMenu.fromJson(v));
+        appPaymentMenu!.add(AppPaymentMenu.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.appPaymentMenu != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (appPaymentMenu != null) {
       data['AppPaymentMenu'] =
-          this.appPaymentMenu!.map((v) => v.toJson()).toList();
+          appPaymentMenu!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -2232,21 +2232,21 @@ class AppPaymentMenu {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['app_code'] = this.appCode;
-    data['menu_code'] = this.menuCode;
-    data['code_desc'] = this.codeDesc;
-    data['create_date'] = this.createDate;
-    data['create_user'] = this.createUser;
-    data['edit_date'] = this.editDate;
-    data['edit_user'] = this.editUser;
-    data['lastupload'] = this.lastupload;
-    data['transtamp'] = this.transtamp;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['row_key'] = this.rowKey;
-    data['deleted'] = this.deleted;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['app_code'] = appCode;
+    data['menu_code'] = menuCode;
+    data['code_desc'] = codeDesc;
+    data['create_date'] = createDate;
+    data['create_user'] = createUser;
+    data['edit_date'] = editDate;
+    data['edit_user'] = editUser;
+    data['lastupload'] = lastupload;
+    data['transtamp'] = transtamp;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['row_key'] = rowKey;
+    data['deleted'] = deleted;
     return data;
   }
 }
@@ -2259,18 +2259,18 @@ class GetMerchantPaymentGatewayResponse {
   GetMerchantPaymentGatewayResponse.fromJson(Map<String, dynamic> json) {
     if (json['MerchantPaymentGateway'] != null) {
       merchantPaymentGateway =
-          new List<MerchantPaymentGateway>.empty(growable: true);
+          List<MerchantPaymentGateway>.empty(growable: true);
       json['MerchantPaymentGateway'].forEach((v) {
-        merchantPaymentGateway!.add(new MerchantPaymentGateway.fromJson(v));
+        merchantPaymentGateway!.add(MerchantPaymentGateway.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.merchantPaymentGateway != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (merchantPaymentGateway != null) {
       data['MerchantPaymentGateway'] =
-          this.merchantPaymentGateway!.map((v) => v.toJson()).toList();
+          merchantPaymentGateway!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -2332,23 +2332,23 @@ class MerchantPaymentGateway {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['app_code'] = this.appCode;
-    data['merchant_no'] = this.merchantNo;
-    data['gateway_id'] = this.gatewayId;
-    data['gateway_desc'] = this.gatewayDesc;
-    data['min_amt'] = this.minAmt;
-    data['create_date'] = this.createDate;
-    data['create_user'] = this.createUser;
-    data['edit_date'] = this.editDate;
-    data['edit_user'] = this.editUser;
-    data['lastupload'] = this.lastupload;
-    data['transtamp'] = this.transtamp;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['row_key'] = this.rowKey;
-    data['deleted'] = this.deleted;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['app_code'] = appCode;
+    data['merchant_no'] = merchantNo;
+    data['gateway_id'] = gatewayId;
+    data['gateway_desc'] = gatewayDesc;
+    data['min_amt'] = minAmt;
+    data['create_date'] = createDate;
+    data['create_user'] = createUser;
+    data['edit_date'] = editDate;
+    data['edit_user'] = editUser;
+    data['lastupload'] = lastupload;
+    data['transtamp'] = transtamp;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['row_key'] = rowKey;
+    data['deleted'] = deleted;
     return data;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/pages/login/client_acc_tablet_form.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -5,10 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'client_acc_form.dart';
 
+@RoutePage(name: 'ClientAccount')
 class ClientAccount extends StatefulWidget {
   final data;
 
-  ClientAccount({this.data});
+  const ClientAccount({super.key, this.data});
 
   @override
   _ClientAccountState createState() => _ClientAccountState();
@@ -43,7 +45,7 @@ class _ClientAccountState extends State<ClientAccount> {
               Colors.amber.shade300,
               primaryColor
             ],
-            stops: [0.2, 0.4, 0.6, 0.7, 1],
+            stops: const [0.2, 0.4, 0.6, 0.7, 1],
             radius: 0.7,
           ),
         ),
@@ -104,7 +106,7 @@ class _ClientAccountState extends State<ClientAccount> {
               Colors.amber.shade300,
               primaryColor
             ],
-            stops: [0.2, 0.4, 0.6, 0.7, 1],
+            stops: const [0.2, 0.4, 0.6, 0.7, 1],
             radius: 0.7,
           ),
         ),

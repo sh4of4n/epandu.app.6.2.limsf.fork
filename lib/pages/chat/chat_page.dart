@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:epandu/pages/chat/chat_bloc.dart';
@@ -16,7 +17,10 @@ import 'package:uuid/uuid.dart';
 import 'package:epandu/common_library/services/model/chat_model.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
+@RoutePage(name: 'ChatHome')
 class ChatHome extends StatefulWidget {
+  const ChatHome({super.key});
+
   @override
   _ChatHomeState createState() => _ChatHomeState();
 }
@@ -27,7 +31,7 @@ class _ChatHomeState extends State<ChatHome> {
   final LocalStorage localStorage = LocalStorage();
   Socket? socket;
   User user = User();
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   int _startIndex = 0;
   UserProfile? _searchResult;
   // String _message = '';
@@ -46,7 +50,7 @@ class _ChatHomeState extends State<ChatHome> {
     initSocketIO();
 
     _scrollController
-      ..addListener(() {
+      .addListener(() {
         if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent) {
           setState(() {
@@ -94,10 +98,11 @@ class _ChatHomeState extends State<ChatHome> {
         context: context, customUserId: userId);
 
     if (result.isSuccess) {
-      if (result.data.length > 0) if (mounted)
+      if (result.data.length > 0) if (mounted) {
         setState(() {
           _searchResult = result.data[0];
         });
+      }
       // else if (mounted)
       //   setState(() {
       //     _isLoading = false;
@@ -121,13 +126,14 @@ class _ChatHomeState extends State<ChatHome> {
       return result.data;
     }
 
-    if (mounted)
+    if (mounted) {
       setState(() {
         _searchResult = null;
 
         // _message = result.message;
         // _isLoading = false;
       });
+    }
 
     return null;
   }
@@ -149,7 +155,7 @@ class _ChatHomeState extends State<ChatHome> {
     bool? getUserProfileFromServerflag,
   }) async {
     String? userId = await localStorage.getUserId();
-    var uuid = Uuid();
+    var uuid = const Uuid();
     String id1 = uuid.v4();
     _getSingleUserFromContact(friendId).then((value) async {
       if (value == null) {
@@ -202,7 +208,7 @@ class _ChatHomeState extends State<ChatHome> {
   } */
 
   _contactList() {
-    if (contactList.length > 0) {
+    if (contactList.isNotEmpty) {
       return Column(
         children: <Widget>[
           for (int i = 0; i < contactList.length; i++)
@@ -212,7 +218,7 @@ class _ChatHomeState extends State<ChatHome> {
     }
     return Center(
       child: Container(
-        child: Align(
+        child: const Align(
           alignment: Alignment.center,
           child: Text("Add contacts now to start chatting."),
         ),
@@ -257,7 +263,7 @@ class _ChatHomeState extends State<ChatHome> {
         );
       },
       onSuggestionSelected: (dynamic suggestion) async {
-        if (contactList.length == 0) {
+        if (contactList.isEmpty) {
           _addNewUserIntoDB(
               friendProfile: _searchResult,
               friendId: "",
@@ -290,7 +296,7 @@ class _ChatHomeState extends State<ChatHome> {
           WidgetsBinding.instance
               .addPostFrameCallback((_) => _searchController.clear());
         },
-        icon: Icon(Icons.close),
+        icon: const Icon(Icons.close),
       );
     }
   }
@@ -327,8 +333,8 @@ class _ChatHomeState extends State<ChatHome> {
     return AppBar(
       leading: IconButton(
         icon: Platform.isAndroid
-            ? Icon(Icons.arrow_back)
-            : Icon(Icons.arrow_back_ios),
+            ? const Icon(Icons.arrow_back)
+            : const Icon(Icons.arrow_back_ios),
         onPressed: () {
           setState(() {
             _searchFlag = false;
@@ -336,7 +342,7 @@ class _ChatHomeState extends State<ChatHome> {
         },
       ),
       backgroundColor: Colors.white,
-      iconTheme: IconThemeData(color: Colors.black45),
+      iconTheme: const IconThemeData(color: Colors.black45),
       title: _searchContact(),
     );
   }
@@ -344,11 +350,11 @@ class _ChatHomeState extends State<ChatHome> {
   appBar() {
     return AppBar(
       backgroundColor: Colors.white,
-      iconTheme: IconThemeData(color: Colors.black45),
-      title: Text("Chat"),
+      iconTheme: const IconThemeData(color: Colors.black45),
+      title: const Text("Chat"),
       actions: <Widget>[
         IconButton(
-          icon: Icon(Icons.add),
+          icon: const Icon(Icons.add),
           onPressed: () {
             setState(() {
               _searchFlag = true;

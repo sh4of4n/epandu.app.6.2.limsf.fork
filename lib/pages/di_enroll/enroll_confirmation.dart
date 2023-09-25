@@ -15,6 +15,7 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 // import 'package:readmore/readmore.dart';
 import '../../router.gr.dart';
 
+@RoutePage(name: 'EnrollConfirmation')
 class EnrollConfirmation extends StatefulWidget {
   final String? banner;
   final String? packageName;
@@ -25,7 +26,7 @@ class EnrollConfirmation extends StatefulWidget {
   final String? groupIdGrouping; //Package class
   final String? amount; //Package price
 
-  EnrollConfirmation({
+  const EnrollConfirmation({super.key, 
     this.banner,
     this.packageName,
     this.packageCode,
@@ -102,10 +103,11 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
       localStorage.saveCdl(result.data[0].cdlGroup);
       localStorage.saveLdl(result.data[0].enqLdlGroup);
 
-      if (result.data[0].picturePath != null)
+      if (result.data[0].picturePath != null) {
         localStorage.saveProfilePic(result.data[0].picturePath
             .replaceAll(removeBracket, '')
             .split('\r\n')[0]);
+      }
     } else {
       _getUserInfo();
     }
@@ -124,7 +126,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
           TextButton(
             child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
             onPressed: () => context.router.pushAndPopUntil(
-              UpdateProfile(),
+              const UpdateProfile(),
               predicate: ModalRoute.withName('Home'),
             ),
           ),
@@ -137,23 +139,23 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
   }
 
   _getUserInfo() async {
-    String? _getName = await localStorage.getName();
-    String? _getEmail = await localStorage.getEmail();
-    String? _getStudentIc = await localStorage.getStudentIc();
+    String? getName = await localStorage.getName();
+    String? getEmail = await localStorage.getEmail();
+    String? getStudentIc = await localStorage.getStudentIc();
 
-    String? _getBirthDate = await localStorage.getBirthDate();
-    String? _getRace = await localStorage.getRace();
-    String? _getNationality = await localStorage.getNationality();
-    String? _getGender = await localStorage.getGender();
+    String? getBirthDate = await localStorage.getBirthDate();
+    String? getRace = await localStorage.getRace();
+    String? getNationality = await localStorage.getNationality();
+    String? getGender = await localStorage.getGender();
 
     setState(() {
-      _name = _getName;
-      _eMail = _getEmail;
-      _icNo = _getStudentIc;
-      _birthDate = _getBirthDate;
-      _race = _getRace;
-      _nationality = _getNationality;
-      _gender = _getGender;
+      _name = getName;
+      _eMail = getEmail;
+      _icNo = getStudentIc;
+      _birthDate = getBirthDate;
+      _race = getRace;
+      _nationality = getNationality;
+      _gender = getGender;
     });
   }
 
@@ -321,9 +323,10 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
         setState(() {
           isLoading = false;
         });
-      } else
+      } else {
         getOnlinePaymentByOrderNo(
             docDoc: orderData[0].docDoc, docRef: orderData[0].docRef);
+      }
     } else {
       setState(() {
         isLoading = false;
@@ -382,17 +385,17 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
               child: Center(
                 child: Text(
                   AppLocalizations.of(context)!.translate('orders'),
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
             ),
           ),
           IconButton(
             onPressed: () => context.router.pushAndPopUntil(
-              UpdateProfile(),
+              const UpdateProfile(),
               predicate: ModalRoute.withName('Home'),
             ),
-            icon: Icon(Icons.edit),
+            icon: const Icon(Icons.edit),
           ),
         ],
       ),
@@ -424,7 +427,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                                   fontSize: 80.sp,
                                 )),
                             Text(
-                              'RM' + widget.amount!,
+                              'RM${widget.amount!}',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.red,
@@ -508,7 +511,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                             Text(AppLocalizations.of(context)!
                                 .translate('package_lbl')),
                             Text(packageDetlList[0].packageCode,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 )),
                           ],
@@ -556,7 +559,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                         ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: packageDetlList.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Table(
@@ -664,11 +667,8 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                         },
                       ),
                       Text(
-                        AppLocalizations.of(context)!.translate('agree_to') +
-                            ' ' +
-                            AppLocalizations.of(context)!
-                                .translate('epandu_title') +
-                            ' ',
+                        '${AppLocalizations.of(context)!.translate('agree_to')} ${AppLocalizations.of(context)!
+                                .translate('epandu_title')} ',
                         style: TextStyle(
                           fontSize: 54.sp,
                         ),
@@ -718,11 +718,11 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                 if (message.isNotEmpty)
                   Text(
                     message,
-                    style: TextStyle(color: Colors.red),
+                    style: const TextStyle(color: Colors.red),
                   ),
                 CustomButton(
                   onPressed: saveEnrollmentPackageWithParticular,
-                  buttonColor: Color(0xffdd0e0e),
+                  buttonColor: const Color(0xffdd0e0e),
                   title: AppLocalizations.of(context)!.translate('pay_online'),
                 ),
                 SizedBox(height: 30.h),
@@ -740,7 +740,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
 }
 
 class LabeledCheckbox extends StatelessWidget {
-  const LabeledCheckbox({
+  const LabeledCheckbox({super.key, 
     this.label,
     this.padding,
     this.value,

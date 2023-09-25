@@ -8,8 +8,9 @@ import 'package:hive/hive.dart';
 
 import '../../utils/constants.dart';
 
+@RoutePage()
 class MenuPage extends StatefulWidget {
-  MenuPage({Key? key}) : super(key: key);
+  const MenuPage({Key? key}) : super(key: key);
 
   @override
   State<MenuPage> createState() => _MenuPageState();
@@ -19,7 +20,7 @@ class _MenuPageState extends State<MenuPage> {
   final localStorage = LocalStorage();
 
   String? name = '';
-  var _constItem = [
+  final _constItem = [
     {
       'count': 0,
       'title': 'eDriving',
@@ -97,7 +98,7 @@ class _MenuPageState extends State<MenuPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
               Colors.white,
@@ -110,22 +111,22 @@ class _MenuPageState extends State<MenuPage> {
         ),
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          floatingActionButton: Container(
+          floatingActionButton: SizedBox(
             width: 75,
             child: FittedBox(
               child: FloatingActionButton(
                 onPressed: () {},
+                backgroundColor: Colors.transparent,
                 child: Image.asset(
                   ImagesConstant().sos,
                 ),
-                backgroundColor: Colors.transparent,
               ),
             ),
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar: BottomAppBar(
-            shape: CircularNotchedRectangle(),
+            shape: const CircularNotchedRectangle(),
             color: Colors.white,
             child: IconTheme(
               data:
@@ -137,15 +138,15 @@ class _MenuPageState extends State<MenuPage> {
                     type: MaterialType.transparency,
                     child: InkWell(
                       onTap: () {
-                        context.router.replaceAll([Home()]);
+                        context.router.replaceAll([const Home()]);
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.home,
                               color: Colors.grey,
                             ),
@@ -164,8 +165,8 @@ class _MenuPageState extends State<MenuPage> {
                     type: MaterialType.transparency,
                     child: InkWell(
                       onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -210,7 +211,7 @@ class _MenuPageState extends State<MenuPage> {
                                     .textTheme
                                     .headlineMedium
                                     ?.merge(
-                                      TextStyle(
+                                      const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       ),
@@ -222,7 +223,7 @@ class _MenuPageState extends State<MenuPage> {
                                     .textTheme
                                     .headlineMedium
                                     ?.merge(
-                                      TextStyle(
+                                      const TextStyle(
                                         color: Colors.black,
                                       ),
                                     ),
@@ -231,7 +232,7 @@ class _MenuPageState extends State<MenuPage> {
                           ),
                         ),
                       ),
-                      Expanded(
+                      const Expanded(
                         flex: 1,
                         child: SizedBox(),
                       ),
@@ -254,7 +255,7 @@ class _MenuPageState extends State<MenuPage> {
                     shrinkWrap: true,
                     itemCount: items.length,
                     separatorBuilder: (BuildContext context, int index) {
-                      return SizedBox(
+                      return const SizedBox(
                         height: 16.0,
                       );
                     },
@@ -268,10 +269,10 @@ class _MenuPageState extends State<MenuPage> {
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16.0,
                 ),
-                MenuButton(
+                const MenuButton(
                   leftPadding: true,
                   title: 'More',
                   icon: 'More-icon.png',
@@ -322,18 +323,18 @@ class MenuButton extends StatelessWidget {
             route = CreateFuelRoute();
             break;
           case 'KppCategory':
-            route = KppCategory();
+            route = const KppCategory();
             break;
           case 'EmergencyDirectory':
-            route = EmergencyDirectory();
+            route = const EmergencyDirectory();
             break;
           default:
             route = null;
         }
         if (route == null) {
-          await context.router.replaceAll([Home()]);
+          await context.router.replaceAll([const Home()]);
         } else {
-          await context.router.replaceAll([Home(), route]);
+          await context.router.replaceAll([const Home(), route]);
         }
       },
       child: Row(
@@ -358,7 +359,7 @@ class MenuButton extends StatelessWidget {
                 ),
                 child: Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 14,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

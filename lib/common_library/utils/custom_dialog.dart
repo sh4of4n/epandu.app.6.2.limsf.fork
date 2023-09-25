@@ -23,8 +23,8 @@ class CustomDialog {
   }) async {
     List<Widget>? actions = <Widget>[
       TextButton(
-        child: Text("Ok"),
         onPressed: onPressed ?? () => context.router.pop(),
+        child: const Text("Ok"),
       )
     ];
 
@@ -84,7 +84,7 @@ class CustomDialog {
         title = Center(
           child: Icon(
             Icons.cancel,
-            color: Color(0xffdd0e0e),
+            color: const Color(0xffdd0e0e),
             size: _defIconSize,
           ),
         );

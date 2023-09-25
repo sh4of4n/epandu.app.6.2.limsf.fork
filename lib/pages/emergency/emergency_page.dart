@@ -16,6 +16,8 @@ import 'package:app_settings/app_settings.dart';
 import '../../router.gr.dart';
 
 class Emergency extends StatefulWidget {
+  const Emergency({super.key});
+
   @override
   _EmergencyState createState() => _EmergencyState();
 }
@@ -72,7 +74,7 @@ class _EmergencyState extends State<Emergency> {
             onPressed: () {
               context.router.pop();
               context.router.pop();
-              AppSettings.openLocationSettings();
+              AppSettings.openAppSettings(type: AppSettingsType.location);
             },
           ),
           TextButton(
@@ -104,7 +106,7 @@ class _EmergencyState extends State<Emergency> {
       decoration: BoxDecoration(
         gradient: RadialGradient(
           colors: [Colors.amber.shade300, primaryColor],
-          stops: [0.5, 1],
+          stops: const [0.5, 1],
           radius: 0.9,
         ),
       ),
@@ -116,8 +118,8 @@ class _EmergencyState extends State<Emergency> {
           title: Text(AppLocalizations.of(context)!.translate('emergency_lbl')),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.view_list),
-              onPressed: () => context.router.push(EmergencyDirectory()),
+              icon: const Icon(Icons.view_list),
+              onPressed: () => context.router.push(const EmergencyDirectory()),
             )
           ],
         ),
@@ -136,7 +138,7 @@ class _EmergencyState extends State<Emergency> {
               SizedBox(
                 height: ScreenUtil().setHeight(20),
               ),
-              Container(
+              SizedBox(
                 width: ScreenUtil().setWidth(1200),
                 child: Text(
                   AppLocalizations.of(context)!.translate('authorities_desc'),
@@ -159,8 +161,8 @@ class _EmergencyState extends State<Emergency> {
                         : CrossFadeState.showSecond,
                     duration: const Duration(milliseconds: 1500),
                     firstChild: AuthoritiesButton(
-                      tileFirstColor: Color(0xff08457e),
-                      tileSecondColor: Color(0xff0499c7),
+                      tileFirstColor: const Color(0xff08457e),
+                      tileSecondColor: const Color(0xff0499c7),
                       label:
                           AppLocalizations.of(context)!.translate('police_lbl'),
                       onTap: _callPoliceNumber,
@@ -172,8 +174,8 @@ class _EmergencyState extends State<Emergency> {
                         baseColor: Colors.grey[300]!,
                         highlightColor: Colors.grey[100]!,
                         child: AuthoritiesButton(
-                          tileFirstColor: Color(0xff08457e),
-                          tileSecondColor: Color(0xff0499c7),
+                          tileFirstColor: const Color(0xff08457e),
+                          tileSecondColor: const Color(0xff0499c7),
                           label: AppLocalizations.of(context)!
                               .translate('police_lbl'),
                           onTap: () {},
@@ -187,8 +189,8 @@ class _EmergencyState extends State<Emergency> {
                         : CrossFadeState.showSecond,
                     duration: const Duration(milliseconds: 1500),
                     firstChild: AuthoritiesButton(
-                      tileFirstColor: Color(0xffc90000),
-                      tileSecondColor: Color(0xffd43b3b),
+                      tileFirstColor: const Color(0xffc90000),
+                      tileSecondColor: const Color(0xffd43b3b),
                       label: AppLocalizations.of(context)!.translate('999_lbl'),
                       onTap: _callEmergencyNumber,
                     ),
@@ -199,8 +201,8 @@ class _EmergencyState extends State<Emergency> {
                         baseColor: Colors.grey[300]!,
                         highlightColor: Colors.grey[100]!,
                         child: AuthoritiesButton(
-                          tileFirstColor: Color(0xffc90000),
-                          tileSecondColor: Color(0xffd43b3b),
+                          tileFirstColor: const Color(0xffc90000),
+                          tileSecondColor: const Color(0xffd43b3b),
                           label: AppLocalizations.of(context)!
                               .translate('999_lbl'),
                           onTap: () {},
@@ -217,6 +219,7 @@ class _EmergencyState extends State<Emergency> {
     );
   }
 
+  @override
   void dispose() {
     super.dispose();
   }

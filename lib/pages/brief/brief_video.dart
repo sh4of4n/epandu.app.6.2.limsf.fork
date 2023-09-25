@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+@RoutePage()
 class BriefVideoPage extends StatefulWidget {
   final Map<String, Object> fileDetail;
   const BriefVideoPage({
@@ -16,9 +18,9 @@ class _BriefVideoPageState extends State<BriefVideoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Brief Detail'),
+        title: const Text('Brief Detail'),
       ),
-      body: Text('data'),
+      body: const Text('data'),
     );
   }
 }

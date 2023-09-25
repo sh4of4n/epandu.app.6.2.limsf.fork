@@ -1,13 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
 
+@RoutePage(name: 'TermsAndCondition')
 class TermsAndCondition extends StatelessWidget {
   final String? termsAndCondition;
 
-  TermsAndCondition({this.termsAndCondition});
+  const TermsAndCondition({super.key, this.termsAndCondition});
 
   @override
   Widget build(BuildContext context) {

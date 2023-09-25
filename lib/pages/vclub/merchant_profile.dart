@@ -8,7 +8,7 @@ import 'package:epandu/common_library/utils/app_localizations.dart';
 class MerchantProfile extends StatefulWidget {
   final data;
 
-  MerchantProfile(this.data);
+  const MerchantProfile(this.data, {super.key});
 
   @override
   _MerchantProfileState createState() => _MerchantProfileState();
@@ -63,7 +63,7 @@ class _MerchantProfileState extends State<MerchantProfile> {
                   child: Text(snapshot.data),
                 );
               }
-              return Column(
+              return const Column(
                 children: <Widget>[],
               );
             default:

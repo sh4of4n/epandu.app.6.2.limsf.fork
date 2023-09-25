@@ -98,17 +98,17 @@ class _InviteFriendState extends State<InviteFriend> {
                 decoration: InputDecoration(
                     labelText: "Search Friend By Mobile No.",
                     hintText: "Search Friend By Mobile No.",
-                    prefixIcon: Icon(Icons.search),
-                    suffixIcon: editingController.text.length > 0
+                    prefixIcon: const Icon(Icons.search),
+                    suffixIcon: editingController.text.isNotEmpty
                         ? IconButton(
-                            icon: Icon(Icons.clear),
+                            icon: const Icon(Icons.clear),
                             onPressed: () {
                               editingController.text = '';
                               getFriendData();
                             },
                           )
                         : null,
-                    border: OutlineInputBorder(
+                    border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10.0)))),
               ),
             ),
@@ -127,7 +127,7 @@ class _InviteFriendState extends State<InviteFriend> {
                 if (inviteResult.data != null && inviteResult.data.length > 0) {
                   InviteRoomResponse inviteRoomResponse = inviteResult.data[0];
 
-                  Room room = new Room(
+                  Room room = Room(
                       id: inviteRoomResponse.iD,
                       roomId: inviteRoomResponse.roomId,
                       merchantUserId: inviteRoomResponse.merchantUserId,
@@ -150,12 +150,14 @@ class _InviteFriendState extends State<InviteFriend> {
                       merchantNo: inviteRoomResponse.merchantNo,
                       picturePath: inviteRoomResponse.picturePath);
                   await dbHelper.saveRoomTable(room);
-                  RoomHistoryModel roomHistoryModel = new RoomHistoryModel(
+                  RoomHistoryModel roomHistoryModel = RoomHistoryModel(
                       roomId: inviteRoomResponse.roomId ?? '',
                       roomName: inviteRoomResponse.roomName ?? '',
                       roomDesc: inviteRoomResponse.roomDesc ?? '',
                       picturePath: inviteRoomResponse.picturePath ?? '');
+
                   context.read<RoomHistory>().addRoom(room: roomHistoryModel);
+
                   //print('Room Insert value ' + val.toString());
                   var resultMembers = await chatRoomRepo
                       .getRoomMembersList(inviteRoomResponse.roomId!);
@@ -192,9 +194,9 @@ class _InviteFriendState extends State<InviteFriend> {
 
                         List<RoomMembers> roomMembers = await dbHelper
                             .getRoomMembersList(inviteRoomResponse.roomId!);
-                        memberByPhoneResponseList
-                            .forEach((memberByPhoneResponse) {
-                          roomMembers.forEach((roomMember) {
+                        for (var memberByPhoneResponse
+                            in memberByPhoneResponseList) {
+                          for (var roomMember in roomMembers) {
                             if (userId != roomMember.userId) {
                               var inviteUserToRoomJson = {
                                 "invitedRoomId": inviteRoomResponse.roomId!,
@@ -210,20 +212,22 @@ class _InviteFriendState extends State<InviteFriend> {
                                 }
                               });
                             }
-                          });
-                        });
+                          }
+                        }
                         await EasyLoading.dismiss();
                         String? name = await localStorage.getName();
                         String splitRoomName = '';
-                        if (inviteRoomResponse.roomName!.contains(','))
+                        if (inviteRoomResponse.roomName!.contains(',')) {
                           splitRoomName = name!.toUpperCase() !=
                                   inviteRoomResponse.roomName!
                                       .split(',')[0]
                                       .toUpperCase()
                               ? inviteRoomResponse.roomName!.split(',')[0]
                               : inviteRoomResponse.roomName!.split(',')[1];
-                        else
+                        } else {
                           splitRoomName = room.roomName!;
+                        }
+
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -240,6 +244,7 @@ class _InviteFriendState extends State<InviteFriend> {
                 } else {
                   await EasyLoading.dismiss();
                   final customDialog = CustomDialog();
+
                   return customDialog.show(
                     context: context,
                     type: DialogType.ERROR,
@@ -258,7 +263,7 @@ class _InviteFriendState extends State<InviteFriend> {
   AppBar getAppBar(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_back,
           size: 24,
         ),
@@ -266,14 +271,14 @@ class _InviteFriendState extends State<InviteFriend> {
           Navigator.pop(context);
         },
       ),
-      title: Row(
+      title: const Row(
         children: [
           Icon(
             Icons.person_add_outlined,
             color: Colors.white,
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0),
             child: Text('Chat With Friend'),
           ),
         ],
@@ -327,11 +332,9 @@ class _InviteFriendState extends State<InviteFriend> {
       if (result.data != null && result.data.length > 0) {
         MemberByPhoneResponse inviteFriendResponse = result.data[0];
         if (memberByPhoneResponseList
-                .where(
-                    (element) => element.userId == inviteFriendResponse.userId)
-                .toList()
-                .length ==
-            0) {
+            .where((element) => element.userId == inviteFriendResponse.userId)
+            .toList()
+            .isEmpty) {
           memberByPhoneResponseList.add(result.data[0]);
         }
         setState(() {
@@ -341,6 +344,7 @@ class _InviteFriendState extends State<InviteFriend> {
       } else {
         await EasyLoading.dismiss();
         final customDialog = CustomDialog();
+
         return customDialog.show(
           context: context,
           type: DialogType.ERROR,
@@ -354,7 +358,7 @@ class _InviteFriendState extends State<InviteFriend> {
   }
 
   Widget _populateListView() {
-    return memberByPhoneResponseList.length > 0
+    return memberByPhoneResponseList.isNotEmpty
         ? ListView.builder(
             itemCount: memberByPhoneResponseList.length,
             itemBuilder: (context, int index) {
@@ -374,7 +378,7 @@ class _InviteFriendState extends State<InviteFriend> {
                       boxShadow: [
                         BoxShadow(
                             color: Colors.grey.withOpacity(.3),
-                            offset: Offset(0, 2),
+                            offset: const Offset(0, 2),
                             blurRadius: 5)
                       ],
                     ),
@@ -386,7 +390,7 @@ class _InviteFriendState extends State<InviteFriend> {
                               ? Image.network(inviteFriendResponse.picturePath!
                                   .replaceAll(removeBracket, '')
                                   .split('\r\n')[0])
-                              : Icon(Icons.account_circle),
+                              : const Icon(Icons.account_circle),
                         ),
                       ),
                     ),
@@ -395,13 +399,13 @@ class _InviteFriendState extends State<InviteFriend> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(inviteFriendResponse.nickName ?? '',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                   subtitle: Text(inviteFriendResponse.phone!),
                 ),
               );
             })
-        : Text('');
+        : const Text('');
   }
 }

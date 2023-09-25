@@ -11,15 +11,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
 
+@RoutePage()
 class ExpFuelListPage extends StatefulWidget {
-  ExpFuelListPage({Key? key}) : super(key: key);
+  const ExpFuelListPage({Key? key}) : super(key: key);
 
   @override
   State<ExpFuelListPage> createState() => _ExpFuelListPageState();
 }
 
 class _ExpFuelListPageState extends State<ExpFuelListPage> {
-  GlobalKey<RefreshIndicatorState> _refresherKey =
+  final GlobalKey<RefreshIndicatorState> _refresherKey =
       GlobalKey<RefreshIndicatorState>();
   final ExpensesRepo expensesRepo = ExpensesRepo();
   Future? expFuelFuture;
@@ -70,7 +71,7 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
       child: Scaffold(
         backgroundColor: Colors.grey.shade200,
         appBar: AppBar(
-          title: Text('Fuel Expenses'),
+          title: const Text('Fuel Expenses'),
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
@@ -81,10 +82,10 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
               });
             }
           },
-          label: Row(
+          label: const Row(
             children: [
               Padding(
-                padding: const EdgeInsets.only(right: 4.0),
+                padding: EdgeInsets.only(right: 4.0),
                 child: Icon(Icons.add),
               ),
               Text('Add Expenses')
@@ -105,7 +106,7 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                 case ConnectionState.waiting:
                 case ConnectionState.none:
                 case ConnectionState.active:
-                  return Center(child: const CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 case ConnectionState.done:
                   if (snapshot.hasError) {
                     return Text(snapshot.error.toString());
@@ -123,10 +124,10 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                               semanticsLabel: 'Acme Logo',
                               width: 200,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 16.0,
                             ),
-                            Text(
+                            const Text(
                               'No Expenses',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -143,10 +144,10 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                         useInkWell: true,
                       ),
                       child: ListView.separated(
-                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
                         itemCount: snapshot.data.data.length + 1,
                         itemBuilder: (BuildContext context, int index) {
-                          return SizedBox(
+                          return const SizedBox(
                             height: 8,
                           );
                         },
@@ -156,7 +157,7 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                               scrollOnExpand: true,
                               scrollOnCollapse: false,
                               child: Container(
-                                color: Color(0xFFFFFFFF),
+                                color: const Color(0xFFFFFFFF),
                                 child: ExpandablePanel(
                                   theme: const ExpandableThemeData(
                                     hasIcon: false,
@@ -165,7 +166,7 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                     tapBodyToCollapse: true,
                                   ),
                                   header: Padding(
-                                    padding: EdgeInsets.all(16),
+                                    padding: const EdgeInsets.all(16),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -176,15 +177,15 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                           children: [
                                             Row(
                                               children: [
-                                                Icon(
+                                                const Icon(
                                                   Icons.today,
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   width: 4,
                                                 ),
                                                 Text(
-                                                  '${DateFormat('yyyy-MM-dd').format(DateTime.parse(snapshot.data.data[index].expDatetime))}',
-                                                  style: TextStyle(
+                                                  DateFormat('yyyy-MM-dd').format(DateTime.parse(snapshot.data.data[index].expDatetime)),
+                                                  style: const TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
@@ -192,13 +193,13 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                             ),
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 8,
                                         ),
                                         Row(
                                           children: [
-                                            Icon(Icons.pin),
-                                            SizedBox(
+                                            const Icon(Icons.pin),
+                                            const SizedBox(
                                               width: 4,
                                             ),
                                             Text(
@@ -206,13 +207,13 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                             ),
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 8,
                                         ),
                                         Row(
                                           children: [
-                                            Icon(Icons.format_list_bulleted),
-                                            SizedBox(
+                                            const Icon(Icons.format_list_bulleted),
+                                            const SizedBox(
                                               width: 4,
                                             ),
                                             Text(
@@ -220,15 +221,15 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                             ),
                                           ],
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 8,
                                         ),
                                         Row(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Icon(Icons.description),
-                                            SizedBox(
+                                            const Icon(Icons.description),
+                                            const SizedBox(
                                               width: 4,
                                             ),
                                             Expanded(
@@ -236,10 +237,10 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                                 snapshot.data.data[index]
                                                     .description,
                                                 trimLines: 2,
-                                                preDataTextStyle: TextStyle(
+                                                preDataTextStyle: const TextStyle(
                                                     fontWeight:
                                                         FontWeight.w500),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.black),
                                                 colorClickableText: Colors.pink,
                                                 trimMode: TrimMode.Line,
@@ -255,7 +256,7 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                                       .data.data[index].amount,
                                                 ),
                                               ),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -264,7 +265,7 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                       ],
                                     ),
                                   ),
-                                  collapsed: SizedBox(),
+                                  collapsed: const SizedBox(),
                                   expanded: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
@@ -278,9 +279,9 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                               return AlertDialog(
                                                 title: const Text(
                                                     'Delete Fuel Expenses'),
-                                                content: SingleChildScrollView(
+                                                content: const SingleChildScrollView(
                                                   child: ListBody(
-                                                    children: const <Widget>[
+                                                    children: <Widget>[
                                                       Text(
                                                           'Are you sure want to delete?'),
                                                     ],
@@ -311,7 +312,7 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                             },
                                           );
                                         },
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.delete,
                                         ),
                                       ),
@@ -344,7 +345,7 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                             });
                                           }
                                         },
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.edit,
                                         ),
                                       ),
@@ -367,7 +368,7 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                       ),
                     );
                   }
-                  return Center(child: const CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
               }
             },
           ),

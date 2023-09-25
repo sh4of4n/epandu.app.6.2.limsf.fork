@@ -22,7 +22,7 @@ class ChatRoomRepo {
   Future<Response> createChatSupportByMember({String? merchantNo}) async {
     String? caUid = await localStorage.getCaUid();
     String? caPwd = await localStorage.getCaPwd();
-    if (merchantNo == null) merchantNo = await localStorage.getMerchantDbCode();
+    merchantNo ??= await localStorage.getMerchantDbCode();
     String? mLoginId = await localStorage.getUserPhone();
     String? deviceId = await localStorage.getLoginDeviceId();
 
@@ -102,15 +102,7 @@ class ChatRoomRepo {
     String? deviceId = await localStorage.getLoginDeviceId();
     String? appCode = appConfig.appCode;
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
-        '&caUid=$caUid' +
-        '&caPwd=$caPwd' +
-        '&merchantNo=$merchantNo' +
-        '&mLoginId=$mLoginId' +
-        '&appId=$appId' +
-        '&deviceId=$deviceId' +
-        '&roomId=$roomId' +
-        '&appCode=$appCode';
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantNo=$merchantNo&mLoginId=$mLoginId&appId=$appId&deviceId=$deviceId&roomId=$roomId&appCode=$appCode';
 
     var response = await networking.getData(
       path: 'GetRoomByMember?$path',
@@ -135,15 +127,7 @@ class ChatRoomRepo {
     //String? deviceId = await localStorage.getLoginDeviceId();
     String? appCode = appConfig.appCode;
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
-        '&caUid=$caUid' +
-        '&caPwd=$caPwd' +
-        '&merchantNo=$merchantNo' +
-        '&loginId=$mLoginId' +
-        '&appId=$appId' +
-        // '&deviceId=$deviceId' +
-        '&appCode=$appCode' +
-        '&roomId=$roomId';
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantNo=$merchantNo&loginId=$mLoginId&appId=$appId&appCode=$appCode&roomId=$roomId';
     var response = await networking.getData(
       path: 'GetMemberByRoom?$path',
     );
@@ -168,15 +152,7 @@ class ChatRoomRepo {
     String? deviceId = await localStorage.getLoginDeviceId();
     String? appCode = appConfig.appCode;
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
-        '&caUid=$caUid' +
-        '&caPwd=$caPwd' +
-        '&merchantNo=$merchantNo' +
-        '&mLoginId=$mLoginId' +
-        '&appId=$appId' +
-        '&deviceId=$deviceId' +
-        '&appCode=$appCode' +
-        '&phoneNumber=$phoneNumber';
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantNo=$merchantNo&mLoginId=$mLoginId&appId=$appId&deviceId=$deviceId&appCode=$appCode&phoneNumber=$phoneNumber';
     var response = await networking.getData(
       path: 'GetMemberByPhoneNumber?$path',
     );

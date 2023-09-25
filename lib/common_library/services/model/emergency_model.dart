@@ -6,18 +6,18 @@ class DefaultEmergencyContactResponse {
 
   DefaultEmergencyContactResponse.fromJson(Map<String, dynamic> json) {
     if (json['SosContactHelpDesk'] != null) {
-      sosContactHelpDesk = new List<SosContactHelpDesk>.empty(growable: true);
+      sosContactHelpDesk = List<SosContactHelpDesk>.empty(growable: true);
       json['SosContactHelpDesk'].forEach((v) {
-        sosContactHelpDesk!.add(new SosContactHelpDesk.fromJson(v));
+        sosContactHelpDesk!.add(SosContactHelpDesk.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.sosContactHelpDesk != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (sosContactHelpDesk != null) {
       data['SosContactHelpDesk'] =
-          this.sosContactHelpDesk!.map((v) => v.toJson()).toList();
+          sosContactHelpDesk!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -67,19 +67,19 @@ class SosContactHelpDesk {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['sos_call_phone'] = this.sosCallPhone;
-    data['sos_sms_phone'] = this.sosSmsPhone;
-    data['police_call_phone'] = this.policeCallPhone;
-    data['police_sms_phone'] = this.policeSmsPhone;
-    data['ambulance_call_phone'] = this.ambulanceCallPhone;
-    data['ambulance_sms_phone'] = this.ambulanceSmsPhone;
-    data['auto_assist_call_phone'] = this.autoAssistCallPhone;
-    data['auto_assist_sms_phone'] = this.autoAssistSmsPhone;
-    data['sos_system_sms_phone'] = this.sosSystemSmsPhone;
-    data['loc_request_priority'] = this.locRequestPriority;
-    data['loc_request_fastest_interval'] = this.locRequestFastestInterval;
-    data['loc_request_interval'] = this.locRequestInterval;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['sos_call_phone'] = sosCallPhone;
+    data['sos_sms_phone'] = sosSmsPhone;
+    data['police_call_phone'] = policeCallPhone;
+    data['police_sms_phone'] = policeSmsPhone;
+    data['ambulance_call_phone'] = ambulanceCallPhone;
+    data['ambulance_sms_phone'] = ambulanceSmsPhone;
+    data['auto_assist_call_phone'] = autoAssistCallPhone;
+    data['auto_assist_sms_phone'] = autoAssistSmsPhone;
+    data['sos_system_sms_phone'] = sosSystemSmsPhone;
+    data['loc_request_priority'] = locRequestPriority;
+    data['loc_request_fastest_interval'] = locRequestFastestInterval;
+    data['loc_request_interval'] = locRequestInterval;
     return data;
   }
 }
@@ -292,17 +292,17 @@ class GetSosContactSortByNearestResponse {
 
   GetSosContactSortByNearestResponse.fromJson(Map<String, dynamic> json) {
     if (json['SosContact'] != null) {
-      sosContact = new List<SosContact>.empty(growable: true);
+      sosContact = List<SosContact>.empty(growable: true);
       json['SosContact'].forEach((v) {
-        sosContact!.add(new SosContact.fromJson(v));
+        sosContact!.add(SosContact.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.sosContact != null) {
-      data['SosContact'] = this.sosContact!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (sosContact != null) {
+      data['SosContact'] = sosContact!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -391,32 +391,32 @@ class SosContact {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['sos_contact_type'] = this.sosContactType;
-    data['sos_contact_subtype'] = this.sosContactSubtype;
-    data['sos_contact_code'] = this.sosContactCode;
-    data['sos_contact_name'] = this.sosContactName;
-    data['add'] = this.add;
-    data['phone'] = this.phone;
-    data['latitude'] = this.latitude;
-    data['longtitude'] = this.longtitude;
-    data['area_code'] = this.areaCode;
-    data['skip_call'] = this.skipCall;
-    data['remark'] = this.remark;
-    data['create_user'] = this.createUser;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['row_key'] = this.rowKey;
-    data['lastupload'] = this.lastupload;
-    data['transtamp'] = this.transtamp;
-    data['deleted'] = this.deleted;
-    data['last_edited_by'] = this.lastEditedBy;
-    data['created_by'] = this.createdBy;
-    data['distance'] = this.distance;
-    data['isEmpty'] = this.isEmpty;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['sos_contact_type'] = sosContactType;
+    data['sos_contact_subtype'] = sosContactSubtype;
+    data['sos_contact_code'] = sosContactCode;
+    data['sos_contact_name'] = sosContactName;
+    data['add'] = add;
+    data['phone'] = phone;
+    data['latitude'] = latitude;
+    data['longtitude'] = longtitude;
+    data['area_code'] = areaCode;
+    data['skip_call'] = skipCall;
+    data['remark'] = remark;
+    data['create_user'] = createUser;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['row_key'] = rowKey;
+    data['lastupload'] = lastupload;
+    data['transtamp'] = transtamp;
+    data['deleted'] = deleted;
+    data['last_edited_by'] = lastEditedBy;
+    data['created_by'] = createdBy;
+    data['distance'] = distance;
+    data['isEmpty'] = isEmpty;
     return data;
   }
 }
@@ -428,17 +428,17 @@ class GetPandemicPDFReportResponse {
 
   GetPandemicPDFReportResponse.fromJson(Map<String, dynamic> json) {
     if (json['PDF'] != null) {
-      pDF = new List<PDF>.empty(growable: true);
+      pDF = List<PDF>.empty(growable: true);
       json['PDF'].forEach((v) {
-        pDF!.add(new PDF.fromJson(v));
+        pDF!.add(PDF.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.pDF != null) {
-      data['PDF'] = this.pDF!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (pDF != null) {
+      data['PDF'] = pDF!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -454,8 +454,8 @@ class PDF {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['file_name'] = this.fileName;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['file_name'] = fileName;
     return data;
   }
 }
@@ -468,18 +468,18 @@ class GetPandemicTrackResponse {
 
   GetPandemicTrackResponse.fromJson(Map<String, dynamic> json) {
     if (json['PandemicTrack'] != null) {
-      pandemicTrack = new List<PandemicTrack>.empty(growable: true);
+      pandemicTrack = List<PandemicTrack>.empty(growable: true);
       json['PandemicTrack'].forEach((v) {
-        pandemicTrack!.add(new PandemicTrack.fromJson(v));
+        pandemicTrack!.add(PandemicTrack.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.pandemicTrack != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (pandemicTrack != null) {
       data['PandemicTrack'] =
-          this.pandemicTrack!.map((v) => v.toJson()).toList();
+          pandemicTrack!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -547,25 +547,25 @@ class PandemicTrack {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['merchant_no'] = this.merchantNo;
-    data['phone'] = this.phone;
-    data['name'] = this.name;
-    data['tracking_date'] = this.trackingDate;
-    data['tracking_time'] = this.trackingTime;
-    data['body_temperature'] = this.bodyTemperature;
-    data['scan_code'] = this.scanCode;
-    data['deleted'] = this.deleted;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['row_key'] = this.rowKey;
-    data['transtamp'] = this.transtamp;
-    data['lastupload'] = this.lastupload;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['merchant_no'] = merchantNo;
+    data['phone'] = phone;
+    data['name'] = name;
+    data['tracking_date'] = trackingDate;
+    data['tracking_time'] = trackingTime;
+    data['body_temperature'] = bodyTemperature;
+    data['scan_code'] = scanCode;
+    data['deleted'] = deleted;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['row_key'] = rowKey;
+    data['transtamp'] = transtamp;
+    data['lastupload'] = lastupload;
     return data;
   }
 }

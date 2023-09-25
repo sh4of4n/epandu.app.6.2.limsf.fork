@@ -35,13 +35,16 @@ import 'package:url_launcher/url_launcher.dart';
 import 'home_page_header.dart';
 import 'home_top_menu.dart';
 
+@RoutePage(name: 'Home')
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final fpxRepo = FpxRepo();
   final profileRepo = ProfileRepo();
   final authRepo = AuthRepo();
@@ -77,7 +80,7 @@ class _HomeState extends State<Home> {
   List<dynamic> items = [];
   final appConfig = AppConfig();
 
-  ScrollController _scrollController = new ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   final RegExp removeBracket =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
@@ -100,22 +103,22 @@ class _HomeState extends State<Home> {
     {
       'image': 'assets/menu/eLearning-icon.png',
       'title': 'eLearning',
-      'router': KppCategory(),
+      'router': const KppCategory(),
     },
     {
       'image': 'assets/menu/Fovourite-icon.png',
       'title': 'Favourite',
-      'router': FavouritePlaceListRoute(),
+      'router': const FavouritePlaceListRoute(),
     },
     {
       'image': 'assets/menu/Directory-and-rating-icon.png',
       'title': 'Directory & Rating',
-      'router': EmergencyDirectory(),
+      'router': const EmergencyDirectory(),
     },
     {
       'image': 'assets/menu/Jobs-icon.png',
       'title': 'Jobs',
-      'router': BriefListRoute(),
+      'router': const BriefListRoute(),
     },
     {
       'image': 'assets/menu/More-icon.png',
@@ -124,7 +127,7 @@ class _HomeState extends State<Home> {
     },
   ];
 
-  List<Map<String, String>> _productCategory = [
+  final List<Map<String, String>> _productCategory = [
     {
       'title': 'Tyre',
       'image':
@@ -159,23 +162,22 @@ class _HomeState extends State<Home> {
     _getAppVersion();
     getUnreadNotificationCount();
 
-    _scrollController
-      ..addListener(() {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        setState(() {
+          _startIndex += 10;
+        });
+
+        if (_message!.isEmpty) {
           setState(() {
-            _startIndex += 10;
+            _loadMore = true;
           });
 
-          if (_message!.isEmpty) {
-            setState(() {
-              _loadMore = true;
-            });
-
-            _getActiveFeed();
-          }
+          _getActiveFeed();
         }
-      });
+      }
+    });
   }
 
   loadUrl(feed, BuildContext context) async {
@@ -187,7 +189,6 @@ class _HomeState extends State<Home> {
       var merchantNo = await localStorage.getMerchantDbCode();
 
       var result = await profileRepo.getUserProfile(context: context);
-
       if (result.isSuccess) {
         // String merchantNo = 'P1001';
         String? phone = result.data[0].phone;
@@ -217,8 +218,7 @@ class _HomeState extends State<Home> {
             _getIcName(
                 udf: feed.udfReturnParameter,
                 icName: Uri.encodeComponent(icName)) +
-            _getIcNo(
-                udf: feed.udfReturnParameter, icNo: icNo == null ? '' : icNo) +
+            _getIcNo(udf: feed.udfReturnParameter, icNo: icNo ?? '') +
             _getPhone(udf: feed.udfReturnParameter, phone: phone) +
             _getEmail(udf: feed.udfReturnParameter, email: email) +
             _getBirthDate(
@@ -333,7 +333,7 @@ class _HomeState extends State<Home> {
               Provider.of<HomeLoadingModel>(context, listen: false)
                   .loadingStatus(false);
               context.router.pop();
-              AppSettings.openLocationSettings();
+              AppSettings.openAppSettings(type: AppSettingsType.location);
             },
           ),
           TextButton(
@@ -398,10 +398,11 @@ class _HomeState extends State<Home> {
             .updateNotificationBadge(
           notificationBadge: int.tryParse(result.data[0].msgCount),
         );
-      } else
+      } else {
         Provider.of<NotificationCount>(context, listen: false).setShowBadge(
           showBadge: false,
         );
+      }
     } else {
       Provider.of<NotificationCount>(context, listen: false).setShowBadge(
         showBadge: false,
@@ -530,22 +531,23 @@ class _HomeState extends State<Home> {
       noOfRecords: 10,
     );
     if (result.isSuccess) {
-      if (result.data.length > 0 && mounted)
+      if (result.data.length > 0 && mounted) {
         setState(() {
           for (int i = 0; i < result.data.length; i += 1) {
             items.add(result.data[i]);
           }
         });
-      else if (mounted)
+      } else if (mounted)
         setState(() {
           _loadMore = false;
         });
     } else {
-      if (mounted)
+      if (mounted) {
         setState(() {
           _message = result.message;
           _loadMore = false;
         });
+      }
     }
 
     setState(() {
@@ -686,7 +688,7 @@ class _HomeState extends State<Home> {
                       Uri.parse(result.data[0].newVerGooglestoreUrl));
                 }
               },
-              child: Text('Ok'),
+              child: const Text('Ok'),
             ),
           ],
           type: DialogType.GENERAL,
@@ -704,7 +706,7 @@ class _HomeState extends State<Home> {
             Colors.white,
             primaryColor,
           ],
-          stops: [0.45, 0.65],
+          stops: const [0.45, 0.65],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -733,23 +735,23 @@ class _HomeState extends State<Home> {
         //   iconText: _iconText,
         //   // positionStream: positionStream,
         // ),
-        floatingActionButton: Container(
+        floatingActionButton: SizedBox(
           width: 75,
           child: FittedBox(
             child: FloatingActionButton(
               onPressed: () {
-                context.router.push(EmergencyDirectory());
+                context.router.push(const EmergencyDirectory());
               },
+              backgroundColor: Colors.transparent,
               child: Image.asset(
                 ImagesConstant().sos,
               ),
-              backgroundColor: Colors.transparent,
             ),
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(
-          shape: CircularNotchedRectangle(),
+          shape: const CircularNotchedRectangle(),
           color: Colors.white,
           child: IconTheme(
             data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
@@ -760,13 +762,13 @@ class _HomeState extends State<Home> {
                   type: MaterialType.transparency,
                   child: InkWell(
                     onTap: () {},
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.home,
                             color: Colors.grey,
                           ),
@@ -785,8 +787,8 @@ class _HomeState extends State<Home> {
                   type: MaterialType.transparency,
                   child: InkWell(
                     onTap: () {},
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -851,7 +853,7 @@ class _HomeState extends State<Home> {
                             instituteLogo: instituteLogo,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8.0,
                         ),
                         HomeTopMenu(
@@ -887,7 +889,8 @@ class _HomeState extends State<Home> {
                                           context.router.push(EpanduCategory());
                                           break;
                                         case 'ENROLLMENT':
-                                          context.router.push(Enrollment());
+                                          context.router
+                                              .push(const Enrollment());
                                           break;
                                         case 'DI_ENROLLMENT':
                                           String packageCodeJson =
@@ -908,10 +911,12 @@ class _HomeState extends State<Home> {
                                                   getOnlinePaymentListByIcNo());
                                           break;
                                         case 'KPP':
-                                          context.router.push(KppCategory());
+                                          context.router
+                                              .push(const KppCategory());
                                           break;
                                         case 'VCLUB':
-                                          context.router.push(ValueClub());
+                                          context.router
+                                              .push(const ValueClub());
                                           break;
                                         case 'MULTILVL':
                                           context.router.push(
@@ -932,7 +937,7 @@ class _HomeState extends State<Home> {
                                 child: Container(
                                   height: 200,
                                   width: 300,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(10),
@@ -941,7 +946,7 @@ class _HomeState extends State<Home> {
                                   child: Column(
                                     children: [
                                       ClipRRect(
-                                        borderRadius: BorderRadius.only(
+                                        borderRadius: const BorderRadius.only(
                                           topLeft: Radius.circular(10),
                                           topRight: Radius.circular(10),
                                         ),
@@ -957,7 +962,7 @@ class _HomeState extends State<Home> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(
                                           children: [
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 8,
                                             ),
                                             Expanded(
@@ -966,7 +971,7 @@ class _HomeState extends State<Home> {
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                             ),
-                                            Icon(Icons.chevron_right),
+                                            const Icon(Icons.chevron_right),
                                           ],
                                         ),
                                       ),
@@ -977,13 +982,13 @@ class _HomeState extends State<Home> {
                             },
                             itemCount: items.length + 1,
                             itemBuilder: (BuildContext ctx, int index) {
-                              return SizedBox(
+                              return const SizedBox(
                                 width: 8,
                               );
                             },
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         GridView.count(
@@ -1019,7 +1024,7 @@ class _HomeState extends State<Home> {
                                         flex: 1,
                                         child: Text(
                                           e['title'],
-                                          style: TextStyle(),
+                                          style: const TextStyle(),
                                           // overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
@@ -1186,7 +1191,7 @@ class _HomeState extends State<Home> {
                             //   ),
                             // ],
                             ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         Column(
@@ -1209,14 +1214,14 @@ class _HomeState extends State<Home> {
                                       // );
                                       // launchUrl(telLaunchUri);
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       'Discover More',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
-                                  Icon(Icons.chevron_right),
+                                  const Icon(Icons.chevron_right),
                                 ],
                               ),
                             ),
@@ -1233,7 +1238,7 @@ class _HomeState extends State<Home> {
                                     width: 150,
                                     height: 150,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
+                                      borderRadius: const BorderRadius.all(
                                         Radius.circular(5),
                                       ),
                                       gradient: LinearGradient(
@@ -1275,7 +1280,7 @@ class _HomeState extends State<Home> {
                                 },
                                 itemCount: _productCategory.length + 1,
                                 itemBuilder: (BuildContext ctx, int index) {
-                                  return SizedBox(
+                                  return const SizedBox(
                                     width: 8,
                                   );
                                 },
@@ -1283,14 +1288,14 @@ class _HomeState extends State<Home> {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8.0,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
+                            const Padding(
+                              padding: EdgeInsets.symmetric(
                                 horizontal: 16.0,
                               ),
                               child: Row(
@@ -1317,7 +1322,7 @@ class _HomeState extends State<Home> {
                                   return Container(
                                     height: 200,
                                     width: 300,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(10),
@@ -1326,7 +1331,7 @@ class _HomeState extends State<Home> {
                                     child: Column(
                                       children: [
                                         ClipRRect(
-                                          borderRadius: BorderRadius.only(
+                                          borderRadius: const BorderRadius.only(
                                             topLeft: Radius.circular(10),
                                             topRight: Radius.circular(10),
                                           ),
@@ -1337,8 +1342,8 @@ class _HomeState extends State<Home> {
                                             height: 165,
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                        const Padding(
+                                          padding: EdgeInsets.all(8.0),
                                           child: Row(
                                             children: [
                                               SizedBox(
@@ -1356,7 +1361,7 @@ class _HomeState extends State<Home> {
                                 },
                                 itemCount: 10,
                                 itemBuilder: (BuildContext ctx, int index) {
-                                  return SizedBox(
+                                  return const SizedBox(
                                     width: 8,
                                   );
                                 },
@@ -1364,14 +1369,14 @@ class _HomeState extends State<Home> {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8.0,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
+                            const Padding(
+                              padding: EdgeInsets.symmetric(
                                 horizontal: 16.0,
                               ),
                               child: Row(
@@ -1398,7 +1403,7 @@ class _HomeState extends State<Home> {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 64.0,
                         ),
                         // Feeds(

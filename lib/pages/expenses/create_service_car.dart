@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -28,25 +29,26 @@ class UserModel {
 
   ///this method will prevent the override of toString
   String userAsString() {
-    return '#${this.id} ${this.name}';
+    return '#$id $name';
   }
 
   ///this method will prevent the override of toString
   bool userFilterByCreationDate(String filter) {
-    return this.createdAt?.toString().contains(filter) ?? false;
+    return createdAt?.toString().contains(filter) ?? false;
   }
 
   ///custom comparing function to check if two users are equal
   bool isEqual(UserModel model) {
-    return this.id == model.id;
+    return id == model.id;
   }
 
   @override
   String toString() => name;
 }
 
+@RoutePage()
 class CreateServiceCarPage extends StatefulWidget {
-  CreateServiceCarPage({Key? key}) : super(key: key);
+  const CreateServiceCarPage({Key? key}) : super(key: key);
 
   @override
   State<CreateServiceCarPage> createState() => _CreateServiceCarPageState();
@@ -59,7 +61,7 @@ class _CreateServiceCarPageState extends State<CreateServiceCarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Service Car'),
+        title: const Text('Service Car'),
       ),
       body: SingleChildScrollView(
         child: FormBuilder(
@@ -77,14 +79,14 @@ class _CreateServiceCarPageState extends State<CreateServiceCarPage> {
                         initialEntryMode: DatePickerEntryMode.calendarOnly,
                         initialValue: DateTime.now(),
                         inputType: InputType.date,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             labelText: 'Date',
                             filled: true,
                             icon: Icon(Icons.calendar_today)),
                         format: DateFormat('dd/MM/yyyy'),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
                     Expanded(
@@ -94,7 +96,7 @@ class _CreateServiceCarPageState extends State<CreateServiceCarPage> {
                         initialEntryMode: DatePickerEntryMode.input,
                         initialValue: DateTime.now(),
                         inputType: InputType.time,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Time',
                           filled: true,
                         ),
@@ -102,12 +104,12 @@ class _CreateServiceCarPageState extends State<CreateServiceCarPage> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 FormBuilderTextField(
                   name: 'milage',
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Milage',
                     filled: true,
                     icon: Icon(Icons.onetwothree),
@@ -119,7 +121,7 @@ class _CreateServiceCarPageState extends State<CreateServiceCarPage> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 // DropdownSearch<UserModel>.multiSelection(
@@ -167,7 +169,7 @@ class _CreateServiceCarPageState extends State<CreateServiceCarPage> {
                 //   ),
                 //   dropdownBuilder: _customDropDownExampleMultiSelection,
                 // ),
-                Row(
+                const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(Icons.abc_outlined),
@@ -190,7 +192,7 @@ class _CreateServiceCarPageState extends State<CreateServiceCarPage> {
                 ),
                 FormBuilderDropdown<String>(
                   name: 'fuel',
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Fuel',
                     filled: true,
                     icon: Icon(Icons.local_gas_station),
@@ -206,7 +208,7 @@ class _CreateServiceCarPageState extends State<CreateServiceCarPage> {
                       )
                       .toList(),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 Row(
@@ -215,7 +217,7 @@ class _CreateServiceCarPageState extends State<CreateServiceCarPage> {
                       flex: 3,
                       child: FormBuilderTextField(
                         name: 'price',
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Price/L',
                           filled: true,
                           icon: Icon(Icons.attach_money),
@@ -228,14 +230,14 @@ class _CreateServiceCarPageState extends State<CreateServiceCarPage> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
                     Expanded(
                       flex: 2,
                       child: FormBuilderTextField(
                         name: 'total',
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Total Amount',
                           filled: true,
                         ),
@@ -247,14 +249,14 @@ class _CreateServiceCarPageState extends State<CreateServiceCarPage> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
                     Expanded(
                       flex: 2,
                       child: FormBuilderTextField(
                         name: 'liter',
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             labelText: 'Liter',
                             filled: true,
                             suffix: Text('L')),
@@ -268,24 +270,24 @@ class _CreateServiceCarPageState extends State<CreateServiceCarPage> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
                 FormBuilderSwitch(
                   title: const Text('Is the fuel tank full?'),
                   name: 'full_tank',
                   initialValue: false,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: InputBorder.none,
                     icon: Icon(Icons.local_drink),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 FormBuilderTextField(
                   name: 'petrol_station',
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Petrol Station',
                     filled: true,
                     icon: Icon(Icons.location_on),
@@ -310,7 +312,7 @@ class _CreateServiceCarPageState extends State<CreateServiceCarPage> {
     bool isSelected,
   ) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
       decoration: !isSelected
           ? null
           : BoxDecoration(
@@ -322,7 +324,7 @@ class _CreateServiceCarPageState extends State<CreateServiceCarPage> {
         selected: isSelected,
         title: Text(item?.name ?? ''),
         subtitle: Text(item?.createdAt?.toString() ?? ''),
-        leading: CircleAvatar(
+        leading: const CircleAvatar(
             // this does not work - throws 404 error
             // backgroundImage: NetworkImage(item.avatar ?? ''),
             ),
@@ -333,7 +335,7 @@ class _CreateServiceCarPageState extends State<CreateServiceCarPage> {
   Widget _customDropDownExampleMultiSelection(
       BuildContext context, List<UserModel?> selectedItems) {
     if (selectedItems.isEmpty) {
-      return ListTile(
+      return const ListTile(
         contentPadding: EdgeInsets.all(0),
         leading: CircleAvatar(),
         title: Text("No item selected"),
@@ -346,8 +348,8 @@ class _CreateServiceCarPageState extends State<CreateServiceCarPage> {
           padding: const EdgeInsets.all(4.0),
           child: Container(
             child: ListTile(
-              contentPadding: EdgeInsets.all(0),
-              leading: CircleAvatar(
+              contentPadding: const EdgeInsets.all(0),
+              leading: const CircleAvatar(
                   // this does not work - throws 404 error
                   // backgroundImage: NetworkImage(item.avatar ?? ''),
                   ),

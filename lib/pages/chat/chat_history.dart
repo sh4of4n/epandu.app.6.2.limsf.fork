@@ -73,8 +73,7 @@ class ChatHistory extends ChangeNotifier {
         element.messageId == messageId && element.roomId == roomId);
     if (index != -1) {
       getMessageDetailsList.removeAt(index);
-      print(
-          'messageId_ ' + messageId.toString() + ' Index_' + index.toString());
+      print('messageId_ $messageId Index_$index');
       notifyListeners();
     }
   }
@@ -95,32 +94,31 @@ class ChatHistory extends ChangeNotifier {
 
   Future<List<MessageDetails>> getLazyLoadChatHistory(
       String roomId, int offset, int batchSize) async {
-    List<MessageDetails> pastMessageDetailsList = getMessageDetailsList;
-    getMessageDetailsList = [];
-    getMessageDetailsList =
+    // Fetch new messages from the database
+    List<MessageDetails> newMessageDetailsList =
         await dbHelper.getLazyLoadMsgDetailList(roomId, batchSize, offset);
 
-    if (getMessageDetailsList.length > 0) {
-      //pastMessageDetailsList.addAll(getMessageDetailsList);
-      // pastMessageDetailsList.addAll(getMessageDetailsList.where((message) {
-      //   // Check if the value already exists in the list
-      //   return !pastMessageDetailsList.contains(message);
-      // }));
-      pastMessageDetailsList.addAll(getMessageDetailsList.where((newMessage) {
-        // Check if the message_id already exists in the list
-        return !pastMessageDetailsList.any((existingMessage) =>
-            existingMessage.messageId == newMessage.messageId);
-      }));
-
-      getMessageDetailsList = pastMessageDetailsList;
-    } else {
+    if (newMessageDetailsList.isEmpty) {
+      // No new messages were fetched, set the flag accordingly
       isDataExist = false;
-      getMessageDetailsList = pastMessageDetailsList;
+    } else {
+      // Merge the new messages with the existing ones based on messageId
+      for (var newMessage in newMessageDetailsList) {
+        if (!getMessageDetailsList.any((existingMessage) =>
+            existingMessage.messageId == newMessage.messageId)) {
+          // Add the new message if it doesn't exist in the current list
+          getMessageDetailsList.add(newMessage);
+        }
+      }
     }
+
+    // Sort the combined list by messageId
     getMessageDetailsList.sort((a, b) => a.messageId!.compareTo(b.messageId!));
 
+    // Notify listeners
     notifyListeners();
 
+    // Return the updated list of messages
     return getMessageDetailsList;
   }
 }

@@ -14,7 +14,7 @@ class HomePageHeader extends StatelessWidget {
   final String? instituteLogo;
   final positionStream;
 
-  HomePageHeader({this.instituteLogo, this.positionStream});
+  HomePageHeader({super.key, this.instituteLogo, this.positionStream});
 
   final formatter = NumberFormat('#,##0.00');
   final image = ImagesConstant();
@@ -26,19 +26,20 @@ class HomePageHeader extends StatelessWidget {
       diList.add(Hive.box('di_list').getAt(i) as RegisteredDiArmasterProfile?);
     }
 
-    if (Hive.box('di_list').length > 1)
+    if (Hive.box('di_list').length > 1) {
       return Expanded(
         flex: 1,
         child: InkWell(
           onTap: () => selectDi(context, diList),
-          child: Icon(Icons.keyboard_arrow_down),
+          child: const Icon(Icons.keyboard_arrow_down),
         ),
       );
-    else
+    } else {
       return Expanded(
         flex: 1,
         child: Container(),
       );
+    }
   }
 
   selectDi(BuildContext context, diList) {
@@ -57,7 +58,7 @@ class HomePageHeader extends StatelessWidget {
           child: AspectRatio(
             aspectRatio: 28 / 9,
             child: InkWell(
-              onTap: () => context.router.push(MerchantProfile()),
+              onTap: () => context.router.push(const MerchantProfile()),
               child: FadeInImage(
                 alignment: Alignment.center,
                 height: 350.h,

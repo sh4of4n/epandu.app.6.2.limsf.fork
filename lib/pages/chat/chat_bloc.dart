@@ -5,9 +5,9 @@ import 'package:socket_io_client/socket_io_client.dart';
 
 class ChatBloc {
   final Socket socket;
-  StreamController<String> _textFieldCtrl = new BehaviorSubject();
-  StreamController<bool> _submitBtnCtrl = new BehaviorSubject();
-  StreamController<String?> _chatItemsCtrl = new BehaviorSubject();
+  final StreamController<String> _textFieldCtrl = BehaviorSubject();
+  final StreamController<bool> _submitBtnCtrl = BehaviorSubject();
+  final StreamController<String?> _chatItemsCtrl = BehaviorSubject();
 
   ChatBloc(this.socket) {
     _textFieldCtrl.stream.listen((value) {

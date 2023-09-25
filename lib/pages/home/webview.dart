@@ -31,11 +31,12 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 // import '../../router.gr.dart';
 
+@RoutePage(name: 'Webview')
 class Webview extends StatefulWidget {
   final String? url;
   final String? backType;
 
-  Webview({required this.url, this.backType});
+  const Webview({super.key, required this.url, this.backType});
 
   @override
   _WebviewState createState() => _WebviewState();
@@ -189,6 +190,7 @@ Page resource error:
                                   double.parse(lng!),
                                 ),
                               );
+
                               context.router.pop();
                             },
                             title: Text(map.mapName),
@@ -220,13 +222,14 @@ Page resource error:
             if (createChatSupportResult.data != null &&
                 createChatSupportResult.data.length > 0) {
               await context.read<SocketClientHelper>().loginUserRoom();
+
               String userid = await localStorage.getUserId() ?? '';
               CreateRoomResponse getCreateRoomResponse =
                   createChatSupportResult.data[0];
 
               List<RoomMembers> roomMembers = await dbHelper
                   .getRoomMembersList(getCreateRoomResponse.roomId!);
-              roomMembers.forEach((roomMember) {
+              for (var roomMember in roomMembers) {
                 if (userid != roomMember.userId) {
                   var inviteUserToRoomJson = {
                     "invitedRoomId": getCreateRoomResponse.roomId!,
@@ -241,7 +244,7 @@ Page resource error:
                     }
                   });
                 }
-              });
+              }
 
               Navigator.push(
                 context,
@@ -254,12 +257,16 @@ Page resource error:
                   ),
                 ),
               );
+
               //print(message.message.toString());
               //context.router.push(RoomList());
             }
           } else {
-            if (createChatSupportResult.message!.contains('add merchant user'))
+            if (createChatSupportResult.message!
+                .contains('add merchant user')) {
               _message = 'Not Avaliable Yet';
+            }
+
             customDialog.show(
                 context: context,
                 content: _message ?? "Error",
@@ -319,7 +326,7 @@ Page resource error:
       ),
       child: Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.black, //change your color here
           ),
           title: FadeInImage(

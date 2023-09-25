@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
+@RoutePage()
 class PhotoViewPage extends StatefulWidget {
   final List url;
   final String title;
@@ -59,7 +61,7 @@ class _PhotoViewPageState extends State<PhotoViewPage> {
   }
 
   PhotoViewGalleryPageOptions _buildItem(BuildContext context, int index) {
-    var imageType;
+    ImageProvider<Object> imageType;
     if (widget.type == 'network') {
       imageType = NetworkImage(widget.url[index]);
     } else if (widget.type == 'asset') {

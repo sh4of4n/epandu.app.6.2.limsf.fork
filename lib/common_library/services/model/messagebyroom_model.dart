@@ -5,13 +5,13 @@ class MessageByRoomModel {
 
   MessageByRoomModel.fromJson(Map<String, dynamic> json) {
     message =
-        json['message'] != null ? new Message.fromJson(json['message']) : null;
+        json['message'] != null ? Message.fromJson(json['message']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.message != null) {
-      data['message'] = this.message!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (message != null) {
+      data['message'] = message!.toJson();
     }
     return data;
   }
@@ -26,15 +26,15 @@ class Message {
     if (json['Message'] != null) {
       messageList = <MessageList>[];
       json['Message'].forEach((v) {
-        messageList!.add(new MessageList.fromJson(v));
+        messageList!.add(MessageList.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.messageList != null) {
-      data['Message'] = this.messageList!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (messageList != null) {
+      data['Message'] = messageList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -108,27 +108,27 @@ class MessageList {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['room_id'] = this.roomId;
-    data['user_id'] = this.userId;
-    data['app_id'] = this.appId;
-    data['ca_uid'] = this.caUid;
-    data['device_id'] = this.deviceId;
-    data['msg_body'] = this.msgBody;
-    data['msg_binary'] = this.msgBinary;
-    data['msg_binary_type'] = this.msgBinaryType;
-    data['reply_to_id'] = this.replyToId;
-    data['messageId'] = this.messageId;
-    data['read_by'] = this.readBy;
-    data['status'] = this.status;
-    data['status_msg'] = this.statusMsg;
-    data['deleted'] = this.deleted;
-    data['send_datetime'] = this.sendDatetime;
-    data['edit_datetime'] = this.editDatetime;
-    data['delete_datetime'] = this.deleteDatetime;
-    data['transtamp'] = this.transtamp;
-    data['clientMessageId'] = this.clientMessageId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['room_id'] = roomId;
+    data['user_id'] = userId;
+    data['app_id'] = appId;
+    data['ca_uid'] = caUid;
+    data['device_id'] = deviceId;
+    data['msg_body'] = msgBody;
+    data['msg_binary'] = msgBinary;
+    data['msg_binary_type'] = msgBinaryType;
+    data['reply_to_id'] = replyToId;
+    data['messageId'] = messageId;
+    data['read_by'] = readBy;
+    data['status'] = status;
+    data['status_msg'] = statusMsg;
+    data['deleted'] = deleted;
+    data['send_datetime'] = sendDatetime;
+    data['edit_datetime'] = editDatetime;
+    data['delete_datetime'] = deleteDatetime;
+    data['transtamp'] = transtamp;
+    data['clientMessageId'] = clientMessageId;
     return data;
   }
 }

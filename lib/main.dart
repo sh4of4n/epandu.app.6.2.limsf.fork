@@ -9,6 +9,7 @@ import 'package:epandu/common_library/services/repository/inbox_repository.dart'
 import 'package:epandu/pages/chat/CustomAnimation.dart';
 import 'package:epandu/pages/chat/rooms_provider.dart';
 import 'package:epandu/pages/chat/socketclient_helper.dart';
+import 'package:epandu/router.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:epandu/services/database/DatabaseHelper.dart';
 import 'package:epandu/services/provider/notification_count.dart';
@@ -88,12 +89,13 @@ class Item {
     );
   }
 } */
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'high_importance_channel', // id
-    'High Importance Notifications', // title
-    description: 'This channel is used for important notifications.',
-    importance: Importance.high,
-    playSound: true);
+const channel = AndroidNotificationChannel(
+  'high_importance_channel', // id
+  'High Importance Notifications', // title
+  'This channel is used for important notifications.',
+  importance: Importance.high,
+  playSound: true,
+);
 
 // flutter local notification
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -150,48 +152,48 @@ void main() async {
 
   await Firebase.initializeApp();
 
-  runZonedGuarded(() async {
-    await SentryFlutter.init(
-      (options) {
-        options.dsn = kDebugMode
-            ? ''
-            : 'https://5525bd569e8849f0940925f93c1b164a@o354605.ingest.sentry.io/6739433';
-      },
-    );
-    EasyLoading.instance.userInteractions = false;
-    runApp(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (context) => LanguageModel(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => CallStatusModel(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => HomeLoadingModel(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => CartStatus(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => NotificationCount(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => ChatNotificationCount(),
-          ),
-          ChangeNotifierProvider(create: (context) => OnlineUsers(context)),
-          ChangeNotifierProvider(create: (context) => ChatHistory()),
-          ChangeNotifierProvider(create: (context) => RoomHistory()),
-          ChangeNotifierProvider(
-              create: (context) => SocketClientHelper(context)),
-        ],
-        child: MyApp(),
-      ),
-    );
-  }, (exception, stackTrace) async {
-    await Sentry.captureException(exception, stackTrace: stackTrace);
-  });
+  // runZonedGuarded(() async {
+  await SentryFlutter.init(
+    (options) {
+      options.dsn = kDebugMode
+          ? ''
+          : 'https://5525bd569e8849f0940925f93c1b164a@o354605.ingest.sentry.io/6739433';
+    },
+  );
+  EasyLoading.instance.userInteractions = false;
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => LanguageModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CallStatusModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => HomeLoadingModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CartStatus(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => NotificationCount(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ChatNotificationCount(),
+        ),
+        ChangeNotifierProvider(create: (context) => OnlineUsers(context)),
+        ChangeNotifierProvider(create: (context) => ChatHistory()),
+        ChangeNotifierProvider(create: (context) => RoomHistory()),
+        ChangeNotifierProvider(
+            create: (context) => SocketClientHelper(context)),
+      ],
+      child: const MyApp(),
+    ),
+  );
+  // }, (exception, stackTrace) async {
+  //   await Sentry.captureException(exception, stackTrace: stackTrace);
+  // });
   configLoading();
 }
 
@@ -219,6 +221,8 @@ void configLoading() {
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -263,13 +267,12 @@ class _MyAppState extends State<MyApp> {
               notification.body,
               NotificationDetails(
                 android: AndroidNotificationDetails(
-                  channel.id,
-                  channel.name,
-                  channelDescription: channel.description,
-                  color: Colors.blue,
-                  playSound: true,
-                  icon: '@mipmap/ic_launcher',
-                ),
+                    channel.id, channel.name, channel.description,
+                    color: Colors.blue,
+                    playSound: true,
+                    icon: '@mipmap/ic_launcher',
+                    priority: Priority.high,
+                    ticker: 'ticker'),
               ));
         }
       }
@@ -305,7 +308,7 @@ class _MyAppState extends State<MyApp> {
 
     // _firebaseMessaging.requestPermission();
 
-    _newLocaleDelegate = AppLocalizationsDelegate(newLocale: null);
+    _newLocaleDelegate = const AppLocalizationsDelegate(newLocale: null);
     application.onLocaleChanged = onLocaleChange;
     _loadSavedLocale();
   }
@@ -344,10 +347,11 @@ class _MyAppState extends State<MyApp> {
             .updateNotificationBadge(
           notificationBadge: int.tryParse(result.data[0].msgCount),
         );
-      } else
+      } else {
         Provider.of<NotificationCount>(context, listen: false).setShowBadge(
           showBadge: false,
         );
+      }
     } else {
       Provider.of<NotificationCount>(context, listen: false).setShowBadge(
         showBadge: false,
@@ -427,19 +431,19 @@ class _MyAppState extends State<MyApp> {
       switch (view) {
         case 'ENROLLMENT':
           // ExtendedNavigator.of(context).push(router.enrollment);
-          router.push(Enrollment());
+          router.push(const Enrollment());
           break;
         case 'KPP':
           // ExtendedNavigator.of(context).push(router.kppCategory);
-          router.push(KppCategory());
+          router.push(const KppCategory());
           break;
         case 'VCLUB':
           // ExtendedNavigator.of(context).push(router.Routes.valueClub);
-          router.push(ValueClub());
+          router.push(const ValueClub());
           break;
         case 'CHAT':
           // ExtendedNavigator.of(context).push(router.Routes.chatHome);
-          router.push(ChatHome());
+          router.push(const ChatHome());
           break;
       }
     }
@@ -456,12 +460,13 @@ class _MyAppState extends State<MyApp> {
     precacheImage(AssetImage(image.logo2), context);
     return MaterialApp.router(
       title: 'ePandu',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: ColorConstant.primaryColor,
         fontFamily: 'Myriad',
         textTheme: FontTheme().primaryFont,
         primaryTextTheme: FontTheme().primaryFont,
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           color: Color(0xffffd225),
         ),
       ),
@@ -478,9 +483,10 @@ class _MyAppState extends State<MyApp> {
         GlobalWidgetsLocalizations.delegate,
         FormBuilderLocalizations.delegate,
       ],
-      routerDelegate: _appRouter.delegate(initialRoutes: [Authentication()]),
-      routeInformationParser: _appRouter.defaultRouteParser(),
+      // routerDelegate: _appRouter.delegate(initialRoutes: [const Authentication()]),
+      //routeInformationParser: _appRouter.defaultRouteParser(),
       builder: EasyLoading.init(),
+      routerConfig: _appRouter.config(),
       // initialRoute: AUTH,
       // onGenerateRoute: RouteGenerator.generateRoute,
     );

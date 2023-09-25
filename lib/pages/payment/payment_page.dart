@@ -10,6 +10,8 @@ import '../../router.gr.dart';
 class PaymentPage extends StatelessWidget {
   final primaryColor = ColorConstant.primaryColor;
 
+  const PaymentPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +35,7 @@ class PaymentPage extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 color: Colors.white,
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     blurRadius: 15,
                     offset: Offset(0, 8),
@@ -48,13 +50,13 @@ class PaymentPage extends StatelessWidget {
               children: <Widget>[
                 ListTile(
                   onTap: () => context.router.push(AirtimeSelection()),
-                  leading: Icon(Icons.attach_money),
+                  leading: const Icon(Icons.attach_money),
                   title: Text(
                       AppLocalizations.of(context)!.translate('airtime_lbl')),
                 ),
                 ListTile(
                   onTap: () => context.router.push(BillSelection()),
-                  leading: Icon(Icons.attach_money),
+                  leading: const Icon(Icons.attach_money),
                   title:
                       Text(AppLocalizations.of(context)!.translate('bill_lbl')),
                 ),

@@ -8,10 +8,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 // import 'package:latlong2/latlong.dart';
 // import 'package:huawei_map/map.dart';
 
+@RoutePage()
 class FavourieMapPage extends StatefulWidget {
   final double lat;
   final double lng;
-  FavourieMapPage({
+  const FavourieMapPage({
     Key? key,
     required this.lat,
     required this.lng,
@@ -76,7 +77,7 @@ class _FavourieMapPageState extends State<FavourieMapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Map'),
+        title: const Text('Map'),
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 64.0),
@@ -91,11 +92,11 @@ class _FavourieMapPageState extends State<FavourieMapPage> {
         child: Stack(
           children: [
             GoogleMap(
-              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
-                new Factory<OneSequenceGestureRecognizer>(
-                  () => new EagerGestureRecognizer(),
+              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                Factory<OneSequenceGestureRecognizer>(
+                  () => EagerGestureRecognizer(),
                 ),
-              ].toSet(),
+              },
               onMapCreated: (GoogleMapController controller) {
                 setState(() {
                   mapController = controller;
@@ -175,7 +176,7 @@ class _FavourieMapPageState extends State<FavourieMapPage> {
               left: MediaQuery.of(context).size.width / 2 - 25,
               top: (MediaQuery.of(context).size.height - kToolbarHeight) / 2 -
                   19,
-              child: Icon(
+              child: const Icon(
                 Icons.location_on,
                 size: 50,
                 color: Colors.red,
@@ -185,7 +186,7 @@ class _FavourieMapPageState extends State<FavourieMapPage> {
               bottom: 16,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Container(
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width - 32,
                   child: ElevatedButton(
                     onPressed: () async {
@@ -202,9 +203,10 @@ class _FavourieMapPageState extends State<FavourieMapPage> {
 
                       LatLng middlePoint =
                           await mapController.getLatLng(screenCoordinate);
+
                       await context.router.pop(middlePoint);
                     },
-                    child: Text('Select'),
+                    child: const Text('Select'),
                   ),
                 ),
               ),

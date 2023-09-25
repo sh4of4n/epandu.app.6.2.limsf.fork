@@ -15,7 +15,7 @@ import '../../router.gr.dart';
 class ClientAccountForm extends StatefulWidget {
   final data;
 
-  ClientAccountForm(this.data);
+  const ClientAccountForm(this.data, {super.key});
 
   @override
   _ClientAccountFormState createState() => _ClientAccountFormState();
@@ -77,10 +77,10 @@ class _ClientAccountFormState extends State<ClientAccountForm>
   }
 
   _getConnectedCa() async {
-    String? _clientAcc = await localStorage.getCaUid();
+    String? clientAcc = await localStorage.getCaUid();
 
     setState(() {
-      _connectedCa = _clientAcc;
+      _connectedCa = clientAcc;
     });
   }
 
@@ -92,7 +92,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.0),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black26,
             offset: Offset(0.0, 15.0),
@@ -106,8 +106,8 @@ class _ClientAccountFormState extends State<ClientAccountForm>
         ],
       ),
       child: Padding(
-        padding:
-            EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 20.0),
+        padding: const EdgeInsets.only(
+            left: 16.0, right: 16.0, top: 16.0, bottom: 20.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -121,7 +121,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                 focusNode: _caUidFocus,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
@@ -129,9 +129,9 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                       .translate('client_acc_id_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.account_circle),
+                  prefixIcon: const Icon(Icons.account_circle),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
+                    borderSide: const BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   border: OutlineInputBorder(
@@ -156,13 +156,13 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                 controller: caPwdController,
                 focusNode: _caPwdFocus,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(color: primaryColor),
                   labelText: AppLocalizations.of(context)!
                       .translate('client_acc_pwd_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.lock),
+                  prefixIcon: const Icon(Icons.lock),
                   suffixIcon: IconButton(
                     icon: Icon(
                         _obscureText ? Icons.visibility_off : Icons.visibility),
@@ -175,7 +175,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                     },
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
+                    borderSide: const BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   border: OutlineInputBorder(
@@ -202,16 +202,16 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                 focusNode: _urlFocus,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
                   labelText: 'URL',
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.public),
+                  prefixIcon: const Icon(Icons.public),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
+                    borderSide: const BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   border: OutlineInputBorder(
@@ -233,9 +233,9 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                       _message.isNotEmpty
                           ? Text(
                               _message,
-                              style: TextStyle(color: Colors.red),
+                              style: const TextStyle(color: Colors.red),
                             )
-                          : SizedBox.shrink(),
+                          : const SizedBox.shrink(),
                       _saveButton(),
                     ],
                   ),
@@ -249,10 +249,11 @@ class _ClientAccountFormState extends State<ClientAccountForm>
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      if (widget.data == 'SETTINGS')
-                        context.router.replace(Login());
-                      else
+                      if (widget.data == 'SETTINGS') {
+                        context.router.replace(const Login());
+                      } else {
                         context.router.pop();
+                      }
                     },
                     child: Text(
                       AppLocalizations.of(context)!.translate('go_back_lbl'),
@@ -285,7 +286,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
         ],
       );
     }
-    return Container(width: 0, height: 0);
+    return const SizedBox(width: 0, height: 0);
   }
 
   _showConnectedCa() {
@@ -303,7 +304,7 @@ class _ClientAccountFormState extends State<ClientAccountForm>
         ],
       );
     }
-    return Container(width: 0, height: 0);
+    return const SizedBox(width: 0, height: 0);
   }
 
   _saveButton() {
@@ -314,10 +315,10 @@ class _ClientAccountFormState extends State<ClientAccountForm>
             )
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
-                textStyle: TextStyle(color: Colors.white),
-                backgroundColor: Color(0xffdd0e0e),
-                shape: StadiumBorder(),
-                padding: EdgeInsets.symmetric(vertical: 11.0),
+                textStyle: const TextStyle(color: Colors.white),
+                backgroundColor: const Color(0xffdd0e0e),
+                shape: const StadiumBorder(),
+                padding: const EdgeInsets.symmetric(vertical: 11.0),
                 minimumSize: Size(420.w, 45.h),
               ),
               onPressed: _submit,
@@ -348,14 +349,15 @@ class _ClientAccountFormState extends State<ClientAccountForm>
       localStorage.saveCaPwdEncode(
           Uri.encodeQueryComponent(caPwdController.text.replaceAll(' ', '')));
 
-      if (widget.data == 'SETTINGS')
-        context.router.replace(Login());
-      else
+      if (widget.data == 'SETTINGS') {
+        context.router.replace(const Login());
+      } else {
         context.router.pop();
+      }
     } else {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
-        FocusScope.of(context).requestFocus(new FocusNode());
+        FocusScope.of(context).requestFocus(FocusNode());
 
         await Hive.box('ws_url').put(
           'getWsUrl',
@@ -377,10 +379,11 @@ class _ClientAccountFormState extends State<ClientAccountForm>
         if (result.isSuccess) {
           await Hive.box('ws_url').delete('userDefinedUrl');
 
-          if (widget.data == 'SETTINGS')
-            context.router.replace(Login());
-          else
+          if (widget.data == 'SETTINGS') {
+            context.router.replace(const Login());
+          } else {
             context.router.pop();
+          }
         } else {
           setState(() {
             _message = result.message.toString();

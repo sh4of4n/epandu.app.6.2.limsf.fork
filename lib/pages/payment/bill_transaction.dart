@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
@@ -5,10 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
 
+@RoutePage(name: 'BillTransaction')
 class BillTransaction extends StatefulWidget {
   final data;
 
-  BillTransaction(this.data);
+  const BillTransaction(this.data, {super.key});
 
   @override
   _BillTransactionState createState() => _BillTransactionState();
@@ -65,7 +67,7 @@ class _BillTransactionState extends State<BillTransaction> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(25.0),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Colors.black26,
                       offset: Offset(0.0, 8.0),
@@ -81,17 +83,17 @@ class _BillTransactionState extends State<BillTransaction> {
                     SizedBox(width: ScreenUtil().setWidth(80)),
                     Text(
                       widget.data.account,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     SizedBox(height: ScreenUtil().setHeight(70)),
-                    Container(
+                    SizedBox(
                       width: ScreenUtil().setWidth(1000),
                       child: TextField(
                         controller: _trxController,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18.0,
                         ),
                         keyboardType: TextInputType.number,
@@ -106,7 +108,7 @@ class _BillTransactionState extends State<BillTransaction> {
                           fillColor: Colors.grey.withOpacity(.25),
                           filled: true,
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
+                            borderSide: const BorderSide(color: Colors.transparent),
                             borderRadius: BorderRadius.circular(30),
                           ),
                           border: OutlineInputBorder(
@@ -120,10 +122,10 @@ class _BillTransactionState extends State<BillTransaction> {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(420.w, 45.h),
-                        backgroundColor: Color(0xffdd0e0e),
-                        padding: EdgeInsets.symmetric(vertical: 11.0),
-                        shape: StadiumBorder(),
-                        textStyle: TextStyle(color: Colors.white),
+                        backgroundColor: const Color(0xffdd0e0e),
+                        padding: const EdgeInsets.symmetric(vertical: 11.0),
+                        shape: const StadiumBorder(),
+                        textStyle: const TextStyle(color: Colors.white),
                       ),
                       onPressed: _completeTransaction,
                       child: Container(
@@ -172,13 +174,14 @@ class _BillTransactionState extends State<BillTransaction> {
       return Column(
         children: <Widget>[
           SizedBox(height: ScreenUtil().setHeight(30)),
-          Text(_message, style: TextStyle(color: Colors.red)),
+          Text(_message, style: const TextStyle(color: Colors.red)),
         ],
       );
     }
-    return Container(height: 0, width: 0);
+    return const SizedBox(height: 0, width: 0);
   }
 
+  @override
   void dispose() {
     _trxController.dispose();
     super.dispose();
