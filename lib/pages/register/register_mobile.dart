@@ -425,6 +425,7 @@ class _RegisterMobileState extends State<RegisterMobile> {
       );
 
       if (result.isSuccess) {
+        if (!context.mounted) return;
         context.router.push(
           RegisterVerification(
             data: SignUpArguments(

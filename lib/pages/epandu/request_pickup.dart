@@ -130,11 +130,13 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       fillColor: Colors.white,
                       filled: true,
                       enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.blue, width: 1.3),
+                        borderSide:
+                            const BorderSide(color: Colors.blue, width: 1.3),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.blue, width: 1.3),
+                        borderSide:
+                            const BorderSide(color: Colors.blue, width: 1.3),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       focusedBorder: OutlineInputBorder(
@@ -229,11 +231,13 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       fillColor: Colors.white,
                       filled: true,
                       enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.blue, width: 1.3),
+                        borderSide:
+                            const BorderSide(color: Colors.blue, width: 1.3),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.blue, width: 1.3),
+                        borderSide:
+                            const BorderSide(color: Colors.blue, width: 1.3),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       focusedBorder: OutlineInputBorder(
@@ -277,7 +281,8 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       fillColor: Colors.white,
                       filled: true,
                       enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.blue, width: 1.3),
+                        borderSide:
+                            const BorderSide(color: Colors.blue, width: 1.3),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       border: OutlineInputBorder(
@@ -362,6 +367,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
       );
 
       if (result.isSuccess) {
+        if (!context.mounted) return;
         customDialog.show(
           context: context,
           barrierDismissable: false,
@@ -383,6 +389,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
           ],
         );
       } else {
+        if (!context.mounted) return;
         customDialog.show(
           context: context,
           type: DialogType.ERROR,

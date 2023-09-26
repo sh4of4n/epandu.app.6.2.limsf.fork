@@ -336,7 +336,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> getUnreadNotificationCount() async {
     var result = await inboxRepo.getUnreadNotificationCount();
-
+    if (!context.mounted) return;
     if (result.isSuccess) {
       if (int.tryParse(result.data[0].msgCount)! > 0) {
         Provider.of<NotificationCount>(context, listen: false).setShowBadge(

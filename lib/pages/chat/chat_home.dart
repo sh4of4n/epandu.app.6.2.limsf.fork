@@ -194,6 +194,7 @@ class _ChatHome2State extends State<ChatHome2> {
       if (!status.isGranted) {
         await Permission.storage.request();
       }
+      if (!context.mounted) return;
       Provider.of<ChatNotificationCount>(context, listen: false)
           .updateNotificationBadge(roomId: widget.roomId, type: "DELETE");
 
@@ -241,8 +242,10 @@ class _ChatHome2State extends State<ChatHome2> {
 
   Future<List<int>> searchMessages(String keyword) async {
     filteredMessages = [];
+
     while (true) {
       //await EasyLoading.show();
+      if (!context.mounted) return filteredMessages;
       bool dataExist =
           Provider.of<ChatHistory>(context, listen: false).isDataExist;
       if (!dataExist) {
@@ -1809,6 +1812,7 @@ class _ChatHome2State extends State<ChatHome2> {
 
                   if (inviteResult.data != null &&
                       inviteResult.data.length > 0) {
+                    if (!context.mounted) return;
                     InviteRoomResponse inviteRoomResponse =
                         inviteResult.data[0];
                     context.read<RoomHistory>().updateRoom(
@@ -1825,6 +1829,7 @@ class _ChatHome2State extends State<ChatHome2> {
                   } else {
                     await EasyLoading.dismiss();
                     final customDialog = CustomDialog();
+                    if (!context.mounted) return;
                     return customDialog.show(
                       context: context,
                       type: DialogType.ERROR,
@@ -1930,6 +1935,7 @@ class _ChatHome2State extends State<ChatHome2> {
 
                     // Provider.of<RoomHistory>(context, listen: false)
                     //     .deleteRoom(roomId: widget.Room_id);
+                    if (!context.mounted) return;
                     Provider.of<ChatNotificationCount>(context, listen: false)
                         .removeNotificationRoom(roomId: roomId);
                     await dbHelper.deleteRoomById(widget.roomId);
@@ -1941,9 +1947,11 @@ class _ChatHome2State extends State<ChatHome2> {
                             )!.path}/$roomId');
 
                     deleteDirectory(dir);
+                    if (!context.mounted) return;
                     Provider.of<RoomHistory>(context, listen: false)
                         .getRoomHistory();
                   }
+                  if (!context.mounted) return;
                   Navigator.pop(context);
                   Navigator.pop(context);
                 },
@@ -1976,6 +1984,7 @@ class _ChatHome2State extends State<ChatHome2> {
       if (list.isNotEmpty) {
         await deleteFile(File(list[0].filePath!));
       }
+      if (!context.mounted) return;
       context.read<ChatHistory>().deleteChatItem(messageId, roomId);
       await dbHelper.deleteMsgDetailTable(messageId);
     } else {
@@ -1997,6 +2006,7 @@ class _ChatHome2State extends State<ChatHome2> {
             if (list.isNotEmpty) {
               await deleteFile(File(list[0].filePath!));
             }
+            if (!context.mounted) return;
             context.read<ChatHistory>().deleteChatItem(messageId, roomId);
             await dbHelper.deleteMsgDetailTable(messageId);
           }
@@ -2206,6 +2216,7 @@ class _ChatHome2State extends State<ChatHome2> {
           replyMessageDetails, '');
     } else {
       final customDialog = CustomDialog();
+      if (!context.mounted) return;
       return customDialog.show(
         context: context,
         type: DialogType.ERROR,
@@ -2232,6 +2243,7 @@ class _ChatHome2State extends State<ChatHome2> {
           replyMessageDetails, '');
     } else {
       final customDialog = CustomDialog();
+      if (!context.mounted) return;
       return customDialog.show(
         context: context,
         type: DialogType.ERROR,
@@ -2279,6 +2291,7 @@ class _ChatHome2State extends State<ChatHome2> {
         roomName: widget.roomName);
     await dbHelper.saveMsgDetailTable(messageDetails);
     print('StoreFilePath:$filePath');
+    if (!context.mounted) return;
     context.read<ChatHistory>().addChatHistory(messageDetail: messageDetails);
     context.read<RoomHistory>().updateRoomMessage(
         roomId: messageDetails.roomId!, message: messageDetails.msgBody!);
@@ -2523,8 +2536,10 @@ class _ChatHome2State extends State<ChatHome2> {
 
           file = await picker.pickImage(source: ImageSource.gallery);
           if (file == null) {
+            if (!context.mounted) return;
             Navigator.pop(context);
           } else {
+            if (!context.mounted) return;
             Navigator.push(
                 context,
                 MaterialPageRoute(

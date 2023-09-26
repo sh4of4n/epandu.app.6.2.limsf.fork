@@ -58,7 +58,7 @@ class _RoomListState extends State<RoomList> {
     super.initState();
     EasyLoading.addStatusCallback(statusCallback);
     getRoomName();
-    dbHelper.deleteDB();
+    //dbHelper.deleteDB();
     //Provider.of<ChatHistory>(context, listen: false).getChatHistory();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -320,6 +320,7 @@ class _RoomListState extends State<RoomList> {
                         //print("Null from sendMessage");
                       }
                     });
+                    if (!context.mounted) return;
                     Provider.of<ChatNotificationCount>(context, listen: false)
                         .updateNotificationBadge(
                             roomId: roomId, type: "DELETE");
@@ -339,15 +340,17 @@ class _RoomListState extends State<RoomList> {
                     //bool dirExist = await dir.exists();
 
                     deleteDirectory(dir);
-
+                    if (!context.mounted) return;
                     List<RoomHistoryModel> list =
                         await Provider.of<RoomHistory>(context, listen: false)
                             .getRoomHistory();
                     if (list.isEmpty) {
+                      if (!context.mounted) return;
                       context
                           .read<SocketClientHelper>()
                           .loginUser('Tbs.Chat.Client-All-Users', userid, '');
                     }
+                    if (!context.mounted) return;
                     Navigator.pop(context);
                   }
                 },
@@ -550,7 +553,7 @@ class _RoomListState extends State<RoomList> {
             }
           }
           if (members != '') members = members.substring(0, members.length - 1);
-
+          if (!context.mounted) return;
           Navigator.push(
             context,
             MaterialPageRoute(

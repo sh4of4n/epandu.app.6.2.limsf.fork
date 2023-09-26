@@ -203,10 +203,8 @@ class _SelectClassState extends State<SelectClass> {
                                                   ),
                                                   children: [
                                                     TextSpan(
-                                                      text: '${AppLocalizations.of(
-                                                                  context)!
-                                                              .translate(
-                                                                  'class_lbl')} ',
+                                                      text:
+                                                          '${AppLocalizations.of(context)!.translate('class_lbl')} ',
                                                       style: const TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -234,10 +232,7 @@ class _SelectClassState extends State<SelectClass> {
                                                 ),
                                               ),
                                               Text(
-                                                'RM${NumberFormat('#,##0.00')
-                                                        .format(double.tryParse(
-                                                            snapshot.data[index]
-                                                                .fee))}',
+                                                'RM${NumberFormat('#,##0.00').format(double.tryParse(snapshot.data[index].fee))}',
                                                 style: const TextStyle(
                                                   color: Color(
                                                     0xff666666,
@@ -248,10 +243,7 @@ class _SelectClassState extends State<SelectClass> {
                                                 snapshot.data[index]
                                                             .totalTime !=
                                                         null
-                                                    ? '${AppLocalizations.of(
-                                                                context)!
-                                                            .translate(
-                                                                'total_time')} ' +
+                                                    ? '${AppLocalizations.of(context)!.translate('total_time')} ' +
                                                         snapshot.data[index]
                                                             .totalTime
                                                     : /* AppLocalizations.of(context)
@@ -369,6 +361,7 @@ class _SelectClassState extends State<SelectClass> {
     );
 
     if (result.isSuccess) {
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         barrierDismissable: false,
@@ -387,12 +380,15 @@ class _SelectClassState extends State<SelectClass> {
             onPressed: () async {
               await authRepo.getUserRegisteredDI(
                   context: context, type: 'UPDATE');
-              context.router.pushAndPopUntil(const Home(), predicate: (r) => false);
+              if (!context.mounted) return;
+              context.router
+                  .pushAndPopUntil(const Home(), predicate: (r) => false);
             },
           ),
         ],
       );
     } else {
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         type: DialogType.ERROR,

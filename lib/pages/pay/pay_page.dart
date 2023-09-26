@@ -84,6 +84,7 @@ class _PayState extends State<Pay> {
     }
 
     if (_icNo == null) {
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         barrierDismissable: false,
@@ -132,7 +133,7 @@ class _PayState extends State<Pay> {
 
   Future<void> getMerchantPaymentGateway() async {
     String? diCode = await localStorage.getMerchantDbCode();
-
+    if (!context.mounted) return;
     var result = await fpxRepo.getMerchantPaymentGateway(
         context: context, diCode: diCode);
 
@@ -154,7 +155,7 @@ class _PayState extends State<Pay> {
         });
 
         String? diCode = await localStorage.getMerchantDbCode();
-
+        if (!context.mounted) return;
         var result = await fpxRepo.createOrderWithAmt(
           context: context,
           diCode: diCode,
@@ -164,6 +165,7 @@ class _PayState extends State<Pay> {
         );
 
         if (result.isSuccess) {
+          if (!context.mounted) return;
           context.router.push(
             FpxPaymentOption(
               icNo: _icNo,
@@ -189,6 +191,7 @@ class _PayState extends State<Pay> {
             ),
           ); */
         } else {
+          if (!context.mounted) return;
           customDialog.show(
             context: context,
             type: DialogType.ERROR,
@@ -243,6 +246,7 @@ class _PayState extends State<Pay> {
                     String? diCode = await localStorage.getMerchantDbCode();
 
                     if (paymentFor!.isNotEmpty) {
+                      if (!context.mounted) return;
                       context.router.push(
                         PurchaseOrderList(
                           icNo: _icNo,
@@ -466,6 +470,7 @@ class _PayState extends State<Pay> {
                     String? diCode = await localStorage.getMerchantDbCode();
 
                     if (paymentFor!.isNotEmpty) {
+                      if (!context.mounted) return;
                       context.router.push(
                         PurchaseOrderList(
                           icNo: _icNo,

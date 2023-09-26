@@ -67,7 +67,7 @@ class _ViewPdfState extends State<ViewPdf> {
       await Share.shareFiles([_pathPdf], text: widget.title);
     } catch (e) {
       print('error $e');
-
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         content: 'Failed to share pdf file. Please try again.',

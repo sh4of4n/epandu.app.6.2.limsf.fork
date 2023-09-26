@@ -79,6 +79,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
               int.tryParse(result.data[0].appMinVersion.split('.')[1])! ||
           int.tryParse(appVersion.split('.')[2])! <
               int.tryParse(result.data[0].appMinVersion.split('.')[2])!) {
+        if (!context.mounted) return;
         customDialog.show(
           context: context,
           content: 'App version is outdated and must be updated.',
@@ -368,15 +369,16 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
 
       if (result.isSuccess) {
         if (result.data == 'empty') {
+          if (!context.mounted) return;
           var getRegisteredDi = await authRepo.getUserRegisteredDI(
               context: context, type: 'LOGIN');
 
           if (getRegisteredDi.isSuccess) {
             await localStorage
                 .saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
-
+            if (!context.mounted) return;
             await context.read<SocketClientHelper>().loginUserRoom();
-
+            if (!context.mounted) return;
             context.router.replace(const Home());
           } else {
             setState(() {
@@ -388,15 +390,15 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
           // Navigate to DI selection page
           // Temporary navigate to home
           // Navigator.replace(context, HOME);
-
+          if (!context.mounted) return;
           context.router.replace(
             SelectDrivingInstitute(diList: result.data),
           );
         } else {
           await localStorage.saveMerchantDbCode(result.data[0].merchantNo);
-
+          if (!context.mounted) return;
           await context.read<SocketClientHelper>().loginUserRoom();
-
+          if (!context.mounted) return;
           context.router.replace(const Home());
         }
       } else {

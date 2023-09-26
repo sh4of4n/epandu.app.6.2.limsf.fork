@@ -560,7 +560,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
           onPressed: () async {
             _timer.cancel();
             await examDataBox.clear();
-
+            if (!context.mounted) return;
             context.router.pop(true);
           },
         ),

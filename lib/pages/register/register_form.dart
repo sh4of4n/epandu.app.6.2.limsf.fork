@@ -1309,6 +1309,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
         );
 
         if (result.isSuccess) {
+          if (!context.mounted) return;
           customDialog.show(
             context: context,
             title: const Center(
@@ -1334,6 +1335,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
             type: DialogType.GENERAL,
           );
         } else {
+          if (!context.mounted) return;
           customDialog.show(
             context: context,
             content: result.message.toString(),
@@ -1371,7 +1373,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
       deviceRemark: '$_deviceOs $_deviceVersion',
       phDeviceId: _deviceId,
     );
-
+    if (!context.mounted) return;
     if (result.isSuccess) {
       var getRegisteredDi =
           await authRepo.getUserRegisteredDI(context: context, type: 'LOGIN');
@@ -1379,12 +1381,14 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
       if (getRegisteredDi.isSuccess) {
         _chatRoom();
         localStorage.saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
-
+        if (!context.mounted) return;
         context.router.pushAndPopUntil(const Home(), predicate: (r) => false);
       } else {
+        if (!context.mounted) return;
         context.router.pushAndPopUntil(const Login(), predicate: (r) => false);
       }
     } else {
+      if (!context.mounted) return;
       context.router.pushAndPopUntil(const Login(), predicate: (r) => false);
     }
 
@@ -1399,6 +1403,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
 
     if (createChatSupportResult.data != null &&
         createChatSupportResult.data.length > 0) {
+      if (!context.mounted) return;
       await context.read<SocketClientHelper>().loginUserRoom();
 
       String userid = await localStorage.getUserId() ?? '';
@@ -1425,7 +1430,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
         }
       }
     }
-
+    if (!context.mounted) return;
     context.router.popUntil(ModalRoute.withName('Home'));
   }
 }

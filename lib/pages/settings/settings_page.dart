@@ -254,7 +254,7 @@ class _SettingsState extends State<Settings> {
 
               context.router.pop();
               await authRepo.logout(context: context, type: 'CLEAR');
-
+              if (!context.mounted) return;
               context.router
                   .pushAndPopUntil(const Login(), predicate: (r) => false);
 
@@ -283,8 +283,10 @@ class _SettingsState extends State<Settings> {
     var result = await authRepo.deleteAppMemberAccount(context: context);
 
     if (result.isSuccess) {
+      if (!context.mounted) return;
       context.router.pushAndPopUntil(const Login(), predicate: (r) => false);
     } else {
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         type: DialogType.ERROR,

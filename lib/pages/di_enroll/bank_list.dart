@@ -21,7 +21,8 @@ class BankList extends StatefulWidget {
   final String? diCode;
   final String? amountString;
 
-  const BankList({super.key, 
+  const BankList({
+    super.key,
     this.icNo,
     this.docDoc,
     this.docRef,
@@ -82,6 +83,7 @@ class _BankListState extends State<BankList> {
     );
 
     if (result.isSuccess) {
+      if (!context.mounted) return;
       context.router.push(
         Webview(
             url: result.data[0].responseData,
@@ -93,6 +95,7 @@ class _BankListState extends State<BankList> {
         forceWebView: true,
       ); */
     } else {
+      if (!context.mounted) return;
       context.router.push(
         PaymentStatus(icNo: widget.icNo),
       );
@@ -118,8 +121,8 @@ class _BankListState extends State<BankList> {
                 case ConnectionState.waiting:
                   return Container(
                     padding: const EdgeInsets.all(15.0),
-                    margin:
-                        const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 15.0, horizontal: 8.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15.0),

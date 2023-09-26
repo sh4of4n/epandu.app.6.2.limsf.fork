@@ -451,7 +451,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
         _isLoading = true;
         _message = '';
       });
-
+      if (!context.mounted) return;
       var result = await authRepo.getUserByUserPhone(
         context: context,
         countryCode: _countryCode,

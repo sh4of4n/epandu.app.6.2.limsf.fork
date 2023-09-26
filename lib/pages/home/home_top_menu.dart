@@ -43,6 +43,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
     var result = await inboxRepo.getUnreadNotificationCount();
 
     if (result.isSuccess) {
+      if (!context.mounted) return;
       if (int.tryParse(result.data[0].msgCount)! > 0) {
         Provider.of<NotificationCount>(context, listen: false).setShowBadge(
           showBadge: true,
@@ -58,6 +59,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
         );
       }
     } else {
+      if (!context.mounted) return;
       Provider.of<NotificationCount>(context, listen: false).setShowBadge(
         showBadge: false,
       );

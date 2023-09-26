@@ -288,6 +288,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
           );
 
           if (result.isSuccess) {
+            if (!context.mounted) return;
             context.router.popUntil(ModalRoute.withName('ProfileTab'));
 
             CustomSnackbar().show(
@@ -296,6 +297,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
               type: MessageType.SUCCESS,
             );
           } else {
+            if (!context.mounted) return;
             CustomSnackbar().show(
               context,
               message: AppLocalizations.of(context)!.translate(result.message),

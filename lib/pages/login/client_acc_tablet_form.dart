@@ -362,7 +362,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
       localStorage.saveCaPwd(caPwdController.text.replaceAll(' ', ''));
       localStorage.saveCaPwdEncode(
           Uri.encodeQueryComponent(caPwdController.text.replaceAll(' ', '')));
-
+      if (!context.mounted) return;
       if (widget.data == 'SETTINGS') {
         context.router.replace(const Login());
       } else {
@@ -382,7 +382,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
           _message = '';
           _isLoading = true;
         });
-
+        if (!context.mounted) return;
         var result = await authRepo.getWsUrl(
           context: context,
           acctUid: caUidController.text.replaceAll(' ', ''),
@@ -392,7 +392,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
 
         if (result.isSuccess) {
           await Hive.box('ws_url').delete('userDefinedUrl');
-
+          if (!context.mounted) return;
           if (widget.data == 'SETTINGS') {
             context.router.replace(const Login());
           } else {

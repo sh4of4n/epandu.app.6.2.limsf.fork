@@ -214,6 +214,7 @@ class _ForgotPasswordTabletFormState extends State<ForgotPasswordTabletForm>
       );
 
       if (result.isSuccess) {
+        if (!context.mounted) return;
         context.router.pop();
         CustomSnackbar().show(
           context,
@@ -236,7 +237,7 @@ class _ForgotPasswordTabletFormState extends State<ForgotPasswordTabletForm>
             _message = result.message;
           });
         }
-
+        if (!context.mounted) return;
         CustomSnackbar().show(
           context,
           message: _message,

@@ -93,12 +93,14 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
     );
 
     if (result.isSuccess) {
+      if (!context.mounted) return;
       context.router.push(
         Webview(
             url: result.data[0].responseData,
             backType: widget.amountString == null ? 'DI_ENROLLMENT' : 'HOME'),
       );
     } else {
+      if (!context.mounted) return;
       context.router.push(
         PaymentStatus(icNo: widget.icNo),
       );

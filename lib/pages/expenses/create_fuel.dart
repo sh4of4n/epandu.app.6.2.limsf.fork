@@ -92,7 +92,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
           await EasyLoading.dismiss();
         } else {}
       }
-
+      if (!context.mounted) return;
       context.router.pop('refresh');
     }
   }
@@ -363,7 +363,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                                                   _imageFileList.add(photo);
                                                 });
                                               }
-
+                                              if (!context.mounted) return;
                                               context.router.pop();
                                             },
                                             child: const Text('Take photo'),
@@ -379,6 +379,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                                                       .addAll(pickedFile);
                                                 });
                                               }
+                                              if (!context.mounted) return;
                                               context.router.pop();
                                             },
                                             child: const Text(

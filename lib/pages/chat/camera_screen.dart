@@ -186,6 +186,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
   void takePhoto(BuildContext context) async {
     XFile file = await _cameraController.takePicture();
+    if (!context.mounted) return;
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -200,6 +201,7 @@ class _CameraScreenState extends State<CameraScreen> {
     setState(() {
       isRecoring = false;
     });
+    if (!context.mounted) return;
     Navigator.push(
         context,
         MaterialPageRoute(

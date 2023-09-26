@@ -167,6 +167,7 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
                             await chatRoomRepo.createChatSupportByMember();
                         if (createChatSupportResult.data != null &&
                             createChatSupportResult.data.length > 0) {
+                          if (!context.mounted) return;
                           await context
                               .read<SocketClientHelper>()
                               .loginUserRoom();
@@ -200,7 +201,7 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
                         }
                         // context.router.popUntil(ModalRoute.withName('Home'));
                         EasyLoading.dismiss();
-
+                        if (!context.mounted) return;
                         context.router.replace(const Home());
                       },
                       title: loadImage(widget.diList[index]),

@@ -46,6 +46,7 @@ class _EmergencyState extends State<Emergency> {
 
     if (geolocationStatus == LocationPermission.whileInUse ||
         geolocationStatus == LocationPermission.always) {
+      if (!context.mounted) return;
       var response = await emergencyRepo.getSosContactSortByNearest(
           context: context, sosContactType: 'POLICE', maxRadius: '30');
 
@@ -62,6 +63,7 @@ class _EmergencyState extends State<Emergency> {
         }
       }
     } else {
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         barrierDismissable: false,

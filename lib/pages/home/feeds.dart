@@ -151,7 +151,7 @@ class _FeedsState extends State<Feeds> {
 
       var caUid = await localStorage.getCaUid();
       var caPwd = await localStorage.getCaPwd();
-
+      if (!context.mounted) return;
       var result = await profileRepo.getUserProfile(context: context);
 
       if (result.isSuccess) {
@@ -191,7 +191,7 @@ class _FeedsState extends State<Feeds> {
             _getLatitude(udf: feed.udfReturnParameter) +
             _getLongitude(udf: feed.udfReturnParameter) +
             _getPackageCode(udf: feed.udfReturnParameter);
-
+        if (!context.mounted) return;
         context.router.push(
           Webview(url: url),
         );
@@ -202,6 +202,7 @@ class _FeedsState extends State<Feeds> {
         /* launch(url,
                               forceWebView: true, enableJavaScript: true); */
       } else {
+        if (!context.mounted) return;
         customDialog.show(
           context: context,
           barrierDismissable: false,
@@ -293,7 +294,7 @@ class _FeedsState extends State<Feeds> {
 
   getOnlinePaymentListByIcNo() async {
     String? icNo = await localStorage.getStudentIc();
-
+    if (!context.mounted) return;
     var result = await fpxRepo.getOnlinePaymentListByIcNo(
       context: context,
       icNo: icNo ?? '',
@@ -302,6 +303,7 @@ class _FeedsState extends State<Feeds> {
     );
 
     if (result.isSuccess) {
+      if (!context.mounted) return;
       return customDialog.show(
         context: context,
         title: AppLocalizations.of(context)!.translate('success'),

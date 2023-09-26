@@ -57,6 +57,7 @@ class _AddBookingState extends State<AddBooking> {
         testListGroupId = response.data;
       });
     } else {
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         content: AppLocalizations.of(context)!.translate('no_enrolled_class'),
@@ -295,8 +296,8 @@ class _AddBookingState extends State<AddBooking> {
                           fillColor: Colors.white,
                           filled: true,
                           enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.blue, width: 1.3),
+                            borderSide: const BorderSide(
+                                color: Colors.blue, width: 1.3),
                             borderRadius: BorderRadius.circular(30),
                           ),
                           border: OutlineInputBorder(
@@ -448,7 +449,7 @@ class _AddBookingState extends State<AddBooking> {
         _isLoading = true;
         // _message = '';
       });
-
+      if (!context.mounted) return;
       var result = await ePanduRepo.saveBookingTest(
         context: context,
         groupId: groupId,
@@ -459,6 +460,7 @@ class _AddBookingState extends State<AddBooking> {
       );
 
       if (result.isSuccess) {
+        if (!context.mounted) return;
         customDialog.show(
           context: context,
           barrierDismissable: false,
@@ -480,6 +482,7 @@ class _AddBookingState extends State<AddBooking> {
           ],
         );
       } else {
+        if (!context.mounted) return;
         customDialog.show(
           context: context,
           type: DialogType.ERROR,

@@ -66,6 +66,7 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
         } else {}
       }
       EasyLoading.dismiss();
+      if (!context.mounted) return;
       context.router.pop('refresh');
     }
   }
@@ -275,7 +276,7 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                                                     _imageFileList.add(photo);
                                                   });
                                                 }
-
+                                                if (!context.mounted) return;
                                                 context.router.pop();
                                               },
                                               child: const Text('Take photo'),
@@ -291,6 +292,7 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
                                                         .addAll(pickedFile);
                                                   });
                                                 }
+                                                if (!context.mounted) return;
                                                 context.router.pop();
                                               },
                                               child: const Text(

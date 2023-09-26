@@ -219,7 +219,7 @@ class _CreateGroupState extends State<CreateGroup> {
                       inviteResult.data.length > 0) {
                     InviteRoomResponse inviteRoomResponse =
                         inviteResult.data[0];
-
+                    if (!context.mounted) return;
                     await context.read<SocketClientHelper>().loginUserRoom();
                     String? userId = await localStorage.getUserId();
                     String? userName = await localStorage.getNickName();
@@ -285,6 +285,7 @@ class _CreateGroupState extends State<CreateGroup> {
                           clientMessageId: clientMessageId,
                           roomName: '');
                       await dbHelper.saveMsgDetailTable(messageDetails);
+                      if (!context.mounted) return;
                       context
                           .read<ChatHistory>()
                           .addChatHistory(messageDetail: messageDetails);
@@ -317,6 +318,7 @@ class _CreateGroupState extends State<CreateGroup> {
                     });
 
                     await EasyLoading.dismiss();
+                    if (!context.mounted) return;
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -330,6 +332,7 @@ class _CreateGroupState extends State<CreateGroup> {
                   } else {
                     await EasyLoading.dismiss();
                     final customDialog = CustomDialog();
+                    if (!context.mounted) return;
                     return customDialog.show(
                       context: context,
                       type: DialogType.ERROR,
@@ -537,6 +540,7 @@ class _CreateGroupState extends State<CreateGroup> {
                         roomName: inviteRoomResponse.roomName ?? '',
                         roomDesc: inviteRoomResponse.roomDesc ?? '',
                         picturePath: inviteRoomResponse.picturePath ?? '');
+                    if (!context.mounted) return;
                     context.read<RoomHistory>().addRoom(room: roomHistoryModel);
                     //print('Room Insert value ' + val.toString());
                     var resultMembers = await chatRoomRepo
@@ -596,6 +600,7 @@ class _CreateGroupState extends State<CreateGroup> {
                           setState(() {
                             Navigator.of(context).pop();
                           });
+                          if (!context.mounted) return;
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -611,6 +616,7 @@ class _CreateGroupState extends State<CreateGroup> {
                   } else {
                     await EasyLoading.dismiss();
                     final customDialog = CustomDialog();
+                    if (!context.mounted) return;
                     return customDialog.show(
                       context: context,
                       type: DialogType.ERROR,

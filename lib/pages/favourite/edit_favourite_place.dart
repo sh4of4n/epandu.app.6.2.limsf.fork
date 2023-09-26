@@ -90,6 +90,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
         }
       }
       await EasyLoading.dismiss();
+      if (!context.mounted) return;
       context.router.pop({
         'placeId': widget.placeId,
         'type': _formKey.currentState?.fields['type']?.value,
@@ -144,6 +145,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
       placeId: placeId,
     );
     EasyLoading.dismiss();
+    if (!context.mounted) return;
     context.router.pop('refresh');
     return result;
   }
@@ -160,6 +162,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
       fileKey: fileKey,
     );
     EasyLoading.dismiss();
+    if (!context.mounted) return;
     context.router.pop();
     return result;
   }
@@ -419,7 +422,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                                                     });
                                                   });
                                                 }
-
+                                                if (!context.mounted) return;
                                                 context.router.pop();
                                               },
                                               child: const Text('Take photo'),
@@ -440,6 +443,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                                                     }
                                                   });
                                                 }
+                                                if (!context.mounted) return;
                                                 context.router.pop();
                                               },
                                               child: const Text(

@@ -107,6 +107,7 @@ class _ScanState extends State<Scan> {
         print(jsonDecode(scanData.code!)['QRCode'][0]['merchant_no']);
 
         if (jsonDecode(scanData.code!).containsKey('QRCode')) {
+          if (!context.mounted) return;
           context.router
               .replace(
             RegisterUserToDi(
@@ -148,7 +149,7 @@ class _ScanState extends State<Scan> {
           setState(() {
             _isLoading = true;
           });
-
+          if (!context.mounted) return;
           final result = await epanduRepo.verifyScanCode(
             context: context,
             qrcodeJson: scanData.code,
@@ -185,11 +186,12 @@ class _ScanState extends State<Scan> {
                   ],
                   type: DialogType.GENERAL,
                 ); */
-
+            if (!context.mounted) return;
             context.router.replace(
               QueueNumber(data: result.data),
             );
           } else {
+            if (!context.mounted) return;
             customDialog.show(
               context: context,
               barrierDismissable: false,
@@ -207,6 +209,7 @@ class _ScanState extends State<Scan> {
             });
           }
         } else {
+          if (!context.mounted) return;
           customDialog.show(
             context: context,
             barrierDismissable: false,

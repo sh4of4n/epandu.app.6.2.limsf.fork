@@ -308,7 +308,7 @@ class _CartItemEditState extends State<CartItemEdit> with PageBaseClass {
               dbcode: dbcode,
             ),
           ); */
-
+          if (!context.mounted) return;
           context.router.pop();
         } else {
           setState(() {

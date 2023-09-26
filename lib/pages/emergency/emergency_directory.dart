@@ -70,6 +70,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
     if (serviceLocationStatus) {
       _getCurrentLocation();
     } else {
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         barrierDismissable: false,
@@ -115,6 +116,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         _getSosContact('BIKEWORKSHOP'),
       ]);
     } else {
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         barrierDismissable: false,

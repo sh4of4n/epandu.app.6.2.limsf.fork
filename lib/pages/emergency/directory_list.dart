@@ -51,7 +51,7 @@ class _DirectoryListState extends State<DirectoryList> {
           maxRadius = '0';
         });
       }
-
+      if (!context.mounted) return;
       var response = await emergencyRepo.getSosContactSortByNearest(
           context: context,
           sosContactType: widget.directoryType,
@@ -62,6 +62,7 @@ class _DirectoryListState extends State<DirectoryList> {
       }
       return response.message;
     } else {
+      if (!context.mounted) return;
       context.router.popUntil(
         ModalRoute.withName('Home'),
       );
@@ -89,8 +90,8 @@ class _DirectoryListState extends State<DirectoryList> {
               Text(snapshot.data[index].sosContactName),
             if (snapshot.data[index].phone != null)
               Text(snapshot.data[index].phone),
-            Text('${double.tryParse(snapshot.data[index].distance)!
-                    .toStringAsFixed(2)}km'),
+            Text(
+                '${double.tryParse(snapshot.data[index].distance)!.toStringAsFixed(2)}km'),
             const SizedBox(height: 10.0),
             const Divider(
               height: 1.0,
@@ -146,7 +147,8 @@ class _DirectoryListState extends State<DirectoryList> {
               case ConnectionState.waiting:
                 return Container(
                   padding: const EdgeInsets.all(15.0),
-                  margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 15.0, horizontal: 8.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15.0),
@@ -173,7 +175,8 @@ class _DirectoryListState extends State<DirectoryList> {
 
                 return Container(
                   padding: const EdgeInsets.all(15.0),
-                  margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 15.0, horizontal: 8.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15.0),

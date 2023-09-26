@@ -363,7 +363,7 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                         onPressed: () async {
                                           final availableMaps =
                                               await MapLauncher.installedMaps;
-
+                                          if (!context.mounted) return;
                                           showModalBottomSheet(
                                             context: context,
                                             builder: (BuildContext context) {
@@ -431,7 +431,7 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                           await favPlacePictureFuture[snapshot
                                               .data.data[index].placeId];
                                           await EasyLoading.dismiss();
-
+                                          if (!context.mounted) return;
                                           var result =
                                               await context.router.push(
                                             EditFavouritePlaceRoute(

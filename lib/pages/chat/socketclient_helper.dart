@@ -79,23 +79,23 @@ class SocketClientHelper extends ChangeNotifier {
           int insertVal = await dbHelper.saveRoomTable(result.data[i]);
           print('insertVal: ${insertVal.toString()}');
           RoomHistoryModel roomHistoryModel = RoomHistoryModel(
-              roomId: result.data[i].room_id ?? '',
-              roomName: result.data[i].room_name ?? '',
-              roomDesc: result.data[i].room_desc ?? '',
-              picturePath: result.data[i].picture_path ?? '');
+              roomId: result.data[i].roomId ?? '',
+              roomName: result.data[i].roomName ?? '',
+              roomDesc: result.data[i].roomDesc ?? '',
+              picturePath: result.data[i].picturePath ?? '');
           if (ctx.mounted) {
             ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
           }
-          print('Room Insert Id: ${result.data[i].room_id}');
+          print('Room Insert Id: ${result.data[i].roomId}');
           var resultMembers =
-              await chatRoomRepo.getRoomMembersList(result.data[i].room_id);
+              await chatRoomRepo.getRoomMembersList(result.data[i].roomId);
           print('Room Members Insert: ${resultMembers.data.length}');
           if (resultMembers.data != null && resultMembers.data.length > 0) {
             for (int i = 0; i < resultMembers.data.length; i += 1) {
               await dbHelper.saveRoomMembersTable(resultMembers.data[i]);
             }
           }
-          loginUser(result.data[i].room_id, userid, result.data[i].create_date);
+          loginUser(result.data[i].roomId, userid, result.data[i].createDate);
         }
         //logoutDefaultRoom();
       }
@@ -136,43 +136,43 @@ class SocketClientHelper extends ChangeNotifier {
             if (indexRoom == -1) {
               await dbHelper.saveRoomTable(result.data[i]);
               RoomHistoryModel roomHistoryModel = RoomHistoryModel(
-                  roomId: result.data[i].room_id ?? '',
-                  roomName: result.data[i].room_name ?? '',
-                  roomDesc: result.data[i].room_desc ?? '',
-                  picturePath: result.data[i].picture_path ?? '');
+                  roomId: result.data[i].roomId ?? '',
+                  roomName: result.data[i].roomName ?? '',
+                  roomDesc: result.data[i].roomDesc ?? '',
+                  picturePath: result.data[i].picturePath ?? '');
               if (ctx.mounted) {
                 ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
               }
               newRooms.add(result.data[i]);
             } else {
-              if (rooms[indexRoom].picturePath != result.data[i].picture_path &&
-                  result.data[i].picture_path != '') {
+              if (rooms[indexRoom].picturePath != result.data[i].picturePath &&
+                  result.data[i].picturePath != '') {
                 await dbHelper.updateRoomPic(
-                    result.data[i].room_id, result.data[i].picture_path);
+                    result.data[i].roomId, result.data[i].picturePath);
               }
             }
             var resultMembers =
-                await chatRoomRepo.getRoomMembersList(result.data[i].room_id);
+                await chatRoomRepo.getRoomMembersList(result.data[i].roomId);
             if (resultMembers.data != null && resultMembers.data.length > 0) {
               List<RoomMembers> roomMembersList =
-                  await dbHelper.getRoomMembersList(result.data[i].room_id);
+                  await dbHelper.getRoomMembersList(result.data[i].roomId);
 
               for (int i = 0; i < resultMembers.data.length; i += 1) {
                 int indexRoomMembers = roomMembersList.indexWhere((element) =>
-                    element.userId == resultMembers.data[i].user_id);
+                    element.userId == resultMembers.data[i].userId);
                 if (indexRoomMembers == -1) {
                   await dbHelper.saveRoomMembersTable(resultMembers.data[i]);
                 } else {
                   if ((roomMembersList[indexRoomMembers].picturePath !=
-                          resultMembers.data[i].picture_path) ||
+                          resultMembers.data[i].picturePath) ||
                       (roomMembersList[indexRoomMembers].nickName !=
-                          resultMembers.data[i].nick_name) ||
+                          resultMembers.data[i].nickName) ||
                       (roomMembersList[indexRoomMembers].deleted !=
                           resultMembers.data[i].deleted)) {
                     await dbHelper.updateRoomMemberPic(
-                        resultMembers.data[i].user_id ?? '',
-                        resultMembers.data[i].picture_path ?? '',
-                        resultMembers.data[i].nick_name ?? '',
+                        resultMembers.data[i].userId ?? '',
+                        resultMembers.data[i].picturePath ?? '',
+                        resultMembers.data[i].nickName ?? '',
                         resultMembers.data[i].deleted ?? '');
                   }
                 }
@@ -383,16 +383,16 @@ class SocketClientHelper extends ChangeNotifier {
       if (result.data != null && result.data.length > 0) {
         await dbHelper.saveRoomTable(result.data[0]);
         RoomHistoryModel roomHistoryModel = RoomHistoryModel(
-            roomId: result.data[0].room_id ?? '',
-            roomName: result.data[0].room_name ?? '',
-            roomDesc: result.data[0].room_desc ?? '',
-            picturePath: result.data[0].picture_path ?? '');
+            roomId: result.data[0].roomId ?? '',
+            roomName: result.data[0].roomName ?? '',
+            roomDesc: result.data[0].roomDesc ?? '',
+            picturePath: result.data[0].picturePath ?? '');
         if (ctx.mounted) {
           ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
         }
         //print('Room Insert value ' + val.toString());
         var resultMembers =
-            await chatRoomRepo.getRoomMembersList(result.data[0].room_id);
+            await chatRoomRepo.getRoomMembersList(result.data[0].roomId);
         //print('roomMembers' + resultMembers.data.length.toString());
         if (resultMembers.data != null && resultMembers.data.length > 0) {
           for (int i = 0; i < resultMembers.data.length; i += 1) {
@@ -404,7 +404,7 @@ class SocketClientHelper extends ChangeNotifier {
         String? caPwd = await localStorage.getCaPwd();
         String? deviceId = await localStorage.getLoginDeviceId();
         var messageJson = {
-          "roomId": result.data[0].room_id,
+          "roomId": result.data[0].roomId,
           "userId": userId,
           "appId": appConfig.appId,
           "caUid": caUid,
@@ -417,7 +417,7 @@ class SocketClientHelper extends ChangeNotifier {
             //print('login user from server $data');
             Provider.of<ChatNotificationCount>(ctx, listen: false)
                 .addNotificationBadge(
-                    notificationBadge: 0, roomId: result.data[0].room_id);
+                    notificationBadge: 0, roomId: result.data[0].roomId);
             //logoutDefaultRoom();
           } else {
             //print("Null from login user");

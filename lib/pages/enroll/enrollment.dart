@@ -1055,7 +1055,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                       focusNode: _postcodeFocus,
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
+                        contentPadding:
+                            const EdgeInsets.symmetric(vertical: 10.0),
                         hintStyle: TextStyle(
                           color: primaryColor,
                         ),
@@ -1493,7 +1494,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
               _message = result.message;
               _messageStyle = TextStyle(color: Colors.green[800]);
             });
-
+            if (!context.mounted) return;
             context.router.push(
               SelectInstitute(
                 data: EnrollmentData(

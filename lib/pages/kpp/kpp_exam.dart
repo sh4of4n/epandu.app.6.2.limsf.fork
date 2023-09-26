@@ -52,7 +52,7 @@ class _KppExamState extends State<KppExam> {
 
     if (examDataBox.length > 0) {
       data = examDataBox.getAt(0) as KppExamData?;
-
+      if (!context.mounted) return;
       return customDialog.show(
         context: context,
         title: const Center(child: Icon(Icons.info_outline, size: 120)),

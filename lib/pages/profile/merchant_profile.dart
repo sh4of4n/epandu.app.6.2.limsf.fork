@@ -40,7 +40,7 @@ class _MerchantProfileState extends State<MerchantProfile> {
 
   Future<dynamic> getMerchantApi() async {
     String? dbCode = await localStorage.getMerchantDbCode();
-
+    if (!context.mounted) return;
     Response result = await vClubRepo.getMerchant(
       context: context,
       keywordSearch: dbCode,

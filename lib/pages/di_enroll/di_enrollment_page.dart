@@ -37,7 +37,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
 
   getPackageListByPackageCodeList() async {
     var diCode = await localStorage.getMerchantDbCode();
-
+    if (!context.mounted) return;
     var result = await authRepo.getPackageListByPackageCodeList(
       context: context,
       diCode: diCode,
@@ -68,7 +68,8 @@ class _DiEnrollmentState extends State<DiEnrollment> {
             case ConnectionState.waiting:
               return Container(
                 padding: const EdgeInsets.all(15.0),
-                margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15.0),
@@ -158,8 +159,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                                     ),
                                   ), */
                                   Text(
-                                    '${AppLocalizations.of(context)!
-                                            .translate('class_lbl')}: ' +
+                                    '${AppLocalizations.of(context)!.translate('class_lbl')}: ' +
                                         snapshot.data[index].groupIdGrouping,
                                     style: TextStyle(
                                       fontSize: 60.sp,
@@ -167,9 +167,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                                     ),
                                   ),
                                   Text(
-                                    '${AppLocalizations.of(context)!
-                                            .translate('amount')}: RM${formatter.format(double.tryParse(
-                                            snapshot.data[index].amt))}',
+                                    '${AppLocalizations.of(context)!.translate('amount')}: RM${formatter.format(double.tryParse(snapshot.data[index].amt))}',
                                     style: TextStyle(
                                       fontSize: 60.sp,
                                       fontWeight: FontWeight.w600,

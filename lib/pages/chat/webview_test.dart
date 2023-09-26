@@ -45,6 +45,7 @@ Future<bool> _onWillPop(
     if (await controllerGlobal!.canGoBack()) {
       controllerGlobal!.goBack();
     } else {
+      if (!context.mounted) return false;
       // _confirmBack(customDialog, context);
       Provider.of<CallStatusModel>(context, listen: false).callStatus(false);
       return true;
@@ -120,6 +121,7 @@ class _TestWebviewState extends State<TestWebview> {
               .createChatSupportByMemberFromWebView(message.message.toString());
           if (createChatSupportResult.data != null &&
               createChatSupportResult.data.length > 0) {
+            if (!context.mounted) return;
             await context.read<SocketClientHelper>().loginUserRoom();
             String userid = await localStorage.getUserId() ?? '';
             CreateRoomResponse getCreateRoomResponse =
@@ -143,7 +145,7 @@ class _TestWebviewState extends State<TestWebview> {
                 });
               }
             }
-
+            if (!context.mounted) return;
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -158,6 +160,7 @@ class _TestWebviewState extends State<TestWebview> {
 
             //context.router.push(RoomList());
           } else {
+            if (!context.mounted) return;
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(createChatSupportResult.message!)),
             );

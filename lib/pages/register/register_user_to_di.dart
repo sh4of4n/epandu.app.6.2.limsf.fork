@@ -242,7 +242,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
 
         if (result.isSuccess) {
           //save into hive
-
+          if (!context.mounted) return;
           var diResult = await authRepo.getUserRegisteredDI2(
               context: context, merchantId: merchantId);
           if (diResult.isSuccess) {
@@ -253,6 +253,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
               await chatRoomRepo.createChatSupportByMember();
           if (createChatSupportResult.data != null &&
               createChatSupportResult.data.length > 0) {
+            if (!context.mounted) return;
             await context.read<SocketClientHelper>().loginUserRoom();
 
             String userid = await localStorage.getUserId() ?? '';
@@ -279,7 +280,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
               }
             }
           }
-
+          if (!context.mounted) return;
           context.router.popUntil(ModalRoute.withName('Home'));
 
           /* customDialog.show(
@@ -305,6 +306,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
           type: DialogType.GENERAL,
         ); */
         } else {
+          if (!context.mounted) return;
           customDialog.show(
             context: context,
             content: result.message.toString(),

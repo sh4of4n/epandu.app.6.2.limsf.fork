@@ -42,6 +42,7 @@ class _CheckInSlipState extends State<CheckInSlip> {
     if (result.isSuccess) {
       checkInData = result.data;
     } else {
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         barrierDismissable: false,

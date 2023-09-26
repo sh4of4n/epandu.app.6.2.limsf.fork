@@ -40,6 +40,7 @@ class _KppCategoryState extends State<KppCategory> {
     String? instituteLogoPath = await localStorage.getInstituteLogo();
 
     if (instituteLogoPath != null && instituteLogoPath.isEmpty) {
+      if (!context.mounted) return;
       var result = await authRepo.getDiProfile(context: context);
 
       if (result.isSuccess && result.data != null) {

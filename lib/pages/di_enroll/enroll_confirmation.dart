@@ -26,7 +26,8 @@ class EnrollConfirmation extends StatefulWidget {
   final String? groupIdGrouping; //Package class
   final String? amount; //Package price
 
-  const EnrollConfirmation({super.key, 
+  const EnrollConfirmation({
+    super.key,
     this.banner,
     this.packageName,
     this.packageCode,
@@ -117,6 +118,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
         _race == null ||
         _eMail == null ||
         _gender == null) {
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         barrierDismissable: false,
@@ -287,7 +289,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
       setState(() {
         isLoading = false;
       });
-
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         type: DialogType.ERROR,
@@ -306,6 +308,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
 
     if (result.isSuccess) {
       if (result.data[0].trnStatus.toUpperCase() != 'PAID') {
+        if (!context.mounted) return;
         context.router.push(
           FpxPaymentOption(
             icNo: _icNo,
@@ -331,7 +334,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
       setState(() {
         isLoading = false;
       });
-
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         type: DialogType.ERROR,
@@ -350,6 +353,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
     );
 
     if (result.isSuccess) {
+      if (!context.mounted) return;
       context.router.push(
         Webview(url: result.data[0].receiptUrl),
       );
@@ -373,7 +377,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
             child: InkWell(
               onTap: () async {
                 String? diCode = await localStorage.getMerchantDbCode();
-
+                if (!context.mounted) return;
                 context.router.push(
                   OrderList(
                     icNo: _icNo,
@@ -667,8 +671,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                         },
                       ),
                       Text(
-                        '${AppLocalizations.of(context)!.translate('agree_to')} ${AppLocalizations.of(context)!
-                                .translate('epandu_title')} ',
+                        '${AppLocalizations.of(context)!.translate('agree_to')} ${AppLocalizations.of(context)!.translate('epandu_title')} ',
                         style: TextStyle(
                           fontSize: 54.sp,
                         ),
@@ -740,7 +743,8 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
 }
 
 class LabeledCheckbox extends StatelessWidget {
-  const LabeledCheckbox({super.key, 
+  const LabeledCheckbox({
+    super.key,
     this.label,
     this.padding,
     this.value,

@@ -108,6 +108,7 @@ class _FuelMapPageState extends State<FuelMapPage> {
 
                       LatLng middlePoint =
                           await mapController.getLatLng(screenCoordinate);
+                      if (!context.mounted) return;
                       await context.router.pop(middlePoint);
                     },
                     child: const Text('Select'),

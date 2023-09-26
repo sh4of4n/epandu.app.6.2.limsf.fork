@@ -187,7 +187,7 @@ class _HomeState extends State<Home> {
       var caUid = await localStorage.getCaUid();
       var caPwd = await localStorage.getCaPwd();
       var merchantNo = await localStorage.getMerchantDbCode();
-
+      if (!context.mounted) return;
       var result = await profileRepo.getUserProfile(context: context);
       if (result.isSuccess) {
         // String merchantNo = 'P1001';
@@ -226,7 +226,7 @@ class _HomeState extends State<Home> {
             _getLatitude(udf: feed.udfReturnParameter) +
             _getLongitude(udf: feed.udfReturnParameter) +
             _getPackageCode(udf: feed.udfReturnParameter);
-
+        if (!context.mounted) return;
         context.router.push(
           Webview(url: url),
           //'https://teal-bavarois-ec49bd.netlify.app/#/institute-near-me?appId=ePandu.App&appVersion=6.1.8&userId=E08FBDC357&deviceId=TVDYF3SD7Q62QSARVKCPZS6FKA&caUid=epandu_devp_3&caPwd=123456&latitude=5.4244367&longitude=100.4003283'),
@@ -238,6 +238,7 @@ class _HomeState extends State<Home> {
         /* launch(url,
                               forceWebView: true, enableJavaScript: true); */
       } else {
+        if (!context.mounted) return;
         customDialog.show(
           context: context,
           barrierDismissable: false,
@@ -359,7 +360,7 @@ class _HomeState extends State<Home> {
 
   getOnlinePaymentListByIcNo() async {
     String? icNo = await localStorage.getStudentIc();
-
+    if (!context.mounted) return;
     var result = await fpxRepo.getOnlinePaymentListByIcNo(
       context: context,
       icNo: icNo ?? '',
@@ -368,6 +369,7 @@ class _HomeState extends State<Home> {
     );
 
     if (result.isSuccess) {
+      if (!context.mounted) return;
       return customDialog.show(
         context: context,
         title: AppLocalizations.of(context)!.translate('success'),
@@ -390,6 +392,7 @@ class _HomeState extends State<Home> {
 
     if (result.isSuccess) {
       if (int.tryParse(result.data[0].msgCount)! > 0) {
+        if (!context.mounted) return;
         Provider.of<NotificationCount>(context, listen: false).setShowBadge(
           showBadge: true,
         );
@@ -399,11 +402,13 @@ class _HomeState extends State<Home> {
           notificationBadge: int.tryParse(result.data[0].msgCount),
         );
       } else {
+        if (!context.mounted) return;
         Provider.of<NotificationCount>(context, listen: false).setShowBadge(
           showBadge: false,
         );
       }
     } else {
+      if (!context.mounted) return;
       Provider.of<NotificationCount>(context, listen: false).setShowBadge(
         showBadge: false,
       );
@@ -673,6 +678,7 @@ class _HomeState extends State<Home> {
               int.tryParse(result.data[0].appMinVersion.split('.')[1])! ||
           int.tryParse(appVersion.split('.')[2])! <
               int.tryParse(result.data[0].appMinVersion.split('.')[2])!) {
+        if (!context.mounted) return;
         customDialog.show(
           context: context,
           content: 'App version is outdated and must be updated.',
@@ -820,7 +826,7 @@ class _HomeState extends State<Home> {
                 onRefresh: () async {
                   String? caUid = await localStorage.getCaUid();
                   String? caPwd = await localStorage.getCaPwd();
-
+                  if (!context.mounted) return;
                   await authRepo.getWsUrl(
                     context: context,
                     acctUid: caUid,

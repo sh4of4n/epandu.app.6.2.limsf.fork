@@ -156,6 +156,7 @@ class _InviteFriendState extends State<InviteFriend> {
                       roomDesc: inviteRoomResponse.roomDesc ?? '',
                       picturePath: inviteRoomResponse.picturePath ?? '');
 
+                  if (!context.mounted) return;
                   context.read<RoomHistory>().addRoom(room: roomHistoryModel);
 
                   //print('Room Insert value ' + val.toString());
@@ -227,7 +228,7 @@ class _InviteFriendState extends State<InviteFriend> {
                         } else {
                           splitRoomName = room.roomName!;
                         }
-
+                        if (!context.mounted) return;
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -244,7 +245,7 @@ class _InviteFriendState extends State<InviteFriend> {
                 } else {
                   await EasyLoading.dismiss();
                   final customDialog = CustomDialog();
-
+                  if (!context.mounted) return;
                   return customDialog.show(
                     context: context,
                     type: DialogType.ERROR,
@@ -344,7 +345,7 @@ class _InviteFriendState extends State<InviteFriend> {
       } else {
         await EasyLoading.dismiss();
         final customDialog = CustomDialog();
-
+        if (!context.mounted) return;
         return customDialog.show(
           context: context,
           type: DialogType.ERROR,

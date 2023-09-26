@@ -55,6 +55,7 @@ Future<bool> _onWillPop(
     if (await controllerGlobal!.canGoBack()) {
       controllerGlobal!.goBack();
     } else {
+      if (!context.mounted) return false;
       // _confirmBack(customDialog, context);
       Provider.of<CallStatusModel>(context, listen: false).callStatus(false);
       return true;
@@ -177,21 +178,22 @@ Page resource error:
 
               showModalBottomSheet(
                 context: context,
-                builder: (BuildContext context) {
+                builder: (BuildContext dialogContext) {
                   return SafeArea(
                     child: Wrap(
                       children: <Widget>[
                         for (var map in availableMaps)
                           ListTile(
                             onTap: () async {
+                              final currentContext = dialogContext;
                               await map.showDirections(
                                 destination: Coords(
                                   double.parse(lat!),
                                   double.parse(lng!),
                                 ),
                               );
-
-                              context.router.pop();
+                              if (!currentContext.mounted) return;
+                              currentContext.router.pop();
                             },
                             title: Text(map.mapName),
                             leading: SvgPicture.asset(
@@ -221,6 +223,7 @@ Page resource error:
           if (createChatSupportResult.isSuccess) {
             if (createChatSupportResult.data != null &&
                 createChatSupportResult.data.length > 0) {
+              if (!context.mounted) return;
               await context.read<SocketClientHelper>().loginUserRoom();
 
               String userid = await localStorage.getUserId() ?? '';
@@ -245,7 +248,7 @@ Page resource error:
                   });
                 }
               }
-
+              if (!context.mounted) return;
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -266,7 +269,7 @@ Page resource error:
                 .contains('add merchant user')) {
               _message = 'Not Avaliable Yet';
             }
-
+            if (!context.mounted) return;
             customDialog.show(
                 context: context,
                 content: _message ?? "Error",

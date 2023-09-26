@@ -87,7 +87,7 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
           EasyLoading.dismiss();
         }
       }
-
+      if (!context.mounted) return;
       context.router.pop(result.data[0]);
     }
   }
@@ -422,7 +422,7 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                                                   });
                                                 });
                                               }
-
+                                              if (!context.mounted) return;
                                               context.router.pop();
                                             },
                                             child: const Text('Take photo'),
@@ -443,6 +443,7 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
                                                   }
                                                 });
                                               }
+                                              if (!context.mounted) return;
                                               context.router.pop();
                                             },
                                             child: const Text(

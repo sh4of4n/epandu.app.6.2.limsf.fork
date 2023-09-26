@@ -17,7 +17,8 @@ class OrderList extends StatefulWidget {
   final String? packageCode;
   final String? diCode;
 
-  const OrderList({super.key, 
+  const OrderList({
+    super.key,
     this.icNo,
     this.packageCode,
     this.diCode,
@@ -70,6 +71,7 @@ class _OrderListState extends State<OrderList> {
     );
 
     if (result.isSuccess) {
+      if (!context.mounted) return;
       context.router.push(
         Webview(url: result.data[0].receiptUrl),
       );
@@ -95,8 +97,8 @@ class _OrderListState extends State<OrderList> {
                 case ConnectionState.waiting:
                   return Container(
                     padding: const EdgeInsets.all(15.0),
-                    margin:
-                        const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 15.0, horizontal: 8.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15.0),
@@ -164,7 +166,9 @@ class _OrderListState extends State<OrderList> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 20.w, vertical: 20.h),
                                 child: Table(
-                                  columnWidths: const {1: FractionColumnWidth(.35)},
+                                  columnWidths: const {
+                                    1: FractionColumnWidth(.35)
+                                  },
                                   children: [
                                     TableRow(
                                       children: [
@@ -215,9 +219,7 @@ class _OrderListState extends State<OrderList> {
                                           ),
                                         ),
                                         Text(
-                                          '${AppLocalizations.of(context)!.translate('discount')}: ${double.tryParse(snapshot
-                                                      .data[index].tlDiscAmt)!
-                                                  .toStringAsFixed(2)}',
+                                          '${AppLocalizations.of(context)!.translate('discount')}: ${double.tryParse(snapshot.data[index].tlDiscAmt)!.toStringAsFixed(2)}',
                                         ),
                                       ],
                                     ),
@@ -225,9 +227,7 @@ class _OrderListState extends State<OrderList> {
                                       children: [
                                         const Text(''),
                                         Text(
-                                          '${AppLocalizations.of(context)!.translate('total_lbl')}: ${double.tryParse(snapshot
-                                                      .data[index].tlOrdAmt)!
-                                                  .toStringAsFixed(2)}',
+                                          '${AppLocalizations.of(context)!.translate('total_lbl')}: ${double.tryParse(snapshot.data[index].tlOrdAmt)!.toStringAsFixed(2)}',
                                           style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),

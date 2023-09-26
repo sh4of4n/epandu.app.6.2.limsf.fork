@@ -331,6 +331,7 @@ class MenuButton extends StatelessWidget {
           default:
             route = null;
         }
+        if (!context.mounted) return;
         if (route == null) {
           await context.router.replaceAll([const Home()]);
         } else {

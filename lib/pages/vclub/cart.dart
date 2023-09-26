@@ -58,7 +58,7 @@ class _CartState extends State<Cart> {
 
     if (result.isSuccess) {
       // return result.data;
-
+      if (!context.mounted) return;
       var slsDetail = await _getSlsDetailByDocNo(
         context,
         result.data[0].docDoc,

@@ -56,6 +56,7 @@ class _AuthenticationState extends State<Authentication> {
     // if (wsUrl == null) {
     if (Hive.box('ws_url').get('getWsUrl') == '1' ||
         Hive.box('ws_url').get('getWsUrl') == null) {
+      if (!context.mounted) return;
       await authRepo.getWsUrl(
         context: context,
         acctUid: caUid,
@@ -70,7 +71,7 @@ class _AuthenticationState extends State<Authentication> {
 
   _setLocale() async {
     String? locale = await localStorage.getLocale();
-
+    if (!context.mounted) return;
     if (locale == 'en') {
       Provider.of<LanguageModel>(context, listen: false).selectedLanguage(
           AppLocalizations.of(context)!.translate('english_lbl'));
@@ -85,16 +86,19 @@ class _AuthenticationState extends State<Authentication> {
     String? diCode = await localStorage.getMerchantDbCode();
 
     if (userId != null && userId.isNotEmpty && diCode!.isNotEmpty) {
+      if (!context.mounted) return;
       await context.read<SocketClientHelper>().loginUserRoom();
-
+      if (!context.mounted) return;
       context.router.replace(const Home());
     } else if (userId != null && userId.isNotEmpty && diCode!.isEmpty) {
+      if (!context.mounted) return;
       context.read<SocketClientHelper>().logoutUserRoom();
-
+      if (!context.mounted) return;
       await authRepo.logout(context: context, type: '');
-
+      if (!context.mounted) return;
       context.router.replace(const Login());
     } else {
+      if (!context.mounted) return;
       context.router.replace(const Login());
     }
   }

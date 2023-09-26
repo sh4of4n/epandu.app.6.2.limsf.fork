@@ -118,6 +118,7 @@ class _ValueClubState extends State<ValueClub> {
 
     if (result.isSuccess) {
       // return result.data;
+      if (!context.mounted) return;
       _getSlsDetailByDocNo(
         context,
         result.data[0].docDoc,

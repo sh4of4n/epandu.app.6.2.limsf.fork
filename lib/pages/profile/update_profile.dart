@@ -1157,7 +1157,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
           _message = result.message;
           _messageStyle = const TextStyle(color: Colors.green);
         });
-
+        if (!context.mounted) return;
         await authRepo.getUserRegisteredDI(context: context, type: 'UPDATE');
 
         String? userId = await localStorage.getUserId();
@@ -1180,7 +1180,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
             });
           }
         }
-
+        if (!context.mounted) return;
         context.router.pop(true);
       } else {
         setState(() {

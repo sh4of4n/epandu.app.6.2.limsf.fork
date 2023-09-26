@@ -137,7 +137,7 @@ class _ProductState extends State<Product> {
 
     if (result.isSuccess) {
       // return result.data;
-
+      if (!context.mounted) return;
       _getSlsDetailByDocNo(
         context,
         result.data[0].docDoc,
@@ -243,7 +243,7 @@ class _ProductState extends State<Product> {
       setState(() {
         _saveBtnIsLoading = false;
       });
-
+      if (!context.mounted) return;
       int cartItem = Provider.of<CartStatus>(context, listen: false).cartItem!;
 
       Provider.of<CartStatus>(context, listen: false).setShowBadge(
@@ -266,6 +266,7 @@ class _ProductState extends State<Product> {
             ),
           ); */
     } else {
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         content: 'Failed to save sales order. Please try again later.',

@@ -203,7 +203,7 @@ class _FavourieMapPageState extends State<FavourieMapPage> {
 
                       LatLng middlePoint =
                           await mapController.getLatLng(screenCoordinate);
-
+                      if (!context.mounted) return;
                       await context.router.pop(middlePoint);
                     },
                     child: const Text('Select'),

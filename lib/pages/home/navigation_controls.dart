@@ -82,7 +82,7 @@ class NavigationControls extends StatelessWidget {
             ],
             type: DialogType.GENERAL,
           ); */
-
+          if (!context.mounted) return;
           Provider.of<CallStatusModel>(context, listen: false)
               .callStatus(false);
           context.router.pop();

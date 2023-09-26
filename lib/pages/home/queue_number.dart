@@ -56,6 +56,7 @@ class _QueueNumberState extends State<QueueNumber> {
     if (result.isSuccess) {
       checkInData = result.data;
     } else {
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         content: result.message!,
