@@ -86,15 +86,15 @@ class MessageCard extends StatelessWidget {
                         style: MyTheme.heading2.copyWith(fontSize: 13),
                       ),
                   replyMessageDetails.replyToId == 0
-                      ? !isSearching
-                          ? Text(
+                      ? isSearching && searchKey != ''
+                          ? buildRichText(searchKey, messageDetails.msgBody!)
+                          : Text(
                               messageDetails.msgBody!,
                               style: MyTheme.bodyText1.copyWith(
                                   color: localUser == messageDetails.userId!
                                       ? Colors.white
                                       : Colors.black87),
                             )
-                          : buildRichText(searchKey, messageDetails.msgBody!)
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [

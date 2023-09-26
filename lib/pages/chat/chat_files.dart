@@ -182,9 +182,7 @@ class _VideoItemsState extends State<VideoItems> {
                 controls: FlickLandscapeControls(),
               ),
             ))
-        : Container(
-            child: const Center(child: Text('No Video From Server')),
-          );
+        : const Center(child: Text('No Video From Server'));
   }
 }
 

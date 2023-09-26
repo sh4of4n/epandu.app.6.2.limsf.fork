@@ -139,11 +139,9 @@ class ImageCard extends StatelessWidget {
                                       )
                                     ],
                                   )
-                            : Container(
-                                child: Center(
-                                    child: Text('No Image from server',
-                                        style: MyTheme.bodyText1)),
-                              )),
+                            : Center(
+                                child: Text('No Image from server',
+                                    style: MyTheme.bodyText1))),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.min,

@@ -51,8 +51,7 @@ class _VideoCardState extends State<VideoCard> {
     super.initState();
     // print('TE1 :' + widget.filePath);
     flickManager = FlickManager(
-      videoPlayerController:
-          VideoPlayerController.file(File(widget.filePath)),
+      videoPlayerController: VideoPlayerController.file(File(widget.filePath)),
     );
     // print('TE2 :' +
     //     flickManager.flickVideoManager!.videoPlayerController!.dataSource);
@@ -126,28 +125,25 @@ class _VideoCardState extends State<VideoCard> {
                         ),
                     widget.filePath != ''
                         ? widget.replyMessageDetails.replyToId == 0
-                            ? Container(
-                                child: FlickVideoPlayer(
-                                  flickManager: flickManager,
-                                  flickVideoWithControls:
-                                      FlickVideoWithControls(
-                                    controls: IconTheme(
-                                        data:
-                                            const IconThemeData(color: Colors.white),
-                                        child: FlickPortraitControls(
-                                          progressBarSettings:
-                                              FlickProgressBarSettings(
-                                            bufferedColor:
-                                                Colors.white.withOpacity(0.2),
-                                            playedColor: Colors.white,
-                                            handleColor: Colors.white,
-                                          ),
-                                        )),
-                                  ),
-                                  flickVideoWithControlsFullscreen:
-                                      const FlickVideoWithControls(
-                                    controls: FlickLandscapeControls(),
-                                  ),
+                            ? FlickVideoPlayer(
+                                flickManager: flickManager,
+                                flickVideoWithControls: FlickVideoWithControls(
+                                  controls: IconTheme(
+                                      data: const IconThemeData(
+                                          color: Colors.white),
+                                      child: FlickPortraitControls(
+                                        progressBarSettings:
+                                            FlickProgressBarSettings(
+                                          bufferedColor:
+                                              Colors.white.withOpacity(0.2),
+                                          playedColor: Colors.white,
+                                          handleColor: Colors.white,
+                                        ),
+                                      )),
+                                ),
+                                flickVideoWithControlsFullscreen:
+                                    const FlickVideoWithControls(
+                                  controls: FlickLandscapeControls(),
                                 ),
                               )
                             : Column(
@@ -165,28 +161,23 @@ class _VideoCardState extends State<VideoCard> {
                                     alignment: Alignment.centerLeft,
                                     child: Padding(
                                         padding: const EdgeInsets.all(5.0),
-                                        child: Container(
-                                          child: FlickVideoPlayer(
-                                            flickManager: flickManager,
-                                            flickVideoWithControls:
-                                                const FlickVideoWithControls(
-                                              controls: FlickPortraitControls(),
-                                            ),
-                                            flickVideoWithControlsFullscreen:
-                                                const FlickVideoWithControls(
-                                              controls:
-                                                  FlickLandscapeControls(),
-                                            ),
+                                        child: FlickVideoPlayer(
+                                          flickManager: flickManager,
+                                          flickVideoWithControls:
+                                              const FlickVideoWithControls(
+                                            controls: FlickPortraitControls(),
+                                          ),
+                                          flickVideoWithControlsFullscreen:
+                                              const FlickVideoWithControls(
+                                            controls: FlickLandscapeControls(),
                                           ),
                                         )),
                                   )
                                 ],
                               )
-                        : Container(
-                            child: Center(
-                                child: Text('No Video From Server',
-                                    style: MyTheme.bodyText1)),
-                          ),
+                        : Center(
+                            child: Text('No Video From Server',
+                                style: MyTheme.bodyText1)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

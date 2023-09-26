@@ -96,12 +96,10 @@ class _RoomListState extends State<RoomList> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: getAppBar(context),
-        body: Container(
-          child: Column(
-            children: [
-              Expanded(child: _populateListView(id!)),
-            ],
-          ),
+        body: Column(
+          children: [
+            Expanded(child: _populateListView(id!)),
+          ],
         ));
   }
 

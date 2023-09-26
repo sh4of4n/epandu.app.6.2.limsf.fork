@@ -653,8 +653,8 @@ class _ChatHome2State extends State<ChatHome2> {
           reverse: true,
           itemScrollController: itemScrollController,
           itemPositionsListener: itemPositionsListener,
-          physics:
-              BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
           itemBuilder: (context, index) {
             // if (index == msgList.getMessageDetailsList.length) {
             //   if (isDataLoading) {
@@ -709,7 +709,7 @@ class _ChatHome2State extends State<ChatHome2> {
                     },
                     onTap: () {
                       doMultiSelectionItem(getMessageDetailsList[index]);
-                      if (_selectedItems.length == 0) {
+                      if (_selectedItems.isEmpty) {
                         setState(() {
                           isMultiSelectionEnabled = false;
                         });
@@ -1007,12 +1007,12 @@ class _ChatHome2State extends State<ChatHome2> {
                                     size: 30,
                                     color: Colors.blue,
                                   )
-                                : Text(''))
+                                : const Text(''))
                       ],
                     )),
               );
             }
-            return SizedBox.shrink();
+            return const SizedBox.shrink();
           },
         ),
       ),
@@ -1906,11 +1906,8 @@ class _ChatHome2State extends State<ChatHome2> {
                       "msgBinaryType": 'userLeft',
                       "replyToId": -1,
                       "clientMessageId": clientMessageId,
-                      "misc": "[FCM_Notification=title:" +
-                          roomName +
-                          ' - ' +
-                          localUserName +
-                          "]"
+                      "misc":
+                          "[FCM_Notification=title: $roomName - $localUserName]"
                     };
 
                     socket.emitWithAck('sendMessage', messageJson,
@@ -2060,8 +2057,7 @@ class _ChatHome2State extends State<ChatHome2> {
         "msgBody": text,
         "replyToId": replyMessageDetails.replyToId,
         "clientMessageId": clientMessageId,
-        "misc":
-            "[FCM_Notification=title:" + roomName + ' - ' + localUserName + "]"
+        "misc": "[FCM_Notification=title: $roomName - $localUserName]"
       };
       //print('sendMessage: $messageJson');
       if (socket.connected) {
@@ -2319,8 +2315,7 @@ class _ChatHome2State extends State<ChatHome2> {
       "replyToId": replyMessageDetails.replyToId,
       "msgBinaryType": msgBinaryType,
       "clientMessageId": clientMessageId,
-      "misc":
-          "[FCM_Notification=title:" + roomName + ' - ' + localUserName + "]"
+      "misc": "[FCM_Notification=title: $roomName - $localUserName]"
     };
     //print(messageJson);
     if (socket.connected) {
@@ -2846,7 +2841,7 @@ class _ChatHome2State extends State<ChatHome2> {
         horizontalSpacing: 0,
         gridPadding: EdgeInsets.zero,
         initCategory: Category.RECENT,
-        bgColor: Color(0xFFF2F2F2),
+        bgColor: const Color(0xFFF2F2F2),
         indicatorColor: Colors.blue,
         iconColor: Colors.grey,
         iconColorSelected: Colors.blue,

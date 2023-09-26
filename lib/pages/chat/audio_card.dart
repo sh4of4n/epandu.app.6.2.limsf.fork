@@ -275,11 +275,9 @@ class _AudioCardState extends State<AudioCard> {
                                     )
                                   ],
                                 )
-                          : Container(
-                              child: Center(
-                                child: Text('No Audio From Server',
-                                    style: MyTheme.bodyText1),
-                              ),
+                          : Center(
+                              child: Text('No Audio From Server',
+                                  style: MyTheme.bodyText1),
                             ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

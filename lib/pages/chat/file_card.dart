@@ -191,13 +191,11 @@ class FileCard extends StatelessWidget {
                                   )
                                 ],
                               )
-                        : Container(
-                            child: Center(
-                                child: Text(
-                              'No File From Server',
-                              style: MyTheme.bodyText1,
-                            )),
-                          ),
+                        : Center(
+                            child: Text(
+                            'No File From Server',
+                            style: MyTheme.bodyText1,
+                          )),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.min,

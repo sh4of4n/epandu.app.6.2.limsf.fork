@@ -76,39 +76,37 @@ class _RoomMembersListState extends State<RoomMembersList> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: getAppbar(context),
-        body: Container(
-          child: Column(
-            children: [
-              // if (widget.roomDesc.toUpperCase().contains("GROUP"))
-              //   Padding(
-              //     padding: const EdgeInsets.all(8.0),
-              //     child: TextField(
-              //       onChanged: (value) {
-              //         _updateListview();
-              //       },
-              //       controller: editingController,
-              //       decoration: InputDecoration(
-              //           labelText: "Search",
-              //           hintText: "Search",
-              //           prefixIcon: Icon(Icons.search),
-              //           suffixIcon: editingController.text.length > 0
-              //               ? IconButton(
-              //                   // Icon to
-              //                   icon: Icon(Icons.clear), // clear text
-              //                   onPressed: () {
-              //                     editingController.text = '';
-              //                     _updateListview();
-              //                   },
-              //                 )
-              //               : null,
-              //           border: OutlineInputBorder(
-              //               borderRadius:
-              //                   BorderRadius.all(Radius.circular(25.0)))),
-              //     ),
-              //   ),
-              Expanded(child: _populateListView()),
-            ],
-          ),
+        body: Column(
+          children: [
+            // if (widget.roomDesc.toUpperCase().contains("GROUP"))
+            //   Padding(
+            //     padding: const EdgeInsets.all(8.0),
+            //     child: TextField(
+            //       onChanged: (value) {
+            //         _updateListview();
+            //       },
+            //       controller: editingController,
+            //       decoration: InputDecoration(
+            //           labelText: "Search",
+            //           hintText: "Search",
+            //           prefixIcon: Icon(Icons.search),
+            //           suffixIcon: editingController.text.length > 0
+            //               ? IconButton(
+            //                   // Icon to
+            //                   icon: Icon(Icons.clear), // clear text
+            //                   onPressed: () {
+            //                     editingController.text = '';
+            //                     _updateListview();
+            //                   },
+            //                 )
+            //               : null,
+            //           border: OutlineInputBorder(
+            //               borderRadius:
+            //                   BorderRadius.all(Radius.circular(25.0)))),
+            //     ),
+            //   ),
+            Expanded(child: _populateListView()),
+          ],
         ));
   }
 

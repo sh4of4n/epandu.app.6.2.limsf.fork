@@ -300,11 +300,8 @@ class _CreateGroupState extends State<CreateGroup> {
                         "msgBinaryType": 'userJoined',
                         "replyToId": -1,
                         "clientMessageId": clientMessageId,
-                        "misc": "[FCM_Notification=title:" +
-                            inviteRoomResponse.roomName! +
-                            ' - ' +
-                            userName +
-                            "]"
+                        "misc":
+                            "[FCM_Notification=title: ${inviteRoomResponse.roomName} - $userName]"
                       };
 
                       socket.emitWithAck('sendMessage', messageJson,
