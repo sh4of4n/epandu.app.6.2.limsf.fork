@@ -132,7 +132,7 @@ class SocketClientHelper extends ChangeNotifier {
         if (result.data != null && result.data.length > 0) {
           for (int i = 0; i < result.data.length; i += 1) {
             int indexRoom = rooms.indexWhere(
-                (element) => element.roomId == result.data[i].room_id);
+                (element) => element.roomId == result.data[i].roomId);
             if (indexRoom == -1) {
               await dbHelper.saveRoomTable(result.data[i]);
               RoomHistoryModel roomHistoryModel = RoomHistoryModel(
@@ -710,11 +710,8 @@ class SocketClientHelper extends ChangeNotifier {
       "replyToId": messageDetails.replyToId,
       "msgBinaryType": messageDetails.msgBinaryType,
       "clientMessageId": messageDetails.clientMessageId,
-      "misc": "[FCM_Notification=title:" +
-          messageDetails.roomName! +
-          ' - ' +
-          localUserName +
-          "]"
+      "misc":
+          "[FCM_Notification=title:${messageDetails.roomName} - $localUserName]"
     };
     //print(messageJson);
     if (socket.connected) {

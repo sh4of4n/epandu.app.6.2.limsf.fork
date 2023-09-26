@@ -113,6 +113,7 @@ dependencies:
   flick_video_player:
   visibility_detector:
   cached_network_image:
+  path:
 
 dependency_overrides:
   modal_bottom_sheet:

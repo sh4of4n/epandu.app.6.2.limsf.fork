@@ -294,11 +294,7 @@ class _RoomListState extends State<RoomList> {
                       "msgBinaryType": 'userLeft',
                       "replyToId": -1,
                       "clientMessageId": clientMessageId,
-                      "misc": "[FCM_Notification=title:" +
-                          roomName +
-                          ' - ' +
-                          name +
-                          "]"
+                      "misc": "[FCM_Notification=title: $roomName - $name]"
                     };
 
                     socket.emitWithAck('sendMessage', messageJson,
@@ -470,6 +466,7 @@ class _RoomListState extends State<RoomList> {
     }
 
     return Card(
+      color: itemColor,
       child: ListTile(
         onLongPress: () {
           setState(() {

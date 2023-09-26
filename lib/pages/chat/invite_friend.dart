@@ -80,41 +80,39 @@ class _InviteFriendState extends State<InviteFriend> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: getAppBar(context),
-      body: Container(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: TextField(
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  if (value.length > 9) {
-                    getFriendData();
-                  } else {
-                    getFriendData();
-                  }
-                },
-                controller: editingController,
-                decoration: InputDecoration(
-                    labelText: "Search Friend By Mobile No.",
-                    hintText: "Search Friend By Mobile No.",
-                    prefixIcon: const Icon(Icons.search),
-                    suffixIcon: editingController.text.isNotEmpty
-                        ? IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: () {
-                              editingController.text = '';
-                              getFriendData();
-                            },
-                          )
-                        : null,
-                    border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)))),
-              ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: TextField(
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                if (value.length > 9) {
+                  getFriendData();
+                } else {
+                  getFriendData();
+                }
+              },
+              controller: editingController,
+              decoration: InputDecoration(
+                  labelText: "Search Friend By Mobile No.",
+                  hintText: "Search Friend By Mobile No.",
+                  prefixIcon: const Icon(Icons.search),
+                  suffixIcon: editingController.text.isNotEmpty
+                      ? IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () {
+                            editingController.text = '';
+                            getFriendData();
+                          },
+                        )
+                      : null,
+                  border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)))),
             ),
-            Expanded(child: _populateListView()),
-          ],
-        ),
+          ),
+          Expanded(child: _populateListView()),
+        ],
       ),
       floatingActionButton: memberByPhoneResponseList.length == 1
           ? FloatingActionButton(

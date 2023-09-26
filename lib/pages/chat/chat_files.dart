@@ -14,8 +14,7 @@ class ChatFiles extends StatelessWidget {
   Widget build(BuildContext context) {
     String storagePath =
         '/storage/emulated/0/Android/data/my.com.tbs.epandu.app/files/';
-    return Container(
-        child: DefaultTabController(
+    return DefaultTabController(
       length: 4,
       child: Scaffold(
         appBar: AppBar(
@@ -41,7 +40,7 @@ class ChatFiles extends StatelessWidget {
           ],
         ),
       ),
-    ));
+    );
   }
 }
 
@@ -122,12 +121,14 @@ class _GalleryItemsState extends State<GalleryItems> {
       } else {
         return Center(
             child: Text('No ${widget.type} Found.',
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
+                style: const TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.bold)));
       }
     } else {
       return Center(
           child: Text('No ${widget.type} Found.',
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
+              style:
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
     }
   }
 }
