@@ -824,7 +824,7 @@ class DatabaseHelper {
   Future<List<RoomHistoryModel>> getRoomListWithMessage(String userId) async {
     Database db = await instance.database;
     var res = await db.rawQuery(
-        "SELECT   $M_ROOM_TABLE.room_id,$M_ROOM_TABLE.picture_path,$M_ROOM_TABLE.room_name,$M_ROOM_TABLE.room_desc,$M_ROOM_TABLE.merchant_no,$M_MSG_DETAIL_TABLE.message_id,$M_MSG_DETAIL_TABLE.msg_body,$M_MSG_DETAIL_TABLE.msg_binaryType,$M_MSG_DETAIL_TABLE.filePath, $M_MSG_DETAIL_TABLE.nickName AS nick_name,$M_MSG_DETAIL_TABLE.send_datetime FROM $M_ROOM_TABLE  LEFT JOIN $M_MSG_DETAIL_TABLE on $M_MSG_DETAIL_TABLE.room_id=$M_ROOM_TABLE.room_id where $M_ROOM_TABLE.owner_id = '$userId'   group by $M_ROOM_TABLE.room_id order by max($M_MSG_DETAIL_TABLE.message_id) desc;");
+        "SELECT   $M_ROOM_TABLE.room_id,$M_ROOM_TABLE.picture_path,$M_ROOM_TABLE.room_name,$M_ROOM_TABLE.room_desc,$M_ROOM_TABLE.merchant_no,$M_MSG_DETAIL_TABLE.message_id,$M_MSG_DETAIL_TABLE.msg_body,$M_MSG_DETAIL_TABLE.msg_binaryType,$M_MSG_DETAIL_TABLE.filePath, $M_MSG_DETAIL_TABLE.nickName AS nick_name,$M_MSG_DETAIL_TABLE.send_datetime FROM $M_ROOM_TABLE  LEFT JOIN $M_MSG_DETAIL_TABLE on $M_MSG_DETAIL_TABLE.room_id=$M_ROOM_TABLE.room_id AND  $M_MSG_DETAIL_TABLE.deleted == 0 where $M_ROOM_TABLE.owner_id = '$userId'     group by $M_ROOM_TABLE.room_id order by max($M_MSG_DETAIL_TABLE.message_id) desc;");
     // var res = await db.rawQuery(
     //     "SELECT   $M_ROOM_TABLE.room_id,$M_ROOM_TABLE.picture_path,$M_ROOM_TABLE.room_name,$M_ROOM_TABLE.room_desc  ,$M_MSG_DETAIL_TABLE.message_id,$M_MSG_DETAIL_TABLE.msg_body,$M_MSG_DETAIL_TABLE.deleted,$M_MSG_DETAIL_TABLE.msg_binaryType,$M_MSG_DETAIL_TABLE.filePath, $M_MSG_DETAIL_TABLE.nickName AS nick_name,$M_MSG_DETAIL_TABLE.send_datetime  FROM $M_ROOM_TABLE  LEFT JOIN $M_MSG_DETAIL_TABLE on $M_MSG_DETAIL_TABLE.room_id=$M_ROOM_TABLE.room_id INNER JOIN (SELECT room_id, MAX(send_datetime) AS max_timestamp FROM $M_MSG_DETAIL_TABLE GROUP BY room_id) latest_messages ON $M_MSG_DETAIL_TABLE.room_id = latest_messages.room_id AND $M_MSG_DETAIL_TABLE.send_datetime = latest_messages.max_timestamp where $M_ROOM_TABLE.owner_id = '$userId'  group by $M_ROOM_TABLE.room_id");
 
@@ -1070,6 +1070,13 @@ class DatabaseHelper {
     Database db = await instance.database;
     return await db.delete(M_MSG_DETAIL_TABLE,
         where: 'message_id = ?', whereArgs: [messageId]);
+  }
+
+  Future<int> updateMessageStatus(int messageId) async {
+    Database db = await instance.database;
+    return await db.rawUpdate(
+        "UPDATE $M_MSG_DETAIL_TABLE SET deleted = ? where message_id = ?",
+        [1, messageId]);
   }
 
   Future<int> deleteMsgDetailTableByClientMessageId(

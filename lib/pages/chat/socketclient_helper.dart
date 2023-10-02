@@ -503,7 +503,8 @@ class SocketClientHelper extends ChangeNotifier {
             if (list.isNotEmpty) {
               await deleteFile(File(list[0].filePath!));
             }
-            await dbHelper.deleteMsgDetailTable(result["messageId"]);
+            //await dbHelper.deleteMsgDetailTable(result["messageId"]);
+            await dbHelper.updateMessageStatus(result["messageId"]);
             if (ctx.mounted) {
               Provider.of<RoomHistory>(ctx, listen: false).getRoomHistory();
             }
@@ -512,7 +513,8 @@ class SocketClientHelper extends ChangeNotifier {
                 .read<ChatHistory>()
                 .deleteChatItem(result["messageId"], result["roomId"]);
             Provider.of<RoomHistory>(ctx, listen: false).getRoomHistory();
-            await dbHelper.deleteMsgDetailTable(result["messageId"]);
+            //await dbHelper.deleteMsgDetailTable(result["messageId"]);
+            await dbHelper.updateMessageStatus(result["messageId"]);
           }
           notifyListeners();
         }

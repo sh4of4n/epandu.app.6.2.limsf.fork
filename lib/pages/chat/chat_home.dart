@@ -1983,7 +1983,8 @@ class _ChatHome2State extends State<ChatHome2> {
       }
       if (!context.mounted) return;
       context.read<ChatHistory>().deleteChatItem(messageId, roomId);
-      await dbHelper.deleteMsgDetailTable(messageId);
+      // await dbHelper.deleteMsgDetailTable(messageId);
+      await dbHelper.updateMessageStatus(messageId);
     } else {
       var deleteMessageJson = {
         "messageId": messageId,
@@ -2005,7 +2006,8 @@ class _ChatHome2State extends State<ChatHome2> {
             }
             if (!context.mounted) return;
             context.read<ChatHistory>().deleteChatItem(messageId, roomId);
-            await dbHelper.deleteMsgDetailTable(messageId);
+            //await dbHelper.deleteMsgDetailTable(messageId);
+            await dbHelper.updateMessageStatus(messageId);
           }
         } else {
           print("Null from deleteMessage");
