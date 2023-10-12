@@ -286,7 +286,9 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
                           final text = newValue.text;
                           if (text.isNotEmpty) double.parse(text);
                           return newValue;
-                        } catch (e) {}
+                        } catch (e) {
+                          print(e.toString());
+                        }
                         return oldValue;
                       }),
                     ],

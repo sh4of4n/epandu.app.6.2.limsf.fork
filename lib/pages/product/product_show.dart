@@ -6,7 +6,7 @@ class ProductShowPage extends StatefulWidget {
   const ProductShowPage({super.key});
 
   @override
-  _ProductShowPageState createState() => _ProductShowPageState();
+  State<ProductShowPage> createState() => _ProductShowPageState();
 }
 
 class _ProductShowPageState extends State<ProductShowPage> {

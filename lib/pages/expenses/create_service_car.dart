@@ -346,17 +346,15 @@ class _CreateServiceCarPageState extends State<CreateServiceCarPage> {
       children: selectedItems.map((e) {
         return Padding(
           padding: const EdgeInsets.all(4.0),
-          child: Container(
-            child: ListTile(
-              contentPadding: const EdgeInsets.all(0),
-              leading: const CircleAvatar(
-                  // this does not work - throws 404 error
-                  // backgroundImage: NetworkImage(item.avatar ?? ''),
-                  ),
-              title: Text(e?.name ?? ''),
-              subtitle: Text(
-                e?.createdAt.toString() ?? '',
-              ),
+          child: ListTile(
+            contentPadding: const EdgeInsets.all(0),
+            leading: const CircleAvatar(
+                // this does not work - throws 404 error
+                // backgroundImage: NetworkImage(item.avatar ?? ''),
+                ),
+            title: Text(e?.name ?? ''),
+            subtitle: Text(
+              e?.createdAt.toString() ?? '',
             ),
           ),
         );

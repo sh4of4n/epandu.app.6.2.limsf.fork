@@ -12,7 +12,7 @@ class AttendanceTab extends StatefulWidget {
   const AttendanceTab({super.key});
 
   @override
-  _AttendanceTabState createState() => _AttendanceTabState();
+  State<AttendanceTab> createState() => _AttendanceTabState();
 }
 
 class _AttendanceTabState extends State<AttendanceTab>

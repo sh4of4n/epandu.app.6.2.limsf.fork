@@ -25,7 +25,7 @@ class ExamTemplate extends StatefulWidget {
       {super.key, this.snapshot, this.index, this.groupId, this.paperNo});
 
   @override
-  _ExamTemplateState createState() => _ExamTemplateState();
+  State<ExamTemplate> createState() => _ExamTemplateState();
 }
 
 class _ExamTemplateState extends State<ExamTemplate> {
@@ -124,7 +124,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   },
                 ),
               ],
-              type: DialogType.GENERAL,
+              type: DialogType.general,
             );
           } else {
             second -= 1;
@@ -170,13 +170,15 @@ class _ExamTemplateState extends State<ExamTemplate> {
       for (var i = 0; i <= 4; i++) {
         if (i == 0) {
           roman.add('I)');
-        } else if (i == 1)
+        } else if (i == 1) {
           roman.add('II)');
-        else if (i == 2)
+        } else if (i == 2) {
           roman.add('III)');
-        else if (i == 3)
+        } else if (i == 3) {
           roman.add('IV)');
-        else if (i == 4) roman.add('V.');
+        } else if (i == 4) {
+          roman.add('V.');
+        }
 
         // Add question options and question options image
         switch (i) {
@@ -236,13 +238,15 @@ class _ExamTemplateState extends State<ExamTemplate> {
       for (var i = 0; i <= 4; i++) {
         if (i == 0) {
           type.add('a');
-        } else if (i == 1)
+        } else if (i == 1) {
           type.add('b');
-        else if (i == 2)
+        } else if (i == 2) {
           type.add('c');
-        else if (i == 3)
+        } else if (i == 3) {
           type.add('d');
-        else if (i == 4) type.add('e');
+        } else if (i == 4) {
+          type.add('e');
+        }
 
         switch (i) {
           case 0:
@@ -460,7 +464,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   context,
                   message: AppLocalizations.of(context)!
                       .translate('first_page_desc'),
-                  type: MessageType.TOAST,
+                  type: MessageType.toast,
                 );
               }
             },
@@ -521,7 +525,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   duration: 1000,
                   message: AppLocalizations.of(context)!
                       .translate('select_answer_desc'),
-                  type: MessageType.TOAST,
+                  type: MessageType.toast,
                 );
               }
             },
@@ -571,7 +575,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
           },
         ),
       ],
-      type: DialogType.GENERAL,
+      type: DialogType.general,
     );
   }
 

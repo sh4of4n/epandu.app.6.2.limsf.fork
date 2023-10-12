@@ -19,7 +19,7 @@ class RequestPickup extends StatefulWidget {
   const RequestPickup({super.key});
 
   @override
-  _RequestPickupState createState() => _RequestPickupState();
+  State<RequestPickup> createState() => _RequestPickupState();
 }
 
 class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
@@ -379,7 +379,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
             ),
           ),
           content: AppLocalizations.of(context)!.translate('pickup_added'),
-          type: DialogType.GENERAL,
+          type: DialogType.general,
           customActions: <Widget>[
             TextButton(
               child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
@@ -392,7 +392,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
         if (!context.mounted) return;
         customDialog.show(
           context: context,
-          type: DialogType.ERROR,
+          type: DialogType.error,
           content: result.message.toString(),
           onPressed: () => context.router.pop(),
         );

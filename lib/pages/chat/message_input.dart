@@ -18,7 +18,8 @@ class MessageInput extends StatefulWidget {
   final FocusNode? focusNode;
 
   const MessageInput(
-      {super.key, required this.textEditingController,
+      {super.key,
+      required this.textEditingController,
       this.onPressedSend,
       this.onPressedAttach,
       this.onPressedVoice,
@@ -29,7 +30,7 @@ class MessageInput extends StatefulWidget {
       this.focusNode});
 
   @override
-  _MessageInputState createState() => _MessageInputState();
+  State<MessageInput> createState() => _MessageInputState();
 }
 
 class _MessageInputState extends State<MessageInput> {
@@ -59,7 +60,8 @@ class _MessageInputState extends State<MessageInput> {
                       ),
                       child: Row(
                         children: [
-                          IconButton(icon: const Icon(Icons.face), onPressed: () {}),
+                          IconButton(
+                              icon: const Icon(Icons.face), onPressed: () {}),
                           Expanded(
                             child: TextFormField(
                               maxLines: null,

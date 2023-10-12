@@ -16,7 +16,7 @@ class RegisterVerification extends StatefulWidget {
   const RegisterVerification(this.data, {super.key});
 
   @override
-  _RegisterVerificationState createState() => _RegisterVerificationState();
+  State<RegisterVerification> createState() => _RegisterVerificationState();
 }
 
 class _RegisterVerificationState extends State<RegisterVerification> {
@@ -223,10 +223,11 @@ class _RegisterVerificationState extends State<RegisterVerification> {
                                     style: ElevatedButton.styleFrom(
                                       minimumSize: Size(420.w, 45.h),
                                       backgroundColor: const Color(0xffdd0e0e),
-                                      padding:
-                                          const EdgeInsets.symmetric(vertical: 11.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 11.0),
                                       shape: const StadiumBorder(),
-                                      textStyle: const TextStyle(color: Colors.white),
+                                      textStyle:
+                                          const TextStyle(color: Colors.white),
                                     ),
                                     onPressed: _next,
                                     child: Container(
@@ -365,19 +366,18 @@ class _RegisterVerificationState extends State<RegisterVerification> {
                                     style: ElevatedButton.styleFrom(
                                       minimumSize: Size(420.w, 45.h),
                                       backgroundColor: const Color(0xffdd0e0e),
-                                      padding:
-                                          const EdgeInsets.symmetric(vertical: 11.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 11.0),
                                       shape: const StadiumBorder(),
-                                      textStyle: const TextStyle(color: Colors.white),
+                                      textStyle:
+                                          const TextStyle(color: Colors.white),
                                     ),
                                     onPressed: _next,
-                                    child: Container(
-                                      child: Text(
-                                        AppLocalizations.of(context)!
-                                            .translate('next_btn'),
-                                        style: TextStyle(
-                                          fontSize: 35.sp,
-                                        ),
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .translate('next_btn'),
+                                      style: TextStyle(
+                                        fontSize: 35.sp,
                                       ),
                                     ),
                                   ),

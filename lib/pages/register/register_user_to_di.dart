@@ -25,9 +25,9 @@ import 'package:provider/provider.dart';
 
 import '../../common_library/services/model/createroom_response.dart';
 import '../../common_library/services/model/m_roommember_model.dart';
-import '../../services/database/DatabaseHelper.dart';
+import '../../services/database/database_helper.dart';
 import '../../services/repository/chatroom_repository.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 import '../chat/socketclient_helper.dart';
 
@@ -38,11 +38,11 @@ class RegisterUserToDi extends StatefulWidget {
   const RegisterUserToDi(this.barcode, {super.key});
 
   @override
-  _RegisterUserToDiState createState() => _RegisterUserToDiState();
+  State<RegisterUserToDi> createState() => _RegisterUserToDiState();
 }
 
 class _RegisterUserToDiState extends State<RegisterUserToDi> {
-  late IO.Socket socket;
+  late io.Socket socket;
   final chatRoomRepo = ChatRoomRepo();
   final authRepo = AuthRepo();
   final localStorage = LocalStorage();
@@ -311,7 +311,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
             context: context,
             content: result.message.toString(),
             onPressed: () => context.router.pop(),
-            type: DialogType.ERROR,
+            type: DialogType.error,
           );
         }
 

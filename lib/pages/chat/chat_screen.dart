@@ -29,7 +29,7 @@ class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key, this.targetId, this.picturePath, this.name});
 
   @override
-  _ChatScreenState createState() => _ChatScreenState();
+  State<ChatScreen> createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
@@ -77,8 +77,7 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
   }
 
-  final TextEditingController _textEditingController =
-      TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
 
   List<Message> messages = [];
   List<String> messageDuplicationIdentifier = [];
@@ -147,17 +146,20 @@ class _ChatScreenState extends State<ChatScreen> {
         context: context, customUserId: widget.targetId);
 
     if (result.isSuccess) {
-      if (result.data.length > 0) if (mounted) {
-        setState(() {
-          for (int i = 0; i < result.data.length; i += 1) {
-            //print(result.data[i].meetingDate);
-            messageTargetProfile = result.data[i];
-          }
-        });
-      } else if (mounted)
-        setState(() {
-          _isLoading = false;
-        });
+      if (result.data.length > 0) {
+        if (mounted) {
+          setState(() {
+            for (int i = 0; i < result.data.length; i += 1) {
+              //print(result.data[i].meetingDate);
+              messageTargetProfile = result.data[i];
+            }
+          });
+        } else if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      }
     } else {
       if (mounted) {
         setState(() {
@@ -317,7 +319,8 @@ class _ChatScreenState extends State<ChatScreen> {
                               child: Row(
                                 children: [
                                   IconButton(
-                                      icon: const Icon(Icons.face), onPressed: () {}),
+                                      icon: const Icon(Icons.face),
+                                      onPressed: () {}),
                                   Expanded(
                                     child: TextFormField(
                                       onTap: () {
@@ -452,12 +455,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
   _messageList() {
     if (messages.isEmpty && messages.isNotEmpty) {
-      return Center(
-          child: Container(
-              child: const Align(
+      return const Center(
+          child: Align(
         alignment: Alignment.center,
         child: Text("Empty Message"),
-      )));
+      ));
     } else if (messages.isNotEmpty) {
       return Column(
         children: <Widget>[
@@ -486,12 +488,10 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       );
     }
-    return Center(
-      child: Container(
-        child: const Align(
-          alignment: Alignment.center,
-          child: Text("Empty Message"),
-        ),
+    return const Center(
+      child: Align(
+        alignment: Alignment.center,
+        child: Text("Empty Message"),
       ),
     );
   }

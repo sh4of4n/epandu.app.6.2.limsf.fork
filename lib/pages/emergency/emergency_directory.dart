@@ -22,7 +22,7 @@ class EmergencyDirectory extends StatefulWidget {
   const EmergencyDirectory({super.key});
 
   @override
-  _EmergencyDirectoryState createState() => _EmergencyDirectoryState();
+  State<EmergencyDirectory> createState() => _EmergencyDirectoryState();
 }
 
 class _EmergencyDirectoryState extends State<EmergencyDirectory> {
@@ -94,7 +94,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
             },
           ),
         ],
-        type: DialogType.GENERAL,
+        type: DialogType.general,
       );
     }
   }
@@ -140,7 +140,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
             },
           ),
         ],
-        type: DialogType.GENERAL,
+        type: DialogType.general,
       );
     }
   }
@@ -236,7 +236,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         context,
         message: AppLocalizations.of(context)!.translate('no_nearby_contacts'),
         duration: 5000,
-        type: MessageType.INFO,
+        type: MessageType.info,
       );
     } else {
       String trimNumber = policeNumber!.replaceAll('-', '').replaceAll(' ', '');
@@ -251,7 +251,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         context,
         message: AppLocalizations.of(context)!.translate('no_nearby_contacts'),
         duration: 5000,
-        type: MessageType.INFO,
+        type: MessageType.info,
       );
     } else {
       String trimNumber =
@@ -267,7 +267,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         context,
         message: AppLocalizations.of(context)!.translate('no_nearby_contacts'),
         duration: 5000,
-        type: MessageType.INFO,
+        type: MessageType.info,
       );
     } else {
       String trimNumber = bombaNumber!.replaceAll('-', '').replaceAll(' ', '');
@@ -282,7 +282,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         context,
         message: AppLocalizations.of(context)!.translate('no_nearby_contacts'),
         duration: 5000,
-        type: MessageType.INFO,
+        type: MessageType.info,
       );
     } else {
       String trimNumber =
@@ -298,7 +298,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         context,
         message: AppLocalizations.of(context)!.translate('no_nearby_contacts'),
         duration: 5000,
-        type: MessageType.INFO,
+        type: MessageType.info,
       );
     } else {
       String trimNumber =
@@ -418,7 +418,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                       message: AppLocalizations.of(context)!
                           .translate('select_insurance'),
                       duration: 5000,
-                      type: MessageType.INFO,
+                      type: MessageType.info,
                     ),
                   },
                   directory: DirectoryList(directoryType: 'INSURANCE'),

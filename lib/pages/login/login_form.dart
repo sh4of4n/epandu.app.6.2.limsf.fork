@@ -23,7 +23,7 @@ class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
 
   @override
-  _LoginFormState createState() => _LoginFormState();
+  State<LoginForm> createState() => _LoginFormState();
 }
 
 class _LoginFormState extends State<LoginForm> with PageBaseClass {
@@ -96,7 +96,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
               child: const Text('Ok'),
             ),
           ],
-          type: DialogType.GENERAL,
+          type: DialogType.general,
         );
       }
     }

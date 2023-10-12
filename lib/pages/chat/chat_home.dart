@@ -27,15 +27,15 @@ import '../../common_library/services/model/chat_mesagelist.dart';
 import '../../common_library/services/model/chatsendack_model.dart';
 import '../../common_library/services/model/inviteroom_response.dart';
 import '../../common_library/services/model/m_roommember_model.dart';
-import '../../common_library/services/model/readmessagebyId_model.dart';
+import '../../common_library/services/model/read_message_by_id_model.dart';
 import '../../common_library/services/model/replymessage_model.dart';
 import '../../common_library/services/repository/auth_repository.dart';
 import '../../common_library/utils/capitalize_firstletter.dart';
 import '../../common_library/utils/custom_dialog.dart';
 import '../../common_library/utils/custom_snackbar.dart';
 import '../../common_library/utils/local_storage.dart';
-import '../../services/database/DatabaseHelper.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import '../../services/database/database_helper.dart';
+import 'package:socket_io_client/socket_io_client.dart' as io;
 import '../../services/repository/chatroom_repository.dart';
 import '../../utils/app_config.dart';
 import '../../utils/constants.dart';
@@ -77,7 +77,7 @@ class ChatHome2 extends StatefulWidget {
   final String roomDesc;
   // final String roomMembers;
   @override
-  _ChatHome2State createState() => _ChatHome2State();
+  State<ChatHome2> createState() => _ChatHome2State();
 }
 
 class _ChatHome2State extends State<ChatHome2> {
@@ -139,7 +139,7 @@ class _ChatHome2State extends State<ChatHome2> {
   //ScrollController _scrollController = ScrollController();
   List<MessageDetails> getMessageDetailsList = [];
   bool _isWriting = false;
-  late IO.Socket socket;
+  late io.Socket socket;
   List<RoomMembers> roomMembers = [];
   String members = '';
   String duplicateMembers = "";
@@ -383,8 +383,7 @@ class _ChatHome2State extends State<ChatHome2> {
                   const SizedBox(
                     height: 5,
                   ),
-                  Container(
-                      child: Column(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Row(
@@ -578,7 +577,7 @@ class _ChatHome2State extends State<ChatHome2> {
                       ),
                       // show ? emojiSelect() : Container()
                     ],
-                  )),
+                  ),
                   Offstage(
                     offstage: !show,
                     child: SizedBox(height: 300, child: emojiSelect()),
@@ -1368,7 +1367,7 @@ class _ChatHome2State extends State<ChatHome2> {
         context,
         message: 'No messages found.',
         duration: 5000,
-        type: MessageType.INFO,
+        type: MessageType.info,
       );
     }
   }
@@ -1597,51 +1596,45 @@ class _ChatHome2State extends State<ChatHome2> {
                 ),
               ),
               Expanded(
-                child: Container(
-                  // padding: const EdgeInsets.all(5.0),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RoomMembersList(
-                                  roomId: widget.roomId,
-                                  userId: localUserid,
-                                  picturePath: widget.picturePath,
-                                  roomName: widget.roomName,
-                                  roomDesc: widget.roomDesc,
-                                  // roomMembers: widget.roomMembers
-                                )),
-                      );
-                    },
-                    child: Container(
-                      // margin: EdgeInsets.all(6),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.roomName,
-                            maxLines: 1,
-                            softWrap: false,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 18.5,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            members,
-                            maxLines: 1,
-                            softWrap: false,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 13,
-                            ),
-                          )
-                        ],
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => RoomMembersList(
+                                roomId: widget.roomId,
+                                userId: localUserid,
+                                picturePath: widget.picturePath,
+                                roomName: widget.roomName,
+                                roomDesc: widget.roomDesc,
+                                // roomMembers: widget.roomMembers
+                              )),
+                    );
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.roomName,
+                        maxLines: 1,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 18.5,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
+                      Text(
+                        members,
+                        maxLines: 1,
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 13,
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -1832,7 +1825,7 @@ class _ChatHome2State extends State<ChatHome2> {
                     if (!context.mounted) return;
                     return customDialog.show(
                       context: context,
-                      type: DialogType.ERROR,
+                      type: DialogType.error,
                       content: inviteResult.message!,
                       onPressed: () => Navigator.pop(context),
                     );
@@ -2180,7 +2173,7 @@ class _ChatHome2State extends State<ChatHome2> {
         final customDialog = CustomDialog();
         return customDialog.show(
           context: context,
-          type: DialogType.ERROR,
+          type: DialogType.error,
           content: "Please try sending file size less than 2 MB.",
           onPressed: () => Navigator.pop(context),
         );
@@ -2196,7 +2189,7 @@ class _ChatHome2State extends State<ChatHome2> {
         final customDialog = CustomDialog();
         return customDialog.show(
           context: context,
-          type: DialogType.ERROR,
+          type: DialogType.error,
           content: "Please try sending file size less than 2 MB.",
           onPressed: () => Navigator.pop(context),
         );
@@ -2217,7 +2210,7 @@ class _ChatHome2State extends State<ChatHome2> {
       if (!context.mounted) return;
       return customDialog.show(
         context: context,
-        type: DialogType.ERROR,
+        type: DialogType.error,
         content: "Please try sending file size less than 2 MB.",
         onPressed: () => Navigator.pop(context),
       );
@@ -2244,7 +2237,7 @@ class _ChatHome2State extends State<ChatHome2> {
       if (!context.mounted) return;
       return customDialog.show(
         context: context,
-        type: DialogType.ERROR,
+        type: DialogType.error,
         content: "Please try sending file size less than 2 MB.",
         onPressed: () => Navigator.pop(context),
       );
@@ -2350,7 +2343,7 @@ class _ChatHome2State extends State<ChatHome2> {
     });
   }
 
-  sendFailedMessages(String type) {
+  sendFailedMessages(String type) async {
     if (type != '') {
       myFailedList = getMessageDetailsList
           .where((element) =>
@@ -2375,7 +2368,7 @@ class _ChatHome2State extends State<ChatHome2> {
           replyToId: 0,
           nickName: '',
           filePath: '');
-      myFailedList.forEach((messageDetails) async {
+      for (var messageDetails in myFailedList) {
         if (messageDetails.clientMessageId.toString() != '' &&
             localUserid != '') {
           if (messageDetails.replyToId! > 0) {
@@ -2409,7 +2402,7 @@ class _ChatHome2State extends State<ChatHome2> {
                 messageDetails.clientMessageId!);
           }
         }
-      });
+      }
     }
   }
 

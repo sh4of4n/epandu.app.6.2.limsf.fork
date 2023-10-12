@@ -15,13 +15,13 @@ import '../../common_library/services/model/roomhistory_model.dart';
 import '../../common_library/services/repository/auth_repository.dart';
 import '../../common_library/utils/custom_dialog.dart';
 import '../../common_library/utils/local_storage.dart';
-import '../../services/database/DatabaseHelper.dart';
+import '../../services/database/database_helper.dart';
 import '../../services/repository/chatroom_repository.dart';
 import '../../utils/app_config.dart';
 import 'chat_history.dart';
 import 'chat_home.dart';
 import 'socketclient_helper.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class CreateGroup extends StatefulWidget {
   const CreateGroup({
@@ -31,12 +31,12 @@ class CreateGroup extends StatefulWidget {
   final String roomId;
 
   @override
-  _CreateGroupState createState() => _CreateGroupState();
+  State<CreateGroup> createState() => _CreateGroupState();
 }
 
 class _CreateGroupState extends State<CreateGroup> {
   final appConfig = AppConfig();
-  late IO.Socket socket;
+  late io.Socket socket;
   bool isMultiSelectionEnabled = true;
   final TextEditingController _textFieldController = TextEditingController();
   String codeDialog = "";
@@ -164,46 +164,44 @@ class _CreateGroupState extends State<CreateGroup> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: getAppBar(context),
-      body: Container(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: TextField(
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  if (value.length > 9) {
-                    getFriendData();
-                  } else {
-                    getFriendData();
-                  }
-                },
-                controller: editingController,
-                decoration: InputDecoration(
-                    labelText: "Search Friend By Mobile No.",
-                    hintText: "Search Friend By Mobile No.",
-                    prefixIcon: const Icon(
-                      Icons.search,
-                    ),
-                    suffixIcon: editingController.text.isNotEmpty
-                        ? IconButton(
-                            icon: const Icon(
-                              Icons.clear,
-                            ),
-                            onPressed: () async {
-                              editingController.text = '';
-                              getFriendData();
-                              await EasyLoading.dismiss();
-                            },
-                          )
-                        : null,
-                    border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)))),
-              ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: TextField(
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                if (value.length > 9) {
+                  getFriendData();
+                } else {
+                  getFriendData();
+                }
+              },
+              controller: editingController,
+              decoration: InputDecoration(
+                  labelText: "Search Friend By Mobile No.",
+                  hintText: "Search Friend By Mobile No.",
+                  prefixIcon: const Icon(
+                    Icons.search,
+                  ),
+                  suffixIcon: editingController.text.isNotEmpty
+                      ? IconButton(
+                          icon: const Icon(
+                            Icons.clear,
+                          ),
+                          onPressed: () async {
+                            editingController.text = '';
+                            getFriendData();
+                            await EasyLoading.dismiss();
+                          },
+                        )
+                      : null,
+                  border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)))),
             ),
-            Expanded(child: _populateListView()),
-          ],
-        ),
+          ),
+          Expanded(child: _populateListView()),
+        ],
       ),
       floatingActionButton: _selected.isNotEmpty
           ? FloatingActionButton(
@@ -230,7 +228,7 @@ class _CreateGroupState extends State<CreateGroup> {
                     // });
                     List<RoomMembers> roomMembers =
                         await dbHelper.getRoomMembersList(widget.roomId);
-                    _selected.forEach((memberByPhoneResponse) async {
+                    for (var memberByPhoneResponse in _selected) {
                       await dbHelper.updateRoomMemberStatus(
                           memberByPhoneResponse.userId, "false", widget.roomId);
 
@@ -312,7 +310,7 @@ class _CreateGroupState extends State<CreateGroup> {
                           //print("Null from sendMessage");
                         }
                       });
-                    });
+                    }
 
                     await EasyLoading.dismiss();
                     if (!context.mounted) return;
@@ -332,7 +330,7 @@ class _CreateGroupState extends State<CreateGroup> {
                     if (!context.mounted) return;
                     return customDialog.show(
                       context: context,
-                      type: DialogType.ERROR,
+                      type: DialogType.error,
                       content: inviteResult.message!,
                       onPressed: () => Navigator.pop(context),
                     );
@@ -616,7 +614,7 @@ class _CreateGroupState extends State<CreateGroup> {
                     if (!context.mounted) return;
                     return customDialog.show(
                       context: context,
-                      type: DialogType.ERROR,
+                      type: DialogType.error,
                       content: inviteResult.message!,
                       onPressed: () => Navigator.pop(context),
                     );

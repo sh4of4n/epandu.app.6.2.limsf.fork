@@ -17,7 +17,7 @@ class DirectoryList extends StatefulWidget {
   const DirectoryList(this.directoryType, {super.key});
 
   @override
-  _DirectoryListState createState() => _DirectoryListState();
+  State<DirectoryList> createState() => _DirectoryListState();
 }
 
 class _DirectoryListState extends State<DirectoryList> {

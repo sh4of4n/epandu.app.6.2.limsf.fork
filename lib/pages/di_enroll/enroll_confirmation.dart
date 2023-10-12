@@ -39,7 +39,7 @@ class EnrollConfirmation extends StatefulWidget {
   });
 
   @override
-  _EnrollConfirmationState createState() => _EnrollConfirmationState();
+  State<EnrollConfirmation> createState() => _EnrollConfirmationState();
 }
 
 class _EnrollConfirmationState extends State<EnrollConfirmation> {
@@ -133,7 +133,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
             ),
           ),
         ],
-        type: DialogType.GENERAL,
+        type: DialogType.general,
       );
     }
 
@@ -292,7 +292,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
       if (!context.mounted) return;
       customDialog.show(
         context: context,
-        type: DialogType.ERROR,
+        type: DialogType.error,
         content: result.message.toString(),
         onPressed: () => context.router.pop(),
       );
@@ -337,7 +337,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
       if (!context.mounted) return;
       customDialog.show(
         context: context,
-        type: DialogType.ERROR,
+        type: DialogType.error,
         content: result.message.toString(),
         onPressed: () => context.router.pop(),
       );
@@ -572,7 +572,7 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
                                   children: [
                                     Text(
                                         '${index + 1})  ${packageDetlList[index].prodDesc}'),
-                                    Text('RM' + packageDetlList[index].amt),
+                                    Text('RM${packageDetlList[index].amt}'),
                                   ],
                                 ),
                               ],

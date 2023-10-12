@@ -17,7 +17,7 @@ class AddBooking extends StatefulWidget {
   const AddBooking({super.key});
 
   @override
-  _AddBookingState createState() => _AddBookingState();
+  State<AddBooking> createState() => _AddBookingState();
 }
 
 class _AddBookingState extends State<AddBooking> {
@@ -70,7 +70,7 @@ class _AddBookingState extends State<AddBooking> {
             ),
           )
         ],
-        type: DialogType.GENERAL,
+        type: DialogType.general,
       );
 
       // return response.message;
@@ -193,15 +193,13 @@ class _AddBookingState extends State<AddBooking> {
                           }
                         });
                       },
-                      items: testListGroupId == null
-                          ? null
-                          : testListGroupId
-                              .map<DropdownMenuItem<String>>((dynamic value) {
-                              return DropdownMenuItem<String>(
-                                value: value.groupId,
-                                child: Text(value.groupId),
-                              );
-                            }).toList(),
+                      items: testListGroupId
+                          .map<DropdownMenuItem<String>>((dynamic value) {
+                        return DropdownMenuItem<String>(
+                          value: value.groupId,
+                          child: Text(value.groupId),
+                        );
+                      }).toList(),
                       validator: (value) {
                         if (value == null) {
                           return AppLocalizations.of(context)!
@@ -263,15 +261,13 @@ class _AddBookingState extends State<AddBooking> {
                                 child: Text(value.testType),
                               );
                             }).toList(), */
-                          testListTestType == null
-                              ? null
-                              : testListTestType
-                                  .map<DropdownMenuItem<dynamic>>((value) {
-                                  return DropdownMenuItem<dynamic>(
-                                    value: value.testType,
-                                    child: Text(value.testType),
-                                  );
-                                }).toList(),
+                          testListTestType
+                              .map<DropdownMenuItem<dynamic>>((value) {
+                        return DropdownMenuItem<dynamic>(
+                          value: value.testType,
+                          child: Text(value.testType),
+                        );
+                      }).toList(),
                       validator: (value) {
                         if (value == null) {
                           return AppLocalizations.of(context)!
@@ -319,15 +315,13 @@ class _AddBookingState extends State<AddBooking> {
                             section = value;
                           });
                         },
-                        items: courseSectionlist == null
-                            ? null
-                            : courseSectionlist
-                                .map<DropdownMenuItem<String>>((value) {
-                                return DropdownMenuItem<String>(
-                                  value: value.section,
-                                  child: Text(value.section),
-                                );
-                              }).toList(),
+                        items: courseSectionlist
+                            .map<DropdownMenuItem<String>>((value) {
+                          return DropdownMenuItem<String>(
+                            value: value.section,
+                            child: Text(value.section),
+                          );
+                        }).toList(),
                         validator: (value) {
                           if (value == null) {
                             return AppLocalizations.of(context)!
@@ -377,14 +371,12 @@ class _AddBookingState extends State<AddBooking> {
                           testDate = value;
                         });
                       },
-                      items: testList == null
-                          ? null
-                          : testList.map<DropdownMenuItem<String>>((value) {
-                              return DropdownMenuItem<String>(
-                                value: value.testDate.substring(0, 10),
-                                child: Text(value.testDate.substring(0, 10)),
-                              );
-                            }).toList(),
+                      items: testList.map<DropdownMenuItem<String>>((value) {
+                        return DropdownMenuItem<String>(
+                          value: value.testDate.substring(0, 10),
+                          child: Text(value.testDate.substring(0, 10)),
+                        );
+                      }).toList(),
                       validator: (value) {
                         if (value == null) {
                           return AppLocalizations.of(context)!
@@ -419,19 +411,11 @@ class _AddBookingState extends State<AddBooking> {
                 textStyle: const TextStyle(color: Colors.white),
               ),
               onPressed: _submit,
-              child: Container(
-                /* decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(0),
-              ), */
-                // padding: EdgeInsets.symmetric(
-                //   horizontal: 100.w,
-                // ),
-                child: Text(
-                  AppLocalizations.of(context)!.translate('submit_btn'),
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(60),
-                    fontWeight: FontWeight.w600,
-                  ),
+              child: Text(
+                AppLocalizations.of(context)!.translate('submit_btn'),
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(60),
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
@@ -472,7 +456,7 @@ class _AddBookingState extends State<AddBooking> {
             ),
           ),
           content: AppLocalizations.of(context)!.translate('booking_success'),
-          type: DialogType.GENERAL,
+          type: DialogType.general,
           customActions: <Widget>[
             TextButton(
               child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
@@ -485,7 +469,7 @@ class _AddBookingState extends State<AddBooking> {
         if (!context.mounted) return;
         customDialog.show(
           context: context,
-          type: DialogType.ERROR,
+          type: DialogType.error,
           content: result.message.toString(),
           onPressed: () => context.router.pop(),
         );

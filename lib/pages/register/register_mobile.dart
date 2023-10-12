@@ -15,7 +15,7 @@ class RegisterMobile extends StatefulWidget {
   const RegisterMobile({super.key});
 
   @override
-  _RegisterMobileState createState() => _RegisterMobileState();
+  State<RegisterMobile> createState() => _RegisterMobileState();
 }
 
 class _RegisterMobileState extends State<RegisterMobile> {

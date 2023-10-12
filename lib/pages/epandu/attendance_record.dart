@@ -12,10 +12,11 @@ class AttendanceRecord extends StatefulWidget {
   final attendanceData;
   final bool? isLoading;
 
-  const AttendanceRecord({super.key, required this.attendanceData, required this.isLoading});
+  const AttendanceRecord(
+      {super.key, required this.attendanceData, required this.isLoading});
 
   @override
-  _AttendanceRecordState createState() => _AttendanceRecordState();
+  State<AttendanceRecord> createState() => _AttendanceRecordState();
 }
 
 class _AttendanceRecordState extends State<AttendanceRecord> {

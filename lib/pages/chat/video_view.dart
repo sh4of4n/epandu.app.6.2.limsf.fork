@@ -9,12 +9,13 @@ class VideoViewPage extends StatefulWidget {
   final Function onImageSend;
 
   @override
-  _VideoViewPageState createState() => _VideoViewPageState();
+  State<VideoViewPage> createState() => _VideoViewPageState();
 }
 
 class _VideoViewPageState extends State<VideoViewPage> {
   late VideoPlayerController _controller;
-  static final TextEditingController _editingController = TextEditingController();
+  static final TextEditingController _editingController =
+      TextEditingController();
   @override
   void initState() {
     super.initState();

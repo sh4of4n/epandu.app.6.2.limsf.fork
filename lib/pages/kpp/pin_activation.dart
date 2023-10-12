@@ -15,7 +15,7 @@ class PinActivation extends StatefulWidget {
   const PinActivation(this.data, {super.key});
 
   @override
-  _PinActivationState createState() => _PinActivationState();
+  State<PinActivation> createState() => _PinActivationState();
 }
 
 class _PinActivationState extends State<PinActivation> {
@@ -163,7 +163,8 @@ class _PinActivationState extends State<PinActivation> {
                             filled: true,
                             prefixIcon: const Icon(Icons.account_circle),
                             enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.transparent),
+                              borderSide:
+                                  const BorderSide(color: Colors.transparent),
                               borderRadius: BorderRadius.circular(30),
                             ),
                             border: OutlineInputBorder(
@@ -206,7 +207,8 @@ class _PinActivationState extends State<PinActivation> {
                                 pinMessage!.isNotEmpty
                                     ? Text(
                                         pinMessage!,
-                                        style: const TextStyle(color: Colors.red),
+                                        style:
+                                            const TextStyle(color: Colors.red),
                                       )
                                     : const SizedBox.shrink(),
                                 _submitButton(),

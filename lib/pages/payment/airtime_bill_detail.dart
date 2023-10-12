@@ -17,7 +17,7 @@ class AirtimeBillDetail extends StatefulWidget {
   const AirtimeBillDetail(this.data, {super.key});
 
   @override
-  _AirtimeBillDetailState createState() => _AirtimeBillDetailState();
+  State<AirtimeBillDetail> createState() => _AirtimeBillDetailState();
 }
 
 class _AirtimeBillDetailState extends State<AirtimeBillDetail> {
@@ -280,8 +280,8 @@ class _AirtimeBillDetailState extends State<AirtimeBillDetail> {
                                   ),
                                   controller: _amountController,
                                   decoration: const InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 10.0),
+                                    contentPadding:
+                                        EdgeInsets.symmetric(vertical: 10.0),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide.none,
                                       // borderSide:
@@ -301,7 +301,8 @@ class _AirtimeBillDetailState extends State<AirtimeBillDetail> {
                             style: ElevatedButton.styleFrom(
                               minimumSize: Size(420.w, 45.h),
                               backgroundColor: const Color(0xffdd0e0e),
-                              padding: const EdgeInsets.symmetric(vertical: 11.0),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 11.0),
                               shape: const StadiumBorder(),
                               textStyle: const TextStyle(color: Colors.white),
                             ),

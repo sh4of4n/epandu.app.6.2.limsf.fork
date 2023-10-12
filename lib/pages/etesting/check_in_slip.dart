@@ -14,7 +14,7 @@ class CheckInSlip extends StatefulWidget {
   const CheckInSlip({super.key});
 
   @override
-  _CheckInSlipState createState() => _CheckInSlipState();
+  State<CheckInSlip> createState() => _CheckInSlipState();
 }
 
 class _CheckInSlipState extends State<CheckInSlip> {
@@ -51,7 +51,7 @@ class _CheckInSlipState extends State<CheckInSlip> {
           context.router.pop();
           context.router.pop();
         },
-        type: DialogType.WARNING,
+        type: DialogType.warning,
       );
     }
 

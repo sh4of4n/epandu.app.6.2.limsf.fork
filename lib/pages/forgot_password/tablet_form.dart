@@ -13,7 +13,7 @@ class ForgotPasswordTabletForm extends StatefulWidget {
   const ForgotPasswordTabletForm({super.key});
 
   @override
-  _ForgotPasswordTabletFormState createState() =>
+  State<ForgotPasswordTabletForm> createState() =>
       _ForgotPasswordTabletFormState();
 }
 
@@ -219,7 +219,7 @@ class _ForgotPasswordTabletFormState extends State<ForgotPasswordTabletForm>
         CustomSnackbar().show(
           context,
           message: result.message.toString(),
-          type: MessageType.SUCCESS,
+          type: MessageType.success,
         );
       } else {
         if (result.message!.contains('timeout')) {
@@ -241,7 +241,7 @@ class _ForgotPasswordTabletFormState extends State<ForgotPasswordTabletForm>
         CustomSnackbar().show(
           context,
           message: _message,
-          type: MessageType.ERROR,
+          type: MessageType.error,
         );
 
         setState(() {

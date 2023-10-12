@@ -12,7 +12,7 @@ class MerchantProfile extends StatefulWidget {
   const MerchantProfile({super.key});
 
   @override
-  _MerchantProfileState createState() => _MerchantProfileState();
+  State<MerchantProfile> createState() => _MerchantProfileState();
 }
 
 class _MerchantProfileState extends State<MerchantProfile> {

@@ -20,7 +20,7 @@ class SelectInstitute extends StatefulWidget {
   const SelectInstitute(this.data, {super.key});
 
   @override
-  _SelectInstituteState createState() => _SelectInstituteState();
+  State<SelectInstitute> createState() => _SelectInstituteState();
 }
 
 class _SelectInstituteState extends State<SelectInstitute> {
@@ -49,17 +49,16 @@ class _SelectInstituteState extends State<SelectInstitute> {
 
     _getCurrentLocation();
 
-    _scrollController
-      .addListener(() {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
-          setState(() {
-            _startIndex += 10;
-          });
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        setState(() {
+          _startIndex += 10;
+        });
 
-          if (_message!.isEmpty) _getDiNearMe();
-        }
-      });
+        if (_message!.isEmpty) _getDiNearMe();
+      }
+    });
   }
 
   @override
@@ -101,16 +100,19 @@ class _SelectInstituteState extends State<SelectInstitute> {
     );
 
     if (result.isSuccess) {
-      if (result.data.length > 0) if (mounted) {
-        setState(() {
-          for (int i = 0; i < result.data.length; i += 1) {
-            items.add(result.data[i]);
-          }
-        });
-      } else if (mounted)
-        setState(() {
-          _isLoading = false;
-        });
+      if (result.data.length > 0) {
+        if (mounted) {
+          setState(() {
+            for (int i = 0; i < result.data.length; i += 1) {
+              items.add(result.data[i]);
+            }
+          });
+        } else if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      }
     } else {
       if (mounted) {
         setState(() {
@@ -214,7 +216,8 @@ class _SelectInstituteState extends State<SelectInstitute> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(item.name ?? '',
-                              style: const TextStyle(fontWeight: FontWeight.bold)),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold)),
                           Text(item.add1 != null
                               ? item.add1.replaceAll('\r\n', ' ')
                               : ''),

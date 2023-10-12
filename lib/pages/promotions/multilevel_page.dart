@@ -14,7 +14,7 @@ class Multilevel extends StatefulWidget {
   const Multilevel({super.key, this.feed, this.appVersion});
 
   @override
-  _MultilevelState createState() => _MultilevelState();
+  State<Multilevel> createState() => _MultilevelState();
 }
 
 class _MultilevelState extends State<Multilevel> {
@@ -44,23 +44,22 @@ class _MultilevelState extends State<Multilevel> {
 
     getActiveFeed();
 
-    _scrollController
-      .addListener(() {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        setState(() {
+          _startIndex += 10;
+        });
+
+        if (_message!.isEmpty) {
           setState(() {
-            _startIndex += 10;
+            _loadMore = true;
           });
 
-          if (_message!.isEmpty) {
-            setState(() {
-              _loadMore = true;
-            });
-
-            getActiveFeed();
-          }
+          getActiveFeed();
         }
-      });
+      }
+    });
   }
 
   Future<dynamic> getActiveFeed() async {
@@ -90,10 +89,11 @@ class _MultilevelState extends State<Multilevel> {
             items.add(result.data[i]);
           }
         });
-      } else if (mounted)
+      } else if (mounted) {
         setState(() {
           _loadMore = false;
         });
+      }
     } else {
       if (mounted) {
         setState(() {

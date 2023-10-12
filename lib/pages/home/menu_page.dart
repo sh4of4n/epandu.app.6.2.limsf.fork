@@ -320,7 +320,7 @@ class MenuButton extends StatelessWidget {
             route = EpanduCategory();
             break;
           case 'CreateFuelRoute':
-            route = CreateFuelRoute();
+            route = const CreateFuelRoute();
             break;
           case 'KppCategory':
             route = const KppCategory();
@@ -370,11 +370,9 @@ class MenuButton extends StatelessWidget {
               Positioned(
                 top: -8,
                 left: -12,
-                child: Container(
-                  child: Image.asset(
-                    'assets/menu/$icon',
-                    width: 50,
-                  ),
+                child: Image.asset(
+                  'assets/menu/$icon',
+                  width: 50,
                 ),
               ),
             ],

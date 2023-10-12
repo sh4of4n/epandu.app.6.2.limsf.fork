@@ -52,9 +52,9 @@ class AuthRepo {
     String params =
         'LoginPub?wsCodeCrypt=$wsCodeCrypt&acctUid=$acctUid&acctPwd=${Uri.encodeQueryComponent(acctPwd)}&loginType=$loginType&misc=';
 
-    var response = await Networking(
-            customUrl: wsUrl, milliseconds: milliseconds ?? 2000)
-        .getData(path: params);
+    var response =
+        await Networking(customUrl: wsUrl, milliseconds: milliseconds ?? 2000)
+            .getData(path: params);
 
     if (response.isSuccess && response.data != null) {
       RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
@@ -145,8 +145,9 @@ class AuthRepo {
       altWsUrl = wsUrl2;
     } else if (altWsUrl == wsUrl2) {
       altWsUrl = wsUrl3;
-    } else
+    } else {
       return Response(false, message: message);
+    }
 
     // Call this function again with the altWsUrl.
     var callbackResult = await getWsUrl(
@@ -1406,7 +1407,8 @@ class AuthRepo {
     String? merchantNo = await localStorage.getMerchantDbCode();
     String? deviceId = await localStorage.getLoginDeviceId();
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantNo=$merchantNo&userId=$userId&appCode=${appConfig.appCode}&appId=${appConfig.appId}&deviceId=$deviceId';
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantNo=$merchantNo&userId=$userId&appCode=${appConfig.appCode}&appId=${appConfig.appId}&deviceId=$deviceId';
 
     var response = await networking.getData(
       path: 'GetAuthorizationStatusList?$path',
@@ -1440,7 +1442,8 @@ class AuthRepo {
     // String phone = await localStorage.getUserPhone();
     // String loginId = (phoneCountryCode + phone).replaceAll('+6', '');
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantNo=$merchantNo&userId=$userId&appCode=${appConfig.appCode}&appId=${appConfig.appId}&deviceId=$deviceId&searchMerchantNo=$merchantNo&searchUserId=&searchAppCode=&searchAppId=&searchDeviceId=&searchAuthzStatus=$authzStatus&searchLoginId=$phone&startIndex=$startIndex&noOfRecords=$noOfRecords';
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantNo=$merchantNo&userId=$userId&appCode=${appConfig.appCode}&appId=${appConfig.appId}&deviceId=$deviceId&searchMerchantNo=$merchantNo&searchUserId=&searchAppCode=&searchAppId=&searchDeviceId=&searchAuthzStatus=$authzStatus&searchLoginId=$phone&startIndex=$startIndex&noOfRecords=$noOfRecords';
 
     var response = await networking.getData(
       path: 'GetDeviceRequestList?$path',
@@ -1520,7 +1523,8 @@ class AuthRepo {
     String? userId = await localStorage.getUserId();
     String? merchantNo = await localStorage.getMerchantDbCode();
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$merchantNo&userId=$userId&dateFromString=$dateFromString&dateToString=$dateToString&orderNo=${orderNo ?? ''}&icNo=${icNo ?? ''}&orderStatus=$orderStatus&paymentStatus=$paymentStatus&startIndex=$startIndex&noOfRecords=$noOfRecords';
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$merchantNo&userId=$userId&dateFromString=$dateFromString&dateToString=$dateToString&orderNo=${orderNo ?? ''}&icNo=${icNo ?? ''}&orderStatus=$orderStatus&paymentStatus=$paymentStatus&startIndex=$startIndex&noOfRecords=$noOfRecords';
 
     var response = await networking.getData(
       path: 'GetOrderListByDateRange?$path',
@@ -1540,7 +1544,8 @@ class AuthRepo {
     String? caUid = await localStorage.getCaUid();
     String? caPwd = await localStorage.getCaPwd();
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appId=${appConfig.appId}&appCode=${appConfig.appCode}&appVersion=$appVersion';
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appId=${appConfig.appId}&appCode=${appConfig.appCode}&appVersion=$appVersion';
 
     var response = await networking.getData(
       path: 'ValidateAppVersion?$path',

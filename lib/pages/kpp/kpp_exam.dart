@@ -23,7 +23,7 @@ class KppExam extends StatefulWidget {
   });
 
   @override
-  _KppExamState createState() => _KppExamState();
+  State<KppExam> createState() => _KppExamState();
 }
 
 class _KppExamState extends State<KppExam> {
@@ -84,7 +84,7 @@ class _KppExamState extends State<KppExam> {
             },
           ),
         ],
-        type: DialogType.GENERAL,
+        type: DialogType.general,
         barrierDismissable: false,
       );
     } else {

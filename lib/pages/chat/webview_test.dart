@@ -16,11 +16,11 @@ import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import '../../common_library/services/model/createroom_response.dart';
 import '../../common_library/services/model/m_roommember_model.dart';
 import '../../common_library/utils/local_storage.dart';
-import '../../services/database/DatabaseHelper.dart';
+import '../../services/database/database_helper.dart';
 import '../../services/repository/chatroom_repository.dart';
 import 'chat_home.dart';
 import 'socketclient_helper.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class TestWebview extends StatefulWidget {
   final String? url;
@@ -29,7 +29,7 @@ class TestWebview extends StatefulWidget {
   const TestWebview({super.key, required this.url, this.backType});
 
   @override
-  _TestWebviewState createState() => _TestWebviewState();
+  State<TestWebview> createState() => _TestWebviewState();
 }
 
 WebViewController? controllerGlobal;
@@ -76,13 +76,13 @@ _confirmBack(customDialog, BuildContext context) {
         },
       ),
     ],
-    type: DialogType.GENERAL,
+    type: DialogType.general,
   );
 }
 
 class _TestWebviewState extends State<TestWebview> {
   late final WebViewController _controller;
-  late IO.Socket socket;
+  late io.Socket socket;
   final chatRoomRepo = ChatRoomRepo();
   final localStorage = LocalStorage();
   final dbHelper = DatabaseHelper.instance;

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 enum DialogType {
-  GENERAL,
-  INFO,
-  SUCCESS,
-  ERROR,
-  WARNING,
-  SIMPLE_DIALOG,
+  general,
+  info,
+  success,
+  error,
+  warning,
+  simpleDialog,
 }
 
 class CustomDialog {
@@ -29,7 +29,7 @@ class CustomDialog {
     ];
 
     switch (type) {
-      case DialogType.GENERAL:
+      case DialogType.general:
         actions = customActions;
         return _dialog(
           context,
@@ -38,7 +38,7 @@ class CustomDialog {
           actions,
           barrierDismissable,
         );
-      case DialogType.INFO:
+      case DialogType.info:
         title = Center(
           child: Icon(
             Icons.info_outline,
@@ -52,7 +52,7 @@ class CustomDialog {
           actions,
           barrierDismissable,
         );
-      case DialogType.SUCCESS:
+      case DialogType.success:
         title = Center(
           child: Icon(
             Icons.check_circle_outline,
@@ -66,7 +66,7 @@ class CustomDialog {
           actions,
           barrierDismissable,
         );
-      case DialogType.WARNING:
+      case DialogType.warning:
         title = Center(
           child: Icon(
             Icons.warning,
@@ -80,7 +80,7 @@ class CustomDialog {
           actions,
           barrierDismissable,
         );
-      case DialogType.ERROR:
+      case DialogType.error:
         title = Center(
           child: Icon(
             Icons.cancel,
@@ -95,7 +95,7 @@ class CustomDialog {
           actions,
           barrierDismissable,
         );
-      case DialogType.SIMPLE_DIALOG:
+      case DialogType.simpleDialog:
         actions = customActions;
         return _simpleDialog(
           context,

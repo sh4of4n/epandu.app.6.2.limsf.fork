@@ -106,7 +106,7 @@ class Networking extends BaseRepo {
       // url = 'http://10.0.2.2:53131/MainService.svc';
       print('$url/webapi/$api${path ?? ""}');
 
-      print('body: ' + body);
+      print('body:$body');
 
       uri = Uri.parse('$url/webapi/$api${path ?? ""}');
 
@@ -119,10 +119,11 @@ class Networking extends BaseRepo {
 
         if (response.body == 'True' || response.body == 'False') {
           return Response(true, data: response.body);
-        } else if (response.body.startsWith('{'))
+        } else if (response.body.startsWith('{')) {
           return Response(true, data: jsonDecode(response.body));
-        else
+        } else {
           return Response(true, data: response.body);
+        }
       } else {
         String message = response.body
             .replaceAll('[BLException]', '')

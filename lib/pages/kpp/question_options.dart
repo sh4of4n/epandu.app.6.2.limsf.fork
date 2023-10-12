@@ -8,7 +8,8 @@ class QuestionOptions extends StatelessWidget {
   final List<String?>? questionOption;
   final List<Uint8List>? image;
 
-  const QuestionOptions({super.key, this.roman, this.questionOption, this.image});
+  const QuestionOptions(
+      {super.key, this.roman, this.questionOption, this.image});
 
   final TextStyle _questionOptionStyle =
       const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600);
@@ -27,11 +28,11 @@ class QuestionOptions extends StatelessWidget {
         questionOption![0]!.length > 4 &&
         image!.isNotEmpty) {
       return _renderConditionAndImage();
-    } else if (questionOption!.isNotEmpty && image!.isNotEmpty)
+    } else if (questionOption!.isNotEmpty && image!.isNotEmpty) {
       return _renderRomanAndImage();
-    // no image
-    else if (questionOption!.isNotEmpty && image!.isEmpty)
+    } else if (questionOption!.isNotEmpty && image!.isEmpty) {
       return _renderConditions();
+    }
 
     return const SizedBox.shrink();
   }
@@ -72,8 +73,8 @@ class QuestionOptions extends StatelessWidget {
                 Container(
                   width: ScreenUtil().setWidth(800),
                   alignment: Alignment.center,
-                  child:
-                      Text(questionOption![index]!, style: _questionOptionStyle),
+                  child: Text(questionOption![index]!,
+                      style: _questionOptionStyle),
                 ),
               ],
             ),

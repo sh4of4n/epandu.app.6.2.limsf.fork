@@ -8,14 +8,14 @@ import 'package:path_provider/path_provider.dart';
 
 class ChatDatabase {
   Database? _db;
-  static const String ID = 'id';
-  static const String NAME = 'name';
-  static const String MESSAGE_AND_AUTHOR_TABLE = 'MessageAndAuthorTable';
-  static const String MESSAGE_TARGET_TABLE = 'MessageTargetTable';
-  static const String USER_TABLE = 'UserTable';
-  static const String RELATIONSHIP_TABLE = 'RelationshipTable';
+  static const String id = 'id';
+  static const String name = 'name';
+  static const String messageAndAuthorTable = 'MessageAndAuthorTable';
+  static const String messageTargetTable = 'MessageTargetTable';
+  static const String userTable = 'UserTable';
+  static const String relationshipTable = 'RelationshipTable';
 
-  static const String DB_NAME = 'ePanduChat.db';
+  static const String dbName = 'ePanduChat.db';
 
   Future<Database?> get db async {
     if (_db != null) {
@@ -27,20 +27,20 @@ class ChatDatabase {
 
   initDb() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, DB_NAME);
+    String path = join(documentsDirectory.path, dbName);
     var db = await openDatabase(path, version: 1, onCreate: _onCreate);
     return db;
   }
 
   _onCreate(Database db, int version) async {
     await db.execute(
-        "CREATE TABLE $MESSAGE_AND_AUTHOR_TABLE (id TEXT PRIMARY KEY, author TEXT,data TEXT,sent_date_time INTEGER,type TEXT,is_seen TEXT);");
+        "CREATE TABLE $messageAndAuthorTable (id TEXT PRIMARY KEY, author TEXT,data TEXT,sent_date_time INTEGER,type TEXT,is_seen TEXT);");
     await db.execute(
-        " CREATE TABLE $MESSAGE_TARGET_TABLE (id TEXT PRIMARY KEY, message_id TEXT, target_id TEXT);");
+        " CREATE TABLE $messageTargetTable (id TEXT PRIMARY KEY, message_id TEXT, target_id TEXT);");
     await db.execute(
-        " CREATE TABLE $USER_TABLE (id TEXT PRIMARY KEY, name TEXT,phone_number TEXT, picture_path TEXT);");
+        " CREATE TABLE $userTable (id TEXT PRIMARY KEY, name TEXT,phone_number TEXT, picture_path TEXT);");
     await db.execute(
-        " CREATE TABLE $RELATIONSHIP_TABLE (id TEXT PRIMARY KEY, host_id TEXT, friend_id TEXT, FOREIGN KEY (friend_id) REFERENCES $USER_TABLE (id) );");
+        " CREATE TABLE $relationshipTable (id TEXT PRIMARY KEY, host_id TEXT, friend_id TEXT, FOREIGN KEY (friend_id) REFERENCES $userTable (id) );");
   }
 
   //Insert Query
@@ -50,7 +50,7 @@ class ChatDatabase {
 
     await dbClient.transaction((txn) async {
       var query =
-          "INSERT INTO $MESSAGE_AND_AUTHOR_TABLE (id,author,data,sent_date_time,type,is_seen) VALUES ('${messageAndAuthorTable.id}','${messageAndAuthorTable.author}','${messageAndAuthorTable.data}','${messageAndAuthorTable.sentDateTime}','${messageAndAuthorTable.type}','${messageAndAuthorTable.isSeen}')";
+          "INSERT INTO $messageAndAuthorTable (id,author,data,sent_date_time,type,is_seen) VALUES ('${messageAndAuthorTable.id}','${messageAndAuthorTable.author}','${messageAndAuthorTable.data}','${messageAndAuthorTable.sentDateTime}','${messageAndAuthorTable.type}','${messageAndAuthorTable.isSeen}')";
       return await txn.rawInsert(query);
     });
 
@@ -63,7 +63,7 @@ class ChatDatabase {
 
     await dbClient.transaction((txn) async {
       var query =
-          "INSERT INTO $MESSAGE_TARGET_TABLE (id,message_id,target_id) VALUES ('${messageTargetTable.id}','${messageTargetTable.messageId}','${messageTargetTable.targetId}')";
+          "INSERT INTO $messageTargetTable (id,message_id,target_id) VALUES ('${messageTargetTable.id}','${messageTargetTable.messageId}','${messageTargetTable.targetId}')";
       return await txn.rawInsert(query);
     });
     return 1;
@@ -77,7 +77,7 @@ class ChatDatabase {
     }
     await dbClient.transaction((txn) async {
       var query =
-          "INSERT INTO $USER_TABLE (id,name,phone_number,picture_path) VALUES ('${userProfile.userId}','${userProfile.name}','${userProfile.phone}','$picturePath');";
+          "INSERT INTO $userTable (id,name,phone_number,picture_path) VALUES ('${userProfile.userId}','${userProfile.name}','${userProfile.phone}','$picturePath');";
       return await txn.rawInsert(query);
     });
     return 1;
@@ -89,7 +89,7 @@ class ChatDatabase {
 
     await dbClient.transaction((txn) async {
       var query =
-          "INSERT INTO $RELATIONSHIP_TABLE (id,host_id,friend_id) VALUES ('$id','$hostID','$friendID')";
+          "INSERT INTO $relationshipTable (id,host_id,friend_id) VALUES ('$id','$hostID','$friendID')";
       return await txn.rawInsert(query);
     });
     return 1;
@@ -97,14 +97,18 @@ class ChatDatabase {
 
   //Read Query
   Future<List<Message>> getMessageAndAuthorTable(
-      {String? userId, String? targetId, int? startIndex, int? noOfRecords}) async {
+      {String? userId,
+      String? targetId,
+      int? startIndex,
+      int? noOfRecords}) async {
     var dbClient = await (db as FutureOr<Database>);
     List<Map> maps = await dbClient.rawQuery(
-        "SELECT $MESSAGE_AND_AUTHOR_TABLE.id AS id, $MESSAGE_AND_AUTHOR_TABLE.author AS author, $MESSAGE_AND_AUTHOR_TABLE.data AS data, $MESSAGE_AND_AUTHOR_TABLE.sent_date_time AS sent_date_time, $MESSAGE_AND_AUTHOR_TABLE.type AS type,$MESSAGE_AND_AUTHOR_TABLE.is_seen AS is_seen FROM $MESSAGE_AND_AUTHOR_TABLE INNER JOIN $MESSAGE_TARGET_TABLE ON $MESSAGE_TARGET_TABLE.message_id = $MESSAGE_AND_AUTHOR_TABLE.id where $MESSAGE_AND_AUTHOR_TABLE.author = '$userId' AND $MESSAGE_TARGET_TABLE.target_id = '$targetId' OR $MESSAGE_AND_AUTHOR_TABLE.author = '$targetId' AND $MESSAGE_TARGET_TABLE.target_id = '$userId' ORDER BY $MESSAGE_AND_AUTHOR_TABLE.sent_date_time DESC LIMIT $startIndex,$noOfRecords ;");
+        "SELECT $messageAndAuthorTable.id AS id, $messageAndAuthorTable.author AS author, $messageAndAuthorTable.data AS data, $messageAndAuthorTable.sent_date_time AS sent_date_time, $messageAndAuthorTable.type AS type,$messageAndAuthorTable.is_seen AS is_seen FROM $messageAndAuthorTable INNER JOIN $messageTargetTable ON $messageTargetTable.message_id = $messageAndAuthorTable.id where $messageAndAuthorTable.author = '$userId' AND $messageTargetTable.target_id = '$targetId' OR $messageAndAuthorTable.author = '$targetId' AND $messageTargetTable.target_id = '$userId' ORDER BY $messageAndAuthorTable.sent_date_time DESC LIMIT $startIndex,$noOfRecords ;");
     List<Message> messages = [];
     if (maps.isNotEmpty) {
       for (int i = 0; i < maps.length; i++) {
-        messages.add(Message.fromJson(maps[maps.length - 1 - i] as Map<String, dynamic>));
+        messages.add(Message.fromJson(
+            maps[maps.length - 1 - i] as Map<String, dynamic>));
       }
     }
     return messages;
@@ -114,7 +118,7 @@ class ChatDatabase {
       {String? userId, int? startIndex, int? noOfRecords}) async {
     var dbClient = await (db as FutureOr<Database>);
     List<Map> maps = await dbClient.rawQuery(
-        "Select $USER_TABLE.id As user_id, $USER_TABLE.name As name, $USER_TABLE.phone_number As phone, $USER_TABLE.picture_path As picture_path from $USER_TABLE Inner Join $RELATIONSHIP_TABLE On $USER_TABLE.id = $RELATIONSHIP_TABLE.friend_id where $RELATIONSHIP_TABLE.host_id = '$userId'  ORDER BY $USER_TABLE.name LIMIT $startIndex,$noOfRecords;");
+        "Select $userTable.id As user_id, $userTable.name As name, $userTable.phone_number As phone, $userTable.picture_path As picture_path from $userTable Inner Join $relationshipTable On $userTable.id = $relationshipTable.friend_id where $relationshipTable.host_id = '$userId'  ORDER BY $userTable.name LIMIT $startIndex,$noOfRecords;");
 
     /*
     List<Map> maps = await dbClient.rawQuery(
@@ -132,13 +136,14 @@ class ChatDatabase {
     return users;
   }
 
-  Future<UserProfile?> getSingleContact({String? userId, String? friendId}) async {
+  Future<UserProfile?> getSingleContact(
+      {String? userId, String? friendId}) async {
     var dbClient = await (db as FutureOr<Database>);
     /*List<Map> maps = await dbClient.rawQuery(
         "Select $USER_TABLE.id As iD, $USER_TABLE.name As name, $USER_TABLE.phone_number As phone from $USER_TABLE Inner Join $RELATIONSHIP_TABLE On $USER_TABLE.id = $RELATIONSHIP_TABLE.friend_id where $RELATIONSHIP_TABLE.host_id = '$userId'  ORDER BY $USER_TABLE.name LIMIT $startIndex,$noOfRecords;");
     */
     List<Map> maps = await dbClient.rawQuery(
-        "Select id As ID from $RELATIONSHIP_TABLE where host_id = '$userId' And friend_id = '$friendId' ");
+        "Select id As ID from $relationshipTable where host_id = '$userId' And friend_id = '$friendId' ");
 
     UserProfile? user;
     if (maps.isNotEmpty) {
@@ -155,7 +160,7 @@ class ChatDatabase {
         "Select $USER_TABLE.id As iD, $USER_TABLE.name As name, $USER_TABLE.phone_number As phone from $USER_TABLE Inner Join $RELATIONSHIP_TABLE On $USER_TABLE.id = $RELATIONSHIP_TABLE.friend_id where $RELATIONSHIP_TABLE.host_id = '$userId'  ORDER BY $USER_TABLE.name LIMIT $startIndex,$noOfRecords;");
     */
     List<Map> maps = await dbClient
-        .rawQuery("Select id As ID from $USER_TABLE where id = '$userId'");
+        .rawQuery("Select id As ID from $userTable where id = '$userId'");
 
     UserProfile? user;
     if (maps.isNotEmpty) {
@@ -167,18 +172,16 @@ class ChatDatabase {
   }
 
   //Update query
-  Future<int> updateMessageTargetTable(
-      MessageTargetTable messageTargetTable) async {
+  Future<int> updateMessageTargetTable(MessageTargetTable messageTarget) async {
     var dbClient = await (db as FutureOr<Database>);
-    return await dbClient.update(
-        MESSAGE_TARGET_TABLE, messageTargetTable.toMap(),
-        where: '$ID = ?', whereArgs: [messageTargetTable.id]);
+    return await dbClient.update(messageTargetTable, messageTarget.toMap(),
+        where: '$id = ?', whereArgs: [messageTarget.id]);
   }
 
   //Delete query
   Future<int> deleteMessageTargetTable(int id) async {
     var dbClient = await (db as FutureOr<Database>);
     return await dbClient
-        .delete(MESSAGE_TARGET_TABLE, where: '$ID = ?', whereArgs: [id]);
+        .delete(messageTargetTable, where: '$id = ?', whereArgs: [id]);
   }
 }

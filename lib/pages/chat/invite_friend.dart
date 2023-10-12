@@ -12,11 +12,11 @@ import '../../common_library/services/model/roomhistory_model.dart';
 import '../../common_library/services/repository/auth_repository.dart';
 import '../../common_library/utils/custom_dialog.dart';
 import '../../common_library/utils/local_storage.dart';
-import '../../services/database/DatabaseHelper.dart';
+import '../../services/database/database_helper.dart';
 import '../../services/repository/chatroom_repository.dart';
 import '../../utils/app_config.dart';
 import 'chat_home.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class InviteFriend extends StatefulWidget {
   const InviteFriend({
@@ -26,11 +26,11 @@ class InviteFriend extends StatefulWidget {
   final String roomId; //lowerCamelCase
 
   @override
-  _InviteFriendState createState() => _InviteFriendState();
+  State<InviteFriend> createState() => _InviteFriendState();
 }
 
 class _InviteFriendState extends State<InviteFriend> {
-  late IO.Socket socket;
+  late io.Socket socket;
   bool isMultiSelectionEnabled = true;
   final appConfig = AppConfig();
   //TextEditingController _textFieldController = TextEditingController();
@@ -246,7 +246,7 @@ class _InviteFriendState extends State<InviteFriend> {
                   if (!context.mounted) return;
                   return customDialog.show(
                     context: context,
-                    type: DialogType.ERROR,
+                    type: DialogType.error,
                     content: inviteResult.message!,
                     onPressed: () => Navigator.pop(context),
                   );
@@ -346,7 +346,7 @@ class _InviteFriendState extends State<InviteFriend> {
         if (!context.mounted) return;
         return customDialog.show(
           context: context,
-          type: DialogType.ERROR,
+          type: DialogType.error,
           content: result.message!,
           onPressed: () => Navigator.pop(context),
         );

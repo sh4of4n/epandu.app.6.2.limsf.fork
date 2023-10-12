@@ -16,7 +16,7 @@ class CameraScreen extends StatefulWidget {
   final Function onImageSend;
   final List<CameraDescription> cameras;
   @override
-  _CameraScreenState createState() => _CameraScreenState();
+  State<CameraScreen> createState() => _CameraScreenState();
 }
 
 class _CameraScreenState extends State<CameraScreen> {

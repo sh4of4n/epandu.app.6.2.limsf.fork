@@ -13,7 +13,7 @@ class ChangePasswordForm extends StatefulWidget {
   const ChangePasswordForm({super.key});
 
   @override
-  _ChangePasswordFormState createState() => _ChangePasswordFormState();
+  State<ChangePasswordForm> createState() => _ChangePasswordFormState();
 }
 
 class _ChangePasswordFormState extends State<ChangePasswordForm>
@@ -294,14 +294,14 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
             CustomSnackbar().show(
               context,
               message: AppLocalizations.of(context)!.translate(result.message),
-              type: MessageType.SUCCESS,
+              type: MessageType.success,
             );
           } else {
             if (!context.mounted) return;
             CustomSnackbar().show(
               context,
               message: AppLocalizations.of(context)!.translate(result.message),
-              type: MessageType.ERROR,
+              type: MessageType.error,
             );
 
             setState(() {
@@ -313,7 +313,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
             context,
             message:
                 AppLocalizations.of(context)!.translate('password_same_msg'),
-            type: MessageType.ERROR,
+            type: MessageType.error,
           );
         }
       } else {
@@ -321,7 +321,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
           context,
           message:
               AppLocalizations.of(context)!.translate('password_not_match_msg'),
-          type: MessageType.ERROR,
+          type: MessageType.error,
         );
       }
 

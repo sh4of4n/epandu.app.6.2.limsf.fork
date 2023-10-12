@@ -224,7 +224,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
         CustomSnackbar().show(
           context,
           message: result.message.toString(),
-          type: MessageType.SUCCESS,
+          type: MessageType.success,
         );
       } else {
         if (result.message!.contains('timeout')) {

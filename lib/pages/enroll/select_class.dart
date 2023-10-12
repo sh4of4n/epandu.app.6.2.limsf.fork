@@ -18,7 +18,7 @@ class SelectClass extends StatefulWidget {
   const SelectClass(this.data, {super.key});
 
   @override
-  _SelectClassState createState() => _SelectClassState();
+  State<SelectClass> createState() => _SelectClassState();
 }
 
 class _SelectClassState extends State<SelectClass> {
@@ -243,9 +243,7 @@ class _SelectClassState extends State<SelectClass> {
                                                 snapshot.data[index]
                                                             .totalTime !=
                                                         null
-                                                    ? '${AppLocalizations.of(context)!.translate('total_time')} ' +
-                                                        snapshot.data[index]
-                                                            .totalTime
+                                                    ? '${AppLocalizations.of(context)?.translate('total_time')} ${snapshot.data[index]?.totalTime ?? ''}'
                                                     : /* AppLocalizations.of(context)
                                                       .translate('no_total_time') */
                                                     'Total time 00:00',
@@ -373,7 +371,7 @@ class _SelectClassState extends State<SelectClass> {
           ),
         ),
         content: AppLocalizations.of(context)!.translate('enroll_success'),
-        type: DialogType.GENERAL,
+        type: DialogType.general,
         customActions: <Widget>[
           TextButton(
             child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
@@ -391,7 +389,7 @@ class _SelectClassState extends State<SelectClass> {
       if (!context.mounted) return;
       customDialog.show(
         context: context,
-        type: DialogType.ERROR,
+        type: DialogType.error,
         content: result.message.toString(),
         onPressed: () => context.router.pop(),
       );

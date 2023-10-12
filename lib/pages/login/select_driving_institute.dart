@@ -6,7 +6,7 @@ import 'package:epandu/common_library/services/model/createroom_response.dart';
 import 'package:epandu/common_library/services/model/m_roommember_model.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/pages/chat/socketclient_helper.dart';
-import 'package:epandu/services/database/DatabaseHelper.dart';
+import 'package:epandu/services/database/database_helper.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 import '../../router.gr.dart';
 import '../../services/repository/chatroom_repository.dart';
@@ -26,11 +26,11 @@ class SelectDrivingInstitute extends StatefulWidget {
   const SelectDrivingInstitute(this.diList, {super.key});
 
   @override
-  _SelectDrivingInstituteState createState() => _SelectDrivingInstituteState();
+  State<SelectDrivingInstitute> createState() => _SelectDrivingInstituteState();
 }
 
 class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
-  late IO.Socket socket;
+  late io.Socket socket;
   RegisteredDiArmasterProfile? diListData;
   final primaryColor = ColorConstant.primaryColor;
   final chatRoomRepo = ChatRoomRepo();

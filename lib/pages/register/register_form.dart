@@ -9,7 +9,7 @@ import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/common_library/services/location.dart';
 import 'package:epandu/common_library/services/repository/auth_repository.dart';
-import 'package:epandu/services/database/DatabaseHelper.dart';
+import 'package:epandu/services/database/database_helper.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/common_library/utils/device_info.dart';
@@ -22,7 +22,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 import '../../router.gr.dart';
 import '../../services/repository/chatroom_repository.dart';
@@ -37,11 +37,11 @@ class RegisterForm extends StatefulWidget {
   const RegisterForm(this.data, {super.key});
 
   @override
-  _RegisterFormState createState() => _RegisterFormState();
+  State<RegisterForm> createState() => _RegisterFormState();
 }
 
 class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
-  late IO.Socket socket;
+  late io.Socket socket;
   final authRepo = AuthRepo();
   final chatRoomRepo = ChatRoomRepo();
   final customDialog = CustomDialog();
@@ -246,7 +246,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
               _getImageGallery();
             }),
       ],
-      type: DialogType.SIMPLE_DIALOG,
+      type: DialogType.simpleDialog,
     );
   }
 
@@ -585,15 +585,13 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                               ldlItem = value;
                             });
                           },
-                          items: ldlList == null
-                              ? null
-                              : ldlList.map<DropdownMenuItem<String>>(
-                                  (dynamic value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value.groupId,
-                                    child: Text(value.groupId),
-                                  );
-                                }).toList(),
+                          items: ldlList
+                              .map<DropdownMenuItem<String>>((dynamic value) {
+                            return DropdownMenuItem<String>(
+                              value: value.groupId,
+                              child: Text(value.groupId),
+                            );
+                          }).toList(),
                           validator: (value) {
                             if (value == null) {
                               return AppLocalizations.of(context)!
@@ -621,15 +619,13 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                               cdlItem = value;
                             });
                           },
-                          items: cdlList == null
-                              ? null
-                              : cdlList.map<DropdownMenuItem<String>>(
-                                  (dynamic value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value.groupId,
-                                    child: Text(value.groupId),
-                                  );
-                                }).toList(),
+                          items: cdlList
+                              .map<DropdownMenuItem<String>>((dynamic value) {
+                            return DropdownMenuItem<String>(
+                              value: value.groupId,
+                              child: Text(value.groupId),
+                            );
+                          }).toList(),
                           validator: (value) {
                             if (value == null) {
                               return AppLocalizations.of(context)!
@@ -1073,15 +1069,13 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                               ldlItem = value;
                             });
                           },
-                          items: ldlList == null
-                              ? null
-                              : ldlList.map<DropdownMenuItem<String>>(
-                                  (dynamic value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value.groupId,
-                                    child: Text(value.groupId),
-                                  );
-                                }).toList(),
+                          items: ldlList
+                              .map<DropdownMenuItem<String>>((dynamic value) {
+                            return DropdownMenuItem<String>(
+                              value: value.groupId,
+                              child: Text(value.groupId),
+                            );
+                          }).toList(),
                           validator: (value) {
                             if (value == null) {
                               return AppLocalizations.of(context)!
@@ -1109,15 +1103,13 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                               cdlItem = value;
                             });
                           },
-                          items: cdlList == null
-                              ? null
-                              : cdlList.map<DropdownMenuItem<String>>(
-                                  (dynamic value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value.groupId,
-                                    child: Text(value.groupId),
-                                  );
-                                }).toList(),
+                          items: cdlList
+                              .map<DropdownMenuItem<String>>((dynamic value) {
+                            return DropdownMenuItem<String>(
+                              value: value.groupId,
+                              child: Text(value.groupId),
+                            );
+                          }).toList(),
                           validator: (value) {
                             if (value == null) {
                               return AppLocalizations.of(context)!
@@ -1240,13 +1232,11 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                                             color: Colors.white),
                                       ),
                                       onPressed: _submit,
-                                      child: Container(
-                                        child: Text(
-                                          AppLocalizations.of(context)!
-                                              .translate('sign_up_btn'),
-                                          style: TextStyle(
-                                            fontSize: 35.sp,
-                                          ),
+                                      child: Text(
+                                        AppLocalizations.of(context)!
+                                            .translate('sign_up_btn'),
+                                        style: TextStyle(
+                                          fontSize: 35.sp,
                                         ),
                                       ),
                                     ),
@@ -1332,7 +1322,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
                       color: primaryColor,
                     ),
             ],
-            type: DialogType.GENERAL,
+            type: DialogType.general,
           );
         } else {
           if (!context.mounted) return;
@@ -1340,7 +1330,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
             context: context,
             content: result.message.toString(),
             onPressed: () => Navigator.pop(context),
-            type: DialogType.ERROR,
+            type: DialogType.error,
           );
         }
 

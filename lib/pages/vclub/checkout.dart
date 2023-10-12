@@ -20,7 +20,8 @@ class Checkout extends StatefulWidget {
   final String? qty;
   final String? totalAmount;
 
-  const Checkout({super.key, 
+  const Checkout({
+    super.key,
     this.slsDetailData,
     this.itemName,
     this.dbcode,
@@ -32,7 +33,7 @@ class Checkout extends StatefulWidget {
   });
 
   @override
-  _CheckoutState createState() => _CheckoutState();
+  State<Checkout> createState() => _CheckoutState();
 }
 
 class _CheckoutState extends State<Checkout> {
@@ -199,7 +200,7 @@ class _CheckoutState extends State<Checkout> {
             },
           ),
         ],
-        type: DialogType.GENERAL,
+        type: DialogType.general,
       );
     } else {
       customDialog.show(
@@ -212,7 +213,7 @@ class _CheckoutState extends State<Checkout> {
           ),
         ),
         content: result.message!,
-        type: DialogType.ERROR,
+        type: DialogType.error,
       );
     }
 
@@ -345,7 +346,8 @@ class _CheckoutState extends State<Checkout> {
                             style: ElevatedButton.styleFrom(
                               minimumSize: Size(420.w, 45.h),
                               backgroundColor: const Color(0xffdd0e0e),
-                              padding: const EdgeInsets.symmetric(vertical: 11.0),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 11.0),
                               shape: const StadiumBorder(),
                               textStyle: const TextStyle(color: Colors.white),
                             ),

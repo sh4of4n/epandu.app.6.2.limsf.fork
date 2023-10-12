@@ -32,7 +32,7 @@ class BankList extends StatefulWidget {
   });
 
   @override
-  _BankListState createState() => _BankListState();
+  State<BankList> createState() => _BankListState();
 }
 
 class _BankListState extends State<BankList> {

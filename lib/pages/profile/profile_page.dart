@@ -19,7 +19,7 @@ class Profile extends StatefulWidget {
   const Profile({super.key, this.userProfile, this.enrollData, this.isLoading});
 
   @override
-  _ProfileState createState() => _ProfileState();
+  State<Profile> createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile>
@@ -141,144 +141,141 @@ class _ProfileState extends State<Profile>
   _userInfo() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(120.0)),
-      child: Container(
-        child: Column(
-          children: <Widget>[
-            if (widget.userProfile?.name != null)
-              Text('${widget.userProfile?.name}', style: _titleStyle),
-            if (widget.userProfile?.name != null)
-              ListTile(
-                leading: const Icon(Icons.account_box),
-                title:
-                    Text(AppLocalizations.of(context)!.translate('ic_name_lbl')),
-                subtitle:
-                    Text('${widget.userProfile?.name}', style: _subtitleStyle),
-              ),
-            if (widget.userProfile?.nickName != null)
-              ListTile(
-                leading: const Icon(Icons.account_box),
-                title: Text(
-                    AppLocalizations.of(context)!.translate('nick_name_lbl')),
-                subtitle: Text('${widget.userProfile?.nickName}',
-                    style: _subtitleStyle),
-              ),
-            if (widget.userProfile?.icNo != null)
-              ListTile(
-                leading: const Icon(Icons.perm_identity),
-                title: Text(AppLocalizations.of(context)!.translate('ic_lbl')),
-                subtitle:
-                    Text('${widget.userProfile?.icNo}', style: _subtitleStyle),
-              ),
-            if (widget.userProfile?.phone != null)
-              ListTile(
-                leading: const Icon(Icons.phone),
-                title:
-                    Text(AppLocalizations.of(context)!.translate('contact_no')),
-                subtitle:
-                    Text('${widget.userProfile?.phone}', style: _subtitleStyle),
-              ),
-            if (widget.userProfile?.eMail != null)
-              ListTile(
-                leading: const Icon(Icons.email),
-                title:
-                    Text(AppLocalizations.of(context)!.translate('email_lbl')),
-                subtitle: Text(
-                    widget.userProfile?.eMail != null
-                        ? '${widget.userProfile?.eMail}'
-                        : AppLocalizations.of(context)!.translate('no_email'),
-                    style: _subtitleStyle),
-              ),
-            if (widget.userProfile?.postcode != null)
-              ListTile(
-                leading: const Icon(Icons.home),
-                title: Text(
-                    AppLocalizations.of(context)!.translate('postcode_lbl')),
-                subtitle: Text(
-                    widget.userProfile?.postcode != null
-                        ? '${widget.userProfile?.postcode}'
-                        : AppLocalizations.of(context)!.translate('no_postcode'),
-                    style: _subtitleStyle),
-              ),
-            if (widget.userProfile?.birthDate != null)
-              ListTile(
-                leading: const Icon(Icons.date_range),
-                title: Text(AppLocalizations.of(context)!.translate('dob_lbl')),
-                subtitle: Text(
-                    '${widget.userProfile.birthDate.isNotEmpty ? widget.userProfile.birthDate.substring(0, 10) : ''}',
-                    style: _subtitleStyle),
-              ),
-            /* if (_nationality != null)
-              ListTile(
-                leading: Icon(Icons.flag),
-                title: Text(
-                    AppLocalizations.of(context).translate('nationality_lbl')),
-                subtitle: Text('$_nationality', style: _subtitleStyle),
-              ), */
-            SizedBox(height: ScreenUtil().setHeight(20)),
-            InkWell(
-              onTap: () => context.router.push(const EnrolmentInfo()),
-              child: Column(
-                children: <Widget>[
-                  FadeInImage(
-                    alignment: Alignment.center,
-                    height: ScreenUtil().setHeight(350),
-                    placeholder: MemoryImage(kTransparentImage),
-                    image: AssetImage(
-                      image.classIcon,
-                    ),
-                  ),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(20),
-                  ),
-                  Text(
-                    AppLocalizations.of(context)!.translate('enrolled_class'),
-                    style: iconText,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
+      child: Column(
+        children: <Widget>[
+          if (widget.userProfile?.name != null)
+            Text('${widget.userProfile?.name}', style: _titleStyle),
+          if (widget.userProfile?.name != null)
+            ListTile(
+              leading: const Icon(Icons.account_box),
+              title:
+                  Text(AppLocalizations.of(context)!.translate('ic_name_lbl')),
+              subtitle:
+                  Text('${widget.userProfile?.name}', style: _subtitleStyle),
             ),
-            SizedBox(height: ScreenUtil().setHeight(20)),
-            /* if (_state != null && _country != null)
-              ListTile(
-                leading: Icon(Icons.location_on),
-                title:
-                    Text(AppLocalizations.of(context).translate('location_lbl')),
-                subtitle: Text(
-                    _state.isNotEmpty && _country.isNotEmpty
-                        ? '${_state != "null" ? _state : ""}${_country != "null" ? ", $_country" : ""}'
-                        : AppLocalizations.of(context).translate('no_location'),
-                    style: _subtitleStyle),
-              ), */
-            /* ButtonTheme(
-              padding: EdgeInsets.all(0.0),
-              shape: StadiumBorder(),
-              child: RaisedButton(
-                onPressed: () => Navigator.push(context, ENROLL),
-                textColor: Colors.white,
-                padding: const EdgeInsets.all(0.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25.0),
-                    gradient: LinearGradient(
-                      colors: [Colors.blueAccent.shade700, Colors.blue],
-                    ),
+          if (widget.userProfile?.nickName != null)
+            ListTile(
+              leading: const Icon(Icons.account_box),
+              title: Text(
+                  AppLocalizations.of(context)!.translate('nick_name_lbl')),
+              subtitle: Text('${widget.userProfile?.nickName}',
+                  style: _subtitleStyle),
+            ),
+          if (widget.userProfile?.icNo != null)
+            ListTile(
+              leading: const Icon(Icons.perm_identity),
+              title: Text(AppLocalizations.of(context)!.translate('ic_lbl')),
+              subtitle:
+                  Text('${widget.userProfile?.icNo}', style: _subtitleStyle),
+            ),
+          if (widget.userProfile?.phone != null)
+            ListTile(
+              leading: const Icon(Icons.phone),
+              title:
+                  Text(AppLocalizations.of(context)!.translate('contact_no')),
+              subtitle:
+                  Text('${widget.userProfile?.phone}', style: _subtitleStyle),
+            ),
+          if (widget.userProfile?.eMail != null)
+            ListTile(
+              leading: const Icon(Icons.email),
+              title: Text(AppLocalizations.of(context)!.translate('email_lbl')),
+              subtitle: Text(
+                  widget.userProfile?.eMail != null
+                      ? '${widget.userProfile?.eMail}'
+                      : AppLocalizations.of(context)!.translate('no_email'),
+                  style: _subtitleStyle),
+            ),
+          if (widget.userProfile?.postcode != null)
+            ListTile(
+              leading: const Icon(Icons.home),
+              title:
+                  Text(AppLocalizations.of(context)!.translate('postcode_lbl')),
+              subtitle: Text(
+                  widget.userProfile?.postcode != null
+                      ? '${widget.userProfile?.postcode}'
+                      : AppLocalizations.of(context)!.translate('no_postcode'),
+                  style: _subtitleStyle),
+            ),
+          if (widget.userProfile?.birthDate != null)
+            ListTile(
+              leading: const Icon(Icons.date_range),
+              title: Text(AppLocalizations.of(context)!.translate('dob_lbl')),
+              subtitle: Text(
+                  '${widget.userProfile.birthDate.isNotEmpty ? widget.userProfile.birthDate.substring(0, 10) : ''}',
+                  style: _subtitleStyle),
+            ),
+          /* if (_nationality != null)
+            ListTile(
+              leading: Icon(Icons.flag),
+              title: Text(
+                  AppLocalizations.of(context).translate('nationality_lbl')),
+              subtitle: Text('$_nationality', style: _subtitleStyle),
+            ), */
+          SizedBox(height: ScreenUtil().setHeight(20)),
+          InkWell(
+            onTap: () => context.router.push(const EnrolmentInfo()),
+            child: Column(
+              children: <Widget>[
+                FadeInImage(
+                  alignment: Alignment.center,
+                  height: ScreenUtil().setHeight(350),
+                  placeholder: MemoryImage(kTransparentImage),
+                  image: AssetImage(
+                    image.classIcon,
                   ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 40.0,
-                    vertical: 15.0,
+                ),
+                SizedBox(
+                  height: ScreenUtil().setHeight(20),
+                ),
+                Text(
+                  AppLocalizations.of(context)!.translate('enrolled_class'),
+                  style: iconText,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: ScreenUtil().setHeight(20)),
+          /* if (_state != null && _country != null)
+            ListTile(
+              leading: Icon(Icons.location_on),
+              title:
+                  Text(AppLocalizations.of(context).translate('location_lbl')),
+              subtitle: Text(
+                  _state.isNotEmpty && _country.isNotEmpty
+                      ? '${_state != "null" ? _state : ""}${_country != "null" ? ", $_country" : ""}'
+                      : AppLocalizations.of(context).translate('no_location'),
+                  style: _subtitleStyle),
+            ), */
+          /* ButtonTheme(
+            padding: EdgeInsets.all(0.0),
+            shape: StadiumBorder(),
+            child: RaisedButton(
+              onPressed: () => Navigator.push(context, ENROLL),
+              textColor: Colors.white,
+              padding: const EdgeInsets.all(0.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25.0),
+                  gradient: LinearGradient(
+                    colors: [Colors.blueAccent.shade700, Colors.blue],
                   ),
-                  child: Text(
-                    AppLocalizations.of(context).translate('enroll_lbl'),
-                    style: TextStyle(
-                      fontSize: ScreenUtil().setSp(56),
-                    ),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 40.0,
+                  vertical: 15.0,
+                ),
+                child: Text(
+                  AppLocalizations.of(context).translate('enroll_lbl'),
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(56),
                   ),
                 ),
               ),
-            ), */
-          ],
-        ),
+            ),
+          ), */
+        ],
       ),
     );
   }
@@ -361,8 +358,8 @@ class _ProfileState extends State<Profile>
           if (widget.userProfile?.nickName != null)
             ListTile(
               leading: const Icon(Icons.account_box),
-              title:
-                  Text(AppLocalizations.of(context)!.translate('nick_name_lbl')),
+              title: Text(
+                  AppLocalizations.of(context)!.translate('nick_name_lbl')),
               subtitle: Text('${widget.userProfile?.nickName}',
                   style: _tabSubtitleStyle),
             ),
@@ -376,7 +373,8 @@ class _ProfileState extends State<Profile>
           if (widget.userProfile?.phone != null)
             ListTile(
               leading: const Icon(Icons.phone),
-              title: Text(AppLocalizations.of(context)!.translate('contact_no')),
+              title:
+                  Text(AppLocalizations.of(context)!.translate('contact_no')),
               subtitle: Text('${widget.userProfile?.phone}',
                   style: _tabSubtitleStyle),
             ),

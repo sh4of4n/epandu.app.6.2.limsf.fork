@@ -20,7 +20,7 @@ class Settings extends StatefulWidget {
   const Settings(this.data, {super.key});
 
   @override
-  _SettingsState createState() => _SettingsState();
+  State<Settings> createState() => _SettingsState();
 }
 
 class _SettingsState extends State<Settings> {
@@ -152,7 +152,7 @@ class _SettingsState extends State<Settings> {
                           },
                         ),
                       ],
-                      type: DialogType.GENERAL,
+                      type: DialogType.general,
                       barrierDismissable: true,
                     );
                   }
@@ -270,7 +270,7 @@ class _SettingsState extends State<Settings> {
             },
           ),
         ],
-        type: DialogType.GENERAL);
+        type: DialogType.general);
   }
 
   _deleteAccount() async {
@@ -289,7 +289,7 @@ class _SettingsState extends State<Settings> {
       if (!context.mounted) return;
       customDialog.show(
         context: context,
-        type: DialogType.ERROR,
+        type: DialogType.error,
         content: result.message.toString(),
         onPressed: () => context.router.pop(),
       );

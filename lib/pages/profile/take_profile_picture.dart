@@ -69,7 +69,7 @@ class TakeProfilePictureState extends State<TakeProfilePicture> {
       if (_controller!.value.hasError) {
         customSnackbar.show(context,
             message: 'Camera error ${_controller!.value.errorDescription}',
-            type: MessageType.ERROR);
+            type: MessageType.error);
       }
     });
 

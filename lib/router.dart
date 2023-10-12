@@ -105,5 +105,10 @@ class AppRouter extends $AppRouter {
     AutoRoute(page: BriefVideoRoute.page),
     AutoRoute(path: '/roomList', page: RoomList.page),
     AutoRoute(page: ProductShowRoute.page),
+    AutoRoute(path: '/enrolledClass', page: EnrolledClass.page),
+    AutoRoute(path: '/trainingSchedule', page: TrainingSchedule.page),
+    AutoRoute(path: '/lessonsTaken', page: LessonsTaken.page),
+    AutoRoute(path: '/paymentList', page: PaymentList.page),
+    AutoRoute(path: '/testScheduleResult', page: TestScheduleResult.page),
   ];
 }

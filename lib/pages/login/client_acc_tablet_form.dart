@@ -18,7 +18,7 @@ class ClientAccountTabletForm extends StatefulWidget {
   const ClientAccountTabletForm(this.data, {super.key});
 
   @override
-  _ClientAccountTabletFormState createState() =>
+  State<ClientAccountTabletForm> createState() =>
       _ClientAccountTabletFormState();
 }
 

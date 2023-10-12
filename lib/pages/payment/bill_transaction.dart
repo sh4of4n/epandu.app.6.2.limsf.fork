@@ -13,7 +13,7 @@ class BillTransaction extends StatefulWidget {
   const BillTransaction(this.data, {super.key});
 
   @override
-  _BillTransactionState createState() => _BillTransactionState();
+  State<BillTransaction> createState() => _BillTransactionState();
 }
 
 class _BillTransactionState extends State<BillTransaction> {
@@ -108,7 +108,8 @@ class _BillTransactionState extends State<BillTransaction> {
                           fillColor: Colors.grey.withOpacity(.25),
                           filled: true,
                           enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.transparent),
+                            borderSide:
+                                const BorderSide(color: Colors.transparent),
                             borderRadius: BorderRadius.circular(30),
                           ),
                           border: OutlineInputBorder(

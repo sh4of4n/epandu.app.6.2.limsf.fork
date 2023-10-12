@@ -15,7 +15,7 @@ class PaymentHistoryDetail extends StatefulWidget {
   const PaymentHistoryDetail(this.recpNo, {super.key});
 
   @override
-  _PaymentHistoryDetailState createState() => _PaymentHistoryDetailState();
+  State<PaymentHistoryDetail> createState() => _PaymentHistoryDetailState();
 }
 
 class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
@@ -229,9 +229,7 @@ class _PaymentHistoryDetailState extends State<PaymentHistoryDetail> {
                                       Padding(
                                         padding: const EdgeInsets.all(3.0),
                                         child: Text(
-                                          'RM${NumberFormat('#,##0.00').format(
-                                                  double.tryParse(snapshot
-                                                      .data[index].tranTotal))}'
+                                          'RM${NumberFormat('#,##0.00').format(double.tryParse(snapshot.data[index].tranTotal))}'
                                           // AppLocalizations.of(context)
                                           //     .translate('no_package_desc'),
                                           ,

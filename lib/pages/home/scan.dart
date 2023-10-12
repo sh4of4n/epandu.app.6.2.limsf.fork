@@ -201,7 +201,7 @@ class _ScanState extends State<Scan> {
 
                 controller!.resumeCamera();
               },
-              type: DialogType.INFO,
+              type: DialogType.info,
             );
 
             setState(() {
@@ -223,7 +223,7 @@ class _ScanState extends State<Scan> {
                 ),
               ),
             ],
-            type: DialogType.GENERAL,
+            type: DialogType.general,
           );
         }
 
@@ -268,7 +268,7 @@ class _ScanState extends State<Scan> {
             child: const Text('Ok'),
           ),
         ],
-        type: DialogType.GENERAL,
+        type: DialogType.general,
       );
     }
     return customDialog.show(
@@ -286,7 +286,7 @@ class _ScanState extends State<Scan> {
           child: const Text('Ok'),
         ),
       ],
-      type: DialogType.GENERAL,
+      type: DialogType.general,
     );
   }
 }

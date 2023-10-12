@@ -13,7 +13,7 @@ class PickupHistory extends StatefulWidget {
   const PickupHistory({super.key});
 
   @override
-  _PickupHistoryState createState() => _PickupHistoryState();
+  State<PickupHistory> createState() => _PickupHistoryState();
 }
 
 class _PickupHistoryState extends State<PickupHistory> {

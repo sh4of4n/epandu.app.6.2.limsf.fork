@@ -25,9 +25,9 @@ import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../common_library/services/model/m_roommember_model.dart';
 import '../../router.gr.dart';
-import '../../services/database/DatabaseHelper.dart';
+import '../../services/database/database_helper.dart';
 import '../chat/socketclient_helper.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 enum AppState { free, picked, cropped }
 
@@ -36,11 +36,11 @@ class UpdateProfile extends StatefulWidget {
   const UpdateProfile({super.key});
 
   @override
-  _UpdateProfileState createState() => _UpdateProfileState();
+  State<UpdateProfile> createState() => _UpdateProfileState();
 }
 
 class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
-  late IO.Socket socket;
+  late io.Socket socket;
   final dbHelper = DatabaseHelper.instance;
   final profileRepo = ProfileRepo();
   final authRepo = AuthRepo();
@@ -365,7 +365,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
               _getImageGallery();
             }),
       ],
-      type: DialogType.SIMPLE_DIALOG,
+      type: DialogType.simpleDialog,
     );
   }
 
@@ -771,15 +771,13 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                       });
                     },
                     value: ldlItem!.isEmpty ? null : ldlItem,
-                    items: ldlList == null
-                        ? null
-                        : ldlList
-                            .map<DropdownMenuItem<String>>((dynamic value) {
-                            return DropdownMenuItem<String>(
-                              value: value.groupId,
-                              child: Text(value.groupId),
-                            );
-                          }).toList(),
+                    items:
+                        ldlList.map<DropdownMenuItem<String>>((dynamic value) {
+                      return DropdownMenuItem<String>(
+                        value: value.groupId,
+                        child: Text(value.groupId),
+                      );
+                    }).toList(),
                     validator: (value) {
                       if (value == null) {
                         return AppLocalizations.of(context)!
@@ -827,15 +825,13 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                     value: cdlItem!.isEmpty
                         ? null
                         : cdlItem!.replaceAll('%20', ' '),
-                    items: cdlList == null
-                        ? null
-                        : cdlList
-                            .map<DropdownMenuItem<String>>((dynamic value) {
-                            return DropdownMenuItem<String>(
-                              value: value.groupId,
-                              child: Text(value.groupId),
-                            );
-                          }).toList(),
+                    items:
+                        cdlList.map<DropdownMenuItem<String>>((dynamic value) {
+                      return DropdownMenuItem<String>(
+                        value: value.groupId,
+                        child: Text(value.groupId),
+                      );
+                    }).toList(),
                     validator: (value) {
                       if (value == null) {
                         return AppLocalizations.of(context)!
@@ -1013,13 +1009,14 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
               AppLocalizations.of(context)!.translate('malay_race_lbl')) {
             _raceParam = 'M';
           } else if (value ==
-              AppLocalizations.of(context)!.translate('chinese_lbl'))
+              AppLocalizations.of(context)!.translate('chinese_lbl')) {
             _raceParam = 'C';
-          else if (value ==
-              AppLocalizations.of(context)!.translate('indian_lbl'))
+          } else if (value ==
+              AppLocalizations.of(context)!.translate('indian_lbl')) {
             _raceParam = 'I';
-          else
+          } else {
             _raceParam = 'O';
+          }
         });
       },
       items: <String>[

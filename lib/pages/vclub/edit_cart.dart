@@ -39,7 +39,7 @@ class CartItemEdit extends StatefulWidget {
   });
 
   @override
-  _CartItemEditState createState() => _CartItemEditState();
+  State<CartItemEdit> createState() => _CartItemEditState();
 }
 
 class _CartItemEditState extends State<CartItemEdit> with PageBaseClass {

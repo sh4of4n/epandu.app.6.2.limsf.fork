@@ -15,7 +15,7 @@ class MerchantList extends StatefulWidget {
   const MerchantList(this.merchantType, {super.key});
 
   @override
-  _MerchantListState createState() => _MerchantListState();
+  State<MerchantList> createState() => _MerchantListState();
 }
 
 class _MerchantListState extends State<MerchantList> {
@@ -41,17 +41,16 @@ class _MerchantListState extends State<MerchantList> {
 
     _getCurrentLocation();
 
-    _scrollController
-      .addListener(() {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
-          setState(() {
-            _startIndex += 10;
-          });
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        setState(() {
+          _startIndex += 10;
+        });
 
-          if (_message!.isEmpty) _getMerchant();
-        }
-      });
+        if (_message!.isEmpty) _getMerchant();
+      }
+    });
   }
 
   _getCurrentLocation() async {
@@ -75,16 +74,19 @@ class _MerchantListState extends State<MerchantList> {
     );
 
     if (result.isSuccess) {
-      if (result.data.length > 0) if (mounted) {
-        setState(() {
-          for (int i = 0; i < result.data.length; i += 1) {
-            items.add(result.data[i]);
-          }
-        });
-      } else if (mounted)
-        setState(() {
-          _isLoading = false;
-        });
+      if (result.data.length > 0) {
+        if (mounted) {
+          setState(() {
+            for (int i = 0; i < result.data.length; i += 1) {
+              items.add(result.data[i]);
+            }
+          });
+        } else if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      }
     } else {
       if (mounted) {
         setState(() {
@@ -120,7 +122,7 @@ class _MerchantListState extends State<MerchantList> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           elevation: 0,
-            iconTheme: const IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.black, //change your color here
           ),
           backgroundColor: Colors.transparent,

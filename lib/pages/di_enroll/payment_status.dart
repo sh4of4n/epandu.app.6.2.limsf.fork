@@ -15,7 +15,7 @@ class PaymentStatus extends StatefulWidget {
   const PaymentStatus({super.key, this.icNo});
 
   @override
-  _PaymentStatusState createState() => _PaymentStatusState();
+  State<PaymentStatus> createState() => _PaymentStatusState();
 }
 
 class _PaymentStatusState extends State<PaymentStatus> {
@@ -59,7 +59,8 @@ class _PaymentStatusState extends State<PaymentStatus> {
               case ConnectionState.waiting:
                 return Container(
                   padding: const EdgeInsets.all(15.0),
-                  margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 15.0, horizontal: 8.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15.0),

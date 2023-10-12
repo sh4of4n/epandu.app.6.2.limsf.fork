@@ -17,7 +17,7 @@ class EnrolmentInfo extends StatefulWidget {
   const EnrolmentInfo({super.key});
 
   @override
-  _EnrolmentInfoState createState() => _EnrolmentInfoState();
+  State<EnrolmentInfo> createState() => _EnrolmentInfoState();
 }
 
 class _EnrolmentInfoState extends State<EnrolmentInfo> {
@@ -190,10 +190,8 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
                                               ),
                                               children: [
                                                 TextSpan(
-                                                  text: '${AppLocalizations.of(
-                                                              context)!
-                                                          .translate(
-                                                              'class_lbl')} ',
+                                                  text:
+                                                      '${AppLocalizations.of(context)!.translate('class_lbl')} ',
                                                   style: const TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     color: Color(
@@ -227,11 +225,7 @@ class _EnrolmentInfoState extends State<EnrolmentInfo> {
                                           Text(
                                             snapshot.data[index].totalTime !=
                                                     null
-                                                ? '${AppLocalizations.of(context)!
-                                                        .translate(
-                                                            'total_time')} ' +
-                                                    snapshot
-                                                        .data[index].totalTime
+                                                ? '${AppLocalizations.of(context)?.translate('total_time')} ${snapshot.data[index]?.totalTime ?? ''}'
                                                 : /* AppLocalizations.of(context)
                                                     .translate('no_total_time') */
                                                 'Total time 00:00',

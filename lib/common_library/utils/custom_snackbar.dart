@@ -2,11 +2,11 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
 enum MessageType {
-  INFO,
-  SUCCESS,
-  ERROR,
-  WARNING,
-  TOAST,
+  info,
+  success,
+  error,
+  warning,
+  toast,
 }
 
 class CustomSnackbar {
@@ -33,7 +33,7 @@ class CustomSnackbar {
     Icon? icon;
 
     switch (type) {
-      case MessageType.ERROR:
+      case MessageType.error:
         backgroundColor = Colors.red;
         icon = Icon(
           Icons.cancel,
@@ -42,7 +42,7 @@ class CustomSnackbar {
         );
         break;
 
-      case MessageType.WARNING:
+      case MessageType.warning:
         backgroundColor = Colors.amberAccent[400];
         icon = Icon(
           Icons.warning,
@@ -51,7 +51,7 @@ class CustomSnackbar {
         );
         break;
 
-      case MessageType.SUCCESS:
+      case MessageType.success:
         backgroundColor = Colors.green;
         icon = Icon(
           Icons.check,
@@ -59,7 +59,7 @@ class CustomSnackbar {
           color: Colors.white,
         );
         break;
-      case MessageType.INFO:
+      case MessageType.info:
         backgroundColor = Colors.black87;
         icon = Icon(
           Icons.info_outline,
@@ -67,7 +67,7 @@ class CustomSnackbar {
           color: Colors.white,
         );
         break;
-      case MessageType.TOAST:
+      case MessageType.toast:
         backgroundColor = Colors.black87;
         break;
       default:
@@ -108,8 +108,10 @@ class CustomSnackbar {
         ),
       ),
       padding: _defaultPadding,
-      margin: type == MessageType.TOAST ? _defaultMargin : const EdgeInsets.all(0.0),
-      borderRadius: type == MessageType.TOAST
+      margin: type == MessageType.toast
+          ? _defaultMargin
+          : const EdgeInsets.all(0.0),
+      borderRadius: type == MessageType.toast
           ? _defaultBorderRadius
           : BorderRadius.circular(0.0),
       icon: icon,

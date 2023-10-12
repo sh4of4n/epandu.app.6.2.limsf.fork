@@ -15,7 +15,7 @@ class EnrolmentInfoDetail extends StatefulWidget {
   const EnrolmentInfoDetail(this.groupId, {super.key});
 
   @override
-  _EnrolmentInfoDetailState createState() => _EnrolmentInfoDetailState();
+  State<EnrolmentInfoDetail> createState() => _EnrolmentInfoDetailState();
 }
 
 class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
@@ -62,7 +62,7 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
           ),
         ],
       );
-    } else if (!_isLoading && _enrollHistoryData is String)
+    } else if (!_isLoading && _enrollHistoryData is String) {
       return Column(
         children: <Widget>[
           Expanded(
@@ -72,6 +72,7 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
           ),
         ],
       );
+    }
 
     return SingleChildScrollView(
       child: Container(
@@ -100,7 +101,7 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].icNo != null
-                              ? 'IC: ' + _enrollHistoryData[0].icNo
+                              ? 'IC: ${_enrollHistoryData[0].icNo}'
                               : '',
                           style: const TextStyle(
                             color: Colors.black,
@@ -111,7 +112,7 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].groupId != null
-                              ? 'Class ' + _enrollHistoryData[0].groupId
+                              ? 'Class ${_enrollHistoryData[0].groupId}'
                               : '',
                           style: const TextStyle(
                             color: Colors.black,
@@ -127,7 +128,7 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].stuNo != null
-                              ? 'Student no: ' + _enrollHistoryData[0].stuNo
+                              ? 'Student no: ${_enrollHistoryData[0].stuNo}'
                               : '',
                           style: const TextStyle(
                             color: Colors.black,
@@ -138,7 +139,7 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].status != null
-                              ? 'Status: ' + _enrollHistoryData[0].status
+                              ? 'Status: ${_enrollHistoryData[0].status}'
                               : '',
                           style: const TextStyle(
                             color: Colors.black,
@@ -154,7 +155,7 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].tlHrsTak != null
-                              ? 'Hours taken: ' + _enrollHistoryData[0].tlHrsTak
+                              ? 'Hours taken: ${_enrollHistoryData[0].tlHrsTak}'
                               : '0',
                           style: const TextStyle(
                             color: Colors.black,
@@ -165,7 +166,7 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].totalTime != null
-                              ? 'Total time: ' + _enrollHistoryData[0].totalTime
+                              ? 'Total time: ${_enrollHistoryData[0].totalTime}'
                               : '00:00',
                           style: const TextStyle(
                             color: Colors.black,
@@ -181,9 +182,7 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].totalPaid != null
-                              ? 'Total paid: RM${NumberFormat('#,##0.00').format(
-                                      double.tryParse(
-                                          _enrollHistoryData[0].totalPaid))}'
+                              ? 'Total paid: RM${NumberFormat('#,##0.00').format(double.tryParse(_enrollHistoryData[0].totalPaid))}'
                               : '0.00',
                           style: const TextStyle(
                             color: Colors.black,
@@ -194,9 +193,7 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].fee != null
-                              ? 'Fee: RM${NumberFormat('#,##0.00').format(
-                                      double.tryParse(
-                                          _enrollHistoryData[0].fee))}'
+                              ? 'Fee: RM${NumberFormat('#,##0.00').format(double.tryParse(_enrollHistoryData[0].fee))}'
                               : '0.00',
                           style: const TextStyle(
                             color: Colors.black,

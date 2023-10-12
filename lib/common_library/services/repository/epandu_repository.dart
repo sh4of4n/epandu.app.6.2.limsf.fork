@@ -23,7 +23,7 @@ class EpanduRepo {
     // String diCode = await localStorage.getMerchantDbCode();
     // String groupId = '';
     String? icNo = await localStorage.getStudentIc();
-
+    // diCode = 'K1003';
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo&groupId=${groupId ?? ''}';
 
@@ -66,7 +66,7 @@ class EpanduRepo {
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo&startIndex=$startIndex&noOfRecords=10';
 
     var response = await networking.getData(
-      path: 'GetCollectionByStudentV2?$path',
+      path: 'GetCollectionByStudent?$path',
     );
 
     if (response.isSuccess && response.data != null) {
@@ -652,5 +652,36 @@ class EpanduRepo {
         message: response.message == null || response.message!.isEmpty
             ? 'Tiada nombor giliran semasa.'
             : response.message!.replaceAll(r'\u000d\u000a', ''));
+  }
+
+  Future<Response> getTimeTableListByIcNo({groupId, startIndex}) async {
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
+    String? userId = await localStorage.getUserId();
+    String? diCode = await localStorage.getMerchantDbCode();
+    String? icNo = await localStorage.getStudentIc();
+    //diCode = 'K1003';
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&userId=$userId&icNo=$icNo&groupId=${groupId ?? ''}&startIndex=$startIndex&noOfRecords=10';
+
+    var response = await networking.getData(
+      path: 'GetTimeTableListByIcNo?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetTimeTableListByIcNoResponse getTimeTableListByIcNoResponse;
+
+      getTimeTableListByIcNoResponse =
+          GetTimeTableListByIcNoResponse.fromJson(response.data);
+
+      return Response(true, data: getTimeTableListByIcNoResponse.timeTable);
+    }
+
+    return Response(
+      false,
+      message: response.message == null || response.message!.isEmpty
+          ? 'You have no time table.'
+          : response.message!.replaceAll(r'\u000d\u000a', ''),
+    );
   }
 }

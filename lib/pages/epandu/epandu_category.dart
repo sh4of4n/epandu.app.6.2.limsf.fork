@@ -248,6 +248,114 @@ class EpanduCategory extends StatelessWidget {
                       ],
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        context.router.push(const EnrolledClass());
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Image.asset(
+                              'assets/menu/enrollment-icon.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                              'Enrolled Classes',
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        context.router.push(const TrainingSchedule());
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Image.asset(
+                              'assets/menu/training-icon.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                              'Training Schedule',
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        context.router.push(const LessonsTaken());
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Image.asset(
+                              'assets/menu/enrollment-icon.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                              'Lessons Taken',
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        context.router.push(const TestScheduleResult());
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Image.asset(
+                              'assets/menu/training-icon.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                              'Test Schedule/Result',
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
               // ListView(

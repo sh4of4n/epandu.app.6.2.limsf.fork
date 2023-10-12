@@ -3,7 +3,7 @@ description: ePandu app.
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 6.1.11+13
+version: 6.2.11+14
 
 environment:
   sdk: ">=3.0.0-0 <4.0.0"
@@ -35,6 +35,11 @@ dependencies:
   image_cropper:
   camera:
   webview_flutter:
+  webview_flutter_android:
+  webview_flutter_wkwebview:
+  qr_code_scanner:
+  quiver:
+  flutter_localization:
   carousel_slider:
   smooth_page_indicator:
   photo_view:

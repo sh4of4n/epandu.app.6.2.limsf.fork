@@ -758,6 +758,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.1"
+  flutter_localization:
+    dependency: "direct main"
+    description:
+      name: flutter_localization
+      sha256: a65ae241b865f2780f2ef624a4cdd019ca894d0b7df0a0b77190746ef0b9c8fa
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.14"
   flutter_localizations:
     dependency: "direct overridden"
     description: flutter
@@ -1737,7 +1745,7 @@ packages:
     source: hosted
     version: "3.0.1"
   qr_code_scanner:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       path: "."
       ref: flutter-beta
@@ -1754,7 +1762,7 @@ packages:
     source: hosted
     version: "4.1.0"
   quiver:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: quiver
       sha256: b1c1ac5ce6688d77f65f3375a9abb9319b3cb32486bdc7a1e0fdf004d7ba4e47
@@ -2351,7 +2359,7 @@ packages:
     source: hosted
     version: "4.2.4"
   webview_flutter_android:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: webview_flutter_android
       sha256: ddc167c6676f57c8b367d19fcbee267d6dc6adf81bd6c3cb87981d30746e0a6d
@@ -2367,7 +2375,7 @@ packages:
     source: hosted
     version: "2.6.0"
   webview_flutter_wkwebview:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: webview_flutter_wkwebview
       sha256: d2f7241849582da80b79acb03bb936422412ce5c0c79fb5f6a1de5421a5aecc4

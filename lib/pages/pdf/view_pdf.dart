@@ -18,7 +18,7 @@ class ViewPdf extends StatefulWidget {
   const ViewPdf({super.key, required this.title, required this.pdfLink});
 
   @override
-  _ViewPdfState createState() => _ViewPdfState();
+  State<ViewPdf> createState() => _ViewPdfState();
 }
 
 class _ViewPdfState extends State<ViewPdf> {
@@ -71,7 +71,7 @@ class _ViewPdfState extends State<ViewPdf> {
       customDialog.show(
         context: context,
         content: 'Failed to share pdf file. Please try again.',
-        type: DialogType.ERROR,
+        type: DialogType.error,
       );
     }
   }

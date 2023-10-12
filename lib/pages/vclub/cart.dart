@@ -21,7 +21,7 @@ class Cart extends StatefulWidget {
   const Cart({super.key, this.itemName, this.dbcode});
 
   @override
-  _CartState createState() => _CartState();
+  State<Cart> createState() => _CartState();
 }
 
 class _CartState extends State<Cart> {
@@ -188,7 +188,7 @@ class _CartState extends State<Cart> {
           onPressed: () => context.router.pop(context),
         ),
       ],
-      type: DialogType.GENERAL,
+      type: DialogType.general,
     );
   }
 

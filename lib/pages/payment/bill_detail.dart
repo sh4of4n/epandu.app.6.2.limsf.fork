@@ -18,7 +18,7 @@ class BillDetail extends StatefulWidget {
   const BillDetail(this.data, {super.key});
 
   @override
-  _BillDetailState createState() => _BillDetailState();
+  State<BillDetail> createState() => _BillDetailState();
 }
 
 class _BillDetailState extends State<BillDetail> {
@@ -283,8 +283,8 @@ class _BillDetailState extends State<BillDetail> {
                                   ),
                                   controller: _amountController,
                                   decoration: const InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 10.0),
+                                    contentPadding:
+                                        EdgeInsets.symmetric(vertical: 10.0),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide.none,
                                       // borderSide:
@@ -306,7 +306,8 @@ class _BillDetailState extends State<BillDetail> {
                             style: ElevatedButton.styleFrom(
                               minimumSize: Size(420.w, 45.h),
                               backgroundColor: const Color(0xffdd0e0e),
-                              padding: const EdgeInsets.symmetric(vertical: 11.0),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 11.0),
                               shape: const StadiumBorder(),
                               textStyle: const TextStyle(color: Colors.white),
                             ),

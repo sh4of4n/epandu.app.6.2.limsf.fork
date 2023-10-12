@@ -22,12 +22,12 @@ import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import '../../common_library/services/model/createroom_response.dart';
 import '../../common_library/services/model/m_roommember_model.dart';
 import '../../common_library/utils/local_storage.dart';
-import '../../services/database/DatabaseHelper.dart';
+import '../../services/database/database_helper.dart';
 import '../../services/repository/chatroom_repository.dart';
 import '../chat/chat_home.dart';
 import '../chat/socketclient_helper.dart';
 
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 // import '../../router.gr.dart';
 
@@ -39,7 +39,7 @@ class Webview extends StatefulWidget {
   const Webview({super.key, required this.url, this.backType});
 
   @override
-  _WebviewState createState() => _WebviewState();
+  State<Webview> createState() => _WebviewState();
 }
 
 WebViewController? controllerGlobal;
@@ -86,7 +86,7 @@ _confirmBack(customDialog, BuildContext context) {
         },
       ),
     ],
-    type: DialogType.GENERAL,
+    type: DialogType.general,
   );
 }
 
@@ -99,7 +99,7 @@ class _WebviewState extends State<Webview> {
 
   final dbHelper = DatabaseHelper.instance;
 
-  late IO.Socket socket;
+  late io.Socket socket;
 
   String? _message = '';
 
@@ -175,7 +175,7 @@ Page resource error:
               String? lng = lngMatch?.group(1);
 
               final availableMaps = await MapLauncher.installedMaps;
-
+              //if (!context.mounted) return;
               showModalBottomSheet(
                 context: context,
                 builder: (BuildContext dialogContext) {
@@ -273,7 +273,7 @@ Page resource error:
             customDialog.show(
                 context: context,
                 content: _message ?? "Error",
-                type: DialogType.WARNING,
+                type: DialogType.warning,
                 onPressed: () {
                   context.router.pop();
                 });

@@ -116,12 +116,14 @@ class _ConfirmAudioWidgetState extends State<ConfirmAudioWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(pos.toString().split('.')[0],
-                                  style: const TextStyle(color: Colors.black45)),
+                                  style:
+                                      const TextStyle(color: Colors.black45)),
                               const SizedBox(
                                 width: 50,
                               ),
                               Text((pos - duration).toString().split('.')[0],
-                                  style: const TextStyle(color: Colors.black45)),
+                                  style:
+                                      const TextStyle(color: Colors.black45)),
                             ],
                           )
                         : Container(),
@@ -142,7 +144,7 @@ class _ConfirmAudioWidgetState extends State<ConfirmAudioWidget> {
         ),
       );
     } else {
-      return Container(child: const Text('No Audio recorded.'));
+      return const Text('No Audio recorded.');
     }
   }
 

@@ -19,7 +19,7 @@ class Pay extends StatefulWidget {
   const Pay({super.key});
 
   @override
-  _PayState createState() => _PayState();
+  State<Pay> createState() => _PayState();
 }
 
 class _PayState extends State<Pay> {
@@ -99,7 +99,7 @@ class _PayState extends State<Pay> {
             ),
           ),
         ],
-        type: DialogType.GENERAL,
+        type: DialogType.general,
       );
     }
 
@@ -194,7 +194,7 @@ class _PayState extends State<Pay> {
           if (!context.mounted) return;
           customDialog.show(
             context: context,
-            type: DialogType.ERROR,
+            type: DialogType.error,
             content: result.message.toString(),
             onPressed: () => context.router.pop(),
           );
@@ -298,15 +298,13 @@ class _PayState extends State<Pay> {
                             paymentFor = value;
                           });
                         },
-                        items: paymentForData == null
-                            ? null
-                            : paymentForData
-                                .map<DropdownMenuItem<String>>((dynamic value) {
-                                return DropdownMenuItem<String>(
-                                  value: value.menuCode,
-                                  child: Text(value.codeDesc),
-                                );
-                              }).toList(),
+                        items: paymentForData
+                            .map<DropdownMenuItem<String>>((dynamic value) {
+                          return DropdownMenuItem<String>(
+                            value: value.menuCode,
+                            child: Text(value.codeDesc),
+                          );
+                        }).toList(),
                         validator: (value) {
                           if (value == null) {
                             return AppLocalizations.of(context)!
@@ -347,8 +345,10 @@ class _PayState extends State<Pay> {
                             // return 'Please enter amount above ${gatewayData[0].minAmt}';
                             return 'Transaction amount is Lower than the Minimum Limit RM${gatewayData[0].minAmt}';
                           } else if (value.replaceAll(',', '').toDouble()! >
-                              30000.00)
+                              30000.00) {
                             return 'Maximum Transaction Limit Exceeded RM30,000';
+                          }
+
                           return null;
                         },
                       ),
@@ -370,15 +370,13 @@ class _PayState extends State<Pay> {
                             payBy = value;
                           });
                         },
-                        items: gatewayData == null
-                            ? null
-                            : gatewayData
-                                .map<DropdownMenuItem<String>>((dynamic value) {
-                                return DropdownMenuItem<String>(
-                                  value: value.gatewayId,
-                                  child: Text(value.gatewayId),
-                                );
-                              }).toList(),
+                        items: gatewayData
+                            .map<DropdownMenuItem<String>>((dynamic value) {
+                          return DropdownMenuItem<String>(
+                            value: value.gatewayId,
+                            child: Text(value.gatewayId),
+                          );
+                        }).toList(),
                         validator: (value) {
                           if (value == null) {
                             return AppLocalizations.of(context)!
@@ -527,15 +525,13 @@ class _PayState extends State<Pay> {
                             paymentFor = value;
                           });
                         },
-                        items: paymentForData == null
-                            ? null
-                            : paymentForData
-                                .map<DropdownMenuItem<String>>((dynamic value) {
-                                return DropdownMenuItem<String>(
-                                  value: value.menuCode,
-                                  child: Text(value.codeDesc),
-                                );
-                              }).toList(),
+                        items: paymentForData
+                            .map<DropdownMenuItem<String>>((dynamic value) {
+                          return DropdownMenuItem<String>(
+                            value: value.menuCode,
+                            child: Text(value.codeDesc),
+                          );
+                        }).toList(),
                         validator: (value) {
                           if (value == null) {
                             return AppLocalizations.of(context)!
@@ -577,8 +573,10 @@ class _PayState extends State<Pay> {
                             // return 'Please enter amount above ${gatewayData[0].minAmt}';
                             return 'Transaction amount is Lower than the Minimum Limit RM${gatewayData[0].minAmt}';
                           } else if (value.replaceAll(',', '').toDouble()! >
-                              30000.00)
+                              30000.00) {
                             return 'Maximum Transaction Limit Exceeded RM30,000';
+                          }
+
                           return null;
                         },
                       ),
@@ -607,15 +605,13 @@ class _PayState extends State<Pay> {
                             payBy = value;
                           });
                         },
-                        items: gatewayData == null
-                            ? null
-                            : gatewayData
-                                .map<DropdownMenuItem<String>>((dynamic value) {
-                                return DropdownMenuItem<String>(
-                                  value: value.gatewayId,
-                                  child: Text(value.gatewayId),
-                                );
-                              }).toList(),
+                        items: gatewayData
+                            .map<DropdownMenuItem<String>>((dynamic value) {
+                          return DropdownMenuItem<String>(
+                            value: value.gatewayId,
+                            child: Text(value.gatewayId),
+                          );
+                        }).toList(),
                         validator: (value) {
                           if (value == null) {
                             return AppLocalizations.of(context)!

@@ -8,7 +8,7 @@ class AppLocalizations {
   static Map<dynamic, dynamic>? _localisedValues;
 
   AppLocalizations(Locale locale) {
-    this.locale = locale;
+    locale = locale;
   }
 
   static AppLocalizations? of(BuildContext context) {

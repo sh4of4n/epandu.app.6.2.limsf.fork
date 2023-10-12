@@ -22,7 +22,7 @@ class ChatHome extends StatefulWidget {
   const ChatHome({super.key});
 
   @override
-  _ChatHomeState createState() => _ChatHomeState();
+  State<ChatHome> createState() => _ChatHomeState();
 }
 
 class _ChatHomeState extends State<ChatHome> {
@@ -49,16 +49,15 @@ class _ChatHomeState extends State<ChatHome> {
     _getUserId();
     initSocketIO();
 
-    _scrollController
-      .addListener(() {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
-          setState(() {
-            _startIndex += 10;
-          });
-          _getContactList();
-        }
-      });
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        setState(() {
+          _startIndex += 10;
+        });
+        _getContactList();
+      }
+    });
   }
 
   @override
@@ -98,10 +97,12 @@ class _ChatHomeState extends State<ChatHome> {
         context: context, customUserId: userId);
 
     if (result.isSuccess) {
-      if (result.data.length > 0) if (mounted) {
-        setState(() {
-          _searchResult = result.data[0];
-        });
+      if (result.data.length > 0) {
+        if (mounted) {
+          setState(() {
+            _searchResult = result.data[0];
+          });
+        }
       }
       // else if (mounted)
       //   setState(() {
@@ -216,12 +217,10 @@ class _ChatHomeState extends State<ChatHome> {
         ],
       );
     }
-    return Center(
-      child: Container(
-        child: const Align(
-          alignment: Alignment.center,
-          child: Text("Add contacts now to start chatting."),
-        ),
+    return const Center(
+      child: Align(
+        alignment: Alignment.center,
+        child: Text("Add contacts now to start chatting."),
       ),
     );
   }

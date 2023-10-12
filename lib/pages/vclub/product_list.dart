@@ -18,7 +18,7 @@ class ProductList extends StatefulWidget {
   const ProductList({super.key, this.stkCat, this.keywordSearch});
 
   @override
-  _ProductListState createState() => _ProductListState();
+  State<ProductList> createState() => _ProductListState();
 }
 
 class _ProductListState extends State<ProductList> {
@@ -47,17 +47,16 @@ class _ProductListState extends State<ProductList> {
 
     getStock();
 
-    _scrollController
-      .addListener(() {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
-          setState(() {
-            _startIndex += 20;
-          });
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        setState(() {
+          _startIndex += 20;
+        });
 
-          if (_message!.isEmpty) getStock();
-        }
-      });
+        if (_message!.isEmpty) getStock();
+      }
+    });
   }
 
   @override

@@ -6,12 +6,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/model/inbox_model.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 import 'package:epandu/common_library/services/repository/inbox_repository.dart';
-import 'package:epandu/pages/chat/CustomAnimation.dart';
+import 'package:epandu/pages/chat/custom_animation.dart';
 import 'package:epandu/pages/chat/rooms_provider.dart';
 import 'package:epandu/pages/chat/socketclient_helper.dart';
 import 'package:epandu/router.dart';
 import 'package:epandu/router.gr.dart';
-import 'package:epandu/services/database/DatabaseHelper.dart';
+import 'package:epandu/services/database/database_helper.dart';
 import 'package:epandu/services/provider/notification_count.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
@@ -39,7 +39,7 @@ import 'pages/chat/chat_history.dart';
 import 'pages/chat/chatnotification_count.dart';
 import 'pages/chat/online_users.dart';
 import 'services/provider/cart_status.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 // import 'package:logging/logging.dart';
 
 /* final Map<String, Item> _items = <String, Item>{};
@@ -224,12 +224,12 @@ class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
   final dbHelper = DatabaseHelper.instance;
-  late IO.Socket socket;
+  late io.Socket socket;
   String userId = '';
   AppLocalizationsDelegate? _newLocaleDelegate;
   final localStorage = LocalStorage();

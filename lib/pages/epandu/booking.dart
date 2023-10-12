@@ -15,7 +15,7 @@ class Booking extends StatefulWidget {
   const Booking({super.key});
 
   @override
-  _BookingState createState() => _BookingState();
+  State<Booking> createState() => _BookingState();
 }
 
 class _BookingState extends State<Booking> {
@@ -184,9 +184,7 @@ class _BookingState extends State<Booking> {
                                                 .data[index].testTypeValue !=
                                             null)
                                           Text(
-                                            'Status: ' +
-                                                snapshot
-                                                    .data[index].testTypeValue,
+                                            'Status: ${snapshot.data[index].testTypeValue}',
                                             style: textStyleBold,
                                           ),
                                         const Text(''),

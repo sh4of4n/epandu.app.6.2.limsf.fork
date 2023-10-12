@@ -25,7 +25,7 @@ class OrderList extends StatefulWidget {
   });
 
   @override
-  _OrderListState createState() => _OrderListState();
+  State<OrderList> createState() => _OrderListState();
 }
 
 class _OrderListState extends State<OrderList> {
@@ -175,9 +175,7 @@ class _OrderListState extends State<OrderList> {
                                         Text(
                                             '${AppLocalizations.of(context)!.translate('order')}: ${snapshot.data[index].docDoc}${snapshot.data[index].docRef}'),
                                         Text(
-                                          '${AppLocalizations.of(context)!.translate('date')}: ' +
-                                              snapshot.data[index].ordDate
-                                                  .substring(0, 10),
+                                          '${AppLocalizations.of(context)!.translate('date')}: ${snapshot.data[index].ordDate.substring(0, 10)}',
                                         ),
                                       ],
                                     ),
@@ -186,7 +184,7 @@ class _OrderListState extends State<OrderList> {
                                         Text(
                                             '${AppLocalizations.of(context)!.translate('name_lbl')}: ${snapshot.data[index].name}'),
                                         Text(
-                                          'IC: ' + snapshot.data[index].icNo,
+                                          'IC: ${snapshot.data[index].icNo}',
                                         ),
                                       ],
                                     ),
@@ -196,8 +194,7 @@ class _OrderListState extends State<OrderList> {
                                           '${AppLocalizations.of(context)!.translate('package_lbl')}: ${snapshot.data[index].packageCode}',
                                         ),
                                         Text(
-                                          '${AppLocalizations.of(context)!.translate('price')}: ' +
-                                              snapshot.data[index].tlNettOrdAmt,
+                                          '${AppLocalizations.of(context)!.translate('price')}: ${snapshot.data[index].tlNettOrdAmt}',
                                         ),
                                       ],
                                     ),
@@ -206,8 +203,8 @@ class _OrderListState extends State<OrderList> {
                                         Text(
                                             'Desc: ${snapshot.data[index].packageDesc}'),
                                         Text(
-                                            '${AppLocalizations.of(context)!.translate('service_tax')}: ' +
-                                                snapshot.data[index].tlSerTax),
+                                          '${AppLocalizations.of(context)!.translate('service_tax')}: ${snapshot.data[index].tlSerTax}',
+                                        ),
                                       ],
                                     ),
                                     TableRow(

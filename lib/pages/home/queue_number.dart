@@ -15,7 +15,7 @@ class QueueNumber extends StatefulWidget {
   const QueueNumber({super.key, required this.data});
 
   @override
-  _QueueNumberState createState() => _QueueNumberState();
+  State<QueueNumber> createState() => _QueueNumberState();
 }
 
 class _QueueNumberState extends State<QueueNumber> {
@@ -60,7 +60,7 @@ class _QueueNumberState extends State<QueueNumber> {
       customDialog.show(
         context: context,
         content: result.message!,
-        type: DialogType.WARNING,
+        type: DialogType.warning,
       );
     }
 

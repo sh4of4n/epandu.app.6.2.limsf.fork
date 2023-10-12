@@ -289,7 +289,7 @@ class StudentPaymentResponse {
 
   StudentPaymentResponse.fromJson(Map<String, dynamic> json) {
     if (json['CollectTrn'] != null) {
-      collectTrn = List<CollectTrn>.empty(growable: true);
+      collectTrn = <CollectTrn>[];
       json['CollectTrn'].forEach((v) {
         collectTrn!.add(CollectTrn.fromJson(v));
       });
@@ -335,57 +335,22 @@ class CollectTrn {
   String? cashAmount;
   String? chqAmount;
   String? ccAmount;
+  String? remark;
   String? packageCode;
   String? commAmount;
   String? oriRecpno;
   String? oriStype;
   String? tcommAmt;
   String? tagentCommAmt;
+  String? invDoc;
+  String? invRef;
   String? compCode;
   String? branchCode;
+  String? rowKey;
   String? lastupload;
   String? deleted;
   String? diCode;
-  String? id;
-  String? ctrlNo;
-  String? jobNo1;
-  String? recpNo1;
-  String? bookNo;
-  String? trandate1;
-  String? trantime1;
-  String? vehNo1;
-  String? icNo1;
-  String? groupId;
-  String? grpDesc;
-  String? tranCateg;
-  String? packageCode1;
-  String? itemQty;
-  String? itemPrice;
-  String? taxCode;
-  String? taxRate;
-  String? taxAmt;
-  String? priceIncludeGst;
-  String? defaAmt;
-  String? unitHandChrg;
-  String? handChrg;
-  String? unitServChrg;
-  String? servChrg;
-  String? unitServTax;
-  String? servTax;
-  String? tranTotal1;
-  String? nettAmt;
-  String? unitCommAmt;
-  String? transtamp1;
-  String? commAmt;
-  String? unitAgentComm;
-  String? agentCommAmt;
-  String? trnCode;
-  String? trnDesc;
-  String? compCode1;
-  String? branchCode1;
-  String? lastupload1;
-  String? deleted1;
-  String? diCode1;
+  String? packageDesc;
 
   CollectTrn(
       {this.jobNo,
@@ -417,57 +382,22 @@ class CollectTrn {
       this.cashAmount,
       this.chqAmount,
       this.ccAmount,
+      this.remark,
       this.packageCode,
       this.commAmount,
       this.oriRecpno,
       this.oriStype,
       this.tcommAmt,
       this.tagentCommAmt,
+      this.invDoc,
+      this.invRef,
       this.compCode,
       this.branchCode,
+      this.rowKey,
       this.lastupload,
       this.deleted,
       this.diCode,
-      this.id,
-      this.ctrlNo,
-      this.jobNo1,
-      this.recpNo1,
-      this.bookNo,
-      this.trandate1,
-      this.trantime1,
-      this.vehNo1,
-      this.icNo1,
-      this.groupId,
-      this.grpDesc,
-      this.tranCateg,
-      this.packageCode1,
-      this.itemQty,
-      this.itemPrice,
-      this.taxCode,
-      this.taxRate,
-      this.taxAmt,
-      this.priceIncludeGst,
-      this.defaAmt,
-      this.unitHandChrg,
-      this.handChrg,
-      this.unitServChrg,
-      this.servChrg,
-      this.unitServTax,
-      this.servTax,
-      this.tranTotal1,
-      this.nettAmt,
-      this.unitCommAmt,
-      this.transtamp1,
-      this.commAmt,
-      this.unitAgentComm,
-      this.agentCommAmt,
-      this.trnCode,
-      this.trnDesc,
-      this.compCode1,
-      this.branchCode1,
-      this.lastupload1,
-      this.deleted1,
-      this.diCode1});
+      this.packageDesc});
 
   CollectTrn.fromJson(Map<String, dynamic> json) {
     jobNo = json['job_no'];
@@ -499,57 +429,22 @@ class CollectTrn {
     cashAmount = json['cash_amount'];
     chqAmount = json['chq_amount'];
     ccAmount = json['cc_amount'];
+    remark = json['remark'];
     packageCode = json['package_code'];
     commAmount = json['comm_amount'];
     oriRecpno = json['ori_recpno'];
     oriStype = json['ori_stype'];
     tcommAmt = json['tcomm_amt'];
     tagentCommAmt = json['tagent_comm_amt'];
+    invDoc = json['inv_doc'];
+    invRef = json['inv_ref'];
     compCode = json['comp_code'];
     branchCode = json['branch_code'];
+    rowKey = json['row_key'];
     lastupload = json['lastupload'];
     deleted = json['deleted'];
     diCode = json['di_code'];
-    id = json['id'];
-    ctrlNo = json['ctrl_no'];
-    jobNo1 = json['job_no1'];
-    recpNo1 = json['recp_no1'];
-    bookNo = json['book_no'];
-    trandate1 = json['trandate1'];
-    trantime1 = json['trantime1'];
-    vehNo1 = json['veh_no1'];
-    icNo1 = json['ic_no1'];
-    groupId = json['group_id'];
-    grpDesc = json['grp_desc'];
-    tranCateg = json['tran_categ'];
-    packageCode1 = json['package_code1'];
-    itemQty = json['item_qty'];
-    itemPrice = json['item_price'];
-    taxCode = json['tax_code'];
-    taxRate = json['tax_rate'];
-    taxAmt = json['tax_amt'];
-    priceIncludeGst = json['price_include_gst'];
-    defaAmt = json['defa_amt'];
-    unitHandChrg = json['unit_hand_chrg'];
-    handChrg = json['hand_chrg'];
-    unitServChrg = json['unit_serv_chrg'];
-    servChrg = json['serv_chrg'];
-    unitServTax = json['unit_serv_tax'];
-    servTax = json['serv_tax'];
-    tranTotal1 = json['tran_total1'];
-    nettAmt = json['nett_amt'];
-    unitCommAmt = json['unit_comm_amt'];
-    transtamp1 = json['transtamp1'];
-    commAmt = json['comm_amt'];
-    unitAgentComm = json['unit_agent_comm'];
-    agentCommAmt = json['agent_comm_amt'];
-    trnCode = json['trn_code'];
-    trnDesc = json['trn_desc'];
-    compCode1 = json['comp_code1'];
-    branchCode1 = json['branch_code1'];
-    lastupload1 = json['lastupload1'];
-    deleted1 = json['deleted1'];
-    diCode1 = json['di_code1'];
+    packageDesc = json['package_desc'];
   }
 
   Map<String, dynamic> toJson() {
@@ -583,57 +478,22 @@ class CollectTrn {
     data['cash_amount'] = cashAmount;
     data['chq_amount'] = chqAmount;
     data['cc_amount'] = ccAmount;
+    data['remark'] = remark;
     data['package_code'] = packageCode;
     data['comm_amount'] = commAmount;
     data['ori_recpno'] = oriRecpno;
     data['ori_stype'] = oriStype;
     data['tcomm_amt'] = tcommAmt;
     data['tagent_comm_amt'] = tagentCommAmt;
+    data['inv_doc'] = invDoc;
+    data['inv_ref'] = invRef;
     data['comp_code'] = compCode;
     data['branch_code'] = branchCode;
+    data['row_key'] = rowKey;
     data['lastupload'] = lastupload;
     data['deleted'] = deleted;
     data['di_code'] = diCode;
-    data['id'] = id;
-    data['ctrl_no'] = ctrlNo;
-    data['job_no1'] = jobNo1;
-    data['recp_no1'] = recpNo1;
-    data['book_no'] = bookNo;
-    data['trandate1'] = trandate1;
-    data['trantime1'] = trantime1;
-    data['veh_no1'] = vehNo1;
-    data['ic_no1'] = icNo1;
-    data['group_id'] = groupId;
-    data['grp_desc'] = grpDesc;
-    data['tran_categ'] = tranCateg;
-    data['package_code1'] = packageCode1;
-    data['item_qty'] = itemQty;
-    data['item_price'] = itemPrice;
-    data['tax_code'] = taxCode;
-    data['tax_rate'] = taxRate;
-    data['tax_amt'] = taxAmt;
-    data['price_include_gst'] = priceIncludeGst;
-    data['defa_amt'] = defaAmt;
-    data['unit_hand_chrg'] = unitHandChrg;
-    data['hand_chrg'] = handChrg;
-    data['unit_serv_chrg'] = unitServChrg;
-    data['serv_chrg'] = servChrg;
-    data['unit_serv_tax'] = unitServTax;
-    data['serv_tax'] = servTax;
-    data['tran_total1'] = tranTotal1;
-    data['nett_amt'] = nettAmt;
-    data['unit_comm_amt'] = unitCommAmt;
-    data['transtamp1'] = transtamp1;
-    data['comm_amt'] = commAmt;
-    data['unit_agent_comm'] = unitAgentComm;
-    data['agent_comm_amt'] = agentCommAmt;
-    data['trn_code'] = trnCode;
-    data['trn_desc'] = trnDesc;
-    data['comp_code1'] = compCode1;
-    data['branch_code1'] = branchCode1;
-    data['lastupload1'] = lastupload1;
-    data['deleted1'] = deleted1;
-    data['di_code1'] = diCode1;
+    data['package_desc'] = packageDesc;
     return data;
   }
 }
@@ -979,8 +839,7 @@ class GetCollectionDetailByRecpNoResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (collectDetail != null) {
-      data['CollectDetail'] =
-          collectDetail!.map((v) => v.toJson()).toList();
+      data['CollectDetail'] = collectDetail!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -1181,8 +1040,7 @@ class GetCourseSectionListResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (courseSection != null) {
-      data['CourseSection'] =
-          courseSection!.map((v) => v.toJson()).toList();
+      data['CourseSection'] = courseSection!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -2718,6 +2576,150 @@ class StuPrac {
     data['deleted'] = deleted;
     data['di_code'] = diCode;
     data['merchant_no'] = merchantNo;
+    return data;
+  }
+}
+
+class GetTimeTableListByIcNoResponse {
+  List<TimeTable>? timeTable;
+
+  GetTimeTableListByIcNoResponse({this.timeTable});
+
+  GetTimeTableListByIcNoResponse.fromJson(Map<String, dynamic> json) {
+    if (json['TimeTable'] != null) {
+      timeTable = <TimeTable>[];
+      json['TimeTable'].forEach((v) {
+        timeTable!.add(TimeTable.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (timeTable != null) {
+      data['TimeTable'] = timeTable!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class TimeTable {
+  String? iD;
+  String? merchantNo;
+  String? timeTableNo;
+  String? trnCode;
+  String? icNo;
+  String? groupId;
+  String? vehNo;
+  String? courseCode;
+  String? startDate;
+  String? endDate;
+  String? totalHr;
+  String? subject;
+  String? remark;
+  String? transtamp;
+  String? lastupload;
+  String? compCode;
+  String? branchCode;
+  String? rowKey;
+  String? createUser;
+  String? createDate;
+  String? editUser;
+  String? editDate;
+  String? deleted;
+  String? approveUser;
+  String? cancelUser;
+  String? cancelDate;
+  String? pickup;
+
+  TimeTable(
+      {this.iD,
+      this.merchantNo,
+      this.timeTableNo,
+      this.trnCode,
+      this.icNo,
+      this.groupId,
+      this.vehNo,
+      this.courseCode,
+      this.startDate,
+      this.endDate,
+      this.totalHr,
+      this.subject,
+      this.remark,
+      this.transtamp,
+      this.lastupload,
+      this.compCode,
+      this.branchCode,
+      this.rowKey,
+      this.createUser,
+      this.createDate,
+      this.editUser,
+      this.editDate,
+      this.deleted,
+      this.approveUser,
+      this.cancelUser,
+      this.cancelDate,
+      this.pickup});
+
+  TimeTable.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    merchantNo = json['merchant_no'];
+    timeTableNo = json['time_table_no'];
+    trnCode = json['trn_code'];
+    icNo = json['ic_no'];
+    groupId = json['group_id'];
+    vehNo = json['veh_no'];
+    courseCode = json['course_code'];
+    startDate = json['start_date'];
+    endDate = json['end_date'];
+    totalHr = json['total_hr'];
+    subject = json['subject'];
+    remark = json['remark'];
+    transtamp = json['transtamp'];
+    lastupload = json['lastupload'];
+    compCode = json['comp_code'];
+    branchCode = json['branch_code'];
+    rowKey = json['row_key'];
+    createUser = json['create_user'];
+    createDate = json['create_date'];
+    editUser = json['edit_user'];
+    editDate = json['edit_date'];
+    deleted = json['deleted'];
+    approveUser = json['approve_user'];
+    cancelUser = json['cancel_user'];
+    cancelDate = json['cancel_date'];
+    pickup = json['pickup'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['merchant_no'] = merchantNo;
+    data['time_table_no'] = timeTableNo;
+    data['trn_code'] = trnCode;
+    data['ic_no'] = icNo;
+    data['group_id'] = groupId;
+    data['veh_no'] = vehNo;
+    data['course_code'] = courseCode;
+    data['start_date'] = startDate;
+    data['end_date'] = endDate;
+    data['total_hr'] = totalHr;
+    data['subject'] = subject;
+    data['remark'] = remark;
+    data['transtamp'] = transtamp;
+    data['lastupload'] = lastupload;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['row_key'] = rowKey;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['deleted'] = deleted;
+    data['approve_user'] = approveUser;
+    data['cancel_user'] = cancelUser;
+    data['cancel_date'] = cancelDate;
+    data['pickup'] = pickup;
     return data;
   }
 }

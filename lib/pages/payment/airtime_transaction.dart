@@ -13,7 +13,7 @@ class AirtimeTransaction extends StatefulWidget {
   const AirtimeTransaction(this.data, {super.key});
 
   @override
-  _AirtimeTransactionState createState() => _AirtimeTransactionState();
+  State<AirtimeTransaction> createState() => _AirtimeTransactionState();
 }
 
 class _AirtimeTransactionState extends State<AirtimeTransaction> {
@@ -109,7 +109,8 @@ class _AirtimeTransactionState extends State<AirtimeTransaction> {
                           fillColor: Colors.grey.withOpacity(.25),
                           filled: true,
                           enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.transparent),
+                            borderSide:
+                                const BorderSide(color: Colors.transparent),
                             borderRadius: BorderRadius.circular(30),
                           ),
                           border: OutlineInputBorder(

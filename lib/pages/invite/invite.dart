@@ -15,7 +15,7 @@ class Invite extends StatefulWidget with PageBaseClass {
   const Invite({super.key});
 
   @override
-  _InviteState createState() => _InviteState();
+  State<Invite> createState() => _InviteState();
 }
 
 class _InviteState extends State<Invite> with PageBaseClass {

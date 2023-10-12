@@ -51,7 +51,7 @@ class NavigationControls extends StatelessWidget {
               },
             ),
           ],
-          type: DialogType.GENERAL,
+          type: DialogType.general,
         );
       } else {
         if (await controller.canGoBack()) {

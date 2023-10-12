@@ -15,13 +15,11 @@ class ImageViewer extends StatelessWidget {
       appBar: AppBar(
         title: Text(title!),
       ),
-      body: Container(
-        child: PhotoView(
-          backgroundDecoration: const BoxDecoration(
-            color: Colors.white,
-          ),
-          imageProvider: image,
+      body: PhotoView(
+        backgroundDecoration: const BoxDecoration(
+          color: Colors.white,
         ),
+        imageProvider: image,
       ),
     );
   }

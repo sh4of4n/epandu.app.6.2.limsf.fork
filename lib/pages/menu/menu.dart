@@ -17,7 +17,7 @@ class Menu extends StatefulWidget {
   const Menu(this.data, {super.key});
 
   @override
-  _MenuState createState() => _MenuState();
+  State<Menu> createState() => _MenuState();
 }
 
 class _MenuState extends State<Menu> {
@@ -150,7 +150,8 @@ class _MenuState extends State<Menu> {
             onPressed: () async {
               if (widget.data != null) widget.data.cancel();
 
-              context.router.pushAndPopUntil(const Login(), predicate: (r) => false);
+              context.router
+                  .pushAndPopUntil(const Login(), predicate: (r) => false);
               await authRepo.logout(context: context);
             },
           ),
@@ -161,6 +162,6 @@ class _MenuState extends State<Menu> {
             },
           ),
         ],
-        type: DialogType.GENERAL);
+        type: DialogType.general);
   }
 }

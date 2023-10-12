@@ -17,7 +17,7 @@ class DiEnrollment extends StatefulWidget {
   const DiEnrollment({super.key, this.packageCodeJson});
 
   @override
-  _DiEnrollmentState createState() => _DiEnrollmentState();
+  State<DiEnrollment> createState() => _DiEnrollmentState();
 }
 
 class _DiEnrollmentState extends State<DiEnrollment> {
@@ -159,8 +159,7 @@ class _DiEnrollmentState extends State<DiEnrollment> {
                                     ),
                                   ), */
                                   Text(
-                                    '${AppLocalizations.of(context)!.translate('class_lbl')}: ' +
-                                        snapshot.data[index].groupIdGrouping,
+                                    '${AppLocalizations.of(context)!.translate('class_lbl')}: ${snapshot.data[index].groupIdGrouping}',
                                     style: TextStyle(
                                       fontSize: 60.sp,
                                       fontWeight: FontWeight.w600,

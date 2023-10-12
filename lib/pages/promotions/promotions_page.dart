@@ -13,7 +13,7 @@ class Promotions extends StatefulWidget {
   const Promotions({super.key, this.feed});
 
   @override
-  _PromotionsState createState() => _PromotionsState();
+  State<Promotions> createState() => _PromotionsState();
 }
 
 class _PromotionsState extends State<Promotions> {

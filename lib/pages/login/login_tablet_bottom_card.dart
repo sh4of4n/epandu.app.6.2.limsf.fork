@@ -15,7 +15,7 @@ class LoginTabletBottomCard extends StatefulWidget {
   const LoginTabletBottomCard({super.key});
 
   @override
-  _LoginTabletBottomCardState createState() => _LoginTabletBottomCardState();
+  State<LoginTabletBottomCard> createState() => _LoginTabletBottomCardState();
 }
 
 class _LoginTabletBottomCardState extends State<LoginTabletBottomCard> {
@@ -78,7 +78,7 @@ class _LoginTabletBottomCardState extends State<LoginTabletBottomCard> {
                         .translate('client_acc_title'),
                     content: AppLocalizations.of(context)!
                         .translate('client_acc_desc'),
-                    type: DialogType.SUCCESS,
+                    type: DialogType.success,
                     barrierDismissable: false,
                     onPressed: () async {
                       count = 0;

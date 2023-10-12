@@ -1,8 +1,8 @@
 // import 'package:epandu/pages/edompet/edompet.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/repository/epandu_repository.dart';
-import 'package:epandu/pages/profile/profile_page.dart' as profilePage;
-import 'package:epandu/pages/settings/settings.dart' as settingsPage;
+import 'package:epandu/pages/profile/profile_page.dart' as profilepage;
+import 'package:epandu/pages/settings/settings.dart' as settingspage;
 import 'package:epandu/common_library/services/model/profile_model.dart';
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
 import 'package:epandu/utils/constants.dart';
@@ -20,7 +20,7 @@ class ProfileTab extends StatefulWidget {
   const ProfileTab(this.positionStream, {super.key});
 
   @override
-  _ProfileTabState createState() => _ProfileTabState();
+  State<ProfileTab> createState() => _ProfileTabState();
 }
 
 class _ProfileTabState extends State<ProfileTab>
@@ -283,13 +283,13 @@ class _ProfileTabState extends State<ProfileTab>
           ),
           backgroundColor: Colors.transparent,
           body: TabBarView(controller: _tabController, children: [
-            profilePage.Profile(
+            profilepage.Profile(
               userProfile: userProfile,
               enrollData: enrollData,
               isLoading: isLoading,
             ),
             // Edompet(),
-            settingsPage.Settings(widget.positionStream),
+            settingspage.Settings(widget.positionStream),
           ]),
           bottomNavigationBar: Container(
             decoration: const BoxDecoration(

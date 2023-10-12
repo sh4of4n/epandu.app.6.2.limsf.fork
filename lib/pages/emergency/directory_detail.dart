@@ -18,7 +18,7 @@ class DirectoryDetail extends StatefulWidget {
   const DirectoryDetail(this.snapshot, {super.key});
 
   @override
-  _DirectoryDetailState createState() => _DirectoryDetailState();
+  State<DirectoryDetail> createState() => _DirectoryDetailState();
 }
 
 class _DirectoryDetailState extends State<DirectoryDetail> {
@@ -62,7 +62,7 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
         context,
         message: AppLocalizations.of(context)!.translate('no_contacts'),
         duration: 5000,
-        type: MessageType.INFO,
+        type: MessageType.info,
       );
     } else {
       Uri? trimNumber =
@@ -85,27 +85,25 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
         builder: (BuildContext context) {
           return SafeArea(
             child: SingleChildScrollView(
-              child: Container(
-                child: Wrap(
-                  children: <Widget>[
-                    for (var map in availableMaps)
-                      ListTile(
-                        onTap: () {
-                          map.showMarker(
-                            coords: coords,
-                            title: title,
-                            description: description,
-                          );
-                        },
-                        title: Text(map.mapName),
-                        leading: Image(
-                          image: AssetImage(map.icon),
-                          height: 30.0,
-                          width: 30.0,
-                        ),
+              child: Wrap(
+                children: <Widget>[
+                  for (var map in availableMaps)
+                    ListTile(
+                      onTap: () {
+                        map.showMarker(
+                          coords: coords,
+                          title: title,
+                          description: description,
+                        );
+                      },
+                      title: Text(map.mapName),
+                      leading: Image(
+                        image: AssetImage(map.icon),
+                        height: 30.0,
+                        width: 30.0,
                       ),
-                  ],
-                ),
+                    ),
+                ],
               ),
             ),
           );
@@ -197,7 +195,8 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
           SingleChildScrollView(
             child: Container(
               padding: const EdgeInsets.all(15.0),
-              margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
+              margin:
+                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15.0),
@@ -258,8 +257,7 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
                   Text(AppLocalizations.of(context)!.translate('distance_lbl'),
                       style: _titleStyle),
                   Text(
-                      '${double.tryParse(widget.snapshot.distance)!
-                              .toStringAsFixed(2)}km',
+                      '${double.tryParse(widget.snapshot.distance)!.toStringAsFixed(2)}km',
                       style: _textStyle),
                   const SizedBox(
                     height: 5.0,
@@ -294,7 +292,8 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
                           shape: const CircleBorder(),
                           onPressed: () => _openDestination(context),
                           padding: const EdgeInsets.all(10.0),
-                          child: const Icon(Icons.navigation, color: Colors.white),
+                          child:
+                              const Icon(Icons.navigation, color: Colors.white),
                         ),
                         /* RawMaterialButton(
                           fillColor: Colors.red,

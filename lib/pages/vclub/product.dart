@@ -41,7 +41,7 @@ class Product extends StatefulWidget {
   });
 
   @override
-  _ProductState createState() => _ProductState();
+  State<Product> createState() => _ProductState();
 }
 
 class _ProductState extends State<Product> {
@@ -211,7 +211,7 @@ class _ProductState extends State<Product> {
     );
   }
 
-  _submit() async {
+  submit() async {
     setState(() {
       _saveBtnIsLoading = true;
     });
@@ -255,7 +255,7 @@ class _ProductState extends State<Product> {
       );
 
       customSnackbar.show(context,
-          message: 'Item added to cart.', type: MessageType.SUCCESS);
+          message: 'Item added to cart.', type: MessageType.success);
 
       /* context.router.pushAndRemoveUntil(
             Routes.salesOrderCart,
@@ -270,7 +270,7 @@ class _ProductState extends State<Product> {
       customDialog.show(
         context: context,
         content: 'Failed to save sales order. Please try again later.',
-        type: DialogType.ERROR,
+        type: DialogType.error,
       );
 
       setState(() {

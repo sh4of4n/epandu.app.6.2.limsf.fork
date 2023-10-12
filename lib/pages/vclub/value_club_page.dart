@@ -21,7 +21,7 @@ class ValueClub extends StatefulWidget {
   const ValueClub({super.key});
 
   @override
-  _ValueClubState createState() => _ValueClubState();
+  State<ValueClub> createState() => _ValueClubState();
 }
 
 class _ValueClubState extends State<ValueClub> {
@@ -299,7 +299,7 @@ class _ValueClubState extends State<ValueClub> {
           ],
         ),
       );
-    } else if (mostPopularProducts == null && mostPopularLoading == true)
+    } else if (mostPopularProducts == null && mostPopularLoading == true) {
       return Padding(
         padding: const EdgeInsets.all(8),
         child: Shimmer.fromColors(
@@ -312,6 +312,8 @@ class _ValueClubState extends State<ValueClub> {
           ),
         ),
       );
+    }
+
     return Container();
   }
 
@@ -400,7 +402,7 @@ class _ValueClubState extends State<ValueClub> {
           ],
         ),
       );
-    } else if (recommendedProducts == null && recommendedLoading == true)
+    } else if (recommendedProducts == null && recommendedLoading == true) {
       return Padding(
         padding: const EdgeInsets.all(8),
         child: Shimmer.fromColors(
@@ -413,6 +415,8 @@ class _ValueClubState extends State<ValueClub> {
           ),
         ),
       );
+    }
+
     return Container();
   }
 
@@ -519,7 +523,7 @@ class _ValueClubState extends State<ValueClub> {
           ],
         ),
       );
-    } else if (mostPopularProducts == null && mostPopularLoading == true)
+    } else if (mostPopularProducts == null && mostPopularLoading == true) {
       return Padding(
         padding: const EdgeInsets.all(8),
         child: Shimmer.fromColors(
@@ -532,6 +536,7 @@ class _ValueClubState extends State<ValueClub> {
           ),
         ),
       );
+    }
     return Container();
   }
 

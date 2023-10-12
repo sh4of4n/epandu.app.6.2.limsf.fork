@@ -18,7 +18,7 @@ class ClientAccountForm extends StatefulWidget {
   const ClientAccountForm(this.data, {super.key});
 
   @override
-  _ClientAccountFormState createState() => _ClientAccountFormState();
+  State<ClientAccountForm> createState() => _ClientAccountFormState();
 }
 
 class _ClientAccountFormState extends State<ClientAccountForm>

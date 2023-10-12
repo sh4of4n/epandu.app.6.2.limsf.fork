@@ -22,18 +22,18 @@ import 'chatnotification_count.dart';
 import 'create_group.dart';
 import 'date_formater.dart';
 import 'invite_friend.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 @RoutePage(name: 'RoomList')
 class RoomList extends StatefulWidget {
   const RoomList({super.key});
 
   @override
-  _RoomListState createState() => _RoomListState();
+  State<RoomList> createState() => _RoomListState();
 }
 
 class _RoomListState extends State<RoomList> {
-  late IO.Socket socket;
+  late io.Socket socket;
   final RegExp removeBracket =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
   bool loading = true;
@@ -452,7 +452,7 @@ class _RoomListState extends State<RoomList> {
       //       ? room.room_name!.split(',')[0]
       //       : room.room_name!.split(',')[1];
       // else
-      splitRoomName = room.roomName!;
+      splitRoomName = room.roomName != null ? room.roomName! : '';
     }
     //splitRoomName = room.room_name!;
     int badgeCount = 0;

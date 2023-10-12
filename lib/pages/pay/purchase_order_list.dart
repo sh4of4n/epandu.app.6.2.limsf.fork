@@ -25,7 +25,7 @@ class PurchaseOrderList extends StatefulWidget {
   });
 
   @override
-  _PurchaseOrderListState createState() => _PurchaseOrderListState();
+  State<PurchaseOrderList> createState() => _PurchaseOrderListState();
 }
 
 class _PurchaseOrderListState extends State<PurchaseOrderList> {
@@ -176,9 +176,7 @@ class _PurchaseOrderListState extends State<PurchaseOrderList> {
                                         Text(
                                             'Order: ${snapshot.data[index].docDoc}${snapshot.data[index].docRef}'),
                                         Text(
-                                          'Date: ' +
-                                              snapshot.data[index].ordDate
-                                                  .substring(0, 10),
+                                          'Date: ${snapshot.data[index].ordDate.substring(0, 10)}',
                                         ),
                                       ],
                                     ),
@@ -187,7 +185,7 @@ class _PurchaseOrderListState extends State<PurchaseOrderList> {
                                         Text(
                                             'Name: ${snapshot.data[index].name}'),
                                         Text(
-                                          'IC: ' + snapshot.data[index].icNo,
+                                          'IC: ${snapshot.data[index].icNo}',
                                         ),
                                       ],
                                     ),
@@ -197,17 +195,15 @@ class _PurchaseOrderListState extends State<PurchaseOrderList> {
                                           'Package: ${snapshot.data[index].packageCode}',
                                         ),
                                         Text(
-                                          'Price: ' +
-                                              snapshot.data[index].tlNettOrdAmt,
-                                        ),
+                                            'Price: ${snapshot.data[index].tlNettOrdAmt}'),
                                       ],
                                     ),
                                     TableRow(
                                       children: [
                                         Text(
                                             'Desc: ${snapshot.data[index].packageDesc}'),
-                                        Text('Service Tax: ' +
-                                            snapshot.data[index].tlSerTax),
+                                        Text(
+                                            'Service Tax: ${snapshot.data[index].tlSerTax}'),
                                       ],
                                     ),
                                     TableRow(

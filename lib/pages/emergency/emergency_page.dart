@@ -19,7 +19,7 @@ class Emergency extends StatefulWidget {
   const Emergency({super.key});
 
   @override
-  _EmergencyState createState() => _EmergencyState();
+  State<Emergency> createState() => _EmergencyState();
 }
 
 class _EmergencyState extends State<Emergency> {
@@ -87,7 +87,7 @@ class _EmergencyState extends State<Emergency> {
             },
           ),
         ],
-        type: DialogType.GENERAL,
+        type: DialogType.general,
       );
     }
   }
@@ -125,97 +125,95 @@ class _EmergencyState extends State<Emergency> {
             )
           ],
         ),
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: ScreenUtil().setHeight(120),
-              ),
-              Text(AppLocalizations.of(context)!.translate('authorities_lbl'),
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(90),
-                    fontWeight: FontWeight.w800,
-                    color: Colors.black,
-                  )),
-              SizedBox(
-                height: ScreenUtil().setHeight(20),
-              ),
-              SizedBox(
-                width: ScreenUtil().setWidth(1200),
-                child: Text(
-                  AppLocalizations.of(context)!.translate('authorities_desc'),
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(70),
-                    fontWeight: FontWeight.w500,
-                  ),
-                  textAlign: TextAlign.center,
+        body: Column(
+          children: <Widget>[
+            SizedBox(
+              height: ScreenUtil().setHeight(120),
+            ),
+            Text(AppLocalizations.of(context)!.translate('authorities_lbl'),
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(90),
+                  fontWeight: FontWeight.w800,
+                  color: Colors.black,
+                )),
+            SizedBox(
+              height: ScreenUtil().setHeight(20),
+            ),
+            SizedBox(
+              width: ScreenUtil().setWidth(1200),
+              child: Text(
+                AppLocalizations.of(context)!.translate('authorities_desc'),
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(70),
+                  fontWeight: FontWeight.w500,
                 ),
+                textAlign: TextAlign.center,
               ),
-              SizedBox(
-                height: ScreenUtil().setHeight(70),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  AnimatedCrossFade(
-                    crossFadeState: policeNumber != null
-                        ? CrossFadeState.showFirst
-                        : CrossFadeState.showSecond,
-                    duration: const Duration(milliseconds: 1500),
-                    firstChild: AuthoritiesButton(
-                      tileFirstColor: const Color(0xff08457e),
-                      tileSecondColor: const Color(0xff0499c7),
-                      label:
-                          AppLocalizations.of(context)!.translate('police_lbl'),
-                      onTap: _callPoliceNumber,
-                    ),
-                    secondChild: SizedBox(
-                      width: ScreenUtil().setWidth(600),
-                      height: ScreenUtil().setHeight(450),
-                      child: Shimmer.fromColors(
-                        baseColor: Colors.grey[300]!,
-                        highlightColor: Colors.grey[100]!,
-                        child: AuthoritiesButton(
-                          tileFirstColor: const Color(0xff08457e),
-                          tileSecondColor: const Color(0xff0499c7),
-                          label: AppLocalizations.of(context)!
-                              .translate('police_lbl'),
-                          onTap: () {},
-                        ),
+            ),
+            SizedBox(
+              height: ScreenUtil().setHeight(70),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                AnimatedCrossFade(
+                  crossFadeState: policeNumber != null
+                      ? CrossFadeState.showFirst
+                      : CrossFadeState.showSecond,
+                  duration: const Duration(milliseconds: 1500),
+                  firstChild: AuthoritiesButton(
+                    tileFirstColor: const Color(0xff08457e),
+                    tileSecondColor: const Color(0xff0499c7),
+                    label:
+                        AppLocalizations.of(context)!.translate('police_lbl'),
+                    onTap: _callPoliceNumber,
+                  ),
+                  secondChild: SizedBox(
+                    width: ScreenUtil().setWidth(600),
+                    height: ScreenUtil().setHeight(450),
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: AuthoritiesButton(
+                        tileFirstColor: const Color(0xff08457e),
+                        tileSecondColor: const Color(0xff0499c7),
+                        label: AppLocalizations.of(context)!
+                            .translate('police_lbl'),
+                        onTap: () {},
                       ),
                     ),
                   ),
-                  AnimatedCrossFade(
-                    crossFadeState: policeNumber != null
-                        ? CrossFadeState.showFirst
-                        : CrossFadeState.showSecond,
-                    duration: const Duration(milliseconds: 1500),
-                    firstChild: AuthoritiesButton(
-                      tileFirstColor: const Color(0xffc90000),
-                      tileSecondColor: const Color(0xffd43b3b),
-                      label: AppLocalizations.of(context)!.translate('999_lbl'),
-                      onTap: _callEmergencyNumber,
-                    ),
-                    secondChild: SizedBox(
-                      width: ScreenUtil().setWidth(600),
-                      height: ScreenUtil().setHeight(450),
-                      child: Shimmer.fromColors(
-                        baseColor: Colors.grey[300]!,
-                        highlightColor: Colors.grey[100]!,
-                        child: AuthoritiesButton(
-                          tileFirstColor: const Color(0xffc90000),
-                          tileSecondColor: const Color(0xffd43b3b),
-                          label: AppLocalizations.of(context)!
-                              .translate('999_lbl'),
-                          onTap: () {},
-                        ),
+                ),
+                AnimatedCrossFade(
+                  crossFadeState: policeNumber != null
+                      ? CrossFadeState.showFirst
+                      : CrossFadeState.showSecond,
+                  duration: const Duration(milliseconds: 1500),
+                  firstChild: AuthoritiesButton(
+                    tileFirstColor: const Color(0xffc90000),
+                    tileSecondColor: const Color(0xffd43b3b),
+                    label: AppLocalizations.of(context)!.translate('999_lbl'),
+                    onTap: _callEmergencyNumber,
+                  ),
+                  secondChild: SizedBox(
+                    width: ScreenUtil().setWidth(600),
+                    height: ScreenUtil().setHeight(450),
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: AuthoritiesButton(
+                        tileFirstColor: const Color(0xffc90000),
+                        tileSecondColor: const Color(0xffd43b3b),
+                        label:
+                            AppLocalizations.of(context)!.translate('999_lbl'),
+                        onTap: () {},
                       ),
                     ),
-                  )
-                ],
-              ),
-            ],
-          ),
+                  ),
+                )
+              ],
+            ),
+          ],
         ),
       ),
     );

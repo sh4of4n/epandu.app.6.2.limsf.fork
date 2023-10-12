@@ -28,7 +28,7 @@ class RoomMembersList extends StatefulWidget {
   final String roomDesc;
   // final String roomMembers;
   @override
-  _RoomMembersListState createState() => _RoomMembersListState();
+  State<RoomMembersList> createState() => _RoomMembersListState();
 }
 
 class _RoomMembersListState extends State<RoomMembersList> {

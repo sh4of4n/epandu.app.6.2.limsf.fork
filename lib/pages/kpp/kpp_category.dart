@@ -17,7 +17,7 @@ class KppCategory extends StatefulWidget {
   const KppCategory({super.key});
 
   @override
-  _KppCategoryState createState() => _KppCategoryState();
+  State<KppCategory> createState() => _KppCategoryState();
 }
 
 class _KppCategoryState extends State<KppCategory> {

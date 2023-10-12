@@ -10,10 +10,11 @@ class CheckInRecord extends StatefulWidget {
   final checkInData;
   final bool isLoading;
 
-  const CheckInRecord({super.key, required this.checkInData, required this.isLoading});
+  const CheckInRecord(
+      {super.key, required this.checkInData, required this.isLoading});
 
   @override
-  _CheckInRecordState createState() => _CheckInRecordState();
+  State<CheckInRecord> createState() => _CheckInRecordState();
 }
 
 class _CheckInRecordState extends State<CheckInRecord> {

@@ -34,7 +34,7 @@ class Enrollment extends StatefulWidget {
   const Enrollment({super.key});
 
   @override
-  _EnrollmentState createState() => _EnrollmentState();
+  State<Enrollment> createState() => _EnrollmentState();
 }
 
 class _EnrollmentState extends State<Enrollment> with PageBaseClass {
@@ -716,13 +716,14 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
               AppLocalizations.of(context)!.translate('malay_race_lbl')) {
             _raceParam = 'M';
           } else if (value ==
-              AppLocalizations.of(context)!.translate('chinese_lbl'))
+              AppLocalizations.of(context)!.translate('chinese_lbl')) {
             _raceParam = 'C';
-          else if (value ==
-              AppLocalizations.of(context)!.translate('indian_lbl'))
+          } else if (value ==
+              AppLocalizations.of(context)!.translate('indian_lbl')) {
             _raceParam = 'I';
-          else
+          } else {
             _raceParam = 'O';
+          }
         });
       },
       items: <String>[
@@ -801,14 +802,15 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
 
     if (race == 'M') {
       return AppLocalizations.of(context)!.translate('malay_race_lbl');
-    } else if (race == 'C')
+    } else if (race == 'C') {
       return AppLocalizations.of(context)!.translate('chinese_lbl');
-    else if (race == 'I')
+    } else if (race == 'I') {
       return AppLocalizations.of(context)!.translate('indian_lbl');
-    else if (race == 'O')
+    } else if (race == 'O') {
       return AppLocalizations.of(context)!.translate('others_lbl');
-    else
+    } else {
       return '';
+    }
   }
 
   autoFillDob(value) {
@@ -940,7 +942,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
               _getImageGallery();
             }),
       ],
-      type: DialogType.SIMPLE_DIALOG,
+      type: DialogType.simpleDialog,
     );
   }
 
@@ -1137,15 +1139,13 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                           ldlItem = value;
                         });
                       },
-                      items: ldlList == null
-                          ? null
-                          : ldlList
-                              .map<DropdownMenuItem<String>>((dynamic value) {
-                              return DropdownMenuItem<String>(
-                                value: value.groupId,
-                                child: Text(value.groupId),
-                              );
-                            }).toList(),
+                      items: ldlList
+                          ?.map<DropdownMenuItem<String>>((dynamic value) {
+                        return DropdownMenuItem<String>(
+                          value: value.groupId,
+                          child: Text(value.groupId),
+                        );
+                      })?.toList(),
                       validator: (value) {
                         if (value == null) {
                           return AppLocalizations.of(context)!
@@ -1191,15 +1191,13 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                           cdlItem = value;
                         });
                       },
-                      items: cdlList == null
-                          ? null
-                          : cdlList
-                              .map<DropdownMenuItem<String>>((dynamic value) {
-                              return DropdownMenuItem<String>(
-                                value: value.groupId,
-                                child: Text(value.groupId),
-                              );
-                            }).toList(),
+                      items: cdlList
+                          ?.map<DropdownMenuItem<String>>((dynamic value) {
+                        return DropdownMenuItem<String>(
+                          value: value.groupId,
+                          child: Text(value.groupId),
+                        );
+                      })?.toList(),
                       validator: (value) {
                         if (value == null) {
                           return AppLocalizations.of(context)!

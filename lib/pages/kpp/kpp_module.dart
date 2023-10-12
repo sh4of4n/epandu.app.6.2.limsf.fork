@@ -19,7 +19,7 @@ class KppModule extends StatefulWidget {
   const KppModule(this.data, {super.key});
 
   @override
-  _KppModuleState createState() => _KppModuleState();
+  State<KppModule> createState() => _KppModuleState();
 }
 
 class _KppModuleState extends State<KppModule> {

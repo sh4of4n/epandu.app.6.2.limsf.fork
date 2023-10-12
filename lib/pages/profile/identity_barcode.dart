@@ -14,7 +14,7 @@ class IdentityBarcode extends StatefulWidget {
   const IdentityBarcode({super.key});
 
   @override
-  _IdentityBarcodeState createState() => _IdentityBarcodeState();
+  State<IdentityBarcode> createState() => _IdentityBarcodeState();
 }
 
 class _IdentityBarcodeState extends State<IdentityBarcode> {

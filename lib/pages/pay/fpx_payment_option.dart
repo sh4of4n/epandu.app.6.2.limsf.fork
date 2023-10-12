@@ -39,7 +39,7 @@ class FpxPaymentOption extends StatefulWidget {
   });
 
   @override
-  _FpxPaymentOptionState createState() => _FpxPaymentOptionState();
+  State<FpxPaymentOption> createState() => _FpxPaymentOptionState();
 }
 
 class _FpxPaymentOptionState extends State<FpxPaymentOption> {

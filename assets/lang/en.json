@@ -382,5 +382,8 @@
   "check_in_successful": "You have checked in successfully. Your queue number is ",
   "checked_in_on": "Checked in on",
   "invalid_qr": "Invalid QR code.",
-  "mismatch_di": "Different driving institute barcode detected."
+  "mismatch_di": "Different driving institute barcode detected.",
+  "enroll_class": "CLASSES ENROLLED",
+  "schedule": "SCHEDULE",
+  "training_schedule": "TRAINING SCHEDULE"
 }

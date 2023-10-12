@@ -7,7 +7,7 @@ class CheckEnrollment extends StatefulWidget {
   const CheckEnrollment({super.key});
 
   @override
-  _CheckEnrollmentState createState() => _CheckEnrollmentState();
+  State<CheckEnrollment> createState() => _CheckEnrollmentState();
 }
 
 class _CheckEnrollmentState extends State<CheckEnrollment> {

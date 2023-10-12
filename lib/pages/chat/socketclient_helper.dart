@@ -11,14 +11,14 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import '../../common_library/services/model/chat_mesagelist.dart';
-import '../../common_library/services/model/chat_receiveMessage.dart';
+import '../../common_library/services/model/chat_receive_message.dart';
 import '../../common_library/services/model/chat_users.dart';
 import '../../common_library/services/model/chatsendack_model.dart';
 import '../../common_library/services/model/checkonline_model.dart';
 import '../../common_library/services/model/m_room_model.dart';
 import '../../common_library/services/model/m_roommember_model.dart';
 import '../../common_library/services/model/messagebyroom_model.dart';
-import '../../common_library/services/model/readmessagebyId_model.dart';
+import '../../common_library/services/model/read_message_by_id_model.dart';
 import '../../common_library/services/model/roomhistory_model.dart';
 import '../../common_library/utils/local_storage.dart';
 import '../../services/database/DatabaseHelper.dart';
@@ -124,9 +124,9 @@ class SocketClientHelper extends ChangeNotifier {
         }
       }
       if (!condition) {
-        rooms.forEach((Room room) async {
+        for (var room in rooms) {
           loginUser(room.roomId!, room.userId!, room.createDate!);
-        });
+        }
 
         var result = await chatRoomRepo.getRoomList('');
         if (result.data != null && result.data.length > 0) {
@@ -587,7 +587,7 @@ class SocketClientHelper extends ChangeNotifier {
     String? userid = await localStorage.getUserId();
     String? localUserName = await localStorage.getName();
     myFailedList = await dbHelper.getFailedMsgDetailList();
-    myFailedList.forEach((messageDetails) async {
+    for (var messageDetails in myFailedList) {
       if (messageDetails.clientMessageId.toString() != '' && userid != '') {
         if (messageDetails.msgBinaryType == '') {
           sendMessage(messageDetails, localUserName!);
@@ -595,7 +595,7 @@ class SocketClientHelper extends ChangeNotifier {
           emitSendMessage(messageDetails, localUserName!);
         }
       }
-    });
+    }
   }
 
   Future<void> deleteFile(File file) async {
@@ -603,7 +603,9 @@ class SocketClientHelper extends ChangeNotifier {
       if (await file.exists()) {
         await file.delete();
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   void deleteDirectory(Directory directory) {
@@ -654,11 +656,8 @@ class SocketClientHelper extends ChangeNotifier {
       "msgBody": messageDetails.msgBody,
       "replyToId": messageDetails.replyToId,
       "clientMessageId": messageDetails.clientMessageId,
-      "misc": "[FCM_Notification=title:" +
-          messageDetails.roomName! +
-          ' - ' +
-          localUserName +
-          "]"
+      "misc":
+          "[FCM_Notification=title: ${messageDetails.roomName!} - $localUserName]"
     };
     //print(messageJson);
     if (socket.connected) {
@@ -866,8 +865,7 @@ class SocketClientHelper extends ChangeNotifier {
                 .addNotificationBadge(
                     notificationBadge: messageList.length, roomId: roomId);
           }
-
-          messageList.forEach((f) async {
+          for (var f in messageList) {
             List<MessageDetails> isExist =
                 await dbHelper.isMessageExist(f.clientMessageId!);
             if (isExist.isEmpty) {
@@ -921,7 +919,7 @@ class SocketClientHelper extends ChangeNotifier {
                     .addChatHistory(messageDetail: messageDetails);
               }
             }
-          });
+          }
         } else {
           //print("Null from getMessageByRoom");
         }

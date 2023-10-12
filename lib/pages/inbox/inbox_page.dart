@@ -20,7 +20,7 @@ class Inbox extends StatefulWidget {
   const Inbox({super.key});
 
   @override
-  _InboxState createState() => _InboxState();
+  State<Inbox> createState() => _InboxState();
 }
 
 class _InboxState extends State<Inbox> {
@@ -427,7 +427,8 @@ class _InboxState extends State<Inbox> {
                             Divider(color: Colors.grey[400]),
                         itemBuilder: (BuildContext context, int index) {
                           return ListTile(
-                            leading: const Icon(Icons.mail, color: Color(0xff808080)),
+                            leading: const Icon(Icons.mail,
+                                color: Color(0xff808080)),
                             title: displayInboxMessage(snapshot.data[index]),
                           );
                         },

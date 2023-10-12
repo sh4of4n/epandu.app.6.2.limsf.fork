@@ -12,7 +12,7 @@ class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
 
   @override
-  _HomeTabState createState() => _HomeTabState();
+  State<HomeTab> createState() => _HomeTabState();
 }
 
 class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
@@ -22,21 +22,21 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
   final List<Tab> myTabs = <Tab>[
     const Tab(
       icon: Icon(
-        MyCustomIcons.home_icon,
+        MyCustomIcons.homeIcon,
         size: 30,
         color: Color(0xff808080),
       ),
     ),
     const Tab(
       icon: Icon(
-        MyCustomIcons.v_club_icon,
+        MyCustomIcons.vClubIcon,
         size: 30,
         color: Color(0xff808080),
       ),
     ),
     const Tab(
       icon: Icon(
-        MyCustomIcons.invite_icon,
+        MyCustomIcons.inviteIcon,
         size: 30,
         color: Color(0xff808080),
       ),
@@ -96,7 +96,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                     tabs: [
                       Tab(
                         icon: const Icon(
-                          MyCustomIcons.home_icon,
+                          MyCustomIcons.homeIcon,
                           size: 30,
                           color: Color(0xff808080),
                         ),
@@ -105,7 +105,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                       ),
                       Tab(
                         icon: const Icon(
-                          MyCustomIcons.v_club_icon,
+                          MyCustomIcons.vClubIcon,
                           size: 30,
                           color: Color(0xff808080),
                         ),
@@ -116,7 +116,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                           width: ScreenUtil().setWidth(300)),
                       Tab(
                         icon: const Icon(
-                          MyCustomIcons.invite_icon,
+                          MyCustomIcons.inviteIcon,
                           size: 30,
                           color: Color(0xff808080),
                         ),

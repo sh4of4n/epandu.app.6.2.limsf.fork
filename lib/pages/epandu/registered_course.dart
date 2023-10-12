@@ -17,7 +17,7 @@ class RegisteredCourse extends StatefulWidget {
   const RegisteredCourse({super.key});
 
   @override
-  _RegisteredCourseState createState() => _RegisteredCourseState();
+  State<RegisteredCourse> createState() => _RegisteredCourseState();
 }
 
 class _RegisteredCourseState extends State<RegisteredCourse> {
@@ -73,14 +73,16 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-            iconTheme: const IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.black, //change your color here
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(
             AppLocalizations.of(context)!.translate('registered_class_lbl'),
-            style: const TextStyle(color: Colors.black,),
+            style: const TextStyle(
+              color: Colors.black,
+            ),
           ),
         ),
         body: SingleChildScrollView(
@@ -197,10 +199,8 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                                               ),
                                               children: [
                                                 TextSpan(
-                                                  text: '${AppLocalizations.of(
-                                                              context)!
-                                                          .translate(
-                                                              'class_lbl')} ',
+                                                  text:
+                                                      '${AppLocalizations.of(context)!.translate('class_lbl')} ',
                                                   style: const TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     color: Color(
@@ -225,10 +225,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                                           ),
                                           if (snapshot.data[index].fee != null)
                                             Text(
-                                              'RM${NumberFormat('#,##0.00')
-                                                      .format(double.tryParse(
-                                                          snapshot.data[index]
-                                                              .fee))}',
+                                              'RM${NumberFormat('#,##0.00').format(double.tryParse(snapshot.data[index].fee))}',
                                               style: const TextStyle(
                                                 color: Color(
                                                   0xff666666,
@@ -238,11 +235,7 @@ class _RegisteredCourseState extends State<RegisteredCourse> {
                                           Text(
                                             snapshot.data[index].totalTime !=
                                                     null
-                                                ? '${AppLocalizations.of(context)!
-                                                        .translate(
-                                                            'total_time')} ' +
-                                                    snapshot
-                                                        .data[index].totalTime
+                                                ? '${AppLocalizations.of(context)?.translate('total_time')} ${snapshot.data[index]?.totalTime ?? ''}'
                                                 : /* AppLocalizations.of(context)
                                                     .translate('no_total_time') */
                                                 'Total time 00:00',

@@ -84,7 +84,7 @@ class BottomMenu extends StatelessWidget {
                     child: Column(
                       children: <Widget>[
                         const Icon(
-                          MyCustomIcons.gift_icon,
+                          MyCustomIcons.giftIcon,
                           size: 22,
                           color: Color(0xff808080),
                         ),

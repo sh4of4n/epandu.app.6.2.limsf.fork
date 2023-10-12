@@ -18,7 +18,7 @@ class LoginTabletForm extends StatefulWidget {
   const LoginTabletForm({super.key});
 
   @override
-  _LoginTabletFormState createState() => _LoginTabletFormState();
+  State<LoginTabletForm> createState() => _LoginTabletFormState();
 }
 
 class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
