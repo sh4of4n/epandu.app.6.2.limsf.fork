@@ -11,7 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  flutter_localizations:
+    sdk: flutter
   ## Online
   xml2json:
   http:
@@ -39,7 +40,6 @@ dependencies:
   webview_flutter_wkwebview:
   qr_code_scanner:
   quiver:
-  flutter_localization:
   carousel_slider:
   smooth_page_indicator:
   photo_view:

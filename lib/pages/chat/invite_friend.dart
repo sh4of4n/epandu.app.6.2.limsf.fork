@@ -195,6 +195,7 @@ class _InviteFriendState extends State<InviteFriend> {
                             .getRoomMembersList(inviteRoomResponse.roomId!);
                         for (var memberByPhoneResponse
                             in memberByPhoneResponseList) {
+                          print(memberByPhoneResponse.phone);
                           for (var roomMember in roomMembers) {
                             if (userId != roomMember.userId) {
                               var inviteUserToRoomJson = {
