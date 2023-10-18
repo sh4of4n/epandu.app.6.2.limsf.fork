@@ -22,7 +22,7 @@ class _ElearningPageState extends State<ElearningPage> {
       //   title: const Text("eLearning"),
       // ),
       appBar: AppBar(
-        title: Text("eLearning"),
+        title: const Text("eLearning"),
       ),
       body: SafeArea(
         child: ListView.separated(

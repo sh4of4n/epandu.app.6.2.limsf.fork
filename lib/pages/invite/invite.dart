@@ -201,20 +201,12 @@ class _InviteState extends State<Invite> with PageBaseClass {
                                       const TextStyle(color: Colors.white),
                                 ),
                                 onPressed: _submit,
-                                child: Container(
-                                  /* decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(0),
-                  ), */
-                                  // padding: EdgeInsets.symmetric(
-                                  //   horizontal: 100.w,
-                                  // ),
-                                  child: Text(
-                                    AppLocalizations.of(context)!
-                                        .translate('invite_btn'),
-                                    style: TextStyle(
-                                      fontSize: 60.sp,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                      .translate('invite_btn'),
+                                  style: TextStyle(
+                                    fontSize: 60.sp,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ),
@@ -411,20 +403,12 @@ class _InviteState extends State<Invite> with PageBaseClass {
                                       const TextStyle(color: Colors.white),
                                 ),
                                 onPressed: _submit,
-                                child: Container(
-                                  /* decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(0),
-                  ), */
-                                  // padding: EdgeInsets.symmetric(
-                                  //   horizontal: 100.w,
-                                  // ),
-                                  child: Text(
-                                    AppLocalizations.of(context)!
-                                        .translate('invite_btn'),
-                                    style: TextStyle(
-                                      fontSize: 35.sp,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                      .translate('invite_btn'),
+                                  style: TextStyle(
+                                    fontSize: 35.sp,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ),

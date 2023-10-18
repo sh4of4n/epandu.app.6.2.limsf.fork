@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../common_library/services/model/chat_mesagelist.dart';
-import '../../services/database/DatabaseHelper.dart';
+import '../../services/database/database_helper.dart';
 
 class ChatHistory extends ChangeNotifier {
   List<MessageDetails> getMessageDetailsList = [];

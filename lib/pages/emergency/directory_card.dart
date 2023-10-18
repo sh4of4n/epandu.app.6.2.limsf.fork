@@ -45,22 +45,18 @@ class DirectoryCard extends StatelessWidget {
             children: <Widget>[
               InkWell(
                 onTap: phoneAction,
-                child: Container(
-                  child: Image.asset(
-                    phoneIcon,
-                    height: 150.h,
-                  ),
+                child: Image.asset(
+                  phoneIcon,
+                  height: 150.h,
                 ),
               ),
               InkWell(
                 onTap: directory != null
                     ? () => context.router.push(directory)
                     : null,
-                child: Container(
-                  child: Image.asset(
-                    directoryIcon,
-                    height: 150.h,
-                  ),
+                child: Image.asset(
+                  directoryIcon,
+                  height: 150.h,
                 ),
               ),
             ],

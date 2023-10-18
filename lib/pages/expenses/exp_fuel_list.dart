@@ -75,7 +75,7 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
-            var result = await context.router.push(CreateFuelRoute());
+            var result = await context.router.push(const CreateFuelRoute());
             if (result.toString() == 'refresh') {
               setState(() {
                 expFuelFuture = getExpFuel();
@@ -184,7 +184,12 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                                   width: 4,
                                                 ),
                                                 Text(
-                                                  DateFormat('yyyy-MM-dd').format(DateTime.parse(snapshot.data.data[index].expDatetime)),
+                                                  DateFormat('yyyy-MM-dd')
+                                                      .format(DateTime.parse(
+                                                          snapshot
+                                                              .data
+                                                              .data[index]
+                                                              .expDatetime)),
                                                   style: const TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                   ),
@@ -212,7 +217,8 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                         ),
                                         Row(
                                           children: [
-                                            const Icon(Icons.format_list_bulleted),
+                                            const Icon(
+                                                Icons.format_list_bulleted),
                                             const SizedBox(
                                               width: 4,
                                             ),
@@ -237,9 +243,10 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                                 snapshot.data.data[index]
                                                     .description,
                                                 trimLines: 2,
-                                                preDataTextStyle: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.w500),
+                                                preDataTextStyle:
+                                                    const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w500),
                                                 style: const TextStyle(
                                                     color: Colors.black),
                                                 colorClickableText: Colors.pink,
@@ -279,7 +286,8 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                               return AlertDialog(
                                                 title: const Text(
                                                     'Delete Fuel Expenses'),
-                                                content: const SingleChildScrollView(
+                                                content:
+                                                    const SingleChildScrollView(
                                                   child: ListBody(
                                                     children: <Widget>[
                                                       Text(

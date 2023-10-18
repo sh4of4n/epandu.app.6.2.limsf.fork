@@ -21,7 +21,7 @@ import '../../common_library/services/model/messagebyroom_model.dart';
 import '../../common_library/services/model/read_message_by_id_model.dart';
 import '../../common_library/services/model/roomhistory_model.dart';
 import '../../common_library/utils/local_storage.dart';
-import '../../services/database/DatabaseHelper.dart';
+import '../../services/database/database_helper.dart';
 import '../../services/repository/chatroom_repository.dart';
 import '../../utils/app_config.dart';
 import 'chat_history.dart';

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import '../../common_library/services/model/GetLeaveRoomResponse.dart';
+import '../../common_library/services/model/get_leave_room_response.dart';
 import '../../common_library/services/model/createroom_response.dart';
 import '../../common_library/services/model/invitefriend_model.dart';
 import '../../common_library/services/model/inviteroom_model.dart';
@@ -102,7 +102,8 @@ class ChatRoomRepo {
     String? deviceId = await localStorage.getLoginDeviceId();
     String? appCode = appConfig.appCode;
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantNo=$merchantNo&mLoginId=$mLoginId&appId=$appId&deviceId=$deviceId&roomId=$roomId&appCode=$appCode';
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantNo=$merchantNo&mLoginId=$mLoginId&appId=$appId&deviceId=$deviceId&roomId=$roomId&appCode=$appCode';
 
     var response = await networking.getData(
       path: 'GetRoomByMember?$path',
@@ -127,7 +128,8 @@ class ChatRoomRepo {
     //String? deviceId = await localStorage.getLoginDeviceId();
     String? appCode = appConfig.appCode;
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantNo=$merchantNo&loginId=$mLoginId&appId=$appId&appCode=$appCode&roomId=$roomId';
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantNo=$merchantNo&loginId=$mLoginId&appId=$appId&appCode=$appCode&roomId=$roomId';
     var response = await networking.getData(
       path: 'GetMemberByRoom?$path',
     );
@@ -152,7 +154,8 @@ class ChatRoomRepo {
     String? deviceId = await localStorage.getLoginDeviceId();
     String? appCode = appConfig.appCode;
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantNo=$merchantNo&mLoginId=$mLoginId&appId=$appId&deviceId=$deviceId&appCode=$appCode&phoneNumber=$phoneNumber';
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantNo=$merchantNo&mLoginId=$mLoginId&appId=$appId&deviceId=$deviceId&appCode=$appCode&phoneNumber=$phoneNumber';
     var response = await networking.getData(
       path: 'GetMemberByPhoneNumber?$path',
     );

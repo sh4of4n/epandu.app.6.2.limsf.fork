@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 enum DialogType {
-  GENERAL,
-  INFO,
-  SUCCESS,
-  ERROR,
-  WARNING,
-  SIMPLE_DIALOG,
+  general,
+  info,
+  success,
+  error,
+  warning,
+  simpleDialog,
 }
 
 class CustomNewDialog {

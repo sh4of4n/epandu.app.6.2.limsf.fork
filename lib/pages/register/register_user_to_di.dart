@@ -80,7 +80,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
   // String _deviceOs = '';
   String? _deviceModel = '';
 
-  final _di_list = Hive.box('di_list');
+  final diList = Hive.box('di_list');
 
   @override
   void initState() {
@@ -202,8 +202,8 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
   }
 
   registerUserToDi() async {
-    for (var i = 0; i < _di_list.length; i++) {
-      if (_di_list.getAt(i).merchantNo == merchantId) {
+    for (var i = 0; i < diList.length; i++) {
+      if (diList.getAt(i).merchantNo == merchantId) {
         duplicateMerchant = true;
         break;
       }
