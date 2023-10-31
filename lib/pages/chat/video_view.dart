@@ -31,33 +31,45 @@ class _VideoViewPageState extends State<VideoViewPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        title: const Center(
+          child: Text(
+            'Video View',
+            maxLines: 1,
+            softWrap: false,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 18.5,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
         backgroundColor: Colors.black,
-        actions: [
-          IconButton(
-              icon: const Icon(
-                Icons.crop_rotate,
-                size: 27,
-              ),
-              onPressed: () {}),
-          IconButton(
-              icon: const Icon(
-                Icons.emoji_emotions_outlined,
-                size: 27,
-              ),
-              onPressed: () {}),
-          IconButton(
-              icon: const Icon(
-                Icons.title,
-                size: 27,
-              ),
-              onPressed: () {}),
-          IconButton(
-              icon: const Icon(
-                Icons.edit,
-                size: 27,
-              ),
-              onPressed: () {}),
-        ],
+        // actions: [
+        //   IconButton(
+        //       icon: Icon(
+        //         Icons.crop_rotate,
+        //         size: 27,
+        //       ),
+        //       onPressed: () {}),
+        //   IconButton(
+        //       icon: Icon(
+        //         Icons.emoji_emotions_outlined,
+        //         size: 27,
+        //       ),
+        //       onPressed: () {}),
+        //   IconButton(
+        //       icon: Icon(
+        //         Icons.title,
+        //         size: 27,
+        //       ),
+        //       onPressed: () {}),
+        //   IconButton(
+        //       icon: Icon(
+        //         Icons.edit,
+        //         size: 27,
+        //       ),
+        //       onPressed: () {}),
+        // ],
       ),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart';
@@ -296,11 +297,14 @@ class _AudioItemsState extends State<AudioItems> {
     ));
   }
 
-  void play(String audioFilPath) {
+  Future<void> play(String audioFilPath) async {
     assert(_mPlayerIsInited && _mPlayer!.isStopped);
+    File file = File(audioFilPath);
+    Uint8List uint8list = await file.readAsBytes();
     _mPlayer!
         .startPlayer(
-            fromURI: audioFilPath,
+            // fromURI: audioFilPath,
+            fromDataBuffer: uint8list,
             whenFinished: () {
               if (mounted) {
                 setState(() {});

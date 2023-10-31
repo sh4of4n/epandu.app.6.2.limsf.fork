@@ -5,6 +5,7 @@ import '../../services/database/database_helper.dart';
 
 class ChatHistory extends ChangeNotifier {
   List<MessageDetails> getMessageDetailsList = [];
+  List<MessageDetails> getAllMessageDetailsList = [];
   bool isDataExist = true;
   final dbHelper = DatabaseHelper.instance;
 
@@ -13,6 +14,7 @@ class ChatHistory extends ChangeNotifier {
   void addChatHistory({required MessageDetails messageDetail}) {
     int index = getMessageDetailsList.indexWhere(
         (element) => element.clientMessageId == messageDetail.clientMessageId);
+    //print('addChatHistory:' + messageDetail.filePath!);
     if (index == -1) {
       getMessageDetailsList.add(messageDetail);
       notifyListeners();
@@ -73,7 +75,8 @@ class ChatHistory extends ChangeNotifier {
         element.messageId == messageId && element.roomId == roomId);
     if (index != -1) {
       getMessageDetailsList.removeAt(index);
-      print('messageId_ $messageId Index_$index');
+      // print(
+      //     'messageId_ ' + messageId.toString() + ' Index_' + index.toString());
       notifyListeners();
     }
   }
@@ -92,33 +95,37 @@ class ChatHistory extends ChangeNotifier {
     return getMessageDetailsList;
   }
 
+  Future<List<MessageDetails>> getChatHistoryByRoomId(String roomId) async {
+    getAllMessageDetailsList = [];
+    getAllMessageDetailsList = await dbHelper.getMsgDetailList();
+    getAllMessageDetailsList = getAllMessageDetailsList
+        .where((element) => element.roomId == roomId)
+        .toList();
+    notifyListeners();
+    return getAllMessageDetailsList;
+  }
+
   Future<List<MessageDetails>> getLazyLoadChatHistory(
       String roomId, int offset, int batchSize) async {
-    // Fetch new messages from the database
-    List<MessageDetails> newMessageDetailsList =
+    List<MessageDetails> pastMessageDetailsList = getMessageDetailsList;
+    getMessageDetailsList = [];
+    getMessageDetailsList =
         await dbHelper.getLazyLoadMsgDetailList(roomId, batchSize, offset);
 
-    if (newMessageDetailsList.isEmpty) {
-      // No new messages were fetched, set the flag accordingly
-      isDataExist = false;
+    if (getMessageDetailsList.isNotEmpty) {
+      pastMessageDetailsList.addAll(getMessageDetailsList.where((newMessage) {
+        return !pastMessageDetailsList.any((existingMessage) =>
+            existingMessage.clientMessageId == newMessage.clientMessageId);
+      }));
+      getMessageDetailsList = pastMessageDetailsList;
     } else {
-      // Merge the new messages with the existing ones based on messageId
-      for (var newMessage in newMessageDetailsList) {
-        if (!getMessageDetailsList.any((existingMessage) =>
-            existingMessage.messageId == newMessage.messageId)) {
-          // Add the new message if it doesn't exist in the current list
-          getMessageDetailsList.add(newMessage);
-        }
-      }
+      isDataExist = false;
+      getMessageDetailsList = pastMessageDetailsList;
     }
-
-    // Sort the combined list by messageId
     getMessageDetailsList.sort((a, b) => a.messageId!.compareTo(b.messageId!));
 
-    // Notify listeners
     notifyListeners();
 
-    // Return the updated list of messages
     return getMessageDetailsList;
   }
 }

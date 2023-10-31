@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/pages/chat/rooms_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -19,10 +20,11 @@ import '../../services/database/database_helper.dart';
 import '../../services/repository/chatroom_repository.dart';
 import '../../utils/app_config.dart';
 import 'chat_history.dart';
-import 'chat_home.dart';
 import 'socketclient_helper.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
+import '../../router.gr.dart';
 
+@RoutePage(name: 'createGroup')
 class CreateGroup extends StatefulWidget {
   const CreateGroup({
     Key? key,
@@ -209,7 +211,9 @@ class _CreateGroupState extends State<CreateGroup> {
                 if (widget.roomId == '') {
                   _displayTextInputDialog(context);
                 } else {
-                  await EasyLoading.show();
+                  await EasyLoading.show(
+                    maskType: EasyLoadingMaskType.black,
+                  );
                   var inviteResult = await chatRoomRepo.addMemberToGroup(
                       editingController.text, widget.roomId);
 
@@ -299,7 +303,7 @@ class _CreateGroupState extends State<CreateGroup> {
                         "replyToId": -1,
                         "clientMessageId": clientMessageId,
                         "misc":
-                            "[FCM_Notification=title: ${inviteRoomResponse.roomName} - $userName]"
+                            "[FCM_Notification=title: ${inviteRoomResponse.roomName!} - $userName]"
                       };
 
                       socket.emitWithAck('sendMessage', messageJson,
@@ -314,21 +318,31 @@ class _CreateGroupState extends State<CreateGroup> {
 
                     await EasyLoading.dismiss();
                     if (!context.mounted) return;
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => ChatHome2(
-                                  roomId: inviteRoomResponse.roomId!,
-                                  picturePath: '',
-                                  roomName: inviteRoomResponse.roomName!,
-                                  roomDesc: 'Group Chat',
-                                  // roomMembers: members,
-                                ))).then((_) {});
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (_) => newChatRoom(
+                    //               roomId: inviteRoomResponse.roomId!,
+                    //               picturePath: '',
+                    //               roomName: inviteRoomResponse.roomName!,
+                    //               roomDesc: 'Group Chat',
+                    //               // roomMembers: members,
+                    //             ))).then((_) {});
+
+                    if (!context.mounted) return;
+
+                    context.router.replace(ChatRoom(
+                      roomId: inviteRoomResponse.roomId!,
+                      picturePath: '',
+                      roomName: inviteRoomResponse.roomName!,
+                      roomDesc: 'Group Chat',
+                      // roomMembers: members,
+                    ));
                   } else {
                     await EasyLoading.dismiss();
                     final customDialog = CustomDialog();
                     if (!context.mounted) return;
-                    return customDialog.show(
+                    customDialog.show(
                       context: context,
                       type: DialogType.error,
                       content: inviteResult.message!,
@@ -370,7 +384,9 @@ class _CreateGroupState extends State<CreateGroup> {
 
   getFriendData() async {
     if (editingController.text.length > 9) {
-      await EasyLoading.show();
+      await EasyLoading.show(
+        maskType: EasyLoadingMaskType.black,
+      );
       var result =
           await chatRoomRepo.getMemberByPhoneNumber(editingController.text);
       if (result.data != null && result.data.length > 0) {
@@ -492,7 +508,9 @@ class _CreateGroupState extends State<CreateGroup> {
                     backgroundColor: Colors.green),
                 child: const Text('OK'),
                 onPressed: () async {
-                  await EasyLoading.show();
+                  await EasyLoading.show(
+                    maskType: EasyLoadingMaskType.black,
+                  );
                   String usersList = "";
                   if (_selected.length > 1) {
                     usersList =
@@ -596,15 +614,22 @@ class _CreateGroupState extends State<CreateGroup> {
                             Navigator.of(context).pop();
                           });
                           if (!context.mounted) return;
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => ChatHome2(
-                                        roomId: inviteRoomResponse.roomId!,
-                                        picturePath: '',
-                                        roomName: inviteRoomResponse.roomName!,
-                                        roomDesc: 'Group Chat',
-                                      ))).then((_) {});
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (_) => ChatRoom(
+                          //               roomId: inviteRoomResponse.roomId!,
+                          //               picturePath: '',
+                          //               roomName: inviteRoomResponse.roomName!,
+                          //               roomDesc: 'Group Chat',
+                          //             ))).then((_) {});
+
+                          context.router.replace(ChatRoom(
+                            roomId: inviteRoomResponse.roomId!,
+                            picturePath: '',
+                            roomName: inviteRoomResponse.roomName!,
+                            roomDesc: 'Group Chat',
+                          ));
                         }
                       }
                     }
@@ -612,7 +637,7 @@ class _CreateGroupState extends State<CreateGroup> {
                     await EasyLoading.dismiss();
                     final customDialog = CustomDialog();
                     if (!context.mounted) return;
-                    return customDialog.show(
+                    customDialog.show(
                       context: context,
                       type: DialogType.error,
                       content: inviteResult.message!,

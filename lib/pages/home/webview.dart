@@ -24,7 +24,7 @@ import '../../common_library/services/model/m_roommember_model.dart';
 import '../../common_library/utils/local_storage.dart';
 import '../../services/database/database_helper.dart';
 import '../../services/repository/chatroom_repository.dart';
-import '../chat/chat_home.dart';
+import '../chat/chat_room.dart';
 import '../chat/socketclient_helper.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as io;
@@ -252,7 +252,7 @@ Page resource error:
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ChatHome2(
+                  builder: (context) => ChatRoom(
                     roomId: getCreateRoomResponse.roomId!,
                     picturePath: '',
                     roomName: getCreateRoomResponse.roomName!,

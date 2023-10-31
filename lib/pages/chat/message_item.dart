@@ -13,7 +13,8 @@ class MessageItem extends StatelessWidget {
   final String? userId;
 
   MessageItem(
-      {super.key, this.message,
+      {super.key,
+      this.message,
       this.previousItemDate,
       this.userId,
       this.scrollController});
@@ -31,8 +32,7 @@ class MessageItem extends StatelessWidget {
             child: previousItemDate == 0
                 ? Text(formattedDate,
                     textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontSize: 60.0.sp, color: Colors.black54))
+                    style: TextStyle(fontSize: 60.0.sp, color: Colors.black54))
                 : formattedDate ==
                         DateFormat.yMMMd().format(
                             DateTime.fromMillisecondsSinceEpoch(
@@ -80,8 +80,7 @@ class MessageItem extends StatelessWidget {
             child: previousItemDate == 0
                 ? Text(formattedDate,
                     textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontSize: 60.0.sp, color: Colors.black54))
+                    style: TextStyle(fontSize: 60.0.sp, color: Colors.black54))
                 : formattedDate ==
                         DateFormat.yMMMd().format(
                             DateTime.fromMillisecondsSinceEpoch(

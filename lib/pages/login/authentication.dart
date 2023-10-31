@@ -14,6 +14,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
+import '../chat/chatnotification_count.dart';
 import '../chat/socketclient_helper.dart';
 
 @RoutePage()
@@ -87,7 +88,12 @@ class _AuthenticationState extends State<Authentication> {
 
     if (userId != null && userId.isNotEmpty && diCode!.isNotEmpty) {
       if (!context.mounted) return;
-      await context.read<SocketClientHelper>().loginUserRoom();
+      {
+        Provider.of<ChatNotificationCount>(context, listen: false)
+            .clearNotificationBadge();
+        context.read<SocketClientHelper>().loginUserRoom();
+      }
+
       if (!context.mounted) return;
       context.router.replace(const Home());
     } else if (userId != null && userId.isNotEmpty && diCode!.isEmpty) {

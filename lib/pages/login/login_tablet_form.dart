@@ -12,6 +12,7 @@ import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../router.gr.dart';
+import '../chat/chatnotification_count.dart';
 import '../chat/socketclient_helper.dart';
 
 class LoginTabletForm extends StatefulWidget {
@@ -343,7 +344,11 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
           if (getRegisteredDi.isSuccess) {
             localStorage.saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
             if (!context.mounted) return;
-            await context.read<SocketClientHelper>().loginUserRoom();
+            {
+              Provider.of<ChatNotificationCount>(context, listen: false)
+                  .clearNotificationBadge();
+              context.read<SocketClientHelper>().loginUserRoom();
+            }
             if (!context.mounted) return;
             context.router.replace(const Home());
           } else {
@@ -363,7 +368,11 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
         } else {
           localStorage.saveMerchantDbCode(result.data[0].merchantNo);
           if (!context.mounted) return;
-          await context.read<SocketClientHelper>().loginUserRoom();
+          {
+            Provider.of<ChatNotificationCount>(context, listen: false)
+                .clearNotificationBadge();
+            context.read<SocketClientHelper>().loginUserRoom();
+          }
           if (!context.mounted) return;
           context.router.replace(const Home());
         }

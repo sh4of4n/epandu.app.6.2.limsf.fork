@@ -31,7 +31,7 @@ class _CameraScreenState extends State<CameraScreen> {
   void initState() {
     super.initState();
     _cameraController =
-        CameraController(widget.cameras[0], ResolutionPreset.max);
+        CameraController(widget.cameras[0], ResolutionPreset.medium);
     cameraValue = _cameraController.initialize().then((_) {
       if (!mounted) {
         return;

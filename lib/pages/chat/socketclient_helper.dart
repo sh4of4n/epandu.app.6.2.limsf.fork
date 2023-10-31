@@ -15,6 +15,7 @@ import '../../common_library/services/model/chat_receive_message.dart';
 import '../../common_library/services/model/chat_users.dart';
 import '../../common_library/services/model/chatsendack_model.dart';
 import '../../common_library/services/model/checkonline_model.dart';
+import '../../common_library/services/model/createroom_response.dart';
 import '../../common_library/services/model/m_room_model.dart';
 import '../../common_library/services/model/m_roommember_model.dart';
 import '../../common_library/services/model/messagebyroom_model.dart';
@@ -37,9 +38,9 @@ class SocketClientHelper extends ChangeNotifier {
       'This channel is used for important notifications.', // description
       importance: Importance.high,
       playSound: true);
-
+  String preEvent = '';
   final chatRoomRepo = ChatRoomRepo();
-  final BuildContext ctx;
+  BuildContext ctx;
   List<MessageDetails> myFailedList = [];
   final appConfig = AppConfig();
   SocketClientHelper(this.ctx);
@@ -71,25 +72,24 @@ class SocketClientHelper extends ChangeNotifier {
 
     String? userid = await localStorage.getUserId();
     loginUser('Tbs.Chat.Client-All-Users', userid!, '');
-    rooms = await dbHelper.getRoomList(userid);
+    if (!ctx.mounted) return;
+    rooms = await dbHelper.getRooms();
     if (rooms.isEmpty) {
       var result = await chatRoomRepo.getRoomList('');
       if (result.data != null && result.data.length > 0) {
         for (int i = 0; i < result.data.length; i += 1) {
-          int insertVal = await dbHelper.saveRoomTable(result.data[i]);
-          print('insertVal: ${insertVal.toString()}');
+          await dbHelper.saveRoomTable(result.data[i]);
           RoomHistoryModel roomHistoryModel = RoomHistoryModel(
               roomId: result.data[i].roomId ?? '',
               roomName: result.data[i].roomName ?? '',
               roomDesc: result.data[i].roomDesc ?? '',
               picturePath: result.data[i].picturePath ?? '');
-          if (ctx.mounted) {
-            ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
-          }
-          print('Room Insert Id: ${result.data[i].roomId}');
+          if (!ctx.mounted) return;
+          ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
+          //print('Room Insert value ' + val.toString());
           var resultMembers =
               await chatRoomRepo.getRoomMembersList(result.data[i].roomId);
-          print('Room Members Insert: ${resultMembers.data.length}');
+          //print('roomMembers' + resultMembers.data.length.toString());
           if (resultMembers.data != null && resultMembers.data.length > 0) {
             for (int i = 0; i < resultMembers.data.length; i += 1) {
               await dbHelper.saveRoomMembersTable(resultMembers.data[i]);
@@ -115,17 +115,17 @@ class SocketClientHelper extends ChangeNotifier {
               )!
               .path);
           deleteDirectory(dir);
-          await loginUserRoom();
           condition = true;
         }
         if (condition) {
+          await loginUserRoom();
           print('Condition is true. deleted directory and database.');
           break;
         }
       }
-      if (!condition) {
+      if (!condition && rooms.isNotEmpty) {
         for (var room in rooms) {
-          loginUser(room.roomId!, room.userId!, room.createDate!);
+          loginUser(room.roomId!, userid, room.createDate!);
         }
 
         var result = await chatRoomRepo.getRoomList('');
@@ -140,15 +140,15 @@ class SocketClientHelper extends ChangeNotifier {
                   roomName: result.data[i].roomName ?? '',
                   roomDesc: result.data[i].roomDesc ?? '',
                   picturePath: result.data[i].picturePath ?? '');
-              if (ctx.mounted) {
-                ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
-              }
+              if (!ctx.mounted) return;
+              ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
               newRooms.add(result.data[i]);
             } else {
-              if (rooms[indexRoom].picturePath != result.data[i].picturePath &&
-                  result.data[i].picturePath != '') {
-                await dbHelper.updateRoomPic(
-                    result.data[i].roomId, result.data[i].picturePath);
+              if ((rooms[indexRoom].picturePath != result.data[i].picturePath &&
+                      result.data[i].picturePath != '') ||
+                  rooms[indexRoom].roomName != result.data[i].roomName) {
+                await dbHelper.updateRoomDetails(result.data[i].roomId,
+                    result.data[i].picturePath, result.data[i].roomName);
               }
             }
             var resultMembers =
@@ -173,7 +173,8 @@ class SocketClientHelper extends ChangeNotifier {
                         resultMembers.data[i].userId ?? '',
                         resultMembers.data[i].picturePath ?? '',
                         resultMembers.data[i].nickName ?? '',
-                        resultMembers.data[i].deleted ?? '');
+                        resultMembers.data[i].deleted ?? '',
+                        resultMembers.data[i].roomId ?? '');
                   }
                 }
               }
@@ -181,13 +182,60 @@ class SocketClientHelper extends ChangeNotifier {
           }
           if (newRooms.isNotEmpty) {
             for (var newroom in newRooms) {
-              loginUser(newroom.roomId!, newroom.userId!, newroom.createDate!);
+              loginUser(newroom.roomId!, userid, newroom.createDate!);
             }
-            //logoutDefaultRoom();
           }
         }
       }
     }
+
+    //Check support room exist or not
+    rooms = await dbHelper.getRoomList(userid);
+    String? merchantNo = await localStorage.getMerchantDbCode();
+    if (!doesRoomDescExist(rooms, 'Chat Support', merchantNo!)) {
+      var createChatSupportResult =
+          await chatRoomRepo.createChatSupportByMember();
+      if (createChatSupportResult.data != null &&
+          createChatSupportResult.data.length > 0) {
+        if (!ctx.mounted) return;
+        await loginUserRoom();
+        String userid = await localStorage.getUserId() ?? '';
+        CreateRoomResponse getCreateRoomResponse =
+            createChatSupportResult.data[0];
+
+        List<RoomMembers> roomMembers =
+            await dbHelper.getRoomMembersList(getCreateRoomResponse.roomId!);
+        for (var roomMember in roomMembers) {
+          if (userid != roomMember.userId) {
+            var inviteUserToRoomJson = {
+              "invitedRoomId": getCreateRoomResponse.roomId!,
+              "invitedUserId": roomMember.userId
+            };
+            socket.emitWithAck('inviteUserToRoom', inviteUserToRoomJson,
+                ack: (data) {
+              //print('ack $data');
+              if (data != null) {
+                print('inviteUserToRoomJson from server $data');
+              } else {
+                print("Null from inviteUserToRoomJson");
+              }
+            });
+          }
+        }
+      }
+    }
+  }
+
+  bool doesRoomDescExist(
+      List<Room>? roomlist, String targetRoomDesc, String merchantNo) {
+    if (roomlist != null) {
+      for (var room in roomlist) {
+        if (room.roomDesc == targetRoomDesc && room.merchantNo == merchantNo) {
+          return true; // 'Chat Support' exists
+        }
+      }
+    }
+    return false; // 'Chat Support' does not exist
   }
 
   String generateRandomString(int length) {
@@ -282,21 +330,24 @@ class SocketClientHelper extends ChangeNotifier {
     });
     socket.onAny((event, data) async {
       //print('event :$event, data :$data');
+      if (event == 'disconnect') {
+        preEvent = 'disconnect';
+      } else {
+        preEvent = '';
+      }
       String? userid = await localStorage.getUserId();
-      if (userid != '' && event == 'connect') {
-        if (ctx.mounted) {
-          List<CheckOnline> onlineUsersList =
-              Provider.of<OnlineUsers>(ctx, listen: false).getOnlineList;
+      if (userid != '' && event == 'connect' && preEvent == 'disconnect') {
+        if (!ctx.mounted) return;
+        List<CheckOnline> onlineUsersList =
+            Provider.of<OnlineUsers>(ctx, listen: false).getOnlineList;
 
-          if (onlineUsersList
-                  .indexWhere((element) => element.userId == userid) ==
-              -1) {
-            List<Room> rooms = await dbHelper.getRoomList(userid!);
-            for (var room in rooms) {
-              loginUser(room.roomId!, room.userId!, room.createDate!);
-            }
-            sendFailedMessages();
+        if (onlineUsersList.indexWhere((element) => element.userId == userid) ==
+            -1) {
+          List<Room> rooms = await dbHelper.getRoomList(userid!);
+          for (var room in rooms) {
+            loginUser(room.roomId!, userid, room.createDate!);
           }
+          sendFailedMessages();
         } else {
           sendFailedMessages();
         }
@@ -314,7 +365,8 @@ class SocketClientHelper extends ChangeNotifier {
         List<MessageDetails> isExist =
             await dbHelper.isMessageExist(receiveMessage.clientMessageId!);
         //print(receiveMessage.datetime);
-        if (userid != receiveMessage.userId && isExist.isEmpty) {
+        // if (userid != receiveMessage.userId && isExist.isEmpty) {
+        if (isExist.isEmpty) {
           if (receiveMessage.binary != null && receiveMessage.binary != '') {
             filePath = await createFile(
                 receiveMessage.binaryType ?? '',
@@ -331,7 +383,7 @@ class SocketClientHelper extends ChangeNotifier {
           MessageDetails messageDetails = MessageDetails(
               roomId: receiveMessage.roomId,
               userId: receiveMessage.userId,
-              appId: "Carser.App",
+              appId: appConfig.appId,
               caUid: "",
               deviceId: "",
               msgBody: receiveMessage.text,
@@ -357,17 +409,13 @@ class SocketClientHelper extends ChangeNotifier {
               clientMessageId: receiveMessage.clientMessageId,
               roomName: '');
           await dbHelper.saveMsgDetailTable(messageDetails);
-          if (ctx.mounted) {
-            ctx
-                .read<ChatHistory>()
-                .addChatHistory(messageDetail: messageDetails);
-            ctx.read<RoomHistory>().updateRoomMessage(
-                roomId: messageDetails.roomId!, message: receiveMessage.text!);
-            ctx.read<RoomHistory>().getRoomHistory();
-            Provider.of<ChatNotificationCount>(ctx, listen: false)
-                .updateNotificationBadge(
-                    roomId: messageDetails.roomId, type: "");
-          }
+          if (!ctx.mounted) return;
+          ctx.read<ChatHistory>().addChatHistory(messageDetail: messageDetails);
+          ctx.read<RoomHistory>().updateRoomMessage(
+              roomId: messageDetails.roomId!, message: receiveMessage.text!);
+          ctx.read<RoomHistory>().getRoomHistory();
+          Provider.of<ChatNotificationCount>(ctx, listen: false)
+              .updateNotificationBadge(roomId: messageDetails.roomId, type: "");
           // Provider.of<ChatNotificationCount>(ctx, listen: false).addMessageId(
           //     messageDetails.room_id!,
           //     messageDetails.message_id.toString(),
@@ -387,9 +435,8 @@ class SocketClientHelper extends ChangeNotifier {
             roomName: result.data[0].roomName ?? '',
             roomDesc: result.data[0].roomDesc ?? '',
             picturePath: result.data[0].picturePath ?? '');
-        if (ctx.mounted) {
-          ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
-        }
+        if (!ctx.mounted) return;
+        ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
         //print('Room Insert value ' + val.toString());
         var resultMembers =
             await chatRoomRepo.getRoomMembersList(result.data[0].roomId);
@@ -435,14 +482,16 @@ class SocketClientHelper extends ChangeNotifier {
               .toString()
               .contains("just changed the name")) {
             await dbHelper.updateRoomMemberName(
-              result['description'].split(' ')[0],
-              result['title'].split('_')[0],
+              result['title'].split(' ')[0],
+              result['description'].split('_')[0],
             );
+            if (!ctx.mounted) return;
+            Provider.of<RoomHistory>(ctx, listen: false).getRoomHistory();
             //Need to update Chathistory provider
           } else if (result['description']
               .toString()
               .contains("just joined the room")) {
-            loginUserRoom();
+            await loginUserRoom();
             await dbHelper.updateRoomMemberStatus(
                 result['description'].split(' ')[0],
                 "false",
@@ -450,7 +499,16 @@ class SocketClientHelper extends ChangeNotifier {
           } else if (result['description']
               .toString()
               .contains("just left the room_")) {
-            loginUserRoom();
+            await loginUserRoom();
+          } else if (result['description']
+              .toString()
+              .contains("just changed the group name")) {
+            await dbHelper.updateRoomName(
+              result['description'].split('_')[0],
+              result['title'].split(' ')[0].toString().split('|')[1],
+            );
+            if (!ctx.mounted) return;
+            Provider.of<RoomHistory>(ctx, listen: false).getRoomHistory();
           }
         }
       }
@@ -505,9 +563,8 @@ class SocketClientHelper extends ChangeNotifier {
             }
             //await dbHelper.deleteMsgDetailTable(result["messageId"]);
             await dbHelper.updateMessageStatus(result["messageId"]);
-            if (ctx.mounted) {
-              Provider.of<RoomHistory>(ctx, listen: false).getRoomHistory();
-            }
+            if (!ctx.mounted) return;
+            Provider.of<RoomHistory>(ctx, listen: false).getRoomHistory();
           } else {
             ctx
                 .read<ChatHistory>()
@@ -529,10 +586,9 @@ class SocketClientHelper extends ChangeNotifier {
           if (_isEnterRoom) {
             if (result["readBy"].contains('[[ALL]]')) {
               await dbHelper.updateMsgStatus('READ', result["messageId"]);
-              if (ctx.mounted) {
-                ctx.read<ChatHistory>().updateChatItemStatus(
-                    '', "READ", result["messageId"], result["roomId"]);
-              }
+              if (!ctx.mounted) return;
+              ctx.read<ChatHistory>().updateChatItemStatus(
+                  '', "READ", result["messageId"], result["roomId"]);
             }
           } else {
             await dbHelper.updateMsgStatus('READ', result["messageId"]);
@@ -548,22 +604,21 @@ class SocketClientHelper extends ChangeNotifier {
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result["messageId"] != '') {
           if (_isEnterRoom) {
-            if (ctx.mounted) {
-              int index = Provider.of<ChatHistory>(ctx, listen: false)
-                  .getMessageDetailsList
-                  .indexWhere((element) =>
-                      element.userId == userid &&
-                      element.messageId == result["messageId"] &&
-                      element.roomId == result["roomId"]);
-              if (index == -1) {
-                ctx.read<ChatHistory>().updateChatItemMessage(
-                    result["msgBody"],
-                    result["messageId"],
-                    result['editDateTime'],
-                    result['roomId']);
-                await dbHelper.updateMsgDetailTableText(result["msgBody"],
-                    result["messageId"], result['editDateTime']);
-              }
+            if (!ctx.mounted) return;
+            int index = Provider.of<ChatHistory>(ctx, listen: false)
+                .getMessageDetailsList
+                .indexWhere((element) =>
+                    element.userId == userid &&
+                    element.messageId == result["messageId"] &&
+                    element.roomId == result["roomId"]);
+            if (index == -1) {
+              ctx.read<ChatHistory>().updateChatItemMessage(
+                  result["msgBody"],
+                  result["messageId"],
+                  result['editDateTime'],
+                  result['roomId']);
+              await dbHelper.updateMsgDetailTableText(result["msgBody"],
+                  result["messageId"], result['editDateTime']);
             }
           } else {
             List<MessageDetails> messageDetails =
@@ -636,13 +691,12 @@ class SocketClientHelper extends ChangeNotifier {
           //print('[[ALL]]');
           await dbHelper.updateMsgStatus(
               'READ', int.parse(readByMessage.message!.readMessage![0].id!));
-          if (ctx.mounted) {
-            ctx.read<ChatHistory>().updateChatItemStatus(
-                '',
-                "READ",
-                int.parse(readByMessage.message!.readMessage![0].id!),
-                readByMessage.message!.readMessage![0].roomId!);
-          }
+          if (!ctx.mounted) return;
+          ctx.read<ChatHistory>().updateChatItemStatus(
+              '',
+              "READ",
+              int.parse(readByMessage.message!.readMessage![0].id!),
+              readByMessage.message!.readMessage![0].roomId!);
         }
       } else {
         //print("Null from getMessageById");
@@ -671,14 +725,12 @@ class SocketClientHelper extends ChangeNotifier {
             await dbHelper.updateMsgDetailTable(messageDetails.clientMessageId!,
                 "SENT", sendAcknowledge.messageId);
             if (isEnterRoom) {
-              if (ctx.mounted) {
-                Provider.of<ChatHistory>(ctx, listen: false)
-                    .updateChatItemStatus(
-                        messageDetails.clientMessageId!,
-                        "SENT",
-                        sendAcknowledge.messageId,
-                        messageDetails.roomId!);
-              }
+              if (!ctx.mounted) return;
+              Provider.of<ChatHistory>(ctx, listen: false).updateChatItemStatus(
+                  messageDetails.clientMessageId!,
+                  "SENT",
+                  sendAcknowledge.messageId,
+                  messageDetails.roomId!);
             }
             if (myFailedList.isNotEmpty) {
               int index = myFailedList.indexWhere((element) =>
@@ -703,49 +755,52 @@ class SocketClientHelper extends ChangeNotifier {
     if (messageDetails.msgBody == '') {
       messageDetails.msgBody = messageDetails.filePath!.split('/').last;
     }
-    var bytes = await File(messageDetails.filePath!).readAsBytes();
-    var messageJson = {
-      "roomId": messageDetails.roomId,
-      "msgBody": messageDetails.msgBody,
-      "msgBinaryBuffer": base64.encode(bytes),
-      "replyToId": messageDetails.replyToId,
-      "msgBinaryType": messageDetails.msgBinaryType,
-      "clientMessageId": messageDetails.clientMessageId,
-      "misc":
-          "[FCM_Notification=title:${messageDetails.roomName} - $localUserName]"
-    };
-    //print(messageJson);
-    if (socket.connected) {
-      socket.emitWithAck('sendMessage', messageJson, ack: (data) async {
-        //print('sendMessage ack $data');
-        if (data != null) {
-          SendAcknowledge sendAcknowledge = SendAcknowledge.fromJson(data);
-          if (sendAcknowledge.clientMessageId ==
-              messageDetails.clientMessageId) {
-            await dbHelper.updateMsgDetailTable(messageDetails.clientMessageId!,
-                "SENT", sendAcknowledge.messageId);
-            if (isEnterRoom) {
-              if (ctx.mounted) {
+    File file = File(messageDetails.filePath!);
+    if (file.existsSync()) {
+      var bytes = await File(messageDetails.filePath!).readAsBytes();
+      var messageJson = {
+        "roomId": messageDetails.roomId,
+        "msgBody": messageDetails.msgBody,
+        "msgBinaryBuffer": base64.encode(bytes),
+        "replyToId": messageDetails.replyToId,
+        "msgBinaryType": messageDetails.msgBinaryType,
+        "clientMessageId": messageDetails.clientMessageId,
+        "misc":
+            "[FCM_Notification=title: ${messageDetails.roomName!} - $localUserName]"
+      };
+      if (socket.connected) {
+        socket.emitWithAck('sendMessage', messageJson, ack: (data) async {
+          //print('sendMessage ack $data');
+          if (data != null && !data.containsKey("error")) {
+            SendAcknowledge sendAcknowledge = SendAcknowledge.fromJson(data);
+            if (sendAcknowledge.clientMessageId ==
+                messageDetails.clientMessageId) {
+              await dbHelper.updateMsgDetailTable(
+                  messageDetails.clientMessageId!,
+                  "SENT",
+                  sendAcknowledge.messageId);
+              if (isEnterRoom) {
+                if (!ctx.mounted) return;
                 ctx.read<ChatHistory>().updateChatItemStatus(
                     messageDetails.clientMessageId!,
                     "SENT",
                     sendAcknowledge.messageId,
                     messageDetails.roomId!);
               }
-            }
-            if (myFailedList.isNotEmpty) {
-              int index = myFailedList.indexWhere((element) =>
-                  element.clientMessageId == messageDetails.clientMessageId);
-              if (index > -1) {
-                myFailedList.removeAt(index);
+              if (myFailedList.isNotEmpty) {
+                int index = myFailedList.indexWhere((element) =>
+                    element.clientMessageId == messageDetails.clientMessageId);
+                if (index > -1) {
+                  myFailedList.removeAt(index);
+                }
               }
             }
+            // print('sendMessage from server $data');
+          } else {
+            //print("Null from sendMessage");
           }
-          // print('sendMessage from server $data');
-        } else {
-          //print("Null from sendMessage");
-        }
-      });
+        });
+      }
     }
   }
 
@@ -811,10 +866,10 @@ class SocketClientHelper extends ChangeNotifier {
       "caPwd": caPwd,
       "deviceId": deviceId
     };
-    //print('login: $messageJson');
+    print('loginUser: $messageJson');
 
     socket.emitWithAck('login', messageJson, ack: (data) {
-      //print('ack $data');
+      print('loginUser ack $data');
       if (data != null) {
         notifyListeners();
         Provider.of<ChatNotificationCount>(ctx, listen: false)
@@ -831,13 +886,14 @@ class SocketClientHelper extends ChangeNotifier {
     String filePath = '';
     List<MessageDetails> messageDetailsList =
         await dbHelper.getLatestMsgDetail(roomId);
-    var messageRoomJson;
+    Map<String, Object> messageRoomJson;
 
     if (messageDetailsList.isNotEmpty) {
       messageRoomJson = {
         "roomId": roomId,
         "returnMsgBinaryAsBase64": "true",
-        "bgnMessageId": int.parse(messageDetailsList[0].messageId.toString())
+        "bgnMessageId":
+            int.parse(messageDetailsList[0].messageId.toString()) + 1
       };
     } else {
       messageRoomJson = {
@@ -856,15 +912,17 @@ class SocketClientHelper extends ChangeNotifier {
         List<MessageList>? messageList =
             messageByRoomModel.message?.messageList;
         if (messageList != null) {
-          if (messageDetailsList.isNotEmpty) {
-            Provider.of<ChatNotificationCount>(ctx, listen: false)
-                .addNotificationBadge(
-                    notificationBadge: messageList.length - 1, roomId: roomId);
-          } else {
-            Provider.of<ChatNotificationCount>(ctx, listen: false)
-                .addNotificationBadge(
-                    notificationBadge: messageList.length, roomId: roomId);
-          }
+          List<MessageList>? othersMessageList = messageList
+              .where((message) =>
+                  message.userId != userid &&
+                  (message.readBy == null ||
+                      !message.readBy!.contains('[[ALL]]')))
+              .toList();
+
+          Provider.of<ChatNotificationCount>(ctx, listen: false)
+              .addNotificationBadge(
+                  notificationBadge: othersMessageList.length, roomId: roomId);
+
           for (var f in messageList) {
             List<MessageDetails> isExist =
                 await dbHelper.isMessageExist(f.clientMessageId!);
@@ -903,8 +961,26 @@ class SocketClientHelper extends ChangeNotifier {
                   msgStatus: "",
                   clientMessageId: f.clientMessageId,
                   roomName: '');
-
-              messageDetails.msgStatus = "UNREAD";
+              // if (userid == messageDetails.userId) {
+              //   messageDetails.msgStatus = "READ";
+              // } else {
+              //   messageDetails.msgStatus = "UNREAD";
+              // }
+              if (userid != messageDetails.userId &&
+                  (messageDetails.readBy == null ||
+                      !messageDetails.readBy!.contains('[[ALL]]'))) {
+                messageDetails.msgStatus = "UNREAD";
+              } else if (userid != messageDetails.userId &&
+                  (messageDetails.readBy != null &&
+                      messageDetails.readBy!.contains('[[ALL]]'))) {
+                messageDetails.msgStatus = "READ";
+              } else if (userid == messageDetails.userId &&
+                  (messageDetails.readBy != null &&
+                      messageDetails.readBy!.contains('[[ALL]]'))) {
+                messageDetails.msgStatus = "READ";
+              } else {
+                messageDetails.msgStatus = "UNREAD";
+              }
               if (f.msgBinaryType != '' && f.msgBinary != null) {
                 messageDetails.filePath = await createFile(
                     f.msgBinaryType ?? '',
@@ -913,11 +989,10 @@ class SocketClientHelper extends ChangeNotifier {
                     f.roomId ?? '');
               }
               await dbHelper.saveMsgDetailTable(messageDetails);
-              if (ctx.mounted) {
-                ctx
-                    .read<ChatHistory>()
-                    .addChatHistory(messageDetail: messageDetails);
-              }
+              if (!ctx.mounted) return;
+              ctx
+                  .read<ChatHistory>()
+                  .addChatHistory(messageDetail: messageDetails);
             }
           }
         } else {

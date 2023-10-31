@@ -62,7 +62,7 @@ class _ReplyMessageWidgetState extends State<ReplyMessageWidget> {
     if (replyMessageDetails.filePath == '') {
       return Expanded(
         child: Text(
-          '${widget.messageDetails.msgBody}',
+          widget.messageDetails.msgBody!,
           style: MyTheme.bodyText1,
           overflow: TextOverflow.ellipsis,
         ),

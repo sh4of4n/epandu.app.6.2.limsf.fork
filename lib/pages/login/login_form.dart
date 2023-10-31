@@ -17,6 +17,7 @@ import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../chat/chatnotification_count.dart';
 import '../chat/socketclient_helper.dart';
 
 class LoginForm extends StatefulWidget {
@@ -377,7 +378,11 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
             await localStorage
                 .saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
             if (!context.mounted) return;
-            await context.read<SocketClientHelper>().loginUserRoom();
+            {
+              Provider.of<ChatNotificationCount>(context, listen: false)
+                  .clearNotificationBadge();
+              context.read<SocketClientHelper>().loginUserRoom();
+            }
             if (!context.mounted) return;
             context.router.replace(const Home());
           } else {
@@ -397,7 +402,11 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
         } else {
           await localStorage.saveMerchantDbCode(result.data[0].merchantNo);
           if (!context.mounted) return;
-          await context.read<SocketClientHelper>().loginUserRoom();
+          {
+            Provider.of<ChatNotificationCount>(context, listen: false)
+                .clearNotificationBadge();
+            context.read<SocketClientHelper>().loginUserRoom();
+          }
           if (!context.mounted) return;
           context.router.replace(const Home());
         }

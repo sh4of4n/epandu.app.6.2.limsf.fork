@@ -17,12 +17,10 @@ import '../../common_library/services/repository/auth_repository.dart';
 import '../../common_library/utils/local_storage.dart';
 import '../../services/database/database_helper.dart';
 import '../../services/repository/chatroom_repository.dart';
-import 'chat_home.dart';
 import 'chatnotification_count.dart';
-import 'create_group.dart';
 import 'date_formater.dart';
-import 'invite_friend.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
+import '../../router.gr.dart';
 
 @RoutePage(name: 'RoomList')
 class RoomList extends StatefulWidget {
@@ -129,12 +127,17 @@ class _RoomListState extends State<RoomList> {
             padding: const EdgeInsets.all(0),
             onSelected: (value) {
               if (value == "Chat With Friend") {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const InviteFriend(
-                      roomId: '',
-                    ),
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => const inf.InviteFriend(
+                //       roomId: '',
+                //     ),
+                //   ),
+                // );
+                context.router.push(
+                  InviteFriend(
+                    roomId: '',
                   ),
                 );
               } else if (value == "Delete Message") {
@@ -145,12 +148,17 @@ class _RoomListState extends State<RoomList> {
                 //   ),
                 // );
               } else {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CreateGroup(
-                      roomId: '',
-                    ),
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => const cgp.CreateGroup(
+                //       roomId: '',
+                //     ),
+                //   ),
+                // );
+                context.router.push(
+                  CreateGroup(
+                    roomId: '',
                   ),
                 );
               }
@@ -201,6 +209,17 @@ class _RoomListState extends State<RoomList> {
               hintText: "Search Room",
               hintStyle: TextStyle(color: Colors.white)),
         ),
+        // actions: <Widget>[
+        //   if (editingController.text != '')
+        //     IconButton(
+        //       icon: Icon(Icons.cancel),
+        //       onPressed: () {
+        //         setState(() {
+        //           editingController.clear();
+        //         });
+        //       },
+        //     ),
+        // ]
       );
     } else {
       return AppBar(
@@ -219,7 +238,7 @@ class _RoomListState extends State<RoomList> {
           },
         ),
         title: Text(roomTitle),
-        backgroundColor: Colors.blueAccent,
+        // backgroundColor: Colors.blueAccent,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.delete),
@@ -378,36 +397,6 @@ class _RoomListState extends State<RoomList> {
   }
 
   Widget _populateListView(String id) {
-    // return FutureBuilder<List<RoomHistoryModel>>(
-    //   future: Provider.of<RoomHistory>(context, listen: false).getRoomHistory(),
-    //   builder: (context, snapshot) {
-    //     // Items are not available and you need to handle this situation, simple solution is to show a progress indicator
-    //     if (!snapshot.hasData) {
-    //       return Center(child: CircularProgressIndicator());
-    //     }
-    //     return ListView.builder(
-    //       itemCount: snapshot.data!.length,
-    //       itemBuilder: (context, int index) {
-    //         rooms = snapshot.data!;
-    //         RoomHistoryModel room = this.rooms[index];
-    //         List<ChatNotification> chatNotificationCount = context
-    //             .watch<ChatNotificationCount>()
-    //             .getChatNotificationCountList;
-    //         if (editingController.text.isEmpty) {
-    //           return getCard(room, chatNotificationCount, index);
-    //         } else if (room.room_name
-    //                 ?.toLowerCase()
-    //                 .contains(editingController.text) ==
-    //             true) {
-    //           return getCard(room, chatNotificationCount, index);
-    //         } else {
-    //           return Container();
-    //         }
-    //       },
-    //     );
-    //   },
-    // );
-
     Provider.of<RoomHistory>(context, listen: false).getRoomHistory();
     return Consumer<RoomHistory>(builder: (ctx, roomLIst, child) {
       // print('print count:1 - ${roomLIst.getRoomList.length}');
@@ -437,30 +426,144 @@ class _RoomListState extends State<RoomList> {
     });
   }
 
+  // Widget getCard(
+  //     RoomHistoryModel room,
+  //     List<ChatNotification> chatNotificationCount,
+  //     int index,
+  //     Color? itemColor) {
+  //   String splitRoomName = '';
+  //   if (room.roomDesc!.toUpperCase() == 'GROUP CHAT') {
+  //     splitRoomName = room.roomName!;
+  //   } else {
+  //     splitRoomName = room.roomName!;
+  //   }
+  //   int badgeCount = 0;
+  //   int chatCountIndex = chatNotificationCount
+  //       .indexWhere((element) => element.roomId == room.roomId);
+  //   if (chatCountIndex != -1) {
+  //     ChatNotification chatNotification = chatNotificationCount[chatCountIndex];
+  //     badgeCount = chatNotification.notificationBadge!;
+  //   }
+  //   return Card(
+  //     color: itemColor,
+  //     child: ListTile(
+  //       onLongPress: () {
+  //         setState(() {
+  //           _selectedIndex = index;
+  //           _isSelected = true;
+  //           _selectedRoomId = room.roomId!;
+  //           _selectedRoomName = room.roomName!;
+  //         });
+  //       },
+  //       tileColor: _selectedIndex == index ? Colors.blueAccent : null,
+  //       leading: Container(
+  //         width: 40,
+  //         height: 40,
+  //         decoration: BoxDecoration(
+  //           shape: BoxShape.circle,
+  //           border: Border.all(
+  //             color: Colors.white,
+  //             width: 3,
+  //           ),
+  //           boxShadow: [
+  //             BoxShadow(
+  //                 color: Colors.grey.withOpacity(.3),
+  //                 offset: const Offset(0, 2),
+  //                 blurRadius: 5)
+  //           ],
+  //         ),
+  //         child: FullScreenWidget(
+  //           child: Center(
+  //             child: ClipRRect(
+  //               borderRadius: BorderRadius.circular(8.0),
+  //               child: room.picturePath != null && room.picturePath != ''
+  //                   ? Image.network(room.picturePath!
+  //                       .replaceAll(removeBracket, '')
+  //                       .split('\r\n')[0])
+  //                   : const Icon(Icons.account_circle),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //       trailing: badgeCount > 0
+  //           ? badges.Badge(
+  //               showBadge: badgeCount > 0 ? true : false,
+  //               badgeStyle: const badges.BadgeStyle(
+  //                   badgeColor: Colors.green,
+  //                   shape: badges.BadgeShape.circle,
+  //                   padding: EdgeInsets.all(8)),
+  //               badgeContent: Text(
+  //                 badgeCount.toString(),
+  //                 style: const TextStyle(
+  //                     color: Colors.white,
+  //                     fontSize: 15,
+  //                     fontWeight: FontWeight.bold),
+  //               ))
+  //           : null,
+  //       title: Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //         children: [
+  //           Expanded(
+  //             child: Text(splitRoomName.trim(),
+  //                 maxLines: 1,
+  //                 softWrap: false,
+  //                 overflow: TextOverflow.ellipsis,
+  //                 style: const TextStyle(fontWeight: FontWeight.bold)),
+  //           ),
+  //           if (room.sendDateTime != null && room.sendDateTime != '')
+  //             Text(DateFormatter().getDateTimeRepresentation(
+  //                 DateTime.parse(room.sendDateTime!))),
+  //         ],
+  //       ),
+  //       subtitle: showLatestMessage(room),
+  //       onTap: () async {
+  //         String members = '';
+  //         if (room.roomId != null) {
+  //           List<RoomMembers> roomMembers =
+  //               await dbHelper.getRoomMembersList(room.roomId!);
+  //           for (var roomMembers in roomMembers) {
+  //             if (roomMembers.userId != id) {
+  //               members += "${roomMembers.nickName!.toUpperCase()},";
+  //             }
+  //           }
+  //           if (members != '') {
+  //             members = members.substring(0, members.length - 1);
+  //           }
+  //         } else {
+  //           members = '';
+  //         }
+  //         if (!context.mounted) return;
+  //         context.router.push(
+  //           ChatRoom(
+  //             roomId: room.roomId ?? '',
+  //             picturePath: room.picturePath ?? '',
+  //             roomName: splitRoomName,
+  //             roomDesc: room.roomDesc ?? '',
+  //           ),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
   Widget getCard(
-      RoomHistoryModel room,
-      List<ChatNotification> chatNotificationCount,
-      int index,
-      Color? itemColor) {
+    RoomHistoryModel room,
+    List<ChatNotification> chatNotificationCount,
+    int index,
+    Color? itemColor,
+  ) {
     String splitRoomName = '';
-    if (room.roomDesc!.toUpperCase() == 'GROUP CHAT') {
-      splitRoomName = room.roomName!;
+    if (room.roomDesc != null && room.roomDesc!.toUpperCase() == 'GROUP CHAT') {
+      splitRoomName = room.roomName ?? '';
     } else {
-      // if (room.room_name!.contains(','))
-      //   splitRoomName = roomTitle.toUpperCase() !=
-      //           room.room_name!.split(',')[0].toUpperCase()
-      //       ? room.room_name!.split(',')[0]
-      //       : room.room_name!.split(',')[1];
-      // else
-      splitRoomName = room.roomName != null ? room.roomName! : '';
+      splitRoomName = room.roomName ?? '';
     }
-    //splitRoomName = room.room_name!;
+
     int badgeCount = 0;
     int chatCountIndex = chatNotificationCount
         .indexWhere((element) => element.roomId == room.roomId);
     if (chatCountIndex != -1) {
       ChatNotification chatNotification = chatNotificationCount[chatCountIndex];
-      badgeCount = chatNotification.notificationBadge!;
+      badgeCount = chatNotification.notificationBadge ?? 0;
     }
 
     return Card(
@@ -470,8 +573,8 @@ class _RoomListState extends State<RoomList> {
           setState(() {
             _selectedIndex = index;
             _isSelected = true;
-            _selectedRoomId = room.roomId!;
-            _selectedRoomName = room.roomName!;
+            _selectedRoomId = room.roomId ?? '';
+            _selectedRoomName = room.roomName ?? '';
           });
         },
         tileColor: _selectedIndex == index ? Colors.blueAccent : null,
@@ -486,9 +589,10 @@ class _RoomListState extends State<RoomList> {
             ),
             boxShadow: [
               BoxShadow(
-                  color: Colors.grey.withOpacity(.3),
-                  offset: const Offset(0, 2),
-                  blurRadius: 5)
+                color: Colors.grey.withOpacity(.3),
+                offset: const Offset(0, 2),
+                blurRadius: 5,
+              ),
             ],
           ),
           child: FullScreenWidget(
@@ -506,58 +610,63 @@ class _RoomListState extends State<RoomList> {
         ),
         trailing: badgeCount > 0
             ? badges.Badge(
-                //shape: BadgeShape.circle,
-                //padding: EdgeInsets.all(8),
                 showBadge: badgeCount > 0 ? true : false,
-                //badgeColor: Colors.green,
                 badgeStyle: const badges.BadgeStyle(
-                    badgeColor: Colors.green,
-                    shape: badges.BadgeShape.circle,
-                    padding: EdgeInsets.all(8)),
+                  badgeColor: Colors.green,
+                  shape: badges.BadgeShape.circle,
+                  padding: EdgeInsets.all(8),
+                ),
                 badgeContent: Text(
                   badgeCount.toString(),
                   style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
-                ))
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )
             : null,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: Text(splitRoomName.trim(),
-                  maxLines: 1,
-                  softWrap: false,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              child: Text(
+                splitRoomName.trim(),
+                maxLines: 1,
+                softWrap: false,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
             if (room.sendDateTime != null && room.sendDateTime != '')
               Text(DateFormatter().getDateTimeRepresentation(
-                  DateTime.parse(room.sendDateTime!))),
+                DateTime.parse(room.sendDateTime!),
+              )),
           ],
         ),
         subtitle: showLatestMessage(room),
         onTap: () async {
           String members = '';
-          List<RoomMembers> roomMembers =
-              await dbHelper.getRoomMembersList(room.roomId!);
-          for (var roomMembers in roomMembers) {
-            if (roomMembers.userId != id) {
-              members += "${roomMembers.nickName!.toUpperCase()},";
+          if (room.roomId != null) {
+            List<RoomMembers> roomMembers =
+                await dbHelper.getRoomMembersList(room.roomId!);
+            for (var roomMember in roomMembers) {
+              if (roomMember.userId != id) {
+                members += "${roomMember.nickName?.toUpperCase() ?? ''},";
+              }
+            }
+            if (members.isNotEmpty) {
+              members = members.substring(0, members.length - 1);
             }
           }
-          if (members != '') members = members.substring(0, members.length - 1);
+
           if (!context.mounted) return;
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChatHome2(
-                roomId: room.roomId ?? '',
-                picturePath: room.picturePath ?? '',
-                roomName: splitRoomName,
-                roomDesc: room.roomDesc ?? '',
-              ),
+          context.router.push(
+            ChatRoom(
+              roomId: room.roomId ?? '',
+              picturePath: room.picturePath ?? '',
+              roomName: splitRoomName,
+              roomDesc: room.roomDesc ?? '',
             ),
           );
         },
@@ -566,25 +675,23 @@ class _RoomListState extends State<RoomList> {
   }
 
   Widget showLatestMessage(RoomHistoryModel room) {
-    if (room.messageId != null &&
-        room.messageId! > 0 &&
-        (room.filePath == '' || room.filePath == null)) {
-      return Text(
-        '${room.nickName!} : ${room.msgBody!.trim().replaceAll('\n', ' ')}',
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
-        softWrap: false,
-      );
-    } else if (room.messageId != null &&
-        room.messageId! > 0 &&
-        (room.msgBinaryType != '' || room.msgBinaryType != null)) {
-      return Text(
-        '${room.nickName!} : ${room.filePath!.split('/').last}',
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
-        softWrap: false,
-      );
+    if (room.messageId != null && room.messageId! > 0) {
+      if (room.filePath == null || room.filePath == '') {
+        return Text(
+          '${room.nickName ?? ""} : ${room.msgBody?.trim().replaceAll('\n', ' ') ?? ""}',
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+          softWrap: false,
+        );
+      } else if (room.msgBinaryType != null || room.msgBinaryType != '') {
+        return Text(
+          '${room.nickName ?? ""} : ${room.filePath?.split('/').last ?? ""}',
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+          softWrap: false,
+        );
+      }
     }
-    return Text(room.roomDesc!);
+    return Text(room.roomDesc ?? "");
   }
 }

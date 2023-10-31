@@ -1,11 +1,13 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart';
 import 'package:flutter_sound/public/util/flutter_sound_helper.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 import '../../common_library/services/model/replymessage_model.dart';
 import '../../common_library/utils/capitalize_firstletter.dart';
-import 'chat_home.dart';
+import 'chat_room.dart';
 import 'chat_theme.dart';
 import 'date_formater.dart';
 import 'reply_message_widget.dart';
@@ -379,6 +381,11 @@ class _AudioCardState extends State<AudioCard> {
         Icons.done,
         size: 20,
       );
+    } else if (status == "UNREAD") {
+      return const Icon(
+        Icons.done,
+        size: 20,
+      );
     } else {
       return const Icon(
         Icons.done_all,
@@ -408,8 +415,11 @@ class _AudioCardState extends State<AudioCard> {
   }
 
   void play(FlutterSoundPlayer? player) async {
+    File file = File(widget.filePath);
+    Uint8List uint8list = await file.readAsBytes();
     await player!.startPlayer(
-        fromURI: widget.filePath,
+        // fromURI: widget.filePath,
+        fromDataBuffer: uint8list,
         whenFinished: () {
           setState(() {
             isPlaying = false;
@@ -428,8 +438,8 @@ class _AudioCardState extends State<AudioCard> {
     }
     setState(() {
       pos = d;
-      print('pos_ {$pos}');
-      print('duration {$duration}');
+      // print('pos_ {$pos}');
+      // print('duration {$duration}');
     });
   }
 

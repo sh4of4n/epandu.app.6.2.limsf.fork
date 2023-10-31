@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
+import 'package:auto_route/auto_route.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:epandu/pages/chat/rooms_provider.dart';
 import 'package:epandu/pages/chat/socketclient_helper.dart';
@@ -50,20 +51,21 @@ import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'confirm_audio.dart';
-import 'create_group.dart';
 import 'file_card.dart';
 import 'image_card.dart';
 import 'message_card.dart';
 import 'reply_message_widget.dart';
 import 'room_members.dart';
 import 'video_card.dart';
+import '../../router.gr.dart';
 
 const theSource = AudioSource.microphone;
 typedef MyCallback = void Function(int messageId);
 typedef ResendCallback = void Function(int messageId);
 
-class ChatHome2 extends StatefulWidget {
-  const ChatHome2({
+@RoutePage(name: 'chatRoom')
+class ChatRoom extends StatefulWidget {
+  const ChatRoom({
     Key? key,
     required this.roomId,
     required this.picturePath,
@@ -77,10 +79,12 @@ class ChatHome2 extends StatefulWidget {
   final String roomDesc;
   // final String roomMembers;
   @override
-  State<ChatHome2> createState() => _ChatHome2State();
+  State<ChatRoom> createState() => _ChatRoomState();
 }
 
-class _ChatHome2State extends State<ChatHome2> {
+class _ChatRoomState extends State<ChatRoom> {
+  String originalValue = '';
+  bool _isSendingMessage = false;
   final int batchSize = 10;
   int offset = 0;
   bool isDataLoading = false;
@@ -156,6 +160,7 @@ class _ChatHome2State extends State<ChatHome2> {
   final ItemScrollController itemScrollController = ItemScrollController();
   final ItemPositionsListener itemPositionsListener =
       ItemPositionsListener.create();
+  final ScrollController scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
@@ -242,7 +247,6 @@ class _ChatHome2State extends State<ChatHome2> {
 
   Future<List<int>> searchMessages(String keyword) async {
     filteredMessages = [];
-
     while (true) {
       //await EasyLoading.show();
       if (!context.mounted) return filteredMessages;
@@ -300,6 +304,7 @@ class _ChatHome2State extends State<ChatHome2> {
             .where((element) =>
                 element.roomId == widget.roomId &&
                 element.msgStatus == "UNREAD" &&
+                element.userId != localUserid &&
                 element.messageId != 0)
             .toList();
 
@@ -335,14 +340,16 @@ class _ChatHome2State extends State<ChatHome2> {
 
   @override
   void dispose() {
-    editingController.dispose();
-    // _scrollController.dispose();
-    searcheditingController.dispose();
-    _mRecorder!.closeRecorder();
-    cancelRecorderSubscriptions();
-    _mRecorder = null;
-    Hive.box('ws_url').put('isInChatRoom', null);
-    getMessageDetailsList = [];
+    if (!_isSendingMessage) {
+      editingController.dispose();
+      // _scrollController.dispose();
+      searcheditingController.dispose();
+      _mRecorder!.closeRecorder();
+      cancelRecorderSubscriptions();
+      _mRecorder = null;
+      Hive.box('ws_url').put('isInChatRoom', null);
+      getMessageDetailsList = [];
+    }
     super.dispose();
   }
 
@@ -402,110 +409,104 @@ class _ChatHome2State extends State<ChatHome2> {
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(25),
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          20, 0, 0, 0),
-                                      child: TextFormField(
-                                        controller: editingController,
-                                        focusNode: focusNode,
-                                        style:
-                                            TextStyle(fontSize: custFontSize),
-                                        textAlignVertical:
-                                            TextAlignVertical.center,
-                                        keyboardType: TextInputType.multiline,
-                                        textCapitalization:
-                                            TextCapitalization.sentences,
-                                        autocorrect: true,
-                                        maxLines: 5,
-                                        minLines: 1,
-                                        onChanged: (value) {
-                                          if (value.isNotEmpty) {
-                                            if (!_isWriting) {
-                                              _isWriting = true;
-                                              sendTyping(value);
-                                              Future.delayed(const Duration(
-                                                      seconds: 2))
-                                                  .whenComplete(() {
-                                                _isWriting = false;
-                                                sendNotTyping();
-                                              });
-                                            }
-                                            if (mounted) {
-                                              setState(() {
-                                                sendButton = true;
-                                              });
-                                            }
-                                          } else {
-                                            if (mounted) {
-                                              setState(() {
-                                                sendButton = false;
-                                              });
-                                            }
+                                    child: TextFormField(
+                                      controller: editingController,
+                                      focusNode: focusNode,
+                                      style: TextStyle(fontSize: custFontSize),
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      keyboardType: TextInputType.multiline,
+                                      textCapitalization:
+                                          TextCapitalization.sentences,
+                                      autocorrect: true,
+                                      maxLines: 5,
+                                      minLines: 1,
+                                      onChanged: (value) {
+                                        if (value.isNotEmpty) {
+                                          if (!_isWriting) {
+                                            _isWriting = true;
+                                            sendTyping(value);
+                                            Future.delayed(
+                                                    const Duration(seconds: 2))
+                                                .whenComplete(() {
+                                              _isWriting = false;
+                                              sendNotTyping();
+                                            });
                                           }
-                                        },
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderSide: BorderSide.none,
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: isReplying
-                                                  ? Radius.zero
-                                                  : const Radius.circular(24),
-                                              topRight: isReplying
-                                                  ? Radius.zero
-                                                  : const Radius.circular(24),
-                                              bottomLeft:
-                                                  const Radius.circular(24),
-                                              bottomRight:
-                                                  const Radius.circular(24),
-                                            ),
+                                          if (mounted) {
+                                            setState(() {
+                                              sendButton = true;
+                                            });
+                                          }
+                                        } else {
+                                          if (mounted) {
+                                            setState(() {
+                                              sendButton = false;
+                                            });
+                                          }
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: isReplying
+                                                ? Radius.zero
+                                                : const Radius.circular(24),
+                                            topRight: isReplying
+                                                ? Radius.zero
+                                                : const Radius.circular(24),
+                                            bottomLeft:
+                                                const Radius.circular(24),
+                                            bottomRight:
+                                                const Radius.circular(24),
                                           ),
-                                          hintText: "Type a message",
-                                          hintStyle: const TextStyle(
-                                              color: Colors.grey),
-                                          prefixIcon: getEmojiIcon(),
-                                          suffixIcon: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              IconButton(
-                                                icon: const Icon(
-                                                  Icons.attach_file,
-                                                  color: Colors.blue,
-                                                ),
-                                                onPressed: () {
-                                                  showModalBottomSheet(
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      context: context,
-                                                      builder: (builder) =>
-                                                          bottomSheet());
-                                                },
-                                              ),
-                                              IconButton(
-                                                icon: const Icon(
-                                                  Icons.camera_alt,
-                                                  color: Colors.blue,
-                                                ),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    popTime = 2;
-                                                  });
-
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (builder) =>
-                                                              CameraScreen(
-                                                                  cameras:
-                                                                      cameras,
-                                                                  onImageSend:
-                                                                      onImageSend)));
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                          contentPadding:
-                                              const EdgeInsets.all(5),
                                         ),
+                                        hintText: "Type a message",
+                                        hintStyle:
+                                            const TextStyle(color: Colors.grey),
+                                        prefixIcon: getEmojiIcon(),
+                                        suffixIcon: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            IconButton(
+                                              icon: const Icon(
+                                                Icons.attach_file,
+                                                color: Colors.blue,
+                                              ),
+                                              onPressed: () {
+                                                showModalBottomSheet(
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    context: context,
+                                                    builder: (builder) =>
+                                                        bottomSheet());
+                                              },
+                                            ),
+                                            IconButton(
+                                              icon: const Icon(
+                                                Icons.camera_alt,
+                                                color: Colors.blue,
+                                              ),
+                                              onPressed: () {
+                                                setState(() {
+                                                  popTime = 2;
+                                                });
+
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (builder) =>
+                                                            CameraScreen(
+                                                                cameras:
+                                                                    cameras,
+                                                                onImageSend:
+                                                                    onImageSend)));
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                        //contentPadding: EdgeInsets.all(5),
                                       ),
                                     ),
                                   ),
@@ -591,21 +592,26 @@ class _ChatHome2State extends State<ChatHome2> {
                       show = false;
                     });
                   }
+                  return Future.value(false);
                 } else {
-                  Provider.of<ChatNotificationCount>(context, listen: false)
-                      .updateNotificationBadge(
-                          roomId: widget.roomId, type: "DELETE");
-                  Provider.of<ChatNotificationCount>(context, listen: false)
-                      .updateUnreadMessageId(roomId: widget.roomId);
+                  if (_isSendingMessage) {
+                    return Future.value(false);
+                  } else {
+                    Provider.of<ChatNotificationCount>(context, listen: false)
+                        .updateNotificationBadge(
+                            roomId: widget.roomId, type: "DELETE");
+                    Provider.of<ChatNotificationCount>(context, listen: false)
+                        .updateUnreadMessageId(roomId: widget.roomId);
 
-                  // context.read<SocketClientHelper>().setRoomDetails('', '', '');
-                  context.read<SocketClientHelper>().setIsEnterRoom(false);
-                  context.read<RoomHistory>().getRoomHistory();
-                  context.read<ChatHistory>().deleteChats(widget.roomId);
-                  context.read<ChatHistory>().updateIsDataExist();
-                  Navigator.pop(context);
+                    // context.read<SocketClientHelper>().setRoomDetails('', '', '');
+                    context.read<SocketClientHelper>().setIsEnterRoom(false);
+                    context.read<RoomHistory>().getRoomHistory();
+                    context.read<ChatHistory>().deleteChats(widget.roomId);
+                    context.read<ChatHistory>().updateIsDataExist();
+                    Navigator.pop(context);
+                    return Future.value(true);
+                  }
                 }
-                return Future.value(false);
               },
             ),
           ),
@@ -642,6 +648,7 @@ class _ChatHome2State extends State<ChatHome2> {
   Widget getListview() {
     return Expanded(
         child: Scrollbar(
+      controller: scrollController,
       child: Consumer<ChatHistory>(
         builder: (ctx, msgList, child) => ScrollablePositionedList.builder(
           itemCount: msgList.getMessageDetailsList
@@ -925,7 +932,9 @@ class _ChatHome2State extends State<ChatHome2> {
                                         .msgBinaryType ==
                                     "userLeft" ||
                                 getMessageDetailsList[index].msgBinaryType ==
-                                    "userJoined") ...[
+                                    "userJoined" ||
+                                getMessageDetailsList[index].msgBinaryType ==
+                                    "changed") ...[
                               UserLeftJoinedCard(
                                 messageDetails: getMessageDetailsList[index],
                               )
@@ -1298,20 +1307,22 @@ class _ChatHome2State extends State<ChatHome2> {
 
   _getAppBarMembers() async {
     roomMembers = await dbHelper.getRoomMembersList(widget.roomId);
-    for (var roomMembers in roomMembers) {
-      if (roomMembers.userId != localUserid) {
-        members +=
-            "${CapitalizeFirstLetter().capitalizeFirstLetter(roomMembers.nickName!)},";
+    if (roomMembers != null && roomMembers.isNotEmpty) {
+      for (var roomMember in roomMembers) {
+        if (roomMember.userId != localUserid) {
+          members +=
+              "${CapitalizeFirstLetter().capitalizeFirstLetter(roomMember.nickName ?? "")},";
+        }
       }
+      setState(() {
+        if (members.isNotEmpty) {
+          members = members.substring(0, members.length - 1);
+        }
+        originalValue = members;
+        membersCount = roomMembers.length;
+        if (membersCount > 0) roomName = roomMembers[0].roomName!;
+      });
     }
-    setState(() {
-      if (members.isNotEmpty) {
-        members = members.substring(0, members.length - 1);
-      }
-
-      membersCount = roomMembers.length;
-      if (membersCount > 0) roomName = roomMembers[0].roomName!;
-    });
   }
 
   void navigateSearchResults(int direction) {
@@ -1547,16 +1558,23 @@ class _ChatHome2State extends State<ChatHome2> {
                   size: 24,
                 ),
                 onPressed: () {
-                  Provider.of<ChatNotificationCount>(context, listen: false)
-                      .updateNotificationBadge(
-                          roomId: widget.roomId, type: "DELETE");
-                  Provider.of<ChatNotificationCount>(context, listen: false)
-                      .updateUnreadMessageId(roomId: widget.roomId);
-                  Navigator.pop(context);
-                  context.read<SocketClientHelper>().setIsEnterRoom(false);
-                  context.read<RoomHistory>().getRoomHistory();
-                  context.read<ChatHistory>().deleteChats(widget.roomId);
-                  context.read<ChatHistory>().updateIsDataExist();
+                  if (_isSendingMessage) {
+                    return;
+                  } else {
+                    Provider.of<ChatNotificationCount>(context, listen: false)
+                        .updateNotificationBadge(
+                            roomId: widget.roomId, type: "DELETE");
+                    Provider.of<ChatNotificationCount>(context, listen: false)
+                        .updateUnreadMessageId(roomId: widget.roomId);
+
+                    Navigator.pop(context);
+                    //context.router.pop();
+                    //context.router.navigate(const RoomList());
+                    context.read<SocketClientHelper>().setIsEnterRoom(false);
+                    context.read<RoomHistory>().getRoomHistory();
+                    context.read<ChatHistory>().deleteChats(widget.roomId);
+                    context.read<ChatHistory>().updateIsDataExist();
+                  }
                 },
               ),
             ],
@@ -1672,12 +1690,17 @@ class _ChatHome2State extends State<ChatHome2> {
                     ),
                   );
                 } else if (value == "Add New Member") {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CreateGroup(
-                        roomId: widget.roomId,
-                      ),
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => CreateGroup(
+                  //       roomId: widget.roomId,
+                  //     ),
+                  //   ),
+                  // );
+                  context.router.replace(
+                    CreateGroup(
+                      roomId: widget.roomId,
                     ),
                   );
                 } else if (value == "Change Group Name") {
@@ -1799,21 +1822,71 @@ class _ChatHome2State extends State<ChatHome2> {
                     backgroundColor: Colors.green),
                 child: const Text('OK'),
                 onPressed: () async {
-                  await EasyLoading.show();
+                  await EasyLoading.show(
+                    maskType: EasyLoadingMaskType.black,
+                  );
                   var inviteResult = await chatRoomRepo.changeGroupName(
                       widget.roomId, valueText);
 
                   if (inviteResult.data != null &&
                       inviteResult.data.length > 0) {
-                    if (!context.mounted) return;
                     InviteRoomResponse inviteRoomResponse =
                         inviteResult.data[0];
+                    if (!context.mounted) return;
                     context.read<RoomHistory>().updateRoom(
                         roomId: inviteRoomResponse.roomId!,
                         roomName: inviteRoomResponse.roomName!);
                     await dbHelper.updateRoomName(inviteRoomResponse.roomName!,
                         inviteRoomResponse.roomId!);
-                    // this.widget.roomName = inviteRoomResponse.roomName!;
+
+                    List<RoomMembers> roomMembers = await dbHelper
+                        .getRoomMembersList(inviteRoomResponse.roomId!);
+
+                    for (var roomMember in roomMembers) {
+                      if (localUserid != roomMember.userId) {
+                        var groupJson = {
+                          "notifiedRoomId": inviteRoomResponse.roomId!,
+                          "notifiedUserId": roomMember.userId,
+                          "title":
+                              '$localUserid|${inviteRoomResponse.roomId!} just changed the group name',
+                          "description":
+                              '${valueText}_just changed the group name'
+                        };
+                        socket.emitWithAck('sendNotification', groupJson,
+                            ack: (data) async {
+                          print(data);
+                        });
+                      }
+                    }
+                    String clientMessageId = generateRandomString(15);
+
+                    var messageJson = {
+                      "roomId": inviteRoomResponse.roomId!,
+                      "msgBody":
+                          '$localUserName changed group name to $valueText',
+                      "msgBinaryType": 'changed',
+                      "replyToId": -1,
+                      "clientMessageId": clientMessageId,
+                      "misc":
+                          "[FCM_Notification=title: $roomName - $localUserName]"
+                    };
+                    storeMyMessage('You changed group name to $valueText',
+                        'changed', '', 0, clientMessageId);
+                    socket.emitWithAck('sendMessage', messageJson,
+                        ack: (data) async {
+                      if (data != null) {
+                        SendAcknowledge sendAcknowledge =
+                            SendAcknowledge.fromJson(data);
+                        // if (sendAcknowledge.clientMessageId == clientMessageId) {
+                        context.read<ChatHistory>().updateChatItemStatus(
+                            clientMessageId,
+                            "SENT",
+                            sendAcknowledge.messageId,
+                            widget.roomId);
+                        await dbHelper.updateMsgDetailTable(
+                            clientMessageId, "SENT", sendAcknowledge.messageId);
+                      } else {}
+                    });
                     await EasyLoading.dismiss();
                     setState(() {
                       Navigator.of(context).pop();
@@ -1823,7 +1896,7 @@ class _ChatHome2State extends State<ChatHome2> {
                     await EasyLoading.dismiss();
                     final customDialog = CustomDialog();
                     if (!context.mounted) return;
-                    return customDialog.show(
+                    customDialog.show(
                       context: context,
                       type: DialogType.error,
                       content: inviteResult.message!,
@@ -1912,14 +1985,14 @@ class _ChatHome2State extends State<ChatHome2> {
                         socket.emitWithAck('logout', logOutJson, ack: (data) {
                           //print('ack $data');
                           if (data != null) {
-                            print('logout user from server $data');
+                            //print('logout user from server $data');
                           } else {
-                            print("Null from logout user");
+                            //print("Null from logout user");
                           }
                         });
-                        print('sendMessage from server $data');
+                        //print('sendMessage from server $data');
                       } else {
-                        print("Null from sendMessage");
+                        //print("Null from sendMessage");
                       }
                     });
 
@@ -1976,13 +2049,13 @@ class _ChatHome2State extends State<ChatHome2> {
       }
       if (!context.mounted) return;
       context.read<ChatHistory>().deleteChatItem(messageId, roomId);
-      // await dbHelper.deleteMsgDetailTable(messageId);
+      //await dbHelper.deleteMsgDetailTable(messageId);
       await dbHelper.updateMessageStatus(messageId);
     } else {
       var deleteMessageJson = {
         "messageId": messageId,
       };
-      print('socket connection:${socket.connected}');
+      //print('socket connection:' + socket.connected.toString());
       socket.emitWithAck('deleteMessage', deleteMessageJson, ack: (data) async {
         // print('deleteMessage from server $data');
         // print('deletemessage_' + socket.id!);
@@ -2003,7 +2076,7 @@ class _ChatHome2State extends State<ChatHome2> {
             await dbHelper.updateMessageStatus(messageId);
           }
         } else {
-          print("Null from deleteMessage");
+          //print("Null from deleteMessage");
         }
       });
     }
@@ -2015,7 +2088,7 @@ class _ChatHome2State extends State<ChatHome2> {
         await file.delete();
       }
     } catch (e) {
-      print(e.toString());
+      //print(e.toString());
       // Error in getting access to the file.
     }
   }
@@ -2033,9 +2106,9 @@ class _ChatHome2State extends State<ChatHome2> {
           await dbHelper.updateMsgDetailTableText(
               text, messageId, result['editDateTime']);
         }
-        print('updateMessage from server $data');
+        //print('updateMessage from server $data');
       } else {
-        print("Null from updateMessage");
+        //print("Null from updateMessage");
       }
     });
   }
@@ -2074,7 +2147,7 @@ class _ChatHome2State extends State<ChatHome2> {
             // }
             //print('sendMessage from server $data');
           } else {
-            print("Null from sendMessage");
+            //print("Null from sendMessage");
           }
         });
       }
@@ -2102,8 +2175,8 @@ class _ChatHome2State extends State<ChatHome2> {
     //print(messageJson);
     socket.emitWithAck('updateMessageReadBy', messageJson, ack: (data) async {
       //print('updateMessageReadBy ack $data');
-      if (data != null) {
-        print('updateMessageReadBy from server $data');
+      if (data != null && !data.containsKey("error")) {
+        //print('updateMessageReadBy from server $data');
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result["messageId"] != '') {
           context
@@ -2112,7 +2185,7 @@ class _ChatHome2State extends State<ChatHome2> {
           await dbHelper.updateMsgStatus('READ', int.parse(messageId));
         }
       } else {
-        print("Null from updateMessageReadBy");
+        //print("Null from updateMessageReadBy");
       }
     });
   }
@@ -2147,7 +2220,6 @@ class _ChatHome2State extends State<ChatHome2> {
   String generateRandomString(int length) {
     final random = Random();
     const availableChars = '1234567890';
-    // 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     final randomString = List.generate(length,
             (index) => availableChars[random.nextInt(availableChars.length)])
         .join();
@@ -2162,16 +2234,17 @@ class _ChatHome2State extends State<ChatHome2> {
     final extension = p.extension(path);
     if (extension.toLowerCase() == ".png" ||
         extension.toLowerCase() == ".jpg") {
-      getFileSize(path);
+      await getFileSize(path);
       if (isFileSizeValid) {
         var bytes = await File(path).readAsBytes();
         String base64string = base64.encode(bytes);
-        emitSendMessage(
+        await emitSendMessage(
             '', base64string, 'image', message, "", replyMessageDetails, '');
         //_editImage(f, message);
       } else {
         final customDialog = CustomDialog();
-        return customDialog.show(
+        if (!context.mounted) return;
+        customDialog.show(
           context: context,
           type: DialogType.error,
           content: "Please try sending file size less than 2 MB.",
@@ -2179,15 +2252,16 @@ class _ChatHome2State extends State<ChatHome2> {
         );
       }
     } else {
-      getFileSize(path);
+      await getFileSize(path);
       if (isFileSizeValid) {
         var bytes = await File(path).readAsBytes();
         String base64string = base64.encode(bytes);
-        emitSendMessage(message, base64string, "video", message, "",
+        await emitSendMessage(message, base64string, "video", message, "",
             replyMessageDetails, '');
       } else {
         final customDialog = CustomDialog();
-        return customDialog.show(
+        if (!context.mounted) return;
+        customDialog.show(
           context: context,
           type: DialogType.error,
           content: "Please try sending file size less than 2 MB.",
@@ -2201,14 +2275,14 @@ class _ChatHome2State extends State<ChatHome2> {
     var bytes = await File(path).readAsBytes();
     String base64string = base64.encode(bytes);
 
-    getFileSize(path);
+    await getFileSize(path);
     if (isFileSizeValid) {
-      emitSendMessage(fileName, base64string, "audio", message, "",
+      await emitSendMessage(fileName, base64string, "audio", message, "",
           replyMessageDetails, '');
     } else {
       final customDialog = CustomDialog();
       if (!context.mounted) return;
-      return customDialog.show(
+      customDialog.show(
         context: context,
         type: DialogType.error,
         content: "Please try sending file size less than 2 MB.",
@@ -2227,15 +2301,15 @@ class _ChatHome2State extends State<ChatHome2> {
     if (path.split(".").last.toUpperCase().contains('MP4')) {
       fileType = 'video';
     }
-    getFileSize(path);
+    await getFileSize(path);
     if (isFileSizeValid) {
       //sendFailedMessages('');
-      emitSendMessage(fileName, base64string, fileType, message, "",
+      await emitSendMessage(fileName, base64string, fileType, message, "",
           replyMessageDetails, '');
     } else {
       final customDialog = CustomDialog();
       if (!context.mounted) return;
-      return customDialog.show(
+      customDialog.show(
         context: context,
         type: DialogType.error,
         content: "Please try sending file size less than 2 MB.",
@@ -2289,19 +2363,23 @@ class _ChatHome2State extends State<ChatHome2> {
     cancelReply();
   }
 
-  void emitSendMessage(
+  Future<void> emitSendMessage(
       String fileName,
       String base64string,
       String msgBinaryType,
       String message,
       String type,
       ReplyMessageDetails replyMessageDetails,
-      String clientMessageId) {
+      String clientMessageId) async {
+    setState(() {
+      _isSendingMessage = true;
+    });
     if (message == '') message = fileName;
 
     if (type == '') {
       clientMessageId = generateRandomString(15);
-      storeMyMessage(message, msgBinaryType, base64string, 0, clientMessageId);
+      await storeMyMessage(
+          message, msgBinaryType, base64string, 0, clientMessageId);
     }
     var messageJson = {
       "roomId": widget.roomId,
@@ -2318,20 +2396,27 @@ class _ChatHome2State extends State<ChatHome2> {
         //print('sendMessage ack $data');
         if (data != null) {
           SendAcknowledge sendAcknowledge = SendAcknowledge.fromJson(data);
-          context.read<ChatHistory>().updateChatItemStatus(clientMessageId,
-              "SENT", sendAcknowledge.messageId, widget.roomId);
-          await dbHelper.updateMsgDetailTable(
-              clientMessageId, "SENT", sendAcknowledge.messageId);
-          if (myFailedList.isNotEmpty) {
-            int index = myFailedList.indexWhere(
-                (element) => element.clientMessageId == clientMessageId);
-            if (index > -1) {
-              myFailedList.removeAt(index);
+          if (sendAcknowledge.messageId > 0) {
+            if (mounted && getMessageDetailsList.isNotEmpty) {
+              context.read<ChatHistory>().updateChatItemStatus(clientMessageId,
+                  "SENT", sendAcknowledge.messageId, widget.roomId);
             }
+            await dbHelper.updateMsgDetailTable(
+                clientMessageId, "SENT", sendAcknowledge.messageId);
+            if (myFailedList.isNotEmpty) {
+              int index = myFailedList.indexWhere(
+                  (element) => element.clientMessageId == clientMessageId);
+              if (index > -1) {
+                myFailedList.removeAt(index);
+              }
+            }
+            setState(() {
+              _isSendingMessage = false;
+            });
           }
-          print('sendMessage from server $data');
+          //print('sendMessage from server $data');
         } else {
-          print("Null from sendMessage");
+          //print("Null from sendMessage");
         }
       });
     }
@@ -2392,7 +2477,7 @@ class _ChatHome2State extends State<ChatHome2> {
                 messageDetails.clientMessageId!);
           } else {
             var bytes = await File(messageDetails.filePath!).readAsBytes();
-            emitSendMessage(
+            await emitSendMessage(
                 messageDetails.filePath!.split('/').last,
                 base64.encode(bytes),
                 messageDetails.msgBinaryType!,
@@ -2410,15 +2495,15 @@ class _ChatHome2State extends State<ChatHome2> {
     socket.on('typing', (data) async {
       String? userid = await localStorage.getUserId();
       Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
-      if (userid != result["userId"].toString() &&
+
+      if (result.containsKey("userId") &&
+          userid != result["userId"].toString() &&
           widget.roomId == result["roomId"].toString()) {
-        duplicateMembers = members;
         List<RoomMembers> roomMembersList =
             await dbHelper.getRoomMemberName(result["userId"].toString());
         if (mounted) {
           setState(() {
             members = '${roomMembersList[0].nickName!} Is Typing';
-            duplicateMembers = duplicateMembers;
           });
         }
       }
@@ -2430,7 +2515,7 @@ class _ChatHome2State extends State<ChatHome2> {
           widget.roomId == result["roomId"].toString()) {
         if (mounted) {
           setState(() {
-            members = duplicateMembers;
+            members = originalValue;
           });
         }
       }
@@ -2709,7 +2794,7 @@ class _ChatHome2State extends State<ChatHome2> {
 
   Future<void> openTheRecorder() async {
     if (!kIsWeb) {
-      var status = await Permission.microphone.request();
+      final status = await Permission.microphone.request();
       if (status != PermissionStatus.granted) {
         throw RecordingPermissionException('Microphone permission not granted');
       }
@@ -2822,40 +2907,39 @@ class _ChatHome2State extends State<ChatHome2> {
 
   Widget emojiSelect() {
     return EmojiPicker(
-      onEmojiSelected: (Category? category, Emoji emoji) {
-        _onEmojiSelected(emoji);
-      },
-      onBackspacePressed: _onBackspacePressed,
-      config: Config(
-        columns: 7,
-        emojiSizeMax: 32 *
-            (foundation.defaultTargetPlatform == TargetPlatform.iOS
-                ? 1.30
-                : 1.0), // Issue: https://github.com/flutter/flutter/issues/28894
-        verticalSpacing: 0,
-        horizontalSpacing: 0,
-        gridPadding: EdgeInsets.zero,
-        initCategory: Category.RECENT,
-        bgColor: const Color(0xFFF2F2F2),
-        indicatorColor: Colors.blue,
-        iconColor: Colors.grey,
-        iconColorSelected: Colors.blue,
-        backspaceColor: Colors.blue,
-        skinToneDialogBgColor: Colors.white,
-        skinToneIndicatorColor: Colors.grey,
-        enableSkinTones: true,
-        recentTabBehavior: RecentTabBehavior.RECENT,
-        recentsLimit: 28,
-        noRecents: const Text(
-          'No Recents',
-          style: TextStyle(fontSize: 20, color: Colors.black26),
-          textAlign: TextAlign.center,
-        ), // Needs to be const Widget
-        loadingIndicator: const SizedBox.shrink(), // Needs to be const Widget
-        tabIndicatorAnimDuration: kTabScrollDuration,
-        categoryIcons: const CategoryIcons(),
-        buttonMode: ButtonMode.MATERIAL,
-      ),
-    );
+        onEmojiSelected: (Category? category, Emoji emoji) {
+          _onEmojiSelected(emoji);
+        },
+        onBackspacePressed: _onBackspacePressed,
+        config: Config(
+          columns: 7,
+          emojiSizeMax: 32 *
+              (foundation.defaultTargetPlatform == TargetPlatform.iOS
+                  ? 1.30
+                  : 1.0), // Issue: https://github.com/flutter/flutter/issues/28894
+          verticalSpacing: 0,
+          horizontalSpacing: 0,
+          gridPadding: EdgeInsets.zero,
+          initCategory: Category.RECENT,
+          bgColor: const Color(0xFFF2F2F2),
+          indicatorColor: Colors.blue,
+          iconColor: Colors.grey,
+          iconColorSelected: Colors.blue,
+          backspaceColor: Colors.blue,
+          skinToneDialogBgColor: Colors.white,
+          skinToneIndicatorColor: Colors.grey,
+          enableSkinTones: true,
+          recentTabBehavior: RecentTabBehavior.RECENT,
+          recentsLimit: 28,
+          noRecents: const Text(
+            'No Recents',
+            style: TextStyle(fontSize: 20, color: Colors.black26),
+            textAlign: TextAlign.center,
+          ), // Needs to be const Widget
+          loadingIndicator: const SizedBox.shrink(), // Needs to be const Widget
+          tabIndicatorAnimDuration: kTabScrollDuration,
+          categoryIcons: const CategoryIcons(),
+          buttonMode: ButtonMode.MATERIAL,
+        ));
   }
 }

@@ -5,7 +5,7 @@ import 'package:jumping_dot/jumping_dot.dart';
 
 import '../../common_library/services/model/replymessage_model.dart';
 import '../../common_library/utils/capitalize_firstletter.dart';
-import 'chat_home.dart';
+import 'chat_room.dart';
 import 'chat_theme.dart';
 import 'date_formater.dart';
 import 'reply_message_widget.dart';
@@ -233,6 +233,11 @@ Widget getStatusIcon(String status, String time) {
       animationDuration: const Duration(milliseconds: 200),
     );
   } else if (status == "SENT") {
+    return const Icon(
+      Icons.done,
+      size: 20,
+    );
+  } else if (status == "UNREAD") {
     return const Icon(
       Icons.done,
       size: 20,

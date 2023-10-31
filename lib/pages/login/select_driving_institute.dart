@@ -43,7 +43,7 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
   @override
   void initState() {
     super.initState();
-
+    EasyLoading.addStatusCallback(statusCallback);
     saveDiList();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final getSocket = Provider.of<SocketClientHelper>(context, listen: false);
@@ -51,6 +51,16 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
     });
   }
 
+  @override
+  void deactivate() {
+    EasyLoading.dismiss();
+    EasyLoading.removeCallback(statusCallback);
+    super.deactivate();
+  }
+
+  void statusCallback(EasyLoadingStatus status) {
+    //print('Test EasyLoading Status $status');
+  }
   saveDiList() async {
     await Hive.box('di_list').clear();
 
@@ -160,18 +170,20 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: ListTile(
                       onTap: () async {
-                        EasyLoading.show();
                         await localStorage.saveMerchantDbCode(
                             widget.diList[index].merchantNo);
                         var createChatSupportResult =
                             await chatRoomRepo.createChatSupportByMember();
                         if (createChatSupportResult.data != null &&
                             createChatSupportResult.data.length > 0) {
+                          await EasyLoading.show(
+                            maskType: EasyLoadingMaskType.black,
+                          );
                           if (!context.mounted) return;
                           await context
                               .read<SocketClientHelper>()
                               .loginUserRoom();
-
+                          await EasyLoading.dismiss();
                           String userid = await localStorage.getUserId() ?? '';
                           CreateRoomResponse getCreateRoomResponse =
                               createChatSupportResult.data[0];

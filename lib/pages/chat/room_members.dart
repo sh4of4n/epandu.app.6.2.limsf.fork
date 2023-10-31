@@ -8,7 +8,7 @@ import '../../common_library/services/repository/auth_repository.dart';
 import '../../common_library/utils/local_storage.dart';
 import '../../services/database/database_helper.dart';
 import '../../services/repository/chatroom_repository.dart';
-import 'chat_home.dart';
+import 'chat_room.dart';
 import 'online_users.dart';
 
 class RoomMembersList extends StatefulWidget {
@@ -63,7 +63,7 @@ class _RoomMembersListState extends State<RoomMembersList> {
   }
 
   void statusCallback(EasyLoadingStatus status) {
-    print('Test EasyLoading Status $status');
+    //print('Test EasyLoading Status $status');
   }
 
   @override
@@ -111,7 +111,9 @@ class _RoomMembersListState extends State<RoomMembersList> {
   }
 
   _updateListview() async {
-    await EasyLoading.show();
+    await EasyLoading.show(
+      maskType: EasyLoadingMaskType.black,
+    );
     roomMembers = await dbHelper.getRoomMembersList(widget.roomId);
     if (!widget.roomDesc.toUpperCase().contains("GROUP")) {
       roomMembers.removeWhere((element) => element.userId == widget.userId);
@@ -299,7 +301,7 @@ class _RoomMembersListState extends State<RoomMembersList> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ChatHome2(
+                          builder: (context) => ChatRoom(
                             roomId: widget.roomId,
                             picturePath: widget.picturePath,
                             roomName: widget.roomName,
@@ -370,7 +372,7 @@ class _RoomMembersListState extends State<RoomMembersList> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ChatHome2(
+                          builder: (context) => ChatRoom(
                             roomId: widget.roomId,
                             picturePath: widget.picturePath,
                             roomName: widget.roomName,

@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart';
 import 'package:flutter_sound/public/util/flutter_sound_helper.dart';
@@ -37,7 +39,7 @@ class _ConfirmAudioWidgetState extends State<ConfirmAudioWidget> {
   Future<void> init() async {
     /*Duration d  = await flutterSoundHelper.duration(widget.file_path) ?? Duration.zero;
     duration=d;*/
-    print('${widget.filePath}_$duration');
+    //print(widget.filePath + '_' + duration.toString());
     await _mPlayer.openPlayer();
     await _mPlayer.setSubscriptionDuration(const Duration(milliseconds: 10));
     _mPlayerSubscription = _mPlayer.onProgress!.listen((e) {
@@ -168,8 +170,11 @@ class _ConfirmAudioWidgetState extends State<ConfirmAudioWidget> {
   }
 
   void play(FlutterSoundPlayer? player) async {
+    File file = File(widget.filePath);
+    Uint8List uint8list = await file.readAsBytes();
     await player!.startPlayer(
-        fromURI: widget.filePath,
+        // fromURI: widget.filePath,
+        fromDataBuffer: uint8list,
         whenFinished: () {
           setState(() {
             isPlaying = false;
