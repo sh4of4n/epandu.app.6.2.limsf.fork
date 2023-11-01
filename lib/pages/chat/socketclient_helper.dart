@@ -71,7 +71,7 @@ class SocketClientHelper extends ChangeNotifier {
     List<Room> newRooms = [];
 
     String? userid = await localStorage.getUserId();
-    loginUser('Tbs.Chat.Client-All-Users', userid!, '');
+    loginUser('Tbs.Chat.Client-All-Users', userid!, '', '');
     if (!ctx.mounted) return;
     rooms = await dbHelper.getRooms();
     if (rooms.isEmpty) {
@@ -95,7 +95,8 @@ class SocketClientHelper extends ChangeNotifier {
               await dbHelper.saveRoomMembersTable(resultMembers.data[i]);
             }
           }
-          loginUser(result.data[i].roomId, userid, result.data[i].createDate);
+          loginUser(
+              result.data[i].roomId, userid, result.data[i].createDate, '');
         }
         //logoutDefaultRoom();
       }
@@ -124,8 +125,19 @@ class SocketClientHelper extends ChangeNotifier {
         }
       }
       if (!condition && rooms.isNotEmpty) {
+        List<MessageDetails> messageDetailsList =
+            await dbHelper.getAllRoomLatestMsgDetail();
+
         for (var room in rooms) {
-          loginUser(room.roomId!, userid, room.createDate!);
+          String messageId = '';
+          List<MessageDetails> msgList = messageDetailsList
+              .where((element) => element.roomId == room.roomId)
+              .toList();
+          if (msgList.isNotEmpty) {
+            messageId = msgList[0].messageId.toString();
+          }
+
+          loginUser(room.roomId!, userid, room.createDate!, messageId);
         }
 
         var result = await chatRoomRepo.getRoomList('');
@@ -182,7 +194,7 @@ class SocketClientHelper extends ChangeNotifier {
           }
           if (newRooms.isNotEmpty) {
             for (var newroom in newRooms) {
-              loginUser(newroom.roomId!, userid, newroom.createDate!);
+              loginUser(newroom.roomId!, userid, newroom.createDate!, '');
             }
           }
         }
@@ -344,8 +356,18 @@ class SocketClientHelper extends ChangeNotifier {
         if (onlineUsersList.indexWhere((element) => element.userId == userid) ==
             -1) {
           List<Room> rooms = await dbHelper.getRoomList(userid!);
+          List<MessageDetails> messageDetailsList =
+              await dbHelper.getAllRoomLatestMsgDetail();
+
           for (var room in rooms) {
-            loginUser(room.roomId!, userid, room.createDate!);
+            String messageId = '';
+            List<MessageDetails> msgList = messageDetailsList
+                .where((element) => element.roomId == room.roomId)
+                .toList();
+            if (msgList.isNotEmpty) {
+              messageId = msgList[0].messageId.toString();
+            }
+            loginUser(room.roomId!, userid, room.createDate!, messageId);
           }
           sendFailedMessages();
         } else {
@@ -853,7 +875,8 @@ class SocketClientHelper extends ChangeNotifier {
     }
   }
 
-  void loginUser(String roomId, String userId, String createDate) async {
+  void loginUser(
+      String roomId, String userId, String createDate, String messageId) async {
     String? userId = await localStorage.getUserId();
     String? caUid = await localStorage.getCaUid();
     String? caPwd = await localStorage.getCaPwd();
@@ -874,7 +897,9 @@ class SocketClientHelper extends ChangeNotifier {
         notifyListeners();
         Provider.of<ChatNotificationCount>(ctx, listen: false)
             .addNotificationBadge(notificationBadge: 0, roomId: roomId);
-        if (createDate != '') getMissingMessages(roomId, userId!, createDate);
+        if (roomId != 'Tbs.Chat.Client-All-Users') {
+          getMissingMessages(roomId, userId!, createDate, messageId);
+        }
         //print('login user from server $data');
       } else {
         //print("Null from login user");
@@ -882,18 +907,24 @@ class SocketClientHelper extends ChangeNotifier {
     });
   }
 
-  getMissingMessages(String roomId, String userid, String createDate) async {
+  getMissingMessages(
+      String roomId, String userid, String createDate, String messageId) async {
     String filePath = '';
-    List<MessageDetails> messageDetailsList =
-        await dbHelper.getLatestMsgDetail(roomId);
+    // List<MessageDetails> messageDetailsList = [];
+    // if (messageId == '') {
+    //   messageDetailsList = await dbHelper.getLatestMsgDetail(roomId);
+    //   if (messageDetailsList.isNotEmpty) {
+    //     messageId = messageDetailsList[0].messageId.toString();
+    //   }
+    // }
+
     Map<String, Object> messageRoomJson;
 
-    if (messageDetailsList.isNotEmpty) {
+    if (messageId != '') {
       messageRoomJson = {
         "roomId": roomId,
         "returnMsgBinaryAsBase64": "true",
-        "bgnMessageId":
-            int.parse(messageDetailsList[0].messageId.toString()) + 1
+        "bgnMessageId": int.parse(messageId) + 1
       };
     } else {
       messageRoomJson = {

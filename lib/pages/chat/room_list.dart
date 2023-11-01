@@ -359,9 +359,8 @@ class _RoomListState extends State<RoomList> {
                             .getRoomHistory();
                     if (list.isEmpty) {
                       if (!context.mounted) return;
-                      context
-                          .read<SocketClientHelper>()
-                          .loginUser('Tbs.Chat.Client-All-Users', userid, '');
+                      context.read<SocketClientHelper>().loginUser(
+                          'Tbs.Chat.Client-All-Users', userid, '', '');
                     }
                     if (!context.mounted) return;
                     Navigator.pop(context);

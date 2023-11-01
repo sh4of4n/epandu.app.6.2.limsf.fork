@@ -5,7 +5,6 @@ import '../../services/database/database_helper.dart';
 
 class ChatHistory extends ChangeNotifier {
   List<MessageDetails> getMessageDetailsList = [];
-  List<MessageDetails> getAllMessageDetailsList = [];
   bool isDataExist = true;
   final dbHelper = DatabaseHelper.instance;
 
@@ -14,7 +13,6 @@ class ChatHistory extends ChangeNotifier {
   void addChatHistory({required MessageDetails messageDetail}) {
     int index = getMessageDetailsList.indexWhere(
         (element) => element.clientMessageId == messageDetail.clientMessageId);
-    //print('addChatHistory:' + messageDetail.filePath!);
     if (index == -1) {
       getMessageDetailsList.add(messageDetail);
       notifyListeners();
@@ -27,8 +25,10 @@ class ChatHistory extends ChangeNotifier {
       int index = getMessageDetailsList.indexWhere((element) =>
           element.clientMessageId == clientMessageId &&
           element.roomId == roomId);
-      getMessageDetailsList[index].msgStatus = msgStatus;
-      getMessageDetailsList[index].messageId = messageId;
+      if (index != -1) {
+        getMessageDetailsList[index].msgStatus = msgStatus;
+        getMessageDetailsList[index].messageId = messageId;
+      }
     } else {
       int index = getMessageDetailsList
           .indexWhere((element) => element.messageId == messageId);
@@ -52,11 +52,13 @@ class ChatHistory extends ChangeNotifier {
       String msgBody, int messageId, String editDatetime, String roomId) {
     int index = getMessageDetailsList.indexWhere((element) =>
         element.messageId == messageId && element.roomId == roomId);
-    getMessageDetailsList[index].msgBody = msgBody;
-    getMessageDetailsList[index].editDateTime =
-        DateFormat("yyyy-MM-dd HH:mm:ss")
-            .format(DateTime.parse(editDatetime).toLocal())
-            .toString();
+    if (index != -1) {
+      getMessageDetailsList[index].msgBody = msgBody;
+      getMessageDetailsList[index].editDateTime =
+          DateFormat("yyyy-MM-dd HH:mm:ss")
+              .format(DateTime.parse(editDatetime).toLocal())
+              .toString();
+    }
     notifyListeners();
   }
 
@@ -75,8 +77,7 @@ class ChatHistory extends ChangeNotifier {
         element.messageId == messageId && element.roomId == roomId);
     if (index != -1) {
       getMessageDetailsList.removeAt(index);
-      // print(
-      //     'messageId_ ' + messageId.toString() + ' Index_' + index.toString());
+      print('messageId_ $messageId Index_$index');
       notifyListeners();
     }
   }
@@ -95,16 +96,6 @@ class ChatHistory extends ChangeNotifier {
     return getMessageDetailsList;
   }
 
-  Future<List<MessageDetails>> getChatHistoryByRoomId(String roomId) async {
-    getAllMessageDetailsList = [];
-    getAllMessageDetailsList = await dbHelper.getMsgDetailList();
-    getAllMessageDetailsList = getAllMessageDetailsList
-        .where((element) => element.roomId == roomId)
-        .toList();
-    notifyListeners();
-    return getAllMessageDetailsList;
-  }
-
   Future<List<MessageDetails>> getLazyLoadChatHistory(
       String roomId, int offset, int batchSize) async {
     List<MessageDetails> pastMessageDetailsList = getMessageDetailsList;
@@ -113,10 +104,17 @@ class ChatHistory extends ChangeNotifier {
         await dbHelper.getLazyLoadMsgDetailList(roomId, batchSize, offset);
 
     if (getMessageDetailsList.isNotEmpty) {
+      //pastMessageDetailsList.addAll(getMessageDetailsList);
+      // pastMessageDetailsList.addAll(getMessageDetailsList.where((message) {
+      //   // Check if the value already exists in the list
+      //   return !pastMessageDetailsList.contains(message);
+      // }));
       pastMessageDetailsList.addAll(getMessageDetailsList.where((newMessage) {
+        // Check if the message_id already exists in the list
         return !pastMessageDetailsList.any((existingMessage) =>
             existingMessage.clientMessageId == newMessage.clientMessageId);
       }));
+
       getMessageDetailsList = pastMessageDetailsList;
     } else {
       isDataExist = false;

@@ -16,7 +16,7 @@ class DateFormatter {
     if (localDateTime.day == now.day &&
         localDateTime.month == now.month &&
         localDateTime.year == now.year) {
-      return roughTimeString;
+      return 'Today,$roughTimeString';
     }
 
     DateTime yesterday = now.subtract(const Duration(days: 1));

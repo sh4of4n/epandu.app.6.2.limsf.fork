@@ -1,3 +1,10 @@
+01/11/2023 V.6.2.11
+WS 6.2.211
+
+- Resolved range error issue in ChatHistory.updateChatItemStatus function.
+- Enhanced today chat messages time to show Today, Time AM/PM.
+- Enhanced loginUser() function to speed up the performance.
+
 26/10/2023 V.6.2.11
 WS 6.2.211
 

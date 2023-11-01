@@ -104,7 +104,9 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 // firebase background message handler
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print('A Background message just showed up :  ${message.messageId}');
+  print('A Background message just showed up :  ${message.data}');
+  print(
+      'A Background message just showed up :  ${message.notification!.title!}-${message.notification!.body!}');
 }
 
 class MyHttpOverrides extends HttpOverrides {

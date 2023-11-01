@@ -600,6 +600,16 @@ class DatabaseHelper {
     return list;
   }
 
+  Future<List<MessageDetails>> getAllRoomLatestMsgDetail() async {
+    Database db = await instance.database;
+    var res = await db.rawQuery(
+        "Select room_id, MAX(message_id) AS message_id, clientMessageId from $msgDetailTable where  message_id>0   GROUP BY room_id;");
+    List<MessageDetails> list = res.isNotEmpty
+        ? res.map((m) => MessageDetails.fromJson(m)).toList()
+        : [];
+    return list;
+  }
+
   Future<List<MessageDetails>> getMsgDetailList() async {
     Database db = await instance.database;
     var res = await db.rawQuery(
