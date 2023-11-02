@@ -1,3 +1,9 @@
+02/11/2023 V.6.2.11
+WS 6.2.211
+
+- Cleared mobile notification when user open the room list screen.
+- Enhanced unread messages count issue.
+
 01/11/2023 V.6.2.11
 WS 6.2.211
 

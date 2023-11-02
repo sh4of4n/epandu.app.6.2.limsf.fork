@@ -125,20 +125,20 @@ class SocketClientHelper extends ChangeNotifier {
         }
       }
       if (!condition && rooms.isNotEmpty) {
-        List<MessageDetails> messageDetailsList =
-            await dbHelper.getAllRoomLatestMsgDetail();
+        // List<MessageDetails> messageDetailsList =
+        //     await dbHelper.getAllRoomLatestMsgDetail();
 
-        for (var room in rooms) {
-          String messageId = '';
-          List<MessageDetails> msgList = messageDetailsList
-              .where((element) => element.roomId == room.roomId)
-              .toList();
-          if (msgList.isNotEmpty) {
-            messageId = msgList[0].messageId.toString();
-          }
+        // for (var room in rooms) {
+        //   String messageId = '';
+        //   List<MessageDetails> msgList = messageDetailsList
+        //       .where((element) => element.roomId == room.roomId)
+        //       .toList();
+        //   if (msgList.isNotEmpty) {
+        //     messageId = msgList[0].messageId.toString();
+        //   }
 
-          loginUser(room.roomId!, userid, room.createDate!, messageId);
-        }
+        //   loginUser(room.roomId!, userid, room.createDate!, messageId);
+        // }
 
         var result = await chatRoomRepo.getRoomList('');
         if (result.data != null && result.data.length > 0) {
@@ -342,13 +342,14 @@ class SocketClientHelper extends ChangeNotifier {
     });
     socket.onAny((event, data) async {
       //print('event :$event, data :$data');
-      if (event == 'disconnect') {
-        preEvent = 'disconnect';
-      } else {
-        preEvent = '';
-      }
+      // if (event == 'disconnect') {
+      //   preEvent = 'disconnect';
+      // } else {
+      //   preEvent = '';
+      // }
       String? userid = await localStorage.getUserId();
-      if (userid != '' && event == 'connect' && preEvent == 'disconnect') {
+      // if (userid != '' && event == 'connect' && preEvent == 'disconnect') {
+      if (userid != '' && event == 'connect') {
         if (!ctx.mounted) return;
         List<CheckOnline> onlineUsersList =
             Provider.of<OnlineUsers>(ctx, listen: false).getOnlineList;

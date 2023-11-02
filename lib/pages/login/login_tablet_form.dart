@@ -345,8 +345,8 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
             localStorage.saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
             if (!context.mounted) return;
             {
-              Provider.of<ChatNotificationCount>(context, listen: false)
-                  .clearNotificationBadge();
+              // Provider.of<ChatNotificationCount>(context, listen: false)
+              //     .clearNotificationBadge();
               context.read<SocketClientHelper>().loginUserRoom();
             }
             if (!context.mounted) return;
@@ -369,8 +369,8 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
           localStorage.saveMerchantDbCode(result.data[0].merchantNo);
           if (!context.mounted) return;
           {
-            Provider.of<ChatNotificationCount>(context, listen: false)
-                .clearNotificationBadge();
+            // Provider.of<ChatNotificationCount>(context, listen: false)
+            //     .clearNotificationBadge();
             context.read<SocketClientHelper>().loginUserRoom();
           }
           if (!context.mounted) return;

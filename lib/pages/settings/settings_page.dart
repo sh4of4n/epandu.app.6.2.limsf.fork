@@ -13,6 +13,8 @@ import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
+import '../chat/chatnotification_count.dart';
+import '../chat/socketclient_helper.dart';
 
 class Settings extends StatefulWidget {
   final data;
@@ -253,6 +255,9 @@ class _SettingsState extends State<Settings> {
               });
 
               context.router.pop();
+              Provider.of<ChatNotificationCount>(context, listen: false)
+                  .clearNotificationBadge();
+              context.read<SocketClientHelper>().logoutUserRoom();
               await authRepo.logout(context: context, type: 'CLEAR');
               if (!context.mounted) return;
               context.router
