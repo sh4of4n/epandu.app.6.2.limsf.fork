@@ -15,12 +15,14 @@ class ChatHistory extends ChangeNotifier {
         (element) => element.clientMessageId == messageDetail.clientMessageId);
     if (index == -1) {
       getMessageDetailsList.add(messageDetail);
+      getMessageDetailsList
+          .sort((a, b) => a.sendDateTime!.compareTo(b.sendDateTime!));
       notifyListeners();
     }
   }
 
-  void updateChatItemStatus(
-      String clientMessageId, String msgStatus, int messageId, String roomId) {
+  void updateChatItemStatus(String clientMessageId, String msgStatus,
+      int messageId, String roomId, String sendDateTime) {
     if (clientMessageId != '') {
       int index = getMessageDetailsList.indexWhere((element) =>
           element.clientMessageId == clientMessageId &&
@@ -28,6 +30,9 @@ class ChatHistory extends ChangeNotifier {
       if (index != -1) {
         getMessageDetailsList[index].msgStatus = msgStatus;
         getMessageDetailsList[index].messageId = messageId;
+        if (sendDateTime != '') {
+          getMessageDetailsList[index].sendDateTime = sendDateTime;
+        }
       }
     } else {
       int index = getMessageDetailsList
@@ -99,16 +104,21 @@ class ChatHistory extends ChangeNotifier {
   Future<List<MessageDetails>> getLazyLoadChatHistory(
       String roomId, int offset, int batchSize) async {
     List<MessageDetails> pastMessageDetailsList = getMessageDetailsList;
+    List<MessageDetails> failedMessagesList = [];
     getMessageDetailsList = [];
     getMessageDetailsList =
         await dbHelper.getLazyLoadMsgDetailList(roomId, batchSize, offset);
-
+    failedMessagesList = await dbHelper.getFailedMsgList(roomId);
     if (getMessageDetailsList.isNotEmpty) {
-      //pastMessageDetailsList.addAll(getMessageDetailsList);
-      // pastMessageDetailsList.addAll(getMessageDetailsList.where((message) {
-      //   // Check if the value already exists in the list
-      //   return !pastMessageDetailsList.contains(message);
-      // }));
+      if (failedMessagesList.isNotEmpty) {
+        for (var newFailedMessage in failedMessagesList) {
+          if (!getMessageDetailsList.any((existingMessage) =>
+              existingMessage.clientMessageId ==
+              newFailedMessage.clientMessageId)) {
+            getMessageDetailsList.add(newFailedMessage);
+          }
+        }
+      }
       pastMessageDetailsList.addAll(getMessageDetailsList.where((newMessage) {
         // Check if the message_id already exists in the list
         return !pastMessageDetailsList.any((existingMessage) =>
@@ -118,9 +128,19 @@ class ChatHistory extends ChangeNotifier {
       getMessageDetailsList = pastMessageDetailsList;
     } else {
       isDataExist = false;
+      if (failedMessagesList.isNotEmpty) {
+        for (var newFailedMessage in failedMessagesList) {
+          if (!getMessageDetailsList.any((existingMessage) =>
+              existingMessage.clientMessageId ==
+              newFailedMessage.clientMessageId)) {
+            getMessageDetailsList.add(newFailedMessage);
+          }
+        }
+      }
       getMessageDetailsList = pastMessageDetailsList;
     }
-    getMessageDetailsList.sort((a, b) => a.messageId!.compareTo(b.messageId!));
+    getMessageDetailsList
+        .sort((a, b) => a.sendDateTime!.compareTo(b.sendDateTime!));
 
     notifyListeners();
 

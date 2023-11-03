@@ -71,7 +71,7 @@ class SocketClientHelper extends ChangeNotifier {
     List<Room> newRooms = [];
 
     String? userid = await localStorage.getUserId();
-    loginUser('Tbs.Chat.Client-All-Users', userid!, '', '');
+    await loginUser('Tbs.Chat.Client-All-Users', userid!, '', '');
     if (!ctx.mounted) return;
     rooms = await dbHelper.getRooms();
     if (rooms.isEmpty) {
@@ -95,7 +95,7 @@ class SocketClientHelper extends ChangeNotifier {
               await dbHelper.saveRoomMembersTable(resultMembers.data[i]);
             }
           }
-          loginUser(
+          await loginUser(
               result.data[i].roomId, userid, result.data[i].createDate, '');
         }
         //logoutDefaultRoom();
@@ -194,7 +194,7 @@ class SocketClientHelper extends ChangeNotifier {
           }
           if (newRooms.isNotEmpty) {
             for (var newroom in newRooms) {
-              loginUser(newroom.roomId!, userid, newroom.createDate!, '');
+              await loginUser(newroom.roomId!, userid, newroom.createDate!, '');
             }
           }
         }
@@ -252,7 +252,7 @@ class SocketClientHelper extends ChangeNotifier {
 
   String generateRandomString(int length) {
     final random = Random();
-    const availableChars = '1234567890';
+    const availableChars = '123456789';
     // 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     final randomString = List.generate(length,
             (index) => availableChars[random.nextInt(availableChars.length)])
@@ -351,29 +351,34 @@ class SocketClientHelper extends ChangeNotifier {
       // if (userid != '' && event == 'connect' && preEvent == 'disconnect') {
       if (userid != '' && event == 'connect') {
         if (!ctx.mounted) return;
-        List<CheckOnline> onlineUsersList =
-            Provider.of<OnlineUsers>(ctx, listen: false).getOnlineList;
+        // List<CheckOnline> onlineUsersList =
+        //     Provider.of<OnlineUsers>(ctx, listen: false).getOnlineList;
 
-        if (onlineUsersList.indexWhere((element) => element.userId == userid) ==
-            -1) {
-          List<Room> rooms = await dbHelper.getRoomList(userid!);
-          List<MessageDetails> messageDetailsList =
-              await dbHelper.getAllRoomLatestMsgDetail();
-
-          for (var room in rooms) {
-            String messageId = '';
-            List<MessageDetails> msgList = messageDetailsList
-                .where((element) => element.roomId == room.roomId)
-                .toList();
-            if (msgList.isNotEmpty) {
-              messageId = msgList[0].messageId.toString();
-            }
-            loginUser(room.roomId!, userid, room.createDate!, messageId);
+        // if (onlineUsersList.indexWhere((element) => element.userId == userid) ==
+        //     -1) {
+        List<Room> rooms = await dbHelper.getRoomList(userid!);
+        List<MessageDetails> messageDetailsList =
+            await dbHelper.getAllRoomLatestMsgDetail();
+        int completedRooms = 0;
+        for (var room in rooms) {
+          String messageId = '';
+          List<MessageDetails> msgList = messageDetailsList
+              .where((element) => element.roomId == room.roomId)
+              .toList();
+          if (msgList.isNotEmpty) {
+            messageId = msgList[0].messageId.toString();
           }
-          sendFailedMessages();
-        } else {
-          sendFailedMessages();
+          completedRooms++;
+          print('SocketOnAny:messageId $messageId');
+          await loginUser(room.roomId!, userid, room.createDate!, messageId);
+
+          if (completedRooms == rooms.length) {
+            sendFailedMessages();
+          }
         }
+        // } else {
+        //   sendFailedMessages();
+        // }
       }
       notifyListeners();
     });
@@ -611,7 +616,7 @@ class SocketClientHelper extends ChangeNotifier {
               await dbHelper.updateMsgStatus('READ', result["messageId"]);
               if (!ctx.mounted) return;
               ctx.read<ChatHistory>().updateChatItemStatus(
-                  '', "READ", result["messageId"], result["roomId"]);
+                  '', "READ", result["messageId"], result["roomId"], '');
             }
           } else {
             await dbHelper.updateMsgStatus('READ', result["messageId"]);
@@ -665,12 +670,18 @@ class SocketClientHelper extends ChangeNotifier {
     String? userid = await localStorage.getUserId();
     String? localUserName = await localStorage.getName();
     myFailedList = await dbHelper.getFailedMsgDetailList();
+    myFailedList.sort((a, b) {
+      if (a.sendDateTime == null || b.sendDateTime == null) {
+        return 0;
+      }
+      return a.sendDateTime!.compareTo(b.sendDateTime!);
+    });
     for (var messageDetails in myFailedList) {
       if (messageDetails.clientMessageId.toString() != '' && userid != '') {
         if (messageDetails.msgBinaryType == '') {
-          sendMessage(messageDetails, localUserName!);
+          await sendMessage(messageDetails, localUserName!);
         } else {
-          emitSendMessage(messageDetails, localUserName!);
+          await emitSendMessage(messageDetails, localUserName!);
         }
       }
     }
@@ -719,7 +730,8 @@ class SocketClientHelper extends ChangeNotifier {
               '',
               "READ",
               int.parse(readByMessage.message!.readMessage![0].id!),
-              readByMessage.message!.readMessage![0].roomId!);
+              readByMessage.message!.readMessage![0].roomId!,
+              '');
         }
       } else {
         //print("Null from getMessageById");
@@ -727,7 +739,8 @@ class SocketClientHelper extends ChangeNotifier {
     });
   }
 
-  void sendMessage(MessageDetails messageDetails, String localUserName) {
+  Future<void> sendMessage(
+      MessageDetails messageDetails, String localUserName) async {
     var messageJson = {
       "roomId": messageDetails.roomId,
       "msgBody": messageDetails.msgBody,
@@ -745,15 +758,25 @@ class SocketClientHelper extends ChangeNotifier {
           SendAcknowledge sendAcknowledge = SendAcknowledge.fromJson(data);
           if (sendAcknowledge.clientMessageId ==
               messageDetails.clientMessageId) {
-            await dbHelper.updateMsgDetailTable(messageDetails.clientMessageId!,
-                "SENT", sendAcknowledge.messageId);
+            await dbHelper.updateMsgDetailTable(
+                messageDetails.clientMessageId!,
+                "SENT",
+                sendAcknowledge.messageId,
+                DateFormat("yyyy-MM-dd HH:mm:ss")
+                    .format(DateTime.parse(sendAcknowledge.sendDateTime ?? '')
+                        .toLocal())
+                    .toString());
             if (isEnterRoom) {
               if (!ctx.mounted) return;
               Provider.of<ChatHistory>(ctx, listen: false).updateChatItemStatus(
                   messageDetails.clientMessageId!,
                   "SENT",
                   sendAcknowledge.messageId,
-                  messageDetails.roomId!);
+                  messageDetails.roomId!,
+                  DateFormat("yyyy-MM-dd HH:mm:ss")
+                      .format(DateTime.parse(sendAcknowledge.sendDateTime ?? '')
+                          .toLocal())
+                      .toString());
             }
             if (myFailedList.isNotEmpty) {
               int index = myFailedList.indexWhere((element) =>
@@ -801,14 +824,23 @@ class SocketClientHelper extends ChangeNotifier {
               await dbHelper.updateMsgDetailTable(
                   messageDetails.clientMessageId!,
                   "SENT",
-                  sendAcknowledge.messageId);
+                  sendAcknowledge.messageId,
+                  DateFormat("yyyy-MM-dd HH:mm:ss")
+                      .format(DateTime.parse(sendAcknowledge.sendDateTime ?? '')
+                          .toLocal())
+                      .toString());
               if (isEnterRoom) {
                 if (!ctx.mounted) return;
                 ctx.read<ChatHistory>().updateChatItemStatus(
                     messageDetails.clientMessageId!,
                     "SENT",
                     sendAcknowledge.messageId,
-                    messageDetails.roomId!);
+                    messageDetails.roomId!,
+                    DateFormat("yyyy-MM-dd HH:mm:ss")
+                        .format(
+                            DateTime.parse(sendAcknowledge.sendDateTime ?? '')
+                                .toLocal())
+                        .toString());
               }
               if (myFailedList.isNotEmpty) {
                 int index = myFailedList.indexWhere((element) =>
@@ -876,7 +908,7 @@ class SocketClientHelper extends ChangeNotifier {
     }
   }
 
-  void loginUser(
+  Future<void> loginUser(
       String roomId, String userId, String createDate, String messageId) async {
     String? userId = await localStorage.getUserId();
     String? caUid = await localStorage.getCaUid();
@@ -908,8 +940,8 @@ class SocketClientHelper extends ChangeNotifier {
     });
   }
 
-  getMissingMessages(
-      String roomId, String userid, String createDate, String messageId) async {
+  void getMissingMessages(
+      String roomId, String userid, String createDate, String messageId) {
     String filePath = '';
     // List<MessageDetails> messageDetailsList = [];
     // if (messageId == '') {

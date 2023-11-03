@@ -398,7 +398,7 @@ class _RoomListState extends State<RoomList> {
 
   String generateRandomString(int length) {
     final random = Random();
-    const availableChars = '1234567890';
+    const availableChars = '123456789';
     final randomString = List.generate(length,
             (index) => availableChars[random.nextInt(availableChars.length)])
         .join();

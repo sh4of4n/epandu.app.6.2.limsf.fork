@@ -360,7 +360,7 @@ class _CreateGroupState extends State<CreateGroup> {
 
   String generateRandomString(int length) {
     final random = Random();
-    const availableChars = '1234567890';
+    const availableChars = '123456789';
     // 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     final randomString = List.generate(length,
             (index) => availableChars[random.nextInt(availableChars.length)])

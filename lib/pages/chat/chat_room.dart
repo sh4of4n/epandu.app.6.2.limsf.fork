@@ -1893,9 +1893,21 @@ class _ChatRoomState extends State<ChatRoom> {
                             clientMessageId,
                             "SENT",
                             sendAcknowledge.messageId,
-                            widget.roomId);
+                            widget.roomId,
+                            DateFormat("yyyy-MM-dd HH:mm:ss")
+                                .format(DateTime.parse(
+                                        sendAcknowledge.sendDateTime ?? '')
+                                    .toLocal())
+                                .toString());
                         await dbHelper.updateMsgDetailTable(
-                            clientMessageId, "SENT", sendAcknowledge.messageId);
+                            clientMessageId,
+                            "SENT",
+                            sendAcknowledge.messageId,
+                            DateFormat("yyyy-MM-dd HH:mm:ss")
+                                .format(DateTime.parse(
+                                        sendAcknowledge.sendDateTime ?? '')
+                                    .toLocal())
+                                .toString());
                       } else {}
                     });
                     await EasyLoading.dismiss();
@@ -2144,10 +2156,23 @@ class _ChatRoomState extends State<ChatRoom> {
           if (data != null) {
             SendAcknowledge sendAcknowledge = SendAcknowledge.fromJson(data);
             // if (sendAcknowledge.clientMessageId == clientMessageId) {
-            context.read<ChatHistory>().updateChatItemStatus(clientMessageId,
-                "SENT", sendAcknowledge.messageId, widget.roomId);
+            context.read<ChatHistory>().updateChatItemStatus(
+                clientMessageId,
+                "SENT",
+                sendAcknowledge.messageId,
+                widget.roomId,
+                DateFormat("yyyy-MM-dd HH:mm:ss")
+                    .format(DateTime.parse(sendAcknowledge.sendDateTime ?? '')
+                        .toLocal())
+                    .toString());
             await dbHelper.updateMsgDetailTable(
-                clientMessageId, "SENT", sendAcknowledge.messageId);
+                clientMessageId,
+                "SENT",
+                sendAcknowledge.messageId,
+                DateFormat("yyyy-MM-dd HH:mm:ss")
+                    .format(DateTime.parse(sendAcknowledge.sendDateTime ?? '')
+                        .toLocal())
+                    .toString());
             if (myFailedList.isNotEmpty) {
               int index = myFailedList.indexWhere(
                   (element) => element.clientMessageId == clientMessageId);
@@ -2190,9 +2215,8 @@ class _ChatRoomState extends State<ChatRoom> {
         //print('updateMessageReadBy from server $data');
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result["messageId"] != '') {
-          context
-              .read<ChatHistory>()
-              .updateChatItemStatus('', "READ", int.parse(messageId), roomId);
+          context.read<ChatHistory>().updateChatItemStatus(
+              '', "READ", int.parse(messageId), roomId, '');
           await dbHelper.updateMsgStatus('READ', int.parse(messageId));
         }
       } else {
@@ -2216,8 +2240,12 @@ class _ChatRoomState extends State<ChatRoom> {
               readByMessage.message!.readMessage![0].readBy != null &&
               readByMessage.message!.readMessage![0].readBy!
                   .contains('[[ALL]]')) {
-            context.read<ChatHistory>().updateChatItemStatus('', "READ",
-                int.parse(readByMessage.message!.readMessage![0].id!), roomId);
+            context.read<ChatHistory>().updateChatItemStatus(
+                '',
+                "READ",
+                int.parse(readByMessage.message!.readMessage![0].id!),
+                roomId,
+                '');
             await dbHelper.updateMsgStatus(
                 'READ', int.parse(readByMessage.message!.readMessage![0].id!));
           }
@@ -2230,7 +2258,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
   String generateRandomString(int length) {
     final random = Random();
-    const availableChars = '1234567890';
+    const availableChars = '123456789';
     final randomString = List.generate(length,
             (index) => availableChars[random.nextInt(availableChars.length)])
         .join();
@@ -2409,11 +2437,24 @@ class _ChatRoomState extends State<ChatRoom> {
           SendAcknowledge sendAcknowledge = SendAcknowledge.fromJson(data);
           if (sendAcknowledge.messageId > 0) {
             if (mounted && getMessageDetailsList.isNotEmpty) {
-              context.read<ChatHistory>().updateChatItemStatus(clientMessageId,
-                  "SENT", sendAcknowledge.messageId, widget.roomId);
+              context.read<ChatHistory>().updateChatItemStatus(
+                  clientMessageId,
+                  "SENT",
+                  sendAcknowledge.messageId,
+                  widget.roomId,
+                  DateFormat("yyyy-MM-dd HH:mm:ss")
+                      .format(DateTime.parse(sendAcknowledge.sendDateTime ?? '')
+                          .toLocal())
+                      .toString());
             }
             await dbHelper.updateMsgDetailTable(
-                clientMessageId, "SENT", sendAcknowledge.messageId);
+                clientMessageId,
+                "SENT",
+                sendAcknowledge.messageId,
+                DateFormat("yyyy-MM-dd HH:mm:ss")
+                    .format(DateTime.parse(sendAcknowledge.sendDateTime ?? '')
+                        .toLocal())
+                    .toString());
             if (myFailedList.isNotEmpty) {
               int index = myFailedList.indexWhere(
                   (element) => element.clientMessageId == clientMessageId);

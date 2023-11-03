@@ -1,3 +1,9 @@
+03/11/2023 V.6.2.11
+WS 6.2.211
+
+- Enhanced generateRandomString() function due to if 0 available in front of client messageId socket server side unable to store.
+- Resolved message sequence issue if wifi turn off and on by storing server time in db while send and receive time.
+
 02/11/2023 V.6.2.11
 WS 6.2.211
 

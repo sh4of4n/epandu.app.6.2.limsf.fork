@@ -298,10 +298,10 @@ class DatabaseHelper {
 
   Future<List<RoomHistoryModel>> getRoomListWithMessage(String userId) async {
     Database db = await instance.database;
-    var res = await db.rawQuery(
-        "SELECT   $roomTable.room_id,$roomTable.picture_path,$roomTable.room_name,$roomTable.room_desc,$roomTable.merchant_no,$msgDetailTable.message_id,$msgDetailTable.msg_body,$msgDetailTable.msg_binaryType,$msgDetailTable.filePath, $msgDetailTable.nickName AS nick_name,$msgDetailTable.send_datetime FROM $roomTable  LEFT JOIN $msgDetailTable on $msgDetailTable.room_id=$roomTable.room_id AND  $msgDetailTable.deleted == 0 where $roomTable.owner_id = '$userId'   group by $roomTable.room_id order by max($msgDetailTable.message_id) desc;");
     // var res = await db.rawQuery(
-    //     "SELECT   $M_ROOM_TABLE.room_id,$M_ROOM_TABLE.picture_path,$M_ROOM_TABLE.room_name,$M_ROOM_TABLE.room_desc  ,$M_MSG_DETAIL_TABLE.message_id,$M_MSG_DETAIL_TABLE.msg_body,$M_MSG_DETAIL_TABLE.deleted,$M_MSG_DETAIL_TABLE.msg_binaryType,$M_MSG_DETAIL_TABLE.filePath, $M_MSG_DETAIL_TABLE.nickName AS nick_name,$M_MSG_DETAIL_TABLE.send_datetime  FROM $M_ROOM_TABLE  LEFT JOIN $M_MSG_DETAIL_TABLE on $M_MSG_DETAIL_TABLE.room_id=$M_ROOM_TABLE.room_id INNER JOIN (SELECT room_id, MAX(send_datetime) AS max_timestamp FROM $M_MSG_DETAIL_TABLE GROUP BY room_id) latest_messages ON $M_MSG_DETAIL_TABLE.room_id = latest_messages.room_id AND $M_MSG_DETAIL_TABLE.send_datetime = latest_messages.max_timestamp where $M_ROOM_TABLE.owner_id = '$userId'  group by $M_ROOM_TABLE.room_id");
+    //     "SELECT   $roomTable.room_id,$roomTable.picture_path,$roomTable.room_name,$roomTable.room_desc,$roomTable.merchant_no,$msgDetailTable.message_id,$msgDetailTable.msg_body,$msgDetailTable.msg_binaryType,$msgDetailTable.filePath, $msgDetailTable.nickName AS nick_name,$msgDetailTable.send_datetime FROM $roomTable  LEFT JOIN $msgDetailTable on $msgDetailTable.room_id=$roomTable.room_id AND  $msgDetailTable.deleted == 0 where $roomTable.owner_id = '$userId'   group by $roomTable.room_id order by max($msgDetailTable.message_id) desc;");
+    var res = await db.rawQuery(
+        "SELECT   $roomTable.room_id,$roomTable.picture_path,$roomTable.room_name,$roomTable.room_desc,$roomTable.merchant_no,$msgDetailTable.message_id,$msgDetailTable.msg_body,$msgDetailTable.msg_binaryType,$msgDetailTable.filePath, $msgDetailTable.nickName AS nick_name,$msgDetailTable.send_datetime FROM $roomTable  LEFT JOIN $msgDetailTable on $msgDetailTable.room_id=$roomTable.room_id AND  $msgDetailTable.deleted == 0 where $roomTable.owner_id = '$userId'   group by $roomTable.room_id order by max($msgDetailTable.send_datetime) desc;");
 
     List<RoomHistoryModel> list = res.isNotEmpty
         ? res.map((m) => RoomHistoryModel.fromJson(m)).toList()
@@ -514,12 +514,12 @@ class DatabaseHelper {
     //   return 0;
   }
 
-  Future<int> updateMsgDetailTable(
-      String clientMessageId, String msgStatus, int messageId) async {
+  Future<int> updateMsgDetailTable(String clientMessageId, String msgStatus,
+      int messageId, String sendDatetime) async {
     Database db = await instance.database;
     return await db.rawUpdate(
-        "UPDATE $msgDetailTable SET msgStatus = ?,message_id = ?  where clientMessageId = ?",
-        [msgStatus, messageId, clientMessageId]);
+        "UPDATE $msgDetailTable SET msgStatus = ?,message_id = ?,send_datetime = ?  where clientMessageId = ?",
+        [msgStatus, messageId, sendDatetime, clientMessageId]);
   }
   // Future<int> updateMsgDetailTable(String clientMessageId, String msgStatus,
   //     int messageId, String filePath) async {
@@ -625,6 +625,16 @@ class DatabaseHelper {
     Database db = await instance.database;
     var res = await db.rawQuery(
         "Select DISTINCT $msgDetailTable.room_id as room_id,$msgDetailTable.user_id as user_id,$msgDetailTable.msg_body as msg_body,$msgDetailTable.msg_binaryType as msg_binaryType,$msgDetailTable.send_datetime as send_datetime,$msgDetailTable.reply_to_id as reply_to_id,$msgDetailTable.filePath as filePath,$msgDetailTable.msgStatus as msgStatus,$msgDetailTable.message_id as message_id,$msgDetailTable.clientMessageId as client_message_id,$msgDetailTable.nickName as nick_name from $msgDetailTable  where  $msgDetailTable.deleted == 0 and $msgDetailTable.room_id = '$roomId'  ORDER BY $msgDetailTable.message_id DESC LIMIT $batchSize OFFSET $offset;");
+    List<MessageDetails> list = res.isNotEmpty
+        ? res.map((m) => MessageDetails.fromJson(m)).toList()
+        : [];
+    return list;
+  }
+
+  Future<List<MessageDetails>> getFailedMsgList(String roomId) async {
+    Database db = await instance.database;
+    var res = await db.rawQuery(
+        "Select DISTINCT $msgDetailTable.room_id as room_id,$msgDetailTable.user_id as user_id,$msgDetailTable.msg_body as msg_body,$msgDetailTable.msg_binaryType as msg_binaryType,$msgDetailTable.send_datetime as send_datetime,$msgDetailTable.reply_to_id as reply_to_id,$msgDetailTable.filePath as filePath,$msgDetailTable.msgStatus as msgStatus,$msgDetailTable.message_id as message_id,$msgDetailTable.clientMessageId as client_message_id,$msgDetailTable.nickName as nick_name from $msgDetailTable  where  $msgDetailTable.deleted == 0 and $msgDetailTable.room_id = '$roomId' and $msgDetailTable.message_id = 0;");
     List<MessageDetails> list = res.isNotEmpty
         ? res.map((m) => MessageDetails.fromJson(m)).toList()
         : [];
