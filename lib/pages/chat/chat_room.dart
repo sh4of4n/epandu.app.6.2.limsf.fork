@@ -1715,7 +1715,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     ),
                   );
                 } else if (value == "Change Group Name") {
-                  _displayTextInputDialog(context);
+                  _displayTextInputDialog(context, widget.roomName);
                 } else if (value == "Leave Group") {
                   leaveGroup(widget.roomId);
                 }
@@ -1801,12 +1801,14 @@ class _ChatRoomState extends State<ChatRoom> {
     }
   }
 
-  Future<void> _displayTextInputDialog(BuildContext context) async {
+  Future<void> _displayTextInputDialog(
+      BuildContext context, String roomName) async {
+    _textFieldController.text = roomName;
     return showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Add Group Name'),
+            title: const Text('Change Group Name'),
             content: TextField(
               onChanged: (value) {
                 setState(() {
