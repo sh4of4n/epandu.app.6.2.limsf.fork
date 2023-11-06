@@ -1156,25 +1156,27 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         });
         if (!context.mounted) return;
         await authRepo.getUserRegisteredDI(context: context, type: 'UPDATE');
+        if (_name.isNotEmpty && _name != _getName) {
+          String? userId = await localStorage.getUserId();
+          await dbHelper.updateRoomMemberName(_name, userId!);
 
-        String? userId = await localStorage.getUserId();
-        await dbHelper.updateRoomMemberName(_nickName, userId!);
+          List<RoomMembers> roomMembers =
+              await dbHelper.getDistinctRoomMembersList(userId);
 
-        List<RoomMembers> roomMembers =
-            await dbHelper.getDistinctRoomMembersList();
-
-        for (var roomMember in roomMembers) {
-          if (userId != roomMember.userId) {
-            var groupJson = {
-              "notifiedRoomId": '',
-              "notifiedUserId": roomMember.userId,
-              "title": '$userId just changed the name',
-              "description": '${_nickName}_just changed the name'
-            };
-            socket.emitWithAck('sendNotification', groupJson,
-                ack: (data) async {
-              print(data);
-            });
+          for (var roomMember in roomMembers) {
+            if (userId != roomMember.userId) {
+              var groupJson = {
+                "notifiedRoomId": '',
+                "notifiedUserId": roomMember.userId,
+                "title": '$userId just changed the name',
+                "description":
+                    '${_name}_just changed the name_${roomMember.roomId}'
+              };
+              socket.emitWithAck('sendNotification', groupJson,
+                  ack: (data) async {
+                print(data);
+              });
+            }
           }
         }
         if (!context.mounted) return;

@@ -513,6 +513,10 @@ class SocketClientHelper extends ChangeNotifier {
               result['title'].split(' ')[0],
               result['description'].split('_')[0],
             );
+            await dbHelper.updateRoomName(
+              result['description'].split('_')[0],
+              result['description'].split('_')[1],
+            );
             if (!ctx.mounted) return;
             Provider.of<RoomHistory>(ctx, listen: false).getRoomHistory();
             //Need to update Chathistory provider

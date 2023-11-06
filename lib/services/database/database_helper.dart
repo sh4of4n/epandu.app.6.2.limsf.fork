@@ -359,10 +359,10 @@ class DatabaseHelper {
     return list;
   }
 
-  Future<List<RoomMembers>> getDistinctRoomMembersList() async {
+  Future<List<RoomMembers>> getDistinctRoomMembersList(String userId) async {
     Database db = await instance.database;
     var res = await db.rawQuery(
-        "Select DISTINCT $roomMembersTable.user_id as user_id from $roomMembersTable ");
+        "Select DISTINCT $roomMembersTable.user_id as user_id,$roomMembersTable.room_id as room_id from $roomMembersTable where $roomMembersTable.user_id!='$userId'; ");
     List<RoomMembers> list =
         res.isNotEmpty ? res.map((m) => RoomMembers.fromJson(m)).toList() : [];
     return list;

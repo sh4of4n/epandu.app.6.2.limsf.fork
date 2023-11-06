@@ -1,3 +1,8 @@
+06/11/2023 V.6.2.11
+WS 6.2.211
+
+- Enhanced if member update profile IC/Passport name notify to other room members and show the room name as update name.
+
 03/11/2023 V.6.2.11
 WS 6.2.211
 
