@@ -1883,8 +1883,8 @@ class _ChatRoomState extends State<ChatRoom> {
                       "misc":
                           "[FCM_Notification=title: $roomName - $localUserName]"
                     };
-                    storeMyMessage('You changed group name to $valueText',
-                        'changed', '', 0, clientMessageId);
+                    // storeMyMessage('You changed group name to $valueText',
+                    //     'changed', '', 0, clientMessageId);
                     socket.emitWithAck('sendMessage', messageJson,
                         ack: (data) async {
                       if (data != null) {

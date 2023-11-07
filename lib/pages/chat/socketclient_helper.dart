@@ -442,8 +442,11 @@ class SocketClientHelper extends ChangeNotifier {
           ctx.read<RoomHistory>().updateRoomMessage(
               roomId: messageDetails.roomId!, message: receiveMessage.text!);
           ctx.read<RoomHistory>().getRoomHistory();
-          Provider.of<ChatNotificationCount>(ctx, listen: false)
-              .updateNotificationBadge(roomId: messageDetails.roomId, type: "");
+          if (userid != receiveMessage.userId) {
+            Provider.of<ChatNotificationCount>(ctx, listen: false)
+                .updateNotificationBadge(
+                    roomId: messageDetails.roomId, type: "");
+          }
           // Provider.of<ChatNotificationCount>(ctx, listen: false).addMessageId(
           //     messageDetails.room_id!,
           //     messageDetails.message_id.toString(),
@@ -513,10 +516,10 @@ class SocketClientHelper extends ChangeNotifier {
               result['title'].split(' ')[0],
               result['description'].split('_')[0],
             );
-            await dbHelper.updateRoomName(
-              result['description'].split('_')[0],
-              result['description'].split('_')[1],
-            );
+            // await dbHelper.updateRoomName(
+            //   result['description'].split('_')[0],
+            //   result['description'].split('_')[1],
+            // );
             if (!ctx.mounted) return;
             Provider.of<RoomHistory>(ctx, listen: false).getRoomHistory();
             //Need to update Chathistory provider

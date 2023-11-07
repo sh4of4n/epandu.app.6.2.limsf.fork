@@ -1156,9 +1156,9 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
         });
         if (!context.mounted) return;
         await authRepo.getUserRegisteredDI(context: context, type: 'UPDATE');
-        if (_name.isNotEmpty && _name != _getName) {
+        if (_nickName.isNotEmpty && _nickName != _getNickName) {
           String? userId = await localStorage.getUserId();
-          await dbHelper.updateRoomMemberName(_name, userId!);
+          await dbHelper.updateRoomMemberName(_nickName, userId!);
 
           List<RoomMembers> roomMembers =
               await dbHelper.getDistinctRoomMembersList(userId);
@@ -1170,7 +1170,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
                 "notifiedUserId": roomMember.userId,
                 "title": '$userId just changed the name',
                 "description":
-                    '${_name}_just changed the name_${roomMember.roomId}'
+                    '${_nickName}_just changed the name_${roomMember.roomId}'
               };
               socket.emitWithAck('sendNotification', groupJson,
                   ack: (data) async {

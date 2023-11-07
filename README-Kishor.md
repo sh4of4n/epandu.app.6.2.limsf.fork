@@ -1,3 +1,11 @@
+07/11/2023 V.6.2.11
+WS 6.2.211
+
+- Resolved issue with below scenario
+  if userA changed the group name we are notifying to all the room members then notification came to this userA also then roomlist showing notification badge as 1.
+- Update nickName from update profile screen then inform to all the room members he/she exists then update into the room member table nick name column.
+- Removed the function update room name if member/admin update the IC/passport name from update profile screen.
+
 06/11/2023 V.6.2.11
 WS 6.2.211
 
