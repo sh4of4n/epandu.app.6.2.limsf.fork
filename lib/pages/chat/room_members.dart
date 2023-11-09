@@ -118,6 +118,13 @@ class _RoomMembersListState extends State<RoomMembersList> {
     if (!widget.roomDesc.toUpperCase().contains("GROUP")) {
       roomMembers.removeWhere((element) => element.userId == widget.userId);
     }
+    //else {
+    //   for (var member in roomMembers) {
+    //     if (member.userId == widget.userId) {
+    //       member.nickName = 'You';
+    //     }
+    //   }
+    // }
     setState(() {
       roomMembers = roomMembers;
     });
@@ -311,7 +318,12 @@ class _RoomMembersListState extends State<RoomMembersList> {
                         ),
                       );
                     },
-                    child: Text(roomMembers.nickName!,
+                    child: Text(
+                        (roomMembers.nickName != '' &&
+                                roomMembers.nickName != 'null' &&
+                                roomMembers.nickName != null)
+                            ? roomMembers.nickName!
+                            : '',
                         style: const TextStyle(fontWeight: FontWeight.bold)),
                   )
                 ],
@@ -319,10 +331,11 @@ class _RoomMembersListState extends State<RoomMembersList> {
               subtitle: Text(roomMembers.loginId!),
             ),
           );
-        } else if (roomMembers.nickName
-                ?.toLowerCase()
-                .contains(editingController.text) ==
-            true) {
+        } else if (roomMembers.nickName != '' &&
+            roomMembers.nickName
+                    ?.toLowerCase()
+                    .contains(editingController.text) ==
+                true) {
           return Card(
             child: ListTile(
               leading: Container(
@@ -382,7 +395,12 @@ class _RoomMembersListState extends State<RoomMembersList> {
                         ),
                       );
                     },
-                    child: Text(roomMembers.nickName!,
+                    child: Text(
+                        (roomMembers.nickName != '' &&
+                                roomMembers.nickName != 'null' &&
+                                roomMembers.nickName != null)
+                            ? roomMembers.nickName!
+                            : '',
                         style: const TextStyle(fontWeight: FontWeight.bold)),
                   )
                 ],

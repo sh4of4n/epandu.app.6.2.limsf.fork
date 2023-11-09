@@ -2,6 +2,7 @@
 WS 6.2.211
 
 - Resolved Null check operator used on a null value issues in Chatroom and AudioCard screen.
+- Resolved Null check operator used on a null value issues room members screen if nick name null came.
 
 07/11/2023 V.6.2.11
 WS 6.2.211
