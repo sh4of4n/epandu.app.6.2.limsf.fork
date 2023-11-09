@@ -71,7 +71,7 @@ class _AudioCardState extends State<AudioCard> {
     //print(widget.file_path + '_' + duration.toString());
     await _mPlayer.openPlayer();
     await _mPlayer.setSubscriptionDuration(const Duration(milliseconds: 10));
-    _mPlayerSubscription = _mPlayer.onProgress!.listen((e) {
+    _mPlayerSubscription = _mPlayer.onProgress?.listen((e) {
       duration = e.duration;
       setPos(e.position);
       setState(() {});

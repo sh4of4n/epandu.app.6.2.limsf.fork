@@ -1,3 +1,8 @@
+09/11/2023 V.6.2.11
+WS 6.2.211
+
+- Resolved Null check operator used on a null value issues in Chatroom and AudioCard screen.
+
 07/11/2023 V.6.2.11
 WS 6.2.211
 

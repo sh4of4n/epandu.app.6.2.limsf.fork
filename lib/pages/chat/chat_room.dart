@@ -2557,7 +2557,9 @@ class _ChatRoomState extends State<ChatRoom> {
             await dbHelper.getRoomMemberName(result["userId"].toString());
         if (mounted) {
           setState(() {
-            members = '${roomMembersList[0].nickName!} Is Typing';
+            if (roomMembersList.isNotEmpty) {
+              members = '${roomMembersList[0].nickName!} Is Typing';
+            }
           });
         }
       }
