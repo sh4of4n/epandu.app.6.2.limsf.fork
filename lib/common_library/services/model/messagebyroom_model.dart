@@ -85,26 +85,26 @@ class MessageList {
       this.clientMessageId});
 
   MessageList.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    roomId = json['room_id'];
-    userId = json['user_id'];
-    appId = json['app_id'];
-    caUid = json['ca_uid'];
-    deviceId = json['device_id'];
-    msgBody = json['msg_body'];
-    msgBinary = json['msg_binary'];
-    msgBinaryType = json['msg_binary_type'];
-    replyToId = json['reply_to_id'];
-    messageId = json['messageId'];
-    readBy = json['read_by'];
-    status = json['status'];
-    statusMsg = json['status_msg'];
-    deleted = json['deleted'];
-    sendDatetime = json['send_datetime'];
-    editDatetime = json['edit_datetime'];
-    deleteDatetime = json['delete_datetime'];
-    transtamp = json['transtamp'];
-    clientMessageId = json['client_message_id'];
+    id = json['id'] ?? '';
+    roomId = json['room_id'] ?? '';
+    userId = json['user_id'] ?? '';
+    appId = json['app_id'] ?? '';
+    caUid = json['ca_uid'] ?? '';
+    deviceId = json['device_id'] ?? '';
+    msgBody = json['msg_body'] ?? '';
+    msgBinary = json['msg_binary'] ?? '';
+    msgBinaryType = json['msg_binary_type'] ?? '';
+    replyToId = json['reply_to_id'] ?? '';
+    messageId = json['messageId'] ?? '';
+    readBy = json['read_by'] ?? '';
+    status = json['status'] ?? '';
+    statusMsg = json['status_msg'] ?? '';
+    deleted = json['deleted'] ?? '';
+    sendDatetime = json['send_datetime'] ?? '';
+    editDatetime = json['edit_datetime'] ?? '';
+    deleteDatetime = json['delete_datetime'] ?? '';
+    transtamp = json['transtamp'] ?? '';
+    clientMessageId = json['client_message_id'] ?? '';
   }
 
   Map<String, dynamic> toJson() {

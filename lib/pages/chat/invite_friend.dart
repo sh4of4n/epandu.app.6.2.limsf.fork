@@ -399,7 +399,7 @@ class _InviteFriendState extends State<InviteFriend> {
                           rowKey: inviteRoomResponse.rowKey,
                           transtamp: inviteRoomResponse.transtamp,
                           deleted: inviteRoomResponse.deleted,
-                          photoFileName: '',
+                          photoFilename: '',
                           profilePhoto: '',
                           merchantNo: inviteRoomResponse.merchantNo,
                           picturePath: inviteRoomResponse.picturePath);
@@ -439,7 +439,7 @@ class _InviteFriendState extends State<InviteFriend> {
                             //print('login: $messageJson');
                             socket.emitWithAck('login', messageJson,
                                 ack: (data) {
-                              if (data != null) {
+                              if (data != null && !data.containsKey("error")) {
                                 //print('login user from server $data');
                               } else {
                                 //print("Null from login user");
@@ -462,7 +462,8 @@ class _InviteFriendState extends State<InviteFriend> {
                                   socket.emitWithAck(
                                       'inviteUserToRoom', inviteUserToRoomJson,
                                       ack: (data) {
-                                    if (data != null) {
+                                    if (data != null &&
+                                        !data.containsKey("error")) {
                                       //print('inviteUserToRoomJson from server $data');
                                     } else {
                                       //print("Null from inviteUserToRoomJson");

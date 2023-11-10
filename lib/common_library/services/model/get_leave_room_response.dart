@@ -54,20 +54,20 @@ class LeaveRoomResponse {
       this.merchantNo});
 
   LeaveRoomResponse.fromJson(Map<String, dynamic> json) {
-    iD = json['ID'];
-    roomId = json['room_id'];
-    appCode = json['app_code'];
-    userId = json['user_id'];
-    loginId = json['login_id'];
-    userType = json['user_type'];
-    createUser = json['create_user'];
-    createDate = json['create_date'];
-    editUser = json['edit_user'];
-    editDate = json['edit_date'];
-    rowKey = json['row_key'];
-    transtamp = json['transtamp'];
-    deleted = json['deleted'];
-    merchantNo = json['merchant_no'];
+    iD = json['ID'] ?? '';
+    roomId = json['room_id'] ?? '';
+    appCode = json['app_code'] ?? '';
+    userId = json['user_id'] ?? '';
+    loginId = json['login_id'] ?? '';
+    userType = json['user_type'] ?? '';
+    createUser = json['create_user'] ?? '';
+    createDate = json['create_date'] ?? '';
+    editUser = json['edit_user'] ?? '';
+    editDate = json['edit_date'] ?? '';
+    rowKey = json['row_key'] ?? '';
+    transtamp = json['transtamp'] ?? '';
+    deleted = json['deleted'] ?? '';
+    merchantNo = json['merchant_no'] ?? '';
   }
 
   Map<String, dynamic> toJson() {

@@ -1,3 +1,9 @@
+10/11/2023 V.6.2.11
+WS 6.2.211
+
+- Enhanced all the chat relates WS response if contains null then convert to empty string.
+- Fixed FormatException: Invalid date format i chat room send message event.
+
 09/11/2023 V.6.2.11
 WS 6.2.211
 

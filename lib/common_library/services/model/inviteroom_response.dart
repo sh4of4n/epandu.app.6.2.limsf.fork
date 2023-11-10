@@ -66,26 +66,26 @@ class InviteRoomResponse {
       this.picturePath});
 
   InviteRoomResponse.fromJson(Map<String, dynamic> json) {
-    iD = json['ID'];
-    roomId = json['room_id'];
-    appCode = json['app_code'];
-    merchantUserId = json['merchant_user_id'];
-    merchantLoginId = json['merchant_login_id'];
-    merchantNickName = json['merchant_nick_name'];
-    userId = json['user_id'];
-    loginId = json['login_id'];
-    memberNickName = json['member_nick_name'];
-    roomName = json['room_name'];
-    roomDesc = json['room_desc'];
-    createUser = json['create_user'];
-    createDate = json['create_date'];
-    editUser = json['edit_user'];
-    editDate = json['edit_date'];
-    rowKey = json['row_key'];
-    transtamp = json['transtamp'];
-    deleted = json['deleted'];
-    merchantNo = json['merchant_no'];
-    picturePath = json['picture_path'];
+    iD = json['ID'] ?? '';
+    roomId = json['room_id'] ?? '';
+    appCode = json['app_code'] ?? '';
+    merchantUserId = json['merchant_user_id'] ?? '';
+    merchantLoginId = json['merchant_login_id'] ?? '';
+    merchantNickName = json['merchant_nick_name'] ?? '';
+    userId = json['user_id'] ?? '';
+    loginId = json['login_id'] ?? '';
+    memberNickName = json['member_nick_name'] ?? '';
+    roomName = json['room_name'] ?? '';
+    roomDesc = json['room_desc'] ?? '';
+    createUser = json['create_user'] ?? '';
+    createDate = json['create_date'] ?? '';
+    editUser = json['edit_user'] ?? '';
+    editDate = json['edit_date'] ?? '';
+    rowKey = json['row_key'] ?? '';
+    transtamp = json['transtamp'] ?? '';
+    deleted = json['deleted'] ?? '';
+    merchantNo = json['merchant_no'] ?? '';
+    picturePath = json['picture_path'] ?? '';
   }
 
   Map<String, dynamic> toJson() {

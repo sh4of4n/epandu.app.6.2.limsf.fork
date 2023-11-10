@@ -41,8 +41,6 @@ class CreateRoomResponse {
   String? transtamp;
   String? deleted;
   String? merchantNo;
-  String? photoFilename;
-  String? profilePhoto;
 
   CreateRoomResponse(
       {this.iD,
@@ -63,9 +61,7 @@ class CreateRoomResponse {
       this.rowKey,
       this.transtamp,
       this.deleted,
-      this.merchantNo,
-      this.photoFilename,
-      this.profilePhoto});
+      this.merchantNo});
 
   CreateRoomResponse.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
@@ -87,8 +83,6 @@ class CreateRoomResponse {
     transtamp = json['transtamp'];
     deleted = json['deleted'];
     merchantNo = json['merchant_no'];
-    photoFilename = json['photo_filename'];
-    profilePhoto = json['profile_photo'];
   }
 
   Map<String, dynamic> toJson() {
@@ -112,9 +106,6 @@ class CreateRoomResponse {
     data['transtamp'] = transtamp;
     data['deleted'] = deleted;
     data['merchant_no'] = merchantNo;
-    data['photo_filename'] = photoFilename;
-    data['profile_photo'] = profilePhoto;
-
     return data;
   }
 }

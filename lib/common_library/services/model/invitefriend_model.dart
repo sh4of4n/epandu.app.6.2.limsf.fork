@@ -55,32 +55,32 @@ class MemberByPhoneResponse {
       this.picturePath});
 
   MemberByPhoneResponse.fromJson(Map<String, dynamic> json) {
-    iD = json['ID'];
-    merchantNo = json['merchant_no'];
-    userId = json['user_id'];
-    phone = json['phone'];
-    name = json['name'];
-    nickName = json['nick_name'];
-    eMail = json['e_mail'];
-    add = json['add'];
-    add1 = json['add1'];
-    add2 = json['add2'];
-    add3 = json['add3'];
-    postcode = json['postcode'];
-    cityName = json['city_name'];
-    stateName = json['state_name'];
-    countryName = json['country_name'];
-    icNo = json['ic_no'];
-    birthDate = json['birth_date'];
-    nationality = json['nationality'];
-    race = json['race'];
-    gender = json['gender'];
-    enqLdlGroup = json['enq_ldl_group'];
-    cdlGroup = json['cdl_group'];
-    userPhoto = json['user_photo'];
-    userPhotoFilename = json['user_photo_filename'];
-    editDate = json['edit_date'];
-    picturePath = json['picture_path'];
+    iD = json['ID'] ?? '';
+    merchantNo = json['merchant_no'] ?? '';
+    userId = json['user_id'] ?? '';
+    phone = json['phone'] ?? '';
+    name = json['name'] ?? '';
+    nickName = json['nick_name'] ?? '';
+    eMail = json['e_mail'] ?? '';
+    add = json['add'] ?? '';
+    add1 = json['add1'] ?? '';
+    add2 = json['add2'] ?? '';
+    add3 = json['add3'] ?? '';
+    postcode = json['postcode'] ?? '';
+    cityName = json['city_name'] ?? '';
+    stateName = json['state_name'] ?? '';
+    countryName = json['country_name'] ?? '';
+    icNo = json['ic_no'] ?? '';
+    birthDate = json['birth_date'] ?? '';
+    nationality = json['nationality'] ?? '';
+    race = json['race'] ?? '';
+    gender = json['gender'] ?? '';
+    enqLdlGroup = json['enq_ldl_group'] ?? '';
+    cdlGroup = json['cdl_group'] ?? '';
+    userPhoto = json['user_photo'] ?? '';
+    userPhotoFilename = json['user_photo_filename'] ?? '';
+    editDate = json['edit_date'] ?? '';
+    picturePath = json['picture_path'] ?? '';
   }
 
   Map<String, dynamic> toJson() {

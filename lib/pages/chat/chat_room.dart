@@ -1887,7 +1887,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     //     'changed', '', 0, clientMessageId);
                     socket.emitWithAck('sendMessage', messageJson,
                         ack: (data) async {
-                      if (data != null) {
+                      if (data != null && !data.containsKey("error")) {
                         SendAcknowledge sendAcknowledge =
                             SendAcknowledge.fromJson(data);
                         // if (sendAcknowledge.clientMessageId == clientMessageId) {
@@ -2003,13 +2003,13 @@ class _ChatRoomState extends State<ChatRoom> {
 
                     socket.emitWithAck('sendMessage', messageJson,
                         ack: (data) async {
-                      if (data != null) {
+                      if (data != null && !data.containsKey("error")) {
                         var logOutJson = {
                           "roomId": widget.roomId,
                         };
                         socket.emitWithAck('logout', logOutJson, ack: (data) {
                           //print('ack $data');
-                          if (data != null) {
+                          if (data != null && !data.containsKey("error")) {
                             //print('logout user from server $data');
                           } else {
                             //print("Null from logout user");
@@ -2084,7 +2084,7 @@ class _ChatRoomState extends State<ChatRoom> {
       socket.emitWithAck('deleteMessage', deleteMessageJson, ack: (data) async {
         // print('deleteMessage from server $data');
         // print('deletemessage_' + socket.id!);
-        if (data != null) {
+        if (data != null && !data.containsKey("error")) {
           Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
           if (result["messageId"] != '') {
             List<MessageDetails> list = getMessageDetailsList
@@ -2123,7 +2123,7 @@ class _ChatRoomState extends State<ChatRoom> {
     //print(messageJson);
     socket.emitWithAck('updateMessage', messageJson, ack: (data) async {
       //print('updateMessage ack $data');
-      if (data != null) {
+      if (data != null && !data.containsKey("error")) {
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result['editDateTime'] != null && result['editDateTime'] != '') {
           context.read<ChatHistory>().updateChatItemMessage(
@@ -2155,7 +2155,7 @@ class _ChatRoomState extends State<ChatRoom> {
       //print('sendMessage: $messageJson');
       if (socket.connected) {
         socket.emitWithAck('sendMessage', messageJson, ack: (data) async {
-          if (data != null) {
+          if (data != null && !data.containsKey("error")) {
             SendAcknowledge sendAcknowledge = SendAcknowledge.fromJson(data);
             // if (sendAcknowledge.clientMessageId == clientMessageId) {
             context.read<ChatHistory>().updateChatItemStatus(
@@ -2236,7 +2236,7 @@ class _ChatRoomState extends State<ChatRoom> {
       //print(messageJson);
       socket.emitWithAck('getMessageById', messageJson, ack: (data) async {
         //print('getMessageById ack $data');
-        if (data != null) {
+        if (data != null && !data.containsKey("error")) {
           ReadByMessage readByMessage = ReadByMessage.fromJson(data);
           if (readByMessage.message != null &&
               readByMessage.message!.readMessage![0].readBy != null &&
@@ -2435,7 +2435,7 @@ class _ChatRoomState extends State<ChatRoom> {
     if (socket.connected) {
       socket.emitWithAck('sendMessage', messageJson, ack: (data) async {
         //print('sendMessage ack $data');
-        if (data != null) {
+        if (data != null && !data.containsKey("error")) {
           SendAcknowledge sendAcknowledge = SendAcknowledge.fromJson(data);
           if (sendAcknowledge.messageId > 0) {
             if (mounted && getMessageDetailsList.isNotEmpty) {

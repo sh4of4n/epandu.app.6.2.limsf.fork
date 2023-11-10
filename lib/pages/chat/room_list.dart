@@ -327,13 +327,13 @@ class _RoomListState extends State<RoomList> {
 
                     socket.emitWithAck('sendMessage', messageJson,
                         ack: (data) async {
-                      if (data != null) {
+                      if (data != null && !data.containsKey("error")) {
                         var messageJson = {
                           "roomId": roomId,
                         };
                         socket.emitWithAck('logout', messageJson, ack: (data) {
                           //print('ack $data');
-                          if (data != null) {
+                          if (data != null && !data.containsKey("error")) {
                             // print('logout user from server $data');
                           } else {
                             //print("Null from logout user");
@@ -648,9 +648,9 @@ class _RoomListState extends State<RoomList> {
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            if (room.sendDateTime != null && room.sendDateTime != '')
+            if (room.sendDatetime != null && room.sendDatetime != '')
               Text(DateFormatter().getDateTimeRepresentation(
-                DateTime.parse(room.sendDateTime!),
+                DateTime.parse(room.sendDatetime!),
               )),
           ],
         ),

@@ -59,9 +59,11 @@ class _AudioCardState extends State<AudioCard> {
   void initState() {
     super.initState();
     init().then((value) {
-      setState(() {
-        _mPlayerIsInited = true;
-      });
+      if (mounted) {
+        setState(() {
+          _mPlayerIsInited = true;
+        });
+      }
     });
   }
 

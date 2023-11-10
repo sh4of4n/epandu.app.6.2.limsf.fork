@@ -267,7 +267,7 @@ class DatabaseHelper {
         'row_key': room.rowKey,
         'transtamp': room.transtamp,
         'deleted': room.deleted,
-        'photo_filename': room.photoFileName,
+        'photo_filename': room.photoFilename,
         'profile_photo': room.profilePhoto,
         'merchant_no': room.merchantNo,
         'picture_path': room.picturePath,
@@ -603,7 +603,7 @@ class DatabaseHelper {
   Future<List<MessageDetails>> getAllRoomLatestMsgDetail() async {
     Database db = await instance.database;
     var res = await db.rawQuery(
-        "Select room_id, MAX(message_id) AS message_id, clientMessageId from $msgDetailTable where  message_id>0   GROUP BY room_id;");
+        "Select room_id, MAX(message_id) AS message_id,owner_id, clientMessageId from $msgDetailTable where  message_id>0   GROUP BY room_id;");
     List<MessageDetails> list = res.isNotEmpty
         ? res.map((m) => MessageDetails.fromJson(m)).toList()
         : [];

@@ -105,10 +105,13 @@ class SocketClientHelper extends ChangeNotifier {
       // }
     } else {
       bool condition = false;
-      for (int i = 0; i < rooms.length; i++) {
-        List<MessageDetails> list =
-            await dbHelper.getLatestMsgDetail(rooms[i].roomId!);
-        if (list.isNotEmpty && list[0].ownerId != userid) {
+      List<MessageDetails> messageDetailsList =
+          await dbHelper.getAllRoomLatestMsgDetail();
+      if (messageDetailsList.isNotEmpty) {
+        List<MessageDetails> filteredList = messageDetailsList
+            .where((details) => details.ownerId != userid)
+            .toList();
+        if (filteredList.isNotEmpty) {
           await dbHelper.deleteDB();
           final dir = Directory((Platform.isAndroid
                   ? await getExternalStorageDirectory() //FOR ANDROID
@@ -121,7 +124,6 @@ class SocketClientHelper extends ChangeNotifier {
         if (condition) {
           await loginUserRoom();
           print('Condition is true. deleted directory and database.');
-          break;
         }
       }
       if (!condition && rooms.isNotEmpty) {
@@ -226,7 +228,7 @@ class SocketClientHelper extends ChangeNotifier {
             socket.emitWithAck('inviteUserToRoom', inviteUserToRoomJson,
                 ack: (data) {
               //print('ack $data');
-              if (data != null) {
+              if (data != null && !data.containsKey("error")) {
                 print('inviteUserToRoomJson from server $data');
               } else {
                 print("Null from inviteUserToRoomJson");
@@ -271,7 +273,7 @@ class SocketClientHelper extends ChangeNotifier {
         };
         socket.emitWithAck('logout', logoutJson, ack: (data) {
           //print('ack $data');
-          if (data != null) {
+          if (data != null && !data.containsKey("error")) {
             //print('logout user from server $data');
           } else {
             //print("Null from logout user");
@@ -286,7 +288,7 @@ class SocketClientHelper extends ChangeNotifier {
       "roomId": 'Tbs.Chat.Client-All-Users',
     };
     socket.emitWithAck('logout', logoutJson, ack: (data) {
-      if (data != null) {
+      if (data != null && !data.containsKey("error")) {
         //print('logout Tbs.Chat.Client-All-Users from server $data');
       } else {
         //print("Null from logout user");
@@ -387,7 +389,7 @@ class SocketClientHelper extends ChangeNotifier {
       String? userid = await localStorage.getUserId();
       //print(data);
       String filePath = "";
-      if (data != null) {
+      if (data != null && !data.containsKey("error")) {
         ReceiveMessage receiveMessage = ReceiveMessage.fromJson(data);
 
         List<MessageDetails> isExist =
@@ -491,7 +493,7 @@ class SocketClientHelper extends ChangeNotifier {
         };
         //print('login: $messageJson');
         socket.emitWithAck('login', messageJson, ack: (data) {
-          if (data != null) {
+          if (data != null && !data.containsKey("error")) {
             //print('login user from server $data');
             Provider.of<ChatNotificationCount>(ctx, listen: false)
                 .addNotificationBadge(
@@ -505,7 +507,7 @@ class SocketClientHelper extends ChangeNotifier {
     });
 
     socket.on('notification', (data) async {
-      if (data != null) {
+      if (data != null && !data.containsKey("error")) {
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result['description'] != null &&
             result['description'].toString() != '') {
@@ -550,7 +552,7 @@ class SocketClientHelper extends ChangeNotifier {
     });
 
     socket.on('users', (data) async {
-      if (data != null) {
+      if (data != null && !data.containsKey("error")) {
         List b = data as List;
         List<ChatUsers> chatUserList =
             b.map((e) => ChatUsers.fromJson(e)).toList();
@@ -575,7 +577,7 @@ class SocketClientHelper extends ChangeNotifier {
     });
 
     socket.on('deleteMessage', (data) async {
-      if (data != null) {
+      if (data != null && !data.containsKey("error")) {
         //print('deleteMessage $data');
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result["messageId"] != '') {
@@ -614,7 +616,7 @@ class SocketClientHelper extends ChangeNotifier {
     });
 
     socket.on('updateMessageReadBy', (data) async {
-      if (data != null) {
+      if (data != null && !data.containsKey("error")) {
         //print('updateMessageReadBy $data');
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result["messageId"] != '') {
@@ -633,7 +635,7 @@ class SocketClientHelper extends ChangeNotifier {
       }
     });
     socket.on('updateMessage', (data) async {
-      if (data != null) {
+      if (data != null && !data.containsKey("error")) {
         //print('updateMessage $data');
         String? userid = await localStorage.getUserId();
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
@@ -724,7 +726,7 @@ class SocketClientHelper extends ChangeNotifier {
     };
     //print(messageJson);
     socket.emitWithAck('getMessageById', messageJson, ack: (data) async {
-      if (data != null) {
+      if (data != null && !data.containsKey("error")) {
         ReadByMessage readByMessage = ReadByMessage.fromJson(data);
         if (readByMessage.message!.readMessage![0].readBy != null &&
             readByMessage.message!.readMessage![0].readBy!
@@ -761,7 +763,7 @@ class SocketClientHelper extends ChangeNotifier {
       socket.emitWithAck('sendMessage', messageJson, ack: (data) async {
         // print('sendMessage $messageJson');
         // print('sendMessage ack $data');
-        if (data != null) {
+        if (data != null && !data.containsKey("error")) {
           SendAcknowledge sendAcknowledge = SendAcknowledge.fromJson(data);
           if (sendAcknowledge.clientMessageId ==
               messageDetails.clientMessageId) {
@@ -933,7 +935,7 @@ class SocketClientHelper extends ChangeNotifier {
 
     socket.emitWithAck('login', messageJson, ack: (data) {
       print('loginUser ack $data');
-      if (data != null) {
+      if (data != null && !data.containsKey("error")) {
         notifyListeners();
         Provider.of<ChatNotificationCount>(ctx, listen: false)
             .addNotificationBadge(notificationBadge: 0, roomId: roomId);
@@ -977,7 +979,7 @@ class SocketClientHelper extends ChangeNotifier {
     print(messageRoomJson);
     socket.emitWithAck('getMessageByRoom', messageRoomJson, ack: (data) async {
       //print('getMessageByRoom $data');
-      if (data != null) {
+      if (data != null && !data.containsKey("error")) {
         MessageByRoomModel messageByRoomModel =
             MessageByRoomModel.fromJson(data);
         List<MessageList>? messageList =

@@ -308,7 +308,7 @@ class _CreateGroupState extends State<CreateGroup> {
 
                       socket.emitWithAck('sendMessage', messageJson,
                           ack: (data) async {
-                        if (data != null) {
+                        if (data != null && !data.containsKey("error")) {
                           //print('sendMessage from server $data');
                         } else {
                           //print("Null from sendMessage");
@@ -543,7 +543,7 @@ class _CreateGroupState extends State<CreateGroup> {
                         rowKey: inviteRoomResponse.rowKey,
                         transtamp: inviteRoomResponse.transtamp,
                         deleted: inviteRoomResponse.deleted,
-                        photoFileName: '',
+                        photoFilename: '',
                         profilePhoto: '',
                         merchantNo: inviteRoomResponse.merchantNo,
                         picturePath: inviteRoomResponse.picturePath);
@@ -581,7 +581,7 @@ class _CreateGroupState extends State<CreateGroup> {
                           };
                           //print('login: $messageJson');
                           socket.emitWithAck('login', messageJson, ack: (data) {
-                            if (data != null) {
+                            if (data != null && !data.containsKey("error")) {
                               //print('login user from server $data');
                             } else {
                               //print("Null from login user");
@@ -601,7 +601,8 @@ class _CreateGroupState extends State<CreateGroup> {
                                   'inviteUserToRoom', inviteUserToRoomJson,
                                   ack: (data) async {
                                 //print('inviteUserToRoom ack $data');
-                                if (data != null) {
+                                if (data != null &&
+                                    !data.containsKey("error")) {
                                   //print('inviteUserToRoom from server $data');
                                 } else {
                                   //print("Null from inviteUserToRoom");

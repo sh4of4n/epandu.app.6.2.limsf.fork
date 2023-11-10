@@ -8,7 +8,7 @@ class RoomHistoryModel {
   String? msgBinaryType;
   String? filePath;
   String? nickName;
-  String? sendDateTime;
+  String? sendDatetime;
   String? merchantNo;
 
   RoomHistoryModel(
@@ -21,21 +21,21 @@ class RoomHistoryModel {
       this.msgBinaryType,
       this.filePath,
       this.nickName,
-      this.sendDateTime,
+      this.sendDatetime,
       this.merchantNo});
 
   RoomHistoryModel.fromJson(Map<String, dynamic> json) {
-    roomId = json['room_id'];
-    picturePath = json['picture_path'];
-    roomName = json['room_name'];
-    roomDesc = json['room_desc'];
-    messageId = json['message_id'];
-    msgBody = json['msg_body'];
-    msgBinaryType = json['msg_binaryType'];
-    filePath = json['filePath'];
-    nickName = json['nick_name'];
-    sendDateTime = json['send_datetime'];
-    merchantNo = json['merchant_no'];
+    roomId = json['room_id'] ?? '';
+    picturePath = json['picture_path'] ?? '';
+    roomName = json['room_name'] ?? '';
+    roomDesc = json['room_desc'] ?? '';
+    messageId = json['message_id'] ?? 0;
+    msgBody = json['msg_body'] ?? '';
+    msgBinaryType = json['msg_binaryType'] ?? '';
+    filePath = json['filePath'] ?? '';
+    nickName = json['nick_name'] ?? '';
+    sendDatetime = json['send_datetime'] ?? '';
+    merchantNo = json['merchant_no'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -49,7 +49,7 @@ class RoomHistoryModel {
     data['msg_binaryType'] = msgBinaryType;
     data['filePath'] = filePath;
     data['nick_name'] = nickName;
-    data['send_datetime'] = sendDateTime;
+    data['send_datetime'] = sendDatetime;
     data['merchant_no'] = merchantNo;
     return data;
   }
