@@ -1,3 +1,10 @@
+14/11/2023 V.6.2.11
+WS 6.2.211
+
+- Resolved issue NoSuchMethodError: Class 'List<dynamic>' has no instance method 'containsKey'.
+  Receiver: Instance(length:0) of '\_GrowableList'
+  Tried calling: containsKey("error") in socket on users event.
+
 10/11/2023 V.6.2.11
 WS 6.2.211
 

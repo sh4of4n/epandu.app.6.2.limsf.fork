@@ -552,26 +552,28 @@ class SocketClientHelper extends ChangeNotifier {
     });
 
     socket.on('users', (data) async {
-      if (data != null && !data.containsKey("error")) {
-        List b = data as List;
-        List<ChatUsers> chatUserList =
-            b.map((e) => ChatUsers.fromJson(e)).toList();
-        ctx.read<OnlineUsers>().removeOnlineUsers();
-        for (var item in chatUserList) {
-          ChatUsers chatUsers = ChatUsers(
-            roomId: item.roomId,
-            userId: item.userId,
-            appId: item.appId,
-            caUid: item.caUid,
-            deviceId: item.deviceId,
-            joined: item.joined,
-            firstJoinedDatetime: item.firstJoinedDatetime,
-            lastJoinedDatetime: item.lastJoinedDatetime,
-            lastLeftDatetime: item.lastLeftDatetime,
-          );
-          CheckOnline checkOnline =
-              CheckOnline(isOnline: true, userId: chatUsers.userId);
-          ctx.read<OnlineUsers>().showOnlineUsers(checkOnline: checkOnline);
+      if (data != null && data is List && !data.contains("error")) {
+        List b = data;
+        if (b.isNotEmpty) {
+          List<ChatUsers> chatUserList =
+              b.map((e) => ChatUsers.fromJson(e)).toList();
+          ctx.read<OnlineUsers>().removeOnlineUsers();
+          for (var item in chatUserList) {
+            ChatUsers chatUsers = ChatUsers(
+              roomId: item.roomId,
+              userId: item.userId,
+              appId: item.appId,
+              caUid: item.caUid,
+              deviceId: item.deviceId,
+              joined: item.joined,
+              firstJoinedDatetime: item.firstJoinedDatetime,
+              lastJoinedDatetime: item.lastJoinedDatetime,
+              lastLeftDatetime: item.lastLeftDatetime,
+            );
+            CheckOnline checkOnline =
+                CheckOnline(isOnline: true, userId: chatUsers.userId);
+            ctx.read<OnlineUsers>().showOnlineUsers(checkOnline: checkOnline);
+          }
         }
       }
     });
