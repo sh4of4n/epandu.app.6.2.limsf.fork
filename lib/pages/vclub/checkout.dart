@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/services/provider/cart_status.dart';
 import 'package:epandu/common_library/services/repository/sales_order_repository.dart';
 import 'package:epandu/utils/constants.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+@RoutePage(name: 'Checkout')
 class Checkout extends StatefulWidget {
   final slsDetailData;
   final String? itemName;
@@ -18,7 +20,8 @@ class Checkout extends StatefulWidget {
   final String? qty;
   final String? totalAmount;
 
-  Checkout({
+  const Checkout({
+    super.key,
     this.slsDetailData,
     this.itemName,
     this.dbcode,
@@ -30,7 +33,7 @@ class Checkout extends StatefulWidget {
   });
 
   @override
-  _CheckoutState createState() => _CheckoutState();
+  State<Checkout> createState() => _CheckoutState();
 }
 
 class _CheckoutState extends State<Checkout> {
@@ -49,7 +52,7 @@ class _CheckoutState extends State<Checkout> {
   );
 
   bool _isLoading = false;
-  String _message = '';
+  final String _message = '';
 
   _renderCart() {
     return Container(
@@ -127,7 +130,7 @@ class _CheckoutState extends State<Checkout> {
   }
 
   _showOrdPrice(snapshot) {
-    if (double.tryParse(snapshot.discAmt)! > 0)
+    if (double.tryParse(snapshot.discAmt)! > 0) {
       return Row(
         children: <Widget>[
           Text(
@@ -143,15 +146,16 @@ class _CheckoutState extends State<Checkout> {
           SizedBox(width: ScreenUtil().setWidth(40)),
           Text(
             snapshot.discRate + '%',
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.red,
               fontWeight: FontWeight.bold,
             ),
           ),
         ],
       );
+    }
 
-    return Container(width: 0, height: 0);
+    return const SizedBox(width: 0, height: 0);
   }
 
   _checkout(context) async {
@@ -171,7 +175,7 @@ class _CheckoutState extends State<Checkout> {
       customDialog.show(
         context: context,
         barrierDismissable: false,
-        title: Center(
+        title: const Center(
           child: Icon(
             Icons.check_circle_outline,
             size: 120,
@@ -180,7 +184,7 @@ class _CheckoutState extends State<Checkout> {
         content: 'Your item has been checked out.',
         customActions: <Widget>[
           TextButton(
-            child: Text('Done'),
+            child: const Text('Done'),
             onPressed: () {
               Provider.of<CartStatus>(context, listen: false).setShowBadge(
                 showBadge: false,
@@ -196,20 +200,20 @@ class _CheckoutState extends State<Checkout> {
             },
           ),
         ],
-        type: DialogType.GENERAL,
+        type: DialogType.general,
       );
     } else {
       customDialog.show(
         context: context,
         barrierDismissable: false,
-        title: Center(
+        title: const Center(
           child: Icon(
             Icons.check_circle_outline,
             size: 120,
           ),
         ),
         content: result.message!,
-        type: DialogType.ERROR,
+        type: DialogType.error,
       );
     }
 
@@ -222,7 +226,7 @@ class _CheckoutState extends State<Checkout> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Checkout'),
+        title: const Text('Checkout'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -287,10 +291,10 @@ class _CheckoutState extends State<Checkout> {
                     padding: EdgeInsets.only(left: 50.w),
                     child: Text(
                       _message,
-                      style: TextStyle(color: Colors.red),
+                      style: const TextStyle(color: Colors.red),
                     ),
                   )
-                : SizedBox.shrink(),
+                : const SizedBox.shrink(),
           ),
           SizedBox(
             height: 10.h,
@@ -341,10 +345,11 @@ class _CheckoutState extends State<Checkout> {
                         : ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               minimumSize: Size(420.w, 45.h),
-                              backgroundColor: Color(0xffdd0e0e),
-                              padding: EdgeInsets.symmetric(vertical: 11.0),
-                              shape: StadiumBorder(),
-                              textStyle: TextStyle(color: Colors.white),
+                              backgroundColor: const Color(0xffdd0e0e),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 11.0),
+                              shape: const StadiumBorder(),
+                              textStyle: const TextStyle(color: Colors.white),
                             ),
                             onPressed: () => _checkout(context),
                             child: Text(

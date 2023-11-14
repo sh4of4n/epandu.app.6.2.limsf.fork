@@ -25,23 +25,24 @@ import 'package:provider/provider.dart';
 
 import '../../common_library/services/model/createroom_response.dart';
 import '../../common_library/services/model/m_roommember_model.dart';
-import '../../services/database/DatabaseHelper.dart';
+import '../../services/database/database_helper.dart';
 import '../../services/repository/chatroom_repository.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 import '../chat/socketclient_helper.dart';
 
+@RoutePage(name: 'RegisterUserToDi')
 class RegisterUserToDi extends StatefulWidget {
   final barcode;
 
-  RegisterUserToDi(this.barcode);
+  const RegisterUserToDi(this.barcode, {super.key});
 
   @override
-  _RegisterUserToDiState createState() => _RegisterUserToDiState();
+  State<RegisterUserToDi> createState() => _RegisterUserToDiState();
 }
 
 class _RegisterUserToDiState extends State<RegisterUserToDi> {
-  late IO.Socket socket;
+  late io.Socket socket;
   final chatRoomRepo = ChatRoomRepo();
   final authRepo = AuthRepo();
   final localStorage = LocalStorage();
@@ -79,7 +80,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
   // String _deviceOs = '';
   String? _deviceModel = '';
 
-  var _di_list = Hive.box('di_list');
+  final diList = Hive.box('di_list');
 
   @override
   void initState() {
@@ -201,8 +202,8 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
   }
 
   registerUserToDi() async {
-    for (var i = 0; i < _di_list.length; i++) {
-      if (_di_list.getAt(i).merchantNo == merchantId) {
+    for (var i = 0; i < diList.length; i++) {
+      if (diList.getAt(i).merchantNo == merchantId) {
         duplicateMerchant = true;
         break;
       }
@@ -213,7 +214,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
         context.router.popUntil((route) => route.settings.name == 'Home');
       } else {
         _formKey.currentState!.save();
-        FocusScope.of(context).requestFocus(new FocusNode());
+        FocusScope.of(context).requestFocus(FocusNode());
 
         setState(() {
           _isLoading = true;
@@ -241,23 +242,27 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
 
         if (result.isSuccess) {
           //save into hive
+          if (!context.mounted) return;
           var diResult = await authRepo.getUserRegisteredDI2(
               context: context, merchantId: merchantId);
           if (diResult.isSuccess) {
             print(diResult.data.length);
           }
+
           var createChatSupportResult =
               await chatRoomRepo.createChatSupportByMember();
           if (createChatSupportResult.data != null &&
               createChatSupportResult.data.length > 0) {
+            if (!context.mounted) return;
             await context.read<SocketClientHelper>().loginUserRoom();
+
             String userid = await localStorage.getUserId() ?? '';
             CreateRoomResponse getCreateRoomResponse =
                 createChatSupportResult.data[0];
 
             List<RoomMembers> roomMembers = await dbHelper
                 .getRoomMembersList(getCreateRoomResponse.roomId!);
-            roomMembers.forEach((roomMember) {
+            for (var roomMember in roomMembers) {
               if (userid != roomMember.userId) {
                 var inviteUserToRoomJson = {
                   "invitedRoomId": getCreateRoomResponse.roomId!,
@@ -273,9 +278,11 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
                   }
                 });
               }
-            });
+            }
           }
+          if (!context.mounted) return;
           context.router.popUntil(ModalRoute.withName('Home'));
+
           /* customDialog.show(
           context: context,
           title: Center(
@@ -299,11 +306,12 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
           type: DialogType.GENERAL,
         ); */
         } else {
+          if (!context.mounted) return;
           customDialog.show(
             context: context,
             content: result.message.toString(),
             onPressed: () => context.router.pop(),
-            type: DialogType.ERROR,
+            type: DialogType.error,
           );
         }
 
@@ -327,7 +335,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
               Colors.white,
               primaryColor,
             ],
-            stops: [0.45, 0.85],
+            stops: const [0.45, 0.85],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -335,7 +343,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            iconTheme: IconThemeData(
+            iconTheme: const IconThemeData(
               color: Colors.black, //change your color here
             ),
             title: Image.asset(image.logo2, height: 90.h),
@@ -360,7 +368,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
                           ),
                           labelText: AppLocalizations.of(context)!
                               .translate('date_time'),
-                          prefixIcon: Icon(Icons.phone_android),
+                          prefixIcon: const Icon(Icons.phone_android),
                         ),
                         initialValue: DateFormat('yyyy-MM-dd:HH:mm')
                             .format(DateTime.now()),
@@ -369,8 +377,8 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
                       TextFormField(
                         controller: merchantIdController,
                         enabled: false,
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(vertical: -10.h),
                           hintStyle: TextStyle(
@@ -378,15 +386,15 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
                           ),
                           labelText: AppLocalizations.of(context)!
                               .translate('merchant_id'),
-                          prefixIcon: Icon(Icons.person),
+                          prefixIcon: const Icon(Icons.person),
                         ),
                       ),
                       SizedBox(height: 50.h),
                       TextFormField(
                         controller: merchantNameController,
                         enabled: false,
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(vertical: -10.h),
                           hintStyle: TextStyle(
@@ -394,7 +402,7 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
                           ),
                           labelText: AppLocalizations.of(context)!
                               .translate('merchant_name'),
-                          prefixIcon: Icon(Icons.person),
+                          prefixIcon: const Icon(Icons.person),
                         ),
                       ),
                       SizedBox(height: 50.h),
@@ -465,16 +473,16 @@ class _RegisterUserToDiState extends State<RegisterUserToDi> {
                   _message.isNotEmpty
                       ? Text(
                           _message,
-                          style: TextStyle(color: Colors.red),
+                          style: const TextStyle(color: Colors.red),
                         )
-                      : SizedBox.shrink(),
+                      : const SizedBox.shrink(),
                   _isLoading
                       ? SpinKitFoldingCube(
                           color: primaryColor,
                         )
                       : CustomButton(
                           onPressed: registerUserToDi,
-                          buttonColor: Color(0xffdd0e0e),
+                          buttonColor: const Color(0xffdd0e0e),
                           title: AppLocalizations.of(context)!
                               .translate('submit_btn'),
                         ),

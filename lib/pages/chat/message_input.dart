@@ -17,8 +17,9 @@ class MessageInput extends StatefulWidget {
   final String? targetId;
   final FocusNode? focusNode;
 
-  MessageInput(
-      {required this.textEditingController,
+  const MessageInput(
+      {super.key,
+      required this.textEditingController,
       this.onPressedSend,
       this.onPressedAttach,
       this.onPressedVoice,
@@ -29,7 +30,7 @@ class MessageInput extends StatefulWidget {
       this.focusNode});
 
   @override
-  _MessageInputState createState() => _MessageInputState();
+  State<MessageInput> createState() => _MessageInputState();
 }
 
 class _MessageInputState extends State<MessageInput> {
@@ -50,7 +51,7 @@ class _MessageInputState extends State<MessageInput> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(35.0),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                               offset: Offset(0, 3),
                               blurRadius: 5,
@@ -59,25 +60,26 @@ class _MessageInputState extends State<MessageInput> {
                       ),
                       child: Row(
                         children: [
-                          IconButton(icon: Icon(Icons.face), onPressed: () {}),
+                          IconButton(
+                              icon: const Icon(Icons.face), onPressed: () {}),
                           Expanded(
                             child: TextFormField(
                               maxLines: null,
                               controller: _textEditingController,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                   hintText: "Type Something...",
                                   border: InputBorder.none),
                               onChanged: (value) {
-                                if (value.length > 0) {
+                                if (value.isNotEmpty) {
                                   bloc.onTextValueChange(value);
 
                                   setState(() {
-                                    this._isTyping = true;
+                                    _isTyping = true;
                                   });
-                                } else if (value.length == 0) {
+                                } else if (value.isEmpty) {
                                   bloc.onTextValueChange(value);
                                   setState(() {
-                                    this._isTyping = false;
+                                    _isTyping = false;
                                   });
                                 }
                               },
@@ -87,22 +89,22 @@ class _MessageInputState extends State<MessageInput> {
                           Visibility(
                             visible: _isTyping == true ? false : true,
                             child: IconButton(
-                              icon: Icon(Icons.photo_camera),
+                              icon: const Icon(Icons.photo_camera),
                               onPressed: () {},
                             ),
                           ),
                           IconButton(
-                            icon: Icon(Icons.attach_file),
+                            icon: const Icon(Icons.attach_file),
                             onPressed: () {},
                           )
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(width: 15),
+                  const SizedBox(width: 15),
                   Container(
                     padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Colors.green, shape: BoxShape.circle),
                     child: _isTyping == true
                         ? StreamProvider.value(
@@ -111,26 +113,26 @@ class _MessageInputState extends State<MessageInput> {
                             value: bloc.submitButtonStream,
                             child: Consumer<bool>(
                               builder: (ctx, isEnable, _) => InkWell(
-                                child: Icon(
-                                  Icons.send,
-                                  color: Colors.white,
-                                ),
                                 onTap: isEnable
                                     ? () {
                                         _sendMessage(widget.userId,
                                             widget.targetId, bloc);
                                       }
                                     : null,
+                                child: const Icon(
+                                  Icons.send,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           )
                         : InkWell(
-                            child: Icon(
+                            onLongPress:
+                                widget.onShowBottom as void Function()?,
+                            child: const Icon(
                               Icons.keyboard_voice,
                               color: Colors.white,
-                            ),
-                            onLongPress:
-                                widget.onShowBottom as void Function()?),
+                            )),
                   )
                 ],
               ),
@@ -237,7 +239,7 @@ class _MessageInputState extends State<MessageInput> {
   Future<void> _sendMessage(
       String? author, String? target, ChatBloc bloc) async {
     final messageContent = _textEditingController.text;
-    var uuid = Uuid();
+    var uuid = const Uuid();
     String messageId = uuid.v4();
 
     DateTime parsedDate = DateTime.now();
@@ -248,7 +250,7 @@ class _MessageInputState extends State<MessageInput> {
         sentDateTime: DateTime.now().toString(),
         type: "text",
         isSeen: "false"); */
-    final Message message = new Message(
+    final Message message = Message(
         id: messageId,
         author: author,
         target: target,
@@ -261,14 +263,14 @@ class _MessageInputState extends State<MessageInput> {
 
     bloc.sendMessage(jsonMessage);
     String messageTargetTableId = uuid.v1();
-    MessageAndAuthorTable messageAndAuthorTable = new MessageAndAuthorTable(
+    MessageAndAuthorTable messageAndAuthorTable = MessageAndAuthorTable(
         id: message.id,
         author: message.author,
         data: message.data,
         sentDateTime: message.sentDateTime,
         type: message.type,
         isSeen: message.isSeen);
-    MessageTargetTable messageTargetTable = new MessageTargetTable(
+    MessageTargetTable messageTargetTable = MessageTargetTable(
         id: messageTargetTableId,
         messageId: message.id,
         targetId: message.target);
@@ -288,7 +290,7 @@ class _MessageInputState extends State<MessageInput> {
     }
 
     setState(() {
-      this._isTyping = false;
+      _isTyping = false;
     });
   }
 }

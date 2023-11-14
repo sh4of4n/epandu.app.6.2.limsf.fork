@@ -1,10 +1,8 @@
-import 'package:epandu/common_library/services/repository/meeting_repository.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 class SocketHelper {
   final LocalStorage localStorage = LocalStorage();
-  final chatRepo = ChatRepo();
   Socket? _socket;
 
   Future<Socket?> get socket async {

@@ -4,9 +4,7 @@ class Preference {
   static SharedPreferences? _prefs;
 
   static Future<SharedPreferences?> load() async {
-    if (_prefs == null) {
-      _prefs = await SharedPreferences.getInstance();
-    }
+    _prefs ??= await SharedPreferences.getInstance();
     return _prefs;
   }
 

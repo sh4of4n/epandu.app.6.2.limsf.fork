@@ -9,8 +9,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 
 class HomeTab extends StatefulWidget {
+  const HomeTab({super.key});
+
   @override
-  _HomeTabState createState() => _HomeTabState();
+  State<HomeTab> createState() => _HomeTabState();
 }
 
 class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
@@ -18,23 +20,23 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
   final myImage = ImagesConstant();
 
   final List<Tab> myTabs = <Tab>[
-    Tab(
-      icon: new Icon(
-        MyCustomIcons.home_icon,
+    const Tab(
+      icon: Icon(
+        MyCustomIcons.homeIcon,
         size: 30,
         color: Color(0xff808080),
       ),
     ),
-    Tab(
-      icon: new Icon(
-        MyCustomIcons.v_club_icon,
+    const Tab(
+      icon: Icon(
+        MyCustomIcons.vClubIcon,
         size: 30,
         color: Color(0xff808080),
       ),
     ),
-    Tab(
-      icon: new Icon(
-        MyCustomIcons.invite_icon,
+    const Tab(
+      icon: Icon(
+        MyCustomIcons.inviteIcon,
         size: 30,
         color: Color(0xff808080),
       ),
@@ -76,7 +78,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
               Colors.white,
               primaryColor,
             ],
-            stops: [0.45, 0.65],
+            stops: const [0.45, 0.65],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -93,8 +95,8 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                   child: TabBar(
                     tabs: [
                       Tab(
-                        icon: Icon(
-                          MyCustomIcons.home_icon,
+                        icon: const Icon(
+                          MyCustomIcons.homeIcon,
                           size: 30,
                           color: Color(0xff808080),
                         ),
@@ -102,8 +104,8 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                             AppLocalizations.of(context)!.translate('home_lbl'),
                       ),
                       Tab(
-                        icon: Icon(
-                          MyCustomIcons.v_club_icon,
+                        icon: const Icon(
+                          MyCustomIcons.vClubIcon,
                           size: 30,
                           color: Color(0xff808080),
                         ),
@@ -113,8 +115,8 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
                       Image.asset(myImage.sos,
                           width: ScreenUtil().setWidth(300)),
                       Tab(
-                        icon: Icon(
-                          MyCustomIcons.invite_icon,
+                        icon: const Icon(
+                          MyCustomIcons.inviteIcon,
                           size: 30,
                           color: Color(0xff808080),
                         ),
@@ -138,7 +140,7 @@ class _HomeTabState extends State<HomeTab> with SingleTickerProviderStateMixin {
           ),
           body: TabBarView(
             controller: _tabController,
-            children: [
+            children: const [
               Home(),
               Invite(),
               // Menu(),

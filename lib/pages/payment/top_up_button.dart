@@ -6,7 +6,7 @@ class TopUpButton extends StatelessWidget {
   final TextStyle? textStyle;
   final onTap;
 
-  TopUpButton({this.value, this.textStyle, this.onTap});
+  const TopUpButton({super.key, this.value, this.textStyle, this.onTap});
 
   @override
   Widget build(BuildContext context) {

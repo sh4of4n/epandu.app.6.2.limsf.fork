@@ -6,7 +6,7 @@ import 'package:epandu/common_library/services/model/createroom_response.dart';
 import 'package:epandu/common_library/services/model/m_roommember_model.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/pages/chat/socketclient_helper.dart';
-import 'package:epandu/services/database/DatabaseHelper.dart';
+import 'package:epandu/services/database/database_helper.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
@@ -14,22 +14,23 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 import '../../router.gr.dart';
 import '../../services/repository/chatroom_repository.dart';
 
+@RoutePage(name: 'SelectDrivingInstitute')
 class SelectDrivingInstitute extends StatefulWidget {
   final diList;
 
-  SelectDrivingInstitute(this.diList);
+  const SelectDrivingInstitute(this.diList, {super.key});
 
   @override
-  _SelectDrivingInstituteState createState() => _SelectDrivingInstituteState();
+  State<SelectDrivingInstitute> createState() => _SelectDrivingInstituteState();
 }
 
 class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
-  late IO.Socket socket;
+  late io.Socket socket;
   RegisteredDiArmasterProfile? diListData;
   final primaryColor = ColorConstant.primaryColor;
   final chatRoomRepo = ChatRoomRepo();
@@ -42,7 +43,7 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
   @override
   void initState() {
     super.initState();
-
+    EasyLoading.addStatusCallback(statusCallback);
     saveDiList();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final getSocket = Provider.of<SocketClientHelper>(context, listen: false);
@@ -50,6 +51,16 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
     });
   }
 
+  @override
+  void deactivate() {
+    EasyLoading.dismiss();
+    EasyLoading.removeCallback(statusCallback);
+    super.deactivate();
+  }
+
+  void statusCallback(EasyLoadingStatus status) {
+    //print('Test EasyLoading Status $status');
+  }
   saveDiList() async {
     await Hive.box('di_list').clear();
 
@@ -85,13 +96,14 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
   }
 
   loadImage(diList) {
-    if (diList.merchantBannerFilename != null)
+    if (diList.merchantBannerFilename != null) {
       return AspectRatio(
         aspectRatio: 28 / 9,
         child: Image.network(
           diList.merchantBannerFilename.replaceAll(exp, '').split('\r\n')[0],
         ),
       );
+    }
     return AspectRatio(
       aspectRatio: 28 / 9,
       child: Container(
@@ -121,14 +133,14 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Padding(
-          padding: EdgeInsets.symmetric(vertical: 25.0),
+          padding: const EdgeInsets.symmetric(vertical: 25.0),
           child: ListView(
             children: <Widget>[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(top: 20.0),
+                    padding: const EdgeInsets.only(top: 20.0),
                     child: Image.asset(
                       ImagesConstant().logo,
                       width: ScreenUtil().setWidth(1000),
@@ -138,15 +150,15 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
                 ],
               ),
               Container(
-                margin: EdgeInsets.all(10.0),
+                margin: const EdgeInsets.all(10.0),
                 alignment: Alignment.center,
                 child: Text(
                     AppLocalizations.of(context)!.translate('select_di_desc'),
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.w600)),
               ),
               ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: widget.diList.length,
                 shrinkWrap: true,
                 // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -158,16 +170,20 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: ListTile(
                       onTap: () async {
-                        EasyLoading.show();
                         await localStorage.saveMerchantDbCode(
                             widget.diList[index].merchantNo);
                         var createChatSupportResult =
                             await chatRoomRepo.createChatSupportByMember();
                         if (createChatSupportResult.data != null &&
                             createChatSupportResult.data.length > 0) {
+                          await EasyLoading.show(
+                            maskType: EasyLoadingMaskType.black,
+                          );
+                          if (!context.mounted) return;
                           await context
                               .read<SocketClientHelper>()
                               .loginUserRoom();
+                          await EasyLoading.dismiss();
                           String userid = await localStorage.getUserId() ?? '';
                           CreateRoomResponse getCreateRoomResponse =
                               createChatSupportResult.data[0];
@@ -175,7 +191,7 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
                           List<RoomMembers> roomMembers =
                               await dbHelper.getRoomMembersList(
                                   getCreateRoomResponse.roomId!);
-                          roomMembers.forEach((roomMember) {
+                          for (var roomMember in roomMembers) {
                             if (userid != roomMember.userId) {
                               var inviteUserToRoomJson = {
                                 "invitedRoomId": getCreateRoomResponse.roomId!,
@@ -193,11 +209,12 @@ class _SelectDrivingInstituteState extends State<SelectDrivingInstitute> {
                                 }
                               });
                             }
-                          });
+                          }
                         }
                         // context.router.popUntil(ModalRoute.withName('Home'));
                         EasyLoading.dismiss();
-                        context.router.replace(Home());
+                        if (!context.mounted) return;
+                        context.router.replace(const Home());
                       },
                       title: loadImage(widget.diList[index]),
                     ),

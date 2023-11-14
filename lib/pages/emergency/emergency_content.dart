@@ -5,6 +5,8 @@ import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'sos_button.dart';
 
 class EmergencyContent extends StatelessWidget {
+  const EmergencyContent({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(

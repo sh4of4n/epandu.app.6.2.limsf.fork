@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/repository/fpx_repository.dart';
+import 'package:epandu/common_library/services/response.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:epandu/common_library/utils/loading_model.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
+@RoutePage(name: 'BankList')
 class BankList extends StatefulWidget {
   final String? icNo;
   final String? docDoc;
@@ -19,7 +21,8 @@ class BankList extends StatefulWidget {
   final String? diCode;
   final String? amountString;
 
-  BankList({
+  const BankList({
+    super.key,
     this.icNo,
     this.docDoc,
     this.docRef,
@@ -29,7 +32,7 @@ class BankList extends StatefulWidget {
   });
 
   @override
-  _BankListState createState() => _BankListState();
+  State<BankList> createState() => _BankListState();
 }
 
 class _BankListState extends State<BankList> {
@@ -65,7 +68,7 @@ class _BankListState extends State<BankList> {
       isLoading = true;
     });
 
-    var result;
+    Response result;
 
     result = await fpxRepo.fpxSendB2CAuthRequestWithAmt(
       context: context,
@@ -80,6 +83,7 @@ class _BankListState extends State<BankList> {
     );
 
     if (result.isSuccess) {
+      if (!context.mounted) return;
       context.router.push(
         Webview(
             url: result.data[0].responseData,
@@ -91,6 +95,7 @@ class _BankListState extends State<BankList> {
         forceWebView: true,
       ); */
     } else {
+      if (!context.mounted) return;
       context.router.push(
         PaymentStatus(icNo: widget.icNo),
       );
@@ -115,13 +120,13 @@ class _BankListState extends State<BankList> {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                   return Container(
-                    padding: EdgeInsets.all(15.0),
-                    margin:
-                        EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
+                    padding: const EdgeInsets.all(15.0),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 15.0, horizontal: 8.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15.0),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(0, 8.0),
@@ -164,7 +169,7 @@ class _BankListState extends State<BankList> {
                         ),
                       ),
                       ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: bankList.length,
                         itemBuilder: (BuildContext context, int index) {
@@ -190,7 +195,7 @@ class _BankListState extends State<BankList> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text(
+                            const Text(
                               'Powered By',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),

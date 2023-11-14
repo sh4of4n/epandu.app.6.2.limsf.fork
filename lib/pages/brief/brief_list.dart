@@ -21,6 +21,7 @@ List<Map<String, Object>> fileList = [
   }
 ];
 
+@RoutePage()
 class BriefListPage extends StatefulWidget {
   const BriefListPage({super.key});
 
@@ -35,26 +36,26 @@ class _BriefListPageState extends State<BriefListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Brief List'),
+        title: const Text('Brief List'),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Row(
                 children: [
-                  Text(
+                  const Text(
                     'Group ID',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   DropdownButton<String>(
                     value: dropdownValue,
                     icon: const Icon(Icons.keyboard_arrow_down),
@@ -75,9 +76,9 @@ class _BriefListPageState extends State<BriefListPage> {
             ),
             ListView.separated(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               separatorBuilder: (context, index) {
-                return Divider(
+                return const Divider(
                   height: 0,
                 );
               },
@@ -100,16 +101,16 @@ class _BriefListPageState extends State<BriefListPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       fileList[index]['type'] == 'pdf'
-                          ? Icon(
+                          ? const Icon(
                               Icons.picture_as_pdf,
                             )
-                          : Icon(
+                          : const Icon(
                               Icons.video_library,
                             ),
                     ],
                   ),
                   title: Text(fileList[index]['name'].toString()),
-                  subtitle: Text(
+                  subtitle: const Text(
                       'A sufficiently long subtitle warrants three lines.'),
                 );
               },

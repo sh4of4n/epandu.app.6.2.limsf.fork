@@ -17,9 +17,12 @@ import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 import 'directory_card.dart';
 
+@RoutePage(name: 'EmergencyDirectory')
 class EmergencyDirectory extends StatefulWidget {
+  const EmergencyDirectory({super.key});
+
   @override
-  _EmergencyDirectoryState createState() => _EmergencyDirectoryState();
+  State<EmergencyDirectory> createState() => _EmergencyDirectoryState();
 }
 
 class _EmergencyDirectoryState extends State<EmergencyDirectory> {
@@ -32,7 +35,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
   final iconText = TextStyle(
     fontSize: ScreenUtil().setSp(64),
     fontWeight: FontWeight.bold,
-    color: Color(0xff5d6767),
+    color: const Color(0xff5d6767),
   );
   final location = Location();
 
@@ -67,6 +70,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
     if (serviceLocationStatus) {
       _getCurrentLocation();
     } else {
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         barrierDismissable: false,
@@ -79,7 +83,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
             onPressed: () {
               context.router.pop();
               context.router.pop();
-              AppSettings.openLocationSettings();
+              AppSettings.openAppSettings(type: AppSettingsType.location);
             },
           ),
           TextButton(
@@ -90,7 +94,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
             },
           ),
         ],
-        type: DialogType.GENERAL,
+        type: DialogType.general,
       );
     }
   }
@@ -112,6 +116,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         _getSosContact('BIKEWORKSHOP'),
       ]);
     } else {
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         barrierDismissable: false,
@@ -124,7 +129,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
             onPressed: () {
               context.router.pop();
               context.router.pop();
-              AppSettings.openLocationSettings();
+              AppSettings.openAppSettings(type: AppSettingsType.location);
             },
           ),
           TextButton(
@@ -135,7 +140,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
             },
           ),
         ],
-        type: DialogType.GENERAL,
+        type: DialogType.general,
       );
     }
   }
@@ -231,7 +236,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         context,
         message: AppLocalizations.of(context)!.translate('no_nearby_contacts'),
         duration: 5000,
-        type: MessageType.INFO,
+        type: MessageType.info,
       );
     } else {
       String trimNumber = policeNumber!.replaceAll('-', '').replaceAll(' ', '');
@@ -246,7 +251,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         context,
         message: AppLocalizations.of(context)!.translate('no_nearby_contacts'),
         duration: 5000,
-        type: MessageType.INFO,
+        type: MessageType.info,
       );
     } else {
       String trimNumber =
@@ -262,7 +267,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         context,
         message: AppLocalizations.of(context)!.translate('no_nearby_contacts'),
         duration: 5000,
-        type: MessageType.INFO,
+        type: MessageType.info,
       );
     } else {
       String trimNumber = bombaNumber!.replaceAll('-', '').replaceAll(' ', '');
@@ -277,7 +282,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         context,
         message: AppLocalizations.of(context)!.translate('no_nearby_contacts'),
         duration: 5000,
-        type: MessageType.INFO,
+        type: MessageType.info,
       );
     } else {
       String trimNumber =
@@ -293,7 +298,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         context,
         message: AppLocalizations.of(context)!.translate('no_nearby_contacts'),
         duration: 5000,
-        type: MessageType.INFO,
+        type: MessageType.info,
       );
     } else {
       String trimNumber =
@@ -306,7 +311,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Colors.white, Color(0xffffcd11)],
           stops: [0.65, 1],
@@ -318,18 +323,18 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           elevation: 0,
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.black, //change your color here
           ),
           backgroundColor: Colors.transparent,
           title: Text(
             AppLocalizations.of(context)!.translate('sos_lbl'),
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black,
             ),
           ),
         ),
-        body: Container(
+        body: SizedBox(
           // margin: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(50)),
           height: ScreenUtil().screenHeight,
           child: SingleChildScrollView(
@@ -413,7 +418,7 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
                       message: AppLocalizations.of(context)!
                           .translate('select_insurance'),
                       duration: 5000,
-                      type: MessageType.INFO,
+                      type: MessageType.info,
                     ),
                   },
                   directory: DirectoryList(directoryType: 'INSURANCE'),

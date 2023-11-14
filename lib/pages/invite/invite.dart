@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/base/page_base_class.dart';
@@ -9,9 +10,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+@RoutePage(name: 'Invite')
 class Invite extends StatefulWidget with PageBaseClass {
+  const Invite({super.key});
+
   @override
-  _InviteState createState() => _InviteState();
+  State<Invite> createState() => _InviteState();
 }
 
 class _InviteState extends State<Invite> with PageBaseClass {
@@ -27,7 +31,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
   String? _phone = '';
   String? _name = '';
   String? _message = '';
-  TextStyle _messageStyle = TextStyle(color: Colors.red);
+  TextStyle _messageStyle = const TextStyle(color: Colors.red);
 
   final AuthRepo authRepo = AuthRepo();
 
@@ -49,7 +53,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
       },
       child: Scaffold(
         // resizeToAvoidBottomInset: false,
-        backgroundColor: Color(0xfffdc013),
+        backgroundColor: const Color(0xfffdc013),
         appBar: AppBar(
           title: Text(
             AppLocalizations.of(context)!.translate('invite_your_friends_lbl'),
@@ -94,13 +98,13 @@ class _InviteState extends State<Invite> with PageBaseClass {
                             },
                             padding: EdgeInsets.only(top: 62.h),
                             initialSelection: 'MY',
-                            favorite: ['+60', 'MY'],
+                            favorite: const ['+60', 'MY'],
                             showFlagMain: true,
                             alignLeft: false,
                             enabled: false,
                             textStyle: TextStyle(
                               fontSize: 58.sp,
-                              color: Color(0xff808080),
+                              color: const Color(0xff808080),
                             ),
                           ),
                           Flexible(
@@ -180,35 +184,29 @@ class _InviteState extends State<Invite> with PageBaseClass {
                               _message!,
                               style: _messageStyle,
                             )
-                          : SizedBox.shrink(),
+                          : const SizedBox.shrink(),
                       Container(
                         child: _isLoading
-                            ? SpinKitFoldingCube(
+                            ? const SpinKitFoldingCube(
                                 color: Colors.blue,
                               )
                             : ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  shape: StadiumBorder(),
-                                  backgroundColor: Color(0xffdd0e0e),
+                                  shape: const StadiumBorder(),
+                                  backgroundColor: const Color(0xffdd0e0e),
                                   minimumSize: Size(420.w, 45.h),
-                                  padding: EdgeInsets.symmetric(vertical: 11.0),
-                                  textStyle: TextStyle(color: Colors.white),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 11.0),
+                                  textStyle:
+                                      const TextStyle(color: Colors.white),
                                 ),
                                 onPressed: _submit,
-                                child: Container(
-                                  /* decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(0),
-                  ), */
-                                  // padding: EdgeInsets.symmetric(
-                                  //   horizontal: 100.w,
-                                  // ),
-                                  child: Text(
-                                    AppLocalizations.of(context)!
-                                        .translate('invite_btn'),
-                                    style: TextStyle(
-                                      fontSize: 60.sp,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                      .translate('invite_btn'),
+                                  style: TextStyle(
+                                    fontSize: 60.sp,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ),
@@ -231,7 +229,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
       },
       child: Scaffold(
         // resizeToAvoidBottomInset: false,
-        backgroundColor: Color(0xfffdc013),
+        backgroundColor: const Color(0xfffdc013),
         appBar: AppBar(
           title: Text(
             AppLocalizations.of(context)!.translate('invite_your_friends_lbl'),
@@ -278,13 +276,13 @@ class _InviteState extends State<Invite> with PageBaseClass {
                               },
                               padding: EdgeInsets.only(top: 52.h),
                               initialSelection: 'MY',
-                              favorite: ['+60', 'MY'],
+                              favorite: const ['+60', 'MY'],
                               showFlagMain: true,
                               alignLeft: false,
                               enabled: false,
                               textStyle: TextStyle(
                                 fontSize: 40.sp,
-                                color: Color(0xff808080),
+                                color: const Color(0xff808080),
                               ),
                             ),
                             Container(
@@ -293,7 +291,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                               child: TextFormField(
                                 style: TextStyle(
                                   fontSize: 40.sp,
-                                  color: Color(0xff808080),
+                                  color: const Color(0xff808080),
                                 ),
                                 focusNode: _phoneFocus,
                                 keyboardType: TextInputType.phone,
@@ -341,7 +339,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                         child: TextFormField(
                           style: TextStyle(
                             fontSize: 40.sp,
-                            color: Color(0xff808080),
+                            color: const Color(0xff808080),
                           ),
                           focusNode: _nameFocus,
                           decoration: InputDecoration(
@@ -388,35 +386,29 @@ class _InviteState extends State<Invite> with PageBaseClass {
                               _message!,
                               style: _messageStyle,
                             )
-                          : SizedBox.shrink(),
+                          : const SizedBox.shrink(),
                       Container(
                         child: _isLoading
-                            ? SpinKitFoldingCube(
+                            ? const SpinKitFoldingCube(
                                 color: Colors.blue,
                               )
                             : ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   minimumSize: Size(420.w, 45.h),
-                                  backgroundColor: Color(0xffdd0e0e),
-                                  padding: EdgeInsets.symmetric(vertical: 11.0),
-                                  shape: StadiumBorder(),
-                                  textStyle: TextStyle(color: Colors.white),
+                                  backgroundColor: const Color(0xffdd0e0e),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 11.0),
+                                  shape: const StadiumBorder(),
+                                  textStyle:
+                                      const TextStyle(color: Colors.white),
                                 ),
                                 onPressed: _submit,
-                                child: Container(
-                                  /* decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(0),
-                  ), */
-                                  // padding: EdgeInsets.symmetric(
-                                  //   horizontal: 100.w,
-                                  // ),
-                                  child: Text(
-                                    AppLocalizations.of(context)!
-                                        .translate('invite_btn'),
-                                    style: TextStyle(
-                                      fontSize: 35.sp,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                      .translate('invite_btn'),
+                                  style: TextStyle(
+                                    fontSize: 35.sp,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ),
@@ -435,20 +427,20 @@ class _InviteState extends State<Invite> with PageBaseClass {
   _submit() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      FocusScope.of(context).requestFocus(new FocusNode());
+      FocusScope.of(context).requestFocus(FocusNode());
 
-      String? _userId = await LocalStorage().getUserId();
+      String? userId = await LocalStorage().getUserId();
 
       setState(() {
         _isLoading = true;
         _message = '';
       });
-
+      if (!context.mounted) return;
       var result = await authRepo.getUserByUserPhone(
         context: context,
         countryCode: _countryCode,
         phone: _phone!.replaceAll(' ', ''),
-        userId: _userId,
+        userId: userId,
         name: _name,
         scenario: 'INVITE',
       );
@@ -456,12 +448,12 @@ class _InviteState extends State<Invite> with PageBaseClass {
       if (result.isSuccess) {
         setState(() {
           _message = result.message;
-          _messageStyle = TextStyle(color: Colors.green);
+          _messageStyle = const TextStyle(color: Colors.green);
         });
       } else {
         setState(() {
           _message = result.message;
-          _messageStyle = TextStyle(color: Colors.red);
+          _messageStyle = const TextStyle(color: Colors.red);
         });
       }
 

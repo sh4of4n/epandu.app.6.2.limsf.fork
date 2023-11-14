@@ -16,6 +16,7 @@ class NavigationControls extends StatelessWidget {
   final backType;
 
   const NavigationControls({
+    super.key,
     required this.webViewControllerFuture,
     this.type,
     this.backType,
@@ -26,9 +27,9 @@ class NavigationControls extends StatelessWidget {
   backButton(BuildContext context, webViewReady, controller) async {
     final customDialog = CustomDialog();
 
-    if (!webViewReady)
+    if (!webViewReady) {
       return null;
-    else {
+    } else {
       if (backType == 'HOME') {
         customDialog.show(
           context: context,
@@ -50,7 +51,7 @@ class NavigationControls extends StatelessWidget {
               },
             ),
           ],
-          type: DialogType.GENERAL,
+          type: DialogType.general,
         );
       } else {
         if (await controller.canGoBack()) {
@@ -81,9 +82,11 @@ class NavigationControls extends StatelessWidget {
             ],
             type: DialogType.GENERAL,
           ); */
+          if (!context.mounted) return;
           Provider.of<CallStatusModel>(context, listen: false)
               .callStatus(false);
           context.router.pop();
+
           return;
         }
       }
@@ -92,8 +95,8 @@ class NavigationControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool webViewReady = true;
-    final WebViewController? controller = webViewControllerFuture;
+    const bool webViewReady = true;
+    final WebViewController controller = webViewControllerFuture;
     controllerGlobal = controller;
 
     return Row(
@@ -109,7 +112,7 @@ class NavigationControls extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.replay),
             onPressed: () {
-              controller!.reload();
+              controller.reload();
             },
           ),
       ],

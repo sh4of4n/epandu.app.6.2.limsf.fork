@@ -27,7 +27,7 @@ class ChatRepo {
       GetUserMeetingAccountResponse getUserMeetingAccountResponse =
           GetUserMeetingAccountResponse.fromJson(response.data);
 
-      print("get response message: " + response.message!);
+      print("get response message: ${response.message!}");
 
       return Response(true, data: getUserMeetingAccountResponse.zmMeetingUser);
     }
@@ -58,7 +58,7 @@ class ChatRepo {
     var response =
         await networking.postData(api: api, body: body, headers: headers);
 
-    print("post response message: " + response.message!);
+    print("post response message: ${response.message!}");
 
     if (response.isSuccess && response.data == 'True') {
       return Response(true);

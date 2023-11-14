@@ -8,7 +8,7 @@ import 'package:transparent_image/transparent_image.dart';
 class ContactList extends StatelessWidget {
   final UserProfile? contactList;
 
-  ContactList({this.contactList});
+  ContactList({super.key, this.contactList});
 
   final LocalStorage localStorage = LocalStorage();
   final RegExp removeBracket =
@@ -52,7 +52,7 @@ class ContactList extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                   color: Colors.grey.withOpacity(.3),
-                  offset: Offset(0, 5),
+                  offset: const Offset(0, 5),
                   blurRadius: 25)
             ],
           ),

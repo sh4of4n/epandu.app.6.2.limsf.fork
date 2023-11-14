@@ -33,16 +33,16 @@ class ChatUsers {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['roomId'] = this.roomId;
-    data['userId'] = this.userId;
-    data['appId'] = this.appId;
-    data['caUid'] = this.caUid;
-    data['deviceId'] = this.deviceId;
-    data['joined'] = this.joined;
-    data['firstJoinedDatetime'] = this.firstJoinedDatetime;
-    data['lastJoinedDatetime'] = this.lastJoinedDatetime;
-    data['lastLeftDatetime'] = this.lastLeftDatetime;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['roomId'] = roomId;
+    data['userId'] = userId;
+    data['appId'] = appId;
+    data['caUid'] = caUid;
+    data['deviceId'] = deviceId;
+    data['joined'] = joined;
+    data['firstJoinedDatetime'] = firstJoinedDatetime;
+    data['lastJoinedDatetime'] = lastJoinedDatetime;
+    data['lastLeftDatetime'] = lastLeftDatetime;
     return data;
   }
 }
@@ -54,17 +54,17 @@ class GetChatUsersListResponse {
 
   GetChatUsersListResponse.fromJson(Map<String, dynamic> json) {
     if (json["data"]) {
-      chatUsersList = new List<ChatUsers>.empty(growable: true);
+      chatUsersList = List<ChatUsers>.empty(growable: true);
       json['data'].forEach((v) {
-        chatUsersList!.add(new ChatUsers.fromJson(v));
+        chatUsersList!.add(ChatUsers.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.chatUsersList != null) {
-      data['data'] = this.chatUsersList!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (chatUsersList != null) {
+      data['data'] = chatUsersList!.map((v) => v.toJson()).toList();
     }
     return data;
   }

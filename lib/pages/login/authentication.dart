@@ -14,11 +14,15 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
+import '../chat/chatnotification_count.dart';
 import '../chat/socketclient_helper.dart';
 
+@RoutePage()
 class Authentication extends StatefulWidget {
+  const Authentication({super.key});
+
   @override
-  _AuthenticationState createState() => _AuthenticationState();
+  State<Authentication> createState() => _AuthenticationState();
 }
 
 class _AuthenticationState extends State<Authentication> {
@@ -53,6 +57,7 @@ class _AuthenticationState extends State<Authentication> {
     // if (wsUrl == null) {
     if (Hive.box('ws_url').get('getWsUrl') == '1' ||
         Hive.box('ws_url').get('getWsUrl') == null) {
+      if (!context.mounted) return;
       await authRepo.getWsUrl(
         context: context,
         acctUid: caUid,
@@ -67,7 +72,7 @@ class _AuthenticationState extends State<Authentication> {
 
   _setLocale() async {
     String? locale = await localStorage.getLocale();
-
+    if (!context.mounted) return;
     if (locale == 'en') {
       Provider.of<LanguageModel>(context, listen: false).selectedLanguage(
           AppLocalizations.of(context)!.translate('english_lbl'));
@@ -82,14 +87,25 @@ class _AuthenticationState extends State<Authentication> {
     String? diCode = await localStorage.getMerchantDbCode();
 
     if (userId != null && userId.isNotEmpty && diCode!.isNotEmpty) {
-      context.read<SocketClientHelper>().loginUserRoom();
-      context.router.replace(Home());
+      if (!context.mounted) return;
+      {
+        context.read<SocketClientHelper>().loginUserRoom();
+      }
+
+      if (!context.mounted) return;
+      context.router.replace(const Home());
     } else if (userId != null && userId.isNotEmpty && diCode!.isEmpty) {
+      if (!context.mounted) return;
+      Provider.of<ChatNotificationCount>(context, listen: false)
+          .clearNotificationBadge();
       context.read<SocketClientHelper>().logoutUserRoom();
+      if (!context.mounted) return;
       await authRepo.logout(context: context, type: '');
-      context.router.replace(Login());
+      if (!context.mounted) return;
+      context.router.replace(const Login());
     } else {
-      context.router.replace(Login());
+      if (!context.mounted) return;
+      context.router.replace(const Login());
     }
   }
 
@@ -97,7 +113,7 @@ class _AuthenticationState extends State<Authentication> {
   Widget build(BuildContext context) {
     ScreenUtil.init(
       context,
-      designSize: Size(1440, 2960),
+      designSize: const Size(1440, 2960),
     );
 
     return Scaffold(
@@ -112,7 +128,7 @@ class _AuthenticationState extends State<Authentication> {
               Colors.amber.shade300,
               primaryColor
             ],
-            stops: [0.2, 0.4, 0.6, 0.7, 1],
+            stops: const [0.2, 0.4, 0.6, 0.7, 1],
             radius: 0.7,
           ),
         ),
@@ -129,7 +145,7 @@ class _AuthenticationState extends State<Authentication> {
               ),
             ), */
             Image.asset(image.logo2),
-            SpinKitThreeBounce(
+            const SpinKitThreeBounce(
               color: Color(0xFFED3833),
               size: 30,
             ),

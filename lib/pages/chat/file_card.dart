@@ -3,7 +3,7 @@ import 'package:jumping_dot/jumping_dot.dart';
 import 'package:open_file/open_file.dart';
 import '../../common_library/services/model/replymessage_model.dart';
 import '../../common_library/utils/capitalize_firstletter.dart';
-import 'chat_home.dart';
+import 'chat_room.dart';
 import 'chat_theme.dart';
 import 'date_formater.dart';
 import 'reply_message_widget.dart';
@@ -92,7 +92,7 @@ class FileCard extends StatelessWidget {
                                     height: 50,
                                     width:
                                         MediaQuery.of(context).size.width * 0.7,
-                                    padding: EdgeInsets.all(8),
+                                    padding: const EdgeInsets.all(8),
                                     decoration: BoxDecoration(
                                       color: Colors.grey[300],
                                       borderRadius: BorderRadius.circular(10),
@@ -102,16 +102,14 @@ class FileCard extends StatelessWidget {
                                           MainAxisAlignment.start,
                                       //crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
-                                        Icon(Icons.file_copy),
-                                        SizedBox(
+                                        const Icon(Icons.file_copy),
+                                        const SizedBox(
                                           width: 10,
                                         ),
                                         Expanded(
                                           child: text.length > 20
                                               ? Text(
-                                                  text.substring(0, 20) +
-                                                      '.' +
-                                                      text.split('.').last,
+                                                  '${text.substring(0, 20)}.${text.split('.').last}',
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   style: MyTheme.bodyText1,
@@ -123,10 +121,10 @@ class FileCard extends StatelessWidget {
                                                   style: MyTheme.bodyText1,
                                                 ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 20,
                                         ),
-                                        Icon(Icons.download),
+                                        const Icon(Icons.download),
                                       ],
                                     ),
                                   ),
@@ -136,7 +134,7 @@ class FileCard extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   buildReplyMessage(replyMessageDetails),
-                                  Divider(
+                                  const Divider(
                                     color: Colors.white,
                                     height: 20,
                                     thickness: 2,
@@ -152,7 +150,7 @@ class FileCard extends StatelessWidget {
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.7,
-                                        padding: EdgeInsets.all(8),
+                                        padding: const EdgeInsets.all(8),
                                         decoration: BoxDecoration(
                                           color: Colors.grey[300],
                                           borderRadius:
@@ -163,16 +161,14 @@ class FileCard extends StatelessWidget {
                                               MainAxisAlignment.start,
                                           //crossAxisAlignment: CrossAxisAlignment.end,
                                           children: [
-                                            Icon(Icons.file_copy),
-                                            SizedBox(
+                                            const Icon(Icons.file_copy),
+                                            const SizedBox(
                                               width: 10,
                                             ),
                                             Expanded(
                                               child: text.length > 20
                                                   ? Text(
-                                                      text.substring(0, 20) +
-                                                          '.' +
-                                                          text.split('.').last,
+                                                      '${text.substring(0, 20)}.${text.split('.').last}',
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       style: MyTheme.bodyText1,
@@ -184,10 +180,10 @@ class FileCard extends StatelessWidget {
                                                       style: MyTheme.bodyText1,
                                                     ),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 20,
                                             ),
-                                            Icon(Icons.download),
+                                            const Icon(Icons.download),
                                           ],
                                         ),
                                       ),
@@ -195,20 +191,18 @@ class FileCard extends StatelessWidget {
                                   )
                                 ],
                               )
-                        : Container(
-                            child: Center(
-                                child: Text(
-                              'No File From Server',
-                              style: MyTheme.bodyText1,
-                            )),
-                          ),
+                        : Center(
+                            child: Text(
+                            'No File From Server',
+                            style: MyTheme.bodyText1,
+                          )),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Expanded(
                           child: Text(
-                            "." + text.split('.').last,
+                            ".${text.split('.').last}",
                             style: MyTheme.bodyText1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -223,7 +217,7 @@ class FileCard extends StatelessWidget {
                                     //DateFormat('hh:mm:ss').format(DateTime.parse(time)),
                                     style: MyTheme.isMebodyTextTime,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   getStatusIcon(msgStatus)
@@ -255,15 +249,15 @@ class FileCard extends StatelessWidget {
       return Container();
     } else {
       return Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.all(8),
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(12),
             bottomLeft: Radius.circular(12),
           ),
         ),
-        margin: EdgeInsets.only(bottom: 8),
+        margin: const EdgeInsets.only(bottom: 8),
         child: InkWell(
           onTap: () {
             callback(replyMessageDetails.replyToId!);
@@ -281,7 +275,7 @@ class FileCard extends StatelessWidget {
     int timeInMinutes =
         DateTime.now().difference(DateTime.parse(time)).inMinutes;
     if (timeInMinutes == 1 && status == "SENDING") {
-      return Icon(
+      return const Icon(
         Icons.sms_failed_outlined,
         size: 20,
         semanticLabel: "Failed",
@@ -292,15 +286,20 @@ class FileCard extends StatelessWidget {
         color: Colors.yellow,
         radius: 10,
         numberOfDots: 3,
-        animationDuration: Duration(milliseconds: 200),
+        animationDuration: const Duration(milliseconds: 200),
       );
     } else if (status == "SENT") {
-      return Icon(
+      return const Icon(
+        Icons.done,
+        size: 20,
+      );
+    } else if (status == "UNREAD") {
+      return const Icon(
         Icons.done,
         size: 20,
       );
     } else {
-      return Icon(
+      return const Icon(
         Icons.done_all,
         color: Colors.black,
         size: 20,

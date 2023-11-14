@@ -1,5 +1,5 @@
 export 'chat_bloc.dart';
-export '../../services/database/chat_createDB.dart';
+export '../../services/database/chat_create_db.dart';
 export 'chat_screen.dart';
 export '../../services/database/chat_db.dart';
 export 'chat_page.dart';

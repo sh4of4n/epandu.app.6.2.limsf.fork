@@ -1,14 +1,18 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+@RoutePage()
 class ProductShowPage extends StatefulWidget {
+  const ProductShowPage({super.key});
+
   @override
-  _ProductShowPageState createState() => _ProductShowPageState();
+  State<ProductShowPage> createState() => _ProductShowPageState();
 }
 
 class _ProductShowPageState extends State<ProductShowPage> {
   late PageController _pageController;
   int _currentPage = 0;
-  List<String> _photos = [
+  final List<String> _photos = [
     'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?cs=srgb&dl=pexels-math-90946.jpg&fm=jpg',
     'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?cs=srgb&dl=pexels-math-90946.jpg&fm=jpg',
     'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?cs=srgb&dl=pexels-math-90946.jpg&fm=jpg',
@@ -61,7 +65,7 @@ class _ProductShowPageState extends State<ProductShowPage> {
                       radius: 20,
                       backgroundColor: Colors.grey[500], //<-- SEE HERE
                       child: IconButton(
-                        icon: Icon(Icons.arrow_back),
+                        icon: const Icon(Icons.arrow_back),
                         color: Colors.white,
                         onPressed: () {
                           Navigator.pop(context);
@@ -71,19 +75,19 @@ class _ProductShowPageState extends State<ProductShowPage> {
               ],
             ),
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Product Name',
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8.0),
-                  Text(
+                  const SizedBox(height: 8.0),
+                  const Text(
                     'Price: \$100.00',
                     style: TextStyle(
                       fontSize: 16.0,
@@ -91,12 +95,12 @@ class _ProductShowPageState extends State<ProductShowPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 16.0),
-                  Text(
+                  const SizedBox(height: 16.0),
+                  const Text(
                     'Product Description',
                     style: TextStyle(fontSize: 16.0),
                   ),
-                  SizedBox(height: 24.0),
+                  const SizedBox(height: 24.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -107,10 +111,10 @@ class _ProductShowPageState extends State<ProductShowPage> {
                             backgroundColor: Colors.orange,
                             foregroundColor: Colors.white,
                           ),
-                          child: Text('Add to Cart'),
+                          child: const Text('Add to Cart'),
                         ),
                       ),
-                      SizedBox(width: 16.0),
+                      const SizedBox(width: 16.0),
                       Expanded(
                         child: ElevatedButton(
                           onPressed: () {},
@@ -118,23 +122,23 @@ class _ProductShowPageState extends State<ProductShowPage> {
                             backgroundColor: Colors.blue,
                             foregroundColor: Colors.white,
                           ),
-                          child: Text('Buy Now'),
+                          child: const Text('Buy Now'),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 16.0),
-                  Divider(),
-                  SizedBox(height: 16.0),
-                  Text(
+                  const SizedBox(height: 16.0),
+                  const Divider(),
+                  const SizedBox(height: 16.0),
+                  const Text(
                     'Product Reviews',
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8.0),
-                  ListTile(
+                  const SizedBox(height: 8.0),
+                  const ListTile(
                     leading: CircleAvatar(
                       backgroundImage: NetworkImage(
                         'https://example.com/user-avatar.jpg',
@@ -143,7 +147,7 @@ class _ProductShowPageState extends State<ProductShowPage> {
                     title: Text('John Doe'),
                     subtitle: Text('Great product! Highly recommended.'),
                   ),
-                  ListTile(
+                  const ListTile(
                     leading: CircleAvatar(
                       backgroundImage: NetworkImage(
                         'https://example.com/user-avatar.jpg',

@@ -13,23 +13,25 @@ import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
+import '../chat/chatnotification_count.dart';
+import '../chat/socketclient_helper.dart';
 
 class Settings extends StatefulWidget {
   final data;
 
-  Settings(this.data);
+  const Settings(this.data, {super.key});
 
   @override
-  _SettingsState createState() => _SettingsState();
+  State<Settings> createState() => _SettingsState();
 }
 
 class _SettingsState extends State<Settings> {
   DeviceInfo deviceInfo = DeviceInfo();
   String? _deviceBrand = '';
   String? _deviceModel = '';
-  String? _deviceVersion = '';
+  String? deviceVersion = '';
   String? _deviceId;
-  String? _deviceOs = '';
+  String? deviceOs = '';
 
   String? _regId = '';
 
@@ -37,7 +39,7 @@ class _SettingsState extends State<Settings> {
   int count = 0;
   final authRepo = AuthRepo();
   final customDialog = CustomDialog();
-  double _defIconSize = 30;
+  final double _defIconSize = 30;
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
   String? _clientAcc = '';
@@ -70,10 +72,10 @@ class _SettingsState extends State<Settings> {
 
     _deviceBrand = deviceInfo.manufacturer;
     _deviceModel = deviceInfo.model;
-    _deviceVersion = deviceInfo.version;
+    deviceVersion = deviceInfo.version;
     // _deviceId = deviceInfo.id;
     _deviceId = await localStorage.getLoginDeviceId();
-    _deviceOs = deviceInfo.os;
+    deviceOs = deviceInfo.os;
 
     // print('deviceId: ' + deviceId);
   }
@@ -87,10 +89,10 @@ class _SettingsState extends State<Settings> {
             borderRadius: BorderRadius.circular(10.0),
             color: Colors.white,
           ),
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-          margin: EdgeInsets.all(12.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+          margin: const EdgeInsets.all(12.0),
           child: ListView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: <Widget>[
               ListTile(
@@ -109,23 +111,23 @@ class _SettingsState extends State<Settings> {
                   },
                 ),
               ),
-              Divider(),
+              const Divider(),
               ListTile(
                 leading: Icon(Icons.lock, size: _defIconSize),
                 title: Text(AppLocalizations.of(context)!
                     .translate('change_password_lbl')),
                 onTap: () {
-                  context.router.push(ChangePassword());
+                  context.router.push(const ChangePassword());
                 },
               ),
-              Divider(),
+              const Divider(),
               ListTile(
                 leading: Icon(Icons.exit_to_app, size: _defIconSize),
                 title:
                     Text(AppLocalizations.of(context)!.translate('logout_lbl')),
                 onTap: _logout,
               ),
-              Divider(),
+              const Divider(),
               ListTile(
                 onTap: () async {
                   count += 1;
@@ -139,9 +141,9 @@ class _SettingsState extends State<Settings> {
                           .translate('confirm_delete_account'),
                       customActions: <Widget>[
                         TextButton(
+                          onPressed: _deleteAccount,
                           child: Text(AppLocalizations.of(context)!
                               .translate('yes_lbl')),
-                          onPressed: _deleteAccount,
                         ),
                         TextButton(
                           child: Text(AppLocalizations.of(context)!
@@ -152,7 +154,7 @@ class _SettingsState extends State<Settings> {
                           },
                         ),
                       ],
-                      type: DialogType.GENERAL,
+                      type: DialogType.general,
                       barrierDismissable: true,
                     );
                   }
@@ -183,7 +185,7 @@ class _SettingsState extends State<Settings> {
                     }
                   }, */
               ),
-              Divider(),
+              const Divider(),
               ListTile(
                 leading: Icon(Icons.code, size: _defIconSize),
                 title:
@@ -211,22 +213,22 @@ class _SettingsState extends State<Settings> {
                     }
                   }, */
               ),
-              Divider(),
+              const Divider(),
               ListTile(
                 leading: Icon(Icons.code, size: _defIconSize),
-                title: Text('Device ID'),
+                title: const Text('Device ID'),
                 subtitle: SelectableText(_deviceId ?? ''),
               ),
-              Divider(),
+              const Divider(),
               ListTile(
                 leading: Icon(Icons.code, size: _defIconSize),
-                title: Text('Reg ID'),
+                title: const Text('Reg ID'),
                 subtitle: SelectableText(_regId ?? ''),
               ),
-              Divider(),
+              const Divider(),
               ListTile(
                 leading: Icon(Icons.code, size: _defIconSize),
-                title: Text('Model'),
+                title: const Text('Model'),
                 subtitle: SelectableText('$_deviceBrand $_deviceModel'),
               ),
             ],
@@ -253,8 +255,13 @@ class _SettingsState extends State<Settings> {
               });
 
               context.router.pop();
+              Provider.of<ChatNotificationCount>(context, listen: false)
+                  .clearNotificationBadge();
+              context.read<SocketClientHelper>().logoutUserRoom();
               await authRepo.logout(context: context, type: 'CLEAR');
-              context.router.pushAndPopUntil(Login(), predicate: (r) => false);
+              if (!context.mounted) return;
+              context.router
+                  .pushAndPopUntil(const Login(), predicate: (r) => false);
 
               setState(() {
                 _isLoading = false;
@@ -268,7 +275,7 @@ class _SettingsState extends State<Settings> {
             },
           ),
         ],
-        type: DialogType.GENERAL);
+        type: DialogType.general);
   }
 
   _deleteAccount() async {
@@ -281,11 +288,13 @@ class _SettingsState extends State<Settings> {
     var result = await authRepo.deleteAppMemberAccount(context: context);
 
     if (result.isSuccess) {
-      context.router.pushAndPopUntil(Login(), predicate: (r) => false);
+      if (!context.mounted) return;
+      context.router.pushAndPopUntil(const Login(), predicate: (r) => false);
     } else {
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
-        type: DialogType.ERROR,
+        type: DialogType.error,
         content: result.message.toString(),
         onPressed: () => context.router.pop(),
       );

@@ -11,9 +11,9 @@ class CheckOnline {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['isOnline'] = this.isOnline;
-    data['userId'] = this.userId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['isOnline'] = isOnline;
+    data['userId'] = userId;
     return data;
   }
 }

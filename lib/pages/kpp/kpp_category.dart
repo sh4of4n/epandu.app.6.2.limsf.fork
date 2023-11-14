@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/common_library/services/repository/auth_repository.dart';
 import 'package:epandu/common_library/services/repository/kpp_repository.dart';
@@ -11,9 +12,12 @@ import 'package:transparent_image/transparent_image.dart';
 import '../../router.gr.dart';
 import 'kpp_category_icon.dart';
 
+@RoutePage(name: 'KppCategory')
 class KppCategory extends StatefulWidget {
+  const KppCategory({super.key});
+
   @override
-  _KppCategoryState createState() => _KppCategoryState();
+  State<KppCategory> createState() => _KppCategoryState();
 }
 
 class _KppCategoryState extends State<KppCategory> {
@@ -36,6 +40,7 @@ class _KppCategoryState extends State<KppCategory> {
     String? instituteLogoPath = await localStorage.getInstituteLogo();
 
     if (instituteLogoPath != null && instituteLogoPath.isEmpty) {
+      if (!context.mounted) return;
       var result = await authRepo.getDiProfile(context: context);
 
       if (result.isSuccess && result.data != null) {
@@ -119,6 +124,7 @@ class _KppCategoryState extends State<KppCategory> {
     );
   }
 
+  @override
   void dispose() {
     super.dispose();
   }

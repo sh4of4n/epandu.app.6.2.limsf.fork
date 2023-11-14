@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/common_library/services/repository/pickup_repository.dart';
 import 'package:epandu/utils/constants.dart';
@@ -7,9 +8,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 // import 'package:intl/intl.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+@RoutePage()
 class PickupHistory extends StatefulWidget {
+  const PickupHistory({super.key});
+
   @override
-  _PickupHistoryState createState() => _PickupHistoryState();
+  State<PickupHistory> createState() => _PickupHistoryState();
 }
 
 class _PickupHistoryState extends State<PickupHistory> {
@@ -43,7 +47,7 @@ class _PickupHistoryState extends State<PickupHistory> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Colors.white, Color(0xffffcd11)],
           stops: [0.65, 1],
@@ -53,12 +57,12 @@ class _PickupHistoryState extends State<PickupHistory> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.black, //change your color here
           ),
           title: Text(
             AppLocalizations.of(context)!.translate('pickup_history'),
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black,
             ),
           ),
@@ -81,7 +85,7 @@ class _PickupHistoryState extends State<PickupHistory> {
         //   ),
         // ),
         backgroundColor: Colors.transparent,
-        body: Container(
+        body: SizedBox(
           height: ScreenUtil().screenHeight,
           child: SingleChildScrollView(
             child: Column(
@@ -99,7 +103,7 @@ class _PickupHistoryState extends State<PickupHistory> {
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
-                        return Container(
+                        return SizedBox(
                           height: 1000.h,
                           child: Center(
                             child: SpinKitFoldingCube(
@@ -108,8 +112,8 @@ class _PickupHistoryState extends State<PickupHistory> {
                           ),
                         );
                       case ConnectionState.done:
-                        if (snapshot.data is String)
-                          return Container(
+                        if (snapshot.data is String) {
+                          return SizedBox(
                             height: 1000.h,
                             child: Center(
                               child: Text(
@@ -117,6 +121,7 @@ class _PickupHistoryState extends State<PickupHistory> {
                               ),
                             ),
                           );
+                        }
                         return Padding(
                           padding: EdgeInsets.symmetric(
                               vertical: 50.h, horizontal: 100.w),
@@ -188,7 +193,7 @@ class _PickupHistoryState extends State<PickupHistory> {
                           ),
                         );
                       default:
-                        return Container(
+                        return SizedBox(
                           height: 1000.h,
                           child: Center(
                             child: Text(

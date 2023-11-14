@@ -43,7 +43,7 @@ class SalesOrderRepo {
   Future<Response> getBackOrderList({context, dbcode}) async {
     String caUid = 'tbs_tbserp_devp_1';
     String caPwdEncode = '123456';
-    final String userId = 'supervisor';
+    const String userId = 'supervisor';
 
     String path =
         'wsCodeCrypt=TBSERPWS&caUid=$caUid&caPwd=$caPwdEncode&userId=$userId&dbcode=$dbcode';
@@ -77,7 +77,7 @@ class SalesOrderRepo {
   }) async {
     String caUid = 'tbs_tbserp_devp_1';
     String caPwdEncode = '123456';
-    final String userId = 'supervisor';
+    const String userId = 'supervisor';
 
     String path =
         'wsCodeCrypt=TBSERPWS&caUid=$caUid&caPwd=$caPwdEncode&userId=$userId&bgnSODateString=$bgnSODateString&endSODateString=$endSODateString&dbcode=$dbcode&startIndex=$startIndex&noOfRecords=$noOfRecords&isAscending=$isAscending';
@@ -201,7 +201,7 @@ class SalesOrderRepo {
   }) async {
     String caUid = 'tbs_tbserp_devp_1';
     String caPwd = '123456';
-    final String userId = 'supervisor';
+    const String userId = 'supervisor';
 
     UpdateSalesOrderScheduleDeliveryDateRequest params =
         UpdateSalesOrderScheduleDeliveryDateRequest(
@@ -243,7 +243,7 @@ class SalesOrderRepo {
   }) async {
     String caUid = 'tbs_tbserp_devp_1';
     String caPwd = '123456';
-    final String userId = 'supervisor';
+    const String userId = 'supervisor';
 
     DeleteSlsDtlByDocRefKeyRequest params = DeleteSlsDtlByDocRefKeyRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
@@ -330,7 +330,7 @@ class SalesOrderRepo {
   }) async {
     String caUid = 'tbs_tbserp_devp_1';
     String caPwd = '123456';
-    final String userId = 'supervisor';
+    const String userId = 'supervisor';
 
     String path =
         'wsCodeCrypt=TBSERPWS&caUid=$caUid&caPwd=$caPwd&userId=$userId&docDoc=$docDoc&docRef=$docRef';
@@ -451,7 +451,7 @@ class SalesOrderRepo {
 
     amountList = List<String>.from(controller.text.split(''));
 
-    if (amountList.length < 1) {
+    if (amountList.isEmpty) {
       amountList.insert(0, '0');
     } else if (amountList[0] == '0' && amountList.length > 1) {
       amountList.remove('0');

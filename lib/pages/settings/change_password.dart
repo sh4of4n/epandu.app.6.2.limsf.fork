@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'change_password_form.dart';
 
+@RoutePage(name: 'ChangePassword')
 class ChangePassword extends StatelessWidget {
   final primaryColor = ColorConstant.primaryColor;
+
+  const ChangePassword({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,7 @@ class ChangePassword extends StatelessWidget {
               Colors.amber.shade300,
               primaryColor
             ],
-            stops: [0.2, 0.4, 0.6, 0.7, 1],
+            stops: const [0.2, 0.4, 0.6, 0.7, 1],
             radius: 0.7,
           ),
         ),
@@ -44,13 +48,13 @@ class ChangePassword extends StatelessWidget {
                 SingleChildScrollView(
                   child: Padding(
                     padding:
-                        EdgeInsets.only(left: 40.0, right: 40.0, top: 60.0),
+                        const EdgeInsets.only(left: 40.0, right: 40.0, top: 60.0),
                     child: Column(
                       children: <Widget>[
                         SizedBox(
                           height: ScreenUtil().setHeight(200),
                         ),
-                        ChangePasswordForm(),
+                        const ChangePasswordForm(),
                       ],
                     ),
                   ),

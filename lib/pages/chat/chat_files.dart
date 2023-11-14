@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart';
@@ -14,12 +15,11 @@ class ChatFiles extends StatelessWidget {
   Widget build(BuildContext context) {
     String storagePath =
         '/storage/emulated/0/Android/data/my.com.tbs.epandu.app/files/';
-    return Container(
-        child: DefaultTabController(
+    return DefaultTabController(
       length: 4,
       child: Scaffold(
         appBar: AppBar(
-          bottom: TabBar(
+          bottom: const TabBar(
             tabs: [
               Tab(icon: Icon(Icons.camera_alt)),
               Tab(icon: Icon(Icons.video_collection_rounded)),
@@ -27,7 +27,7 @@ class ChatFiles extends StatelessWidget {
               Tab(icon: Icon(Icons.insert_drive_file)),
             ],
           ),
-          title: Text('Media and Files'),
+          title: const Text('Media and Files'),
           backgroundColor: Colors.blueAccent,
         ),
         body: TabBarView(
@@ -41,7 +41,7 @@ class ChatFiles extends StatelessWidget {
           ],
         ),
       ),
-    ));
+    );
   }
 }
 
@@ -65,7 +65,7 @@ class _GalleryItemsState extends State<GalleryItems> {
   @override
   void initState() {
     super.initState();
-    String path = widget.storagePath + widget.roomId + '/' + widget.type;
+    String path = '${widget.storagePath}${widget.roomId}/${widget.type}';
     isDirectoryExists(path);
   }
 
@@ -82,11 +82,11 @@ class _GalleryItemsState extends State<GalleryItems> {
   Widget build(BuildContext context) {
     if (isFolderExist) {
       var imageList =
-          Directory(widget.storagePath + widget.roomId + '/' + widget.type)
+          Directory('${widget.storagePath}${widget.roomId}/${widget.type}')
               .listSync()
               .map((item) => item.path)
               .toList(growable: false);
-      if (imageList.length > 0) {
+      if (imageList.isNotEmpty) {
         return GridView.builder(
           itemCount: imageList.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -121,13 +121,15 @@ class _GalleryItemsState extends State<GalleryItems> {
         );
       } else {
         return Center(
-            child: Text('No ' + widget.type + ' Found.',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
+            child: Text('No ${widget.type} Found.',
+                style: const TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.bold)));
       }
     } else {
       return Center(
-          child: Text('No ' + widget.type + ' Found.',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
+          child: Text('No ${widget.type} Found.',
+              style:
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
     }
   }
 }
@@ -146,7 +148,7 @@ class _VideoItemsState extends State<VideoItems> {
   @override
   void initState() {
     super.initState();
-    final File file = new File(widget.filePath);
+    final File file = File(widget.filePath);
     flickManager = FlickManager(
       videoPlayerController: VideoPlayerController.file(file),
     );
@@ -164,7 +166,7 @@ class _VideoItemsState extends State<VideoItems> {
         ? VisibilityDetector(
             key: ObjectKey(flickManager),
             onVisibilityChanged: (visibility) {
-              if (visibility.visibleFraction == 0 && this.mounted) {
+              if (visibility.visibleFraction == 0 && mounted) {
                 flickManager.flickControlManager?.autoPause();
               } else if (visibility.visibleFraction == 1) {
                 flickManager.flickControlManager?.autoPause();
@@ -172,18 +174,16 @@ class _VideoItemsState extends State<VideoItems> {
             },
             child: FlickVideoPlayer(
               flickManager: flickManager,
-              flickVideoWithControls: FlickVideoWithControls(
+              flickVideoWithControls: const FlickVideoWithControls(
                 videoFit: BoxFit.fitHeight,
                 closedCaptionTextStyle: TextStyle(fontSize: 8),
                 controls: FlickPortraitControls(),
               ),
-              flickVideoWithControlsFullscreen: FlickVideoWithControls(
+              flickVideoWithControlsFullscreen: const FlickVideoWithControls(
                 controls: FlickLandscapeControls(),
               ),
             ))
-        : Container(
-            child: Center(child: Text('No Video From Server')),
-          );
+        : const Center(child: Text('No Video From Server'));
   }
 }
 
@@ -201,7 +201,7 @@ class _MyAudioListState extends State<MyAudioList> {
   @override
   void initState() {
     super.initState();
-    String path = widget.storagePath + widget.roomId + '/Audios';
+    String path = '${widget.storagePath}${widget.roomId}/Audios';
     isDirectoryExists(path);
   }
 
@@ -216,13 +216,13 @@ class _MyAudioListState extends State<MyAudioList> {
 
   @override
   Widget build(BuildContext context) {
-    String path = widget.storagePath + widget.roomId + '/Audios';
+    String path = '${widget.storagePath}${widget.roomId}/Audios';
     if (isFolderExist) {
       var imageList = Directory(path)
           .listSync()
           .map((item) => item.path)
           .toList(growable: false);
-      if (imageList.length > 0) {
+      if (imageList.isNotEmpty) {
         return ListView.builder(
           itemCount: imageList.length,
           itemBuilder: (context, index) {
@@ -232,12 +232,12 @@ class _MyAudioListState extends State<MyAudioList> {
           },
         );
       } else {
-        return Center(
+        return const Center(
             child: Text('No Audio Files Found.',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
       }
     } else {
-      return Center(
+      return const Center(
           child: Text('No Audio Files Found.',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
     }
@@ -279,14 +279,14 @@ class _AudioItemsState extends State<AudioItems> {
     return Card(
         child: ListTile(
       title: Text(widget.filePath.split('/').last),
-      leading: Icon(Icons.audiotrack),
+      leading: const Icon(Icons.audiotrack),
       trailing: Icon(
         _mPlayer!.isPlaying ? Icons.pause : Icons.play_arrow,
         color: Colors.redAccent,
       ),
       onTap: () {
         if (!_mPlayerIsInited) {
-          return null;
+          return;
         }
         if (_mPlayer!.isStopped) {
           play(widget.filePath);
@@ -297,11 +297,14 @@ class _AudioItemsState extends State<AudioItems> {
     ));
   }
 
-  void play(String audioFilPath) {
+  Future<void> play(String audioFilPath) async {
     assert(_mPlayerIsInited && _mPlayer!.isStopped);
+    File file = File(audioFilPath);
+    Uint8List uint8list = await file.readAsBytes();
     _mPlayer!
         .startPlayer(
-            fromURI: audioFilPath,
+            // fromURI: audioFilPath,
+            fromDataBuffer: uint8list,
             whenFinished: () {
               if (mounted) {
                 setState(() {});
@@ -335,8 +338,8 @@ class FileItems extends StatelessWidget {
         filePath.split('/').last,
         overflow: TextOverflow.ellipsis,
       ),
-      leading: Icon(Icons.file_copy),
-      trailing: Icon(
+      leading: const Icon(Icons.file_copy),
+      trailing: const Icon(
         Icons.download,
         color: Colors.redAccent,
       ),
@@ -362,7 +365,7 @@ class _MyFilesListState extends State<MyFilesList> {
   @override
   void initState() {
     super.initState();
-    String path = widget.storagePath + widget.roomId + '/Files';
+    String path = '${widget.storagePath}${widget.roomId}/Files';
     isDirectoryExists(path);
   }
 
@@ -377,14 +380,14 @@ class _MyFilesListState extends State<MyFilesList> {
 
   @override
   Widget build(BuildContext context) {
-    String path = widget.storagePath + widget.roomId + '/Files';
+    String path = '${widget.storagePath}${widget.roomId}/Files';
 
     if (isFolderExist) {
       var imageList = Directory(path)
           .listSync()
           .map((item) => item.path)
           .toList(growable: false);
-      if (imageList.length > 0) {
+      if (imageList.isNotEmpty) {
         return ListView.builder(
           itemCount: imageList.length,
           shrinkWrap: true,
@@ -395,12 +398,12 @@ class _MyFilesListState extends State<MyFilesList> {
           },
         );
       } else {
-        return Center(
+        return const Center(
             child: Text('No Files Found.',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
       }
     } else {
-      return Center(
+      return const Center(
           child: Text('No Files Found.',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)));
     }

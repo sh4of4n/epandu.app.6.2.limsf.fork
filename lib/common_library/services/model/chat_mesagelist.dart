@@ -80,31 +80,31 @@ class MessageDetails {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['room_id'] = this.roomId;
-    data['user_id'] = this.userId;
-    data['app_id'] = this.appId;
-    data['ca_uid'] = this.caUid;
-    data['device_id'] = this.deviceId;
-    data['msg_body'] = this.msgBody;
-    data['msg_binary'] = this.msgBinary;
-    data['msg_binaryType'] = this.msgBinaryType;
-    data['reply_to_id'] = this.replyToId;
-    data['message_id'] = this.messageId;
-    data['read_by'] = this.readBy;
-    data['status'] = this.status;
-    data['status_msg'] = this.statusMsg;
-    data['deleted'] = this.deleted;
-    data['send_datetime'] = this.sendDateTime;
-    data['edit_datetime'] = this.editDateTime;
-    data['delete_datetime'] = this.deleteDateTime;
-    data['transtamp'] = this.transtamp;
-    data['nick_name'] = this.nickName;
-    data['filePath'] = this.filePath;
-    data['owner_id'] = this.ownerId;
-    data['msgStatus'] = this.msgStatus;
-    data['client_message_id'] = this.clientMessageId;
-    data['roomName'] = this.roomName;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['room_id'] = roomId;
+    data['user_id'] = userId;
+    data['app_id'] = appId;
+    data['ca_uid'] = caUid;
+    data['device_id'] = deviceId;
+    data['msg_body'] = msgBody;
+    data['msg_binary'] = msgBinary;
+    data['msg_binaryType'] = msgBinaryType;
+    data['reply_to_id'] = replyToId;
+    data['message_id'] = messageId;
+    data['read_by'] = readBy;
+    data['status'] = status;
+    data['status_msg'] = statusMsg;
+    data['deleted'] = deleted;
+    data['send_datetime'] = sendDateTime;
+    data['edit_datetime'] = editDateTime;
+    data['delete_datetime'] = deleteDateTime;
+    data['transtamp'] = transtamp;
+    data['nick_name'] = nickName;
+    data['filePath'] = filePath;
+    data['owner_id'] = ownerId;
+    data['msgStatus'] = msgStatus;
+    data['client_message_id'] = clientMessageId;
+    data['roomName'] = roomName;
     return data;
   }
 }

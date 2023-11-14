@@ -24,23 +24,23 @@ class Feeds extends StatefulWidget {
   final bool? isLoading;
   final String? appVersion;
 
-  Feeds({this.feed, this.isLoading, this.appVersion});
+  const Feeds({super.key, this.feed, this.isLoading, this.appVersion});
 
   @override
-  _FeedsState createState() => _FeedsState();
+  State<Feeds> createState() => _FeedsState();
 }
 
 class _FeedsState extends State<Feeds> {
   final adText = TextStyle(
     fontSize: ScreenUtil().setSp(55),
     fontWeight: FontWeight.w500,
-    color: Color(0xff231f20),
+    color: const Color(0xff231f20),
   );
 
   final adTabText = TextStyle(
     fontSize: ScreenUtil().setSp(45),
     fontWeight: FontWeight.w500,
-    color: Color(0xff231f20),
+    color: const Color(0xff231f20),
   );
 
   final RegExp removeBracket =
@@ -86,7 +86,7 @@ class _FeedsState extends State<Feeds> {
               Provider.of<HomeLoadingModel>(context, listen: false)
                   .loadingStatus(false);
               context.router.pop();
-              AppSettings.openLocationSettings();
+              AppSettings.openAppSettings(type: AppSettingsType.location);
             },
           ),
           TextButton(
@@ -101,11 +101,11 @@ class _FeedsState extends State<Feeds> {
                   context: context,
                   content: AppLocalizations.of(context)!
                       .translate('loc_permission_on'),
-                  type: DialogType.INFO);
+                  type: DialogType.info);
             },
           ),
         ],
-        type: DialogType.GENERAL,
+        type: DialogType.general,
       );
     }
   }
@@ -138,7 +138,7 @@ class _FeedsState extends State<Feeds> {
             context: context,
             content:
                 AppLocalizations.of(context)!.translate('loc_permission_on'),
-            type: DialogType.INFO);
+            type: DialogType.info);
       }
     } else {
       loadUrl(feed, context);
@@ -151,7 +151,7 @@ class _FeedsState extends State<Feeds> {
 
       var caUid = await localStorage.getCaUid();
       var caPwd = await localStorage.getCaPwd();
-
+      if (!context.mounted) return;
       var result = await profileRepo.getUserProfile(context: context);
 
       if (result.isSuccess) {
@@ -183,8 +183,7 @@ class _FeedsState extends State<Feeds> {
             _getIcName(
                 udf: feed.udfReturnParameter,
                 icName: Uri.encodeComponent(icName)) +
-            _getIcNo(
-                udf: feed.udfReturnParameter, icNo: icNo == null ? '' : icNo) +
+            _getIcNo(udf: feed.udfReturnParameter, icNo: icNo ?? '') +
             _getPhone(udf: feed.udfReturnParameter, phone: phone) +
             _getEmail(udf: feed.udfReturnParameter, email: email) +
             _getBirthDate(
@@ -192,7 +191,7 @@ class _FeedsState extends State<Feeds> {
             _getLatitude(udf: feed.udfReturnParameter) +
             _getLongitude(udf: feed.udfReturnParameter) +
             _getPackageCode(udf: feed.udfReturnParameter);
-
+        if (!context.mounted) return;
         context.router.push(
           Webview(url: url),
         );
@@ -203,6 +202,7 @@ class _FeedsState extends State<Feeds> {
         /* launch(url,
                               forceWebView: true, enableJavaScript: true); */
       } else {
+        if (!context.mounted) return;
         customDialog.show(
           context: context,
           barrierDismissable: false,
@@ -217,7 +217,7 @@ class _FeedsState extends State<Feeds> {
               },
             ),
           ],
-          type: DialogType.GENERAL,
+          type: DialogType.general,
         );
       }
     }
@@ -294,7 +294,7 @@ class _FeedsState extends State<Feeds> {
 
   getOnlinePaymentListByIcNo() async {
     String? icNo = await localStorage.getStudentIc();
-
+    if (!context.mounted) return;
     var result = await fpxRepo.getOnlinePaymentListByIcNo(
       context: context,
       icNo: icNo ?? '',
@@ -303,6 +303,7 @@ class _FeedsState extends State<Feeds> {
     );
 
     if (result.isSuccess) {
+      if (!context.mounted) return;
       return customDialog.show(
         context: context,
         title: AppLocalizations.of(context)!.translate('success'),
@@ -315,7 +316,7 @@ class _FeedsState extends State<Feeds> {
                 context.router.pop();
               }),
         ],
-        type: DialogType.GENERAL,
+        type: DialogType.general,
       );
     }
   }
@@ -332,276 +333,93 @@ class _FeedsState extends State<Feeds> {
   }
 
   defaultLayout() {
-    if (widget.feed.length > 0)
-      return Container(
-        // height: ScreenUtil().setHeight(1700),
-        child: ListView(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          children: <Widget>[
-            for (var item in widget.feed)
-              Column(
-                children: <Widget>[
-                  Ink(
-                    // height: ScreenUtil().setHeight(780),
-                    width: ScreenUtil().setWidth(1300),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(0, 0.4),
-                          blurRadius: 0.3,
-                          spreadRadius: 0.5,
-                        ),
-                      ],
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(12),
-                      onTap: () async {
-                        var feedValue = item.feedNavigate;
-                        feedValue = 'VCLUB';
-                        if (feedValue != null) {
-                          bool isUrl = isURL(feedValue);
-
-                          // Navigation
-                          if (!isUrl) {
-                            switch (feedValue) {
-                              case 'ETESTING':
-                                context.router.push(EtestingCategory());
-                                break;
-                              case 'EDRIVING':
-                                context.router.push(EpanduCategory());
-                                break;
-                              case 'ENROLLMENT':
-                                context.router.push(Enrollment());
-                                break;
-                              case 'DI_ENROLLMENT':
-                                String packageCodeJson = _getPackageCode(
-                                    udf: item.udfReturnParameter);
-
-                                context.router
-                                    .push(
-                                      DiEnrollment(
-                                          packageCodeJson: packageCodeJson
-                                              .replaceAll('&package=', '')),
-                                    )
-                                    .then((value) =>
-                                        getOnlinePaymentListByIcNo());
-                                break;
-                              case 'KPP':
-                                context.router.push(KppCategory());
-                                break;
-                              case 'VCLUB':
-                                context.router.push(ValueClub());
-                                break;
-                              case 'MULTILVL':
-                                context.router.push(
-                                  Multilevel(
-                                    feed: item,
-                                  ),
-                                );
-                                break;
-                              default:
-                                break;
-                            }
-                          } else {
-                            _checkLocationPermission(item, context);
-                          }
-                        }
-                        /* else {
-                          context.router
-                              .push(Routes.promotions);
-                        } */
-                      },
-                      child: Column(
-                        children: <Widget>[
-                          /* Container(
-                            // width: double.infinity,
-                            // height: ScreenUtil().setHeight(600),
-                            width: 1300.w,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(12),
-                                topRight: Radius.circular(12),
-                              ),
-                              child: feed[index].feedMediaFilename != null
-                                  ? Image.network(
-                                      feed[index]
-                                          .feedMediaFilename
-                                          .replaceAll(removeBracket, '')
-                                          .split('\r\n')[0],
-                                      fit: BoxFit.contain,
-                                    )
-                                  : Container(),
-                            ),
-                          ), */
-                          AspectRatio(
-                            aspectRatio: 16 / 9,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(12),
-                                topRight: Radius.circular(12),
-                              ),
-                              child: item.feedMediaFilename != null
-                                  ? Image.network(
-                                      item.feedMediaFilename
-                                          .replaceAll(removeBracket, '')
-                                          .split('\r\n')[0],
-                                      fit: BoxFit.contain,
-                                    )
-                                  : Container(),
-                            ),
-                          ),
-                          Container(
-                            // height: ScreenUtil().setHeight(180),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 70.w, vertical: 30.h),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(12),
-                                bottomRight: Radius.circular(12),
-                              ),
-                            ),
-                            alignment: Alignment.centerLeft,
-                            child: ReadMoreText(
-                              item.feedText ?? '',
-                              trimLines: 3,
-                              colorClickableText: Colors.blue[900],
-                              trimMode: TrimMode.Line,
-                              trimCollapsedText: 'Read more',
-                              trimExpandedText: ' Read less',
-                              style: adText,
-                            ),
-                          ),
-                          /* Container(
-                            height: ScreenUtil().setHeight(180),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: ScreenUtil().setWidth(70),
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(12),
-                                bottomRight: Radius.circular(12),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(item.feedText ?? '', style: adText),
-                                if (item.feedText != null &&
-                                    item.feedText.isNotEmpty)
-                                  Icon(
-                                    Icons.chevron_right,
-                                  ),
-                              ],
-                            ),
-                          ), */
-                        ],
+    if (widget.feed.length > 0) {
+      return ListView(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        children: <Widget>[
+          for (var item in widget.feed)
+            Column(
+              children: <Widget>[
+                Ink(
+                  // height: ScreenUtil().setHeight(780),
+                  width: ScreenUtil().setWidth(1300),
+                  decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black26,
+                        offset: Offset(0, 0.4),
+                        blurRadius: 0.3,
+                        spreadRadius: 0.5,
                       ),
-                    ),
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  SizedBox(height: ScreenUtil().setHeight(50)),
-                ],
-              ),
-          ],
-        ),
-      );
-    if (widget.isLoading!) return _loadingShimmer();
-    return Text(AppLocalizations.of(context)!.translate('no_active_feeds'));
-  }
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () async {
+                      var feedValue = item.feedNavigate;
+                      feedValue = 'VCLUB';
+                      if (feedValue != null) {
+                        bool isUrl = isURL(feedValue);
 
-  tabLayout() {
-    if (widget.feed.length > 0)
-      return Container(
-        // height: ScreenUtil().setHeight(1700),
-        child: ListView(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          children: <Widget>[
-            for (var item in widget.feed)
-              Column(
-                children: <Widget>[
-                  Ink(
-                    // height: ScreenUtil().setHeight(980),
-                    width: ScreenUtil().setWidth(1300),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(0, 0.4),
-                          blurRadius: 0.3,
-                          spreadRadius: 0.5,
-                        ),
-                      ],
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(12),
-                      onTap: () async {
-                        var feedValue = item.feedNavigate;
+                        // Navigation
+                        if (!isUrl) {
+                          switch (feedValue) {
+                            case 'ETESTING':
+                              context.router.push(EtestingCategory());
+                              break;
+                            case 'EDRIVING':
+                              context.router.push(EpanduCategory());
+                              break;
+                            case 'ENROLLMENT':
+                              context.router.push(const Enrollment());
+                              break;
+                            case 'DI_ENROLLMENT':
+                              String packageCodeJson =
+                                  _getPackageCode(udf: item.udfReturnParameter);
 
-                        if (feedValue != null) {
-                          bool isUrl = isURL(feedValue);
-
-                          // Navigation
-                          if (!isUrl) {
-                            switch (feedValue) {
-                              case 'ETESTING':
-                                context.router.push(EtestingCategory());
-                                break;
-                              case 'EDRIVING':
-                                context.router.push(EpanduCategory());
-                                break;
-                              case 'ENROLLMENT':
-                                context.router.push(Enrollment());
-                                break;
-                              case 'DI_ENROLLMENT':
-                                String packageCodeJson = _getPackageCode(
-                                    udf: item.udfReturnParameter);
-
-                                context.router
-                                    .push(
-                                      DiEnrollment(
+                              context.router
+                                  .push(
+                                    DiEnrollment(
                                         packageCodeJson: packageCodeJson
-                                            .replaceAll('&package=', ''),
-                                      ),
-                                    )
-                                    .then((value) =>
-                                        getOnlinePaymentListByIcNo());
-                                break;
-                              case 'KPP':
-                                context.router.push(KppCategory());
-                                break;
-                              case 'VCLUB':
-                                context.router.push(ValueClub());
-                                break;
-                              case 'MULTILVL':
-                                context.router.push(
-                                  Multilevel(
-                                    feed: item,
-                                  ),
-                                );
-                                break;
-                              default:
-                                break;
-                            }
-                          } else {
-                            _checkLocationPermission(item, context);
+                                            .replaceAll('&package=', '')),
+                                  )
+                                  .then(
+                                      (value) => getOnlinePaymentListByIcNo());
+                              break;
+                            case 'KPP':
+                              context.router.push(const KppCategory());
+                              break;
+                            case 'VCLUB':
+                              context.router.push(const ValueClub());
+                              break;
+                            case 'MULTILVL':
+                              context.router.push(
+                                Multilevel(
+                                  feed: item,
+                                ),
+                              );
+                              break;
+                            default:
+                              break;
                           }
+                        } else {
+                          _checkLocationPermission(item, context);
                         }
-                        /* else {
+                      }
+                      /* else {
                         context.router
                             .push(Routes.promotions);
                       } */
-                      },
-                      child: Column(
-                        children: <Widget>[
-                          /* Container(
-                          width: double.infinity,
-                          height: ScreenUtil().setHeight(800),
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        /* Container(
+                          // width: double.infinity,
+                          // height: ScreenUtil().setHeight(600),
+                          width: 1300.w,
                           child: ClipRRect(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(12),
@@ -613,82 +431,261 @@ class _FeedsState extends State<Feeds> {
                                         .feedMediaFilename
                                         .replaceAll(removeBracket, '')
                                         .split('\r\n')[0],
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.contain,
                                   )
                                 : Container(),
                           ),
                         ), */
-                          AspectRatio(
-                            aspectRatio: 16 / 9,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(12),
-                                topRight: Radius.circular(12),
-                              ),
-                              child: item.feedMediaFilename != null
-                                  ? Image.network(
-                                      item.feedMediaFilename
-                                          .replaceAll(removeBracket, '')
-                                          .split('\r\n')[0],
-                                      fit: BoxFit.contain,
-                                    )
-                                  : Container(),
+                        AspectRatio(
+                          aspectRatio: 16 / 9,
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
+                            ),
+                            child: item.feedMediaFilename != null
+                                ? Image.network(
+                                    item.feedMediaFilename
+                                        .replaceAll(removeBracket, '')
+                                        .split('\r\n')[0],
+                                    fit: BoxFit.contain,
+                                  )
+                                : Container(),
+                          ),
+                        ),
+                        Container(
+                          // height: ScreenUtil().setHeight(180),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 70.w, vertical: 30.h),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(12),
+                              bottomRight: Radius.circular(12),
                             ),
                           ),
-                          Container(
-                            // height: ScreenUtil().setHeight(180),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 70.w, vertical: 30.h),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(12),
-                                bottomRight: Radius.circular(12),
-                              ),
-                            ),
-                            alignment: Alignment.centerLeft,
-                            child: ReadMoreText(
-                              item.feedText ?? '',
-                              trimLines: 3,
-                              colorClickableText: Colors.blue[900],
-                              trimMode: TrimMode.Line,
-                              trimCollapsedText: 'Read more',
-                              trimExpandedText: ' Read less',
-                              style: adTabText,
+                          alignment: Alignment.centerLeft,
+                          child: ReadMoreText(
+                            item.feedText ?? '',
+                            trimLines: 3,
+                            colorClickableText: Colors.blue[900],
+                            trimMode: TrimMode.Line,
+                            trimCollapsedText: 'Read more',
+                            trimExpandedText: ' Read less',
+                            style: adText,
+                          ),
+                        ),
+                        /* Container(
+                          height: ScreenUtil().setHeight(180),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: ScreenUtil().setWidth(70),
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(12),
+                              bottomRight: Radius.circular(12),
                             ),
                           ),
-                          /* Container(
-                            height: ScreenUtil().setHeight(180),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: ScreenUtil().setWidth(70),
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(12),
-                                bottomRight: Radius.circular(12),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(item.feedText ?? '', style: adText),
-                                if (item.feedText != null &&
-                                    item.feedText.isNotEmpty)
-                                  Icon(
-                                    Icons.chevron_right,
-                                  ),
-                              ],
-                            ),
-                          ), */
-                        ],
-                      ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(item.feedText ?? '', style: adText),
+                              if (item.feedText != null &&
+                                  item.feedText.isNotEmpty)
+                                Icon(
+                                  Icons.chevron_right,
+                                ),
+                            ],
+                          ),
+                        ), */
+                      ],
                     ),
                   ),
-                  SizedBox(height: ScreenUtil().setHeight(50)),
-                ],
-              ),
-          ],
-        ),
+                ),
+                SizedBox(height: ScreenUtil().setHeight(50)),
+              ],
+            ),
+        ],
       );
+    }
+    if (widget.isLoading!) return _loadingShimmer();
+    return Text(AppLocalizations.of(context)!.translate('no_active_feeds'));
+  }
+
+  tabLayout() {
+    if (widget.feed.length > 0) {
+      return ListView(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        children: <Widget>[
+          for (var item in widget.feed)
+            Column(
+              children: <Widget>[
+                Ink(
+                  // height: ScreenUtil().setHeight(980),
+                  width: ScreenUtil().setWidth(1300),
+                  decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black26,
+                        offset: Offset(0, 0.4),
+                        blurRadius: 0.3,
+                        spreadRadius: 0.5,
+                      ),
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () async {
+                      var feedValue = item.feedNavigate;
+
+                      if (feedValue != null) {
+                        bool isUrl = isURL(feedValue);
+
+                        // Navigation
+                        if (!isUrl) {
+                          switch (feedValue) {
+                            case 'ETESTING':
+                              context.router.push(EtestingCategory());
+                              break;
+                            case 'EDRIVING':
+                              context.router.push(EpanduCategory());
+                              break;
+                            case 'ENROLLMENT':
+                              context.router.push(const Enrollment());
+                              break;
+                            case 'DI_ENROLLMENT':
+                              String packageCodeJson =
+                                  _getPackageCode(udf: item.udfReturnParameter);
+
+                              context.router
+                                  .push(
+                                    DiEnrollment(
+                                      packageCodeJson: packageCodeJson
+                                          .replaceAll('&package=', ''),
+                                    ),
+                                  )
+                                  .then(
+                                      (value) => getOnlinePaymentListByIcNo());
+                              break;
+                            case 'KPP':
+                              context.router.push(const KppCategory());
+                              break;
+                            case 'VCLUB':
+                              context.router.push(const ValueClub());
+                              break;
+                            case 'MULTILVL':
+                              context.router.push(
+                                Multilevel(
+                                  feed: item,
+                                ),
+                              );
+                              break;
+                            default:
+                              break;
+                          }
+                        } else {
+                          _checkLocationPermission(item, context);
+                        }
+                      }
+                      /* else {
+                      context.router
+                          .push(Routes.promotions);
+                    } */
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        /* Container(
+                        width: double.infinity,
+                        height: ScreenUtil().setHeight(800),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            topRight: Radius.circular(12),
+                          ),
+                          child: feed[index].feedMediaFilename != null
+                              ? Image.network(
+                                  feed[index]
+                                      .feedMediaFilename
+                                      .replaceAll(removeBracket, '')
+                                      .split('\r\n')[0],
+                                  fit: BoxFit.fill,
+                                )
+                              : Container(),
+                        ),
+                      ), */
+                        AspectRatio(
+                          aspectRatio: 16 / 9,
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
+                            ),
+                            child: item.feedMediaFilename != null
+                                ? Image.network(
+                                    item.feedMediaFilename
+                                        .replaceAll(removeBracket, '')
+                                        .split('\r\n')[0],
+                                    fit: BoxFit.contain,
+                                  )
+                                : Container(),
+                          ),
+                        ),
+                        Container(
+                          // height: ScreenUtil().setHeight(180),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 70.w, vertical: 30.h),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(12),
+                              bottomRight: Radius.circular(12),
+                            ),
+                          ),
+                          alignment: Alignment.centerLeft,
+                          child: ReadMoreText(
+                            item.feedText ?? '',
+                            trimLines: 3,
+                            colorClickableText: Colors.blue[900],
+                            trimMode: TrimMode.Line,
+                            trimCollapsedText: 'Read more',
+                            trimExpandedText: ' Read less',
+                            style: adTabText,
+                          ),
+                        ),
+                        /* Container(
+                          height: ScreenUtil().setHeight(180),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: ScreenUtil().setWidth(70),
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(12),
+                              bottomRight: Radius.circular(12),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(item.feedText ?? '', style: adText),
+                              if (item.feedText != null &&
+                                  item.feedText.isNotEmpty)
+                                Icon(
+                                  Icons.chevron_right,
+                                ),
+                            ],
+                          ),
+                        ), */
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: ScreenUtil().setHeight(50)),
+              ],
+            ),
+        ],
+      );
+    }
     if (widget.isLoading!) return _loadingTabShimmer();
     return Text(AppLocalizations.of(context)!.translate('no_active_feeds'));
   }

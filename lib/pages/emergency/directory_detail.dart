@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/common_library/services/location.dart';
 import 'package:epandu/utils/constants.dart';
@@ -10,13 +11,14 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:map_launcher/map_launcher.dart';
 // import 'package:epandu/common_library/utils/map_launcher.dart';
 
+@RoutePage(name: 'DirectoryDetail')
 class DirectoryDetail extends StatefulWidget {
   final snapshot;
 
-  DirectoryDetail(this.snapshot);
+  const DirectoryDetail(this.snapshot, {super.key});
 
   @override
-  _DirectoryDetailState createState() => _DirectoryDetailState();
+  State<DirectoryDetail> createState() => _DirectoryDetailState();
 }
 
 class _DirectoryDetailState extends State<DirectoryDetail> {
@@ -25,11 +27,11 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
   final localStorage = LocalStorage();
   final location = Location();
   String? address;
-  TextStyle _titleStyle = TextStyle(
+  final TextStyle _titleStyle = const TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w700,
   );
-  TextStyle _textStyle = TextStyle(
+  final TextStyle _textStyle = const TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w500,
   );
@@ -60,7 +62,7 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
         context,
         message: AppLocalizations.of(context)!.translate('no_contacts'),
         duration: 5000,
-        type: MessageType.INFO,
+        type: MessageType.info,
       );
     } else {
       Uri? trimNumber =
@@ -73,7 +75,7 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
   _openDestination(context) async {
     try {
       final title = widget.snapshot.sosContactName;
-      final description = "";
+      const description = "";
       final coords = Coords(double.tryParse(widget.snapshot.latitude)!,
           double.tryParse(widget.snapshot.longtitude)!);
       final availableMaps = await MapLauncher.installedMaps;
@@ -83,27 +85,25 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
         builder: (BuildContext context) {
           return SafeArea(
             child: SingleChildScrollView(
-              child: Container(
-                child: Wrap(
-                  children: <Widget>[
-                    for (var map in availableMaps)
-                      ListTile(
-                        onTap: () {
-                          map.showMarker(
-                            coords: coords,
-                            title: title,
-                            description: description,
-                          );
-                        },
-                        title: Text(map.mapName),
-                        leading: Image(
-                          image: AssetImage(map.icon),
-                          height: 30.0,
-                          width: 30.0,
-                        ),
+              child: Wrap(
+                children: <Widget>[
+                  for (var map in availableMaps)
+                    ListTile(
+                      onTap: () {
+                        map.showMarker(
+                          coords: coords,
+                          title: title,
+                          description: description,
+                        );
+                      },
+                      title: Text(map.mapName),
+                      leading: Image(
+                        image: AssetImage(map.icon),
+                        height: 30.0,
+                        width: 30.0,
                       ),
-                  ],
-                ),
+                    ),
+                ],
               ),
             ),
           );
@@ -169,7 +169,7 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
         ],
       );
     }
-    return Container(height: 0, width: 0);
+    return const SizedBox(height: 0, width: 0);
   }
 
   @override
@@ -194,12 +194,13 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
           ),
           SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.all(15.0),
-              margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
+              padding: const EdgeInsets.all(15.0),
+              margin:
+                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15.0),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.black26,
                     offset: Offset(0, 8.0),
@@ -216,13 +217,13 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
                       style: _titleStyle),
                   Text(widget.snapshot.sosContactSubtype ?? '',
                       style: _textStyle),
-                  SizedBox(
+                  const SizedBox(
                     height: 5.0,
                   ),
                   Text(AppLocalizations.of(context)!.translate('area_code_lbl'),
                       style: _titleStyle),
                   Text(widget.snapshot.areaCode ?? '', style: _textStyle),
-                  SizedBox(
+                  const SizedBox(
                     height: 5.0,
                   ),
                   Text(
@@ -230,13 +231,13 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
                           .translate('contact_name_lbl'),
                       style: _titleStyle),
                   Text(widget.snapshot.sosContactName ?? '', style: _textStyle),
-                  SizedBox(
+                  const SizedBox(
                     height: 5.0,
                   ),
                   Text(AppLocalizations.of(context)!.translate('address_lbl'),
                       style: _titleStyle),
                   Text(widget.snapshot.add ?? '', style: _textStyle),
-                  SizedBox(
+                  const SizedBox(
                     height: 5.0,
                   ),
                   Text(
@@ -244,23 +245,21 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
                           .translate('current_location'),
                       style: _titleStyle),
                   Text(address ?? '', style: _textStyle),
-                  SizedBox(
+                  const SizedBox(
                     height: 5.0,
                   ),
                   Text(AppLocalizations.of(context)!.translate('phone_lbl'),
                       style: _titleStyle),
                   Text(widget.snapshot.phone ?? '', style: _textStyle),
-                  SizedBox(
+                  const SizedBox(
                     height: 5.0,
                   ),
                   Text(AppLocalizations.of(context)!.translate('distance_lbl'),
                       style: _titleStyle),
                   Text(
-                      double.tryParse(widget.snapshot.distance)!
-                              .toStringAsFixed(2) +
-                          'km',
+                      '${double.tryParse(widget.snapshot.distance)!.toStringAsFixed(2)}km',
                       style: _textStyle),
-                  SizedBox(
+                  const SizedBox(
                     height: 5.0,
                   ),
                   // Text(AppLocalizations.of(context).translate('to_lbl'),
@@ -273,7 +272,7 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
                   //   height: 5.0,
                   // ),
                   _remark(),
-                  SizedBox(
+                  const SizedBox(
                     height: 5.0,
                   ),
                   Padding(
@@ -283,17 +282,18 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
                       children: <Widget>[
                         RawMaterialButton(
                           fillColor: Colors.green,
-                          shape: CircleBorder(),
+                          shape: const CircleBorder(),
                           onPressed: _phone,
-                          child: Icon(Icons.phone, color: Colors.white),
                           padding: const EdgeInsets.all(10.0),
+                          child: const Icon(Icons.phone, color: Colors.white),
                         ),
                         RawMaterialButton(
                           fillColor: Colors.blue,
-                          shape: CircleBorder(),
+                          shape: const CircleBorder(),
                           onPressed: () => _openDestination(context),
-                          child: Icon(Icons.navigation, color: Colors.white),
                           padding: const EdgeInsets.all(10.0),
+                          child:
+                              const Icon(Icons.navigation, color: Colors.white),
                         ),
                         /* RawMaterialButton(
                           fillColor: Colors.red,

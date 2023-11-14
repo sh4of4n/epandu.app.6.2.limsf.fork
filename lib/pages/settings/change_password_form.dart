@@ -10,8 +10,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ChangePasswordForm extends StatefulWidget {
+  const ChangePasswordForm({super.key});
+
   @override
-  _ChangePasswordFormState createState() => _ChangePasswordFormState();
+  State<ChangePasswordForm> createState() => _ChangePasswordFormState();
 }
 
 class _ChangePasswordFormState extends State<ChangePasswordForm>
@@ -44,14 +46,14 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1500),
       curve: Curves.elasticOut,
       width: double.infinity,
       height: _height,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.0),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black26,
             offset: Offset(0.0, 15.0),
@@ -65,7 +67,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -77,13 +79,13 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
               TextFormField(
                 focusNode: _oldPasswordFocus,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(color: primaryColor),
                   labelText:
                       AppLocalizations.of(context)!.translate('password_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.lock),
+                  prefixIcon: const Icon(Icons.lock),
                   suffixIcon: IconButton(
                     icon: Icon(_obscureOldPassword
                         ? Icons.visibility_off
@@ -97,7 +99,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                     },
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
+                    borderSide: const BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   border: OutlineInputBorder(
@@ -128,13 +130,13 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
               TextFormField(
                 focusNode: _newPasswordFocus,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(color: primaryColor),
                   labelText: AppLocalizations.of(context)!
                       .translate('new_password_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.lock),
+                  prefixIcon: const Icon(Icons.lock),
                   suffixIcon: IconButton(
                     icon: Icon(_obscureNewPassword
                         ? Icons.visibility_off
@@ -148,7 +150,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                     },
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
+                    borderSide: const BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   border: OutlineInputBorder(
@@ -179,13 +181,13 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
               TextFormField(
                 focusNode: _confirmNewPasswordFocus,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(color: primaryColor),
                   labelText: AppLocalizations.of(context)!
                       .translate('confirm_new_password_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.lock),
+                  prefixIcon: const Icon(Icons.lock),
                   suffixIcon: IconButton(
                     icon: Icon(_obscureConfirmPassword
                         ? Icons.visibility_off
@@ -199,7 +201,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
                     },
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
+                    borderSide: const BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   border: OutlineInputBorder(
@@ -248,16 +250,16 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
             )
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 11.0),
-                backgroundColor: Color(0xffdd0e0e),
+                padding: const EdgeInsets.symmetric(vertical: 11.0),
+                backgroundColor: const Color(0xffdd0e0e),
                 minimumSize: Size(420.w, 45.h),
-                shape: StadiumBorder(),
-                textStyle: TextStyle(color: Colors.white),
+                shape: const StadiumBorder(),
+                textStyle: const TextStyle(color: Colors.white),
               ),
               onPressed: _submit,
               child: Text(
                 AppLocalizations.of(context)!.translate('submit_btn'),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                 ),
               ),
@@ -268,7 +270,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
   _submit() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      FocusScope.of(context).requestFocus(new FocusNode());
+      FocusScope.of(context).requestFocus(FocusNode());
 
       // check if new password and confirm new password matches
       if (_newPassword == _confirmNewPassword) {
@@ -286,18 +288,20 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
           );
 
           if (result.isSuccess) {
+            if (!context.mounted) return;
             context.router.popUntil(ModalRoute.withName('ProfileTab'));
 
             CustomSnackbar().show(
               context,
               message: AppLocalizations.of(context)!.translate(result.message),
-              type: MessageType.SUCCESS,
+              type: MessageType.success,
             );
           } else {
+            if (!context.mounted) return;
             CustomSnackbar().show(
               context,
               message: AppLocalizations.of(context)!.translate(result.message),
-              type: MessageType.ERROR,
+              type: MessageType.error,
             );
 
             setState(() {
@@ -309,7 +313,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
             context,
             message:
                 AppLocalizations.of(context)!.translate('password_same_msg'),
-            type: MessageType.ERROR,
+            type: MessageType.error,
           );
         }
       } else {
@@ -317,7 +321,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
           context,
           message:
               AppLocalizations.of(context)!.translate('password_not_match_msg'),
-          type: MessageType.ERROR,
+          type: MessageType.error,
         );
       }
 

@@ -14,10 +14,10 @@ import '../../router.gr.dart';
 class Menu extends StatefulWidget {
   final data;
 
-  Menu(this.data);
+  const Menu(this.data, {super.key});
 
   @override
-  _MenuState createState() => _MenuState();
+  State<Menu> createState() => _MenuState();
 }
 
 class _MenuState extends State<Menu> {
@@ -25,7 +25,7 @@ class _MenuState extends State<Menu> {
   int count = 0;
   final authRepo = AuthRepo();
   final customDialog = CustomDialog();
-  double _defIconSize = 30;
+  final double _defIconSize = 30;
   final primaryColor = ColorConstant.primaryColor;
   final localStorage = LocalStorage();
 
@@ -66,10 +66,10 @@ class _MenuState extends State<Menu> {
             borderRadius: BorderRadius.circular(10.0),
             color: Colors.white,
           ),
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-          margin: EdgeInsets.all(12.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+          margin: const EdgeInsets.all(12.0),
           child: ListView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: <Widget>[
               ListTile(
@@ -88,23 +88,23 @@ class _MenuState extends State<Menu> {
                   },
                 ),
               ),
-              Divider(),
+              const Divider(),
               ListTile(
                 leading: Icon(Icons.lock, size: _defIconSize),
                 title: Text(AppLocalizations.of(context)!
                     .translate('change_password_lbl')),
                 onTap: () {
-                  context.router.push(ChangePassword());
+                  context.router.push(const ChangePassword());
                 },
               ),
-              Divider(),
+              const Divider(),
               ListTile(
                 leading: Icon(Icons.exit_to_app, size: _defIconSize),
                 title:
                     Text(AppLocalizations.of(context)!.translate('logout_lbl')),
                 onTap: _logout,
               ),
-              Divider(),
+              const Divider(),
               ListTile(
                 leading: Icon(Icons.apps, size: _defIconSize),
                 title: Text(
@@ -150,7 +150,8 @@ class _MenuState extends State<Menu> {
             onPressed: () async {
               if (widget.data != null) widget.data.cancel();
 
-              context.router.pushAndPopUntil(Login(), predicate: (r) => false);
+              context.router
+                  .pushAndPopUntil(const Login(), predicate: (r) => false);
               await authRepo.logout(context: context);
             },
           ),
@@ -161,6 +162,6 @@ class _MenuState extends State<Menu> {
             },
           ),
         ],
-        type: DialogType.GENERAL);
+        type: DialogType.general);
   }
 }

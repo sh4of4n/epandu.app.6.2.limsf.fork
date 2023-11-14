@@ -20,14 +20,15 @@ class HomeTopMenu extends StatefulWidget {
   final getDiProfile;
   final getActiveFeed;
 
-  HomeTopMenu({
+  const HomeTopMenu({
+    super.key,
     this.iconText,
     this.getDiProfile,
     this.getActiveFeed,
   });
 
   @override
-  _HomeTopMenuState createState() => _HomeTopMenuState();
+  State<HomeTopMenu> createState() => _HomeTopMenuState();
 }
 
 class _HomeTopMenuState extends State<HomeTopMenu> {
@@ -42,6 +43,7 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
     var result = await inboxRepo.getUnreadNotificationCount();
 
     if (result.isSuccess) {
+      if (!context.mounted) return;
       if (int.tryParse(result.data[0].msgCount)! > 0) {
         Provider.of<NotificationCount>(context, listen: false).setShowBadge(
           showBadge: true,
@@ -51,11 +53,13 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
             .updateNotificationBadge(
           notificationBadge: int.tryParse(result.data[0].msgCount),
         );
-      } else
+      } else {
         Provider.of<NotificationCount>(context, listen: false).setShowBadge(
           showBadge: false,
         );
+      }
     } else {
+      if (!context.mounted) return;
       Provider.of<NotificationCount>(context, listen: false).setShowBadge(
         showBadge: false,
       );
@@ -96,255 +100,250 @@ class _HomeTopMenuState extends State<HomeTopMenu> {
     int notificationCount = 0;
     List<ChatNotification> chatNotificationCount =
         context.watch<ChatNotificationCount>().getChatNotificationCountList;
-    chatNotificationCount.forEach((ChatNotification chatNotification) {
+    for (var chatNotification in chatNotificationCount) {
       notificationCount += chatNotification.notificationBadge!;
-    });
-    return Container(
-      // height: ScreenUtil().setHeight(350),
-      child: Stack(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.center,
-            child: Table(
-              // border: TableBorder.all(),
-              children: [
-                TableRow(
-                  children: [
-                    InkWell(
-                      onTap: () => context.router.push(
-                        Scan(
-                          getActiveFeed: widget.getActiveFeed,
-                          getDiProfile: widget.getDiProfile,
-                        ),
-                      ),
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Column(
-                          children: <Widget>[
-                            Icon(
-                              MyCustomIcons.scan_icon,
-                              size: 26,
-                              color: Color(0xff808080),
-                            ),
-                            SizedBox(height: ScreenUtil().setHeight(20)),
-                            Text(
-                                AppLocalizations.of(context)!
-                                    .translate('scan_lbl'),
-                                style: widget.iconText),
-                          ],
-                        ),
+    }
+    return Stack(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.center,
+          child: Table(
+            // border: TableBorder.all(),
+            children: [
+              TableRow(
+                children: [
+                  InkWell(
+                    onTap: () => context.router.push(
+                      Scan(
+                        getActiveFeed: widget.getActiveFeed,
+                        getDiProfile: widget.getDiProfile,
                       ),
                     ),
-                    // InkWell(
-                    //   onTap: () => context.router.push(Pay()),
-                    //   borderRadius: BorderRadius.circular(10.0),
-                    //   child: Padding(
-                    //     padding: EdgeInsets.all(8.0),
-                    //     child: Column(
-                    //       children: <Widget>[
-                    //         Icon(
-                    //           MyCustomIcons.scan_helper,
-                    //           size: 26,
-                    //           color: Color(0xff808080),
-                    //         ),
-                    //         SizedBox(height: ScreenUtil().setHeight(20)),
-                    //         Text(
-                    //             AppLocalizations.of(context)!
-                    //                 .translate('pay_lbl'),
-                    //             style: widget.iconText),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
-                    InkWell(
-                      onTap: () => context.router.push(Pay()),
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Column(
-                          children: <Widget>[
-                            Icon(
-                              Icons.card_giftcard,
-                              size: 26,
-                              color: Color(0xff808080),
-                            ),
-                            SizedBox(height: ScreenUtil().setHeight(20)),
-                            Text('Reward', style: widget.iconText),
-                          ],
-                        ),
-                      ),
-                    ),
-                    // InkWell(
-                    //   onTap: () => context.router.push(Invite()),
-                    //   borderRadius: BorderRadius.circular(10.0),
-                    //   child: Padding(
-                    //     padding: EdgeInsets.symmetric(
-                    //       vertical: 8.0,
-                    //     ),
-                    //     child: Column(
-                    //       children: <Widget>[
-                    //         Icon(
-                    //           MyCustomIcons.invite_icon,
-                    //           size: 26,
-                    //           color: Color(0xff808080),
-                    //         ),
-                    //         SizedBox(height: ScreenUtil().setHeight(20)),
-                    //         Text(
-                    //           AppLocalizations.of(context)!
-                    //               .translate('invite_lbl'),
-                    //           style: widget.iconText,
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
-                    InkWell(
-                      onTap: () => context.router.push(Invite()),
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 8.0,
-                        ),
-                        child: Column(
-                          children: <Widget>[
-                            Icon(
-                              Icons.share,
-                              size: 26,
-                              color: Color(0xff808080),
-                            ),
-                            SizedBox(height: ScreenUtil().setHeight(20)),
-                            Text(
-                              'Share',
-                              style: widget.iconText,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    /* Padding(
-                      padding: EdgeInsets.all(8.0),
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: <Widget>[
-                          Image.memory(kTransparentImage,
-                              width: ScreenUtil().setWidth(150)),
+                          const Icon(
+                            MyCustomIcons.scanIcon,
+                            size: 26,
+                            color: Color(0xff808080),
+                          ),
+                          SizedBox(height: ScreenUtil().setHeight(20)),
+                          Text(
+                              AppLocalizations.of(context)!
+                                  .translate('scan_lbl'),
+                              style: widget.iconText),
                         ],
                       ),
-                    ), */
-                    InkWell(
-                      onTap: () => context.router.push(IdentityBarcode()),
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Column(
-                          children: <Widget>[
-                            Icon(
-                              MyCustomIcons.id_icon,
+                    ),
+                  ),
+                  // InkWell(
+                  //   onTap: () => context.router.push(Pay()),
+                  //   borderRadius: BorderRadius.circular(10.0),
+                  //   child: Padding(
+                  //     padding: EdgeInsets.all(8.0),
+                  //     child: Column(
+                  //       children: <Widget>[
+                  //         Icon(
+                  //           MyCustomIcons.scan_helper,
+                  //           size: 26,
+                  //           color: Color(0xff808080),
+                  //         ),
+                  //         SizedBox(height: ScreenUtil().setHeight(20)),
+                  //         Text(
+                  //             AppLocalizations.of(context)!
+                  //                 .translate('pay_lbl'),
+                  //             style: widget.iconText),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  InkWell(
+                    onTap: () => context.router.push(const Pay()),
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: <Widget>[
+                          const Icon(
+                            Icons.card_giftcard,
+                            size: 26,
+                            color: Color(0xff808080),
+                          ),
+                          SizedBox(height: ScreenUtil().setHeight(20)),
+                          Text('Reward', style: widget.iconText),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // InkWell(
+                  //   onTap: () => context.router.push(Invite()),
+                  //   borderRadius: BorderRadius.circular(10.0),
+                  //   child: Padding(
+                  //     padding: EdgeInsets.symmetric(
+                  //       vertical: 8.0,
+                  //     ),
+                  //     child: Column(
+                  //       children: <Widget>[
+                  //         Icon(
+                  //           MyCustomIcons.invite_icon,
+                  //           size: 26,
+                  //           color: Color(0xff808080),
+                  //         ),
+                  //         SizedBox(height: ScreenUtil().setHeight(20)),
+                  //         Text(
+                  //           AppLocalizations.of(context)!
+                  //               .translate('invite_lbl'),
+                  //           style: widget.iconText,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  InkWell(
+                    onTap: () => context.router.push(const Invite()),
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8.0,
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          const Icon(
+                            Icons.share,
+                            size: 26,
+                            color: Color(0xff808080),
+                          ),
+                          SizedBox(height: ScreenUtil().setHeight(20)),
+                          Text(
+                            'Share',
+                            style: widget.iconText,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  /* Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Column(
+                      children: <Widget>[
+                        Image.memory(kTransparentImage,
+                            width: ScreenUtil().setWidth(150)),
+                      ],
+                    ),
+                  ), */
+                  InkWell(
+                    onTap: () => context.router.push(const IdentityBarcode()),
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: <Widget>[
+                          const Icon(
+                            MyCustomIcons.idIcon,
+                            size: 26,
+                            color: Color(0xff808080),
+                          ),
+                          SizedBox(height: ScreenUtil().setHeight(20)),
+                          Text(
+                              AppLocalizations.of(context)!.translate('id_lbl'),
+                              style: widget.iconText),
+                        ],
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () => context.router
+                        .push(const Inbox())
+                        .then((value) => getUnreadNotificationCount()),
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: <Widget>[
+                          badges.Badge(
+                            showBadge: showBadge,
+                            badgeContent: Text(
+                              '$badgeNo',
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            child: const Icon(
+                              MyCustomIcons.inboxIcon,
                               size: 26,
                               color: Color(0xff808080),
                             ),
-                            SizedBox(height: ScreenUtil().setHeight(20)),
-                            Text(
-                                AppLocalizations.of(context)!
-                                    .translate('id_lbl'),
-                                style: widget.iconText),
-                          ],
-                        ),
+                          ),
+                          SizedBox(height: ScreenUtil().setHeight(20)),
+                          Text(
+                              AppLocalizations.of(context)!
+                                  .translate('inbox_lbl'),
+                              style: widget.iconText),
+                        ],
                       ),
                     ),
-                    InkWell(
-                      onTap: () => context.router
-                          .push(Inbox())
-                          .then((value) => getUnreadNotificationCount()),
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Column(
-                          children: <Widget>[
-                            badges.Badge(
-                              showBadge: showBadge,
-                              badgeContent: Text(
-                                '$badgeNo',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              child: Icon(
-                                MyCustomIcons.inbox_icon,
-                                size: 26,
-                                color: Color(0xff808080),
-                              ),
+                  ),
+                  InkWell(
+                    onTap: () => context.router.push(const RoomList()),
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: <Widget>[
+                          badges.Badge(
+                            showBadge: notificationCount > 0 ? true : false,
+                            badgeContent: Text(
+                              '$notificationCount',
+                              style: const TextStyle(color: Colors.white),
                             ),
-                            SizedBox(height: ScreenUtil().setHeight(20)),
-                            Text(
-                                AppLocalizations.of(context)!
-                                    .translate('inbox_lbl'),
-                                style: widget.iconText),
-                          ],
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () => context.router.push(RoomList()),
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Column(
-                          children: <Widget>[
-                            badges.Badge(
-                              showBadge: notificationCount > 0 ? true : false,
-                              badgeContent: Text(
-                                '$notificationCount',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              child: Icon(
-                                Icons.chat,
-                                size: 26,
-                                color: Color(0xff808080),
-                              ),
+                            child: const Icon(
+                              Icons.chat,
+                              size: 26,
+                              color: Color(0xff808080),
                             ),
-                            SizedBox(height: ScreenUtil().setHeight(20)),
-                            Text(
-                                AppLocalizations.of(context)!.translate('chat'),
-                                style: widget.iconText),
-                          ],
-                        ),
+                          ),
+                          SizedBox(height: ScreenUtil().setHeight(20)),
+                          Text(AppLocalizations.of(context)!.translate('chat'),
+                              style: widget.iconText),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
-          /* Align(
-            alignment: Alignment.center,
-            child: InkWell(
-              onTap: () =>
-                  context.router.push(Routes.epanduCategory),
-              borderRadius: BorderRadius.circular(10.0),
-              child: Container(
-                padding: EdgeInsets.only(
-                  top: 85.h,
-                ),
-                // margin: EdgeInsets.only(bottom: 80.h),
-                child: Column(
-                  children: <Widget>[
-                    FadeInImage(
-                      alignment: Alignment.center,
-                      placeholder: MemoryImage(kTransparentImage),
-                      height: 90.h,
-                      image: AssetImage(
-                        myImage.logo2,
-                      ),
+        ),
+        /* Align(
+          alignment: Alignment.center,
+          child: InkWell(
+            onTap: () =>
+                context.router.push(Routes.epanduCategory),
+            borderRadius: BorderRadius.circular(10.0),
+            child: Container(
+              padding: EdgeInsets.only(
+                top: 85.h,
+              ),
+              // margin: EdgeInsets.only(bottom: 80.h),
+              child: Column(
+                children: <Widget>[
+                  FadeInImage(
+                    alignment: Alignment.center,
+                    placeholder: MemoryImage(kTransparentImage),
+                    height: 90.h,
+                    image: AssetImage(
+                      myImage.logo2,
                     ),
-                    SizedBox(height: 20.h),
-                    Text(AppLocalizations.of(context).translate('log_in'),
-                        style: widget.iconText),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 20.h),
+                  Text(AppLocalizations.of(context).translate('log_in'),
+                      style: widget.iconText),
+                ],
               ),
             ),
-          ), */
-        ],
-      ),
+          ),
+        ), */
+      ],
     );
   }
 }

@@ -10,6 +10,7 @@ import '../../router.gr.dart';
 
 // import 'bottom_menu.dart';
 
+@RoutePage(name: 'EtestingCategory')
 class EtestingCategory extends StatelessWidget {
   final authRepo = AuthRepo();
   final image = ImagesConstant();
@@ -21,10 +22,12 @@ class EtestingCategory extends StatelessWidget {
   );
   final myImage = ImagesConstant();
 
+  EtestingCategory({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
             Colors.white,
@@ -38,7 +41,7 @@ class EtestingCategory extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.black, //change your color here
           ),
           title: FadeInImage(
@@ -67,16 +70,16 @@ class EtestingCategory extends StatelessWidget {
                 height: 60.h,
               ),
               ListView(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 children: [
                   ListTile(
-                    onTap: () => context.router.push(ComingSoon()),
+                    onTap: () => context.router.push(const ComingSoon()),
                     title: Text('Tempahan Ujian', style: iconText),
                   ),
                   Divider(color: Colors.grey[400]),
                   ListTile(
-                    onTap: () => context.router.push(CheckInSlip()),
+                    onTap: () => context.router.push(const CheckInSlip()),
                     title: Text('Rekod Ujian Memandu', style: iconText),
                   ),
                   Divider(color: Colors.grey[400]),

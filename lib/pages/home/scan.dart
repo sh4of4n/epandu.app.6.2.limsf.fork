@@ -14,6 +14,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:auto_route/auto_route.dart';
 import '../../router.gr.dart';
 
+@RoutePage(name: 'Scan')
 class Scan extends StatefulWidget {
   final getDiProfile;
   final getActiveFeed;
@@ -53,7 +54,7 @@ class _ScanState extends State<Scan> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('QR'),
+        title: const Text('QR'),
       ),
       body: Stack(
         children: [
@@ -106,6 +107,7 @@ class _ScanState extends State<Scan> {
         print(jsonDecode(scanData.code!)['QRCode'][0]['merchant_no']);
 
         if (jsonDecode(scanData.code!).containsKey('QRCode')) {
+          if (!context.mounted) return;
           context.router
               .replace(
             RegisterUserToDi(
@@ -147,7 +149,7 @@ class _ScanState extends State<Scan> {
           setState(() {
             _isLoading = true;
           });
-
+          if (!context.mounted) return;
           final result = await epanduRepo.verifyScanCode(
             context: context,
             qrcodeJson: scanData.code,
@@ -184,10 +186,12 @@ class _ScanState extends State<Scan> {
                   ],
                   type: DialogType.GENERAL,
                 ); */
+            if (!context.mounted) return;
             context.router.replace(
               QueueNumber(data: result.data),
             );
           } else {
+            if (!context.mounted) return;
             customDialog.show(
               context: context,
               barrierDismissable: false,
@@ -197,7 +201,7 @@ class _ScanState extends State<Scan> {
 
                 controller!.resumeCamera();
               },
-              type: DialogType.INFO,
+              type: DialogType.info,
             );
 
             setState(() {
@@ -205,6 +209,7 @@ class _ScanState extends State<Scan> {
             });
           }
         } else {
+          if (!context.mounted) return;
           customDialog.show(
             context: context,
             barrierDismissable: false,
@@ -214,16 +219,17 @@ class _ScanState extends State<Scan> {
               TextButton(
                 child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
                 onPressed: () => context.router.push(
-                  UpdateProfile(),
+                  const UpdateProfile(),
                 ),
               ),
             ],
-            type: DialogType.GENERAL,
+            type: DialogType.general,
           );
         }
 
         Provider.of<HomeLoadingModel>(context, listen: false)
             .loadingStatus(false);
+
         break;
       default:
         context.router
@@ -259,10 +265,10 @@ class _ScanState extends State<Scan> {
 
               controller!.resumeCamera();
             },
-            child: Text('Ok'),
+            child: const Text('Ok'),
           ),
         ],
-        type: DialogType.GENERAL,
+        type: DialogType.general,
       );
     }
     return customDialog.show(
@@ -277,10 +283,10 @@ class _ScanState extends State<Scan> {
 
             controller!.resumeCamera();
           },
-          child: Text('Ok'),
+          child: const Text('Ok'),
         ),
       ],
-      type: DialogType.GENERAL,
+      type: DialogType.general,
     );
   }
 }

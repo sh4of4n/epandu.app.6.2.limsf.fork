@@ -154,20 +154,7 @@ class EmergencyRepo {
     // String phoneCountryCode = await localStorage.getCountryCode();
     // String phone = await localStorage.getUserPhone();
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
-        '&caUid=$caUid' +
-        '&caPwd=$caPwd' +
-        '&diCode=$diCode' +
-        '&phone=$phone' +
-        '&dateFromString=$dateFromString' +
-        '&dateToString=$dateToString' +
-        '&startIndex=$startIndex' +
-        '&noOfRecords=$noOfRecords' +
-        '&merchantNo=$merchantNo' +
-        '&userId=$userId' +
-        '&appCode=${appConfig.appCode}' +
-        '&appId=${appConfig.appId}' +
-        '&deviceId=$deviceId';
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&phone=$phone&dateFromString=$dateFromString&dateToString=$dateToString&startIndex=$startIndex&noOfRecords=$noOfRecords&merchantNo=$merchantNo&userId=$userId&appCode=${appConfig.appCode}&appId=${appConfig.appId}&deviceId=$deviceId';
 
     var response = await networking.getData(
       path: 'GetPandemicTrack?$path',
@@ -197,18 +184,7 @@ class EmergencyRepo {
     String? userId = await localStorage.getUserId();
     String? deviceId = await localStorage.getLoginDeviceId();
 
-    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}' +
-        '&caUid=$caUid' +
-        '&caPwd=$caPwd' +
-        '&diCode=$diCode' +
-        '&phone=$phone' +
-        '&dateFromString=$dateFromString' +
-        '&dateToString=$dateToString' +
-        '&merchantNo=$merchantNo' +
-        '&userId=$userId' +
-        '&appCode=${appConfig.appCode}' +
-        '&appId=${appConfig.appId}' +
-        '&deviceId=$deviceId';
+    String path = 'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&phone=$phone&dateFromString=$dateFromString&dateToString=$dateToString&merchantNo=$merchantNo&userId=$userId&appCode=${appConfig.appCode}&appId=${appConfig.appId}&deviceId=$deviceId';
 
     var response = await networking.getData(
       path: 'GetPandemicPDFReport?$path',

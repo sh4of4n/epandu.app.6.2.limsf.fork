@@ -8,13 +8,14 @@ import 'package:intl/intl.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
 
+@RoutePage(name: 'EnrolmentInfoDetail')
 class EnrolmentInfoDetail extends StatefulWidget {
   final groupId;
 
-  EnrolmentInfoDetail(this.groupId);
+  const EnrolmentInfoDetail(this.groupId, {super.key});
 
   @override
-  _EnrolmentInfoDetailState createState() => _EnrolmentInfoDetailState();
+  State<EnrolmentInfoDetail> createState() => _EnrolmentInfoDetailState();
 }
 
 class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
@@ -51,8 +52,8 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
   }
 
   _loadHistoryData() {
-    if (_isLoading && _enrollHistoryData == null)
-      return Column(
+    if (_isLoading && _enrollHistoryData == null) {
+      return const Column(
         children: <Widget>[
           Expanded(
             child: SpinKitFoldingCube(
@@ -61,7 +62,7 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
           ),
         ],
       );
-    else if (!_isLoading && _enrollHistoryData is String)
+    } else if (!_isLoading && _enrollHistoryData is String) {
       return Column(
         children: <Widget>[
           Expanded(
@@ -71,6 +72,7 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
           ),
         ],
       );
+    }
 
     return SingleChildScrollView(
       child: Container(
@@ -99,9 +101,9 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].icNo != null
-                              ? 'IC: ' + _enrollHistoryData[0].icNo
+                              ? 'IC: ${_enrollHistoryData[0].icNo}'
                               : '',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                         ),
@@ -110,9 +112,9 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].groupId != null
-                              ? 'Class ' + _enrollHistoryData[0].groupId
+                              ? 'Class ${_enrollHistoryData[0].groupId}'
                               : '',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                           textAlign: TextAlign.right,
@@ -126,9 +128,9 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].stuNo != null
-                              ? 'Student no: ' + _enrollHistoryData[0].stuNo
+                              ? 'Student no: ${_enrollHistoryData[0].stuNo}'
                               : '',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                         ),
@@ -137,9 +139,9 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].status != null
-                              ? 'Status: ' + _enrollHistoryData[0].status
+                              ? 'Status: ${_enrollHistoryData[0].status}'
                               : '',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                           textAlign: TextAlign.right,
@@ -153,9 +155,9 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].tlHrsTak != null
-                              ? 'Hours taken: ' + _enrollHistoryData[0].tlHrsTak
+                              ? 'Hours taken: ${_enrollHistoryData[0].tlHrsTak}'
                               : '0',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                         ),
@@ -164,9 +166,9 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].totalTime != null
-                              ? 'Total time: ' + _enrollHistoryData[0].totalTime
+                              ? 'Total time: ${_enrollHistoryData[0].totalTime}'
                               : '00:00',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                           textAlign: TextAlign.right,
@@ -180,12 +182,9 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].totalPaid != null
-                              ? 'Total paid: RM' +
-                                  NumberFormat('#,##0.00').format(
-                                      double.tryParse(
-                                          _enrollHistoryData[0].totalPaid))
+                              ? 'Total paid: RM${NumberFormat('#,##0.00').format(double.tryParse(_enrollHistoryData[0].totalPaid))}'
                               : '0.00',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                         ),
@@ -194,12 +193,9 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].fee != null
-                              ? 'Fee: RM' +
-                                  NumberFormat('#,##0.00').format(
-                                      double.tryParse(
-                                          _enrollHistoryData[0].fee))
+                              ? 'Fee: RM${NumberFormat('#,##0.00').format(double.tryParse(_enrollHistoryData[0].fee))}'
                               : '0.00',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                           textAlign: TextAlign.right,
@@ -215,10 +211,10 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(420.w, 45.h),
-                  backgroundColor: Color(0xffdd0e0e),
-                  padding: EdgeInsets.symmetric(vertical: 11.0),
-                  shape: StadiumBorder(),
-                  textStyle: TextStyle(color: Colors.white),
+                  backgroundColor: const Color(0xffdd0e0e),
+                  padding: const EdgeInsets.symmetric(vertical: 11.0),
+                  shape: const StadiumBorder(),
+                  textStyle: const TextStyle(color: Colors.white),
                 ),
                 onPressed: () => context.router.pop(),
                 child: Text(
@@ -239,7 +235,7 @@ class _EnrolmentInfoDetailState extends State<EnrolmentInfoDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfffdc013),
+      backgroundColor: const Color(0xfffdc013),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,

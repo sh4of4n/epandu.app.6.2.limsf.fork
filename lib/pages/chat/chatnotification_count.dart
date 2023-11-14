@@ -45,6 +45,11 @@ class ChatNotificationCount extends ChangeNotifier {
     }
   }
 
+  void clearNotificationBadge() {
+    getChatNotificationCountList = [];
+    notifyListeners();
+  }
+
   void removeNotificationRoom({required String? roomId}) {
     int index = getChatNotificationCountList
         .indexWhere((element) => element.roomId == roomId);
@@ -71,7 +76,7 @@ class ChatNotificationCount extends ChangeNotifier {
           messageId.substring(0, messageId.length - 1);
     } else if (index != -1 && from == 'OUT OF ROOM') {
       if (getChatNotificationCountList[index].messageId != '') {
-        getChatNotificationCountList[index].messageId = ',' + messageId;
+        getChatNotificationCountList[index].messageId = ',$messageId';
       } else {
         getChatNotificationCountList[index].messageId = messageId;
       }

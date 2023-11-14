@@ -22,23 +22,24 @@ import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import '../../common_library/services/model/createroom_response.dart';
 import '../../common_library/services/model/m_roommember_model.dart';
 import '../../common_library/utils/local_storage.dart';
-import '../../services/database/DatabaseHelper.dart';
+import '../../services/database/database_helper.dart';
 import '../../services/repository/chatroom_repository.dart';
-import '../chat/chat_home.dart';
+import '../chat/chat_room.dart';
 import '../chat/socketclient_helper.dart';
 
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 // import '../../router.gr.dart';
 
+@RoutePage(name: 'Webview')
 class Webview extends StatefulWidget {
   final String? url;
   final String? backType;
 
-  Webview({required this.url, this.backType});
+  const Webview({super.key, required this.url, this.backType});
 
   @override
-  _WebviewState createState() => _WebviewState();
+  State<Webview> createState() => _WebviewState();
 }
 
 WebViewController? controllerGlobal;
@@ -54,6 +55,7 @@ Future<bool> _onWillPop(
     if (await controllerGlobal!.canGoBack()) {
       controllerGlobal!.goBack();
     } else {
+      if (!context.mounted) return false;
       // _confirmBack(customDialog, context);
       Provider.of<CallStatusModel>(context, listen: false).callStatus(false);
       return true;
@@ -84,7 +86,7 @@ _confirmBack(customDialog, BuildContext context) {
         },
       ),
     ],
-    type: DialogType.GENERAL,
+    type: DialogType.general,
   );
 }
 
@@ -97,7 +99,7 @@ class _WebviewState extends State<Webview> {
 
   final dbHelper = DatabaseHelper.instance;
 
-  late IO.Socket socket;
+  late io.Socket socket;
 
   String? _message = '';
 
@@ -173,23 +175,25 @@ Page resource error:
               String? lng = lngMatch?.group(1);
 
               final availableMaps = await MapLauncher.installedMaps;
-
+              //if (!context.mounted) return;
               showModalBottomSheet(
                 context: context,
-                builder: (BuildContext context) {
+                builder: (BuildContext dialogContext) {
                   return SafeArea(
                     child: Wrap(
                       children: <Widget>[
                         for (var map in availableMaps)
                           ListTile(
                             onTap: () async {
+                              final currentContext = dialogContext;
                               await map.showDirections(
                                 destination: Coords(
                                   double.parse(lat!),
                                   double.parse(lng!),
                                 ),
                               );
-                              context.router.pop();
+                              if (!currentContext.mounted) return;
+                              currentContext.router.pop();
                             },
                             title: Text(map.mapName),
                             leading: SvgPicture.asset(
@@ -219,14 +223,16 @@ Page resource error:
           if (createChatSupportResult.isSuccess) {
             if (createChatSupportResult.data != null &&
                 createChatSupportResult.data.length > 0) {
+              if (!context.mounted) return;
               await context.read<SocketClientHelper>().loginUserRoom();
+
               String userid = await localStorage.getUserId() ?? '';
               CreateRoomResponse getCreateRoomResponse =
                   createChatSupportResult.data[0];
 
               List<RoomMembers> roomMembers = await dbHelper
                   .getRoomMembersList(getCreateRoomResponse.roomId!);
-              roomMembers.forEach((roomMember) {
+              for (var roomMember in roomMembers) {
                 if (userid != roomMember.userId) {
                   var inviteUserToRoomJson = {
                     "invitedRoomId": getCreateRoomResponse.roomId!,
@@ -241,12 +247,12 @@ Page resource error:
                     }
                   });
                 }
-              });
-
+              }
+              if (!context.mounted) return;
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ChatHome2(
+                  builder: (context) => ChatRoom(
                     roomId: getCreateRoomResponse.roomId!,
                     picturePath: '',
                     roomName: getCreateRoomResponse.roomName!,
@@ -254,16 +260,20 @@ Page resource error:
                   ),
                 ),
               );
+
               //print(message.message.toString());
               //context.router.push(RoomList());
             }
           } else {
-            if (createChatSupportResult.message!.contains('add merchant user'))
+            if (createChatSupportResult.message!
+                .contains('add merchant user')) {
               _message = 'Not Avaliable Yet';
+            }
+            if (!context.mounted) return;
             customDialog.show(
                 context: context,
                 content: _message ?? "Error",
-                type: DialogType.WARNING,
+                type: DialogType.warning,
                 onPressed: () {
                   context.router.pop();
                 });
@@ -319,7 +329,7 @@ Page resource error:
       ),
       child: Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.black, //change your color here
           ),
           title: FadeInImage(

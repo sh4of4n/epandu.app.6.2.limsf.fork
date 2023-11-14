@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 import '../../router.gr.dart' as route;
 import 'package:epandu/common_library/services/repository/products_repository.dart';
 
+@RoutePage(name: 'Product')
 class Product extends StatefulWidget {
   final String? stkCode;
   final String? stkDesc1;
@@ -27,7 +28,8 @@ class Product extends StatefulWidget {
   final String? uom;
   final products;
 
-  Product({
+  const Product({
+    super.key,
     this.stkCode,
     this.stkDesc1,
     this.stkDesc2,
@@ -39,7 +41,7 @@ class Product extends StatefulWidget {
   });
 
   @override
-  _ProductState createState() => _ProductState();
+  State<Product> createState() => _ProductState();
 }
 
 class _ProductState extends State<Product> {
@@ -58,9 +60,9 @@ class _ProductState extends State<Product> {
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
 
   DateTime? scheduleDate;
-  String _batchNo = '';
+  final String _batchNo = '';
   bool _saveBtnIsLoading = false;
-  bool _isOfferedItem = false;
+  final bool _isOfferedItem = false;
 
   String uomValue = '';
 
@@ -72,7 +74,7 @@ class _ProductState extends State<Product> {
   final reviewStyle = TextStyle(
     fontWeight: FontWeight.w700,
     fontSize: 60.sp,
-    color: Color(0xff5d6767),
+    color: const Color(0xff5d6767),
   );
 
   TextStyle headerBubble = TextStyle(
@@ -87,7 +89,7 @@ class _ProductState extends State<Product> {
     color: Colors.blue,
   );
 
-  final bubbleDecoration = BoxDecoration(
+  final bubbleDecoration = const BoxDecoration(
     color: Colors.white,
     // borderRadius: BorderRadius.circular(10),
     boxShadow: [
@@ -135,6 +137,7 @@ class _ProductState extends State<Product> {
 
     if (result.isSuccess) {
       // return result.data;
+      if (!context.mounted) return;
       _getSlsDetailByDocNo(
         context,
         result.data[0].docDoc,
@@ -167,17 +170,18 @@ class _ProductState extends State<Product> {
   }
 
   loadImage(image) {
-    if (image != null)
+    if (image != null) {
       return Image.network(
         image.replaceAll(removeBracket, '').split('\r\n')[0],
         height: 300.h,
         gaplessPlayback: true,
       );
+    }
 
     return SizedBox(
       // width: 180.w,
       height: 300.h,
-      child: Icon(Icons.broken_image, size: 40, color: Colors.grey),
+      child: const Icon(Icons.broken_image, size: 40, color: Colors.grey),
     );
   }
 
@@ -190,13 +194,13 @@ class _ProductState extends State<Product> {
         onPressed: () {},
         style: ElevatedButton.styleFrom(
             minimumSize: Size(1300.w, 50.h),
-            backgroundColor: Color(0xffdd0e0e),
-            padding: EdgeInsets.symmetric(vertical: 11.0),
+            backgroundColor: const Color(0xffdd0e0e),
+            padding: const EdgeInsets.symmetric(vertical: 11.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
-              side: BorderSide(color: Color(0xffdd0e0e)),
+              side: const BorderSide(color: Color(0xffdd0e0e)),
             ),
-            textStyle: TextStyle(color: Colors.white)),
+            textStyle: const TextStyle(color: Colors.white)),
         child: Text(
           'Add To Cart',
           style: TextStyle(
@@ -207,7 +211,7 @@ class _ProductState extends State<Product> {
     );
   }
 
-  _submit() async {
+  submit() async {
     setState(() {
       _saveBtnIsLoading = true;
     });
@@ -239,7 +243,7 @@ class _ProductState extends State<Product> {
       setState(() {
         _saveBtnIsLoading = false;
       });
-
+      if (!context.mounted) return;
       int cartItem = Provider.of<CartStatus>(context, listen: false).cartItem!;
 
       Provider.of<CartStatus>(context, listen: false).setShowBadge(
@@ -251,7 +255,7 @@ class _ProductState extends State<Product> {
       );
 
       customSnackbar.show(context,
-          message: 'Item added to cart.', type: MessageType.SUCCESS);
+          message: 'Item added to cart.', type: MessageType.success);
 
       /* context.router.pushAndRemoveUntil(
             Routes.salesOrderCart,
@@ -262,10 +266,11 @@ class _ProductState extends State<Product> {
             ),
           ); */
     } else {
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         content: 'Failed to save sales order. Please try again later.',
-        type: DialogType.ERROR,
+        type: DialogType.error,
       );
 
       setState(() {
@@ -290,7 +295,7 @@ class _ProductState extends State<Product> {
               direction: Axis.horizontal,
               allowHalfRating: false,
               itemCount: 5,
-              itemBuilder: (context, _) => Icon(
+              itemBuilder: (context, _) => const Icon(
                 Icons.star,
                 color: Colors.amber,
               ),
@@ -299,7 +304,7 @@ class _ProductState extends State<Product> {
           ],
         ),
         SizedBox(height: 20.h),
-        Text(
+        const Text(
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent urna elit, efficitur nec accumsan sit amet, bibendum at erat.'),
       ],
     );
@@ -319,9 +324,9 @@ class _ProductState extends State<Product> {
         }
       },
       child: Scaffold(
-        backgroundColor: Color(0xfff7f7f7),
+        backgroundColor: const Color(0xfff7f7f7),
         appBar: AppBar(
-          title: Text('Product'),
+          title: const Text('Product'),
           actions: <Widget>[
             InkWell(
               onTap: () => context.router.push(
@@ -336,13 +341,13 @@ class _ProductState extends State<Product> {
                   badgeStyle: badges.BadgeStyle(
                     badgeColor: Colors.redAccent[700]!,
                   ),
-                  badgeAnimation: badges.BadgeAnimation.fade(),
+                  badgeAnimation: const badges.BadgeAnimation.fade(),
                   showBadge: showBadge,
                   badgeContent: Text(
                     '$badgeNo',
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
-                  child: Icon(Icons.shopping_cart),
+                  child: const Icon(Icons.shopping_cart),
                 ),
               ),
             ),
@@ -444,7 +449,7 @@ class _ProductState extends State<Product> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text('Promotions', style: labelStyle),
-                        Icon(Icons.chevron_right),
+                        const Icon(Icons.chevron_right),
                       ],
                     ),
                   ),
@@ -461,7 +466,7 @@ class _ProductState extends State<Product> {
                       Text('Ratings & Reviews',
                           style: headerBubble, textAlign: TextAlign.start),
                       SizedBox(height: 30.h),
-                      Container(
+                      SizedBox(
                         height: 1500.h,
                         /* child: Center(
                           child: Text('Ratings and reviews will load here.'),
@@ -529,12 +534,13 @@ class _ProductState extends State<Product> {
                       ),
                       GridView.builder(
                         shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                           // childAspectRatio: MediaQuery.of(context).size.height / 530,
                         ),
                         // padding: EdgeInsets.symmetric(horizontal: 40.w),
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         itemCount: widget.products.length,
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
@@ -567,7 +573,7 @@ class _ProductState extends State<Product> {
                                 loadImage(
                                     widget.products[index].stkpicturePath),
                                 SizedBox(height: 20.h),
-                                Container(
+                                SizedBox(
                                     width: 220.w,
                                     child: Text(
                                       widget.products[index].stkCode,

@@ -8,33 +8,33 @@ class QuestionOptions extends StatelessWidget {
   final List<String?>? questionOption;
   final List<Uint8List>? image;
 
-  QuestionOptions({this.roman, this.questionOption, this.image});
+  const QuestionOptions(
+      {super.key, this.roman, this.questionOption, this.image});
 
   final TextStyle _questionOptionStyle =
-      TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600);
+      const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 10.0),
+      margin: const EdgeInsets.only(top: 10.0),
       child: _renderQuestionOption(),
     );
   }
 
   // image with description
   _renderQuestionOption() {
-    if (questionOption!.length > 0 &&
+    if (questionOption!.isNotEmpty &&
         questionOption![0]!.length > 4 &&
-        image!.length > 0)
+        image!.isNotEmpty) {
       return _renderConditionAndImage();
-    // image without description
-    else if (questionOption!.length > 0 && image!.length > 0)
+    } else if (questionOption!.isNotEmpty && image!.isNotEmpty) {
       return _renderRomanAndImage();
-    // no image
-    else if (questionOption!.length > 0 && image!.length == 0)
+    } else if (questionOption!.isNotEmpty && image!.isEmpty) {
       return _renderConditions();
+    }
 
-    return SizedBox.shrink();
+    return const SizedBox.shrink();
   }
 
   _renderConditionAndImage() {
@@ -45,7 +45,7 @@ class QuestionOptions extends StatelessWidget {
       ),
       child: ListView.builder(
         // padding: EdgeInsets.only(bottom: 10.0),
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         /* gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
@@ -55,7 +55,7 @@ class QuestionOptions extends StatelessWidget {
         itemCount: questionOption!.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
-            padding: EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(15.0),
             child: Wrap(
               direction: Axis.horizontal,
               alignment: WrapAlignment.center,
@@ -73,8 +73,8 @@ class QuestionOptions extends StatelessWidget {
                 Container(
                   width: ScreenUtil().setWidth(800),
                   alignment: Alignment.center,
-                  child:
-                      Text(questionOption![index]!, style: _questionOptionStyle),
+                  child: Text(questionOption![index]!,
+                      style: _questionOptionStyle),
                 ),
               ],
             ),
@@ -87,9 +87,9 @@ class QuestionOptions extends StatelessWidget {
   _renderRomanAndImage() {
     return GridView.builder(
       // padding: EdgeInsets.only(bottom: 10.0),
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 1.7,
         // mainAxisSpacing: 15.0,
@@ -100,7 +100,7 @@ class QuestionOptions extends StatelessWidget {
           title: Row(
             children: <Widget>[
               Text(questionOption![index]!, style: _questionOptionStyle),
-              SizedBox(width: 5.0),
+              const SizedBox(width: 5.0),
               LimitedBox(
                 maxWidth: ScreenUtil().setWidth(470),
                 maxHeight: ScreenUtil().setHeight(580),
@@ -118,9 +118,9 @@ class QuestionOptions extends StatelessWidget {
   _renderConditions() {
     return GridView.builder(
       // padding: EdgeInsets.only(bottom: 10.0),
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 2.1,
         // mainAxisSpacing: 15.0,

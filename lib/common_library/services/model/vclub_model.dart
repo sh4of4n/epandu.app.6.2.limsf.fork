@@ -5,17 +5,17 @@ class GetMerchantTypeResponse {
 
   GetMerchantTypeResponse.fromJson(Map<String, dynamic> json) {
     if (json['MerchantType'] != null) {
-      merchantType = new List<MerchantType>.empty(growable: true);
+      merchantType = List<MerchantType>.empty(growable: true);
       json['MerchantType'].forEach((v) {
-        merchantType!.add(new MerchantType.fromJson(v));
+        merchantType!.add(MerchantType.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.merchantType != null) {
-      data['MerchantType'] = this.merchantType!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (merchantType != null) {
+      data['MerchantType'] = merchantType!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -65,19 +65,19 @@ class MerchantType {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['merchant_type'] = this.merchantType;
-    data['merchant_type_desc'] = this.merchantTypeDesc;
-    data['merchant_type_icon_filename'] = this.merchantTypeIconFilename;
-    data['merchant_type_banner_filename'] = this.merchantTypeBannerFilename;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['deleted'] = this.deleted;
-    data['row_key'] = this.rowKey;
-    data['transtamp'] = this.transtamp;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['merchant_type'] = merchantType;
+    data['merchant_type_desc'] = merchantTypeDesc;
+    data['merchant_type_icon_filename'] = merchantTypeIconFilename;
+    data['merchant_type_banner_filename'] = merchantTypeBannerFilename;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['deleted'] = deleted;
+    data['row_key'] = rowKey;
+    data['transtamp'] = transtamp;
     return data;
   }
 }
@@ -90,17 +90,17 @@ class GetMerchantResponse {
 
   GetMerchantResponse.fromJson(Map<String, dynamic> json) {
     if (json['Merchant'] != null) {
-      merchant = new List<Merchant>.empty(growable: true);
+      merchant = List<Merchant>.empty(growable: true);
       json['Merchant'].forEach((v) {
-        merchant!.add(new Merchant.fromJson(v));
+        merchant!.add(Merchant.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.merchant != null) {
-      data['Merchant'] = this.merchant!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (merchant != null) {
+      data['Merchant'] = merchant!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -306,71 +306,71 @@ class Merchant {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['merchant_no'] = this.merchantNo;
-    data['company'] = this.company;
-    data['brno'] = this.brno;
-    data['merchant_desc'] = this.merchantDesc;
-    data['merchant_type'] = this.merchantType;
-    data['name'] = this.name;
-    data['short_name'] = this.shortName;
-    data['category'] = this.category;
-    data['merchant_icon'] = this.merchantIcon;
-    data['merchant_icon_filename'] = this.merchantIconFilename;
-    data['merchant_profile_photo'] = this.merchantProfilePhoto;
-    data['merchant_profile_photo_filename'] = this.merchantProfilePhotoFilename;
-    data['co_map'] = this.coMap;
-    data['web_site'] = this.webSite;
-    data['co_domain'] = this.coDomain;
-    data['pic'] = this.pic;
-    data['phone_off1'] = this.phoneOff1;
-    data['phone_ext1'] = this.phoneExt1;
-    data['phone_off2'] = this.phoneOff2;
-    data['phone_ext2'] = this.phoneExt2;
-    data['mobile_phone'] = this.mobilePhone;
-    data['fax'] = this.fax;
-    data['email'] = this.email;
-    data['contact_person'] = this.contactPerson;
-    data['contact_post'] = this.contactPost;
-    data['add1'] = this.add1;
-    data['add2'] = this.add2;
-    data['add3'] = this.add3;
-    data['add4'] = this.add4;
-    data['postcode'] = this.postcode;
-    data['city_code'] = this.cityCode;
-    data['state_code'] = this.stateCode;
-    data['country_code'] = this.countryCode;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
-    data['remark'] = this.remark;
-    data['status'] = this.status;
-    data['ind_code'] = this.indCode;
-    data['merchant_application_status'] = this.merchantApplicationStatus;
-    data['merchant_status'] = this.merchantStatus;
-    data['join_date'] = this.joinDate;
-    data['expiry_date'] = this.expiryDate;
-    data['dbcode'] = this.dbcode;
-    data['co_intro'] = this.coIntro;
-    data['business_hour'] = this.businessHour;
-    data['business_day'] = this.businessDay;
-    data['agent_code'] = this.agentCode;
-    data['home_banner'] = this.homeBanner;
-    data['co_overview'] = this.coOverview;
-    data['business_Info'] = this.businessInfo;
-    data['offer_give'] = this.offerGive;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['deleted'] = this.deleted;
-    data['row_key'] = this.rowKey;
-    data['transtamp'] = this.transtamp;
-    data['city_name'] = this.cityName;
-    data['last_edited_by'] = this.lastEditedBy;
-    data['created_by'] = this.createdBy;
-    data['distance'] = this.distance;
-    data['isEmpty'] = this.isEmpty;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['merchant_no'] = merchantNo;
+    data['company'] = company;
+    data['brno'] = brno;
+    data['merchant_desc'] = merchantDesc;
+    data['merchant_type'] = merchantType;
+    data['name'] = name;
+    data['short_name'] = shortName;
+    data['category'] = category;
+    data['merchant_icon'] = merchantIcon;
+    data['merchant_icon_filename'] = merchantIconFilename;
+    data['merchant_profile_photo'] = merchantProfilePhoto;
+    data['merchant_profile_photo_filename'] = merchantProfilePhotoFilename;
+    data['co_map'] = coMap;
+    data['web_site'] = webSite;
+    data['co_domain'] = coDomain;
+    data['pic'] = pic;
+    data['phone_off1'] = phoneOff1;
+    data['phone_ext1'] = phoneExt1;
+    data['phone_off2'] = phoneOff2;
+    data['phone_ext2'] = phoneExt2;
+    data['mobile_phone'] = mobilePhone;
+    data['fax'] = fax;
+    data['email'] = email;
+    data['contact_person'] = contactPerson;
+    data['contact_post'] = contactPost;
+    data['add1'] = add1;
+    data['add2'] = add2;
+    data['add3'] = add3;
+    data['add4'] = add4;
+    data['postcode'] = postcode;
+    data['city_code'] = cityCode;
+    data['state_code'] = stateCode;
+    data['country_code'] = countryCode;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['remark'] = remark;
+    data['status'] = status;
+    data['ind_code'] = indCode;
+    data['merchant_application_status'] = merchantApplicationStatus;
+    data['merchant_status'] = merchantStatus;
+    data['join_date'] = joinDate;
+    data['expiry_date'] = expiryDate;
+    data['dbcode'] = dbcode;
+    data['co_intro'] = coIntro;
+    data['business_hour'] = businessHour;
+    data['business_day'] = businessDay;
+    data['agent_code'] = agentCode;
+    data['home_banner'] = homeBanner;
+    data['co_overview'] = coOverview;
+    data['business_Info'] = businessInfo;
+    data['offer_give'] = offerGive;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['deleted'] = deleted;
+    data['row_key'] = rowKey;
+    data['transtamp'] = transtamp;
+    data['city_name'] = cityName;
+    data['last_edited_by'] = lastEditedBy;
+    data['created_by'] = createdBy;
+    data['distance'] = distance;
+    data['isEmpty'] = isEmpty;
     return data;
   }
 }

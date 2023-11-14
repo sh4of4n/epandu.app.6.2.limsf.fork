@@ -1,4 +1,5 @@
 // import 'package:epandu/pages/edompet/edompet.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/repository/epandu_repository.dart';
 import 'package:epandu/pages/epandu/epandu.dart';
 import 'package:epandu/utils/constants.dart';
@@ -6,9 +7,12 @@ import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 
+@RoutePage(name: 'AttendanceTab')
 class AttendanceTab extends StatefulWidget {
+  const AttendanceTab({super.key});
+
   @override
-  _AttendanceTabState createState() => _AttendanceTabState();
+  State<AttendanceTab> createState() => _AttendanceTabState();
 }
 
 class _AttendanceTabState extends State<AttendanceTab>
@@ -16,7 +20,7 @@ class _AttendanceTabState extends State<AttendanceTab>
         SingleTickerProviderStateMixin,
         AutomaticKeepAliveClientMixin<AttendanceTab> {
   final List<Tab> myTabs = <Tab>[
-    Tab(
+    const Tab(
       text: 'Attendance',
     ),
     /* Tab(
@@ -25,7 +29,7 @@ class _AttendanceTabState extends State<AttendanceTab>
         size: 28.0,
       ),
     ), */
-    Tab(
+    const Tab(
       text: 'Check In',
     ),
   ];
@@ -109,11 +113,11 @@ class _AttendanceTabState extends State<AttendanceTab>
   _getTitle() {
     switch (_tabIndex) {
       case 0:
-        return Text('Attendance');
+        return const Text('Attendance');
       // case 1:
       //   return Text(AppLocalizations.of(context).translate('edompet_title'));
       case 1:
-        return Text('Check In');
+        return const Text('Check In');
     }
   }
 
@@ -127,7 +131,7 @@ class _AttendanceTabState extends State<AttendanceTab>
         decoration: BoxDecoration(
           gradient: RadialGradient(
             colors: [Colors.amber.shade300, primaryColor],
-            stops: [0.5, 1],
+            stops: const [0.5, 1],
             radius: 0.9,
           ),
         ),
@@ -150,7 +154,7 @@ class _AttendanceTabState extends State<AttendanceTab>
             ),
           ]),
           bottomNavigationBar: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30.0),

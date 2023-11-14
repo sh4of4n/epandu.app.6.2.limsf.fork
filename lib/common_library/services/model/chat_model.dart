@@ -5,17 +5,17 @@ class GetUserByUserPhoneResponse {
 
   GetUserByUserPhoneResponse.fromJson(Map<String, dynamic> json) {
     if (json['User'] != null) {
-      user = new List<User>.empty(growable: true);
+      user = List<User>.empty(growable: true);
       json['User'].forEach((v) {
-        user!.add(new User.fromJson(v));
+        user!.add(User.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.user != null) {
-      data['User'] = this.user!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (user != null) {
+      data['User'] = user!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -188,60 +188,60 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['app_code'] = this.appCode;
-    data['app_id'] = this.appId;
-    data['app_version'] = this.appVersion;
-    data['phone'] = this.phone;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['nick_name'] = this.nickName;
-    data['e_mail'] = this.eMail;
-    data['add'] = this.add;
-    data['add1'] = this.add1;
-    data['add2'] = this.add2;
-    data['add3'] = this.add3;
-    data['add4'] = this.add4;
-    data['postcode'] = this.postcode;
-    data['city_name'] = this.cityName;
-    data['state_name'] = this.stateName;
-    data['country_name'] = this.countryName;
-    data['ic_no'] = this.icNo;
-    data['birth_date'] = this.birthDate;
-    data['nationality'] = this.nationality;
-    data['race'] = this.race;
-    data['gender'] = this.gender;
-    data['user_pwd'] = this.userPwd;
-    data['tmp_user_pwd'] = this.tmpUserPwd;
-    data['access_code'] = this.accessCode;
-    data['branch'] = this.branch;
-    data['empno'] = this.empno;
-    data['user_photo'] = this.userPhoto;
-    data['user_photo_filename'] = this.userPhotoFilename;
-    data['web_browser_url'] = this.webBrowserUrl;
-    data['deleted'] = this.deleted;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['row_key'] = this.rowKey;
-    data['transtamp'] = this.transtamp;
-    data['merchant_no'] = this.merchantNo;
-    data['login_id'] = this.loginId;
-    data['city'] = this.city;
-    data['state'] = this.state;
-    data['country'] = this.country;
-    data['name'] = this.name;
-    data['report_gps'] = this.reportGps;
-    data['gps_check_second'] = this.gpsCheckSecond;
-    data['lastupload'] = this.lastupload;
-    data['di_code'] = this.diCode;
-    data['last_edited_by'] = this.lastEditedBy;
-    data['created_by'] = this.createdBy;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['app_code'] = appCode;
+    data['app_id'] = appId;
+    data['app_version'] = appVersion;
+    data['phone'] = phone;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['nick_name'] = nickName;
+    data['e_mail'] = eMail;
+    data['add'] = add;
+    data['add1'] = add1;
+    data['add2'] = add2;
+    data['add3'] = add3;
+    data['add4'] = add4;
+    data['postcode'] = postcode;
+    data['city_name'] = cityName;
+    data['state_name'] = stateName;
+    data['country_name'] = countryName;
+    data['ic_no'] = icNo;
+    data['birth_date'] = birthDate;
+    data['nationality'] = nationality;
+    data['race'] = race;
+    data['gender'] = gender;
+    data['user_pwd'] = userPwd;
+    data['tmp_user_pwd'] = tmpUserPwd;
+    data['access_code'] = accessCode;
+    data['branch'] = branch;
+    data['empno'] = empno;
+    data['user_photo'] = userPhoto;
+    data['user_photo_filename'] = userPhotoFilename;
+    data['web_browser_url'] = webBrowserUrl;
+    data['deleted'] = deleted;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['row_key'] = rowKey;
+    data['transtamp'] = transtamp;
+    data['merchant_no'] = merchantNo;
+    data['login_id'] = loginId;
+    data['city'] = city;
+    data['state'] = state;
+    data['country'] = country;
+    data['name'] = name;
+    data['report_gps'] = reportGps;
+    data['gps_check_second'] = gpsCheckSecond;
+    data['lastupload'] = lastupload;
+    data['di_code'] = diCode;
+    data['last_edited_by'] = lastEditedBy;
+    data['created_by'] = createdBy;
     return data;
   }
 }
@@ -262,11 +262,11 @@ class UserProfileWithPhone {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.iD;
-    data['user_id'] = this.userId;
-    data['phone'] = this.phone;
-    data['first_name'] = this.firstName;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = iD;
+    data['user_id'] = userId;
+    data['phone'] = phone;
+    data['first_name'] = firstName;
     return data;
   }
 }
@@ -292,7 +292,7 @@ class Message {
       this.type,
       this.isSeen});
 
-  factory Message.fromJson(Map<String, dynamic> json) => new Message(
+  factory Message.fromJson(Map<String, dynamic> json) => Message(
       id: json['id'],
       author: json['author'],
       target: json['target'],
@@ -321,7 +321,7 @@ class MessageBody {
 
   MessageBody({this.data, this.sentDateTime, this.type, this.isSeen});
 
-  factory MessageBody.fromJson(Map<String, dynamic> json) => new MessageBody(
+  factory MessageBody.fromJson(Map<String, dynamic> json) => MessageBody(
       data: json['data'],
       sentDateTime: json['sentDateTime'],
       type: json['type'],

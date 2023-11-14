@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:scroll_app_bar/scroll_app_bar.dart';
+//import 'package:scroll_app_bar/scroll_app_bar.dart';
 
+@RoutePage()
 class ElearningPage extends StatefulWidget {
-  ElearningPage({Key? key}) : super(key: key);
+  const ElearningPage({Key? key}) : super(key: key);
 
   @override
   State<ElearningPage> createState() => _ElearningPageState();
@@ -14,9 +16,13 @@ class _ElearningPageState extends State<ElearningPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ScrollAppBar(
-        controller: controller, // Note the controller here
-        title: Text("eLearning"),
+      //TODO
+      // appBar: ScrollAppBar(
+      //   controller: controller, // Note the controller here
+      //   title: const Text("eLearning"),
+      // ),
+      appBar: AppBar(
+        title: const Text("eLearning"),
       ),
       body: SafeArea(
         child: ListView.separated(
@@ -24,7 +30,7 @@ class _ElearningPageState extends State<ElearningPage> {
           padding: const EdgeInsets.all(16.0),
           itemCount: 10,
           separatorBuilder: (BuildContext context, int index) {
-            return SizedBox(
+            return const SizedBox(
               height: 16,
             );
           },
@@ -38,10 +44,10 @@ class _ElearningPageState extends State<ElearningPage> {
                     fit: BoxFit.contain,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
-                Text(
+                const Text(
                   'Kelayakan Memgambil Lesen D/DA',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,

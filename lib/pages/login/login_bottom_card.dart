@@ -12,8 +12,10 @@ import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
 class LoginBottomCard extends StatefulWidget {
+  const LoginBottomCard({super.key});
+
   @override
-  _LoginBottomCardState createState() => _LoginBottomCardState();
+  State<LoginBottomCard> createState() => _LoginBottomCardState();
 }
 
 class _LoginBottomCardState extends State<LoginBottomCard> {
@@ -64,7 +66,7 @@ class _LoginBottomCardState extends State<LoginBottomCard> {
                 },
               ),
             ),
-            SizedBox(height: 5.0),
+            const SizedBox(height: 5.0),
             GestureDetector(
               onTap: () async {
                 count += 1;
@@ -76,7 +78,7 @@ class _LoginBottomCardState extends State<LoginBottomCard> {
                         .translate('client_acc_title'),
                     content: AppLocalizations.of(context)!
                         .translate('client_acc_desc'),
-                    type: DialogType.SUCCESS,
+                    type: DialogType.success,
                     barrierDismissable: false,
                     onPressed: () async {
                       count = 0;

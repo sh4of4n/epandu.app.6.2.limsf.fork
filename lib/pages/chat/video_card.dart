@@ -4,7 +4,7 @@ import 'package:jumping_dot/jumping_dot.dart';
 import 'package:video_player/video_player.dart';
 import '../../common_library/services/model/replymessage_model.dart';
 import '../../common_library/utils/capitalize_firstletter.dart';
-import 'chat_home.dart';
+import 'chat_room.dart';
 import 'chat_theme.dart';
 import 'date_formater.dart';
 import 'package:flick_video_player/flick_video_player.dart';
@@ -51,8 +51,7 @@ class _VideoCardState extends State<VideoCard> {
     super.initState();
     // print('TE1 :' + widget.filePath);
     flickManager = FlickManager(
-      videoPlayerController:
-          VideoPlayerController.file(new File(widget.filePath)),
+      videoPlayerController: VideoPlayerController.file(File(widget.filePath)),
     );
     // print('TE2 :' +
     //     flickManager.flickVideoManager!.videoPlayerController!.dataSource);
@@ -71,9 +70,9 @@ class _VideoCardState extends State<VideoCard> {
         widget.filePath) {
       return Container(child: getVideoCard());
     } else {
-      Future.delayed(Duration(milliseconds: 500)).whenComplete(() {
+      Future.delayed(const Duration(milliseconds: 500)).whenComplete(() {
         flickManager.handleChangeVideo(
-            VideoPlayerController.file(new File(widget.filePath)));
+            VideoPlayerController.file(File(widget.filePath)));
       });
       return Container(child: getVideoCard());
     }
@@ -119,42 +118,39 @@ class _VideoCardState extends State<VideoCard> {
                       if (widget.localUser != widget.user)
                         Align(
                           alignment: Alignment.topLeft,
-                          child: new Text(
+                          child: Text(
                               CapitalizeFirstLetter()
                                   .capitalizeFirstLetter(widget.nickName),
                               style: MyTheme.heading2.copyWith(fontSize: 13)),
                         ),
                     widget.filePath != ''
                         ? widget.replyMessageDetails.replyToId == 0
-                            ? Container(
-                                child: FlickVideoPlayer(
-                                  flickManager: flickManager,
-                                  flickVideoWithControls:
-                                      FlickVideoWithControls(
-                                    controls: IconTheme(
-                                        data:
-                                            IconThemeData(color: Colors.white),
-                                        child: FlickPortraitControls(
-                                          progressBarSettings:
-                                              FlickProgressBarSettings(
-                                            bufferedColor:
-                                                Colors.white.withOpacity(0.2),
-                                            playedColor: Colors.white,
-                                            handleColor: Colors.white,
-                                          ),
-                                        )),
-                                  ),
-                                  flickVideoWithControlsFullscreen:
-                                      FlickVideoWithControls(
-                                    controls: FlickLandscapeControls(),
-                                  ),
+                            ? FlickVideoPlayer(
+                                flickManager: flickManager,
+                                flickVideoWithControls: FlickVideoWithControls(
+                                  controls: IconTheme(
+                                      data: const IconThemeData(
+                                          color: Colors.white),
+                                      child: FlickPortraitControls(
+                                        progressBarSettings:
+                                            FlickProgressBarSettings(
+                                          bufferedColor:
+                                              Colors.white.withOpacity(0.2),
+                                          playedColor: Colors.white,
+                                          handleColor: Colors.white,
+                                        ),
+                                      )),
+                                ),
+                                flickVideoWithControlsFullscreen:
+                                    const FlickVideoWithControls(
+                                  controls: FlickLandscapeControls(),
                                 ),
                               )
                             : Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   buildReplyMessage(widget.replyMessageDetails),
-                                  Divider(
+                                  const Divider(
                                     color: Colors.white,
                                     height: 20,
                                     thickness: 2,
@@ -165,28 +161,23 @@ class _VideoCardState extends State<VideoCard> {
                                     alignment: Alignment.centerLeft,
                                     child: Padding(
                                         padding: const EdgeInsets.all(5.0),
-                                        child: Container(
-                                          child: FlickVideoPlayer(
-                                            flickManager: flickManager,
-                                            flickVideoWithControls:
-                                                FlickVideoWithControls(
-                                              controls: FlickPortraitControls(),
-                                            ),
-                                            flickVideoWithControlsFullscreen:
-                                                FlickVideoWithControls(
-                                              controls:
-                                                  FlickLandscapeControls(),
-                                            ),
+                                        child: FlickVideoPlayer(
+                                          flickManager: flickManager,
+                                          flickVideoWithControls:
+                                              const FlickVideoWithControls(
+                                            controls: FlickPortraitControls(),
+                                          ),
+                                          flickVideoWithControlsFullscreen:
+                                              const FlickVideoWithControls(
+                                            controls: FlickLandscapeControls(),
                                           ),
                                         )),
                                   )
                                 ],
                               )
-                        : Container(
-                            child: Center(
-                                child: Text('No Video From Server',
-                                    style: MyTheme.bodyText1)),
-                          ),
+                        : Center(
+                            child: Text('No Video From Server',
+                                style: MyTheme.bodyText1)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -210,7 +201,7 @@ class _VideoCardState extends State<VideoCard> {
                                     //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time).toLocal()),
                                     style: MyTheme.isMebodyTextTime,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   getStatusIcon(widget.msgStatus)
@@ -242,15 +233,15 @@ class _VideoCardState extends State<VideoCard> {
       return Container();
     } else {
       return Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.all(8),
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(12),
             bottomLeft: Radius.circular(12),
           ),
         ),
-        margin: EdgeInsets.only(bottom: 8),
+        margin: const EdgeInsets.only(bottom: 8),
         child: InkWell(
             onTap: () {
               widget.callback(replyMessageDetails.replyToId!);
@@ -267,7 +258,7 @@ class _VideoCardState extends State<VideoCard> {
     int timeInMinutes =
         DateTime.now().difference(DateTime.parse(widget.time)).inMinutes;
     if (timeInMinutes == 1 && status == "SENDING") {
-      return Icon(
+      return const Icon(
         Icons.sms_failed_outlined,
         size: 20,
         semanticLabel: "Failed",
@@ -278,15 +269,20 @@ class _VideoCardState extends State<VideoCard> {
         color: Colors.yellow,
         radius: 10,
         numberOfDots: 3,
-        animationDuration: Duration(milliseconds: 200),
+        animationDuration: const Duration(milliseconds: 200),
       );
     } else if (status == "SENT") {
-      return Icon(
+      return const Icon(
+        Icons.done,
+        size: 20,
+      );
+    } else if (status == "UNREAD") {
+      return const Icon(
         Icons.done,
         size: 20,
       );
     } else {
-      return Icon(
+      return const Icon(
         Icons.done_all,
         color: Colors.black,
         size: 20,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../common_library/services/model/chat_mesagelist.dart';
-import '../../services/database/DatabaseHelper.dart';
+import '../../services/database/database_helper.dart';
 
 class ChatHistory extends ChangeNotifier {
   List<MessageDetails> getMessageDetailsList = [];
@@ -15,18 +15,25 @@ class ChatHistory extends ChangeNotifier {
         (element) => element.clientMessageId == messageDetail.clientMessageId);
     if (index == -1) {
       getMessageDetailsList.add(messageDetail);
+      getMessageDetailsList
+          .sort((a, b) => a.sendDateTime!.compareTo(b.sendDateTime!));
       notifyListeners();
     }
   }
 
-  void updateChatItemStatus(
-      String clientMessageId, String msgStatus, int messageId, String roomId) {
+  void updateChatItemStatus(String clientMessageId, String msgStatus,
+      int messageId, String roomId, String sendDateTime) {
     if (clientMessageId != '') {
       int index = getMessageDetailsList.indexWhere((element) =>
           element.clientMessageId == clientMessageId &&
           element.roomId == roomId);
-      getMessageDetailsList[index].msgStatus = msgStatus;
-      getMessageDetailsList[index].messageId = messageId;
+      if (index != -1) {
+        getMessageDetailsList[index].msgStatus = msgStatus;
+        getMessageDetailsList[index].messageId = messageId;
+        if (sendDateTime != '') {
+          getMessageDetailsList[index].sendDateTime = sendDateTime;
+        }
+      }
     } else {
       int index = getMessageDetailsList
           .indexWhere((element) => element.messageId == messageId);
@@ -50,11 +57,13 @@ class ChatHistory extends ChangeNotifier {
       String msgBody, int messageId, String editDatetime, String roomId) {
     int index = getMessageDetailsList.indexWhere((element) =>
         element.messageId == messageId && element.roomId == roomId);
-    getMessageDetailsList[index].msgBody = msgBody;
-    getMessageDetailsList[index].editDateTime =
-        DateFormat("yyyy-MM-dd HH:mm:ss")
-            .format(DateTime.parse(editDatetime).toLocal())
-            .toString();
+    if (index != -1) {
+      getMessageDetailsList[index].msgBody = msgBody;
+      getMessageDetailsList[index].editDateTime =
+          DateFormat("yyyy-MM-dd HH:mm:ss")
+              .format(DateTime.parse(editDatetime).toLocal())
+              .toString();
+    }
     notifyListeners();
   }
 
@@ -73,8 +82,7 @@ class ChatHistory extends ChangeNotifier {
         element.messageId == messageId && element.roomId == roomId);
     if (index != -1) {
       getMessageDetailsList.removeAt(index);
-      print(
-          'messageId_ ' + messageId.toString() + ' Index_' + index.toString());
+      print('messageId_ $messageId Index_$index');
       notifyListeners();
     }
   }
@@ -96,28 +104,43 @@ class ChatHistory extends ChangeNotifier {
   Future<List<MessageDetails>> getLazyLoadChatHistory(
       String roomId, int offset, int batchSize) async {
     List<MessageDetails> pastMessageDetailsList = getMessageDetailsList;
+    List<MessageDetails> failedMessagesList = [];
     getMessageDetailsList = [];
     getMessageDetailsList =
         await dbHelper.getLazyLoadMsgDetailList(roomId, batchSize, offset);
-
-    if (getMessageDetailsList.length > 0) {
-      //pastMessageDetailsList.addAll(getMessageDetailsList);
-      // pastMessageDetailsList.addAll(getMessageDetailsList.where((message) {
-      //   // Check if the value already exists in the list
-      //   return !pastMessageDetailsList.contains(message);
-      // }));
+    failedMessagesList = await dbHelper.getFailedMsgList(roomId);
+    if (getMessageDetailsList.isNotEmpty) {
+      if (failedMessagesList.isNotEmpty) {
+        for (var newFailedMessage in failedMessagesList) {
+          if (!getMessageDetailsList.any((existingMessage) =>
+              existingMessage.clientMessageId ==
+              newFailedMessage.clientMessageId)) {
+            getMessageDetailsList.add(newFailedMessage);
+          }
+        }
+      }
       pastMessageDetailsList.addAll(getMessageDetailsList.where((newMessage) {
         // Check if the message_id already exists in the list
         return !pastMessageDetailsList.any((existingMessage) =>
-            existingMessage.messageId == newMessage.messageId);
+            existingMessage.clientMessageId == newMessage.clientMessageId);
       }));
 
       getMessageDetailsList = pastMessageDetailsList;
     } else {
       isDataExist = false;
+      if (failedMessagesList.isNotEmpty) {
+        for (var newFailedMessage in failedMessagesList) {
+          if (!getMessageDetailsList.any((existingMessage) =>
+              existingMessage.clientMessageId ==
+              newFailedMessage.clientMessageId)) {
+            getMessageDetailsList.add(newFailedMessage);
+          }
+        }
+      }
       getMessageDetailsList = pastMessageDetailsList;
     }
-    getMessageDetailsList.sort((a, b) => a.messageId!.compareTo(b.messageId!));
+    getMessageDetailsList
+        .sort((a, b) => a.sendDateTime!.compareTo(b.sendDateTime!));
 
     notifyListeners();
 

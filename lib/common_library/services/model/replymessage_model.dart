@@ -22,12 +22,12 @@ class ReplyMessageDetails {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['msg_body'] = this.msgBody;
-    data['reply_to_id'] = this.replyToId;
-    data['nick_name'] = this.nickName;
-    data['filePath'] = this.filePath;
-    data['binaryType'] = this.binaryType;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['msg_body'] = msgBody;
+    data['reply_to_id'] = replyToId;
+    data['nick_name'] = nickName;
+    data['filePath'] = filePath;
+    data['binaryType'] = binaryType;
     return data;
   }
 }

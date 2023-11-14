@@ -8,7 +8,7 @@ class LoadingModel extends StatelessWidget {
   final Color? backgroundColor;
   final double? opacity;
 
-  LoadingModel({
+  const LoadingModel({super.key, 
     this.isVisible,
     this.color,
     this.backgroundColor,

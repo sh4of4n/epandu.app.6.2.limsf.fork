@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/pages/chat/rooms_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -15,14 +16,15 @@ import '../../common_library/services/model/roomhistory_model.dart';
 import '../../common_library/services/repository/auth_repository.dart';
 import '../../common_library/utils/custom_dialog.dart';
 import '../../common_library/utils/local_storage.dart';
-import '../../services/database/DatabaseHelper.dart';
+import '../../services/database/database_helper.dart';
 import '../../services/repository/chatroom_repository.dart';
 import '../../utils/app_config.dart';
 import 'chat_history.dart';
-import 'chat_home.dart';
 import 'socketclient_helper.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
+import '../../router.gr.dart';
 
+@RoutePage(name: 'createGroup')
 class CreateGroup extends StatefulWidget {
   const CreateGroup({
     Key? key,
@@ -31,14 +33,14 @@ class CreateGroup extends StatefulWidget {
   final String roomId;
 
   @override
-  _CreateGroupState createState() => _CreateGroupState();
+  State<CreateGroup> createState() => _CreateGroupState();
 }
 
 class _CreateGroupState extends State<CreateGroup> {
   final appConfig = AppConfig();
-  late IO.Socket socket;
+  late io.Socket socket;
   bool isMultiSelectionEnabled = true;
-  TextEditingController _textFieldController = TextEditingController();
+  final TextEditingController _textFieldController = TextEditingController();
   String codeDialog = "";
   String valueText = "";
   final dbHelper = DatabaseHelper.instance;
@@ -84,7 +86,7 @@ class _CreateGroupState extends State<CreateGroup> {
   AppBar getAppBar(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_back,
           size: 24,
         ),
@@ -93,7 +95,7 @@ class _CreateGroupState extends State<CreateGroup> {
         },
       ),
       title: widget.roomId == ''
-          ? Row(
+          ? const Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Icon(
@@ -101,19 +103,19 @@ class _CreateGroupState extends State<CreateGroup> {
                   color: Colors.white,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Text('Create Group'),
                 ),
               ],
             )
-          : Row(
+          : const Row(
               children: [
                 Icon(
                   Icons.group_add_rounded,
                   color: Colors.white,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Text('Add Member To Group'),
                 ),
               ],
@@ -164,54 +166,54 @@ class _CreateGroupState extends State<CreateGroup> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: getAppBar(context),
-      body: Container(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: TextField(
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  if (value.length > 9) {
-                    getFriendData();
-                  } else {
-                    getFriendData();
-                  }
-                },
-                controller: editingController,
-                decoration: InputDecoration(
-                    labelText: "Search Friend By Mobile No.",
-                    hintText: "Search Friend By Mobile No.",
-                    prefixIcon: Icon(
-                      Icons.search,
-                    ),
-                    suffixIcon: editingController.text.length > 0
-                        ? IconButton(
-                            icon: Icon(
-                              Icons.clear,
-                            ),
-                            onPressed: () async {
-                              editingController.text = '';
-                              getFriendData();
-                              await EasyLoading.dismiss();
-                            },
-                          )
-                        : null,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)))),
-              ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: TextField(
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                if (value.length > 9) {
+                  getFriendData();
+                } else {
+                  getFriendData();
+                }
+              },
+              controller: editingController,
+              decoration: InputDecoration(
+                  labelText: "Search Friend By Mobile No.",
+                  hintText: "Search Friend By Mobile No.",
+                  prefixIcon: const Icon(
+                    Icons.search,
+                  ),
+                  suffixIcon: editingController.text.isNotEmpty
+                      ? IconButton(
+                          icon: const Icon(
+                            Icons.clear,
+                          ),
+                          onPressed: () async {
+                            editingController.text = '';
+                            getFriendData();
+                            await EasyLoading.dismiss();
+                          },
+                        )
+                      : null,
+                  border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)))),
             ),
-            Expanded(child: _populateListView()),
-          ],
-        ),
+          ),
+          Expanded(child: _populateListView()),
+        ],
       ),
-      floatingActionButton: _selected.length > 0
+      floatingActionButton: _selected.isNotEmpty
           ? FloatingActionButton(
               onPressed: () async {
                 if (widget.roomId == '') {
                   _displayTextInputDialog(context);
                 } else {
-                  await EasyLoading.show();
+                  await EasyLoading.show(
+                    maskType: EasyLoadingMaskType.black,
+                  );
                   var inviteResult = await chatRoomRepo.addMemberToGroup(
                       editingController.text, widget.roomId);
 
@@ -219,7 +221,7 @@ class _CreateGroupState extends State<CreateGroup> {
                       inviteResult.data.length > 0) {
                     InviteRoomResponse inviteRoomResponse =
                         inviteResult.data[0];
-
+                    if (!context.mounted) return;
                     await context.read<SocketClientHelper>().loginUserRoom();
                     String? userId = await localStorage.getUserId();
                     String? userName = await localStorage.getNickName();
@@ -230,21 +232,19 @@ class _CreateGroupState extends State<CreateGroup> {
                     // });
                     List<RoomMembers> roomMembers =
                         await dbHelper.getRoomMembersList(widget.roomId);
-                    _selected.forEach((memberByPhoneResponse) async {
+                    for (var memberByPhoneResponse in _selected) {
                       await dbHelper.updateRoomMemberStatus(
                           memberByPhoneResponse.userId, "false", widget.roomId);
 
-                      roomMembers.forEach((roomMember) {
+                      for (var roomMember in roomMembers) {
                         if (userId != roomMember.userId) {
                           var groupJson = {
                             "notifiedRoomId": widget.roomId,
                             "notifiedUserId": roomMember.userId,
-                            "title": userName! +
-                                ' added ' +
-                                memberByPhoneResponse.name!,
-                            "description": memberByPhoneResponse.userId! +
-                                " just joined the room_" +
-                                widget.roomId
+                            "title":
+                                '${userName!} added ${memberByPhoneResponse.name!}',
+                            "description":
+                                "${memberByPhoneResponse.userId!} just joined the room_${widget.roomId}"
                           };
                           //print(messageJson);
                           socket.emitWithAck('sendNotification', groupJson,
@@ -252,7 +252,7 @@ class _CreateGroupState extends State<CreateGroup> {
                             //print(data);
                           });
                         }
-                      });
+                      }
 
                       String clientMessageId = generateRandomString(15);
                       String caUid = await localStorage.getCaUid() ?? '';
@@ -264,9 +264,8 @@ class _CreateGroupState extends State<CreateGroup> {
                           appId: appConfig.appId,
                           caUid: caUid,
                           deviceId: deviceId,
-                          msgBody: userName! +
-                              ' added ' +
-                              memberByPhoneResponse.name!,
+                          msgBody:
+                              '${userName!} added ${memberByPhoneResponse.name!}',
                           msgBinary: '',
                           msgBinaryType: 'userJoined',
                           replyToId: -1,
@@ -288,6 +287,7 @@ class _CreateGroupState extends State<CreateGroup> {
                           clientMessageId: clientMessageId,
                           roomName: '');
                       await dbHelper.saveMsgDetailTable(messageDetails);
+                      if (!context.mounted) return;
                       context
                           .read<ChatHistory>()
                           .addChatHistory(messageDetail: messageDetails);
@@ -298,44 +298,53 @@ class _CreateGroupState extends State<CreateGroup> {
                       var messageJson = {
                         "roomId": widget.roomId,
                         "msgBody":
-                            userName + ' added ' + memberByPhoneResponse.name!,
+                            '$userName added ${memberByPhoneResponse.name!}',
                         "msgBinaryType": 'userJoined',
                         "replyToId": -1,
                         "clientMessageId": clientMessageId,
-                        "misc": "[FCM_Notification=title:" +
-                            inviteRoomResponse.roomName! +
-                            ' - ' +
-                            userName +
-                            "]"
+                        "misc":
+                            "[FCM_Notification=title: ${inviteRoomResponse.roomName!} - $userName]"
                       };
 
                       socket.emitWithAck('sendMessage', messageJson,
                           ack: (data) async {
-                        if (data != null) {
+                        if (data != null && !data.containsKey("error")) {
                           //print('sendMessage from server $data');
                         } else {
                           //print("Null from sendMessage");
                         }
                       });
-                    });
+                    }
 
                     await EasyLoading.dismiss();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => ChatHome2(
-                                  roomId: inviteRoomResponse.roomId!,
-                                  picturePath: '',
-                                  roomName: inviteRoomResponse.roomName!,
-                                  roomDesc: 'Group Chat',
-                                  // roomMembers: members,
-                                ))).then((_) {});
+                    if (!context.mounted) return;
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (_) => newChatRoom(
+                    //               roomId: inviteRoomResponse.roomId!,
+                    //               picturePath: '',
+                    //               roomName: inviteRoomResponse.roomName!,
+                    //               roomDesc: 'Group Chat',
+                    //               // roomMembers: members,
+                    //             ))).then((_) {});
+
+                    if (!context.mounted) return;
+
+                    context.router.replace(ChatRoom(
+                      roomId: inviteRoomResponse.roomId!,
+                      picturePath: '',
+                      roomName: inviteRoomResponse.roomName!,
+                      roomDesc: 'Group Chat',
+                      // roomMembers: members,
+                    ));
                   } else {
                     await EasyLoading.dismiss();
                     final customDialog = CustomDialog();
-                    return customDialog.show(
+                    if (!context.mounted) return;
+                    customDialog.show(
                       context: context,
-                      type: DialogType.ERROR,
+                      type: DialogType.error,
                       content: inviteResult.message!,
                       onPressed: () => Navigator.pop(context),
                     );
@@ -350,11 +359,11 @@ class _CreateGroupState extends State<CreateGroup> {
   }
 
   String generateRandomString(int length) {
-    final _random = Random();
-    const _availableChars = '1234567890';
+    final random = Random();
+    const availableChars = '123456789';
     // 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     final randomString = List.generate(length,
-            (index) => _availableChars[_random.nextInt(_availableChars.length)])
+            (index) => availableChars[random.nextInt(availableChars.length)])
         .join();
 
     return randomString;
@@ -375,17 +384,17 @@ class _CreateGroupState extends State<CreateGroup> {
 
   getFriendData() async {
     if (editingController.text.length > 9) {
-      await EasyLoading.show();
+      await EasyLoading.show(
+        maskType: EasyLoadingMaskType.black,
+      );
       var result =
           await chatRoomRepo.getMemberByPhoneNumber(editingController.text);
       if (result.data != null && result.data.length > 0) {
         MemberByPhoneResponse inviteFriendResponse = result.data[0];
         if (memberByPhoneResponseList
-                .where(
-                    (element) => element.userId == inviteFriendResponse.userId)
-                .toList()
-                .length ==
-            0) {
+            .where((element) => element.userId == inviteFriendResponse.userId)
+            .toList()
+            .isEmpty) {
           memberByPhoneResponseList.add(result.data[0]);
         }
         setState(() {
@@ -399,7 +408,7 @@ class _CreateGroupState extends State<CreateGroup> {
   }
 
   Widget _populateListView() {
-    return memberByPhoneResponseList.length > 0
+    return memberByPhoneResponseList.isNotEmpty
         ? ListView.builder(
             itemCount: memberByPhoneResponseList.length,
             itemBuilder: (context, int index) {
@@ -419,7 +428,7 @@ class _CreateGroupState extends State<CreateGroup> {
                       boxShadow: [
                         BoxShadow(
                             color: Colors.grey.withOpacity(.3),
-                            offset: Offset(0, 2),
+                            offset: const Offset(0, 2),
                             blurRadius: 5)
                       ],
                     ),
@@ -431,7 +440,7 @@ class _CreateGroupState extends State<CreateGroup> {
                               ? Image.network(inviteFriendResponse.picturePath!
                                   .replaceAll(removeBracket, '')
                                   .split('\r\n')[0])
-                              : Icon(Icons.account_circle),
+                              : const Icon(Icons.account_circle),
                         ),
                       ),
                     ),
@@ -449,7 +458,7 @@ class _CreateGroupState extends State<CreateGroup> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(inviteFriendResponse.nickName ?? '',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
                     ],
                   ),
                   subtitle: Text(inviteFriendResponse.phone!),
@@ -464,7 +473,7 @@ class _CreateGroupState extends State<CreateGroup> {
                 ),
               );
             })
-        : Text('');
+        : const Text('');
   }
 
   Future<void> _displayTextInputDialog(BuildContext context) async {
@@ -472,7 +481,7 @@ class _CreateGroupState extends State<CreateGroup> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Add Group Name'),
+            title: const Text('Add Group Name'),
             content: TextField(
               onChanged: (value) {
                 setState(() {
@@ -480,13 +489,13 @@ class _CreateGroupState extends State<CreateGroup> {
                 });
               },
               controller: _textFieldController,
-              decoration: InputDecoration(hintText: "Group Name"),
+              decoration: const InputDecoration(hintText: "Group Name"),
             ),
             actions: <Widget>[
               TextButton(
                 style: TextButton.styleFrom(
                     foregroundColor: Colors.white, backgroundColor: Colors.red),
-                child: Text('CANCEL'),
+                child: const Text('CANCEL'),
                 onPressed: () {
                   setState(() {
                     Navigator.pop(context);
@@ -497,9 +506,11 @@ class _CreateGroupState extends State<CreateGroup> {
                 style: TextButton.styleFrom(
                     foregroundColor: Colors.white,
                     backgroundColor: Colors.green),
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () async {
-                  await EasyLoading.show();
+                  await EasyLoading.show(
+                    maskType: EasyLoadingMaskType.black,
+                  );
                   String usersList = "";
                   if (_selected.length > 1) {
                     usersList =
@@ -514,7 +525,7 @@ class _CreateGroupState extends State<CreateGroup> {
                       inviteResult.data.length > 0) {
                     InviteRoomResponse inviteRoomResponse =
                         inviteResult.data[0];
-                    Room room = new Room(
+                    Room room = Room(
                         id: inviteRoomResponse.iD,
                         roomId: inviteRoomResponse.roomId,
                         merchantUserId: inviteRoomResponse.merchantUserId,
@@ -532,16 +543,17 @@ class _CreateGroupState extends State<CreateGroup> {
                         rowKey: inviteRoomResponse.rowKey,
                         transtamp: inviteRoomResponse.transtamp,
                         deleted: inviteRoomResponse.deleted,
-                        photoFileName: '',
+                        photoFilename: '',
                         profilePhoto: '',
                         merchantNo: inviteRoomResponse.merchantNo,
                         picturePath: inviteRoomResponse.picturePath);
                     await dbHelper.saveRoomTable(room);
-                    RoomHistoryModel roomHistoryModel = new RoomHistoryModel(
+                    RoomHistoryModel roomHistoryModel = RoomHistoryModel(
                         roomId: inviteRoomResponse.roomId ?? '',
                         roomName: inviteRoomResponse.roomName ?? '',
                         roomDesc: inviteRoomResponse.roomDesc ?? '',
                         picturePath: inviteRoomResponse.picturePath ?? '');
+                    if (!context.mounted) return;
                     context.read<RoomHistory>().addRoom(room: roomHistoryModel);
                     //print('Room Insert value ' + val.toString());
                     var resultMembers = await chatRoomRepo
@@ -569,7 +581,7 @@ class _CreateGroupState extends State<CreateGroup> {
                           };
                           //print('login: $messageJson');
                           socket.emitWithAck('login', messageJson, ack: (data) {
-                            if (data != null) {
+                            if (data != null && !data.containsKey("error")) {
                               //print('login user from server $data');
                             } else {
                               //print("Null from login user");
@@ -579,7 +591,7 @@ class _CreateGroupState extends State<CreateGroup> {
                           //await context.read<SocketClientHelper>().loginUserRoom();
                           List<RoomMembers> roomMembers = await dbHelper
                               .getRoomMembersList(inviteRoomResponse.roomId!);
-                          roomMembers.forEach((roomMember) {
+                          for (var roomMember in roomMembers) {
                             if (userId != roomMember.userId) {
                               var inviteUserToRoomJson = {
                                 "invitedRoomId": inviteRoomResponse.roomId!,
@@ -589,36 +601,46 @@ class _CreateGroupState extends State<CreateGroup> {
                                   'inviteUserToRoom', inviteUserToRoomJson,
                                   ack: (data) async {
                                 //print('inviteUserToRoom ack $data');
-                                if (data != null) {
+                                if (data != null &&
+                                    !data.containsKey("error")) {
                                   //print('inviteUserToRoom from server $data');
                                 } else {
                                   //print("Null from inviteUserToRoom");
                                 }
                               });
                             }
-                          });
+                          }
                           await EasyLoading.dismiss();
                           setState(() {
                             Navigator.of(context).pop();
                           });
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => ChatHome2(
-                                        roomId: inviteRoomResponse.roomId!,
-                                        picturePath: '',
-                                        roomName: inviteRoomResponse.roomName!,
-                                        roomDesc: 'Group Chat',
-                                      ))).then((_) {});
+                          if (!context.mounted) return;
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (_) => ChatRoom(
+                          //               roomId: inviteRoomResponse.roomId!,
+                          //               picturePath: '',
+                          //               roomName: inviteRoomResponse.roomName!,
+                          //               roomDesc: 'Group Chat',
+                          //             ))).then((_) {});
+
+                          context.router.replace(ChatRoom(
+                            roomId: inviteRoomResponse.roomId!,
+                            picturePath: '',
+                            roomName: inviteRoomResponse.roomName!,
+                            roomDesc: 'Group Chat',
+                          ));
                         }
                       }
                     }
                   } else {
                     await EasyLoading.dismiss();
                     final customDialog = CustomDialog();
-                    return customDialog.show(
+                    if (!context.mounted) return;
+                    customDialog.show(
                       context: context,
-                      type: DialogType.ERROR,
+                      type: DialogType.error,
                       content: inviteResult.message!,
                       onPressed: () => Navigator.pop(context),
                     );

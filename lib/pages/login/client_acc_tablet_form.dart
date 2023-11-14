@@ -15,10 +15,10 @@ import '../../router.gr.dart';
 class ClientAccountTabletForm extends StatefulWidget {
   final data;
 
-  ClientAccountTabletForm(this.data);
+  const ClientAccountTabletForm(this.data, {super.key});
 
   @override
-  _ClientAccountTabletFormState createState() =>
+  State<ClientAccountTabletForm> createState() =>
       _ClientAccountTabletFormState();
 }
 
@@ -79,10 +79,10 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
   }
 
   _getConnectedCa() async {
-    String? _clientAcc = await localStorage.getCaUid();
+    String? clientAcc = await localStorage.getCaUid();
 
     setState(() {
-      _connectedCa = _clientAcc;
+      _connectedCa = clientAcc;
     });
   }
 
@@ -94,7 +94,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.0),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black26,
             offset: Offset(0.0, 15.0),
@@ -134,9 +134,9 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
                       .translate('client_acc_id_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.account_circle, size: 32),
+                  prefixIcon: const Icon(Icons.account_circle, size: 32),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
+                    borderSide: const BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   border: OutlineInputBorder(
@@ -170,7 +170,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
                       .translate('client_acc_pwd_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.lock, size: 32),
+                  prefixIcon: const Icon(Icons.lock, size: 32),
                   suffixIcon: IconButton(
                     icon: Icon(
                         _obscureText ? Icons.visibility_off : Icons.visibility),
@@ -183,7 +183,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
                     },
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
+                    borderSide: const BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   border: OutlineInputBorder(
@@ -217,9 +217,9 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
                   labelText: 'URL',
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.public, size: 32),
+                  prefixIcon: const Icon(Icons.public, size: 32),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
+                    borderSide: const BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   border: OutlineInputBorder(
@@ -241,9 +241,9 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
                       _message.isNotEmpty
                           ? Text(
                               _message,
-                              style: TextStyle(color: Colors.red),
+                              style: const TextStyle(color: Colors.red),
                             )
-                          : SizedBox.shrink(),
+                          : const SizedBox.shrink(),
                       _saveButton(),
                     ],
                   ),
@@ -257,10 +257,11 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      if (widget.data == 'SETTINGS')
-                        context.router.replace(Login());
-                      else
+                      if (widget.data == 'SETTINGS') {
+                        context.router.replace(const Login());
+                      } else {
                         context.router.pop();
+                      }
                     },
                     child: Text(
                       AppLocalizations.of(context)!.translate('go_back_lbl'),
@@ -293,7 +294,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
         ],
       );
     }
-    return Container(width: 0, height: 0);
+    return const SizedBox(width: 0, height: 0);
   }
 
   _showConnectedCa() {
@@ -315,7 +316,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
         ],
       );
     }
-    return Container(width: 0, height: 0);
+    return const SizedBox(width: 0, height: 0);
   }
 
   _saveButton() {
@@ -327,10 +328,10 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(420.w, 45.h),
-                backgroundColor: Color(0xffdd0e0e),
-                padding: EdgeInsets.symmetric(vertical: 11.0),
-                shape: StadiumBorder(),
-                textStyle: TextStyle(
+                backgroundColor: const Color(0xffdd0e0e),
+                padding: const EdgeInsets.symmetric(vertical: 11.0),
+                shape: const StadiumBorder(),
+                textStyle: const TextStyle(
                   color: Colors.white,
                 ),
               ),
@@ -361,15 +362,16 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
       localStorage.saveCaPwd(caPwdController.text.replaceAll(' ', ''));
       localStorage.saveCaPwdEncode(
           Uri.encodeQueryComponent(caPwdController.text.replaceAll(' ', '')));
-
-      if (widget.data == 'SETTINGS')
-        context.router.replace(Login());
-      else
+      if (!context.mounted) return;
+      if (widget.data == 'SETTINGS') {
+        context.router.replace(const Login());
+      } else {
         context.router.pop();
+      }
     } else {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
-        FocusScope.of(context).requestFocus(new FocusNode());
+        FocusScope.of(context).requestFocus(FocusNode());
 
         await Hive.box('ws_url').put(
           'getWsUrl',
@@ -380,7 +382,7 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
           _message = '';
           _isLoading = true;
         });
-
+        if (!context.mounted) return;
         var result = await authRepo.getWsUrl(
           context: context,
           acctUid: caUidController.text.replaceAll(' ', ''),
@@ -390,11 +392,12 @@ class _ClientAccountTabletFormState extends State<ClientAccountTabletForm>
 
         if (result.isSuccess) {
           await Hive.box('ws_url').delete('userDefinedUrl');
-
-          if (widget.data == 'SETTINGS')
-            context.router.replace(Login());
-          else
+          if (!context.mounted) return;
+          if (widget.data == 'SETTINGS') {
+            context.router.replace(const Login());
+          } else {
             context.router.pop();
+          }
         } else {
           setState(() {
             _message = result.message.toString();

@@ -29,4 +29,4 @@ class Application {
 
 Application application = Application();
 
-typedef void LocaleChangeCallback(Locale locale);
+typedef LocaleChangeCallback = void Function(Locale locale);

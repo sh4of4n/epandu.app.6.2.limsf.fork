@@ -9,17 +9,17 @@ class InstituteLogoResponse {
 
   InstituteLogoResponse.fromJson(Map<String, dynamic> json) {
     if (json['Armaster'] != null) {
-      armaster = new List<Armaster>.empty(growable: true);
+      armaster = List<Armaster>.empty(growable: true);
       json['Armaster'].forEach((v) {
-        armaster!.add(new Armaster.fromJson(v));
+        armaster!.add(Armaster.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.armaster != null) {
-      data['Armaster'] = this.armaster!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (armaster != null) {
+      data['Armaster'] = armaster!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -267,85 +267,85 @@ class Armaster {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['merchant_no'] = this.merchantNo;
-    data['company'] = this.company;
-    data['brno'] = this.brno;
-    data['merchant_desc'] = this.merchantDesc;
-    data['merchant_type'] = this.merchantType;
-    data['name'] = this.name;
-    data['short_name'] = this.shortName;
-    data['category'] = this.category;
-    data['merchant_icon'] = this.merchantIcon;
-    data['merchant_icon_filename'] = this.merchantIconFilename;
-    data['merchant_profile_photo'] = this.merchantProfilePhoto;
-    data['merchant_profile_photo_filename'] = this.merchantProfilePhotoFilename;
-    data['merchant_banner'] = this.merchantBanner;
-    data['merchant_banner_filename'] = this.merchantBannerFilename;
-    data['co_map'] = this.coMap;
-    data['web_site'] = this.webSite;
-    data['co_domain'] = this.coDomain;
-    data['pic'] = this.pic;
-    data['phone_off1'] = this.phoneOff1;
-    data['phone_ext1'] = this.phoneExt1;
-    data['phone_off2'] = this.phoneOff2;
-    data['phone_ext2'] = this.phoneExt2;
-    data['mobile_phone'] = this.mobilePhone;
-    data['fax'] = this.fax;
-    data['email'] = this.email;
-    data['contact_person'] = this.contactPerson;
-    data['contact_post'] = this.contactPost;
-    data['add1'] = this.add1;
-    data['add2'] = this.add2;
-    data['add3'] = this.add3;
-    data['add4'] = this.add4;
-    data['postcode'] = this.postcode;
-    data['city_code'] = this.cityCode;
-    data['state_code'] = this.stateCode;
-    data['country_code'] = this.countryCode;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
-    data['bg_date'] = this.bgDate;
-    data['duration_day'] = this.durationDay;
-    data['active'] = this.active;
-    data['feed_navigate'] = this.feedNavigate;
-    data['udf_return_parameter'] = this.udfReturnParameter;
-    data['remark'] = this.remark;
-    data['status'] = this.status;
-    data['ind_code'] = this.indCode;
-    data['merchant_application_status'] = this.merchantApplicationStatus;
-    data['merchant_status'] = this.merchantStatus;
-    data['acct_uid'] = this.acctUid;
-    data['acct_pwd'] = this.acctPwd;
-    data['db_server'] = this.dbServer;
-    data['db_name'] = this.dbName;
-    data['db_user_id'] = this.dbUserId;
-    data['db_user_pwd'] = this.dbUserPwd;
-    data['db_port'] = this.dbPort;
-    data['play_store_path'] = this.playStorePath;
-    data['url'] = this.url;
-    data['invite_sms'] = this.inviteSms;
-    data['join_date'] = this.joinDate;
-    data['expiry_date'] = this.expiryDate;
-    data['dbcode'] = this.dbcode;
-    data['crcode'] = this.crcode;
-    data['co_intro'] = this.coIntro;
-    data['business_hour'] = this.businessHour;
-    data['business_day'] = this.businessDay;
-    data['agent_code'] = this.agentCode;
-    data['home_banner'] = this.homeBanner;
-    data['co_overview'] = this.coOverview;
-    data['business_Info'] = this.businessInfo;
-    data['offer_give'] = this.offerGive;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['deleted'] = this.deleted;
-    data['row_key'] = this.rowKey;
-    data['transtamp'] = this.transtamp;
-    data['tmp_city'] = this.tmpCity;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['merchant_no'] = merchantNo;
+    data['company'] = company;
+    data['brno'] = brno;
+    data['merchant_desc'] = merchantDesc;
+    data['merchant_type'] = merchantType;
+    data['name'] = name;
+    data['short_name'] = shortName;
+    data['category'] = category;
+    data['merchant_icon'] = merchantIcon;
+    data['merchant_icon_filename'] = merchantIconFilename;
+    data['merchant_profile_photo'] = merchantProfilePhoto;
+    data['merchant_profile_photo_filename'] = merchantProfilePhotoFilename;
+    data['merchant_banner'] = merchantBanner;
+    data['merchant_banner_filename'] = merchantBannerFilename;
+    data['co_map'] = coMap;
+    data['web_site'] = webSite;
+    data['co_domain'] = coDomain;
+    data['pic'] = pic;
+    data['phone_off1'] = phoneOff1;
+    data['phone_ext1'] = phoneExt1;
+    data['phone_off2'] = phoneOff2;
+    data['phone_ext2'] = phoneExt2;
+    data['mobile_phone'] = mobilePhone;
+    data['fax'] = fax;
+    data['email'] = email;
+    data['contact_person'] = contactPerson;
+    data['contact_post'] = contactPost;
+    data['add1'] = add1;
+    data['add2'] = add2;
+    data['add3'] = add3;
+    data['add4'] = add4;
+    data['postcode'] = postcode;
+    data['city_code'] = cityCode;
+    data['state_code'] = stateCode;
+    data['country_code'] = countryCode;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['bg_date'] = bgDate;
+    data['duration_day'] = durationDay;
+    data['active'] = active;
+    data['feed_navigate'] = feedNavigate;
+    data['udf_return_parameter'] = udfReturnParameter;
+    data['remark'] = remark;
+    data['status'] = status;
+    data['ind_code'] = indCode;
+    data['merchant_application_status'] = merchantApplicationStatus;
+    data['merchant_status'] = merchantStatus;
+    data['acct_uid'] = acctUid;
+    data['acct_pwd'] = acctPwd;
+    data['db_server'] = dbServer;
+    data['db_name'] = dbName;
+    data['db_user_id'] = dbUserId;
+    data['db_user_pwd'] = dbUserPwd;
+    data['db_port'] = dbPort;
+    data['play_store_path'] = playStorePath;
+    data['url'] = url;
+    data['invite_sms'] = inviteSms;
+    data['join_date'] = joinDate;
+    data['expiry_date'] = expiryDate;
+    data['dbcode'] = dbcode;
+    data['crcode'] = crcode;
+    data['co_intro'] = coIntro;
+    data['business_hour'] = businessHour;
+    data['business_day'] = businessDay;
+    data['agent_code'] = agentCode;
+    data['home_banner'] = homeBanner;
+    data['co_overview'] = coOverview;
+    data['business_Info'] = businessInfo;
+    data['offer_give'] = offerGive;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['deleted'] = deleted;
+    data['row_key'] = rowKey;
+    data['transtamp'] = transtamp;
+    data['tmp_city'] = tmpCity;
     return data;
   }
 }
@@ -357,17 +357,17 @@ class GetPaperNoResponse {
 
   GetPaperNoResponse.fromJson(Map<String, dynamic> json) {
     if (json['PaperNo'] != null) {
-      paperNo = new List<PaperNo>.empty(growable: true);
+      paperNo = List<PaperNo>.empty(growable: true);
       json['PaperNo'].forEach((v) {
-        paperNo!.add(new PaperNo.fromJson(v));
+        paperNo!.add(PaperNo.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.paperNo != null) {
-      data['PaperNo'] = this.paperNo!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (paperNo != null) {
+      data['PaperNo'] = paperNo!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -383,8 +383,8 @@ class PaperNo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['paper_no'] = this.paperNo;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['paper_no'] = paperNo;
     return data;
   }
 }
@@ -396,18 +396,18 @@ class GetTheoryQuestionByPaperResponse {
 
   GetTheoryQuestionByPaperResponse.fromJson(Map<String, dynamic> json) {
     if (json['TheoryQuestion'] != null) {
-      theoryQuestion = new List<TheoryQuestion>.empty(growable: true);
+      theoryQuestion = List<TheoryQuestion>.empty(growable: true);
       json['TheoryQuestion'].forEach((v) {
-        theoryQuestion!.add(new TheoryQuestion.fromJson(v));
+        theoryQuestion!.add(TheoryQuestion.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.theoryQuestion != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (theoryQuestion != null) {
       data['TheoryQuestion'] =
-          this.theoryQuestion!.map((v) => v.toJson()).toList();
+          theoryQuestion!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -607,79 +607,79 @@ class TheoryQuestion {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['group_id'] = this.groupId;
-    data['course_code'] = this.courseCode;
-    data['lang_code'] = this.langCode;
-    data['paper_no'] = this.paperNo;
-    data['key'] = this.key;
-    data['section'] = this.section;
-    data['question_no'] = this.questionNo;
-    data['question'] = this.question;
-    data['question_photo_filename'] = this.questionPhotoFilename;
-    data['question_voice_filename'] = this.questionVoiceFilename;
-    data['question_option_1'] = this.questionOption1;
-    data['question_option_1_photo'] = this.questionOption1Photo;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['group_id'] = groupId;
+    data['course_code'] = courseCode;
+    data['lang_code'] = langCode;
+    data['paper_no'] = paperNo;
+    data['key'] = key;
+    data['section'] = section;
+    data['question_no'] = questionNo;
+    data['question'] = question;
+    data['question_photo_filename'] = questionPhotoFilename;
+    data['question_voice_filename'] = questionVoiceFilename;
+    data['question_option_1'] = questionOption1;
+    data['question_option_1_photo'] = questionOption1Photo;
     data['question_option_1_photo_filename'] =
-        this.questionOption1PhotoFilename;
+        questionOption1PhotoFilename;
     data['question_option_1_voice_filename'] =
-        this.questionOption1VoiceFilename;
-    data['question_option_2'] = this.questionOption2;
-    data['question_option_2_photo'] = this.questionOption2Photo;
+        questionOption1VoiceFilename;
+    data['question_option_2'] = questionOption2;
+    data['question_option_2_photo'] = questionOption2Photo;
     data['question_option_2_photo_filename'] =
-        this.questionOption2PhotoFilename;
+        questionOption2PhotoFilename;
     data['question_option_2_voice_filename'] =
-        this.questionOption2VoiceFilename;
-    data['question_option_3'] = this.questionOption3;
-    data['question_option_3_photo'] = this.questionOption3Photo;
+        questionOption2VoiceFilename;
+    data['question_option_3'] = questionOption3;
+    data['question_option_3_photo'] = questionOption3Photo;
     data['question_option_3_photo_filename'] =
-        this.questionOption3PhotoFilename;
+        questionOption3PhotoFilename;
     data['question_option_3_voice_filename'] =
-        this.questionOption3VoiceFilename;
-    data['question_option_4'] = this.questionOption4;
-    data['question_option_4_photo'] = this.questionOption4Photo;
+        questionOption3VoiceFilename;
+    data['question_option_4'] = questionOption4;
+    data['question_option_4_photo'] = questionOption4Photo;
     data['question_option_4_photo_filename'] =
-        this.questionOption4PhotoFilename;
+        questionOption4PhotoFilename;
     data['question_option_4_voice_filename'] =
-        this.questionOption4VoiceFilename;
-    data['question_option_5'] = this.questionOption5;
-    data['question_option_5_photo'] = this.questionOption5Photo;
+        questionOption4VoiceFilename;
+    data['question_option_5'] = questionOption5;
+    data['question_option_5_photo'] = questionOption5Photo;
     data['question_option_5_photo_filename'] =
-        this.questionOption5PhotoFilename;
+        questionOption5PhotoFilename;
     data['question_option_5_voice_filename'] =
-        this.questionOption5VoiceFilename;
-    data['option_a'] = this.optionA;
-    data['option_a_photo_filename'] = this.optionAPhotoFilename;
-    data['option_a_voice_filename'] = this.optionAVoiceFilename;
-    data['option_b'] = this.optionB;
-    data['option_b_photo_filename'] = this.optionBPhotoFilename;
-    data['option_b_voice_filename'] = this.optionBVoiceFilename;
-    data['option_c'] = this.optionC;
-    data['option_c_photo_filename'] = this.optionCPhotoFilename;
-    data['option_c_voice_filename'] = this.optionCVoiceFilename;
-    data['option_d'] = this.optionD;
-    data['option_d_photo_filename'] = this.optionDPhotoFilename;
-    data['option_d_voice_filename'] = this.optionDVoiceFilename;
-    data['option_e'] = this.optionE;
-    data['option_e_photo_filename'] = this.optionEPhotoFilename;
-    data['option_e_voice_filename'] = this.optionEVoiceFilename;
-    data['answer'] = this.answer;
-    data['explanation_url'] = this.explanationUrl;
-    data['knowledge_url'] = this.knowledgeUrl;
-    data['create_user'] = this.createUser;
-    data['edit_user'] = this.editUser;
-    data['deleted'] = this.deleted;
-    data['comp_code'] = this.compCode;
-    data['branch_code'] = this.branchCode;
-    data['lastupload'] = this.lastupload;
-    data['transtamp'] = this.transtamp;
-    data['option_a_photo'] = this.optionAPhoto;
-    data['option_b_photo'] = this.optionBPhoto;
-    data['option_c_photo'] = this.optionCPhoto;
-    data['option_d_photo'] = this.optionDPhoto;
-    data['option_e_photo'] = this.optionEPhoto;
-    data['question_photo'] = this.questionPhoto;
+        questionOption5VoiceFilename;
+    data['option_a'] = optionA;
+    data['option_a_photo_filename'] = optionAPhotoFilename;
+    data['option_a_voice_filename'] = optionAVoiceFilename;
+    data['option_b'] = optionB;
+    data['option_b_photo_filename'] = optionBPhotoFilename;
+    data['option_b_voice_filename'] = optionBVoiceFilename;
+    data['option_c'] = optionC;
+    data['option_c_photo_filename'] = optionCPhotoFilename;
+    data['option_c_voice_filename'] = optionCVoiceFilename;
+    data['option_d'] = optionD;
+    data['option_d_photo_filename'] = optionDPhotoFilename;
+    data['option_d_voice_filename'] = optionDVoiceFilename;
+    data['option_e'] = optionE;
+    data['option_e_photo_filename'] = optionEPhotoFilename;
+    data['option_e_voice_filename'] = optionEVoiceFilename;
+    data['answer'] = answer;
+    data['explanation_url'] = explanationUrl;
+    data['knowledge_url'] = knowledgeUrl;
+    data['create_user'] = createUser;
+    data['edit_user'] = editUser;
+    data['deleted'] = deleted;
+    data['comp_code'] = compCode;
+    data['branch_code'] = branchCode;
+    data['lastupload'] = lastupload;
+    data['transtamp'] = transtamp;
+    data['option_a_photo'] = optionAPhoto;
+    data['option_b_photo'] = optionBPhoto;
+    data['option_c_photo'] = optionCPhoto;
+    data['option_d_photo'] = optionDPhoto;
+    data['option_e_photo'] = optionEPhoto;
+    data['question_photo'] = questionPhoto;
     return data;
   }
 }
@@ -730,16 +730,16 @@ class PinRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['wsCodeCrypt'] = this.wsCodeCrypt;
-    data['caUid'] = this.caUid;
-    data['caPwd'] = this.caPwd;
-    data['pinNumber'] = this.pinNumber;
-    data['diCode'] = this.diCode;
-    data['phone'] = this.phone;
-    data['userId'] = this.userId;
-    data['groupId'] = this.groupId;
-    data['courseCode'] = this.courseCode;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['wsCodeCrypt'] = wsCodeCrypt;
+    data['caUid'] = caUid;
+    data['caPwd'] = caPwd;
+    data['pinNumber'] = pinNumber;
+    data['diCode'] = diCode;
+    data['phone'] = phone;
+    data['userId'] = userId;
+    data['groupId'] = groupId;
+    data['courseCode'] = courseCode;
     return data;
   }
 }

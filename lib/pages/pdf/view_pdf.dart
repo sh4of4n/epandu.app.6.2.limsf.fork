@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -9,14 +10,15 @@ import 'package:share/share.dart';
 import 'package:printing/printing.dart';
 import 'package:native_pdf_view/native_pdf_view.dart';
 
+@RoutePage(name: 'ViewPdf')
 class ViewPdf extends StatefulWidget {
   final String? title;
   final String? pdfLink;
 
-  ViewPdf({required this.title, required this.pdfLink});
+  const ViewPdf({super.key, required this.title, required this.pdfLink});
 
   @override
-  _ViewPdfState createState() => _ViewPdfState();
+  State<ViewPdf> createState() => _ViewPdfState();
 }
 
 class _ViewPdfState extends State<ViewPdf> {
@@ -44,7 +46,7 @@ class _ViewPdfState extends State<ViewPdf> {
     var response = await request.close();
     var bytes = await consolidateHttpClientResponseBytes(response);
     String dir = appDocumentDir.path;
-    File file = new File('$dir/$filename');
+    File file = File('$dir/$filename');
     await file.writeAsBytes(bytes);
 
     setState(() {
@@ -65,10 +67,11 @@ class _ViewPdfState extends State<ViewPdf> {
       await Share.shareFiles([_pathPdf], text: widget.title);
     } catch (e) {
       print('error $e');
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         content: 'Failed to share pdf file. Please try again.',
-        type: DialogType.ERROR,
+        type: DialogType.error,
       );
     }
   }
@@ -78,17 +81,17 @@ class _ViewPdfState extends State<ViewPdf> {
   }
 
   Widget pdfView() {
-    if (_pathPdf.isNotEmpty)
+    if (_pathPdf.isNotEmpty) {
       return Scaffold(
         appBar: AppBar(
-          title: Text("PDF"),
+          title: const Text("PDF"),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.print),
+              icon: const Icon(Icons.print),
               onPressed: _printPdf,
             ),
             IconButton(
-              icon: Icon(Icons.share),
+              icon: const Icon(Icons.share),
               onPressed: _sharePdf,
             ),
           ],
@@ -97,9 +100,10 @@ class _ViewPdfState extends State<ViewPdf> {
           controller: pdfController,
         ),
       );
+    }
     return Scaffold(
       appBar: AppBar(
-        title: Text('PDF'),
+        title: const Text('PDF'),
       ),
       body: Column(
         children: <Widget>[

@@ -21,10 +21,11 @@ class ExamTemplate extends StatefulWidget {
   final groupId;
   final paperNo;
 
-  ExamTemplate({this.snapshot, this.index, this.groupId, this.paperNo});
+  const ExamTemplate(
+      {super.key, this.snapshot, this.index, this.groupId, this.paperNo});
 
   @override
-  _ExamTemplateState createState() => _ExamTemplateState();
+  State<ExamTemplate> createState() => _ExamTemplateState();
 }
 
 class _ExamTemplateState extends State<ExamTemplate> {
@@ -51,14 +52,14 @@ class _ExamTemplateState extends State<ExamTemplate> {
   int correct = 0; // number of correct answers selected
   int incorrect = 0; // number of incorrect answers selected
 
-  TextStyle _questionStyle =
-      TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
-  TextStyle _clockStyle =
-      TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400);
+  final TextStyle _questionStyle =
+      const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
+  final TextStyle _clockStyle =
+      const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400);
 
   // Used for answers
-  TextStyle _answerStyle =
-      TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500);
+  final TextStyle _answerStyle =
+      const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500);
 
   double answerWidthText =
       ScreenUtil().screenWidth / (ScreenUtil().screenHeight / 5);
@@ -69,7 +70,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
   int minute = 45;
   int second = 00;
 
-  List<Color> _answerColor = [];
+  final List<Color> _answerColor = [];
   late int _correctIndex;
   bool selected = false; // if not selected, next button is hidden
 
@@ -123,7 +124,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   },
                 ),
               ],
-              type: DialogType.GENERAL,
+              type: DialogType.general,
             );
           } else {
             second -= 1;
@@ -162,75 +163,90 @@ class _ExamTemplateState extends State<ExamTemplate> {
     setState(() {
       question = snapshotData[index].question;
 
-      if (snapshotData[index].questionPhoto != null)
+      if (snapshotData[index].questionPhoto != null) {
         questionImage = base64Decode(snapshotData[index].questionPhoto);
+      }
 
       for (var i = 0; i <= 4; i++) {
-        if (i == 0)
+        if (i == 0) {
           roman.add('I)');
-        else if (i == 1)
+        } else if (i == 1) {
           roman.add('II)');
-        else if (i == 2)
+        } else if (i == 2) {
           roman.add('III)');
-        else if (i == 3)
+        } else if (i == 3) {
           roman.add('IV)');
-        else if (i == 4) roman.add('V.');
+        } else if (i == 4) {
+          roman.add('V.');
+        }
 
         // Add question options and question options image
         switch (i) {
           case 0:
-            if (snapshotData[index].questionOption1 != null)
+            if (snapshotData[index].questionOption1 != null) {
               questionOption.add(snapshotData[index].questionOption1);
+            }
 
-            if (snapshotData[index].questionOption1Photo != null)
+            if (snapshotData[index].questionOption1Photo != null) {
               questionOptionImage
                   .add(base64Decode(snapshotData[index].questionOption1Photo));
+            }
             break;
           case 1:
-            if (snapshotData[index].questionOption2 != null)
+            if (snapshotData[index].questionOption2 != null) {
               questionOption.add(snapshotData[index].questionOption2);
+            }
 
-            if (snapshotData[index].questionOption2Photo != null)
+            if (snapshotData[index].questionOption2Photo != null) {
               questionOptionImage
                   .add(base64Decode(snapshotData[index].questionOption2Photo));
+            }
             break;
           case 2:
-            if (snapshotData[index].questionOption3 != null)
+            if (snapshotData[index].questionOption3 != null) {
               questionOption.add(snapshotData[index].questionOption3);
+            }
 
-            if (snapshotData[index].questionOption3Photo != null)
+            if (snapshotData[index].questionOption3Photo != null) {
               questionOptionImage
                   .add(base64Decode(snapshotData[index].questionOption3Photo));
+            }
             break;
           case 3:
-            if (snapshotData[index].questionOption4 != null)
+            if (snapshotData[index].questionOption4 != null) {
               questionOption.add(snapshotData[index].questionOption4);
+            }
 
-            if (snapshotData[index].questionOption4Photo != null)
+            if (snapshotData[index].questionOption4Photo != null) {
               questionOptionImage
                   .add(base64Decode(snapshotData[index].questionOption4Photo));
+            }
             break;
           case 4:
-            if (snapshotData[index]?.questionOption5 != null)
+            if (snapshotData[index]?.questionOption5 != null) {
               questionOption.add(snapshotData[index].questionOption5);
+            }
 
-            if (snapshotData[index]?.questionOption5Photo != null)
+            if (snapshotData[index]?.questionOption5Photo != null) {
               questionOptionImage
                   .add(base64Decode(snapshotData[index].questionOption5Photo));
+            }
             break;
         }
       }
 
       for (var i = 0; i <= 4; i++) {
-        if (i == 0)
+        if (i == 0) {
           type.add('a');
-        else if (i == 1)
+        } else if (i == 1) {
           type.add('b');
-        else if (i == 2)
+        } else if (i == 2) {
           type.add('c');
-        else if (i == 3)
+        } else if (i == 3) {
           type.add('d');
-        else if (i == 4) type.add('e');
+        } else if (i == 4) {
+          type.add('e');
+        }
 
         switch (i) {
           case 0:
@@ -411,7 +427,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
 
   _questionImage() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0),
+      margin: const EdgeInsets.symmetric(vertical: 10.0),
       child: Image.memory(
         questionImage!,
         width: ScreenUtil().setWidth(500),
@@ -429,10 +445,10 @@ class _ExamTemplateState extends State<ExamTemplate> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               minimumSize: Size(420.w, 45.h),
-              backgroundColor: Color(0xffdd0e0e),
-              padding: EdgeInsets.symmetric(vertical: 11.0),
-              shape: StadiumBorder(),
-              textStyle: TextStyle(color: Colors.white),
+              backgroundColor: const Color(0xffdd0e0e),
+              padding: const EdgeInsets.symmetric(vertical: 11.0),
+              shape: const StadiumBorder(),
+              textStyle: const TextStyle(color: Colors.white),
             ),
             onPressed: () {
               if (index != 0) {
@@ -448,7 +464,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   context,
                   message: AppLocalizations.of(context)!
                       .translate('first_page_desc'),
-                  type: MessageType.TOAST,
+                  type: MessageType.toast,
                 );
               }
             },
@@ -473,10 +489,10 @@ class _ExamTemplateState extends State<ExamTemplate> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               minimumSize: Size(420.w, 45.h),
-              backgroundColor: Color(0xffdd0e0e),
-              padding: EdgeInsets.symmetric(vertical: 11.0),
-              shape: StadiumBorder(),
-              textStyle: TextStyle(color: Colors.white),
+              backgroundColor: const Color(0xffdd0e0e),
+              padding: const EdgeInsets.symmetric(vertical: 11.0),
+              shape: const StadiumBorder(),
+              textStyle: const TextStyle(color: Colors.white),
             ),
             onPressed: () {
               if (selected) {
@@ -509,7 +525,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   duration: 1000,
                   message: AppLocalizations.of(context)!
                       .translate('select_answer_desc'),
-                  type: MessageType.TOAST,
+                  type: MessageType.toast,
                 );
               }
             },
@@ -548,6 +564,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
           onPressed: () async {
             _timer.cancel();
             await examDataBox.clear();
+            if (!context.mounted) return;
             context.router.pop(true);
           },
         ),
@@ -558,7 +575,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
           },
         ),
       ],
-      type: DialogType.GENERAL,
+      type: DialogType.general,
     );
   }
 
@@ -582,13 +599,13 @@ class _ExamTemplateState extends State<ExamTemplate> {
   }) {
     int? itemCount;
 
-    if (answers.length > 0)
+    if (answers.length > 0) {
       itemCount = answers.length;
-    else if (answers.length == 0 && answersImage.length > 0)
+    } else if (answers.length == 0 && answersImage.length > 0)
       itemCount = answersImage.length;
 
     return ListView.builder(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: itemCount,
       itemBuilder: (BuildContext context, int answerIndex) {
@@ -596,7 +613,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
           return InkWell(
             onTap: () => _checkSelectedAnswer(answerIndex, 'selected'),
             child: Container(
-              margin: EdgeInsets.only(top: 10.0),
+              margin: const EdgeInsets.only(top: 10.0),
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
               decoration: BoxDecoration(
@@ -605,7 +622,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   bottom: BorderSide(color: Colors.black12),
                 ), */
                 borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                       color: Colors.black12,
                       offset: Offset(0.0, 2.0),
@@ -621,7 +638,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
           return InkWell(
             onTap: () => _checkSelectedAnswer(answerIndex, 'selected'),
             child: Container(
-              margin: EdgeInsets.only(top: 15.0),
+              margin: const EdgeInsets.only(top: 15.0),
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
               decoration: BoxDecoration(
@@ -630,7 +647,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   bottom: BorderSide(color: Colors.black12),
                 ), */
                 borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                       color: Colors.black12,
                       offset: Offset(0.0, 2.0),
@@ -655,7 +672,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
           return InkWell(
             onTap: () => _checkSelectedAnswer(answerIndex, 'selected'),
             child: Container(
-              margin: EdgeInsets.only(top: 15.0),
+              margin: const EdgeInsets.only(top: 15.0),
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
               decoration: BoxDecoration(
@@ -664,7 +681,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   bottom: BorderSide(color: Colors.black12),
                 ), */
                 borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                       color: Colors.black12,
                       offset: Offset(0.0, 2.0),
@@ -680,7 +697,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
                     child: Text('${type[answerIndex]}. ${answers[answerIndex]}',
                         textAlign: TextAlign.center, style: _answerStyle),
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   LimitedBox(
                     maxWidth: ScreenUtil().setWidth(300),
                     maxHeight: ScreenUtil().setHeight(300),
@@ -693,7 +710,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
             ),
           );
         }
-        return SizedBox.shrink();
+        return const SizedBox.shrink();
       },
     );
   }
@@ -746,7 +763,7 @@ class _ExamTemplateState extends State<ExamTemplate> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: ListView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         children: <Widget>[
           SafeArea(
             child: Padding(
@@ -762,8 +779,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
             ),
           ),
           Container(
-            margin: EdgeInsets.all(8.0),
-            padding: EdgeInsets.symmetric(vertical: 10.0),
+            margin: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
             /* decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10.0),
@@ -797,8 +814,8 @@ class _ExamTemplateState extends State<ExamTemplate> {
                 ),
                 // Question
                 Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 5.0),
                   alignment: Alignment.centerLeft,
                   child: Text(
                     question!,
@@ -806,23 +823,25 @@ class _ExamTemplateState extends State<ExamTemplate> {
                   ),
                 ),
                 // Question Image
-                questionImage != null ? _questionImage() : SizedBox.shrink(),
+                questionImage != null
+                    ? _questionImage()
+                    : const SizedBox.shrink(),
                 // Question options I, II, III, IV, V
-                questionOption.length > 0
+                questionOption.isNotEmpty
                     ? QuestionOptions(
                         roman: roman,
                         questionOption: questionOption,
                         image: questionOptionImage,
                       )
-                    : SizedBox.shrink(),
+                    : const SizedBox.shrink(),
                 // Answers a, b, c, d, e
-                answers.length > 0 || answersImage.length > 0
+                answers.isNotEmpty || answersImage.isNotEmpty
                     ? _answers(
                         answers: answers,
                         answersImage: answersImage,
                         correctAnswer: correctAnswer,
                         type: type)
-                    : SizedBox.shrink(),
+                    : const SizedBox.shrink(),
               ],
             ),
           ),

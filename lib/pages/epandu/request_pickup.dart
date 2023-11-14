@@ -14,9 +14,12 @@ import 'package:transparent_image/transparent_image.dart';
 
 import '../../router.gr.dart';
 
+@RoutePage(name: 'RequestPickup')
 class RequestPickup extends StatefulWidget {
+  const RequestPickup({super.key});
+
   @override
-  _RequestPickupState createState() => _RequestPickupState();
+  State<RequestPickup> createState() => _RequestPickupState();
 }
 
 class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
@@ -62,7 +65,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Colors.white, Color(0xffffcd11)],
           stops: [0.45, 1],
@@ -72,7 +75,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
       ),
       child: Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.black, //change your color here
           ),
           // title: Text(
@@ -91,9 +94,9 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
           actions: [
             IconButton(
               onPressed: () {
-                context.router.push(PickupHistory());
+                context.router.push(const PickupHistory());
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.history,
               ),
             ),
@@ -108,7 +111,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
             key: _formKey,
             child: Column(
               children: <Widget>[
-                Container(
+                SizedBox(
                   width: 1300.w,
                   child: DateTimeField(
                     focusNode: _dateFocus,
@@ -119,7 +122,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       contentPadding: EdgeInsets.symmetric(
                         vertical: 50.h,
                       ),
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                         color: Color(0xff808080),
                       ),
                       labelText:
@@ -127,11 +130,13 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       fillColor: Colors.white,
                       filled: true,
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
+                        borderSide:
+                            const BorderSide(color: Colors.blue, width: 1.3),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
+                        borderSide:
+                            const BorderSide(color: Colors.blue, width: 1.3),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       focusedBorder: OutlineInputBorder(
@@ -140,7 +145,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                         // borderRadius: BorderRadius.circular(0),
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      prefixIcon: Icon(Icons.calendar_today),
+                      prefixIcon: const Icon(Icons.calendar_today),
                     ),
                     onFieldSubmitted: (term) {
                       fieldFocusChange(
@@ -205,10 +210,10 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
-                Container(
+                SizedBox(
                   width: 1300.w,
                   child: DateTimeField(
                     focusNode: _timeFocus,
@@ -218,7 +223,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       contentPadding: EdgeInsets.symmetric(
                         vertical: 50.h,
                       ),
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                         color: Color(0xff808080),
                       ),
                       labelText:
@@ -226,11 +231,13 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       fillColor: Colors.white,
                       filled: true,
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
+                        borderSide:
+                            const BorderSide(color: Colors.blue, width: 1.3),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
+                        borderSide:
+                            const BorderSide(color: Colors.blue, width: 1.3),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       focusedBorder: OutlineInputBorder(
@@ -239,7 +246,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                         // borderRadius: BorderRadius.circular(0),
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      prefixIcon: Icon(Icons.av_timer),
+                      prefixIcon: const Icon(Icons.av_timer),
                     ),
                     onShowPicker: (context, currentValue) async {
                       final time = await showTimePicker(
@@ -258,12 +265,12 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
-                Container(
+                SizedBox(
                   width: 1300.w,
-                  child: new DropdownButtonFormField<String>(
+                  child: DropdownButtonFormField<String>(
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(
                         vertical: 10.h,
@@ -274,7 +281,8 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                       fillColor: Colors.white,
                       filled: true,
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue, width: 1.3),
+                        borderSide:
+                            const BorderSide(color: Colors.blue, width: 1.3),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       border: OutlineInputBorder(
@@ -286,14 +294,14 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                         // borderRadius: BorderRadius.circular(0),
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      prefixIcon: Icon(Icons.directions),
+                      prefixIcon: const Icon(Icons.directions),
                     ),
                     value: _direction!.isEmpty ? null : _direction,
                     items: <String>['Home', 'Driving Institute']
                         .map((String value) {
-                      return new DropdownMenuItem<String>(
+                      return DropdownMenuItem<String>(
                         value: value,
-                        child: new Text(value),
+                        child: Text(value),
                       );
                     }).toList(),
                     onChanged: (value) {
@@ -314,16 +322,16 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
                   height: 40.h,
                 ),
                 _isLoading
-                    ? SpinKitFoldingCube(
+                    ? const SpinKitFoldingCube(
                         color: Colors.blue,
                       )
                     : ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          shape: StadiumBorder(),
-                          backgroundColor: Color(0xffdd0e0e),
+                          shape: const StadiumBorder(),
+                          backgroundColor: const Color(0xffdd0e0e),
                           minimumSize: Size(420.w, 45.h),
-                          padding: EdgeInsets.symmetric(vertical: 11.0),
-                          textStyle: TextStyle(color: Colors.white),
+                          padding: const EdgeInsets.symmetric(vertical: 11.0),
+                          textStyle: const TextStyle(color: Colors.white),
                         ),
                         onPressed: _submit,
                         child: Text(
@@ -345,7 +353,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
   _submit() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      FocusScope.of(context).requestFocus(new FocusNode());
+      FocusScope.of(context).requestFocus(FocusNode());
 
       setState(() {
         _isLoading = true;
@@ -359,10 +367,11 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
       );
 
       if (result.isSuccess) {
+        if (!context.mounted) return;
         customDialog.show(
           context: context,
           barrierDismissable: false,
-          title: Center(
+          title: const Center(
             child: Icon(
               Icons.check_circle_outline,
               size: 120,
@@ -370,19 +379,20 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
             ),
           ),
           content: AppLocalizations.of(context)!.translate('pickup_added'),
-          type: DialogType.GENERAL,
+          type: DialogType.general,
           customActions: <Widget>[
             TextButton(
               child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
               onPressed: () => context.router
-                  .pushAndPopUntil(Home(), predicate: (r) => false),
+                  .pushAndPopUntil(const Home(), predicate: (r) => false),
             ),
           ],
         );
       } else {
+        if (!context.mounted) return;
         customDialog.show(
           context: context,
-          type: DialogType.ERROR,
+          type: DialogType.error,
           content: result.message.toString(),
           onPressed: () => context.router.pop(),
         );

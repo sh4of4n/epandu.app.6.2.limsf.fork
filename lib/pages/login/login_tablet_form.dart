@@ -12,11 +12,14 @@ import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../router.gr.dart';
+import '../chat/chatnotification_count.dart';
 import '../chat/socketclient_helper.dart';
 
 class LoginTabletForm extends StatefulWidget {
+  const LoginTabletForm({super.key});
+
   @override
-  _LoginTabletFormState createState() => _LoginTabletFormState();
+  State<LoginTabletForm> createState() => _LoginTabletFormState();
 }
 
 class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
@@ -95,7 +98,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.0),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black26,
             offset: Offset(0.0, 15.0),
@@ -135,9 +138,9 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                       AppLocalizations.of(context)!.translate('phone_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.account_circle, size: 32),
+                  prefixIcon: const Icon(Icons.account_circle, size: 32),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
+                    borderSide: const BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   border: OutlineInputBorder(
@@ -175,7 +178,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                       AppLocalizations.of(context)!.translate('password_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.lock, size: 32),
+                  prefixIcon: const Icon(Icons.lock, size: 32),
                   suffixIcon: IconButton(
                     icon: Icon(
                         _obscureText ? Icons.visibility_off : Icons.visibility),
@@ -188,7 +191,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                     },
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
+                    borderSide: const BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   border: OutlineInputBorder(
@@ -217,7 +220,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      context.router.push(ForgotPassword());
+                      context.router.push(const ForgotPassword());
                     },
                     child: Text(
                       AppLocalizations.of(context)!
@@ -242,11 +245,11 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                               maxWidth: 800.w,
                               child: Text(
                                 _loginMessage!,
-                                style: TextStyle(color: Colors.red),
+                                style: const TextStyle(color: Colors.red),
                                 textAlign: TextAlign.center,
                               ),
                             )
-                          : SizedBox.shrink(),
+                          : const SizedBox.shrink(),
                       _loginButton(),
                     ],
                   ),
@@ -260,7 +263,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      context.router.push(RegisterMobile());
+                      context.router.push(const RegisterMobile());
                     },
                     child: Text(
                       AppLocalizations.of(context)!.translate('sign_up_btn'),
@@ -287,10 +290,10 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(420.w, 45.h),
-                backgroundColor: Color(0xffdd0e0e),
-                padding: EdgeInsets.symmetric(vertical: 11.0),
-                shape: StadiumBorder(),
-                textStyle: TextStyle(color: Colors.white),
+                backgroundColor: const Color(0xffdd0e0e),
+                padding: const EdgeInsets.symmetric(vertical: 11.0),
+                shape: const StadiumBorder(),
+                textStyle: const TextStyle(color: Colors.white),
               ),
               onPressed: _submitLogin, // () => localStorage.reset(),
 
@@ -307,7 +310,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
   _submitLogin() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      FocusScope.of(context).requestFocus(new FocusNode());
+      FocusScope.of(context).requestFocus(FocusNode());
 
       setState(() {
         // _height = ScreenUtil().setHeight(1300);
@@ -335,13 +338,19 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
 
       if (result.isSuccess) {
         if (result.data == 'empty') {
+          if (!context.mounted) return;
           var getRegisteredDi = await authRepo.getUserRegisteredDI(
               context: context, type: 'LOGIN');
-
           if (getRegisteredDi.isSuccess) {
             localStorage.saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
-            await context.read<SocketClientHelper>().loginUserRoom();
-            context.router.replace(Home());
+            if (!context.mounted) return;
+            {
+              // Provider.of<ChatNotificationCount>(context, listen: false)
+              //     .clearNotificationBadge();
+              context.read<SocketClientHelper>().loginUserRoom();
+            }
+            if (!context.mounted) return;
+            context.router.replace(const Home());
           } else {
             setState(() {
               _isLoading = false;
@@ -352,14 +361,20 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
           // Navigate to DI selection page
           // Temporary navigate to home
           // Navigator.replace(context, HOME);
-
+          if (!context.mounted) return;
           context.router.replace(
             SelectDrivingInstitute(diList: result.data),
           );
         } else {
           localStorage.saveMerchantDbCode(result.data[0].merchantNo);
-          await context.read<SocketClientHelper>().loginUserRoom();
-          context.router.replace(Home());
+          if (!context.mounted) return;
+          {
+            // Provider.of<ChatNotificationCount>(context, listen: false)
+            //     .clearNotificationBadge();
+            context.read<SocketClientHelper>().loginUserRoom();
+          }
+          if (!context.mounted) return;
+          context.router.replace(const Home());
         }
       } else {
         setState(() {

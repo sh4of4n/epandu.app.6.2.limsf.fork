@@ -8,13 +8,14 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
 
+@RoutePage(name: 'PaymentStatus')
 class PaymentStatus extends StatefulWidget {
   final String? icNo;
 
-  PaymentStatus({this.icNo});
+  const PaymentStatus({super.key, this.icNo});
 
   @override
-  _PaymentStatusState createState() => _PaymentStatusState();
+  State<PaymentStatus> createState() => _PaymentStatusState();
 }
 
 class _PaymentStatusState extends State<PaymentStatus> {
@@ -57,12 +58,13 @@ class _PaymentStatusState extends State<PaymentStatus> {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
                 return Container(
-                  padding: EdgeInsets.all(15.0),
-                  margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
+                  padding: const EdgeInsets.all(15.0),
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 15.0, horizontal: 8.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15.0),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         color: Colors.black26,
                         offset: Offset(0, 8.0),
@@ -94,7 +96,7 @@ class _PaymentStatusState extends State<PaymentStatus> {
                               onPressed: () => context.router.popUntil(
                                     ModalRoute.withName('Home'),
                                   ),
-                              buttonColor: Color(0xffdd0e0e),
+                              buttonColor: const Color(0xffdd0e0e),
                               title: AppLocalizations.of(context)!
                                   .translate('done_btn')),
                         ],

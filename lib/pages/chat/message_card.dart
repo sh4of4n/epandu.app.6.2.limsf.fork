@@ -3,7 +3,7 @@ import 'package:jumping_dot/jumping_dot.dart';
 import '../../common_library/services/model/chat_mesagelist.dart';
 import '../../common_library/services/model/replymessage_model.dart';
 import '../../common_library/utils/capitalize_firstletter.dart';
-import 'chat_home.dart';
+import 'chat_room.dart';
 import 'chat_theme.dart';
 import 'date_formater.dart';
 import 'reply_message_widget.dart';
@@ -36,8 +36,8 @@ class MessageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         margin: localUser == messageDetails.userId
-            ? EdgeInsets.fromLTRB(100, 0, 10, 10)
-            : EdgeInsets.fromLTRB(10, 0, 100, 10),
+            ? const EdgeInsets.fromLTRB(100, 0, 10, 10)
+            : const EdgeInsets.fromLTRB(10, 0, 100, 10),
         child: getMessage());
   }
 
@@ -86,20 +86,20 @@ class MessageCard extends StatelessWidget {
                         style: MyTheme.heading2.copyWith(fontSize: 13),
                       ),
                   replyMessageDetails.replyToId == 0
-                      ? !isSearching
-                          ? Text(
+                      ? isSearching && searchKey != ''
+                          ? buildRichText(searchKey, messageDetails.msgBody!)
+                          : Text(
                               messageDetails.msgBody!,
                               style: MyTheme.bodyText1.copyWith(
                                   color: localUser == messageDetails.userId!
                                       ? Colors.white
                                       : Colors.black87),
                             )
-                          : buildRichText(searchKey, messageDetails.msgBody!)
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             buildReplyMessage(replyMessageDetails),
-                            Divider(
+                            const Divider(
                               color: Colors.white,
                               height: 20,
                               thickness: 2,
@@ -110,7 +110,7 @@ class MessageCard extends StatelessWidget {
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                 padding: const EdgeInsets.all(5.0),
-                                child: new Text(messageDetails.msgBody!,
+                                child: Text(messageDetails.msgBody!,
                                     style: MyTheme.bodyText1),
                               ),
                             )
@@ -123,13 +123,14 @@ class MessageCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              if (messageDetails.editDateTime != '')
-                                Icon(
+                              if (messageDetails.editDateTime != '' &&
+                                  messageDetails.editDateTime != null)
+                                const Icon(
                                   Icons.edit,
                                   size: 20,
                                   semanticLabel: "Edited",
                                 ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Text(
@@ -139,7 +140,7 @@ class MessageCard extends StatelessWidget {
                                             messageDetails.sendDateTime!)),
                                 style: MyTheme.isMebodyTextTime,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               getStatusIcon(
@@ -352,7 +353,7 @@ class MessageCard extends StatelessWidget {
     int timeInMinutes =
         DateTime.now().difference(DateTime.parse(sentTime)).inMinutes;
     if (timeInMinutes == 1 && status == "SENDING") {
-      return Icon(
+      return const Icon(
         Icons.sms_failed_outlined,
         size: 20,
         semanticLabel: "Failed",
@@ -363,15 +364,20 @@ class MessageCard extends StatelessWidget {
         color: Colors.yellow,
         radius: 10,
         numberOfDots: 3,
-        animationDuration: Duration(milliseconds: 200),
+        animationDuration: const Duration(milliseconds: 200),
       );
     } else if (status == "SENT") {
-      return Icon(
+      return const Icon(
+        Icons.done,
+        size: 20,
+      );
+    } else if (status == "UNREAD") {
+      return const Icon(
         Icons.done,
         size: 20,
       );
     } else {
-      return Icon(
+      return const Icon(
         Icons.done_all,
         color: Colors.black,
         size: 20,
@@ -384,15 +390,15 @@ class MessageCard extends StatelessWidget {
       return Container();
     } else {
       return Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.all(8),
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(12),
             bottomLeft: Radius.circular(12),
           ),
         ),
-        margin: EdgeInsets.only(bottom: 8),
+        margin: const EdgeInsets.only(bottom: 8),
         child: InkWell(
           onTap: () {
             callback(replyMessageDetails.replyToId!);
@@ -423,14 +429,14 @@ RichText buildRichText(String searchText, String fullText) {
     textSpans.add(
       WidgetSpan(
         child: Container(
-          padding: EdgeInsets.all(4.0),
+          padding: const EdgeInsets.all(4.0),
           decoration: BoxDecoration(
             color: Colors.grey[300], // Light grey background color
             borderRadius: BorderRadius.circular(4.0),
           ),
           child: Text(
             matchingText,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
       ),

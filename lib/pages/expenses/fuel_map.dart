@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+@RoutePage()
 class FuelMapPage extends StatefulWidget {
   final double lat;
   final double lng;
-  FuelMapPage({Key? key, required this.lat, required this.lng})
+  const FuelMapPage({Key? key, required this.lat, required this.lng})
       : super(key: key);
 
   @override
@@ -19,7 +20,7 @@ class _FuelMapPageState extends State<FuelMapPage> {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   late LatLng position;
   final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
-  Location _location = Location();
+  final Location _location = Location();
 
   Future<void> _getCurrentPosition() async {
     final hasPermission = await _location.handlePermission();
@@ -41,7 +42,7 @@ class _FuelMapPageState extends State<FuelMapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Map'),
+        title: const Text('Map'),
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 64.0),
@@ -80,7 +81,7 @@ class _FuelMapPageState extends State<FuelMapPage> {
               left: MediaQuery.of(context).size.width / 2 - 25,
               top: (MediaQuery.of(context).size.height - kToolbarHeight) / 2 -
                   19,
-              child: Icon(
+              child: const Icon(
                 Icons.location_on,
                 size: 50,
                 color: Colors.red,
@@ -90,7 +91,7 @@ class _FuelMapPageState extends State<FuelMapPage> {
               bottom: 16,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Container(
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width - 32,
                   child: ElevatedButton(
                     onPressed: () async {
@@ -107,9 +108,10 @@ class _FuelMapPageState extends State<FuelMapPage> {
 
                       LatLng middlePoint =
                           await mapController.getLatLng(screenCoordinate);
+                      if (!context.mounted) return;
                       await context.router.pop(middlePoint);
                     },
-                    child: Text('Select'),
+                    child: const Text('Select'),
                   ),
                 ),
               ),

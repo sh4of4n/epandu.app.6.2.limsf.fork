@@ -13,7 +13,7 @@ class MerchantCard extends StatelessWidget {
   final String? businessHours;
   final String? businessDay;
 
-  MerchantCard({
+  MerchantCard({super.key, 
     this.name,
     this.desc,
     this.imageLink,
@@ -27,22 +27,22 @@ class MerchantCard extends StatelessWidget {
   final headerStyle = TextStyle(
     fontWeight: FontWeight.w700,
     fontSize: 60.sp,
-    color: Color(0xff5d6767),
+    color: const Color(0xff5d6767),
   );
   final titleStyle = TextStyle(
     fontWeight: FontWeight.w700,
     fontSize: 70.sp,
-    color: Color(0xff5d6767),
+    color: const Color(0xff5d6767),
   );
   final subtitleStyle = TextStyle(
     fontWeight: FontWeight.w700,
     fontSize: 56.sp,
-    color: Color(0xff5d6767),
+    color: const Color(0xff5d6767),
   );
   final bottomStyle = TextStyle(
     fontWeight: FontWeight.w700,
     fontSize: 50.sp,
-    color: Color(0xff5d6767),
+    color: const Color(0xff5d6767),
     letterSpacing: -0.3,
   );
 
@@ -55,7 +55,7 @@ class MerchantCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Container(
+          SizedBox(
             width: 200.w,
             child: imageLink!.isEmpty
                 ? Image.asset(image.logo2, width: 200.w)
@@ -66,7 +66,7 @@ class MerchantCard extends StatelessWidget {
             children: <Widget>[
               Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xffa5b0ae)),
+                  border: Border.all(color: const Color(0xffa5b0ae)),
                 ),
                 padding: EdgeInsets.symmetric(
                   horizontal: 20.w,
@@ -82,19 +82,19 @@ class MerchantCard extends StatelessWidget {
                       direction: Axis.horizontal,
                       allowHalfRating: false,
                       itemCount: 5,
-                      itemBuilder: (context, _) => Icon(
+                      itemBuilder: (context, _) => const Icon(
                         Icons.star,
                         color: Colors.amber,
                       ),
                       itemSize: 20.0,
                     ),
                     Text(cityName!, style: headerStyle),
-                    Text(distance! + 'KM', style: headerStyle),
+                    Text('${distance!}KM', style: headerStyle),
                   ],
                 ),
               ),
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
                       color: Color(0xffa5b0ae),
@@ -115,7 +115,7 @@ class MerchantCard extends StatelessWidget {
                 child: Text(name!, style: titleStyle),
               ),
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
                       color: Color(0xffa5b0ae),
@@ -136,7 +136,7 @@ class MerchantCard extends StatelessWidget {
                 child: Text(desc!, style: subtitleStyle),
               ),
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
                       color: Color(0xffa5b0ae),
@@ -161,7 +161,7 @@ class MerchantCard extends StatelessWidget {
                       businessHours!,
                       style: bottomStyle,
                     ),
-                    Container(
+                    SizedBox(
                       width: 600.w,
                       child: Text(
                         businessDay!,
@@ -172,7 +172,7 @@ class MerchantCard extends StatelessWidget {
                 ),
               ),
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
                       color: Color(0xffa5b0ae),
@@ -224,7 +224,7 @@ class MerchantCard extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          Container(
+                          SizedBox(
                             width: 250.w,
                             child: Text(
                               AppLocalizations.of(context)!

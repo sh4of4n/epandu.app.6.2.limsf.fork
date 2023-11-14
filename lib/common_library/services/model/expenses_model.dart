@@ -51,22 +51,22 @@ class ExpRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['wsCodeCrypt'] = this.wsCodeCrypt;
-    data['caUid'] = this.caUid;
-    data['caPwd'] = this.caPwd;
-    data['merchantNo'] = this.merchantNo;
-    data['loginId'] = this.loginId;
-    data['expDatetimeString'] = this.expDatetimeString;
-    data['mileage'] = this.mileage;
-    data['type'] = this.type;
-    data['description'] = this.description;
-    data['amount'] = this.amount;
-    data['lat'] = this.lat;
-    data['lng'] = this.lng;
-    data['expId'] = this.expId;
-    data['base64Code'] = this.base64Code;
-    data['fileKey'] = this.fileKey;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['wsCodeCrypt'] = wsCodeCrypt;
+    data['caUid'] = caUid;
+    data['caPwd'] = caPwd;
+    data['merchantNo'] = merchantNo;
+    data['loginId'] = loginId;
+    data['expDatetimeString'] = expDatetimeString;
+    data['mileage'] = mileage;
+    data['type'] = type;
+    data['description'] = description;
+    data['amount'] = amount;
+    data['lat'] = lat;
+    data['lng'] = lng;
+    data['expId'] = expId;
+    data['base64Code'] = base64Code;
+    data['fileKey'] = fileKey;
     return data;
   }
 }
@@ -80,15 +80,15 @@ class ExpResponse {
     if (json['Exp'] != null) {
       exp = <Exp>[];
       json['Exp'].forEach((v) {
-        exp!.add(new Exp.fromJson(v));
+        exp!.add(Exp.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.exp != null) {
-      data['Exp'] = this.exp!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (exp != null) {
+      data['Exp'] = exp!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -153,24 +153,24 @@ class Exp {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['exp_id'] = this.expId;
-    data['merchant_no'] = this.merchantNo;
-    data['login_id'] = this.loginId;
-    data['exp_datetime'] = this.expDatetime;
-    data['mileage'] = this.mileage;
-    data['type'] = this.type;
-    data['description'] = this.description;
-    data['amount'] = this.amount;
-    data['lat'] = this.lat;
-    data['lng'] = this.lng;
-    data['create_user'] = this.createUser;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['deleted'] = this.deleted;
-    data['row_key'] = this.rowKey;
-    data['create_date'] = this.createDate;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['exp_id'] = expId;
+    data['merchant_no'] = merchantNo;
+    data['login_id'] = loginId;
+    data['exp_datetime'] = expDatetime;
+    data['mileage'] = mileage;
+    data['type'] = type;
+    data['description'] = description;
+    data['amount'] = amount;
+    data['lat'] = lat;
+    data['lng'] = lng;
+    data['create_user'] = createUser;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['deleted'] = deleted;
+    data['row_key'] = rowKey;
+    data['create_date'] = createDate;
     return data;
   }
 }
@@ -237,25 +237,25 @@ class ExpFuel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['login_id'] = this.loginId;
-    data['merchant_no'] = this.merchantNo;
-    data['ID'] = this.iD;
-    data['fuel_datetime'] = this.fuelDatetime;
-    data['mileage'] = this.mileage;
-    data['fuel_type'] = this.fuelType;
-    data['price_liter'] = this.priceLiter;
-    data['total_amount'] = this.totalAmount;
-    data['liter'] = this.liter;
-    data['lng'] = this.lng;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['transtamp'] = this.transtamp;
-    data['deleted'] = this.deleted;
-    data['lat'] = this.lat;
-    data['fuel_id'] = this.fuelId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['login_id'] = loginId;
+    data['merchant_no'] = merchantNo;
+    data['ID'] = iD;
+    data['fuel_datetime'] = fuelDatetime;
+    data['mileage'] = mileage;
+    data['fuel_type'] = fuelType;
+    data['price_liter'] = priceLiter;
+    data['total_amount'] = totalAmount;
+    data['liter'] = liter;
+    data['lng'] = lng;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['transtamp'] = transtamp;
+    data['deleted'] = deleted;
+    data['lat'] = lat;
+    data['fuel_id'] = fuelId;
     return data;
   }
 }
@@ -269,16 +269,15 @@ class ExpFileAttachResponse {
     if (json['ExpFileAttach'] != null) {
       expFileAttach = <ExpFileAttach>[];
       json['ExpFileAttach'].forEach((v) {
-        expFileAttach!.add(new ExpFileAttach.fromJson(v));
+        expFileAttach!.add(ExpFileAttach.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.expFileAttach != null) {
-      data['ExpFileAttach'] =
-          this.expFileAttach!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (expFileAttach != null) {
+      data['ExpFileAttach'] = expFileAttach!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -291,7 +290,7 @@ class ExpFileAttach {
   String? itemNo;
   String? fileName;
   String? cancel;
-  Null? cancelDate;
+  String? cancelDate;
   String? deleted;
   String? createUser;
   String? createDate;
@@ -343,24 +342,24 @@ class ExpFileAttach {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['exp_id'] = this.expId;
-    data['key'] = this.key;
-    data['item_no'] = this.itemNo;
-    data['file_name'] = this.fileName;
-    data['cancel'] = this.cancel;
-    data['cancel_date'] = this.cancelDate;
-    data['deleted'] = this.deleted;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['row_key'] = this.rowKey;
-    data['transtamp'] = this.transtamp;
-    data['attach_type'] = this.attachType;
-    data['attached_size'] = this.attachedSize;
-    data['picture_path'] = this.picturePath;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['exp_id'] = expId;
+    data['key'] = key;
+    data['item_no'] = itemNo;
+    data['file_name'] = fileName;
+    data['cancel'] = cancel;
+    data['cancel_date'] = cancelDate;
+    data['deleted'] = deleted;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['row_key'] = rowKey;
+    data['transtamp'] = transtamp;
+    data['attach_type'] = attachType;
+    data['attached_size'] = attachedSize;
+    data['picture_path'] = picturePath;
     return data;
   }
 }

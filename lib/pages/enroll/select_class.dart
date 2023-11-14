@@ -11,13 +11,14 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
+@RoutePage(name: 'SelectClass')
 class SelectClass extends StatefulWidget {
   final data;
 
-  SelectClass(this.data);
+  const SelectClass(this.data, {super.key});
 
   @override
-  _SelectClassState createState() => _SelectClassState();
+  State<SelectClass> createState() => _SelectClassState();
 }
 
 class _SelectClassState extends State<SelectClass> {
@@ -72,7 +73,7 @@ class _SelectClassState extends State<SelectClass> {
             Colors.white,
             primaryColor,
           ],
-          stops: [0.45, 0.95],
+          stops: const [0.45, 0.95],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -94,7 +95,7 @@ class _SelectClassState extends State<SelectClass> {
                     alignment: Alignment.center,
                     height: 300.h,
                     width: double.infinity,
-                    color: Color(0xff0290b7),
+                    color: const Color(0xff0290b7),
                     child: Text(
                       AppLocalizations.of(context)!
                           .translate('installment_scheme'),
@@ -117,7 +118,7 @@ class _SelectClassState extends State<SelectClass> {
                   ),
                   SizedBox(
                     width: 1000.w,
-                    child: Divider(
+                    child: const Divider(
                       height: 1.0,
                       color: Color(0xffc73143),
                       thickness: 1.0,
@@ -136,7 +137,7 @@ class _SelectClassState extends State<SelectClass> {
                   ),
                   SizedBox(
                     height: 50.h,
-                    child: Divider(
+                    child: const Divider(
                       height: 1.0,
                       color: Color(0xffaaaaaa),
                       thickness: 1.3,
@@ -148,7 +149,7 @@ class _SelectClassState extends State<SelectClass> {
                       AppLocalizations.of(context)!
                           .translate('select_class_lbl'),
                       style: TextStyle(
-                        color: Color(0xffdd0e0e),
+                        color: const Color(0xffdd0e0e),
                         fontSize: 85.sp,
                         fontWeight: FontWeight.w700,
                       ),
@@ -173,7 +174,7 @@ class _SelectClassState extends State<SelectClass> {
                           }
                           return ListView.builder(
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: snapshot.data.length,
                             itemBuilder: (BuildContext context, int index) {
                               return InkWell(
@@ -202,12 +203,9 @@ class _SelectClassState extends State<SelectClass> {
                                                   ),
                                                   children: [
                                                     TextSpan(
-                                                      text: AppLocalizations.of(
-                                                                  context)!
-                                                              .translate(
-                                                                  'class_lbl') +
-                                                          ' ',
-                                                      style: TextStyle(
+                                                      text:
+                                                          '${AppLocalizations.of(context)!.translate('class_lbl')} ',
+                                                      style: const TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         color: Color(
@@ -222,7 +220,7 @@ class _SelectClassState extends State<SelectClass> {
                                                       text: snapshot.data[index]
                                                               .groupId ??
                                                           '',
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                         color:
                                                             Color(0xffdd0e0e),
                                                         decoration:
@@ -234,12 +232,8 @@ class _SelectClassState extends State<SelectClass> {
                                                 ),
                                               ),
                                               Text(
-                                                'RM' +
-                                                    NumberFormat('#,##0.00')
-                                                        .format(double.tryParse(
-                                                            snapshot.data[index]
-                                                                .fee)),
-                                                style: TextStyle(
+                                                'RM${NumberFormat('#,##0.00').format(double.tryParse(snapshot.data[index].fee))}',
+                                                style: const TextStyle(
                                                   color: Color(
                                                     0xff666666,
                                                   ),
@@ -249,17 +243,11 @@ class _SelectClassState extends State<SelectClass> {
                                                 snapshot.data[index]
                                                             .totalTime !=
                                                         null
-                                                    ? AppLocalizations.of(
-                                                                context)!
-                                                            .translate(
-                                                                'total_time') +
-                                                        ' ' +
-                                                        snapshot.data[index]
-                                                            .totalTime
+                                                    ? '${AppLocalizations.of(context)?.translate('total_time')} ${snapshot.data[index]?.totalTime ?? ''}'
                                                     : /* AppLocalizations.of(context)
                                                       .translate('no_total_time') */
                                                     'Total time 00:00',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: Color(
                                                     0xff666666,
                                                   ),
@@ -284,16 +272,16 @@ class _SelectClassState extends State<SelectClass> {
                                                         status.data,
                                                         style: TextStyle(
                                                           fontSize: 70.sp,
-                                                          color: Color(
+                                                          color: const Color(
                                                             0xff666666,
                                                           ),
                                                         ),
                                                       );
                                                     }
-                                                    return Container(
+                                                    return const SizedBox(
                                                         width: 0, height: 0);
                                                   default:
-                                                    return Container(
+                                                    return const SizedBox(
                                                         width: 0, height: 0);
                                                 }
                                               },
@@ -304,7 +292,7 @@ class _SelectClassState extends State<SelectClass> {
                                       Padding(
                                         padding: EdgeInsets.only(
                                             top: ScreenUtil().setHeight(30)),
-                                        child: Divider(
+                                        child: const Divider(
                                           height: 1.0,
                                           color: Colors.white,
                                           thickness: 1.0,
@@ -371,10 +359,11 @@ class _SelectClassState extends State<SelectClass> {
     );
 
     if (result.isSuccess) {
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
         barrierDismissable: false,
-        title: Center(
+        title: const Center(
           child: Icon(
             Icons.check_circle_outline,
             size: 120,
@@ -382,22 +371,25 @@ class _SelectClassState extends State<SelectClass> {
           ),
         ),
         content: AppLocalizations.of(context)!.translate('enroll_success'),
-        type: DialogType.GENERAL,
+        type: DialogType.general,
         customActions: <Widget>[
           TextButton(
             child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
             onPressed: () async {
               await authRepo.getUserRegisteredDI(
                   context: context, type: 'UPDATE');
-              context.router.pushAndPopUntil(Home(), predicate: (r) => false);
+              if (!context.mounted) return;
+              context.router
+                  .pushAndPopUntil(const Home(), predicate: (r) => false);
             },
           ),
         ],
       );
     } else {
+      if (!context.mounted) return;
       customDialog.show(
         context: context,
-        type: DialogType.ERROR,
+        type: DialogType.error,
         content: result.message.toString(),
         onPressed: () => context.router.pop(),
       );

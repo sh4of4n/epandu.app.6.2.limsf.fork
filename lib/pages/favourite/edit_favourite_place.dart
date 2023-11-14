@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
+@RoutePage()
 class EditFavouritePlacePage extends StatefulWidget {
   final String placeId;
   final place;
@@ -38,7 +39,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
   double _lat = 5.244208533751952;
   double _lng = 100.43825519887051;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  List<Map<String, dynamic>> _imageFileList = [];
+  final List<Map<String, dynamic>> _imageFileList = [];
   final ImagePicker _picker = ImagePicker();
   final favouriteRepo = FavouriteRepo();
   Future? favPlaceFuture;
@@ -66,7 +67,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
         placeId: widget.placeId,
       );
       if (result.isSuccess) {
-        if (_imageFileList.length > 0) {
+        if (_imageFileList.isNotEmpty) {
           Iterable<Future> a = [];
           List<Future> b = [];
           for (var element in _imageFileList) {
@@ -89,6 +90,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
         }
       }
       await EasyLoading.dismiss();
+      if (!context.mounted) return;
       context.router.pop({
         'placeId': widget.placeId,
         'type': _formKey.currentState?.fields['type']?.value,
@@ -143,6 +145,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
       placeId: placeId,
     );
     EasyLoading.dismiss();
+    if (!context.mounted) return;
     context.router.pop('refresh');
     return result;
   }
@@ -159,6 +162,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
       fileKey: fileKey,
     );
     EasyLoading.dismiss();
+    if (!context.mounted) return;
     context.router.pop();
     return result;
   }
@@ -169,7 +173,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
         LatLng(lat, lng),
       ),
     );
-    MarkerId a = MarkerId('value');
+    MarkerId a = const MarkerId('value');
     setState(() {
       _lat = lat;
       _lng = lng;
@@ -217,8 +221,8 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xffffd225),
-          title: Text('Edit Favourite Place'),
+          backgroundColor: const Color(0xffffd225),
+          title: const Text('Edit Favourite Place'),
           actions: [
             IconButton(
               onPressed: () {
@@ -228,9 +232,9 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: const Text('Delete Place'),
-                      content: SingleChildScrollView(
+                      content: const SingleChildScrollView(
                         child: ListBody(
-                          children: const <Widget>[
+                          children: <Widget>[
                             Text('Are you sure you want to delete this place?'),
                           ],
                         ),
@@ -254,13 +258,13 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                   },
                 );
               },
-              icon: Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
             ),
             IconButton(
               onPressed: () {
                 updateFavPlace();
               },
-              icon: Icon(Icons.save),
+              icon: const Icon(Icons.save),
             ),
           ],
         ),
@@ -275,7 +279,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                   children: [
                     FormBuilderDropdown<String>(
                       name: 'type',
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Type',
                         icon: Icon(Icons.format_list_bulleted),
                         filled: true,
@@ -292,13 +296,13 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                           )
                           .toList(),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     FormBuilderTextField(
                       name: 'name',
                       initialValue: widget.place.name,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Location Name',
                         filled: true,
                         icon: Icon(Icons.map),
@@ -309,13 +313,13 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                         FormBuilderValidators.required(),
                       ]),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     FormBuilderTextField(
                       name: 'description',
                       initialValue: widget.place.description,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Description',
                         filled: true,
                         icon: Icon(Icons.description),
@@ -327,10 +331,10 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                       maxLines: null,
                       minLines: 2,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16.0,
                     ),
-                    Text(
+                    const Text(
                       'Position',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -377,13 +381,13 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     GridView.count(
                       crossAxisCount: 3,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       mainAxisSpacing: 4,
                       crossAxisSpacing: 4,
                       children: List.generate(
@@ -418,7 +422,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                                                     });
                                                   });
                                                 }
-
+                                                if (!context.mounted) return;
                                                 context.router.pop();
                                               },
                                               child: const Text('Take photo'),
@@ -439,6 +443,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                                                     }
                                                   });
                                                 }
+                                                if (!context.mounted) return;
                                                 context.router.pop();
                                               },
                                               child: const Text(
@@ -451,7 +456,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                                 child: DottedBorder(
                                   color: Colors.grey,
                                   strokeWidth: 1,
-                                  child: Container(
+                                  child: const SizedBox(
                                     height: 200,
                                     width: 200,
                                     child: Column(
@@ -483,7 +488,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                                         ),
                                       );
                                     },
-                                    child: Container(
+                                    child: SizedBox(
                                       height: 200,
                                       width: 200,
                                       child: Image.file(
@@ -517,7 +522,7 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
                                           borderRadius:
                                               BorderRadius.circular(100),
                                         ),
-                                        child: Icon(Icons.close),
+                                        child: const Icon(Icons.close),
                                       ),
                                     ),
                                   ),

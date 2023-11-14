@@ -11,7 +11,7 @@ class CurrencyInputController extends TextEditingController {
   final String _thousandSymbol;
   String _previewsText = "";
 
-  final _onlyNumbersRegex = new RegExp(r"[^\d]");
+  final _onlyNumbersRegex = RegExp(r"[^\d]");
 
   double _value = 0.0;
 
@@ -92,7 +92,7 @@ class CurrencyInputController extends TextEditingController {
   }
 
   String? _getOnlyNumbers({String? string}) =>
-      string == null ? null : string.replaceAll(_onlyNumbersRegex, "");
+      string?.replaceAll(_onlyNumbersRegex, "");
 
   String _formatToNumber({required String string}) {
     double value = _getDoubleValueFor(string: string);

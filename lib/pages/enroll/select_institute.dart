@@ -13,13 +13,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+@RoutePage(name: 'SelectInstitute')
 class SelectInstitute extends StatefulWidget {
   final data;
 
-  SelectInstitute(this.data);
+  const SelectInstitute(this.data, {super.key});
 
   @override
-  _SelectInstituteState createState() => _SelectInstituteState();
+  State<SelectInstitute> createState() => _SelectInstituteState();
 }
 
 class _SelectInstituteState extends State<SelectInstitute> {
@@ -38,7 +39,7 @@ class _SelectInstituteState extends State<SelectInstitute> {
   int _startIndex = 0;
   List<dynamic> items = [];
 
-  ScrollController _scrollController = new ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -48,17 +49,16 @@ class _SelectInstituteState extends State<SelectInstitute> {
 
     _getCurrentLocation();
 
-    _scrollController
-      ..addListener(() {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
-          setState(() {
-            _startIndex += 10;
-          });
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        setState(() {
+          _startIndex += 10;
+        });
 
-          if (_message!.isEmpty) _getDiNearMe();
-        }
-      });
+        if (_message!.isEmpty) _getDiNearMe();
+      }
+    });
   }
 
   @override
@@ -100,22 +100,26 @@ class _SelectInstituteState extends State<SelectInstitute> {
     );
 
     if (result.isSuccess) {
-      if (result.data.length > 0) if (mounted)
-        setState(() {
-          for (int i = 0; i < result.data.length; i += 1) {
-            items.add(result.data[i]);
-          }
-        });
-      else if (mounted)
-        setState(() {
-          _isLoading = false;
-        });
+      if (result.data.length > 0) {
+        if (mounted) {
+          setState(() {
+            for (int i = 0; i < result.data.length; i += 1) {
+              items.add(result.data[i]);
+            }
+          });
+        } else if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      }
     } else {
-      if (mounted)
+      if (mounted) {
         setState(() {
           _message = result.message;
           _isLoading = false;
         });
+      }
     }
   }
 
@@ -143,7 +147,7 @@ class _SelectInstituteState extends State<SelectInstitute> {
             Colors.white,
             primaryColor,
           ],
-          stops: [0.45, 0.95],
+          stops: const [0.45, 0.95],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -164,14 +168,14 @@ class _SelectInstituteState extends State<SelectInstitute> {
   }
 
   _diNearMe() {
-    if (items.length == 0 && _message!.isNotEmpty) {
+    if (items.isEmpty && _message!.isNotEmpty) {
       return Center(
         child: Text(_message!),
       );
-    } else if (items.length > 0) {
+    } else if (items.isNotEmpty) {
       return ListView(
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         children: <Widget>[
           for (var item in items)
             InkWell(
@@ -203,7 +207,7 @@ class _SelectInstituteState extends State<SelectInstitute> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     _loadImage(item),
-                    Container(
+                    SizedBox(
                       width: 1000.w,
                       // decoration: BoxDecoration(
                       //   border: Border.all(),
@@ -212,7 +216,8 @@ class _SelectInstituteState extends State<SelectInstitute> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(item.name ?? '',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold)),
                           Text(item.add1 != null
                               ? item.add1.replaceAll('\r\n', ' ')
                               : ''),
@@ -220,7 +225,7 @@ class _SelectInstituteState extends State<SelectInstitute> {
                           Padding(
                             padding: EdgeInsets.only(
                                 top: ScreenUtil().setHeight(30)),
-                            child: Divider(
+                            child: const Divider(
                               height: 1.0,
                               color: Colors.grey,
                             ),

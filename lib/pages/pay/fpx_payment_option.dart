@@ -1,4 +1,5 @@
 import 'package:epandu/common_library/services/repository/fpx_repository.dart';
+import 'package:epandu/common_library/services/response.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../router.gr.dart';
 
+@RoutePage(name: 'FpxPaymentOption')
 class FpxPaymentOption extends StatefulWidget {
   final String? icNo;
   final String? docDoc;
@@ -23,7 +25,8 @@ class FpxPaymentOption extends StatefulWidget {
   final String? totalAmount;
   final String? amountString; // for Authorization Request
 
-  FpxPaymentOption({
+  const FpxPaymentOption({
+    super.key,
     this.icNo,
     this.docDoc,
     this.docRef,
@@ -36,7 +39,7 @@ class FpxPaymentOption extends StatefulWidget {
   });
 
   @override
-  _FpxPaymentOptionState createState() => _FpxPaymentOptionState();
+  State<FpxPaymentOption> createState() => _FpxPaymentOptionState();
 }
 
 class _FpxPaymentOptionState extends State<FpxPaymentOption> {
@@ -77,7 +80,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
       isLoading = true;
     });
 
-    var result;
+    Response result;
 
     result = await fpxRepo.fpxSendB2CAuthRequestWithAmt(
       context: context,
@@ -90,12 +93,14 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
     );
 
     if (result.isSuccess) {
+      if (!context.mounted) return;
       context.router.push(
         Webview(
             url: result.data[0].responseData,
             backType: widget.amountString == null ? 'DI_ENROLLMENT' : 'HOME'),
       );
     } else {
+      if (!context.mounted) return;
       context.router.push(
         PaymentStatus(icNo: widget.icNo),
       );
@@ -125,13 +130,13 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                   return Container(
-                    padding: EdgeInsets.all(15.0),
-                    margin:
-                        EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
+                    padding: const EdgeInsets.all(15.0),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 15.0, horizontal: 8.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15.0),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(0, 8.0),
@@ -155,13 +160,13 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                   var bankList = snapshot.data[1].bankList.split(',');
 
                   return Container(
-                    padding: EdgeInsets.all(15.0),
-                    margin:
-                        EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
+                    padding: const EdgeInsets.all(15.0),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 15.0, horizontal: 8.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,
                           offset: Offset(0, 8.0),
@@ -273,7 +278,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                       children: [
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
-                          child: Text('Desc'),
+                          child: const Text('Desc'),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
@@ -315,9 +320,9 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                 padding: EdgeInsets.symmetric(horizontal: 55.w),
                 child: RichText(
                   text: TextSpan(
-                    style: TextStyle(color: Color(0xff5c5c5c)),
+                    style: const TextStyle(color: Color(0xff5c5c5c)),
                     children: [
-                      TextSpan(
+                      const TextSpan(
                           text:
                               'By clicking on the "Proceed" button, you hereby agree with '),
                       TextSpan(
@@ -368,7 +373,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                       hintText: selectedBankName!.isNotEmpty
                           ? selectedBankName
                           : 'Select Bank',
-                      enabledBorder: UnderlineInputBorder(
+                      enabledBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey, width: 1.5),
                       ),
                     ),
@@ -380,7 +385,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
               ),
               SizedBox(height: 20.h),
               if (message.isNotEmpty)
-                Text(message, style: TextStyle(color: Colors.red)),
+                Text(message, style: const TextStyle(color: Colors.red)),
               CustomButton(
                 onPressed: () {
                   if (selectedBankId!.isNotEmpty) {
@@ -393,7 +398,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                     });
                   }
                 },
-                buttonColor: Color(0xffdd0e0e),
+                buttonColor: const Color(0xffdd0e0e),
                 title: AppLocalizations.of(context)!.translate('proceed'),
               ),
               Expanded(
@@ -403,7 +408,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
+                      const Text(
                         'Powered By',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
@@ -537,9 +542,10 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                 padding: EdgeInsets.symmetric(horizontal: 55.w),
                 child: RichText(
                   text: TextSpan(
-                    style: TextStyle(color: Color(0xff5c5c5c), fontSize: 45.sp),
+                    style: TextStyle(
+                        color: const Color(0xff5c5c5c), fontSize: 45.sp),
                     children: [
-                      TextSpan(
+                      const TextSpan(
                           text:
                               'By clicking on the "Proceed" button, you hereby agree with '),
                       TextSpan(
@@ -590,7 +596,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                       hintText: selectedBankName!.isNotEmpty
                           ? selectedBankName
                           : 'Select Bank',
-                      enabledBorder: UnderlineInputBorder(
+                      enabledBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey, width: 1.5),
                       ),
                     ),
@@ -602,7 +608,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
               ),
               SizedBox(height: 20.h),
               if (message.isNotEmpty)
-                Text(message, style: TextStyle(color: Colors.red)),
+                Text(message, style: const TextStyle(color: Colors.red)),
               CustomButton(
                 minWidth: 340.w,
                 height: 150.h,
@@ -617,7 +623,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                     });
                   }
                 },
-                buttonColor: Color(0xffdd0e0e),
+                buttonColor: const Color(0xffdd0e0e),
                 title: AppLocalizations.of(context)!.translate('proceed'),
               ),
               Expanded(
@@ -627,7 +633,7 @@ class _FpxPaymentOptionState extends State<FpxPaymentOption> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
+                      const Text(
                         'Powered By',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),

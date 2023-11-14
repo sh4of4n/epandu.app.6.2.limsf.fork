@@ -10,8 +10,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ForgotPasswordForm extends StatefulWidget {
+  const ForgotPasswordForm({super.key});
+
   @override
-  _ForgotPasswordFormState createState() => _ForgotPasswordFormState();
+  State<ForgotPasswordForm> createState() => _ForgotPasswordFormState();
 }
 
 class _ForgotPasswordFormState extends State<ForgotPasswordForm>
@@ -43,7 +45,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.0),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black26,
             offset: Offset(0.0, 15.0),
@@ -57,8 +59,8 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
         ],
       ),
       child: Padding(
-        padding:
-            EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 20.0),
+        padding: const EdgeInsets.only(
+            left: 16.0, right: 16.0, top: 16.0, bottom: 20.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -71,7 +73,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
                 focusNode: _phoneFocus,
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
@@ -79,9 +81,9 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
                       AppLocalizations.of(context)!.translate('phone_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.account_circle),
+                  prefixIcon: const Icon(Icons.account_circle),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
+                    borderSide: const BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   border: OutlineInputBorder(
@@ -162,15 +164,15 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
     return Column(
       children: <Widget>[
         _message!.isNotEmpty
-            ? Container(
+            ? SizedBox(
                 width: 900.w,
                 child: Text(
                   _message!,
-                  style: TextStyle(color: Colors.red),
+                  style: const TextStyle(color: Colors.red),
                   textAlign: TextAlign.center,
                 ),
               )
-            : Container(width: 0, height: 0),
+            : const SizedBox(width: 0, height: 0),
         Container(
           child: _isLoading
               ? SpinKitFoldingCube(
@@ -178,10 +180,10 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
                 )
               : ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    shape: StadiumBorder(),
+                    shape: const StadiumBorder(),
                     minimumSize: Size(420.w, 45.h),
-                    padding: EdgeInsets.symmetric(vertical: 11.0),
-                    textStyle: TextStyle(color: Colors.white),
+                    padding: const EdgeInsets.symmetric(vertical: 11.0),
+                    textStyle: const TextStyle(color: Colors.white),
                   ),
                   onPressed: _submit,
                   child: Text(
@@ -199,7 +201,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
   _submit() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      FocusScope.of(context).requestFocus(new FocusNode());
+      FocusScope.of(context).requestFocus(FocusNode());
 
       setState(() {
         // _height = ScreenUtil().setHeight(1200);
@@ -216,11 +218,13 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
           phDeviceId: '');
 
       if (result.isSuccess) {
+        if (!context.mounted) return;
         await context.router.pop();
+        if (!context.mounted) return;
         CustomSnackbar().show(
           context,
           message: result.message.toString(),
-          type: MessageType.SUCCESS,
+          type: MessageType.success,
         );
       } else {
         if (result.message!.contains('timeout')) {

@@ -7,6 +7,7 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
+@RoutePage(name: 'Records')
 class Records extends StatelessWidget {
   final iconText = TextStyle(
     fontSize: ScreenUtil().setSp(60),
@@ -14,10 +15,12 @@ class Records extends StatelessWidget {
   );
   final myImage = ImagesConstant();
 
+  Records({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
             Colors.white,
@@ -31,7 +34,7 @@ class Records extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.black, //change your color here
           ),
           title: FadeInImage(
@@ -68,7 +71,8 @@ class Records extends StatelessWidget {
                     TableRow(
                       children: [
                         InkWell(
-                          onTap: () => context.router.push(RegisteredCourse()),
+                          onTap: () =>
+                              context.router.push(const RegisteredCourse()),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(
@@ -92,7 +96,7 @@ class Records extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () => context.router.push(PaymentHistory()),
+                          onTap: () => context.router.push(const PaymentList()),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(
@@ -116,7 +120,8 @@ class Records extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () => context.router.push(AttendanceTab()),
+                          onTap: () =>
+                              context.router.push(const AttendanceTab()),
                           child: Column(
                             children: <Widget>[
                               FadeInImage(

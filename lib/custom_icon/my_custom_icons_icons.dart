@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/MyCustomIcons.ttf
 ///
-/// 
+///
 ///
 import 'package:flutter/widgets.dart';
 
@@ -20,20 +20,24 @@ class MyCustomIcons {
 
   static const _kFontFam = 'MyCustomIcons';
 
-  static const IconData label_percent_outline = IconData(0xe800, fontFamily: _kFontFam);
-  static const IconData gift_outline = IconData(0xe801, fontFamily: _kFontFam);
-  static const IconData face_recognition = IconData(0xe802, fontFamily: _kFontFam);
-  static const IconData scan_helper = IconData(0xe803, fontFamily: _kFontFam);
-  static const IconData chat_processing_outline = IconData(0xe804, fontFamily: _kFontFam);
-  static const IconData account_circle_outline = IconData(0xe805, fontFamily: _kFontFam);
-  static const IconData touch_me_icon = IconData(0xe806, fontFamily: _kFontFam);
-  static const IconData inbox_icon = IconData(0xe807, fontFamily: _kFontFam);
-  static const IconData account_icon = IconData(0xe810, fontFamily: _kFontFam);
-  static const IconData gift_icon = IconData(0xe811, fontFamily: _kFontFam);
-  static const IconData home_icon = IconData(0xe812, fontFamily: _kFontFam);
-  static const IconData id_icon = IconData(0xe813, fontFamily: _kFontFam);
-  static const IconData invite_icon = IconData(0xe815, fontFamily: _kFontFam);
-  static const IconData promo_icon = IconData(0xe817, fontFamily: _kFontFam);
-  static const IconData scan_icon = IconData(0xe818, fontFamily: _kFontFam);
-  static const IconData v_club_icon = IconData(0xe819, fontFamily: _kFontFam);
+  static const IconData labelPercentOutline =
+      IconData(0xe800, fontFamily: _kFontFam);
+  static const IconData giftOutline = IconData(0xe801, fontFamily: _kFontFam);
+  static const IconData faceRecognition =
+      IconData(0xe802, fontFamily: _kFontFam);
+  static const IconData scanHelper = IconData(0xe803, fontFamily: _kFontFam);
+  static const IconData chatProcessingOutline =
+      IconData(0xe804, fontFamily: _kFontFam);
+  static const IconData accountCircleOutline =
+      IconData(0xe805, fontFamily: _kFontFam);
+  static const IconData touchMeIcon = IconData(0xe806, fontFamily: _kFontFam);
+  static const IconData inboxIcon = IconData(0xe807, fontFamily: _kFontFam);
+  static const IconData accountIcon = IconData(0xe810, fontFamily: _kFontFam);
+  static const IconData giftIcon = IconData(0xe811, fontFamily: _kFontFam);
+  static const IconData homeIcon = IconData(0xe812, fontFamily: _kFontFam);
+  static const IconData idIcon = IconData(0xe813, fontFamily: _kFontFam);
+  static const IconData inviteIcon = IconData(0xe815, fontFamily: _kFontFam);
+  static const IconData promoIcon = IconData(0xe817, fontFamily: _kFontFam);
+  static const IconData scanIcon = IconData(0xe818, fontFamily: _kFontFam);
+  static const IconData vClubIcon = IconData(0xe819, fontFamily: _kFontFam);
 }

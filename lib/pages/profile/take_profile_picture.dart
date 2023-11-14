@@ -10,10 +10,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
 
+@RoutePage(name: 'TakeProfilePicture')
 class TakeProfilePicture extends StatefulWidget {
   final List<CameraDescription>? camera;
 
-  TakeProfilePicture(this.camera);
+  const TakeProfilePicture(this.camera, {super.key});
 
   @override
   TakeProfilePictureState createState() => TakeProfilePictureState();
@@ -68,7 +69,7 @@ class TakeProfilePictureState extends State<TakeProfilePicture> {
       if (_controller!.value.hasError) {
         customSnackbar.show(context,
             message: 'Camera error ${_controller!.value.errorDescription}',
-            type: MessageType.ERROR);
+            type: MessageType.error);
       }
     });
 
@@ -93,7 +94,7 @@ class TakeProfilePictureState extends State<TakeProfilePicture> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Take a picture'),
+        title: const Text('Take a picture'),
         actions: <Widget>[
           TextButton(
             onPressed: () {
@@ -129,7 +130,7 @@ class TakeProfilePictureState extends State<TakeProfilePicture> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.camera_alt),
+        child: const Icon(Icons.camera_alt),
         onPressed: () async {
           try {
             await _initializeControllerFuture;
@@ -147,8 +148,9 @@ class TakeProfilePictureState extends State<TakeProfilePicture> {
             // String test = await localStorage.getProfilePic();
 
             // print(test);
-
+            if (!context.mounted) return;
             context.router.pop();
+
             /* Navigator.push(
               context,
               MaterialPageRoute(
@@ -173,7 +175,7 @@ class DisplayPictureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Display the Picture')),
+      appBar: AppBar(title: const Text('Display the Picture')),
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
       body: Image.file(File(imagePath!)),

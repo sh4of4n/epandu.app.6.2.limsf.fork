@@ -13,6 +13,7 @@ import 'package:map_launcher/map_launcher.dart';
 // import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:readmore/readmore.dart';
 
+@RoutePage()
 class FavouritePlaceListPage extends StatefulWidget {
   const FavouritePlaceListPage({super.key});
 
@@ -33,7 +34,7 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
   bool _isSearch = false;
   FocusNode searchFocus = FocusNode();
   Timer? _debounce;
-  GlobalKey<RefreshIndicatorState> _refresherKey =
+  final GlobalKey<RefreshIndicatorState> _refresherKey =
       GlobalKey<RefreshIndicatorState>();
   Map imageMap = {};
   final localStorage = LocalStorage();
@@ -129,12 +130,12 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
         title: _isSearch
             ? TextField(
                 focusNode: searchFocus,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Search place',
                   hintStyle: TextStyle(
@@ -152,7 +153,7 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                   });
                 },
               )
-            : Text('Favourite Places'),
+            : const Text('Favourite Places'),
         actions: [
           IconButton(
             onPressed: () {
@@ -166,23 +167,24 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                 }
               });
             },
-            icon: _isSearch ? Icon(Icons.close) : Icon(Icons.search),
+            icon:
+                _isSearch ? const Icon(Icons.close) : const Icon(Icons.search),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          var result = await context.router.push(CreateFavouriteRoute());
+          var result = await context.router.push(const CreateFavouriteRoute());
           if (result.toString() == 'refresh') {
             setState(() {
               favPlaceFuture = getFavPlace(name: '');
             });
           }
         },
-        label: Row(
+        label: const Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 4.0),
+              padding: EdgeInsets.only(right: 4.0),
               child: Icon(Icons.add),
             ),
             Text('Add Place')
@@ -204,20 +206,20 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
               case ConnectionState.waiting:
               case ConnectionState.none:
               case ConnectionState.active:
-                return Center(child: const CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               case ConnectionState.done:
                 if (snapshot.hasData) {
                   if (snapshot.data == null) {
-                    return Text('empty');
+                    return const Text('empty');
                   }
                   if (snapshot.data.data.length == 0) {
-                    return Center(child: Text('No Data Found'));
+                    return const Center(child: Text('No Data Found'));
                   }
                   print(snapshot.data);
                   return ListView.separated(
                     addRepaintBoundaries: false,
                     addAutomaticKeepAlives: true,
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       vertical: 16,
                     ),
                     itemCount: snapshot.data.data.length,
@@ -228,264 +230,250 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                       );
                     },
                     itemBuilder: (ctx, index) {
-                      return Container(
-                        // color: Colors.red,
-                        child: Column(
-                          children: [
-                            FutureBuilder(
-                              future: favPlacePictureFuture[snapshot
-                                  .data
-                                  .data[index]
-                                  .placeId], // a previously-obtained Future<String> or null
-                              builder: (BuildContext context,
-                                  AsyncSnapshot snapshot2) {
-                                switch (snapshot2.connectionState) {
-                                  case ConnectionState.waiting:
-                                  case ConnectionState.none:
-                                  case ConnectionState.active:
-                                    return Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child:
-                                            const CircularProgressIndicator(),
-                                      ),
-                                    );
-                                  case ConnectionState.done:
-                                    if (snapshot2.data.data.length == 0)
-                                      return SizedBox();
-                                    else {
-                                      return Container(
-                                        height: 150,
-                                        child: ListView.separated(
-                                          addRepaintBoundaries: false,
-                                          addAutomaticKeepAlives: true,
-                                          padding: EdgeInsets.only(
-                                            top: 8,
-                                            left: 16,
-                                            right: 16,
-                                          ),
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: snapshot2.data.data.length,
-                                          separatorBuilder: (context, index) {
-                                            return SizedBox(
-                                              width: 8,
-                                            );
-                                          },
-                                          itemBuilder: (context, index2) {
-                                            return GestureDetector(
-                                              onTap: () {
-                                                List gallery = [];
-                                                for (var element
-                                                    in snapshot2.data.data) {
-                                                  gallery.add(element
-                                                      .picturePath
-                                                      .replaceAll(
-                                                          removeBracket, '')
-                                                      .split('\r\n')[0]);
-                                                }
-                                                context.router.push(
-                                                  PhotoViewRoute(
-                                                    title: snapshot
-                                                        .data.data[index].name,
-                                                    url: gallery,
-                                                    initialIndex: index2,
-                                                    type: 'network',
-                                                  ),
-                                                );
-                                              },
-                                              child: Container(
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(10)),
-                                                  child: AspectRatio(
-                                                    aspectRatio: 1 / 1,
-                                                    child: CachedNetworkImage(
-                                                      imageUrl: snapshot2
-                                                          .data
-                                                          .data[index2]
-                                                          .picturePath
-                                                          .replaceAll(
-                                                              removeBracket, '')
-                                                          .split('\r\n')[0],
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
+                      return Column(
+                        children: [
+                          FutureBuilder(
+                            future: favPlacePictureFuture[snapshot
+                                .data
+                                .data[index]
+                                .placeId], // a previously-obtained Future<String> or null
+                            builder: (BuildContext context,
+                                AsyncSnapshot snapshot2) {
+                              switch (snapshot2.connectionState) {
+                                case ConnectionState.waiting:
+                                case ConnectionState.none:
+                                case ConnectionState.active:
+                                  return const Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.all(16.0),
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  );
+                                case ConnectionState.done:
+                                  if (snapshot2.data.data.length == 0) {
+                                    return const SizedBox();
+                                  } else {
+                                    return SizedBox(
+                                      height: 150,
+                                      child: ListView.separated(
+                                        addRepaintBoundaries: false,
+                                        addAutomaticKeepAlives: true,
+                                        padding: const EdgeInsets.only(
+                                          top: 8,
+                                          left: 16,
+                                          right: 16,
                                         ),
-                                      );
-                                    }
-                                }
-                              },
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    snapshot.data.data[index].type,
-                                    style: TextStyle(color: Colors.black54),
-                                  ),
-                                  Text(
-                                    snapshot.data.data[index].name,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  ReadMoreText(
-                                    snapshot.data.data[index].description,
-                                    trimLines: 5,
-                                    trimMode: TrimMode.Line,
-                                    trimCollapsedText: 'Show more',
-                                    trimExpandedText: 'Show less',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                    ),
-                                    moreStyle: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    lessStyle: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      OutlinedButton.icon(
-                                        onPressed: () async {
-                                          final availableMaps =
-                                              await MapLauncher.installedMaps;
-
-                                          showModalBottomSheet(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return SafeArea(
-                                                child: Wrap(
-                                                  children: <Widget>[
-                                                    for (var map
-                                                        in availableMaps)
-                                                      ListTile(
-                                                        onTap: () async {
-                                                          await map
-                                                              .showDirections(
-                                                            destination: Coords(
-                                                              double.parse(
-                                                                  snapshot
-                                                                      .data
-                                                                      .data[
-                                                                          index]
-                                                                      .lat),
-                                                              double.parse(
-                                                                  snapshot
-                                                                      .data
-                                                                      .data[
-                                                                          index]
-                                                                      .lng),
-                                                            ),
-                                                          );
-                                                          context.router.pop();
-                                                        },
-                                                        title:
-                                                            Text(map.mapName),
-                                                        leading:
-                                                            SvgPicture.asset(
-                                                          map.icon,
-                                                          height: 30.0,
-                                                          width: 30.0,
-                                                        ),
-                                                      ),
-                                                  ],
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: snapshot2.data.data.length,
+                                        separatorBuilder: (context, index) {
+                                          return const SizedBox(
+                                            width: 8,
+                                          );
+                                        },
+                                        itemBuilder: (context, index2) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              List gallery = [];
+                                              for (var element
+                                                  in snapshot2.data.data) {
+                                                gallery.add(element.picturePath
+                                                    .replaceAll(
+                                                        removeBracket, '')
+                                                    .split('\r\n')[0]);
+                                              }
+                                              context.router.push(
+                                                PhotoViewRoute(
+                                                  title: snapshot
+                                                      .data.data[index].name,
+                                                  url: gallery,
+                                                  initialIndex: index2,
+                                                  type: 'network',
                                                 ),
                                               );
                                             },
-                                          );
-                                        },
-                                        icon: Icon(Icons.directions),
-                                        label: Text('Directions'),
-                                        style: OutlinedButton.styleFrom(
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(25)),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 8,
-                                      ),
-                                      OutlinedButton.icon(
-                                        onPressed: () async {
-                                          await EasyLoading.show(
-                                            maskType: EasyLoadingMaskType.black,
-                                          );
-                                          await favPlacePictureFuture[snapshot
-                                              .data.data[index].placeId];
-                                          await EasyLoading.dismiss();
-                                          var result =
-                                              await context.router.push(
-                                            EditFavouritePlaceRoute(
-                                              placeId: snapshot
-                                                  .data.data[index].placeId,
-                                              place: snapshot.data.data[index],
-                                              images: imageMap[snapshot
-                                                  .data.data[index].placeId],
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(10)),
+                                              child: AspectRatio(
+                                                aspectRatio: 1 / 1,
+                                                child: CachedNetworkImage(
+                                                  imageUrl: snapshot2.data
+                                                      .data[index2].picturePath
+                                                      .replaceAll(
+                                                          removeBracket, '')
+                                                      .split('\r\n')[0],
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
                                             ),
                                           );
-
-                                          if (result != null) {
-                                            Map resultUpdate = (result as Map);
-                                            setState(() {
-                                              snapshot.data.data[index].type =
-                                                  resultUpdate['type'];
-                                              snapshot.data.data[index].name =
-                                                  resultUpdate['name'];
-                                              snapshot.data.data[index]
-                                                      .description =
-                                                  resultUpdate['description'];
-                                              snapshot.data.data[index].lat =
-                                                  resultUpdate['lat']
-                                                      .toString();
-                                              snapshot.data.data[index].lng =
-                                                  resultUpdate['lng']
-                                                      .toString();
-                                            });
-                                          }
-
-                                          // if (result.toString() == 'refresh') {
-                                          //   setState(() {
-                                          //     favPlaceFuture =
-                                          //         getFavPlace(name: '');
-                                          //   });
-                                          // }
                                         },
-                                        icon: Icon(Icons.edit),
-                                        label: Text('Edit'),
-                                        style: OutlinedButton.styleFrom(
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(25)),
-                                          ),
+                                      ),
+                                    );
+                                  }
+                              }
+                            },
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  snapshot.data.data[index].type,
+                                  style: const TextStyle(color: Colors.black54),
+                                ),
+                                Text(
+                                  snapshot.data.data[index].name,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                ReadMoreText(
+                                  snapshot.data.data[index].description,
+                                  trimLines: 5,
+                                  trimMode: TrimMode.Line,
+                                  trimCollapsedText: 'Show more',
+                                  trimExpandedText: 'Show less',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                  moreStyle: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  lessStyle: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    OutlinedButton.icon(
+                                      onPressed: () async {
+                                        final availableMaps =
+                                            await MapLauncher.installedMaps;
+                                        if (!context.mounted) return;
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return SafeArea(
+                                              child: Wrap(
+                                                children: <Widget>[
+                                                  for (var map in availableMaps)
+                                                    ListTile(
+                                                      onTap: () async {
+                                                        await map
+                                                            .showDirections(
+                                                          destination: Coords(
+                                                            double.parse(
+                                                                snapshot
+                                                                    .data
+                                                                    .data[index]
+                                                                    .lat),
+                                                            double.parse(
+                                                                snapshot
+                                                                    .data
+                                                                    .data[index]
+                                                                    .lng),
+                                                          ),
+                                                        );
+                                                        if (context.mounted) {
+                                                          context.router.pop();
+                                                        }
+                                                      },
+                                                      title: Text(map.mapName),
+                                                      leading: SvgPicture.asset(
+                                                        map.icon,
+                                                        height: 30.0,
+                                                        width: 30.0,
+                                                      ),
+                                                    ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                      icon: const Icon(Icons.directions),
+                                      label: const Text('Directions'),
+                                      style: OutlinedButton.styleFrom(
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(25)),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    OutlinedButton.icon(
+                                      onPressed: () async {
+                                        await EasyLoading.show(
+                                          maskType: EasyLoadingMaskType.black,
+                                        );
+                                        await favPlacePictureFuture[
+                                            snapshot.data.data[index].placeId];
+                                        await EasyLoading.dismiss();
+                                        if (!context.mounted) return;
+                                        var result = await context.router.push(
+                                          EditFavouritePlaceRoute(
+                                            placeId: snapshot
+                                                .data.data[index].placeId,
+                                            place: snapshot.data.data[index],
+                                            images: imageMap[snapshot
+                                                .data.data[index].placeId],
+                                          ),
+                                        );
+
+                                        if (result != null) {
+                                          Map resultUpdate = (result as Map);
+                                          setState(() {
+                                            snapshot.data.data[index].type =
+                                                resultUpdate['type'];
+                                            snapshot.data.data[index].name =
+                                                resultUpdate['name'];
+                                            snapshot.data.data[index]
+                                                    .description =
+                                                resultUpdate['description'];
+                                            snapshot.data.data[index].lat =
+                                                resultUpdate['lat'].toString();
+                                            snapshot.data.data[index].lng =
+                                                resultUpdate['lng'].toString();
+                                          });
+                                        }
+
+                                        // if (result.toString() == 'refresh') {
+                                        //   setState(() {
+                                        //     favPlaceFuture =
+                                        //         getFavPlace(name: '');
+                                        //   });
+                                        // }
+                                      },
+                                      icon: const Icon(Icons.edit),
+                                      label: const Text('Edit'),
+                                      style: OutlinedButton.styleFrom(
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(25)),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       );
                     },
                   );
                 } else if (snapshot.hasError) {
-                  return Text('error');
+                  return const Text('error');
                 } else {
-                  return Text('else');
+                  return const Text('else');
                 }
             }
           },

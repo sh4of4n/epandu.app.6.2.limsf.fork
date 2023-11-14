@@ -1,8 +1,8 @@
 // import 'package:epandu/pages/edompet/edompet.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/repository/epandu_repository.dart';
-import 'package:epandu/pages/profile/profile_page.dart' as profilePage;
-import 'package:epandu/pages/settings/settings.dart' as settingsPage;
+import 'package:epandu/pages/profile/profile_page.dart' as profilepage;
+import 'package:epandu/pages/settings/settings.dart' as settingspage;
 import 'package:epandu/common_library/services/model/profile_model.dart';
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
 import 'package:epandu/utils/constants.dart';
@@ -13,13 +13,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
 
+@RoutePage(name: 'ProfileTab')
 class ProfileTab extends StatefulWidget {
   final positionStream;
 
-  ProfileTab(this.positionStream);
+  const ProfileTab(this.positionStream, {super.key});
 
   @override
-  _ProfileTabState createState() => _ProfileTabState();
+  State<ProfileTab> createState() => _ProfileTabState();
 }
 
 class _ProfileTabState extends State<ProfileTab>
@@ -27,8 +28,8 @@ class _ProfileTabState extends State<ProfileTab>
         SingleTickerProviderStateMixin,
         AutomaticKeepAliveClientMixin<ProfileTab> {
   final List<Tab> myTabs = <Tab>[
-    Tab(
-      icon: new Icon(
+    const Tab(
+      icon: Icon(
         Icons.account_circle,
         size: 28.0,
       ),
@@ -39,8 +40,8 @@ class _ProfileTabState extends State<ProfileTab>
         size: 28.0,
       ),
     ), */
-    Tab(
-      icon: new Icon(
+    const Tab(
+      icon: Icon(
         Icons.settings,
         size: 28.0,
       ),
@@ -131,10 +132,11 @@ class _ProfileTabState extends State<ProfileTab>
       localStorage.saveCdl(result.data[0].cdlGroup ?? '');
       localStorage.saveLdl(result.data[0].enqLdlGroup ?? '');
 
-      if (result.data[0].picturePath != null)
+      if (result.data[0].picturePath != null) {
         localStorage.saveProfilePic(result.data[0].picturePath
             .replaceAll(removeBracket, '')
             .split('\r\n')[0]);
+      }
     } else {
       _getUserInfo();
       /* customDialog.show(
@@ -151,40 +153,40 @@ class _ProfileTabState extends State<ProfileTab>
   }
 
   _getUserInfo() async {
-    String? _getName = await localStorage.getName();
-    String? _getNickName = await localStorage.getNickName();
-    String? _getEmail = await localStorage.getEmail();
-    String? _getPostcode = await localStorage.getPostCode();
-    String? _getPhone = await localStorage.getUserPhone();
-    String? _getCountry = await localStorage.getCountry();
-    String? _getState = await localStorage.getState();
-    String? _getStudentIc = await localStorage.getStudentIc();
+    String? getName = await localStorage.getName();
+    String? getNickName = await localStorage.getNickName();
+    String? getEmail = await localStorage.getEmail();
+    String? getPostcode = await localStorage.getPostCode();
+    String? getPhone = await localStorage.getUserPhone();
+    String? getCountry = await localStorage.getCountry();
+    String? getState = await localStorage.getState();
+    String? getStudentIc = await localStorage.getStudentIc();
 
-    String? _getBirthDate = await localStorage.getBirthDate();
-    String? _getRace = await localStorage.getRace();
-    String? _getNationality = await localStorage.getNationality();
-    String? _getProfilePic = await localStorage.getProfilePic();
-    String? _getCdl = await localStorage.getCdl();
-    String? _getLdl = await localStorage.getLdl();
+    String? getBirthDate = await localStorage.getBirthDate();
+    String? getRace = await localStorage.getRace();
+    String? getNationality = await localStorage.getNationality();
+    String? getProfilePic = await localStorage.getProfilePic();
+    String? getCdl = await localStorage.getCdl();
+    String? getLdl = await localStorage.getLdl();
 
     setState(() {
       userProfile = UserProfile(
-        name: _getName,
-        nickName: _getNickName,
-        eMail: _getEmail,
-        postcode: _getPostcode,
-        phone: _getPhone,
-        countryName: _getCountry,
-        stateName: _getState,
-        icNo: _getStudentIc,
-        birthDate: _getBirthDate,
-        race: _getRace,
-        nationality: _getNationality,
-        picturePath: _getProfilePic != null && _getProfilePic.isNotEmpty
-            ? _getProfilePic.replaceAll(removeBracket, '').split('\r\n')[0]
+        name: getName,
+        nickName: getNickName,
+        eMail: getEmail,
+        postcode: getPostcode,
+        phone: getPhone,
+        countryName: getCountry,
+        stateName: getState,
+        icNo: getStudentIc,
+        birthDate: getBirthDate,
+        race: getRace,
+        nationality: getNationality,
+        picturePath: getProfilePic != null && getProfilePic.isNotEmpty
+            ? getProfilePic.replaceAll(removeBracket, '').split('\r\n')[0]
             : '',
-        cdlGroup: _getCdl,
-        enqLdlGroup: _getLdl,
+        cdlGroup: getCdl,
+        enqLdlGroup: getLdl,
       );
     });
   }
@@ -242,15 +244,15 @@ class _ProfileTabState extends State<ProfileTab>
       margin: EdgeInsets.only(right: 15.w),
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          side: BorderSide(
+          side: const BorderSide(
             color: Colors.blue,
             width: 1.5,
           ),
-          shape: StadiumBorder(),
+          shape: const StadiumBorder(),
         ),
         onPressed: () async {
           await context.router
-              .push(UpdateProfile())
+              .push(const UpdateProfile())
               .then((value) => _getUserInfo());
         },
         child: Text(AppLocalizations.of(context)!.translate('edit_profile')),
@@ -268,7 +270,7 @@ class _ProfileTabState extends State<ProfileTab>
         decoration: BoxDecoration(
           gradient: RadialGradient(
             colors: [Colors.amber.shade300, primaryColor],
-            stops: [0.5, 1],
+            stops: const [0.5, 1],
             radius: 0.9,
           ),
         ),
@@ -281,16 +283,16 @@ class _ProfileTabState extends State<ProfileTab>
           ),
           backgroundColor: Colors.transparent,
           body: TabBarView(controller: _tabController, children: [
-            profilePage.Profile(
+            profilepage.Profile(
               userProfile: userProfile,
               enrollData: enrollData,
               isLoading: isLoading,
             ),
             // Edompet(),
-            settingsPage.Settings(widget.positionStream),
+            settingspage.Settings(widget.positionStream),
           ]),
           bottomNavigationBar: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30.0),

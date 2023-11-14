@@ -7,15 +7,15 @@ class FavPlaceResponse {
     if (json['FavPlace'] != null) {
       favPlace = <FavPlace>[];
       json['FavPlace'].forEach((v) {
-        favPlace!.add(new FavPlace.fromJson(v));
+        favPlace!.add(FavPlace.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.favPlace != null) {
-      data['FavPlace'] = this.favPlace!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (favPlace != null) {
+      data['FavPlace'] = favPlace!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -74,22 +74,22 @@ class FavPlace {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['merchant_no'] = this.merchantNo;
-    data['place_id'] = this.placeId;
-    data['login_id'] = this.loginId;
-    data['type'] = this.type;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['lat'] = this.lat;
-    data['lng'] = this.lng;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['transtamp'] = this.transtamp;
-    data['deleted'] = this.deleted;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['merchant_no'] = merchantNo;
+    data['place_id'] = placeId;
+    data['login_id'] = loginId;
+    data['type'] = type;
+    data['name'] = name;
+    data['description'] = description;
+    data['lat'] = lat;
+    data['lng'] = lng;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['transtamp'] = transtamp;
+    data['deleted'] = deleted;
     return data;
   }
 }
@@ -141,20 +141,20 @@ class FavPlaceRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['wsCodeCrypt'] = this.wsCodeCrypt;
-    data['caUid'] = this.caUid;
-    data['caPwd'] = this.caPwd;
-    data['merchantNo'] = this.merchantNo;
-    data['loginId'] = this.loginId;
-    data['type'] = this.type;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['lat'] = this.lat;
-    data['lng'] = this.lng;
-    data['base64Code'] = this.base64Code;
-    data['placeId'] = this.placeId;
-    data['fileKey'] = this.fileKey;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['wsCodeCrypt'] = wsCodeCrypt;
+    data['caUid'] = caUid;
+    data['caPwd'] = caPwd;
+    data['merchantNo'] = merchantNo;
+    data['loginId'] = loginId;
+    data['type'] = type;
+    data['name'] = name;
+    data['description'] = description;
+    data['lat'] = lat;
+    data['lng'] = lng;
+    data['base64Code'] = base64Code;
+    data['placeId'] = placeId;
+    data['fileKey'] = fileKey;
     return data;
   }
 }
@@ -168,16 +168,16 @@ class FavPlaceFileAttachResponse {
     if (json['FavPlaceFileAttach'] != null) {
       favPlaceFileAttach = <FavPlaceFileAttach>[];
       json['FavPlaceFileAttach'].forEach((v) {
-        favPlaceFileAttach!.add(new FavPlaceFileAttach.fromJson(v));
+        favPlaceFileAttach!.add(FavPlaceFileAttach.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.favPlaceFileAttach != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (favPlaceFileAttach != null) {
       data['FavPlaceFileAttach'] =
-          this.favPlaceFileAttach!.map((v) => v.toJson()).toList();
+          favPlaceFileAttach!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -242,24 +242,24 @@ class FavPlaceFileAttach {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['place_id'] = this.placeId;
-    data['key'] = this.key;
-    data['item_no'] = this.itemNo;
-    data['file_name'] = this.fileName;
-    data['cancel'] = this.cancel;
-    data['cancel_date'] = this.cancelDate;
-    data['deleted'] = this.deleted;
-    data['create_user'] = this.createUser;
-    data['create_date'] = this.createDate;
-    data['edit_user'] = this.editUser;
-    data['edit_date'] = this.editDate;
-    data['row_key'] = this.rowKey;
-    data['transtamp'] = this.transtamp;
-    data['attach_type'] = this.attachType;
-    data['attached_size'] = this.attachedSize;
-    data['picture_path'] = this.picturePath;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ID'] = iD;
+    data['place_id'] = placeId;
+    data['key'] = key;
+    data['item_no'] = itemNo;
+    data['file_name'] = fileName;
+    data['cancel'] = cancel;
+    data['cancel_date'] = cancelDate;
+    data['deleted'] = deleted;
+    data['create_user'] = createUser;
+    data['create_date'] = createDate;
+    data['edit_user'] = editUser;
+    data['edit_date'] = editDate;
+    data['row_key'] = rowKey;
+    data['transtamp'] = transtamp;
+    data['attach_type'] = attachType;
+    data['attached_size'] = attachedSize;
+    data['picture_path'] = picturePath;
     return data;
   }
 }

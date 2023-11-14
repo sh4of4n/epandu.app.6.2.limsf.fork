@@ -13,14 +13,15 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
+@RoutePage(name: 'Cart')
 class Cart extends StatefulWidget {
   final String? itemName;
   final String? dbcode;
 
-  Cart({this.itemName, this.dbcode});
+  const Cart({super.key, this.itemName, this.dbcode});
 
   @override
-  _CartState createState() => _CartState();
+  State<Cart> createState() => _CartState();
 }
 
 class _CartState extends State<Cart> {
@@ -57,29 +58,33 @@ class _CartState extends State<Cart> {
 
     if (result.isSuccess) {
       // return result.data;
+      if (!context.mounted) return;
       var slsDetail = await _getSlsDetailByDocNo(
         context,
         result.data[0].docDoc,
         result.data[0].docRef,
       );
 
-      if (mounted)
+      if (mounted) {
         setState(() {
           tlNettOrdAmt = result.data[0].tlNettOrdAmt;
           activeSlsTrnData = result.data;
           slsDetailData = slsDetail;
         });
+      }
     } else {
-      if (mounted)
+      if (mounted) {
         setState(() {
           slsDetailData = result.message;
         });
+      }
     }
 
-    if (mounted)
+    if (mounted) {
       setState(() {
         _isLoading = false;
       });
+    }
   }
 
   Future<dynamic> _getSlsDetailByDocNo(context, docDoc, docRef) async {
@@ -96,7 +101,7 @@ class _CartState extends State<Cart> {
   }
 
   _showOrdPrice(snapshot) {
-    if (double.tryParse(snapshot.discAmt)! > 0)
+    if (double.tryParse(snapshot.discAmt)! > 0) {
       return Row(
         children: <Widget>[
           Text(
@@ -112,15 +117,16 @@ class _CartState extends State<Cart> {
           SizedBox(width: ScreenUtil().setWidth(40)),
           Text(
             snapshot.discRate + '%',
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.red,
               fontWeight: FontWeight.bold,
             ),
           ),
         ],
       );
+    }
 
-    return Container(width: 0, height: 0);
+    return const SizedBox(width: 0, height: 0);
   }
 
   _editItem(snapshot) {
@@ -149,7 +155,7 @@ class _CartState extends State<Cart> {
       content: 'Do you want to remove this product?',
       customActions: <Widget>[
         TextButton(
-          child: Text('Yes'),
+          child: const Text('Yes'),
           onPressed: () async {
             Provider.of<CartStatus>(context, listen: false)
                 .updateCartBadge(cartItem: snapshot.length - 1);
@@ -162,11 +168,12 @@ class _CartState extends State<Cart> {
 
             context.router.pop(context);
 
-            if (mounted)
+            if (mounted) {
               setState(() {
                 _isLoading = true;
                 tlNettOrdAmt = '0.00';
               });
+            }
 
             await _deleteSlsDtlByDocRefKey(
               context: context,
@@ -177,11 +184,11 @@ class _CartState extends State<Cart> {
           },
         ),
         TextButton(
-          child: Text('No'),
+          child: const Text('No'),
           onPressed: () => context.router.pop(context),
         ),
       ],
-      type: DialogType.GENERAL,
+      type: DialogType.general,
     );
   }
 
@@ -193,10 +200,11 @@ class _CartState extends State<Cart> {
       key: snapshot.key,
     );
 
-    if (result.isSuccess)
+    if (result.isSuccess) {
       return Response(true, data: result);
-    else
+    } else {
       return Response(false, message: result.message);
+    }
   }
 
   _checkout() {
@@ -222,7 +230,7 @@ class _CartState extends State<Cart> {
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.white,
             child: Container(
-              margin: EdgeInsets.only(top: 15.0),
+              margin: const EdgeInsets.only(top: 15.0),
               width: ScreenUtil().setWidth(1350),
               height: ScreenUtil().setHeight(450),
               color: Colors.grey[300],
@@ -232,7 +240,7 @@ class _CartState extends State<Cart> {
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.white,
             child: Container(
-              margin: EdgeInsets.only(top: 15.0),
+              margin: const EdgeInsets.only(top: 15.0),
               width: ScreenUtil().setWidth(1350),
               height: ScreenUtil().setHeight(450),
               color: Colors.grey[300],
@@ -242,7 +250,7 @@ class _CartState extends State<Cart> {
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.white,
             child: Container(
-              margin: EdgeInsets.only(top: 15.0),
+              margin: const EdgeInsets.only(top: 15.0),
               width: ScreenUtil().setWidth(1350),
               height: ScreenUtil().setHeight(450),
               color: Colors.grey[300],
@@ -252,7 +260,7 @@ class _CartState extends State<Cart> {
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.white,
             child: Container(
-              margin: EdgeInsets.only(top: 15.0),
+              margin: const EdgeInsets.only(top: 15.0),
               width: ScreenUtil().setWidth(1350),
               height: ScreenUtil().setHeight(450),
               color: Colors.grey[300],
@@ -262,7 +270,7 @@ class _CartState extends State<Cart> {
       );
     } else if (slsDetailData != null && _isLoading == false) {
       if (slsDetailData is String) {
-        return Container(
+        return SizedBox(
           height: ScreenUtil().screenHeight - ScreenUtil().setHeight(880),
           child: Center(
             child: Text(slsDetailData,
@@ -270,7 +278,7 @@ class _CartState extends State<Cart> {
           ),
         );
       }
-      return Container(
+      return SizedBox(
         height: ScreenUtil().screenHeight - ScreenUtil().setHeight(880),
         child: ListView.builder(
           shrinkWrap: true,
@@ -355,21 +363,21 @@ class _CartState extends State<Cart> {
         ),
       );
     }
-    return Center(
+    return const Center(
       child: Text('Failed to load cart items, please try again later.'),
     );
   }
 
   _getBottomSheet() {
     if (slsDetailData is String) {
-      return Container(width: 0, height: 0);
+      return const SizedBox(width: 0, height: 0);
     } else if (slsDetailData != null && slsDetailData.length > 0) {
       return Container(
         padding: EdgeInsets.symmetric(
           vertical: ScreenUtil().setHeight(50),
           horizontal: ScreenUtil().setWidth(50),
         ),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           boxShadow: [
             BoxShadow(
@@ -384,7 +392,7 @@ class _CartState extends State<Cart> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Text(
-              'Total: ' + tlNettOrdAmt!,
+              'Total: ${tlNettOrdAmt!}',
               style: TextStyle(
                 fontSize: ScreenUtil().setSp(65),
                 fontWeight: FontWeight.bold,
@@ -394,10 +402,10 @@ class _CartState extends State<Cart> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(420.w, 45.h),
-                backgroundColor: Color(0xffdd0e0e),
-                padding: EdgeInsets.symmetric(vertical: 11.0),
-                shape: StadiumBorder(),
-                textStyle: TextStyle(color: Colors.white),
+                backgroundColor: const Color(0xffdd0e0e),
+                padding: const EdgeInsets.symmetric(vertical: 11.0),
+                shape: const StadiumBorder(),
+                textStyle: const TextStyle(color: Colors.white),
               ),
               onPressed: _checkout,
               child: Text(
@@ -411,14 +419,14 @@ class _CartState extends State<Cart> {
         ),
       );
     }
-    return Container(width: 0, height: 0);
+    return const SizedBox(width: 0, height: 0);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cart'),
+        title: const Text('Cart'),
         /* actions: <Widget>[
           IconButton(
             onPressed: () =>

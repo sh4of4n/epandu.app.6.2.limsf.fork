@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart';
 import 'package:flutter_sound/public/util/flutter_sound_helper.dart';
@@ -18,12 +20,12 @@ class ConfirmAudioWidget extends StatefulWidget {
 
 class _ConfirmAudioWidgetState extends State<ConfirmAudioWidget> {
   bool isPlaying = false;
-  Duration duration = new Duration();
+  Duration duration = const Duration();
   final FlutterSoundPlayer _mPlayer = FlutterSoundPlayer();
   final FlutterSoundHelper flutterSoundHelper = FlutterSoundHelper();
   bool _mPlayerIsInited = false;
   StreamSubscription? _mPlayerSubscription;
-  Duration pos = new Duration();
+  Duration pos = const Duration();
   @override
   void initState() {
     super.initState();
@@ -37,9 +39,9 @@ class _ConfirmAudioWidgetState extends State<ConfirmAudioWidget> {
   Future<void> init() async {
     /*Duration d  = await flutterSoundHelper.duration(widget.file_path) ?? Duration.zero;
     duration=d;*/
-    print(widget.filePath + '_' + duration.toString());
+    //print(widget.filePath + '_' + duration.toString());
     await _mPlayer.openPlayer();
-    await _mPlayer.setSubscriptionDuration(Duration(milliseconds: 10));
+    await _mPlayer.setSubscriptionDuration(const Duration(milliseconds: 10));
     _mPlayerSubscription = _mPlayer.onProgress!.listen((e) {
       duration = e.duration;
       setPos(e.position);
@@ -74,11 +76,11 @@ class _ConfirmAudioWidgetState extends State<ConfirmAudioWidget> {
           Align(
             alignment: Alignment.topRight,
             child: GestureDetector(
-              child: Icon(Icons.close, size: 16),
               onTap: widget.onCancelAudio,
+              child: const Icon(Icons.close, size: 16),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           getChild(widget.filePath),
@@ -92,7 +94,7 @@ class _ConfirmAudioWidgetState extends State<ConfirmAudioWidget> {
         alignment: Alignment.centerLeft,
         child: Container(
           width: MediaQuery.of(context).size.width * 0.8,
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: Colors.grey[300],
             borderRadius: BorderRadius.circular(10),
@@ -116,12 +118,14 @@ class _ConfirmAudioWidgetState extends State<ConfirmAudioWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(pos.toString().split('.')[0],
-                                  style: TextStyle(color: Colors.black45)),
-                              SizedBox(
+                                  style:
+                                      const TextStyle(color: Colors.black45)),
+                              const SizedBox(
                                 width: 50,
                               ),
                               Text((pos - duration).toString().split('.')[0],
-                                  style: TextStyle(color: Colors.black45)),
+                                  style:
+                                      const TextStyle(color: Colors.black45)),
                             ],
                           )
                         : Container(),
@@ -142,7 +146,7 @@ class _ConfirmAudioWidgetState extends State<ConfirmAudioWidget> {
         ),
       );
     } else {
-      return Container(child: Text('No Audio recorded.'));
+      return const Text('No Audio recorded.');
     }
   }
 
@@ -166,8 +170,11 @@ class _ConfirmAudioWidgetState extends State<ConfirmAudioWidget> {
   }
 
   void play(FlutterSoundPlayer? player) async {
+    File file = File(widget.filePath);
+    Uint8List uint8list = await file.readAsBytes();
     await player!.startPlayer(
-        fromURI: widget.filePath,
+        // fromURI: widget.filePath,
+        fromDataBuffer: uint8list,
         whenFinished: () {
           setState(() {
             isPlaying = false;

@@ -13,6 +13,8 @@ class BottomMenu extends StatelessWidget {
     fontWeight: FontWeight.w500,
   );
 
+  BottomMenu({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,7 +31,7 @@ class BottomMenu extends StatelessWidget {
                   onTap: () {},
                   borderRadius: BorderRadius.circular(10.0),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       vertical: 12.0,
                     ),
                     child: Column(
@@ -56,7 +58,7 @@ class BottomMenu extends StatelessWidget {
                   onTap: () {},
                   borderRadius: BorderRadius.circular(10.0),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       vertical: 12.0,
                     ),
                     child: Column(
@@ -76,13 +78,13 @@ class BottomMenu extends StatelessWidget {
                   onTap: () {},
                   borderRadius: BorderRadius.circular(10.0),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       vertical: 12.0,
                     ),
                     child: Column(
                       children: <Widget>[
-                        Icon(
-                          MyCustomIcons.gift_icon,
+                        const Icon(
+                          MyCustomIcons.giftIcon,
                           size: 22,
                           color: Color(0xff808080),
                         ),

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,8 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'form.dart';
 import 'tablet_form.dart';
 
+@RoutePage(name: 'ForgotPassword')
 class ForgotPassword extends StatelessWidget {
   final primaryColor = ColorConstant.primaryColor;
+
+  const ForgotPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +39,7 @@ class ForgotPassword extends StatelessWidget {
               Colors.amber.shade300,
               primaryColor
             ],
-            stops: [0.2, 0.4, 0.6, 0.7, 1],
+            stops: const [0.2, 0.4, 0.6, 0.7, 1],
             radius: 0.7,
           ),
         ),
@@ -50,7 +54,7 @@ class ForgotPassword extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 20.0),
+                      padding: const EdgeInsets.only(top: 20.0),
                       child: Image.asset(
                         ImagesConstant().logo,
                         width: 1000.w,
@@ -68,7 +72,7 @@ class ForgotPassword extends StatelessWidget {
                         SizedBox(
                           height: 510.h,
                         ),
-                        ForgotPasswordForm(),
+                        const ForgotPasswordForm(),
                       ],
                     ),
                   ),
@@ -96,7 +100,7 @@ class ForgotPassword extends StatelessWidget {
               Colors.amber.shade300,
               primaryColor
             ],
-            stops: [0.2, 0.4, 0.6, 0.7, 1],
+            stops: const [0.2, 0.4, 0.6, 0.7, 1],
             radius: 0.7,
           ),
         ),
@@ -118,7 +122,7 @@ class ForgotPassword extends StatelessWidget {
                     SizedBox(
                       height: 100.h,
                     ),
-                    ForgotPasswordTabletForm(),
+                    const ForgotPasswordTabletForm(),
                   ],
                 ),
               ),

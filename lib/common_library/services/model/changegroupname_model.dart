@@ -35,17 +35,17 @@ class ChnageGroupNameRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['wsCodeCrypt'] = this.wsCodeCrypt;
-    data['caUid'] = this.caUid;
-    data['caPwd'] = this.caPwd;
-    data['merchantNo'] = this.merchantNo;
-    data['mLoginId'] = this.mLoginId;
-    data['appId'] = this.appId;
-    data['deviceId'] = this.deviceId;
-    data['appCode'] = this.appCode;
-    data['roomId'] = this.roomId;
-    data['groupName'] = this.groupName;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['wsCodeCrypt'] = wsCodeCrypt;
+    data['caUid'] = caUid;
+    data['caPwd'] = caPwd;
+    data['merchantNo'] = merchantNo;
+    data['mLoginId'] = mLoginId;
+    data['appId'] = appId;
+    data['deviceId'] = deviceId;
+    data['appCode'] = appCode;
+    data['roomId'] = roomId;
+    data['groupName'] = groupName;
     return data;
   }
 }

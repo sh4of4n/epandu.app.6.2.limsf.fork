@@ -7,13 +7,14 @@ import 'package:intl/intl.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
 
+@RoutePage(name: 'RegisteredCourseDetail')
 class RegisteredCourseDetail extends StatefulWidget {
   final groupId;
 
-  RegisteredCourseDetail(this.groupId);
+  const RegisteredCourseDetail(this.groupId, {super.key});
 
   @override
-  _RegisteredCourseDetailState createState() => _RegisteredCourseDetailState();
+  State<RegisteredCourseDetail> createState() => _RegisteredCourseDetailState();
 }
 
 class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
@@ -49,8 +50,8 @@ class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
   }
 
   _loadHistoryData() {
-    if (_isLoading && _enrollHistoryData == null)
-      return Column(
+    if (_isLoading && _enrollHistoryData == null) {
+      return const Column(
         children: <Widget>[
           Expanded(
             child: SpinKitFoldingCube(
@@ -59,7 +60,7 @@ class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
           ),
         ],
       );
-    else if (!_isLoading && _enrollHistoryData is String)
+    } else if (!_isLoading && _enrollHistoryData is String) {
       return Column(
         children: <Widget>[
           Expanded(
@@ -69,6 +70,7 @@ class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
           ),
         ],
       );
+    }
 
     return SingleChildScrollView(
       child: Container(
@@ -97,9 +99,9 @@ class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].icNo != null
-                              ? 'IC: ' + _enrollHistoryData[0].icNo
+                              ? 'IC: ${_enrollHistoryData[0].icNo}'
                               : '',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                         ),
@@ -108,9 +110,9 @@ class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].groupId != null
-                              ? 'Class ' + _enrollHistoryData[0].groupId
+                              ? 'Class ${_enrollHistoryData[0].groupId}'
                               : '',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                           textAlign: TextAlign.right,
@@ -124,9 +126,9 @@ class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].stuNo != null
-                              ? 'Student no: ' + _enrollHistoryData[0].stuNo
+                              ? 'Student no: ${_enrollHistoryData[0].stuNo}'
                               : '',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                         ),
@@ -135,9 +137,9 @@ class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].status != null
-                              ? 'Status: ' + _enrollHistoryData[0].status
+                              ? 'Status: ${_enrollHistoryData[0].status}'
                               : '',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                           textAlign: TextAlign.right,
@@ -151,9 +153,9 @@ class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].tlHrsTak != null
-                              ? 'Hours taken: ' + _enrollHistoryData[0].tlHrsTak
+                              ? 'Hours taken: ${_enrollHistoryData[0].tlHrsTak}'
                               : '0',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                         ),
@@ -162,9 +164,9 @@ class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].totalTime != null
-                              ? 'Total time: ' + _enrollHistoryData[0].totalTime
+                              ? 'Total time: ${_enrollHistoryData[0].totalTime}'
                               : '00:00',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                           textAlign: TextAlign.right,
@@ -178,12 +180,9 @@ class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].totalPaid != null
-                              ? 'Total paid: RM' +
-                                  NumberFormat('#,##0.00').format(
-                                      double.tryParse(
-                                          _enrollHistoryData[0].totalPaid))
+                              ? 'Total paid: RM${NumberFormat('#,##0.00').format(double.tryParse(_enrollHistoryData[0].totalPaid))}'
                               : '0.00',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                         ),
@@ -192,12 +191,9 @@ class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
                         padding: EdgeInsets.symmetric(vertical: 10.h),
                         child: Text(
                           _enrollHistoryData[0].fee != null
-                              ? 'Fee: RM' +
-                                  NumberFormat('#,##0.00').format(
-                                      double.tryParse(
-                                          _enrollHistoryData[0].fee))
+                              ? 'Fee: RM${NumberFormat('#,##0.00').format(double.tryParse(_enrollHistoryData[0].fee))}'
                               : '0.00',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                           textAlign: TextAlign.right,
@@ -212,11 +208,11 @@ class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
             Center(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  shape: StadiumBorder(),
-                  backgroundColor: Color(0xffdd0e0e),
+                  shape: const StadiumBorder(),
+                  backgroundColor: const Color(0xffdd0e0e),
                   minimumSize: Size(420.w, 45.h),
-                  padding: EdgeInsets.symmetric(vertical: 11.0),
-                  textStyle: TextStyle(color: Colors.white),
+                  padding: const EdgeInsets.symmetric(vertical: 11.0),
+                  textStyle: const TextStyle(color: Colors.white),
                 ),
                 onPressed: () => context.router.pop(),
                 child: Text(
@@ -237,7 +233,7 @@ class _RegisteredCourseDetailState extends State<RegisteredCourseDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfffdc013),
+      backgroundColor: const Color(0xfffdc013),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,

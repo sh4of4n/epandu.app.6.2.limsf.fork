@@ -87,14 +87,7 @@ class ProductsRepo {
     String caUid = 'tbs_tbserp_devp_1';
     String caPwdEncode = '123456';
 
-    String path = 'wsCodeCrypt=TBSERPWS' +
-        '&caUid=$caUid' +
-        '&caPwd=$caPwdEncode' +
-        '&uom=${uom ?? ''}' +
-        '&publish=$publish' +
-        '&isVerify=$isVerify' +
-        '&startIndex=$startIndex' +
-        '&noOfRecords=$noOfRecords';
+    String path = 'wsCodeCrypt=TBSERPWS&caUid=$caUid&caPwd=$caPwdEncode&uom=${uom ?? ''}&publish=$publish&isVerify=$isVerify&startIndex=$startIndex&noOfRecords=$noOfRecords';
 
     var response = await Networking(
             customUrl:
@@ -125,14 +118,7 @@ class ProductsRepo {
     String caUid = 'tbs_tbserp_devp_1';
     String caPwdEncode = '123456';
 
-    String path = 'wsCodeCrypt=TBSERPWS' +
-        '&caUid=$caUid' +
-        '&caPwd=$caPwdEncode' +
-        '&stkCat=${stkCat ?? ''}' +
-        '&publish=$publish' +
-        '&isVerify=$isVerify' +
-        '&startIndex=$startIndex' +
-        '&noOfRecords=$noOfRecords';
+    String path = 'wsCodeCrypt=TBSERPWS&caUid=$caUid&caPwd=$caPwdEncode&stkCat=${stkCat ?? ''}&publish=$publish&isVerify=$isVerify&startIndex=$startIndex&noOfRecords=$noOfRecords';
 
     var response = await Networking(
             customUrl:
@@ -163,14 +149,7 @@ class ProductsRepo {
     String caUid = 'tbs_tbserp_devp_1';
     String caPwdEncode = '123456';
 
-    String path = 'wsCodeCrypt=TBSERPWS' +
-        '&caUid=$caUid' +
-        '&caPwd=$caPwdEncode' +
-        '&stkCat=${stkGrp ?? ''}' +
-        '&publish=$publish' +
-        '&isVerify=$isVerify' +
-        '&startIndex=$startIndex' +
-        '&noOfRecords=$noOfRecords';
+    String path = 'wsCodeCrypt=TBSERPWS&caUid=$caUid&caPwd=$caPwdEncode&stkCat=${stkGrp ?? ''}&publish=$publish&isVerify=$isVerify&startIndex=$startIndex&noOfRecords=$noOfRecords';
 
     var response = await Networking(
             customUrl:
@@ -205,7 +184,7 @@ class ProductsRepo {
   }) async {
     String caUid = 'tbs_tbserp_devp_1';
     String caPwd = '123456';
-    final String userId = 'supervisor';
+    const String userId = 'supervisor';
 
     SaveStockRequest params = SaveStockRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
@@ -255,7 +234,7 @@ class ProductsRepo {
   }) async {
     String caUid = 'tbs_tbserp_devp_1';
     String caPwd = '123456';
-    final String userId = 'supervisor';
+    const String userId = 'supervisor';
 
     UpdateStockRequest params = UpdateStockRequest(
       wsCodeCrypt: appConfig.wsCodeCrypt,
@@ -299,12 +278,7 @@ class ProductsRepo {
     String caUid = 'tbs_tbserp_devp_1';
     String caPwdEncode = '123456';
 
-    String path = 'wsCodeCrypt=TBSERPWS' +
-        '&caUid=$caUid' +
-        '&caPwd=$caPwdEncode' +
-        '&stkCode=${Uri.encodeComponent(stkCode)}' +
-        '&startIndex=$startIndex' +
-        '&noOfRecords=$noOfRecords';
+    String path = 'wsCodeCrypt=TBSERPWS&caUid=$caUid&caPwd=$caPwdEncode&stkCode=${Uri.encodeComponent(stkCode)}&startIndex=$startIndex&noOfRecords=$noOfRecords';
 
     var response = await Networking(
             customUrl:

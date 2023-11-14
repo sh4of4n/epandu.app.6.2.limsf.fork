@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/repository/epandu_repository.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/utils/constants.dart';
@@ -6,14 +7,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
+@RoutePage(name: 'AttendanceRecord')
 class AttendanceRecord extends StatefulWidget {
   final attendanceData;
   final bool? isLoading;
 
-  AttendanceRecord({required this.attendanceData, required this.isLoading});
+  const AttendanceRecord(
+      {super.key, required this.attendanceData, required this.isLoading});
 
   @override
-  _AttendanceRecordState createState() => _AttendanceRecordState();
+  State<AttendanceRecord> createState() => _AttendanceRecordState();
 }
 
 class _AttendanceRecordState extends State<AttendanceRecord> {
@@ -29,7 +32,7 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
   final TextStyle _subtitleStyle = TextStyle(
     fontSize: 56.sp,
     fontWeight: FontWeight.w400,
-    color: Color(
+    color: const Color(
       0xff666666,
     ),
   );
@@ -39,7 +42,7 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
   attendanceList() {
     if (widget.attendanceData != null && !widget.isLoading!) {
       return Padding(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 16,
         ),
@@ -226,7 +229,7 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
             Colors.white,
             primaryColor,
           ],
-          stops: [0.45, 0.95],
+          stops: const [0.45, 0.95],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),

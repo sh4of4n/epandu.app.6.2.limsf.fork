@@ -17,11 +17,14 @@ import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../chat/chatnotification_count.dart';
 import '../chat/socketclient_helper.dart';
 
 class LoginForm extends StatefulWidget {
+  const LoginForm({super.key});
+
   @override
-  _LoginFormState createState() => _LoginFormState();
+  State<LoginForm> createState() => _LoginFormState();
 }
 
 class _LoginFormState extends State<LoginForm> with PageBaseClass {
@@ -45,8 +48,8 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
   // var _height = ScreenUtil.screenHeight / 4.5;
 
   Location location = Location();
-  String _latitude = '';
-  String _longitude = '';
+  final String _latitude = '';
+  final String _longitude = '';
 
   DeviceInfo deviceInfo = DeviceInfo();
   String? _deviceBrand = '';
@@ -77,6 +80,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
               int.tryParse(result.data[0].appMinVersion.split('.')[1])! ||
           int.tryParse(appVersion.split('.')[2])! <
               int.tryParse(result.data[0].appMinVersion.split('.')[2])!) {
+        if (!context.mounted) return;
         customDialog.show(
           context: context,
           content: 'App version is outdated and must be updated.',
@@ -90,10 +94,10 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                   await launchUrl(result.data[0].newVerGooglestoreUrl);
                 }
               },
-              child: Text('Ok'),
+              child: const Text('Ok'),
             ),
           ],
-          type: DialogType.GENERAL,
+          type: DialogType.general,
         );
       }
     }
@@ -132,7 +136,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.0),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black26,
             offset: Offset(0.0, 15.0),
@@ -146,8 +150,8 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
         ],
       ),
       child: Padding(
-        padding:
-            EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 20.0),
+        padding: const EdgeInsets.only(
+            left: 16.0, right: 16.0, top: 16.0, bottom: 20.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -161,7 +165,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 keyboardType: TextInputType.phone,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(
                     color: primaryColor,
                   ),
@@ -169,9 +173,9 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                       AppLocalizations.of(context)!.translate('phone_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.account_circle),
+                  prefixIcon: const Icon(Icons.account_circle),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
+                    borderSide: const BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   border: OutlineInputBorder(
@@ -200,13 +204,13 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
               TextFormField(
                 focusNode: _passwordFocus,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(vertical: 16.0),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16.0),
                   hintStyle: TextStyle(color: primaryColor),
                   labelText:
                       AppLocalizations.of(context)!.translate('password_lbl'),
                   fillColor: Colors.grey.withOpacity(.25),
                   filled: true,
-                  prefixIcon: Icon(Icons.lock),
+                  prefixIcon: const Icon(Icons.lock),
                   suffixIcon: IconButton(
                     icon: Icon(
                         _obscureText ? Icons.visibility_off : Icons.visibility),
@@ -219,7 +223,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                     },
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
+                    borderSide: const BorderSide(color: Colors.transparent),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   border: OutlineInputBorder(
@@ -248,7 +252,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      context.router.push(ForgotPassword());
+                      context.router.push(const ForgotPassword());
                     },
                     child: Text(
                       AppLocalizations.of(context)!
@@ -273,11 +277,11 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                               maxWidth: 800.w,
                               child: Text(
                                 _loginMessage!,
-                                style: TextStyle(color: Colors.red),
+                                style: const TextStyle(color: Colors.red),
                                 textAlign: TextAlign.center,
                               ),
                             )
-                          : SizedBox.shrink(),
+                          : const SizedBox.shrink(),
                       _loginButton(),
                     ],
                   ),
@@ -291,7 +295,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      context.router.push(RegisterMobile());
+                      context.router.push(const RegisterMobile());
                     },
                     child: Text(
                       AppLocalizations.of(context)!.translate('sign_up_btn'),
@@ -318,10 +322,10 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(420.w, 45.h),
-                backgroundColor: Color(0xffdd0e0e),
-                padding: EdgeInsets.symmetric(vertical: 11.0),
-                textStyle: TextStyle(color: Colors.white),
-                shape: StadiumBorder(),
+                backgroundColor: const Color(0xffdd0e0e),
+                padding: const EdgeInsets.symmetric(vertical: 11.0),
+                textStyle: const TextStyle(color: Colors.white),
+                shape: const StadiumBorder(),
               ),
               onPressed: _submitLogin, // () => localStorage.reset(),
 
@@ -338,7 +342,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
   _submitLogin() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      FocusScope.of(context).requestFocus(new FocusNode());
+      FocusScope.of(context).requestFocus(FocusNode());
 
       setState(() {
         // _height = ScreenUtil().setHeight(1300);
@@ -366,14 +370,21 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
 
       if (result.isSuccess) {
         if (result.data == 'empty') {
+          if (!context.mounted) return;
           var getRegisteredDi = await authRepo.getUserRegisteredDI(
               context: context, type: 'LOGIN');
 
           if (getRegisteredDi.isSuccess) {
             await localStorage
                 .saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
-            await context.read<SocketClientHelper>().loginUserRoom();
-            context.router.replace(Home());
+            if (!context.mounted) return;
+            {
+              // Provider.of<ChatNotificationCount>(context, listen: false)
+              //     .clearNotificationBadge();
+              context.read<SocketClientHelper>().loginUserRoom();
+            }
+            if (!context.mounted) return;
+            context.router.replace(const Home());
           } else {
             setState(() {
               _isLoading = false;
@@ -384,14 +395,20 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
           // Navigate to DI selection page
           // Temporary navigate to home
           // Navigator.replace(context, HOME);
-
+          if (!context.mounted) return;
           context.router.replace(
             SelectDrivingInstitute(diList: result.data),
           );
         } else {
           await localStorage.saveMerchantDbCode(result.data[0].merchantNo);
-          await context.read<SocketClientHelper>().loginUserRoom();
-          context.router.replace(Home());
+          if (!context.mounted) return;
+          {
+            // Provider.of<ChatNotificationCount>(context, listen: false)
+            //     .clearNotificationBadge();
+            context.read<SocketClientHelper>().loginUserRoom();
+          }
+          if (!context.mounted) return;
+          context.router.replace(const Home());
         }
       } else {
         setState(() {

@@ -5,17 +5,17 @@ class GetPickUpByIcNoResponse {
 
   GetPickUpByIcNoResponse.fromJson(Map<String, dynamic> json) {
     if (json['Pickup'] != null) {
-      pickup = new List<Pickup>.empty(growable: true);
+      pickup = List<Pickup>.empty(growable: true);
       json['Pickup'].forEach((v) {
-        pickup!.add(new Pickup.fromJson(v));
+        pickup!.add(Pickup.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.pickup != null) {
-      data['Pickup'] = this.pickup!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (pickup != null) {
+      data['Pickup'] = pickup!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -37,11 +37,11 @@ class Pickup {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['pickup_date'] = this.pickupDate;
-    data['pickup_time'] = this.pickupTime;
-    data['destination'] = this.destination;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['pickup_date'] = pickupDate;
+    data['pickup_time'] = pickupTime;
+    data['destination'] = destination;
+    data['status'] = status;
     return data;
   }
 }
@@ -82,16 +82,16 @@ class SavePickupRequest {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['wsCodeCrypt'] = this.wsCodeCrypt;
-    data['caUid'] = this.caUid;
-    data['caPwd'] = this.caPwd;
-    data['diCode'] = this.diCode;
-    data['pickupDate'] = this.pickupDate;
-    data['pickupTime'] = this.pickupTime;
-    data['destination'] = this.destination;
-    data['icNo'] = this.icNo;
-    data['userId'] = this.userId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['wsCodeCrypt'] = wsCodeCrypt;
+    data['caUid'] = caUid;
+    data['caPwd'] = caPwd;
+    data['diCode'] = diCode;
+    data['pickupDate'] = pickupDate;
+    data['pickupTime'] = pickupTime;
+    data['destination'] = destination;
+    data['icNo'] = icNo;
+    data['userId'] = userId;
     return data;
   }
 }

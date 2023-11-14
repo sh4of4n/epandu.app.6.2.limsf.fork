@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/repository/kpp_repository.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -7,13 +8,14 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:epandu/common_library/utils/app_localizations.dart';
 
+@RoutePage(name: 'PinActivation')
 class PinActivation extends StatefulWidget {
   final String data;
 
-  PinActivation(this.data);
+  const PinActivation(this.data, {super.key});
 
   @override
-  _PinActivationState createState() => _PinActivationState();
+  State<PinActivation> createState() => _PinActivationState();
 }
 
 class _PinActivationState extends State<PinActivation> {
@@ -39,10 +41,10 @@ class _PinActivationState extends State<PinActivation> {
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(420.w, 45.h),
-                backgroundColor: Color(0xffdd0e0e),
-                padding: EdgeInsets.symmetric(vertical: 11.0),
-                shape: StadiumBorder(),
-                textStyle: TextStyle(color: Colors.white),
+                backgroundColor: const Color(0xffdd0e0e),
+                padding: const EdgeInsets.symmetric(vertical: 11.0),
+                shape: const StadiumBorder(),
+                textStyle: const TextStyle(color: Colors.white),
               ),
               onPressed: () => _submit(context),
               child: Text(
@@ -58,7 +60,7 @@ class _PinActivationState extends State<PinActivation> {
   _submit(context) async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      FocusScope.of(context).requestFocus(new FocusNode());
+      FocusScope.of(context).requestFocus(FocusNode());
 
       setState(() {
         // _height = ScreenUtil().setHeight(900);
@@ -116,14 +118,14 @@ class _PinActivationState extends State<PinActivation> {
               padding:
                   const EdgeInsets.only(left: 40.0, right: 40.0, top: 90.0),
               child: AnimatedContainer(
-                duration: Duration(milliseconds: 1500),
+                duration: const Duration(milliseconds: 1500),
                 curve: Curves.elasticOut,
                 width: double.infinity,
                 // height: _height,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20.0),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Colors.black26,
                       offset: Offset(0.0, 15.0),
@@ -137,7 +139,7 @@ class _PinActivationState extends State<PinActivation> {
                   ],
                 ),
                 child: Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -151,7 +153,7 @@ class _PinActivationState extends State<PinActivation> {
                           keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
                             contentPadding:
-                                EdgeInsets.symmetric(vertical: 16.0),
+                                const EdgeInsets.symmetric(vertical: 16.0),
                             hintStyle: TextStyle(
                               color: primaryColor,
                             ),
@@ -159,9 +161,10 @@ class _PinActivationState extends State<PinActivation> {
                                 .translate('pin_lbl'),
                             fillColor: Colors.grey.withOpacity(.25),
                             filled: true,
-                            prefixIcon: Icon(Icons.account_circle),
+                            prefixIcon: const Icon(Icons.account_circle),
                             enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.transparent),
+                              borderSide:
+                                  const BorderSide(color: Colors.transparent),
                               borderRadius: BorderRadius.circular(30),
                             ),
                             border: OutlineInputBorder(
@@ -204,9 +207,10 @@ class _PinActivationState extends State<PinActivation> {
                                 pinMessage!.isNotEmpty
                                     ? Text(
                                         pinMessage!,
-                                        style: TextStyle(color: Colors.red),
+                                        style:
+                                            const TextStyle(color: Colors.red),
                                       )
-                                    : SizedBox.shrink(),
+                                    : const SizedBox.shrink(),
                                 _submitButton(),
                                 SizedBox(height: ScreenUtil().setHeight(30)),
                               ],
