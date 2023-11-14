@@ -53,7 +53,6 @@ class _DirectoryListState extends State<DirectoryList> {
       }
       if (!context.mounted) return;
       var response = await emergencyRepo.getSosContactSortByNearest(
-          context: context,
           sosContactType: widget.directoryType,
           maxRadius: maxRadius);
 

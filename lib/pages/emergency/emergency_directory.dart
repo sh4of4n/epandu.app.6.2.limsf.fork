@@ -163,7 +163,6 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
 
   Future<void> _getSosContact(type) async {
     var response = await emergencyRepo.getSosContactSortByNearest(
-      context: context,
       sosContactType: type,
       maxRadius: '30',
     );

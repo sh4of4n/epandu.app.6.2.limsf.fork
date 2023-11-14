@@ -105,7 +105,6 @@ class EmergencyRepo {
   // GetSosContactNearest
 
   Future<Response> getSosContactSortByNearest({
-    required context,
     sosContactType,
     sosContactCode,
     areaCode,

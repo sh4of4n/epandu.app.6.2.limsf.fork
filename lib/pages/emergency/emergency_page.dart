@@ -48,7 +48,7 @@ class _EmergencyState extends State<Emergency> {
         geolocationStatus == LocationPermission.always) {
       if (!context.mounted) return;
       var response = await emergencyRepo.getSosContactSortByNearest(
-          context: context, sosContactType: 'POLICE', maxRadius: '30');
+          sosContactType: 'POLICE', maxRadius: '30');
 
       if (response.isSuccess) {
         var policeContacts = response.data;

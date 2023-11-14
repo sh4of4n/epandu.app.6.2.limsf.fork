@@ -155,48 +155,69 @@ void main() async {
   await Firebase.initializeApp();
 
   // runZonedGuarded(() async {
-  await SentryFlutter.init(
-    (options) {
-      options.dsn = kDebugMode
-          ? ''
-          : 'https://5525bd569e8849f0940925f93c1b164a@o354605.ingest.sentry.io/6739433';
-    },
-  );
   EasyLoading.instance.userInteractions = false;
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => LanguageModel(),
+  setupSentry(
+    () => runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => LanguageModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => CallStatusModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => HomeLoadingModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => CartStatus(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => NotificationCount(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => ChatNotificationCount(),
+          ),
+          ChangeNotifierProvider(create: (context) => OnlineUsers(context)),
+          ChangeNotifierProvider(create: (context) => ChatHistory()),
+          ChangeNotifierProvider(create: (context) => RoomHistory()),
+          ChangeNotifierProvider(
+              create: (context) => SocketClientHelper(context)),
+        ],
+        child: SentryScreenshotWidget(
+          child: SentryUserInteractionWidget(
+            child: DefaultAssetBundle(
+              bundle: SentryAssetBundle(),
+              child: const MyApp(),
+            ),
+          ),
         ),
-        ChangeNotifierProvider(
-          create: (context) => CallStatusModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => HomeLoadingModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => CartStatus(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => NotificationCount(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => ChatNotificationCount(),
-        ),
-        ChangeNotifierProvider(create: (context) => OnlineUsers(context)),
-        ChangeNotifierProvider(create: (context) => ChatHistory()),
-        ChangeNotifierProvider(create: (context) => RoomHistory()),
-        ChangeNotifierProvider(
-            create: (context) => SocketClientHelper(context)),
-      ],
-      child: const MyApp(),
+      ),
     ),
   );
-  // }, (exception, stackTrace) async {
-  //   await Sentry.captureException(exception, stackTrace: stackTrace);
-  // });
+
   configLoading();
+}
+
+Future<void> setupSentry(AppRunner appRunner,
+    {bool isIntegrationTest = false,
+    BeforeSendCallback? beforeSendCallback}) async {
+  await SentryFlutter.init((options) {
+    options.dsn =
+        'https://5525bd569e8849f0940925f93c1b164a@o354605.ingest.sentry.io/6739433';
+    options.tracesSampleRate = 1.0;
+    options.attachThreads = true;
+    options.enableWindowMetricBreadcrumbs = true;
+    options.sendDefaultPii = true;
+    options.reportSilentFlutterErrors = true;
+    options.attachScreenshot = true;
+    options.screenshotQuality = SentryScreenshotQuality.low;
+    options.attachViewHierarchy = true;
+    options.maxRequestBodySize = MaxRequestBodySize.always;
+    options.maxResponseBodySize = MaxResponseBodySize.always;
+  },
+      // Init your App.
+      appRunner: appRunner);
 }
 
 // void _setupLogging() {

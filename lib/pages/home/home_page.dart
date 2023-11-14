@@ -136,7 +136,7 @@ class _HomeState extends State<Home> {
     {
       'title': 'Battery',
       'image':
-          'https://i5.walmartimages.com/asr/4b81a7f3-1f1e-460c-afc6-62880015aab5.16e923df1ca5c06430d2d9136a5bc792.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF',
+          'https://centurybattery.com.my/wp-content/uploads/2019/04/CB-Optima.png',
     },
     {
       'title': 'Engine Oil',
@@ -1005,7 +1005,7 @@ class _HomeState extends State<Home> {
                             (e) {
                               return GestureDetector(
                                 onTap: () {
-                                  if (e['route'] != '') {
+                                  if (e['router'] != '') {
                                     context.router.push(e['router']);
                                   }
                                 },
