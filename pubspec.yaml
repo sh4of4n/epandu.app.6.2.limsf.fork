@@ -80,7 +80,7 @@ dependencies:
   # firebase_crashlytics: ^0.2.3+1
   share:
   native_pdf_view:
-  printing:
+  printing: ^5.11.1
 
   #chat
   rxdart:
