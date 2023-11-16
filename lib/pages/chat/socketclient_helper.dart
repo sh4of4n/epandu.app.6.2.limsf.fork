@@ -687,12 +687,20 @@ class SocketClientHelper extends ChangeNotifier {
       }
       return a.sendDateTime!.compareTo(b.sendDateTime!);
     });
+    int i = 0;
     for (var messageDetails in myFailedList) {
+      await Future.delayed(const Duration(seconds: 1));
+
       if (messageDetails.clientMessageId.toString() != '' && userid != '') {
         if (messageDetails.msgBinaryType == '') {
           await sendMessage(messageDetails, localUserName!);
         } else {
           await emitSendMessage(messageDetails, localUserName!);
+        }
+        i++;
+
+        if (i == myFailedList.length) {
+          myFailedList = [];
         }
       }
     }
@@ -789,13 +797,13 @@ class SocketClientHelper extends ChangeNotifier {
                           .toLocal())
                       .toString());
             }
-            if (myFailedList.isNotEmpty) {
-              int index = myFailedList.indexWhere((element) =>
-                  element.clientMessageId == messageDetails.clientMessageId!);
-              if (index > -1) {
-                myFailedList.removeAt(index);
-              }
-            }
+            // if (myFailedList.isNotEmpty) {
+            //   int index = myFailedList.indexWhere((element) =>
+            //       element.clientMessageId == messageDetails.clientMessageId!);
+            //   if (index > -1) {
+            //     myFailedList.removeAt(index);
+            //   }
+            // }
           }
           //print('sendMessage from server $data');
         } else {
@@ -853,13 +861,13 @@ class SocketClientHelper extends ChangeNotifier {
                                 .toLocal())
                         .toString());
               }
-              if (myFailedList.isNotEmpty) {
-                int index = myFailedList.indexWhere((element) =>
-                    element.clientMessageId == messageDetails.clientMessageId);
-                if (index > -1) {
-                  myFailedList.removeAt(index);
-                }
-              }
+              // if (myFailedList.isNotEmpty) {
+              //   int index = myFailedList.indexWhere((element) =>
+              //       element.clientMessageId == messageDetails.clientMessageId);
+              //   if (index > -1) {
+              //     myFailedList.removeAt(index);
+              //   }
+              // }
             }
             // print('sendMessage from server $data');
           } else {
