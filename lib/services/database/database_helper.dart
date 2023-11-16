@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
+import 'package:sentry_sqflite/sentry_sqflite.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../common_library/services/model/chat_mesagelist.dart';
 import '../../common_library/services/model/chat_model.dart';
@@ -32,7 +33,7 @@ class DatabaseHelper {
   // this opens the database (and creates it if it doesn't exist)
   _initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
-    return await openDatabase(path,
+    return await openDatabaseWithSentry(path,
         version: _databaseVersion, onCreate: _onCreate, onUpgrade: _onUpgrade);
   }
 

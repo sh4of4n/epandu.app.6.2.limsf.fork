@@ -1,3 +1,8 @@
+16/11/2023 V.6.2.11
+WS 6.2.211
+
+-Enhanced the room list screen so that members cannot leave chat support and private chat rooms but can leave group chat rooms.
+
 14/11/2023 V.6.2.11
 WS 6.2.211
 

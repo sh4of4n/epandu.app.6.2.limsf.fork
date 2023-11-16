@@ -46,6 +46,7 @@ class _RoomListState extends State<RoomList> {
   bool _isRoomSearching = false;
   String _selectedRoomId = '';
   String _selectedRoomName = '';
+
   final LocalStorage localStorage = LocalStorage();
   List<RoomHistoryModel> rooms = [];
   String roomTitle = "";
@@ -61,9 +62,10 @@ class _RoomListState extends State<RoomList> {
     //Provider.of<ChatHistory>(context, listen: false).getChatHistory();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await clearAllAppNotifications();
+      if (!context.mounted) return;
       final getSocket = Provider.of<SocketClientHelper>(context, listen: false);
       socket = getSocket.socket;
-      await clearAllAppNotifications();
     });
   }
 
@@ -268,12 +270,34 @@ class _RoomListState extends State<RoomList> {
     }
   }
 
+  void showCanNotDeleteDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: const Text(
+                "Chat Support / Private Chat rooms cannot be delete."),
+            actions: <Widget>[
+              TextButton(
+                child: const Text(
+                  "Okay",
+                  style: TextStyle(color: Colors.red),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
   void leaveGroup(String roomId, String roomName) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: const Text("Are you sure you want to  leave the group?"),
+            content: const Text("Are you sure you want to  leave the Group?"),
             actions: <Widget>[
               TextButton(
                 child: const Text(
@@ -580,12 +604,16 @@ class _RoomListState extends State<RoomList> {
       color: itemColor,
       child: ListTile(
         onLongPress: () {
-          setState(() {
-            _selectedIndex = index;
-            _isSelected = true;
-            _selectedRoomId = room.roomId ?? '';
-            _selectedRoomName = room.roomName ?? '';
-          });
+          if (room.roomDesc == 'Group Chat') {
+            setState(() {
+              _selectedIndex = index;
+              _isSelected = true;
+              _selectedRoomId = room.roomId ?? '';
+              _selectedRoomName = room.roomName ?? '';
+            });
+          } else {
+            showCanNotDeleteDialog();
+          }
         },
         tileColor: _selectedIndex == index ? Colors.blueAccent : null,
         leading: Container(
