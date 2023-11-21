@@ -119,6 +119,7 @@ dependencies:
   visibility_detector:
   cached_network_image:
   path:
+  sentry_sqflite:
 
 dependency_overrides:
   modal_bottom_sheet:

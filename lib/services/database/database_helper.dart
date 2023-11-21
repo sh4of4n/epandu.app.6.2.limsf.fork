@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
+import 'package:sentry_sqflite/sentry_sqflite.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../common_library/services/model/chat_mesagelist.dart';
 import '../../common_library/services/model/chat_model.dart';
@@ -32,7 +33,7 @@ class DatabaseHelper {
   // this opens the database (and creates it if it doesn't exist)
   _initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
-    return await openDatabase(path,
+    return await openDatabaseWithSentry(path,
         version: _databaseVersion, onCreate: _onCreate, onUpgrade: _onUpgrade);
   }
 
@@ -298,10 +299,11 @@ class DatabaseHelper {
 
   Future<List<RoomHistoryModel>> getRoomListWithMessage(String userId) async {
     Database db = await instance.database;
-    // var res = await db.rawQuery(
-    //     "SELECT   $roomTable.room_id,$roomTable.picture_path,$roomTable.room_name,$roomTable.room_desc,$roomTable.merchant_no,$msgDetailTable.message_id,$msgDetailTable.msg_body,$msgDetailTable.msg_binaryType,$msgDetailTable.filePath, $msgDetailTable.nickName AS nick_name,$msgDetailTable.send_datetime FROM $roomTable  LEFT JOIN $msgDetailTable on $msgDetailTable.room_id=$roomTable.room_id AND  $msgDetailTable.deleted == 0 where $roomTable.owner_id = '$userId'   group by $roomTable.room_id order by max($msgDetailTable.message_id) desc;");
     var res = await db.rawQuery(
-        "SELECT   $roomTable.room_id,$roomTable.picture_path,$roomTable.room_name,$roomTable.room_desc,$roomTable.merchant_no,$msgDetailTable.message_id,$msgDetailTable.msg_body,$msgDetailTable.msg_binaryType,$msgDetailTable.filePath, $msgDetailTable.nickName AS nick_name,$msgDetailTable.send_datetime FROM $roomTable  LEFT JOIN $msgDetailTable on $msgDetailTable.room_id=$roomTable.room_id AND  $msgDetailTable.deleted == 0 where $roomTable.owner_id = '$userId'   group by $roomTable.room_id order by max($msgDetailTable.send_datetime) desc;");
+        "SELECT   $roomTable.room_id,$roomTable.picture_path,$roomTable.room_name,$roomTable.room_desc,$roomTable.merchant_no,$msgDetailTable.message_id,$msgDetailTable.msg_body,$msgDetailTable.msg_binaryType,$msgDetailTable.filePath, $msgDetailTable.nickName AS nick_name,$msgDetailTable.send_datetime FROM $roomTable  LEFT JOIN $msgDetailTable on $msgDetailTable.room_id=$roomTable.room_id AND  $msgDetailTable.deleted == 0 where $roomTable.owner_id = '$userId'   group by $roomTable.room_id order by max($msgDetailTable.message_id) desc;");
+
+//  var res = await db.rawQuery(
+    //  "SELECT   $roomTable.room_id,$roomTable.picture_path,$roomTable.room_name,$roomTable.room_desc,$roomTable.merchant_no,$msgDetailTable.message_id,$msgDetailTable.msg_body,$msgDetailTable.msg_binaryType,$msgDetailTable.filePath, $msgDetailTable.nickName AS nick_name,$msgDetailTable.send_datetime FROM $roomTable  LEFT JOIN $msgDetailTable on $msgDetailTable.room_id=$roomTable.room_id AND  $msgDetailTable.deleted == 0 where $roomTable.owner_id = '$userId'   group by $roomTable.room_id order by max($msgDetailTable.send_datetime) desc;");
 
     List<RoomHistoryModel> list = res.isNotEmpty
         ? res.map((m) => RoomHistoryModel.fromJson(m)).toList()

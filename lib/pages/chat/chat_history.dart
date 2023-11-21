@@ -15,8 +15,8 @@ class ChatHistory extends ChangeNotifier {
         (element) => element.clientMessageId == messageDetail.clientMessageId);
     if (index == -1) {
       getMessageDetailsList.add(messageDetail);
-      getMessageDetailsList
-          .sort((a, b) => a.sendDateTime!.compareTo(b.sendDateTime!));
+      // getMessageDetailsList
+      //     .sort((a, b) => a.messageId!.compareTo(b.messageId!));
       notifyListeners();
     }
   }
@@ -110,15 +110,6 @@ class ChatHistory extends ChangeNotifier {
         await dbHelper.getLazyLoadMsgDetailList(roomId, batchSize, offset);
     failedMessagesList = await dbHelper.getFailedMsgList(roomId);
     if (getMessageDetailsList.isNotEmpty) {
-      if (failedMessagesList.isNotEmpty) {
-        for (var newFailedMessage in failedMessagesList) {
-          if (!getMessageDetailsList.any((existingMessage) =>
-              existingMessage.clientMessageId ==
-              newFailedMessage.clientMessageId)) {
-            getMessageDetailsList.add(newFailedMessage);
-          }
-        }
-      }
       pastMessageDetailsList.addAll(getMessageDetailsList.where((newMessage) {
         // Check if the message_id already exists in the list
         return !pastMessageDetailsList.any((existingMessage) =>
@@ -128,20 +119,21 @@ class ChatHistory extends ChangeNotifier {
       getMessageDetailsList = pastMessageDetailsList;
     } else {
       isDataExist = false;
-      if (failedMessagesList.isNotEmpty) {
-        for (var newFailedMessage in failedMessagesList) {
-          if (!getMessageDetailsList.any((existingMessage) =>
-              existingMessage.clientMessageId ==
-              newFailedMessage.clientMessageId)) {
-            getMessageDetailsList.add(newFailedMessage);
-          }
-        }
-      }
+
       getMessageDetailsList = pastMessageDetailsList;
     }
-    getMessageDetailsList
-        .sort((a, b) => a.sendDateTime!.compareTo(b.sendDateTime!));
-
+    // getMessageDetailsList
+    //     .sort((a, b) => a.sendDateTime!.compareTo(b.sendDateTime!));
+    getMessageDetailsList.sort((a, b) => a.messageId!.compareTo(b.messageId!));
+    if (failedMessagesList.isNotEmpty) {
+      for (var newFailedMessage in failedMessagesList) {
+        if (!getMessageDetailsList.any((existingMessage) =>
+            existingMessage.clientMessageId ==
+            newFailedMessage.clientMessageId)) {
+          getMessageDetailsList.add(newFailedMessage);
+        }
+      }
+    }
     notifyListeners();
 
     return getMessageDetailsList;
