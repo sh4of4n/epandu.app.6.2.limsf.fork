@@ -1,3 +1,14 @@
+21/11/2023 V.6.2.11
+WS 6.2.211
+
+- Resolved issue like below scenario if userA offline and userB left the Group Chat. When user open back the app latest message showing as some filepath without extention due to not checking bainary!='' condtion it's creating file path. If file path room exist room list show the file name as latest message.
+- Resolved another issue which is UserA added UserB then app store that message in local db and sendout message to other room members. While storing in Local mobile db messageId storing as 0. Then message showing at the top. For this i am updating messageId after acknowledgement from send message success.
+
+20/11/2023 V.6.2.11
+WS 6.2.211
+
+-Enhanced the room list screen so that members can delete private chat rooms logically from database but connect to socket to receive messages.
+
 16/11/2023 V.6.2.11
 WS 6.2.211
 

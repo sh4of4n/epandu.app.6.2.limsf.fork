@@ -77,12 +77,20 @@ class ChatHistory extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteChatItem(int messageId, String roomId) {
+  Future<void> deleteChatItem(int messageId, String roomId) async {
     int index = getMessageDetailsList.indexWhere((element) =>
         element.messageId == messageId && element.roomId == roomId);
     if (index != -1) {
       getMessageDetailsList.removeAt(index);
       print('messageId_ $messageId Index_$index');
+      if (getMessageDetailsList.isEmpty) {
+        await dbHelper.deleteLogicallyRoomById(
+            roomId,
+            'false',
+            DateFormat("yyyy-MM-dd HH:mm:ss")
+                .format(DateTime.now())
+                .toString());
+      }
       notifyListeners();
     }
   }

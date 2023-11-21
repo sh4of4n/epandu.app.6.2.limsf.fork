@@ -10,6 +10,7 @@ class RoomHistoryModel {
   String? nickName;
   String? sendDatetime;
   String? merchantNo;
+  String? deleted;
 
   RoomHistoryModel(
       {this.roomId,
@@ -22,7 +23,8 @@ class RoomHistoryModel {
       this.filePath,
       this.nickName,
       this.sendDatetime,
-      this.merchantNo});
+      this.merchantNo,
+      this.deleted});
 
   RoomHistoryModel.fromJson(Map<String, dynamic> json) {
     roomId = json['room_id'] ?? '';
@@ -36,6 +38,7 @@ class RoomHistoryModel {
     nickName = json['nick_name'] ?? '';
     sendDatetime = json['send_datetime'] ?? '';
     merchantNo = json['merchant_no'] ?? '';
+    deleted = json['deleted'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +54,7 @@ class RoomHistoryModel {
     data['nick_name'] = nickName;
     data['send_datetime'] = sendDatetime;
     data['merchant_no'] = merchantNo;
+    data['deleted'] = deleted;
     return data;
   }
 }

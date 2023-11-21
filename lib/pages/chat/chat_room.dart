@@ -2073,7 +2073,7 @@ class _ChatRoomState extends State<ChatRoom> {
         await deleteFile(File(list[0].filePath!));
       }
       if (!context.mounted) return;
-      context.read<ChatHistory>().deleteChatItem(messageId, roomId);
+      await context.read<ChatHistory>().deleteChatItem(messageId, roomId);
       //await dbHelper.deleteMsgDetailTable(messageId);
       await dbHelper.updateMessageStatus(messageId);
     } else {
@@ -2096,7 +2096,7 @@ class _ChatRoomState extends State<ChatRoom> {
               await deleteFile(File(list[0].filePath!));
             }
             if (!context.mounted) return;
-            context.read<ChatHistory>().deleteChatItem(messageId, roomId);
+            await context.read<ChatHistory>().deleteChatItem(messageId, roomId);
             //await dbHelper.deleteMsgDetailTable(messageId);
             await dbHelper.updateMessageStatus(messageId);
           }

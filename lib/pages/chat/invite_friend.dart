@@ -409,6 +409,24 @@ class _InviteFriendState extends State<InviteFriend> {
                           roomName: inviteRoomResponse.roomName ?? '',
                           roomDesc: inviteRoomResponse.roomDesc ?? '',
                           picturePath: inviteRoomResponse.picturePath ?? '');
+
+                      if (!context.mounted) return;
+                      List<RoomHistoryModel> roomHistoryList =
+                          await Provider.of<RoomHistory>(context, listen: false)
+                              .getRoomHistory();
+                      if (roomHistoryList.isNotEmpty &&
+                          roomHistoryList.indexWhere((element) =>
+                                  element.roomId ==
+                                  inviteRoomResponse.roomId!) >
+                              -1) {
+                        await dbHelper.updatedeleteStatusByRoomById(
+                            inviteRoomResponse.roomId!, 'false');
+                        if (!context.mounted) return;
+                        context.read<RoomHistory>().updateRoomStatus(
+                              roomId: inviteRoomResponse.roomId!,
+                            );
+                      }
+
                       if (!context.mounted) return;
                       context
                           .read<RoomHistory>()
