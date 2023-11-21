@@ -1,10 +1,11 @@
 import 'dart:async';
-import 'dart:io' show Platform;
+import 'dart:io' show File, Platform;
 
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/pages/home/navigation_controls.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:map_launcher/map_launcher.dart';
@@ -175,7 +176,7 @@ Page resource error:
               String? lng = lngMatch?.group(1);
 
               final availableMaps = await MapLauncher.installedMaps;
-              //if (!context.mounted) return;
+              if (!context.mounted) return NavigationDecision.prevent;
               showModalBottomSheet(
                 context: context,
                 builder: (BuildContext dialogContext) {
@@ -291,6 +292,48 @@ Page resource error:
     // #enddocregion platform_features
 
     _controller = controller;
+    setOnShowFileSelector();
+  }
+
+  Future<void> setOnShowFileSelector() async {
+    if (Platform.isAndroid) {
+      final controller = (_controller.platform as AndroidWebViewController);
+      await controller.setOnShowFileSelector(_androidFilePicker);
+    }
+  }
+
+  Future<List<String>> _androidFilePicker(FileSelectorParams params) async {
+    print(params);
+    final result = await FilePicker.platform.pickFiles();
+
+    if (result != null && result.files.single.path != null) {
+      final file = File(result.files.single.path!);
+      return [file.uri.toString()];
+    }
+
+    // if (params.acceptTypes.any((type) => type == 'image/*')) {
+    //   final picker = image_picker.ImagePicker();
+    //   final photo = await picker.pickImage(source: image_picker.ImageSource.camera);
+
+    //   if (photo == null) {
+    //     return [];
+    //   }
+
+    //   final imageData = await photo.readAsBytes();
+    //   final decodedImage = image.decodeImage(imageData)!;
+    //   final scaledImage = image.copyResize(decodedImage, width: 500);
+    //   final jpg = image.encodeJpg(scaledImage, quality: 90);
+
+    //   final filePath = (await getTemporaryDirectory()).uri.resolve(
+    //         './image_${DateTime.now().microsecondsSinceEpoch}.jpg',
+    //       );
+    //   final file = await File.fromUri(filePath).create(recursive: true);
+    //   await file.writeAsBytes(jpg, flush: true);
+
+    //   return [file.uri.toString()];
+    // }
+
+    return [];
   }
 
   getBackType() {

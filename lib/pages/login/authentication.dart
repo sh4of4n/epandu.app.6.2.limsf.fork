@@ -13,6 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../chat/chatnotification_count.dart';
 import '../chat/socketclient_helper.dart';
@@ -85,6 +86,10 @@ class _AuthenticationState extends State<Authentication> {
   _checkExistingLogin() async {
     String? userId = await localStorage.getUserId();
     String? diCode = await localStorage.getMerchantDbCode();
+    String? phone = await localStorage.getUserPhone();
+    await Sentry.configureScope(
+      (scope) => scope.setUser(SentryUser(id: phone)),
+    );
 
     if (userId != null && userId.isNotEmpty && diCode!.isNotEmpty) {
       if (!context.mounted) return;

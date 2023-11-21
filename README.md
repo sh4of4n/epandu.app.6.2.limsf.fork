@@ -1,3 +1,7 @@
+21/11/2023 V.6.2.0
+WS 6.2.27
+- Fixed webview cannot upload file
+
 10/10/2023 V.6.2.11
 WS 6.2.211
 
