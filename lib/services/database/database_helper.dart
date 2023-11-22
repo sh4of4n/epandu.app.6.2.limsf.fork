@@ -283,7 +283,7 @@ class DatabaseHelper {
   Future<List<Room>> getRooms() async {
     Database db = await instance.database;
     var res = await db.rawQuery(
-        "Select DISTINCT $roomTable.create_date, $roomTable.room_id,$roomTable.picture_path,$roomTable.room_name,$roomTable.room_desc,$roomTable.deleted,$roomTable.delete_datetime,$roomTable.merchant_no from $roomTable;");
+        "Select DISTINCT $roomTable.create_date, $roomTable.room_id,$roomTable.picture_path,$roomTable.room_name,$roomTable.room_desc,$roomTable.deleted,$roomTable.delete_datetime,$roomTable.merchant_no,$roomTable.owner_id from $roomTable;");
     List<Room> list =
         res.isNotEmpty ? res.map((m) => Room.fromJson(m)).toList() : [];
     return list;
@@ -292,7 +292,7 @@ class DatabaseHelper {
   Future<List<Room>> getRoomList(String userId) async {
     Database db = await instance.database;
     var res = await db.rawQuery(
-        "Select $roomMembersTable.merchant_no,$roomMembersTable.user_id,$roomTable.create_date, $roomTable.room_id, $roomTable.deleted,$roomTable.delete_datetime,$roomTable.picture_path,$roomTable.room_name,$roomTable.room_desc from $roomTable LEFT JOIN $roomMembersTable ON $roomMembersTable.room_id=$roomTable.room_id  where $roomMembersTable.user_id = '$userId';");
+        "Select $roomMembersTable.merchant_no,$roomMembersTable.user_id,$roomTable.create_date, $roomTable.room_id, $roomTable.deleted,$roomTable.delete_datetime,$roomTable.picture_path,$roomTable.room_name,$roomTable.room_desc,$roomTable.owner_id from $roomTable LEFT JOIN $roomMembersTable ON $roomMembersTable.room_id=$roomTable.room_id  where $roomMembersTable.user_id = '$userId';");
     List<Room> list =
         res.isNotEmpty ? res.map((m) => Room.fromJson(m)).toList() : [];
     return list;

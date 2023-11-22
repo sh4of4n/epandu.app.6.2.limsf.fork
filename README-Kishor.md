@@ -1,3 +1,8 @@
+22/11/2023 V.6.2.11
+WS 6.2.211
+
+- Resolved issue for below scenario if userA login no chat with any friend then logout. If userB login same device userA rooms also showing. To avoid this i am added owner_id(UserId) column in roomTable in database table. While login compare this value delete previous login user data from database and directory.
+
 21/11/2023 V.6.2.11
 WS 6.2.211
 

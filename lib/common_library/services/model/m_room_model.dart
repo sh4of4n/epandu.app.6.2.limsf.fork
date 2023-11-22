@@ -22,7 +22,7 @@ class Room {
   String? merchantNo;
   String? picturePath;
   String? deleteDatetime;
-
+  String? ownerId;
   Room(
       {this.id,
       this.roomId,
@@ -46,7 +46,8 @@ class Room {
       this.profilePhoto,
       this.merchantNo,
       this.picturePath,
-      this.deleteDatetime});
+      this.deleteDatetime,
+      this.ownerId});
 
   Room.fromJson(Map<String, dynamic> json) {
     id = json['ID'];
@@ -72,6 +73,7 @@ class Room {
     merchantNo = json['merchant_no'] ?? '';
     picturePath = json['picture_path'] ?? '';
     deleteDatetime = json['delete_datetime'] ?? '';
+    ownerId = json['owner_id'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -99,6 +101,7 @@ class Room {
     data['merchant_no'] = merchantNo;
     data['picture_path'] = picturePath;
     data['delete_datetime'] = deleteDatetime;
+    data['owner_id'] = ownerId;
     return data;
   }
 }

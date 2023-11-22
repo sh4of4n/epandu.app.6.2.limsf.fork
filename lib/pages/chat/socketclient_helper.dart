@@ -105,43 +105,20 @@ class SocketClientHelper extends ChangeNotifier {
       // }
     } else {
       bool condition = false;
-      List<MessageDetails> messageDetailsList =
-          await dbHelper.getAllRoomLatestMsgDetail();
-      if (messageDetailsList.isNotEmpty) {
-        List<MessageDetails> filteredList = messageDetailsList
-            .where((details) => details.ownerId != userid)
-            .toList();
-        if (filteredList.isNotEmpty) {
-          await dbHelper.deleteDB();
-          final dir = Directory((Platform.isAndroid
-                  ? await getExternalStorageDirectory() //FOR ANDROID
-                  : await getApplicationSupportDirectory() //FOR IOS
-              )!
-              .path);
-          deleteDirectory(dir);
-          condition = true;
-        }
-        if (condition) {
-          await loginUserRoom();
-          print('Condition is true. deleted directory and database.');
-        }
+      if (rooms.where((room) => room.ownerId != userid).toList().isNotEmpty) {
+        await dbHelper.deleteDB();
+        final dir = Directory((Platform.isAndroid
+                ? await getExternalStorageDirectory() //FOR ANDROID
+                : await getApplicationSupportDirectory() //FOR IOS
+            )!
+            .path);
+        deleteDirectory(dir);
+        condition = true;
       }
-      if (!condition && rooms.isNotEmpty) {
-        // List<MessageDetails> messageDetailsList =
-        //     await dbHelper.getAllRoomLatestMsgDetail();
-
-        // for (var room in rooms) {
-        //   String messageId = '';
-        //   List<MessageDetails> msgList = messageDetailsList
-        //       .where((element) => element.roomId == room.roomId)
-        //       .toList();
-        //   if (msgList.isNotEmpty) {
-        //     messageId = msgList[0].messageId.toString();
-        //   }
-
-        //   loginUser(room.roomId!, userid, room.createDate!, messageId);
-        // }
-
+      if (condition) {
+        await loginUserRoom();
+        print('Condition is true. deleted directory and database.');
+      } else {
         var result = await chatRoomRepo.getRoomList('');
         if (result.data != null && result.data.length > 0) {
           for (int i = 0; i < result.data.length; i += 1) {
