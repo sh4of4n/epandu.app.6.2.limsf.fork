@@ -398,7 +398,7 @@ class DatabaseHelper {
 
   Future<int> updateRoomMemberName(String? userId, String nickName) async {
     Database db = await instance.database;
-    int i = await db.rawUpdate(
+    await db.rawUpdate(
         "UPDATE $msgDetailTable SET nickName = ? where user_id = ?",
         [nickName, userId]);
     int j = await db.rawUpdate(

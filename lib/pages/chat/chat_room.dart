@@ -1318,7 +1318,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
   _getAppBarMembers() async {
     roomMembers = await dbHelper.getRoomMembersList(widget.roomId);
-    if (roomMembers != null && roomMembers.isNotEmpty) {
+    if (roomMembers.isNotEmpty) {
       for (var roomMember in roomMembers) {
         if (roomMember.userId != localUserid) {
           members +=
