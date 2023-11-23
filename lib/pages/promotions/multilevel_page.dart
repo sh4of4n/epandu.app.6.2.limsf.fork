@@ -83,10 +83,10 @@ class _MultilevelState extends State<Multilevel> {
     } */
 
     if (result.isSuccess) {
-      if (result.data.length > 0 && mounted) {
+      if (result.data!.isNotEmpty && mounted) {
         setState(() {
-          for (int i = 0; i < result.data.length; i += 1) {
-            items.add(result.data[i]);
+          for (int i = 0; i < result.data!.length; i += 1) {
+            items.add(result.data![i]);
           }
         });
       } else if (mounted) {

@@ -62,7 +62,7 @@ class HomePageHeader extends StatelessWidget {
               child: FadeInImage(
                 alignment: Alignment.center,
                 height: 350.h,
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
                 placeholder: MemoryImage(kTransparentImage),
                 image: (instituteLogo!.isNotEmpty
                     ? NetworkImage(instituteLogo!)

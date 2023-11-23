@@ -203,8 +203,9 @@ Future<void> setupSentry(AppRunner appRunner,
     {bool isIntegrationTest = false,
     BeforeSendCallback? beforeSendCallback}) async {
   await SentryFlutter.init((options) {
-    options.dsn = kDebugMode ? '' :
-        'https://5525bd569e8849f0940925f93c1b164a@o354605.ingest.sentry.io/6739433';
+    options.dsn = kDebugMode
+        ? ''
+        : 'https://5525bd569e8849f0940925f93c1b164a@o354605.ingest.sentry.io/6739433';
     options.tracesSampleRate = 1.0;
     options.attachThreads = true;
     options.enableWindowMetricBreadcrumbs = true;
@@ -509,7 +510,19 @@ class _MyAppState extends State<MyApp> {
       // routerDelegate: _appRouter.delegate(initialRoutes: [const Authentication()]),
       //routeInformationParser: _appRouter.defaultRouteParser(),
       builder: EasyLoading.init(),
-      routerConfig: _appRouter.config(),
+      routerConfig: _appRouter.config(
+          navigatorObservers: () => [SentryNavigatorObserver()],
+          deepLinkBuilder: (deepLink) {
+            print('deeplink: ${deepLink.path}');
+            if (deepLink.path.startsWith('/products')) {
+              // continute with the platfrom link
+              return deepLink;
+            } else {
+              return DeepLink.defaultPath;
+              // or DeepLink.path('/')
+              // or DeepLink([HomeRoute()])
+            }
+          }),
       // initialRoute: AUTH,
       // onGenerateRoute: RouteGenerator.generateRoute,
     );

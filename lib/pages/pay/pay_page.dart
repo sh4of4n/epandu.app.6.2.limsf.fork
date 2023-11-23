@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:epandu/common_library/services/model/fpx_model.dart';
 import 'package:epandu/common_library/services/repository/fpx_repository.dart';
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
+import 'package:epandu/common_library/services/response.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/currency_input_controller.dart';
 import 'package:epandu/common_library/utils/custom_button.dart';
@@ -29,8 +31,8 @@ class _PayState extends State<Pay> {
   final customDialog = CustomDialog();
   final image = ImagesConstant();
   final _formKey = GlobalKey<FormState>();
-  var paymentForData;
-  var gatewayData;
+  List<AppPaymentMenu> paymentForData = [];
+  List<MerchantPaymentGateway> gatewayData = [];
   String? paymentFor = '';
   String? payBy = '';
   final removeBracket = RemoveBracket.remove;
@@ -77,7 +79,7 @@ class _PayState extends State<Pay> {
 
     if (result.isSuccess) {
       setState(() {
-        _icNo = result.data[0].icNo;
+        _icNo = result.data![0].icNo;
       });
     } else {
       _getUserInfo();
@@ -122,11 +124,12 @@ class _PayState extends State<Pay> {
   }
 
   Future<void> getAppPaymentMenu() async {
-    var result = await fpxRepo.getAppPaymentMenu(context: context);
+    Response<List<AppPaymentMenu>> result =
+        await fpxRepo.getAppPaymentMenu(context: context);
 
     if (result.isSuccess) {
       setState(() {
-        paymentForData = result.data;
+        paymentForData = result.data ?? [];
       });
     }
   }
@@ -134,12 +137,12 @@ class _PayState extends State<Pay> {
   Future<void> getMerchantPaymentGateway() async {
     String? diCode = await localStorage.getMerchantDbCode();
     if (!context.mounted) return;
-    var result = await fpxRepo.getMerchantPaymentGateway(
+    Response<List<MerchantPaymentGateway>?> result = await fpxRepo.getMerchantPaymentGateway(
         context: context, diCode: diCode);
 
     if (result.isSuccess) {
       setState(() {
-        gatewayData = result.data;
+        gatewayData = result.data ?? [];
       });
     }
   }
@@ -299,10 +302,10 @@ class _PayState extends State<Pay> {
                           });
                         },
                         items: paymentForData
-                            .map<DropdownMenuItem<String>>((dynamic value) {
+                            .map<DropdownMenuItem<String>>((value) {
                           return DropdownMenuItem<String>(
                             value: value.menuCode,
-                            child: Text(value.codeDesc),
+                            child: Text(value.codeDesc ?? ''),
                           );
                         }).toList(),
                         validator: (value) {
@@ -341,7 +344,7 @@ class _PayState extends State<Pay> {
                         ),
                         validator: (value) {
                           if (value!.replaceAll(',', '').toDouble()! <
-                              double.tryParse(gatewayData[0].minAmt)!) {
+                              double.tryParse(gatewayData[0].minAmt ?? '0')!) {
                             // return 'Please enter amount above ${gatewayData[0].minAmt}';
                             return 'Transaction amount is Lower than the Minimum Limit RM${gatewayData[0].minAmt}';
                           } else if (value.replaceAll(',', '').toDouble()! >
@@ -569,7 +572,7 @@ class _PayState extends State<Pay> {
                         ),
                         validator: (value) {
                           if (value!.replaceAll(',', '').toDouble()! <
-                              double.tryParse(gatewayData[0].minAmt)!) {
+                              double.tryParse(gatewayData[0].minAmt ?? '0')!) {
                             // return 'Please enter amount above ${gatewayData[0].minAmt}';
                             return 'Transaction amount is Lower than the Minimum Limit RM${gatewayData[0].minAmt}';
                           } else if (value.replaceAll(',', '').toDouble()! >

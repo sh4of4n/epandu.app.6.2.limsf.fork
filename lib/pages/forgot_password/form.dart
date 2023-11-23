@@ -227,12 +227,12 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm>
           type: MessageType.success,
         );
       } else {
-        if (result.message!.contains('timeout')) {
+        if (result.message.contains('timeout')) {
           setState(() {
             _message =
                 AppLocalizations.of(context)!.translate('timeout_exception');
           });
-        } else if (result.message!.contains('socket')) {
+        } else if (result.message.contains('socket')) {
           setState(() {
             _message =
                 AppLocalizations.of(context)!.translate('socket_exception');

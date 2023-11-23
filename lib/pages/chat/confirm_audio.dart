@@ -11,8 +11,7 @@ class ConfirmAudioWidget extends StatefulWidget {
   final String filePath;
   final VoidCallback onCancelAudio;
   const ConfirmAudioWidget(
-      {Key? key, required this.filePath, required this.onCancelAudio})
-      : super(key: key);
+      {super.key, required this.filePath, required this.onCancelAudio});
 
   @override
   State<ConfirmAudioWidget> createState() => _ConfirmAudioWidgetState();

@@ -170,7 +170,7 @@ class TakeProfilePictureState extends State<TakeProfilePicture> {
 class DisplayPictureScreen extends StatelessWidget {
   final String? imagePath;
 
-  const DisplayPictureScreen({Key? key, this.imagePath}) : super(key: key);
+  const DisplayPictureScreen({super.key, this.imagePath});
 
   @override
   Widget build(BuildContext context) {

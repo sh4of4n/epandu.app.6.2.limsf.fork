@@ -11,7 +11,7 @@ class ProfileRepo {
   final localStorage = LocalStorage();
   final networking = Networking();
 
-  Future<Response> getUserProfile({context, customUserId}) async {
+  Future<Response<List<UserProfile>>> getUserProfile({context, customUserId}) async {
     String? caUid = await localStorage.getCaUid();
     String? caPwd = await localStorage.getCaPwd();
     String? userId = await localStorage.getUserId();
@@ -19,20 +19,20 @@ class ProfileRepo {
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appCode=${appConfig.appCode}&appId=${appConfig.appId}&userId=${customUserId ?? userId}';
 
-    var response = await networking.getData(
+    Response response = await networking.getData(
       path: 'GetUserProfile?$path',
     );
 
     if (response.isSuccess && response.data != null) {
       GetUserProfileResponse getUserProfileResponse =
           GetUserProfileResponse.fromJson(response.data);
-      var responseData = getUserProfileResponse.userProfile;
+      List<UserProfile>? responseData = getUserProfileResponse.userProfile;
 
       return Response(true, data: responseData);
     }
 
     return Response(false,
-        message: 'Failed to load profile. Please try again later.');
+        message: response.message);
   }
 
   Future<Response> saveUserProfile({

@@ -10,7 +10,7 @@ import 'reply_message_widget.dart';
 
 class MessageCard extends StatelessWidget {
   const MessageCard(
-      {Key? key,
+      {super.key,
       required this.messageDetails,
       required this.localUser,
       required this.replyMessageDetails,
@@ -19,8 +19,7 @@ class MessageCard extends StatelessWidget {
       required this.resendCallback,
       required this.roomDesc,
       required this.searchKey,
-      required this.isSearching})
-      : super(key: key);
+      required this.isSearching});
 
   final MessageDetails messageDetails;
   final String localUser;

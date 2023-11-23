@@ -67,13 +67,13 @@ typedef ResendCallback = void Function(int messageId);
 @RoutePage(name: 'chatRoom')
 class ChatRoom extends StatefulWidget {
   const ChatRoom({
-    Key? key,
+    super.key,
     required this.roomId,
     required this.picturePath,
     required this.roomName,
     required this.roomDesc,
     // required this.roomMembers
-  }) : super(key: key);
+  });
   final String roomId; //lowerCamelCase
   final String picturePath;
   final String roomName;

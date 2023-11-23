@@ -146,12 +146,12 @@ class _ChatScreenState extends State<ChatScreen> {
         context: context, customUserId: widget.targetId);
 
     if (result.isSuccess) {
-      if (result.data.length > 0) {
+      if (result.data!.isNotEmpty) {
         if (mounted) {
           setState(() {
-            for (int i = 0; i < result.data.length; i += 1) {
+            for (int i = 0; i < result.data!.length; i += 1) {
               //print(result.data[i].meetingDate);
-              messageTargetProfile = result.data[i];
+              messageTargetProfile = result.data![i];
             }
           });
         } else if (mounted) {

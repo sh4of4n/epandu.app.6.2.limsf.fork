@@ -13,10 +13,10 @@ class FavourieMapPage extends StatefulWidget {
   final double lat;
   final double lng;
   const FavourieMapPage({
-    Key? key,
+    super.key,
     required this.lat,
     required this.lng,
-  }) : super(key: key);
+  });
 
   @override
   State<FavourieMapPage> createState() => _FavourieMapPageState();

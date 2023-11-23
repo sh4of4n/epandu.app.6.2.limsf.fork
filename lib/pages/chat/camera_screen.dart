@@ -9,10 +9,10 @@ import 'video_view.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({
-    Key? key,
+    super.key,
     required this.onImageSend,
     required this.cameras,
-  }) : super(key: key);
+  });
   final Function onImageSend;
   final List<CameraDescription> cameras;
   @override

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 @RoutePage()
 class ElearningPage extends StatefulWidget {
-  const ElearningPage({Key? key}) : super(key: key);
+  const ElearningPage({super.key});
 
   @override
   State<ElearningPage> createState() => _ElearningPageState();

@@ -24,7 +24,7 @@ class VideoCard extends StatefulWidget {
   final VoidCallback onCancelReply;
   final ReplyMessageDetails replyMessageDetails;
   const VideoCard(
-      {Key? key,
+      {super.key,
       required this.filePath,
       required this.nickName,
       required this.time,
@@ -36,8 +36,7 @@ class VideoCard extends StatefulWidget {
       required this.replyMessageDetails,
       required this.onCancelReply,
       required this.callback,
-      required this.roomDesc})
-      : super(key: key);
+      required this.roomDesc});
 
   @override
   State<VideoCard> createState() => _VideoCardState();

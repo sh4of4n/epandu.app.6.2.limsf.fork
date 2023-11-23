@@ -13,14 +13,14 @@ import 'online_users.dart';
 
 class RoomMembersList extends StatefulWidget {
   const RoomMembersList({
-    Key? key,
+    super.key,
     required this.roomId,
     required this.userId,
     required this.picturePath,
     required this.roomName,
     required this.roomDesc,
     // required this.roomMembers
-  }) : super(key: key);
+  });
   final String roomId;
   final String userId;
   final String picturePath;

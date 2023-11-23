@@ -5,6 +5,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:epandu/base/page_base_class.dart';
+import 'package:epandu/common_library/services/model/auth_model.dart';
+import 'package:epandu/common_library/services/response.dart';
 import 'package:epandu/pages/enroll/enroll.dart';
 import 'package:epandu/common_library/services/repository/auth_repository.dart';
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
@@ -94,8 +96,8 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   late File _image;
   late File _croppedImage;
   var imageState;
-  var ldlList;
-  var cdlList;
+  List<LdlEnqGroupList> ldlList = [];
+  List<CdlList> cdlList = [];
 
   String? ldlItem = '';
   String? cdlItem = '';
@@ -147,21 +149,21 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   }
 
   Future<void> _getLdlkEnqGroupList() async {
-    var result = await authRepo.getLdlkEnqGroupList();
+    Response<List<LdlEnqGroupList>> result = await authRepo.getLdlkEnqGroupList();
 
     if (result.isSuccess) {
       setState(() {
-        ldlList = result.data;
+        ldlList = result.data ?? [];
       });
     }
   }
 
   Future<void> _getCdlList() async {
-    var result = await authRepo.getCdlList();
+    Response<List<CdlList>?> result = await authRepo.getCdlList();
 
     if (result.isSuccess) {
       setState(() {
-        cdlList = result.data;
+        cdlList = result.data ?? [];
       });
     }
   }

@@ -135,8 +135,6 @@ class _DirectoryListState extends State<DirectoryList> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
           title: _getAppBarTitle(),
         ),
         body: FutureBuilder(

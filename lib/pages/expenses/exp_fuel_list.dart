@@ -13,7 +13,7 @@ import 'package:readmore/readmore.dart';
 
 @RoutePage()
 class ExpFuelListPage extends StatefulWidget {
-  const ExpFuelListPage({Key? key}) : super(key: key);
+  const ExpFuelListPage({super.key});
 
   @override
   State<ExpFuelListPage> createState() => _ExpFuelListPageState();
