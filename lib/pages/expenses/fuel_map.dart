@@ -8,8 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class FuelMapPage extends StatefulWidget {
   final double lat;
   final double lng;
-  const FuelMapPage({Key? key, required this.lat, required this.lng})
-      : super(key: key);
+  const FuelMapPage({super.key, required this.lat, required this.lng});
 
   @override
   State<FuelMapPage> createState() => _FuelMapPageState();

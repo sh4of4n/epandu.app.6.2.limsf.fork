@@ -37,7 +37,7 @@ class ProductsRepo {
 
     return Response(false,
         message:
-            response.message!.isEmpty ? 'No records found.' : response.message);
+            response.message.isEmpty ? 'No records found.' : response.message);
   }
 
   Future<Response> getStock({
@@ -71,7 +71,7 @@ class ProductsRepo {
       return Response(true, data: getStockResponse.stkmst);
     }
     return Response(false,
-        message: response.message == null || response.message!.isEmpty
+        message: response.message.isEmpty
             ? 'No records found.'
             : response.message);
   }
@@ -104,7 +104,7 @@ class ProductsRepo {
     }
     return Response(false,
         message:
-            response.message!.isEmpty ? 'No records found.' : response.message);
+            response.message.isEmpty ? 'No records found.' : response.message);
   }
 
   Future<Response> getCategoryByPaging({
@@ -135,7 +135,7 @@ class ProductsRepo {
     }
     return Response(false,
         message:
-            response.message!.isEmpty ? 'No records found.' : response.message);
+            response.message.isEmpty ? 'No records found.' : response.message);
   }
 
   Future<Response> getGroupByPaging({
@@ -166,7 +166,7 @@ class ProductsRepo {
     }
     return Response(false,
         message:
-            response.message!.isEmpty ? 'No records found.' : response.message);
+            response.message.isEmpty ? 'No records found.' : response.message);
   }
 
   Future<Response> saveStock({
@@ -216,7 +216,7 @@ class ProductsRepo {
       return Response(true);
     }
     return Response(false,
-        message: response.message!.isEmpty
+        message: response.message.isEmpty
             ? 'Failed to save stock. Please try again later.'
             : response.message);
   }
@@ -264,7 +264,7 @@ class ProductsRepo {
       return Response(true);
     }
     return Response(false,
-        message: response.message!.isEmpty
+        message: response.message.isEmpty
             ? 'Failed to edit stock. Please try again later.'
             : response.message);
   }
@@ -294,7 +294,7 @@ class ProductsRepo {
       return Response(true, data: getStockPictureListResponse.stkmstFileAttach);
     }
     return Response(false,
-        message: response.message!.isEmpty
+        message: response.message.isEmpty
             ? 'There are no images.'
             : response.message);
   }

@@ -4,9 +4,9 @@ import '../../common_library/services/model/chat_mesagelist.dart';
 
 class UserLeftJoinedCard extends StatelessWidget {
   const UserLeftJoinedCard({
-    Key? key,
+    super.key,
     required this.messageDetails,
-  }) : super(key: key);
+  });
 
   final MessageDetails messageDetails;
 

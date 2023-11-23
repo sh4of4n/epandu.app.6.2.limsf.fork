@@ -81,33 +81,32 @@ class _EnrollConfirmationState extends State<EnrollConfirmation> {
 
     if (result.isSuccess) {
       setState(() {
-        _name = result.data[0].name;
-        _eMail = result.data[0].eMail;
-        _icNo = result.data[0].icNo;
-        _birthDate = result.data[0].birthDate;
-        _race = result.data[0].race;
-        _nationality = result.data[0].nationality;
-        _gender = result.data[0].gender;
+        _name = result.data![0].name;
+        _eMail = result.data![0].eMail;
+        _icNo = result.data![0].icNo;
+        _birthDate = result.data![0].birthDate;
+        _race = result.data![0].race;
+        _nationality = result.data![0].nationality;
+        _gender = result.data![0].gender;
       });
 
-      localStorage.saveName(result.data[0].name);
-      localStorage.saveNickName(result.data[0].nickName);
-      localStorage.saveEmail(result.data[0].eMail);
-      localStorage.saveUserPhone(result.data[0].phone);
-      localStorage.saveCountry(result.data[0].countryName);
-      localStorage.saveState(result.data[0].stateName);
-      localStorage.saveStudentIc(result.data[0].icNo);
-      localStorage.saveBirthDate(result.data[0].birthDate);
-      localStorage.saveRace(result.data[0].race);
-      localStorage.saveNationality(result.data[0].nationality);
-      localStorage.saveGender(result.data[0].gender);
-      localStorage.saveCdl(result.data[0].cdlGroup);
-      localStorage.saveLdl(result.data[0].enqLdlGroup);
+      localStorage.saveName(result.data![0].name ?? '');
+      localStorage.saveNickName(result.data![0].nickName ?? '');
+      localStorage.saveEmail(result.data![0].eMail ?? '');
+      localStorage.saveUserPhone(result.data![0].phone ?? '');
+      localStorage.saveCountry(result.data![0].countryName ?? '');
+      localStorage.saveState(result.data![0].stateName ?? '');
+      localStorage.saveStudentIc(result.data![0].icNo ?? '');
+      localStorage.saveBirthDate(result.data![0].birthDate ?? '');
+      localStorage.saveRace(result.data![0].race ?? '');
+      localStorage.saveNationality(result.data![0].nationality ?? '');
+      localStorage.saveGender(result.data![0].gender ?? '');
+      localStorage.saveCdl(result.data![0].cdlGroup ?? '');
+      localStorage.saveLdl(result.data![0].enqLdlGroup ?? '');
 
-      if (result.data[0].picturePath != null) {
-        localStorage.saveProfilePic(result.data[0].picturePath
-            .replaceAll(removeBracket, '')
-            .split('\r\n')[0]);
+      if (result.data![0].picturePath != null) {
+        localStorage.saveProfilePic((result.data![0].picturePath ??
+            '').replaceAll(removeBracket, '').split('\r\n')[0]);
       }
     } else {
       _getUserInfo();

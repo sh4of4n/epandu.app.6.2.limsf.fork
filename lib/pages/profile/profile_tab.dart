@@ -96,44 +96,44 @@ class _ProfileTabState extends State<ProfileTab>
     if (result.isSuccess) {
       setState(() {
         userProfile = UserProfile(
-          name: result.data[0].name,
-          nickName: result.data[0].nickName,
-          eMail: result.data[0].eMail,
-          postcode: result.data[0].postcode,
-          phone: result.data[0].phone,
-          countryName: result.data[0].countryName,
-          stateName: result.data[0].stateName,
-          icNo: result.data[0].icNo,
-          birthDate: result.data[0].birthDate,
-          race: result.data[0].race,
-          nationality: result.data[0].nationality,
-          picturePath: result.data[0].picturePath != null &&
-                  result.data[0].picturePath.isNotEmpty
-              ? result.data[0].picturePath
+          name: result.data![0].name,
+          nickName: result.data![0].nickName,
+          eMail: result.data![0].eMail,
+          postcode: result.data![0].postcode,
+          phone: result.data![0].phone,
+          countryName: result.data![0].countryName,
+          stateName: result.data![0].stateName,
+          icNo: result.data![0].icNo,
+          birthDate: result.data![0].birthDate,
+          race: result.data![0].race,
+          nationality: result.data![0].nationality,
+          picturePath: result.data![0].picturePath != null &&
+                  result.data![0].picturePath!.isNotEmpty
+              ? (result.data![0].picturePath ?? '')
                   .replaceAll(removeBracket, '')
                   .split('\r\n')[0]
               : '',
-          cdlGroup: result.data[0].cdlGroup,
-          enqLdlGroup: result.data[0].enqLdlGroup,
+          cdlGroup: result.data![0].cdlGroup,
+          enqLdlGroup: result.data![0].enqLdlGroup,
         );
       });
 
-      localStorage.saveName(result.data[0].name ?? '');
-      localStorage.saveNickName(result.data[0].nickName ?? '');
-      localStorage.saveEmail(result.data[0].eMail ?? '');
-      localStorage.saveUserPhone(result.data[0].phone ?? '');
-      localStorage.saveCountry(result.data[0].countryName ?? '');
-      localStorage.saveState(result.data[0].stateName ?? '');
-      localStorage.saveStudentIc(result.data[0].icNo ?? '');
-      localStorage.saveBirthDate(result.data[0].birthDate ?? '');
-      localStorage.saveRace(result.data[0].race ?? '');
-      localStorage.saveNationality(result.data[0].nationality ?? '');
-      localStorage.saveGender(result.data[0].gender ?? '');
-      localStorage.saveCdl(result.data[0].cdlGroup ?? '');
-      localStorage.saveLdl(result.data[0].enqLdlGroup ?? '');
+      localStorage.saveName(result.data![0].name ?? '');
+      localStorage.saveNickName(result.data![0].nickName ?? '');
+      localStorage.saveEmail(result.data![0].eMail ?? '');
+      localStorage.saveUserPhone(result.data![0].phone ?? '');
+      localStorage.saveCountry(result.data![0].countryName ?? '');
+      localStorage.saveState(result.data![0].stateName ?? '');
+      localStorage.saveStudentIc(result.data![0].icNo ?? '');
+      localStorage.saveBirthDate(result.data![0].birthDate ?? '');
+      localStorage.saveRace(result.data![0].race ?? '');
+      localStorage.saveNationality(result.data![0].nationality ?? '');
+      localStorage.saveGender(result.data![0].gender ?? '');
+      localStorage.saveCdl(result.data![0].cdlGroup ?? '');
+      localStorage.saveLdl(result.data![0].enqLdlGroup ?? '');
 
-      if (result.data[0].picturePath != null) {
-        localStorage.saveProfilePic(result.data[0].picturePath
+      if (result.data![0].picturePath != null) {
+        localStorage.saveProfilePic((result.data![0].picturePath ?? '')
             .replaceAll(removeBracket, '')
             .split('\r\n')[0]);
       }
@@ -147,6 +147,7 @@ class _ProfileTabState extends State<ProfileTab>
     }
 
     // _getEnrollByCode();
+    if (!mounted) return;
     setState(() {
       isLoading = false;
     });
@@ -169,6 +170,7 @@ class _ProfileTabState extends State<ProfileTab>
     String? getCdl = await localStorage.getCdl();
     String? getLdl = await localStorage.getLdl();
 
+    if (!mounted) return;
     setState(() {
       userProfile = UserProfile(
         name: getName,

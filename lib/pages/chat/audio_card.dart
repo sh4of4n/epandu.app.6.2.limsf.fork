@@ -28,7 +28,7 @@ class AudioCard extends StatefulWidget {
   final ReplyMessageDetails replyMessageDetails;
   final MyCallback callback;
   const AudioCard(
-      {Key? key,
+      {super.key,
       required this.time,
       required this.nickName,
       required this.text,
@@ -40,8 +40,7 @@ class AudioCard extends StatefulWidget {
       required this.replyMessageDetails,
       required this.onCancelReply,
       required this.callback,
-      required this.roomDesc})
-      : super(key: key);
+      required this.roomDesc});
 
   @override
   State<AudioCard> createState() => _AudioCardState();

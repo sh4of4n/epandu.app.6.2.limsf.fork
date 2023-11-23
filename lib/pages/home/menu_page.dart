@@ -10,7 +10,7 @@ import '../../utils/constants.dart';
 
 @RoutePage()
 class MenuPage extends StatefulWidget {
-  const MenuPage({Key? key}) : super(key: key);
+  const MenuPage({super.key});
 
   @override
   State<MenuPage> createState() => _MenuPageState();
@@ -293,12 +293,12 @@ class MenuButton extends StatelessWidget {
   final String icon;
   final path;
   const MenuButton({
-    Key? key,
+    super.key,
     required this.leftPadding,
     required this.title,
     required this.icon,
     required this.path,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

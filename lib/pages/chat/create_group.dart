@@ -28,9 +28,9 @@ import '../../router.gr.dart';
 @RoutePage(name: 'createGroup')
 class CreateGroup extends StatefulWidget {
   const CreateGroup({
-    Key? key,
+    super.key,
     required this.roomId,
-  }) : super(key: key);
+  });
   final String roomId;
 
   @override

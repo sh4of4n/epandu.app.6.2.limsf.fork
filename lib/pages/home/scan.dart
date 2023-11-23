@@ -22,8 +22,8 @@ class Scan extends StatefulWidget {
   const Scan({
     this.getActiveFeed,
     this.getDiProfile,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() => _ScanState();
@@ -104,6 +104,7 @@ class _ScanState extends State<Scan> {
         CheckInScanResponse checkInScanResponse =
             CheckInScanResponse.fromJson(jsonDecode(scanData.code!));
 
+        // {"QRCode":[{"appId": "ePandu.MID", "merchantDbCode": "P1001", "merchantName":"IDI"}]}
         print(jsonDecode(scanData.code!)['QRCode'][0]['merchant_no']);
 
         if (jsonDecode(scanData.code!).containsKey('QRCode')) {
@@ -195,7 +196,7 @@ class _ScanState extends State<Scan> {
             customDialog.show(
               context: context,
               barrierDismissable: false,
-              content: result.message!,
+              content: result.message,
               onPressed: () {
                 context.router.pop();
 

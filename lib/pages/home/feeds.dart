@@ -156,11 +156,11 @@ class _FeedsState extends State<Feeds> {
 
       if (result.isSuccess) {
         String merchantNo = 'P1001';
-        String? phone = result.data[0].phone;
-        String? email = result.data[0].eMail;
-        String icName = result.data[0].name;
-        String? icNo = result.data[0].icNo;
-        String? dob = result.data[0].birthDate;
+        String? phone = result.data![0].phone;
+        String? email = result.data![0].eMail;
+        String icName = result.data![0].name ?? '';
+        String? icNo = result.data![0].icNo;
+        String? dob = result.data![0].birthDate;
         String? userId = await localStorage.getUserId();
         String? loginDeviceId = await localStorage.getLoginDeviceId();
         // String profilePic = result.data[0].picturePath != null &&
@@ -206,7 +206,7 @@ class _FeedsState extends State<Feeds> {
         customDialog.show(
           context: context,
           barrierDismissable: false,
-          content: result.message!,
+          content: result.message,
           customActions: <Widget>[
             TextButton(
               child: Text(AppLocalizations.of(context)!.translate('ok_btn')),

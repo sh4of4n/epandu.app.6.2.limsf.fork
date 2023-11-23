@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 class MyCircleAvatar extends StatelessWidget {
   final UserProfile userChat;
   MyCircleAvatar({
-    Key? key,
+    super.key,
     required this.userChat,
-  }) : super(key: key);
+  });
 
   final RegExp removeBracket =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);

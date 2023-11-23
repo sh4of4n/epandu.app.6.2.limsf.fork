@@ -3544,8 +3544,8 @@ class LdlEnqGroupList {
   LdlEnqGroupList({this.groupId, this.groupDesc});
 
   LdlEnqGroupList.fromJson(Map<String, dynamic> json) {
-    groupId = json['group_id'];
-    groupDesc = json['group_desc'];
+    groupId = json['group_id'] ?? '';
+    groupDesc = json['group_desc'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -3586,8 +3586,8 @@ class CdlList {
   CdlList({this.groupId, this.groupDesc});
 
   CdlList.fromJson(Map<String, dynamic> json) {
-    groupId = json['group_id'];
-    groupDesc = json['group_desc'];
+    groupId = json['group_id'] ?? '';
+    groupDesc = json['group_desc'] ?? '';
   }
 
   Map<String, dynamic> toJson() {

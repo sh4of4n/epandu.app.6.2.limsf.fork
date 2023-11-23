@@ -9,11 +9,10 @@ class ReplyMessageWidget extends StatefulWidget {
   final VoidCallback onCancelReply;
   final String type;
   const ReplyMessageWidget(
-      {Key? key,
+      {super.key,
       required this.messageDetails,
       required this.onCancelReply,
-      required this.type})
-      : super(key: key);
+      required this.type});
 
   @override
   State<ReplyMessageWidget> createState() => _ReplyMessageWidgetState();

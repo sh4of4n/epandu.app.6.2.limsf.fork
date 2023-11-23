@@ -14,7 +14,7 @@ class FpxRepo {
   final xml2json = Xml2Json();
   final networking = Networking();
 
-  Future<Response> getAppPaymentMenu({required context}) async {
+  Future<Response<List<AppPaymentMenu>>> getAppPaymentMenu({required context}) async {
     String? caUid = await localStorage.getCaUid();
     String? caPwd = await localStorage.getCaPwdEncode();
 
@@ -37,7 +37,7 @@ class FpxRepo {
     return Response(false, message: 'Failed to load data. Please try again.');
   }
 
-  Future<Response> getMerchantPaymentGateway({
+  Future<Response<List<MerchantPaymentGateway>?>> getMerchantPaymentGateway({
     required context,
     required diCode,
     gatewayId,
@@ -48,7 +48,7 @@ class FpxRepo {
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&appCode=${appConfig.appCode}&diCode=$diCode&gatewayId=${gatewayId ?? ''}';
 
-    var response = await networking.getData(
+    Response response = await networking.getData(
       path: 'GetMerchantPaymentGateway?$path',
     );
 
@@ -62,7 +62,7 @@ class FpxRepo {
           data: getMerchantPaymentGatewayResponse.merchantPaymentGateway);
     }
 
-    return Response(false, message: 'Failed to load data. Please try again.');
+    return Response(false, message: response.message);
   }
 
   Future<Response> createOrder({

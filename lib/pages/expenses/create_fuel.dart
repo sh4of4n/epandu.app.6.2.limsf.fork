@@ -17,7 +17,7 @@ import 'package:intl/intl.dart';
 
 @RoutePage()
 class CreateFuelPage extends StatefulWidget {
-  const CreateFuelPage({Key? key}) : super(key: key);
+  const CreateFuelPage({super.key});
 
   @override
   State<CreateFuelPage> createState() => _CreateFuelPageState();
