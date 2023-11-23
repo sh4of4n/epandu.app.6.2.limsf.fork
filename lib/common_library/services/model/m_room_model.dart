@@ -21,31 +21,33 @@ class Room {
   String? profilePhoto;
   String? merchantNo;
   String? picturePath;
-
-  Room({
-    this.id,
-    this.roomId,
-    this.appCode,
-    this.merchantUserId,
-    this.merchantLoginId,
-    this.merchantNickName,
-    this.userId,
-    this.loginId,
-    this.memberNickName,
-    this.roomName,
-    this.roomDesc,
-    this.createUser,
-    this.createDate,
-    this.editUser,
-    this.editDate,
-    this.rowKey,
-    this.transtamp,
-    this.deleted,
-    this.photoFilename,
-    this.profilePhoto,
-    this.merchantNo,
-    this.picturePath,
-  });
+  String? deleteDatetime;
+  String? ownerId;
+  Room(
+      {this.id,
+      this.roomId,
+      this.appCode,
+      this.merchantUserId,
+      this.merchantLoginId,
+      this.merchantNickName,
+      this.userId,
+      this.loginId,
+      this.memberNickName,
+      this.roomName,
+      this.roomDesc,
+      this.createUser,
+      this.createDate,
+      this.editUser,
+      this.editDate,
+      this.rowKey,
+      this.transtamp,
+      this.deleted,
+      this.photoFilename,
+      this.profilePhoto,
+      this.merchantNo,
+      this.picturePath,
+      this.deleteDatetime,
+      this.ownerId});
 
   Room.fromJson(Map<String, dynamic> json) {
     id = json['ID'];
@@ -70,6 +72,8 @@ class Room {
     profilePhoto = json['profile_photo'] ?? '';
     merchantNo = json['merchant_no'] ?? '';
     picturePath = json['picture_path'] ?? '';
+    deleteDatetime = json['delete_datetime'] ?? '';
+    ownerId = json['owner_id'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -96,6 +100,8 @@ class Room {
     data['profile_photo'] = profilePhoto;
     data['merchant_no'] = merchantNo;
     data['picture_path'] = picturePath;
+    data['delete_datetime'] = deleteDatetime;
+    data['owner_id'] = ownerId;
     return data;
   }
 }

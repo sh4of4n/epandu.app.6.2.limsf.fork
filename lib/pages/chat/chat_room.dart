@@ -1318,7 +1318,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
   _getAppBarMembers() async {
     roomMembers = await dbHelper.getRoomMembersList(widget.roomId);
-    if (roomMembers != null && roomMembers.isNotEmpty) {
+    if (roomMembers.isNotEmpty) {
       for (var roomMember in roomMembers) {
         if (roomMember.userId != localUserid) {
           members +=
@@ -2073,7 +2073,7 @@ class _ChatRoomState extends State<ChatRoom> {
         await deleteFile(File(list[0].filePath!));
       }
       if (!context.mounted) return;
-      context.read<ChatHistory>().deleteChatItem(messageId, roomId);
+      await context.read<ChatHistory>().deleteChatItem(messageId, roomId);
       //await dbHelper.deleteMsgDetailTable(messageId);
       await dbHelper.updateMessageStatus(messageId);
     } else {
@@ -2096,7 +2096,7 @@ class _ChatRoomState extends State<ChatRoom> {
               await deleteFile(File(list[0].filePath!));
             }
             if (!context.mounted) return;
-            context.read<ChatHistory>().deleteChatItem(messageId, roomId);
+            await context.read<ChatHistory>().deleteChatItem(messageId, roomId);
             //await dbHelper.deleteMsgDetailTable(messageId);
             await dbHelper.updateMessageStatus(messageId);
           }

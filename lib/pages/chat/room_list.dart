@@ -8,6 +8,7 @@ import 'package:epandu/pages/chat/socketclient_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import '../../common_library/services/model/chat_mesagelist.dart';
@@ -46,7 +47,7 @@ class _RoomListState extends State<RoomList> {
   bool _isRoomSearching = false;
   String _selectedRoomId = '';
   String _selectedRoomName = '';
-
+  String _selectedRoomDesc = '';
   final LocalStorage localStorage = LocalStorage();
   List<RoomHistoryModel> rooms = [];
   String roomTitle = "";
@@ -247,6 +248,7 @@ class _RoomListState extends State<RoomList> {
               _isSelected = false;
               _selectedRoomId = '';
               _selectedRoomName = '';
+              _selectedRoomDesc = '';
             });
           },
         ),
@@ -256,12 +258,13 @@ class _RoomListState extends State<RoomList> {
           IconButton(
             icon: const Icon(Icons.delete),
             onPressed: () {
-              leaveGroup(_selectedRoomId, _selectedRoomName);
+              leaveGroup(_selectedRoomId, _selectedRoomName, _selectedRoomDesc);
               setState(() {
                 _selectedIndex = -1;
                 _isSelected = false;
                 _selectedRoomId = '';
                 _selectedRoomName = '';
+                _selectedRoomDesc = '';
               });
             },
           ),
@@ -275,8 +278,7 @@ class _RoomListState extends State<RoomList> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: const Text(
-                "Chat Support / Private Chat rooms cannot be delete."),
+            content: const Text("Chat Support room cannot be delete."),
             actions: <Widget>[
               TextButton(
                 child: const Text(
@@ -292,12 +294,14 @@ class _RoomListState extends State<RoomList> {
         });
   }
 
-  void leaveGroup(String roomId, String roomName) {
+  void leaveGroup(String roomId, String roomName, String roomDesc) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: const Text("Are you sure you want to  leave the Group?"),
+            content: roomDesc != 'Private Chat'
+                ? const Text("Are you sure you want to  leave the room?")
+                : const Text("Are you sure you want to  delete the room?"),
             actions: <Widget>[
               TextButton(
                 child: const Text(
@@ -314,71 +318,18 @@ class _RoomListState extends State<RoomList> {
                   style: TextStyle(color: Colors.red),
                 ),
                 onPressed: () async {
-                  var leaveRoomResponseResult =
-                      await chatRoomRepo.leaveRoom(roomId);
-                  if (leaveRoomResponseResult.data != null &&
-                      leaveRoomResponseResult.data.length > 0) {
-                    // LeaveRoomResponse leaveRoomResponse =
-                    //     leaveRoomResponseResult.data[0];
-                    String userid = await localStorage.getUserId() ?? '';
-                    String name = await localStorage.getNickName() ?? '';
-                    List<RoomMembers> roomMembers =
-                        await dbHelper.getRoomMembersList(roomId);
-                    for (var roomMember in roomMembers) {
-                      if (userid != roomMember.userId) {
-                        var leaveGroupJson = {
-                          "notifiedRoomId": roomId,
-                          "notifiedUserId": roomMember.userId,
-                          "title": "$name just left the room",
-                          "description": "$userid just left the room_$roomId"
-                        };
-                        //print(messageJson);
-                        socket.emitWithAck('sendNotification', leaveGroupJson,
-                            ack: (data) async {});
-                      }
-                    }
+                  if (roomDesc == 'Private Chat') {
+// Provider.of<ChatNotificationCount>(context, listen: false)
+                    //     .updateNotificationBadge(roomId: roomId, type: "DELETE");
+                    // Provider.of<ChatNotificationCount>(context, listen: false)
+                    //     .removeNotificationRoom(roomId: roomId);
 
-                    String clientMessageId = generateRandomString(15);
-
-                    var messageJson = {
-                      "roomId": roomId,
-                      "msgBody": '$name left',
-                      "msgBinaryType": 'userLeft',
-                      "replyToId": -1,
-                      "clientMessageId": clientMessageId,
-                      "misc": "[FCM_Notification=title: $roomName - $name]"
-                    };
-
-                    socket.emitWithAck('sendMessage', messageJson,
-                        ack: (data) async {
-                      if (data != null && !data.containsKey("error")) {
-                        var messageJson = {
-                          "roomId": roomId,
-                        };
-                        socket.emitWithAck('logout', messageJson, ack: (data) {
-                          //print('ack $data');
-                          if (data != null && !data.containsKey("error")) {
-                            // print('logout user from server $data');
-                          } else {
-                            //print("Null from logout user");
-                          }
-                        });
-                        //print('sendMessage from server $data');
-                      } else {
-                        //print("Null from sendMessage");
-                      }
-                    });
-                    if (!context.mounted) return;
-                    Provider.of<ChatNotificationCount>(context, listen: false)
-                        .updateNotificationBadge(
-                            roomId: roomId, type: "DELETE");
-                    Provider.of<ChatNotificationCount>(context, listen: false)
-                        .removeNotificationRoom(roomId: roomId);
-
-                    Provider.of<RoomHistory>(context, listen: false)
-                        .deleteRoom(roomId: roomId);
-
-                    await dbHelper.deleteRoomById(roomId);
+                    await dbHelper.deleteLogicallyRoomById(
+                        roomId,
+                        'true',
+                        DateFormat("yyyy-MM-dd HH:mm:ss")
+                            .format(DateTime.now())
+                            .toString());
                     await dbHelper.deleteRoomMembersByRoomId(roomId);
                     await dbHelper.deleteMessagesByRoomId(roomId);
                     final dir = Directory(
@@ -393,12 +344,106 @@ class _RoomListState extends State<RoomList> {
                         await Provider.of<RoomHistory>(context, listen: false)
                             .getRoomHistory();
                     if (list.isEmpty) {
+                      String userid = await localStorage.getUserId() ?? '';
                       if (!context.mounted) return;
                       context.read<SocketClientHelper>().loginUser(
-                          'Tbs.Chat.Client-All-Users', userid, '', '');
+                          'Tbs.Chat.Client-All-Users', userid, '', '', '', '');
                     }
                     if (!context.mounted) return;
                     Navigator.pop(context);
+                  } else {
+                    var leaveRoomResponseResult =
+                        await chatRoomRepo.leaveRoom(roomId);
+                    if (leaveRoomResponseResult.data != null &&
+                        leaveRoomResponseResult.data.length > 0) {
+                      // LeaveRoomResponse leaveRoomResponse =
+                      //     leaveRoomResponseResult.data[0];
+                      String userid = await localStorage.getUserId() ?? '';
+                      String name = await localStorage.getNickName() ?? '';
+                      List<RoomMembers> roomMembers =
+                          await dbHelper.getRoomMembersList(roomId);
+                      for (var roomMember in roomMembers) {
+                        if (userid != roomMember.userId) {
+                          var leaveGroupJson = {
+                            "notifiedRoomId": roomId,
+                            "notifiedUserId": roomMember.userId,
+                            "title": "$name just left the room",
+                            "description": "$userid just left the room_$roomId"
+                          };
+                          //print(messageJson);
+                          socket.emitWithAck('sendNotification', leaveGroupJson,
+                              ack: (data) async {});
+                        }
+                      }
+
+                      String clientMessageId = generateRandomString(15);
+
+                      var messageJson = {
+                        "roomId": roomId,
+                        "msgBody": '$name left',
+                        "msgBinaryType": 'userLeft',
+                        "replyToId": -1,
+                        "clientMessageId": clientMessageId,
+                        "misc": "[FCM_Notification=title: $roomName - $name]"
+                      };
+
+                      socket.emitWithAck('sendMessage', messageJson,
+                          ack: (data) async {
+                        if (data != null && !data.containsKey("error")) {
+                          var messageJson = {
+                            "roomId": roomId,
+                          };
+                          socket.emitWithAck('logout', messageJson,
+                              ack: (data) {
+                            //print('ack $data');
+                            if (data != null && !data.containsKey("error")) {
+                              // print('logout user from server $data');
+                            } else {
+                              //print("Null from logout user");
+                            }
+                          });
+                          //print('sendMessage from server $data');
+                        } else {
+                          //print("Null from sendMessage");
+                        }
+                      });
+                      if (!context.mounted) return;
+                      Provider.of<ChatNotificationCount>(context, listen: false)
+                          .updateNotificationBadge(
+                              roomId: roomId, type: "DELETE");
+                      Provider.of<ChatNotificationCount>(context, listen: false)
+                          .removeNotificationRoom(roomId: roomId);
+
+                      Provider.of<RoomHistory>(context, listen: false)
+                          .deleteRoom(roomId: roomId);
+
+                      await dbHelper.deleteRoomById(roomId);
+                      await dbHelper.deleteRoomMembersByRoomId(roomId);
+                      await dbHelper.deleteMessagesByRoomId(roomId);
+                      final dir = Directory(
+                          '${(Platform.isAndroid ? await getExternalStorageDirectory() //FOR ANDROID
+                                  : await getApplicationSupportDirectory() //FOR IOS
+                              )!.path}/$roomId');
+                      //bool dirExist = await dir.exists();
+
+                      deleteDirectory(dir);
+                      if (!context.mounted) return;
+                      List<RoomHistoryModel> list =
+                          await Provider.of<RoomHistory>(context, listen: false)
+                              .getRoomHistory();
+                      if (list.isEmpty) {
+                        if (!context.mounted) return;
+                        context.read<SocketClientHelper>().loginUser(
+                            'Tbs.Chat.Client-All-Users',
+                            userid,
+                            '',
+                            '',
+                            '',
+                            '');
+                      }
+                      if (!context.mounted) return;
+                      Navigator.pop(context);
+                    }
                   }
                 },
               ),
@@ -460,131 +505,15 @@ class _RoomListState extends State<RoomList> {
     });
   }
 
-  // Widget getCard(
-  //     RoomHistoryModel room,
-  //     List<ChatNotification> chatNotificationCount,
-  //     int index,
-  //     Color? itemColor) {
-  //   String splitRoomName = '';
-  //   if (room.roomDesc!.toUpperCase() == 'GROUP CHAT') {
-  //     splitRoomName = room.roomName!;
-  //   } else {
-  //     splitRoomName = room.roomName!;
-  //   }
-  //   int badgeCount = 0;
-  //   int chatCountIndex = chatNotificationCount
-  //       .indexWhere((element) => element.roomId == room.roomId);
-  //   if (chatCountIndex != -1) {
-  //     ChatNotification chatNotification = chatNotificationCount[chatCountIndex];
-  //     badgeCount = chatNotification.notificationBadge!;
-  //   }
-  //   return Card(
-  //     color: itemColor,
-  //     child: ListTile(
-  //       onLongPress: () {
-  //         setState(() {
-  //           _selectedIndex = index;
-  //           _isSelected = true;
-  //           _selectedRoomId = room.roomId!;
-  //           _selectedRoomName = room.roomName!;
-  //         });
-  //       },
-  //       tileColor: _selectedIndex == index ? Colors.blueAccent : null,
-  //       leading: Container(
-  //         width: 40,
-  //         height: 40,
-  //         decoration: BoxDecoration(
-  //           shape: BoxShape.circle,
-  //           border: Border.all(
-  //             color: Colors.white,
-  //             width: 3,
-  //           ),
-  //           boxShadow: [
-  //             BoxShadow(
-  //                 color: Colors.grey.withOpacity(.3),
-  //                 offset: const Offset(0, 2),
-  //                 blurRadius: 5)
-  //           ],
-  //         ),
-  //         child: FullScreenWidget(
-  //           child: Center(
-  //             child: ClipRRect(
-  //               borderRadius: BorderRadius.circular(8.0),
-  //               child: room.picturePath != null && room.picturePath != ''
-  //                   ? Image.network(room.picturePath!
-  //                       .replaceAll(removeBracket, '')
-  //                       .split('\r\n')[0])
-  //                   : const Icon(Icons.account_circle),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //       trailing: badgeCount > 0
-  //           ? badges.Badge(
-  //               showBadge: badgeCount > 0 ? true : false,
-  //               badgeStyle: const badges.BadgeStyle(
-  //                   badgeColor: Colors.green,
-  //                   shape: badges.BadgeShape.circle,
-  //                   padding: EdgeInsets.all(8)),
-  //               badgeContent: Text(
-  //                 badgeCount.toString(),
-  //                 style: const TextStyle(
-  //                     color: Colors.white,
-  //                     fontSize: 15,
-  //                     fontWeight: FontWeight.bold),
-  //               ))
-  //           : null,
-  //       title: Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //         children: [
-  //           Expanded(
-  //             child: Text(splitRoomName.trim(),
-  //                 maxLines: 1,
-  //                 softWrap: false,
-  //                 overflow: TextOverflow.ellipsis,
-  //                 style: const TextStyle(fontWeight: FontWeight.bold)),
-  //           ),
-  //           if (room.sendDateTime != null && room.sendDateTime != '')
-  //             Text(DateFormatter().getDateTimeRepresentation(
-  //                 DateTime.parse(room.sendDateTime!))),
-  //         ],
-  //       ),
-  //       subtitle: showLatestMessage(room),
-  //       onTap: () async {
-  //         String members = '';
-  //         if (room.roomId != null) {
-  //           List<RoomMembers> roomMembers =
-  //               await dbHelper.getRoomMembersList(room.roomId!);
-  //           for (var roomMembers in roomMembers) {
-  //             if (roomMembers.userId != id) {
-  //               members += "${roomMembers.nickName!.toUpperCase()},";
-  //             }
-  //           }
-  //           if (members != '') {
-  //             members = members.substring(0, members.length - 1);
-  //           }
-  //         } else {
-  //           members = '';
-  //         }
-  //         if (!context.mounted) return;
-  //         context.router.push(
-  //           ChatRoom(
-  //             roomId: room.roomId ?? '',
-  //             picturePath: room.picturePath ?? '',
-  //             roomName: splitRoomName,
-  //             roomDesc: room.roomDesc ?? '',
-  //           ),
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }
   Widget getCard(
     RoomHistoryModel room,
     List<ChatNotification> chatNotificationCount,
     int index,
     Color? itemColor,
   ) {
+    if (room.deleted!.toUpperCase() != 'FALSE') {
+      return const SizedBox();
+    }
     String splitRoomName = '';
     if (room.roomDesc != null && room.roomDesc!.toUpperCase() == 'GROUP CHAT') {
       splitRoomName = room.roomName ?? '';
@@ -604,12 +533,14 @@ class _RoomListState extends State<RoomList> {
       color: itemColor,
       child: ListTile(
         onLongPress: () {
-          if (room.roomDesc == 'Group Chat') {
+          if (room.roomDesc == 'Group Chat' ||
+              room.roomDesc == 'Private Chat') {
             setState(() {
               _selectedIndex = index;
               _isSelected = true;
               _selectedRoomId = room.roomId ?? '';
               _selectedRoomName = room.roomName ?? '';
+              _selectedRoomDesc = room.roomDesc ?? '';
             });
           } else {
             showCanNotDeleteDialog();

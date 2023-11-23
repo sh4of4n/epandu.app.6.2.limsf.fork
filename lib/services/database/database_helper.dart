@@ -60,7 +60,7 @@ class DatabaseHelper {
     await db.execute(
         " CREATE TABLE $relationshipTable (id TEXT PRIMARY KEY, host_id TEXT, friend_id TEXT, FOREIGN KEY (friend_id) REFERENCES $userTable (id) );");
     await db.execute(
-        " CREATE TABLE $roomTable (ID TEXT NOT NULL,room_id TEXT NOT NULL,app_code TEXT,merchant_user_id TEXT,merchant_login_id TEXT,merchant_nick_name TEXT,user_id TEXT,login_id TEXT,member_nick_name TEXT,room_name TEXT,room_desc TEXT,create_user TEXT,create_date TEXT,edit_user TEXT,edit_date TEXT,row_key TEXT,transtamp TEXT,deleted TEXT,photo_filename TEXT,profile_photo TEXT,merchant_no TEXT,picture_path  TEXT,owner_id TEXT);");
+        " CREATE TABLE $roomTable (ID TEXT NOT NULL,room_id TEXT NOT NULL,app_code TEXT,merchant_user_id TEXT,merchant_login_id TEXT,merchant_nick_name TEXT,user_id TEXT,login_id TEXT,member_nick_name TEXT,room_name TEXT,room_desc TEXT,create_user TEXT,create_date TEXT,edit_user TEXT,edit_date TEXT,row_key TEXT,transtamp TEXT,deleted TEXT,delete_datetime TEXT,photo_filename TEXT,profile_photo TEXT,merchant_no TEXT,picture_path  TEXT,owner_id TEXT);");
     await db.execute(
         " CREATE TABLE $roomMembersTable (ID TEXT NOT NULL,room_id TEXT NOT NULL,app_code TEXT,user_id TEXT,login_id TEXT,user_type TEXT,create_user TEXT,create_date TEXT,edit_user TEXT,edit_date TEXT,row_key TEXT,transtamp TEXT,deleted TEXT,merchant_no TEXT,nick_name TEXT,picture_path TEXT,FOREIGN KEY (room_id) REFERENCES $roomTable (room_id) );");
     await db.execute(
@@ -272,7 +272,8 @@ class DatabaseHelper {
         'profile_photo': room.profilePhoto,
         'merchant_no': room.merchantNo,
         'picture_path': room.picturePath,
-        'owner_id': userId
+        'owner_id': userId,
+        'delete_datetime': room.deleteDatetime
       });
     } else {
       return 0;
@@ -282,7 +283,7 @@ class DatabaseHelper {
   Future<List<Room>> getRooms() async {
     Database db = await instance.database;
     var res = await db.rawQuery(
-        "Select DISTINCT $roomTable.create_date, $roomTable.room_id,$roomTable.picture_path,$roomTable.room_name,$roomTable.room_desc from $roomTable;");
+        "Select DISTINCT $roomTable.create_date, $roomTable.room_id,$roomTable.picture_path,$roomTable.room_name,$roomTable.room_desc,$roomTable.deleted,$roomTable.delete_datetime,$roomTable.merchant_no,$roomTable.owner_id from $roomTable;");
     List<Room> list =
         res.isNotEmpty ? res.map((m) => Room.fromJson(m)).toList() : [];
     return list;
@@ -291,7 +292,7 @@ class DatabaseHelper {
   Future<List<Room>> getRoomList(String userId) async {
     Database db = await instance.database;
     var res = await db.rawQuery(
-        "Select $roomMembersTable.merchant_no,$roomMembersTable.user_id,$roomTable.create_date, $roomTable.room_id,$roomTable.picture_path,$roomTable.room_name,$roomTable.room_desc from $roomTable LEFT JOIN $roomMembersTable ON $roomMembersTable.room_id=$roomTable.room_id  where $roomMembersTable.user_id = '$userId';");
+        "Select $roomMembersTable.merchant_no,$roomMembersTable.user_id,$roomTable.create_date, $roomTable.room_id, $roomTable.deleted,$roomTable.delete_datetime,$roomTable.picture_path,$roomTable.room_name,$roomTable.room_desc,$roomTable.owner_id from $roomTable LEFT JOIN $roomMembersTable ON $roomMembersTable.room_id=$roomTable.room_id  where $roomMembersTable.user_id = '$userId';");
     List<Room> list =
         res.isNotEmpty ? res.map((m) => Room.fromJson(m)).toList() : [];
     return list;
@@ -300,7 +301,7 @@ class DatabaseHelper {
   Future<List<RoomHistoryModel>> getRoomListWithMessage(String userId) async {
     Database db = await instance.database;
     var res = await db.rawQuery(
-        "SELECT   $roomTable.room_id,$roomTable.picture_path,$roomTable.room_name,$roomTable.room_desc,$roomTable.merchant_no,$msgDetailTable.message_id,$msgDetailTable.msg_body,$msgDetailTable.msg_binaryType,$msgDetailTable.filePath, $msgDetailTable.nickName AS nick_name,$msgDetailTable.send_datetime FROM $roomTable  LEFT JOIN $msgDetailTable on $msgDetailTable.room_id=$roomTable.room_id AND  $msgDetailTable.deleted == 0 where $roomTable.owner_id = '$userId'   group by $roomTable.room_id order by max($msgDetailTable.message_id) desc;");
+        "SELECT   $roomTable.room_id,$roomTable.picture_path,$roomTable.room_name,$roomTable.room_desc,$roomTable.merchant_no,$roomTable.deleted,$roomTable.delete_datetime,$msgDetailTable.message_id,$msgDetailTable.msg_body,$msgDetailTable.msg_binaryType,$msgDetailTable.filePath, $msgDetailTable.nickName AS nick_name,$msgDetailTable.send_datetime FROM $roomTable  LEFT JOIN $msgDetailTable on $msgDetailTable.room_id=$roomTable.room_id AND  $msgDetailTable.deleted == 0 where $roomTable.owner_id = '$userId'   group by $roomTable.room_id order by max($msgDetailTable.message_id) desc;");
 
 //  var res = await db.rawQuery(
     //  "SELECT   $roomTable.room_id,$roomTable.picture_path,$roomTable.room_name,$roomTable.room_desc,$roomTable.merchant_no,$msgDetailTable.message_id,$msgDetailTable.msg_body,$msgDetailTable.msg_binaryType,$msgDetailTable.filePath, $msgDetailTable.nickName AS nick_name,$msgDetailTable.send_datetime FROM $roomTable  LEFT JOIN $msgDetailTable on $msgDetailTable.room_id=$roomTable.room_id AND  $msgDetailTable.deleted == 0 where $roomTable.owner_id = '$userId'   group by $roomTable.room_id order by max($msgDetailTable.send_datetime) desc;");
@@ -397,7 +398,7 @@ class DatabaseHelper {
 
   Future<int> updateRoomMemberName(String? userId, String nickName) async {
     Database db = await instance.database;
-    int i = await db.rawUpdate(
+    await db.rawUpdate(
         "UPDATE $msgDetailTable SET nickName = ? where user_id = ?",
         [nickName, userId]);
     int j = await db.rawUpdate(
@@ -678,5 +679,27 @@ class DatabaseHelper {
         ? res.map((m) => MessageDetails.fromJson(m)).toList()
         : [];
     return list;
+  }
+
+  Future<int> deleteLogicallyRoomById(
+      String roomId, String deleted, String deleteDatetime) async {
+    Database db = await instance.database;
+
+    int count = await db.rawUpdate(
+        "UPDATE $roomTable SET deleted = ?,delete_datetime=? where room_id = ?",
+        [deleted, deleteDatetime, roomId]);
+    // print('deleteLogicallyRoomById');
+    return count;
+  }
+
+  Future<int> updatedeleteStatusByRoomById(
+      String roomId, String deleted) async {
+    Database db = await instance.database;
+
+    int count = await db.rawUpdate(
+        "UPDATE $roomTable SET deleted = ? where room_id = ?",
+        [deleted, roomId]);
+    // print('deleteLogicallyRoomById');
+    return count;
   }
 }

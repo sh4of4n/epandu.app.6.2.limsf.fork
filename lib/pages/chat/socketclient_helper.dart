@@ -71,7 +71,7 @@ class SocketClientHelper extends ChangeNotifier {
     List<Room> newRooms = [];
 
     String? userid = await localStorage.getUserId();
-    await loginUser('Tbs.Chat.Client-All-Users', userid!, '', '');
+    await loginUser('Tbs.Chat.Client-All-Users', userid!, '', '', '', '');
     if (!ctx.mounted) return;
     rooms = await dbHelper.getRooms();
     if (rooms.isEmpty) {
@@ -95,8 +95,8 @@ class SocketClientHelper extends ChangeNotifier {
               await dbHelper.saveRoomMembersTable(resultMembers.data[i]);
             }
           }
-          await loginUser(
-              result.data[i].roomId, userid, result.data[i].createDate, '');
+          await loginUser(result.data[i].roomId, userid,
+              result.data[i].createDate, '', result.data[i].deleted, '');
         }
         //logoutDefaultRoom();
       }
@@ -105,43 +105,20 @@ class SocketClientHelper extends ChangeNotifier {
       // }
     } else {
       bool condition = false;
-      List<MessageDetails> messageDetailsList =
-          await dbHelper.getAllRoomLatestMsgDetail();
-      if (messageDetailsList.isNotEmpty) {
-        List<MessageDetails> filteredList = messageDetailsList
-            .where((details) => details.ownerId != userid)
-            .toList();
-        if (filteredList.isNotEmpty) {
-          await dbHelper.deleteDB();
-          final dir = Directory((Platform.isAndroid
-                  ? await getExternalStorageDirectory() //FOR ANDROID
-                  : await getApplicationSupportDirectory() //FOR IOS
-              )!
-              .path);
-          deleteDirectory(dir);
-          condition = true;
-        }
-        if (condition) {
-          await loginUserRoom();
-          print('Condition is true. deleted directory and database.');
-        }
+      if (rooms.where((room) => room.ownerId != userid).toList().isNotEmpty) {
+        await dbHelper.deleteDB();
+        final dir = Directory((Platform.isAndroid
+                ? await getExternalStorageDirectory() //FOR ANDROID
+                : await getApplicationSupportDirectory() //FOR IOS
+            )!
+            .path);
+        deleteDirectory(dir);
+        condition = true;
       }
-      if (!condition && rooms.isNotEmpty) {
-        // List<MessageDetails> messageDetailsList =
-        //     await dbHelper.getAllRoomLatestMsgDetail();
-
-        // for (var room in rooms) {
-        //   String messageId = '';
-        //   List<MessageDetails> msgList = messageDetailsList
-        //       .where((element) => element.roomId == room.roomId)
-        //       .toList();
-        //   if (msgList.isNotEmpty) {
-        //     messageId = msgList[0].messageId.toString();
-        //   }
-
-        //   loginUser(room.roomId!, userid, room.createDate!, messageId);
-        // }
-
+      if (condition) {
+        await loginUserRoom();
+        print('Condition is true. deleted directory and database.');
+      } else {
         var result = await chatRoomRepo.getRoomList('');
         if (result.data != null && result.data.length > 0) {
           for (int i = 0; i < result.data.length; i += 1) {
@@ -196,7 +173,8 @@ class SocketClientHelper extends ChangeNotifier {
           }
           if (newRooms.isNotEmpty) {
             for (var newroom in newRooms) {
-              await loginUser(newroom.roomId!, userid, newroom.createDate!, '');
+              await loginUser(newroom.roomId!, userid, newroom.createDate!, '',
+                  newroom.deleted!, '');
             }
           }
         }
@@ -204,7 +182,7 @@ class SocketClientHelper extends ChangeNotifier {
     }
 
     //Check support room exist or not
-    rooms = await dbHelper.getRoomList(userid);
+    rooms = await dbHelper.getRooms();
     String? merchantNo = await localStorage.getMerchantDbCode();
     if (!doesRoomDescExist(rooms, 'Chat Support', merchantNo!)) {
       var createChatSupportResult =
@@ -358,11 +336,12 @@ class SocketClientHelper extends ChangeNotifier {
 
         // if (onlineUsersList.indexWhere((element) => element.userId == userid) ==
         //     -1) {
-        List<Room> rooms = await dbHelper.getRoomList(userid!);
+        List<Room> rooms = await dbHelper.getRooms();
         List<MessageDetails> messageDetailsList =
             await dbHelper.getAllRoomLatestMsgDetail();
         int completedRooms = 0;
         for (var room in rooms) {
+          await Future.delayed(const Duration(seconds: 1));
           String messageId = '';
           List<MessageDetails> msgList = messageDetailsList
               .where((element) => element.roomId == room.roomId)
@@ -371,8 +350,10 @@ class SocketClientHelper extends ChangeNotifier {
             messageId = msgList[0].messageId.toString();
           }
           completedRooms++;
-          print('SocketOnAny:messageId $messageId');
-          await loginUser(room.roomId!, userid, room.createDate!, messageId);
+          print(
+              'SocketOnAny:IsRoomDeleted ${room.deleted!} - ${room.deleteDatetime!}');
+          await loginUser(room.roomId!, userid!, room.createDate!, messageId,
+              room.deleted!, room.deleteDatetime!);
 
           if (completedRooms == rooms.length) {
             sendFailedMessages();
@@ -391,7 +372,21 @@ class SocketClientHelper extends ChangeNotifier {
       String filePath = "";
       if (data != null && !data.containsKey("error")) {
         ReceiveMessage receiveMessage = ReceiveMessage.fromJson(data);
-
+        if (!ctx.mounted) return;
+        List<RoomHistoryModel> roomHistoryList =
+            await Provider.of<RoomHistory>(ctx, listen: false).getRoomHistory();
+        if (roomHistoryList.isNotEmpty) {
+          if (roomHistoryList.indexWhere(
+                  (element) => element.roomId == receiveMessage.roomId) >
+              -1) {
+            if (!ctx.mounted) return;
+            ctx.read<RoomHistory>().updateRoomStatus(
+                  roomId: receiveMessage.roomId!,
+                );
+            await dbHelper.updatedeleteStatusByRoomById(
+                receiveMessage.roomId!, 'false');
+          }
+        }
         List<MessageDetails> isExist =
             await dbHelper.isMessageExist(receiveMessage.clientMessageId!);
         //print(receiveMessage.datetime);
@@ -584,10 +579,11 @@ class SocketClientHelper extends ChangeNotifier {
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result["messageId"] != '') {
           if (_isEnterRoom) {
-            ctx
+            await ctx
                 .read<ChatHistory>()
                 .deleteChatItem(result["messageId"], result["roomId"]);
             //dbHelper.deleteMsg(result["messageId"], result["deleteDateTime"]);
+            if (!ctx.mounted) return;
             List<MessageDetails> list =
                 Provider.of<ChatHistory>(ctx, listen: false)
                     .getMessageDetailsList
@@ -605,9 +601,10 @@ class SocketClientHelper extends ChangeNotifier {
             if (!ctx.mounted) return;
             Provider.of<RoomHistory>(ctx, listen: false).getRoomHistory();
           } else {
-            ctx
+            await ctx
                 .read<ChatHistory>()
                 .deleteChatItem(result["messageId"], result["roomId"]);
+            if (!ctx.mounted) return;
             Provider.of<RoomHistory>(ctx, listen: false).getRoomHistory();
             //await dbHelper.deleteMsgDetailTable(result["messageId"]);
             await dbHelper.updateMessageStatus(result["messageId"]);
@@ -927,8 +924,8 @@ class SocketClientHelper extends ChangeNotifier {
     }
   }
 
-  Future<void> loginUser(
-      String roomId, String userId, String createDate, String messageId) async {
+  Future<void> loginUser(String roomId, String userId, String createDate,
+      String messageId, String isRoomDeleted, String deleteDatetime) async {
     String? userId = await localStorage.getUserId();
     String? caUid = await localStorage.getCaUid();
     String? caPwd = await localStorage.getCaPwd();
@@ -950,7 +947,8 @@ class SocketClientHelper extends ChangeNotifier {
         Provider.of<ChatNotificationCount>(ctx, listen: false)
             .addNotificationBadge(notificationBadge: 0, roomId: roomId);
         if (roomId != 'Tbs.Chat.Client-All-Users') {
-          getMissingMessages(roomId, userId!, createDate, messageId);
+          getMissingMessages(roomId, userId!, createDate, messageId,
+              isRoomDeleted, deleteDatetime);
         }
         //print('login user from server $data');
       } else {
@@ -959,8 +957,8 @@ class SocketClientHelper extends ChangeNotifier {
     });
   }
 
-  void getMissingMessages(
-      String roomId, String userid, String createDate, String messageId) {
+  void getMissingMessages(String roomId, String userid, String createDate,
+      String messageId, String isRoomDeleted, String deleteDatetime) async {
     String filePath = '';
     // List<MessageDetails> messageDetailsList = [];
     // if (messageId == '') {
@@ -979,14 +977,22 @@ class SocketClientHelper extends ChangeNotifier {
         "bgnMessageId": int.parse(messageId) + 1
       };
     } else {
-      messageRoomJson = {
-        "roomId": roomId,
-        "returnMsgBinaryAsBase64": "true",
-        "bgnSendDateTime":
-            "${DateFormat("yyyy-MM-dd").format(DateTime.now())} 00:00:00"
-      };
+      if (deleteDatetime == '') {
+        messageRoomJson = {
+          "roomId": roomId,
+          "returnMsgBinaryAsBase64": "true",
+          "bgnSendDateTime":
+              "${DateFormat("yyyy-MM-dd").format(DateTime.now())} 00:00:00"
+        };
+      } else {
+        messageRoomJson = {
+          "roomId": roomId,
+          "returnMsgBinaryAsBase64": "true",
+          "bgnSendDateTime": deleteDatetime
+        };
+      }
     }
-    print(messageRoomJson);
+    print('getMessageByRoom: $messageRoomJson');
     socket.emitWithAck('getMessageByRoom', messageRoomJson, ack: (data) async {
       //print('getMessageByRoom $data');
       if (data != null && !data.containsKey("error")) {
@@ -995,16 +1001,36 @@ class SocketClientHelper extends ChangeNotifier {
         List<MessageList>? messageList =
             messageByRoomModel.message?.messageList;
         if (messageList != null) {
-          List<MessageList>? othersMessageList = messageList
-              .where((message) =>
-                  message.userId != userid &&
-                  (message.readBy == null ||
-                      !message.readBy!.contains('[[ALL]]')))
-              .toList();
-
-          Provider.of<ChatNotificationCount>(ctx, listen: false)
-              .addNotificationBadge(
-                  notificationBadge: othersMessageList.length, roomId: roomId);
+          if (messageId == '' && deleteDatetime != '') {
+            DateTime inputTime = DateTime.parse(deleteDatetime);
+            messageList = messageList
+                .where((message) => DateTime.parse(DateFormat(
+                            "yyyy-MM-dd HH:mm:ss")
+                        .format(DateTime.parse(message.sendDatetime!).toLocal())
+                        .toString())
+                    .isAfter(inputTime))
+                .toList();
+            if (messageList.isNotEmpty) {
+              if (!ctx.mounted) return;
+              ctx.read<RoomHistory>().updateRoomStatus(
+                    roomId: roomId,
+                  );
+              await dbHelper.updatedeleteStatusByRoomById(roomId, 'false');
+            }
+          }
+          if (messageList.isNotEmpty) {
+            List<MessageList>? othersMessageList = messageList
+                .where((message) =>
+                    message.userId != userid &&
+                    (message.readBy == null ||
+                        !message.readBy!.contains('[[ALL]]')))
+                .toList();
+            if (!ctx.mounted) return;
+            Provider.of<ChatNotificationCount>(ctx, listen: false)
+                .addNotificationBadge(
+                    notificationBadge: othersMessageList.length,
+                    roomId: roomId);
+          }
 
           for (var f in messageList) {
             List<MessageDetails> isExist =
@@ -1064,7 +1090,9 @@ class SocketClientHelper extends ChangeNotifier {
               } else {
                 messageDetails.msgStatus = "UNREAD";
               }
-              if (f.msgBinaryType != '' && f.msgBinary != null) {
+              if (f.msgBinaryType != '' &&
+                  f.msgBinary != null &&
+                  f.msgBinary != '') {
                 messageDetails.filePath = await createFile(
                     f.msgBinaryType ?? '',
                     f.msgBinary ?? '',

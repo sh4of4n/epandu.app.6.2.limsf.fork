@@ -27,6 +27,15 @@ class RoomHistory extends ChangeNotifier {
     }
   }
 
+  void updateRoomStatus({required String roomId}) {
+    int index =
+        getRoomDetailsList.indexWhere((element) => element.roomId == roomId);
+    if (index > -1) {
+      getRoomList[index].deleted = 'false';
+      notifyListeners();
+    }
+  }
+
   void updateRoomMessage({required String roomId, required String message}) {
     int index =
         getRoomDetailsList.indexWhere((element) => element.roomId == roomId);

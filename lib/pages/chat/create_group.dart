@@ -8,6 +8,7 @@ import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../common_library/services/model/chat_mesagelist.dart';
+import '../../common_library/services/model/chatsendack_model.dart';
 import '../../common_library/services/model/invitefriend_model.dart';
 import '../../common_library/services/model/inviteroom_response.dart';
 import '../../common_library/services/model/m_room_model.dart';
@@ -309,6 +310,27 @@ class _CreateGroupState extends State<CreateGroup> {
                       socket.emitWithAck('sendMessage', messageJson,
                           ack: (data) async {
                         if (data != null && !data.containsKey("error")) {
+                          SendAcknowledge sendAcknowledge =
+                              SendAcknowledge.fromJson(data);
+                          context.read<ChatHistory>().updateChatItemStatus(
+                              clientMessageId,
+                              "SENT",
+                              sendAcknowledge.messageId,
+                              widget.roomId,
+                              DateFormat("yyyy-MM-dd HH:mm:ss")
+                                  .format(DateTime.parse(
+                                          sendAcknowledge.sendDateTime ?? '')
+                                      .toLocal())
+                                  .toString());
+                          await dbHelper.updateMsgDetailTable(
+                              clientMessageId,
+                              "SENT",
+                              sendAcknowledge.messageId,
+                              DateFormat("yyyy-MM-dd HH:mm:ss")
+                                  .format(DateTime.parse(
+                                          sendAcknowledge.sendDateTime ?? '')
+                                      .toLocal())
+                                  .toString());
                           //print('sendMessage from server $data');
                         } else {
                           //print("Null from sendMessage");
