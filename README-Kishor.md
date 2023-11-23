@@ -1,3 +1,8 @@
+23/11/2023 V.6.2.11
+WS 6.2.211
+
+- Resolved issue in room list screen null check operator used on null value for deleted propertie in Room class.
+
 22/11/2023 V.6.2.11
 WS 6.2.211
 

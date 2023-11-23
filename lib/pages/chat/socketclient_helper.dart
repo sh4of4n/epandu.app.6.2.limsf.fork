@@ -83,7 +83,8 @@ class SocketClientHelper extends ChangeNotifier {
               roomId: result.data[i].roomId ?? '',
               roomName: result.data[i].roomName ?? '',
               roomDesc: result.data[i].roomDesc ?? '',
-              picturePath: result.data[i].picturePath ?? '');
+              picturePath: result.data[i].picturePath ?? '',
+              deleted: result.data[i].deleted ?? 'false');
           if (!ctx.mounted) return;
           ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
           //print('Room Insert value ' + val.toString());
@@ -130,7 +131,8 @@ class SocketClientHelper extends ChangeNotifier {
                   roomId: result.data[i].roomId ?? '',
                   roomName: result.data[i].roomName ?? '',
                   roomDesc: result.data[i].roomDesc ?? '',
-                  picturePath: result.data[i].picturePath ?? '');
+                  picturePath: result.data[i].picturePath ?? '',
+                  deleted: result.data[i].deleted ?? 'false');
               if (!ctx.mounted) return;
               ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
               newRooms.add(result.data[i]);
@@ -462,7 +464,8 @@ class SocketClientHelper extends ChangeNotifier {
             roomId: result.data[0].roomId ?? '',
             roomName: result.data[0].roomName ?? '',
             roomDesc: result.data[0].roomDesc ?? '',
-            picturePath: result.data[0].picturePath ?? '');
+            picturePath: result.data[0].picturePath ?? '',
+            deleted: result.data[0].deleted ?? 'false');
         if (!ctx.mounted) return;
         ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
         //print('Room Insert value ' + val.toString());
