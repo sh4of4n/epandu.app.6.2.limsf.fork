@@ -57,13 +57,13 @@ class _RoomListState extends State<RoomList> {
   @override
   void initState() {
     super.initState();
+    clearAllAppNotifications();
     EasyLoading.addStatusCallback(statusCallback);
     getRoomName();
     //dbHelper.deleteDB();
     //Provider.of<ChatHistory>(context, listen: false).getChatHistory();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await clearAllAppNotifications();
       if (!context.mounted) return;
       final getSocket = Provider.of<SocketClientHelper>(context, listen: false);
       socket = getSocket.socket;
