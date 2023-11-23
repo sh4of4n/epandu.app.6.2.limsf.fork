@@ -165,6 +165,7 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   void initState() {
     super.initState();
+    clearAllAppNotifications();
     //Provider.of<ChatHistory>(context, listen: false).getChatHistory();
     // this.members = widget.roomMembers;
     // itemPositionsListener.itemPositions.addListener(() {
@@ -205,7 +206,6 @@ class _ChatRoomState extends State<ChatRoom> {
           .updateNotificationBadge(roomId: widget.roomId, type: "DELETE");
 
       context.read<SocketClientHelper>().setIsEnterRoom(true);
-      await clearAllAppNotifications();
     });
     _getCameras();
     //Provider.of<ChatHistory>(context, listen: false).deleteChats(widget.roomId);
