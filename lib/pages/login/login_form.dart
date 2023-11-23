@@ -379,7 +379,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
             {
               // Provider.of<ChatNotificationCount>(context, listen: false)
               //     .clearNotificationBadge();
-              context.read<SocketClientHelper>().loginUserRoom();
+              await context.read<SocketClientHelper>().loginUserRoom();
             }
             if (!context.mounted) return;
             context.router.replace(const Home());
@@ -403,7 +403,7 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
           {
             // Provider.of<ChatNotificationCount>(context, listen: false)
             //     .clearNotificationBadge();
-            context.read<SocketClientHelper>().loginUserRoom();
+            await context.read<SocketClientHelper>().loginUserRoom();
           }
           if (!context.mounted) return;
           context.router.replace(const Home());

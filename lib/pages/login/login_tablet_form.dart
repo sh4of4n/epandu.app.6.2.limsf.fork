@@ -370,7 +370,7 @@ class _LoginTabletFormState extends State<LoginTabletForm> with PageBaseClass {
           {
             // Provider.of<ChatNotificationCount>(context, listen: false)
             //     .clearNotificationBadge();
-            context.read<SocketClientHelper>().loginUserRoom();
+            await context.read<SocketClientHelper>().loginUserRoom();
           }
           if (!context.mounted) return;
           context.router.replace(const Home());

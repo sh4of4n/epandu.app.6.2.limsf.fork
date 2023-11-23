@@ -408,7 +408,8 @@ class _InviteFriendState extends State<InviteFriend> {
                           roomId: inviteRoomResponse.roomId ?? '',
                           roomName: inviteRoomResponse.roomName ?? '',
                           roomDesc: inviteRoomResponse.roomDesc ?? '',
-                          picturePath: inviteRoomResponse.picturePath ?? '');
+                          picturePath: inviteRoomResponse.picturePath ?? '',
+                          deleted: inviteRoomResponse.deleted ?? 'false');
 
                       if (!context.mounted) return;
                       List<RoomHistoryModel> roomHistoryList =
