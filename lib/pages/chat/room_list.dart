@@ -6,6 +6,8 @@ import 'package:badges/badges.dart' as badges;
 import 'package:epandu/pages/chat/rooms_provider.dart';
 import 'package:epandu/pages/chat/socketclient_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:intl/intl.dart';
@@ -57,6 +59,7 @@ class _RoomListState extends State<RoomList> {
   @override
   void initState() {
     super.initState();
+    initPlatformState();
     clearAllAppNotifications();
     EasyLoading.addStatusCallback(statusCallback);
     getRoomName();
@@ -68,6 +71,20 @@ class _RoomListState extends State<RoomList> {
       final getSocket = Provider.of<SocketClientHelper>(context, listen: false);
       socket = getSocket.socket;
     });
+  }
+
+  initPlatformState() async {
+    try {
+      bool res = await FlutterAppBadger.isAppBadgeSupported();
+      if (res) {
+        print('IsappBadgeSupported: supported');
+        FlutterAppBadger.removeBadge();
+      } else {
+        print('IsappBadgeSupported:Not supported');
+      }
+    } on PlatformException {
+      print('IsappBadgeSupported :Failed to get badge support.');
+    }
   }
 
   Future<void> clearAllAppNotifications() async {
