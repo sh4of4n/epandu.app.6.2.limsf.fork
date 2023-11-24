@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 
 class CameraViewPage extends StatelessWidget {
   const CameraViewPage(
-      {Key? key, required this.path, required this.onImageSend})
-      : super(key: key);
+      {super.key, required this.path, required this.onImageSend});
   final String path;
   final Function onImageSend;
   static final TextEditingController _controller = TextEditingController();

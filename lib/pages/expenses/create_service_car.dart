@@ -48,7 +48,7 @@ class UserModel {
 
 @RoutePage()
 class CreateServiceCarPage extends StatefulWidget {
-  const CreateServiceCarPage({Key? key}) : super(key: key);
+  const CreateServiceCarPage({super.key});
 
   @override
   State<CreateServiceCarPage> createState() => _CreateServiceCarPageState();

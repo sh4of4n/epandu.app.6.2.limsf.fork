@@ -20,7 +20,7 @@ import 'package:path/path.dart' as p;
 @RoutePage()
 class EditExpFuelPage extends StatefulWidget {
   final fuel;
-  const EditExpFuelPage({Key? key, required this.fuel}) : super(key: key);
+  const EditExpFuelPage({super.key, required this.fuel});
 
   @override
   State<EditExpFuelPage> createState() => _EditExpFuelPageState();

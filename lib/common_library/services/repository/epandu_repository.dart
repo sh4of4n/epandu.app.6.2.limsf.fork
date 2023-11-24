@@ -45,9 +45,9 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message!.isEmpty
+      message: response.message.isEmpty
           ? 'You have no class enrolled.'
-          : response.message!.replaceAll(r'\u000d\u000a', ''),
+          : response.message.replaceAll(r'\u000d\u000a', ''),
     );
   }
 
@@ -78,9 +78,9 @@ class EpanduRepo {
     }
 
     return Response(false,
-        message: response.message == null || response.message!.isEmpty
+        message: response.message.isEmpty
             ? 'You have no payment history'
-            : response.message!.replaceAll(r'\u000d\u000a', ''));
+            : response.message.replaceAll(r'\u000d\u000a', ''));
   }
 
   Future<Response> getCollectionDetailByRecpNo(
@@ -112,9 +112,9 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message!.isEmpty
+      message: response.message.isEmpty
           ? 'No records found.'
-          : response.message!.replaceAll(r'\u000d\u000a', ''),
+          : response.message.replaceAll(r'\u000d\u000a', ''),
     );
   }
 
@@ -145,9 +145,9 @@ class EpanduRepo {
     }
 
     return Response(false,
-        message: response.message == null || response.message!.isEmpty
+        message: response.message.isEmpty
             ? 'You have no booking.'
-            : response.message!.replaceAll(r'\u000d\u000a', ''));
+            : response.message.replaceAll(r'\u000d\u000a', ''));
   }
 
   // attendance
@@ -179,9 +179,9 @@ class EpanduRepo {
     }
 
     return Response(false,
-        message: response.message == null || response.message!.isEmpty
+        message: response.message.isEmpty
             ? 'You have no attendance record.'
-            : response.message!.replaceAll(r'\u000d\u000a', ''));
+            : response.message.replaceAll(r'\u000d\u000a', ''));
   }
 
   // booking
@@ -262,9 +262,9 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message!.isEmpty
+      message: response.message.isEmpty
           ? 'No records found.'
-          : response.message!.replaceAll(r'\u000d\u000a', ''),
+          : response.message.replaceAll(r'\u000d\u000a', ''),
     );
   }
 
@@ -297,9 +297,9 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message!.isEmpty
+      message: response.message.isEmpty
           ? 'No records found.'
-          : response.message!.replaceAll(r'\u000d\u000a', ''),
+          : response.message.replaceAll(r'\u000d\u000a', ''),
     );
   }
 
@@ -333,9 +333,9 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message!.isEmpty
+      message: response.message.isEmpty
           ? 'No records found.'
-          : response.message!.replaceAll(r'\u000d\u000a', ''),
+          : response.message.replaceAll(r'\u000d\u000a', ''),
     );
   }
 
@@ -369,9 +369,9 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message!.isEmpty
+      message: response.message.isEmpty
           ? 'No records found.'
-          : response.message!.replaceAll(r'\u000d\u000a', ''),
+          : response.message.replaceAll(r'\u000d\u000a', ''),
     );
   }
 
@@ -405,9 +405,9 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message!.isEmpty
+      message: response.message.isEmpty
           ? 'No records found.'
-          : response.message!.replaceAll(r'\u000d\u000a', ''),
+          : response.message.replaceAll(r'\u000d\u000a', ''),
     );
   }
 
@@ -449,7 +449,7 @@ class EpanduRepo {
     }
 
     return Response(false,
-        message: response.message!.replaceAll(r'\u000d\u000a', ''));
+        message: response.message.replaceAll(r'\u000d\u000a', ''));
   }
 
   Future<Response> getJpjTestCheckIn() async {
@@ -482,9 +482,9 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message!.isEmpty
+      message: response.message.isEmpty
           ? 'Found no check in result. Unable to generate QR.'
-          : response.message!.replaceAll(r'\u000d\u000a', ''),
+          : response.message.replaceAll(r'\u000d\u000a', ''),
     );
   }
 
@@ -519,9 +519,9 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message!.isEmpty
+      message: response.message.isEmpty
           ? 'No records found.'
-          : response.message!.replaceAll(r'\u000d\u000a', ''),
+          : response.message.replaceAll(r'\u000d\u000a', ''),
     );
   }
 
@@ -577,9 +577,9 @@ class EpanduRepo {
     }
 
     return Response(false,
-        message: response.message == null || response.message!.isEmpty
+        message: response.message.isEmpty
             ? 'Queue number not created. Please try again.'
-            : response.message!.replaceAll(r'\u000d\u000a', ''));
+            : response.message.replaceAll(r'\u000d\u000a', ''));
   }
 
   Future<Response> getScanCodeByAction() async {
@@ -605,9 +605,9 @@ class EpanduRepo {
     }
 
     return Response(false,
-        message: response.message == null || response.message!.isEmpty
+        message: response.message.isEmpty
             ? 'Failed to receive QR code data. Please try again.'
-            : response.message!.replaceAll(r'\u000d\u000a', ''));
+            : response.message.replaceAll(r'\u000d\u000a', ''));
   }
 
   Future<Response> getLastCallingJpjTestQueueNumber({context}) async {
@@ -649,9 +649,9 @@ class EpanduRepo {
     }
 
     return Response(false,
-        message: response.message == null || response.message!.isEmpty
+        message: response.message.isEmpty
             ? 'Tiada nombor giliran semasa.'
-            : response.message!.replaceAll(r'\u000d\u000a', ''));
+            : response.message.replaceAll(r'\u000d\u000a', ''));
   }
 
   Future<Response> getTimeTableListByIcNo({groupId, startIndex}) async {
@@ -679,9 +679,9 @@ class EpanduRepo {
 
     return Response(
       false,
-      message: response.message == null || response.message!.isEmpty
+      message: response.message.isEmpty
           ? 'You have no time table.'
-          : response.message!.replaceAll(r'\u000d\u000a', ''),
+          : response.message.replaceAll(r'\u000d\u000a', ''),
     );
   }
 }

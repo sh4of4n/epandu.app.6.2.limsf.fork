@@ -46,7 +46,7 @@ class _CheckInSlipState extends State<CheckInSlip> {
       customDialog.show(
         context: context,
         barrierDismissable: false,
-        content: result.message!,
+        content: result.message,
         onPressed: () {
           context.router.pop();
           context.router.pop();

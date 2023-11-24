@@ -22,9 +22,9 @@ import '../../router.gr.dart';
 @RoutePage(name: 'inviteFriend')
 class InviteFriend extends StatefulWidget {
   const InviteFriend({
-    Key? key,
+    super.key,
     required this.roomId,
-  }) : super(key: key);
+  });
   final String roomId; //lowerCamelCase
 
   @override

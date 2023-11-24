@@ -212,7 +212,7 @@ class _CheckoutState extends State<Checkout> {
             size: 120,
           ),
         ),
-        content: result.message!,
+        content: result.message,
         type: DialogType.error,
       );
     }

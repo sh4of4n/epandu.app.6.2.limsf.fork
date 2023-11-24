@@ -195,29 +195,29 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     if (mounted) {
       setState(() {
         // _phoneController.text = result.data[0].phone;
-        _nickNameController.text = result.data[0].nickName;
-        _emailController.text = result.data[0].eMail;
-        _idNameController.text = result.data[0].name ?? '';
-        _icNoController.text = result.data[0].icNo;
-        _dobController.text = result.data[0].birthDate;
-        if (result.data[0].race == 'MALAY' || result.data[0].race == 'M') {
+        _nickNameController.text = result.data![0].nickName ?? '';
+        _emailController.text = result.data![0].eMail ?? '';
+        _idNameController.text = result.data![0].name ?? '';
+        _icNoController.text = result.data![0].icNo ?? '';
+        _dobController.text = result.data![0].birthDate ?? '';
+        if (result.data![0].race == 'MALAY' || result.data![0].race == 'M') {
           _race = 'Malay';
           _raceParam = 'M';
-        } else if (result.data[0].race == 'CHINESE' ||
-            result.data[0].race == 'C') {
+        } else if (result.data![0].race == 'CHINESE' ||
+            result.data![0].race == 'C') {
           _race = 'Chinese';
           _raceParam = 'C';
-        } else if (result.data[0].race == 'INDIAN' ||
-            result.data[0].race == 'I') {
+        } else if (result.data![0].race == 'INDIAN' ||
+            result.data![0].race == 'I') {
           _race = 'Indian';
           _raceParam = 'I';
         } else {
           _race = 'Others';
           _raceParam = 'O';
         }
-        profilePicUrl = result.data[0].picturePath != null &&
-                result.data[0].picturePath.isNotEmpty
-            ? result.data[0].picturePath
+        profilePicUrl = result.data![0].picturePath != null &&
+                result.data![0].picturePath!.isNotEmpty
+            ? (result.data![0].picturePath ?? '')
                 .replaceAll(removeBracket, '')
                 .split('\r\n')[0]
             : '';

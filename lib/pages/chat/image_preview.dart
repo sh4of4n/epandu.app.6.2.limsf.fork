@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class ImagePreview extends StatelessWidget {
   final String path;
-  const ImagePreview({Key? key, required this.path}) : super(key: key);
+  const ImagePreview({super.key, required this.path});
 
   @override
   Widget build(BuildContext context) {

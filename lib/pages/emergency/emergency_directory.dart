@@ -325,7 +325,6 @@ class _EmergencyDirectoryState extends State<EmergencyDirectory> {
           iconTheme: const IconThemeData(
             color: Colors.black, //change your color here
           ),
-          backgroundColor: Colors.transparent,
           title: Text(
             AppLocalizations.of(context)!.translate('sos_lbl'),
             style: const TextStyle(

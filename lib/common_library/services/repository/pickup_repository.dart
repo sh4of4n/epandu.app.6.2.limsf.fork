@@ -70,6 +70,6 @@ class PickupRepo {
     }
 
     return Response(false,
-        message: response.message!.replaceAll(r'\u000d\u000a', ''));
+        message: response.message.replaceAll(r'\u000d\u000a', ''));
   }
 }

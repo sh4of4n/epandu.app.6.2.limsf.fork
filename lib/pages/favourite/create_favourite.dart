@@ -15,7 +15,7 @@ import 'package:image_picker/image_picker.dart';
 
 @RoutePage()
 class CreateFavouritePage extends StatefulWidget {
-  const CreateFavouritePage({Key? key}) : super(key: key);
+  const CreateFavouritePage({super.key});
 
   @override
   State<CreateFavouritePage> createState() => _CreateFavouritePageState();

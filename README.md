@@ -1,3 +1,7 @@
+23/11/2023 V.6.2.1
+WS 6.2.27
+- Fixed banner bug
+
 21/11/2023 V.6.2.0
 WS 6.2.27
 - Fixed webview cannot upload file

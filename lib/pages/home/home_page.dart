@@ -6,9 +6,12 @@ import 'package:app_settings/app_settings.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:epandu/common_library/services/location.dart';
+import 'package:epandu/common_library/services/model/auth_model.dart';
+import 'package:epandu/common_library/services/model/profile_model.dart';
 import 'package:epandu/common_library/services/repository/fpx_repository.dart';
 import 'package:epandu/common_library/services/repository/inbox_repository.dart';
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
+import 'package:epandu/common_library/services/response.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/router.gr.dart';
@@ -78,7 +81,7 @@ class _HomeState extends State<Home> {
   bool loadMore = false;
   bool isLoading = false;
   int _startIndex = 0;
-  List<dynamic> items = [];
+  List<FeedByLevel> items = [];
   final appConfig = AppConfig();
 
   final ScrollController _scrollController = ScrollController();
@@ -199,14 +202,15 @@ class _HomeState extends State<Home> {
       var caPwd = await localStorage.getCaPwd();
       var merchantNo = await localStorage.getMerchantDbCode();
       if (!context.mounted) return;
-      var result = await profileRepo.getUserProfile(context: context);
+      Response<List<UserProfile>?> result =
+          await profileRepo.getUserProfile(context: context);
       if (result.isSuccess) {
         // String merchantNo = 'P1001';
-        String? phone = result.data[0].phone;
-        String? email = result.data[0].eMail;
-        String icName = result.data[0].name;
-        String? icNo = result.data[0].icNo;
-        String? dob = result.data[0].birthDate;
+        String? phone = result.data![0].phone;
+        String? email = result.data![0].eMail;
+        String icName = result.data![0].name ?? '';
+        String? icNo = result.data![0].icNo;
+        String dob = result.data![0].birthDate ?? '';
         String? userId = await localStorage.getUserId();
         String? loginDeviceId = await localStorage.getLoginDeviceId();
         // String profilePic = result.data[0].picturePath != null &&
@@ -233,7 +237,7 @@ class _HomeState extends State<Home> {
             _getPhone(udf: feed.udfReturnParameter, phone: phone) +
             _getEmail(udf: feed.udfReturnParameter, email: email) +
             _getBirthDate(
-                udf: feed.udfReturnParameter, dob: dob?.substring(0, 10)) +
+                udf: feed.udfReturnParameter, dob: dob.length >=10 ? dob.substring(0, 10): '') +
             _getLatitude(udf: feed.udfReturnParameter) +
             _getLongitude(udf: feed.udfReturnParameter) +
             _getPackageCode(udf: feed.udfReturnParameter);
@@ -253,7 +257,7 @@ class _HomeState extends State<Home> {
         customDialog.show(
           context: context,
           barrierDismissable: false,
-          content: result.message!,
+          content: result.message,
           customActions: <Widget>[
             TextButton(
               child: Text(AppLocalizations.of(context)!.translate('ok_btn')),
@@ -540,17 +544,17 @@ class _HomeState extends State<Home> {
       isLoading = true;
     });
 
-    var result = await authRepo.getActiveFeed(
+    Response<List<FeedByLevel>?> result = await authRepo.getActiveFeed(
       context: context,
       feedType: 'MAIN',
       startIndex: _startIndex,
       noOfRecords: 10,
     );
     if (result.isSuccess) {
-      if (result.data.length > 0 && mounted) {
+      if (result.data!.isNotEmpty && mounted) {
         setState(() {
-          for (int i = 0; i < result.data.length; i += 1) {
-            items.add(result.data[i]);
+          for (int i = 0; i < result.data!.length; i += 1) {
+            items.add(result.data![i]);
           }
         });
       } else if (mounted) {
@@ -566,7 +570,7 @@ class _HomeState extends State<Home> {
         });
       }
     }
-
+    if (!mounted) return;
     setState(() {
       isLoading = false;
     });
@@ -881,126 +885,137 @@ class _HomeState extends State<Home> {
                             _getActiveFeed();
                           }),
                       LimitedBox(maxHeight: ScreenUtil().setHeight(30)),
-                      SizedBox(
-                        height: 200 + 8.8,
-                        child: ListView.separated(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0,
-                          ),
-                          scrollDirection: Axis.horizontal,
-                          separatorBuilder: (BuildContext ctx, int index) {
-                            return GestureDetector(
-                              onTap: () {
-                                var feedValue = items[index].feedNavigate;
-                                if (feedValue != null) {
-                                  bool isUrl = isURL(feedValue);
-
-                                  // Navigation
-                                  if (!isUrl) {
-                                    switch (feedValue) {
-                                      case 'ETESTING':
-                                        context.router.push(EtestingCategory());
-                                        break;
-                                      case 'EDRIVING':
-                                        context.router.push(EpanduCategory());
-                                        break;
-                                      case 'ENROLLMENT':
-                                        context.router.push(const Enrollment());
-                                        break;
-                                      case 'DI_ENROLLMENT':
-                                        String packageCodeJson =
-                                            _getPackageCode(
-                                                udf: items[index]
-                                                    .udfReturnParameter);
-
-                                        context.router
-                                            .push(
-                                              DiEnrollment(
-                                                  packageCodeJson:
-                                                      packageCodeJson
-                                                          .replaceAll(
-                                                              '&package=', '')),
-                                            )
-                                            .then((value) =>
-                                                getOnlinePaymentListByIcNo());
-                                        break;
-                                      case 'KPP':
-                                        context.router
-                                            .push(const KppCategory());
-                                        break;
-                                      case 'VCLUB':
-                                        context.router.push(const ValueClub());
-                                        break;
-                                      case 'MULTILVL':
-                                        context.router.push(
-                                          Multilevel(
-                                            feed: items[index],
-                                          ),
-                                        );
-                                        break;
-                                      default:
-                                        break;
-                                    }
-                                  } else {
-                                    _checkLocationPermission(
-                                        items[index], context);
-                                  }
-                                }
-                              },
-                              child: Container(
-                                height: 200,
-                                width: 300,
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
+                      items.isEmpty
+                          ? const SizedBox()
+                          : SizedBox(
+                              height: 200 + 8.8,
+                              child: ListView.separated(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
                                 ),
-                                child: Column(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        topRight: Radius.circular(10),
+                                scrollDirection: Axis.horizontal,
+                                separatorBuilder:
+                                    (BuildContext ctx, int index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      var feedValue = items[index].feedNavigate;
+                                      if (feedValue != null) {
+                                        bool isUrl = isURL(feedValue);
+
+                                        // Navigation
+                                        if (!isUrl) {
+                                          switch (feedValue) {
+                                            case 'ETESTING':
+                                              context.router
+                                                  .push(EtestingCategory());
+                                              break;
+                                            case 'EDRIVING':
+                                              context.router
+                                                  .push(EpanduCategory());
+                                              break;
+                                            case 'ENROLLMENT':
+                                              context.router
+                                                  .push(const Enrollment());
+                                              break;
+                                            case 'DI_ENROLLMENT':
+                                              String packageCodeJson =
+                                                  _getPackageCode(
+                                                      udf: items[index]
+                                                          .udfReturnParameter);
+
+                                              context.router
+                                                  .push(
+                                                    DiEnrollment(
+                                                        packageCodeJson:
+                                                            packageCodeJson
+                                                                .replaceAll(
+                                                                    '&package=',
+                                                                    '')),
+                                                  )
+                                                  .then((value) =>
+                                                      getOnlinePaymentListByIcNo());
+                                              break;
+                                            case 'KPP':
+                                              context.router
+                                                  .push(const KppCategory());
+                                              break;
+                                            case 'VCLUB':
+                                              context.router
+                                                  .push(const ValueClub());
+                                              break;
+                                            case 'MULTILVL':
+                                              context.router.push(
+                                                Multilevel(
+                                                  feed: items[index],
+                                                ),
+                                              );
+                                              break;
+                                            default:
+                                              break;
+                                          }
+                                        } else {
+                                          _checkLocationPermission(
+                                              items[index], context);
+                                        }
+                                      }
+                                    },
+                                    child: Container(
+                                      height: 200,
+                                      width: 300,
+                                      decoration: const BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(10),
+                                        ),
                                       ),
-                                      child: Image.network(
-                                        items[index]
-                                            .feedMediaFilename
-                                            .replaceAll(removeBracket, '')
-                                            .split('\r\n')[0],
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          const SizedBox(
-                                            width: 8,
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              items[index].feedText,
-                                              overflow: TextOverflow.ellipsis,
+                                          ClipRRect(
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topLeft: Radius.circular(10),
+                                              topRight: Radius.circular(10),
+                                            ),
+                                            child: Image.network(
+                                              (items[index].feedMediaFilename ??
+                                                      '')
+                                                  .replaceAll(removeBracket, '')
+                                                  .split('\r\n')[0],
+                                              fit: BoxFit.cover,
                                             ),
                                           ),
-                                          const Icon(Icons.chevron_right),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              children: [
+                                                const SizedBox(
+                                                  width: 8,
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    items[index].feedText ?? '',
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                                const Icon(Icons.chevron_right),
+                                              ],
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  );
+                                },
+                                itemCount: items.length + 1,
+                                itemBuilder: (BuildContext ctx, int index) {
+                                  return const SizedBox(
+                                    width: 8,
+                                  );
+                                },
                               ),
-                            );
-                          },
-                          itemCount: items.length + 1,
-                          itemBuilder: (BuildContext ctx, int index) {
-                            return const SizedBox(
-                              width: 8,
-                            );
-                          },
-                        ),
-                      ),
+                            ),
                       const SizedBox(
                         height: 8,
                       ),

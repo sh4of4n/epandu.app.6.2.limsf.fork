@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoViewPage extends StatefulWidget {
-  const VideoViewPage({Key? key, required this.path, required this.onImageSend})
-      : super(key: key);
+  const VideoViewPage({super.key, required this.path, required this.onImageSend});
   final String path;
   final Function onImageSend;
 

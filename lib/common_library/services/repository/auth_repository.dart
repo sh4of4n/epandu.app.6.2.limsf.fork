@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:epandu/common_library/services/model/profile_model.dart';
+
 import '../model/kpp_model.dart';
 
 import '../../../utils/app_config.dart';
@@ -90,8 +92,7 @@ class AuthRepo {
                 .replaceAll('1_2', appConfig.wsVer),
             message: '');
       }
-    } else if (response.message != null &&
-        response.message!.contains('Connection timed out.')) {
+    } else if (response.message.contains('Connection timed out.')) {
       var callbackResult = await wsUrlCallback(
           context: context,
           acctUid: acctUid,
@@ -107,8 +108,7 @@ class AuthRepo {
       }
       // return Response(false,
       //     message: AppLocalizations.of(context).translate('timeout_exception'));
-    } else if (response.message != null &&
-        response.message!.contains('An error occurred.')) {
+    } else if (response.message.contains('An error occurred.')) {
       var callbackResult = await wsUrlCallback(
         context: context,
         acctUid: acctUid,
@@ -125,7 +125,8 @@ class AuthRepo {
       }
     }
 
-    return Response(false, message: 'No URL found with this client account.');
+    return Response(false,
+        message: 'No URL found with this client account.', data: []);
   }
 
   wsUrlCallback({
@@ -205,16 +206,11 @@ class AuthRepo {
         var result = await getUserRegisteredDI(context: context, type: 'LOGIN');
 
         return result;
-      } else if (responseData.msg == 'Reset Password Success') {
-        return Response(true, message: responseData.msg);
-      } else if (responseData.msg ==
-          'No user registered under this phone number.') {
-        return Response(false, message: 'Invalid phone number.');
       }
-      return Response(false, message: responseData.msg);
+      return Response(false, message: responseData.msg ?? '');
     }
 
-    return Response(false, message: 'Invalid phone and/or password.');
+    return Response(false, message: response.message);
   }
 
   Future<Response> getUserRegisteredDI({context, required type}) async {
@@ -236,28 +232,27 @@ class AuthRepo {
           UserRegisteredDiResponse.fromJson(response.data);
       var responseData = userRegisteredDiResponse.armasterProfile;
 
-      var profileResult = await profileRepo.getUserProfile(context: context);
+      Response<List<UserProfile>> profileResult =
+          await profileRepo.getUserProfile(context: context);
 
       if (profileResult.isSuccess) {
-        localStorage.saveName(profileResult.data[0].name ?? '');
-        localStorage.saveNickName(profileResult.data[0].nickName ?? '');
-        localStorage.saveEmail(profileResult.data[0].eMail ?? '');
-        localStorage.savePostCode(profileResult.data[0].postcode ?? '');
-        localStorage.saveUserPhone(profileResult.data[0].phone ?? '');
-        localStorage.saveCountry(profileResult.data[0].countryName ?? '');
-        localStorage.saveState(profileResult.data[0].stateName ?? '');
-        localStorage.saveStudentIc(profileResult.data[0].icNo ?? '');
-        localStorage.saveBirthDate(profileResult.data[0].birthDate ?? '');
-        localStorage.saveRace(profileResult.data[0].race ?? '');
-        localStorage.saveNationality(profileResult.data[0].nationality ?? '');
-        localStorage.saveGender(profileResult.data[0].gender ?? '');
-        localStorage.saveCdl(profileResult.data[0].cdlGroup ?? '');
-        localStorage.saveLdl(profileResult.data[0].enqLdlGroup ?? '');
-        if (profileResult.data[0].picturePath != null) {
-          localStorage.saveProfilePic(profileResult.data[0].picturePath
-              .replaceAll(removeBracket, '')
-              .split('\r\n')[0]);
-        }
+        List<UserProfile> userProfileList = profileResult.data ?? [];
+        localStorage.saveName(userProfileList[0].name ?? '');
+        localStorage.saveNickName(userProfileList[0].nickName ?? '');
+        localStorage.saveEmail(userProfileList[0].eMail ?? '');
+        localStorage.savePostCode(userProfileList[0].postcode ?? '');
+        localStorage.saveUserPhone(userProfileList[0].phone ?? '');
+        localStorage.saveCountry(userProfileList[0].countryName ?? '');
+        localStorage.saveState(userProfileList[0].stateName ?? '');
+        localStorage.saveStudentIc(userProfileList[0].icNo ?? '');
+        localStorage.saveBirthDate(userProfileList[0].birthDate ?? '');
+        localStorage.saveRace(userProfileList[0].race ?? '');
+        localStorage.saveNationality(userProfileList[0].nationality ?? '');
+        localStorage.saveGender(userProfileList[0].gender ?? '');
+        localStorage.saveCdl(userProfileList[0].cdlGroup ?? '');
+        localStorage.saveLdl(userProfileList[0].enqLdlGroup ?? '');
+        localStorage.saveProfilePic(userProfileList[0].picturePath ??
+            ''.replaceAll(removeBracket, '').split('\r\n')[0]);
       }
 
       // save empty on DiCode for user to choose
@@ -885,7 +880,7 @@ class AuthRepo {
             .replaceAll(r'"', ''));
   }
 
-  Future<Response> getActiveFeed({
+  Future<Response<List<FeedByLevel>?>> getActiveFeed({
     context,
     required feedType,
     required startIndex,
@@ -912,11 +907,10 @@ class AuthRepo {
       return Response(true, data: responseData);
     }
 
-    return Response(false,
-        message: 'Failed to load promotions. Please try again later.');
+    return Response(false, message: response.message);
   }
 
-  Future<Response> getLdlkEnqGroupList() async {
+  Future<Response<List<LdlEnqGroupList>>> getLdlkEnqGroupList() async {
     String? caUid = await localStorage.getCaUid();
     String? caPwd = await localStorage.getCaPwdEncode();
 
@@ -935,11 +929,10 @@ class AuthRepo {
       return Response(true, data: responseData);
     }
 
-    return Response(false,
-        message: 'Failed to load LDL list. Please try again later.');
+    return Response(false, message: response.message);
   }
 
-  Future<Response> getCdlList() async {
+  Future<Response<List<CdlList>?>> getCdlList() async {
     String? caUid = await localStorage.getCaUid();
     String? caPwd = await localStorage.getCaPwdEncode();
 

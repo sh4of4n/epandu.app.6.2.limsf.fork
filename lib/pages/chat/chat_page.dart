@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:epandu/common_library/services/response.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:epandu/pages/chat/chat_bloc.dart';
@@ -93,14 +94,14 @@ class _ChatHomeState extends State<ChatHome> {
   }
 
   _getUserProfile(String? userId) async {
-    var result = await profileRepo.getUserProfile(
+    Response<List<UserProfile>> result = await profileRepo.getUserProfile(
         context: context, customUserId: userId);
 
     if (result.isSuccess) {
-      if (result.data.length > 0) {
+      if (result.data!.isNotEmpty) {
         if (mounted) {
           setState(() {
-            _searchResult = result.data[0];
+            _searchResult = result.data![0];
           });
         }
       }
