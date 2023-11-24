@@ -637,7 +637,7 @@ class DatabaseHelper {
   Future<List<MessageDetails>> getFailedMsgList(String roomId) async {
     Database db = await instance.database;
     var res = await db.rawQuery(
-        "Select DISTINCT $msgDetailTable.room_id as room_id,$msgDetailTable.user_id as user_id,$msgDetailTable.msg_body as msg_body,$msgDetailTable.msg_binaryType as msg_binaryType,$msgDetailTable.send_datetime as send_datetime,$msgDetailTable.reply_to_id as reply_to_id,$msgDetailTable.filePath as filePath,$msgDetailTable.msgStatus as msgStatus,$msgDetailTable.message_id as message_id,$msgDetailTable.clientMessageId as client_message_id,$msgDetailTable.nickName as nick_name from $msgDetailTable  where  $msgDetailTable.deleted == 0 and $msgDetailTable.room_id = '$roomId' and $msgDetailTable.message_id = 0;");
+        "Select DISTINCT $msgDetailTable.room_id as room_id,$msgDetailTable.user_id as user_id,$msgDetailTable.msg_body as msg_body,$msgDetailTable.msg_binaryType as msg_binaryType,$msgDetailTable.send_datetime as send_datetime,$msgDetailTable.reply_to_id as reply_to_id,$msgDetailTable.filePath as filePath,$msgDetailTable.msgStatus as msgStatus,$msgDetailTable.message_id as message_id,$msgDetailTable.clientMessageId as client_message_id,$msgDetailTable.nickName as nick_name from $msgDetailTable  where  $msgDetailTable.deleted == 0 and $msgDetailTable.room_id = '$roomId' and $msgDetailTable.message_id = 0 ORDER BY $msgDetailTable.send_datetime ASC;");
     List<MessageDetails> list = res.isNotEmpty
         ? res.map((m) => MessageDetails.fromJson(m)).toList()
         : [];

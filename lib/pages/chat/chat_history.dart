@@ -139,6 +139,11 @@ class ChatHistory extends ChangeNotifier {
             existingMessage.clientMessageId ==
             newFailedMessage.clientMessageId)) {
           getMessageDetailsList.add(newFailedMessage);
+        } else {
+          int index = getMessageDetailsList.indexWhere((element) =>
+              element.clientMessageId == newFailedMessage.clientMessageId);
+          getMessageDetailsList.removeAt(index);
+          getMessageDetailsList.add(newFailedMessage);
         }
       }
     }

@@ -1,3 +1,12 @@
+24/11/2023 V.6.2.11
+WS 6.2.211
+
+- Resolved sequence issue if wifi disconnect and connect back for below scenario.
+  Step 1: Already send 1,2,3 message sent success.
+  Step 2: Turnoff wifi and send message 3,4,5.
+  Step 3: Exit chat room and come back then 3,4,5 showing above the 1st message.
+  To resolve this issue i get failed messages send datetime ascending order and check list of all messages in chat room compare with client id if not exist adding and if exist then remove it add below the list . So all failed messages will show below the chat room.
+
 23/11/2023 V.6.2.11
 WS 6.2.211
 
