@@ -103,7 +103,7 @@ class _AuthenticationState extends State<Authentication> {
       if (!context.mounted) return;
       Provider.of<ChatNotificationCount>(context, listen: false)
           .clearNotificationBadge();
-      context.read<SocketClientHelper>().logoutUserRoom();
+      await context.read<SocketClientHelper>().logoutUserRoom();
       if (!context.mounted) return;
       await authRepo.logout(context: context, type: '');
       if (!context.mounted) return;

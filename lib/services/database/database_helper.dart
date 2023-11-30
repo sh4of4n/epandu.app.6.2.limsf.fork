@@ -13,7 +13,7 @@ import '../../common_library/utils/local_storage.dart';
 
 class DatabaseHelper {
   static const _databaseName = "ePanduChat.db";
-  static const _databaseVersion = 1;
+  static const _databaseVersion = 2;
   static const String messageAndAuthorTable = 'MessageAndAuthorTable';
   static const String messageTargetTable = 'MessageTargetTable';
   static const String userTable = 'UserTable';
@@ -68,10 +68,12 @@ class DatabaseHelper {
   }
 
   Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    if (oldVersion < 1) {
+    if (oldVersion < newVersion) {
       print('Test Upgrade');
-      await db.execute(
-          " CREATE TABLE $testTable (id INTEGER PRIMARY KEY AUTOINCREMENT,room_id TEXT NOT NULL);");
+      await db
+          .execute('ALTER TABLE  $roomTable ADD COLUMN delete_datetime TEXT');
+      // await db.execute(
+      //     " CREATE TABLE $testTable (id INTEGER PRIMARY KEY AUTOINCREMENT,room_id TEXT NOT NULL);");
     }
   }
   // Helper methods

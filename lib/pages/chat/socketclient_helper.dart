@@ -242,10 +242,10 @@ class SocketClientHelper extends ChangeNotifier {
     return randomString;
   }
 
-  logoutUserRoom() async {
-    String? userid = await localStorage.getUserId();
+  Future<void> logoutUserRoom() async {
+    //String? userid = await localStorage.getUserId();
     List<Room> rooms = [];
-    rooms = await dbHelper.getRoomList(userid!);
+    rooms = await dbHelper.getRooms();
     if (rooms.isNotEmpty) {
       for (var room in rooms) {
         var logoutJson = {

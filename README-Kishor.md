@@ -1,3 +1,14 @@
+30/11/2023 V.6.2.11
+WS 6.2.211
+
+- Enhanced database_helper dart file if add new column to table change database version and add alter command in upgrade function.
+
+29/11/2023 V.6.2.11
+WS 6.2.211
+
+- Enhanced search function on to search text changed event and highlight the search word with background color.
+- Enhanced logoutUserRoom() function by adding future.
+
 24/11/2023 V.6.2.11
 WS 6.2.211
 
