@@ -1,3 +1,8 @@
+04/12/2023 V.6.2.11
+WS 6.2.211
+
+- Updated socketclicnet_helper file if wifi turn of and on using socket.reconnect event to login to rooms and stoppd socket.onany function.
+
 30/11/2023 V.6.2.11
 WS 6.2.211
 

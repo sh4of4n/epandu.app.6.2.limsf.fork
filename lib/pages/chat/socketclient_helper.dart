@@ -179,6 +179,28 @@ class SocketClientHelper extends ChangeNotifier {
                   newroom.deleted!, '');
             }
           }
+          List<MessageDetails> messageDetailsList =
+              await dbHelper.getAllRoomLatestMsgDetail();
+          int completedRooms = 0;
+          for (var room in rooms) {
+            await Future.delayed(const Duration(seconds: 1));
+            String messageId = '';
+            List<MessageDetails> msgList = messageDetailsList
+                .where((element) => element.roomId == room.roomId)
+                .toList();
+            if (msgList.isNotEmpty) {
+              messageId = msgList[0].messageId.toString();
+            }
+            completedRooms++;
+            print(
+                'SocketOnAny:IsRoomDeleted ${room.deleted!} - ${room.deleteDatetime!}');
+            await loginUser(room.roomId!, userid!, room.createDate!, messageId,
+                room.deleted!, room.deleteDatetime!);
+
+            if (completedRooms == rooms.length) {
+              sendFailedMessages();
+            }
+          }
         }
       }
     }
@@ -293,28 +315,33 @@ class SocketClientHelper extends ChangeNotifier {
       isReconnect = 'no';
       notifyListeners();
     });
-    // socket.onReconnect((_) async {
-    //   print('event :server reconnected');
-    //   isSocketConnected = true;
-    //   isReconnect = 'yes';
-    //   String? userid = await localStorage.getUserId();
-    //   if (userid != '') {
-    //     List<CheckOnline> onlineUsersList =
-    //         Provider.of<OnlineUsers>(ctx, listen: false).getOnlineList;
+    socket.onReconnect((_) async {
+      String? userid = await localStorage.getUserId();
+      List<Room> rooms = await dbHelper.getRooms();
+      List<MessageDetails> messageDetailsList =
+          await dbHelper.getAllRoomLatestMsgDetail();
+      int completedRooms = 0;
+      for (var room in rooms) {
+        await Future.delayed(const Duration(seconds: 1));
+        String messageId = '';
+        List<MessageDetails> msgList = messageDetailsList
+            .where((element) => element.roomId == room.roomId)
+            .toList();
+        if (msgList.isNotEmpty) {
+          messageId = msgList[0].messageId.toString();
+        }
+        completedRooms++;
+        print(
+            'SocketOnAny:IsRoomDeleted ${room.deleted!} - ${room.deleteDatetime!}');
+        await loginUser(room.roomId!, userid!, room.createDate!, messageId,
+            room.deleted!, room.deleteDatetime!);
 
-    //     if (onlineUsersList.indexWhere((element) => element.userId == userid) ==
-    //         -1) {
-    //       List<Room> rooms = await dbHelper.getRoomList(userid!);
-    //       rooms.forEach((Room room) {
-    //         loginUser(room.room_id!, room.user_id!, room.create_date!);
-    //       });
-    //       sendFailedMessages();
-    //     } else {
-    //       sendFailedMessages();
-    //     }
-    //   }
-    //   notifyListeners();
-    // });
+        if (completedRooms == rooms.length) {
+          sendFailedMessages();
+        }
+      }
+      notifyListeners();
+    });
     socket.onDisconnect((_) {
       //print('event : server disconnected');
       isSocketConnected = false;
@@ -322,51 +349,51 @@ class SocketClientHelper extends ChangeNotifier {
       loginUserRoom();
       notifyListeners();
     });
-    socket.onAny((event, data) async {
-      //print('event :$event, data :$data');
-      // if (event == 'disconnect') {
-      //   preEvent = 'disconnect';
-      // } else {
-      //   preEvent = '';
-      // }
-      String? userid = await localStorage.getUserId();
-      // if (userid != '' && event == 'connect' && preEvent == 'disconnect') {
-      if (userid != '' && event == 'connect') {
-        if (!ctx.mounted) return;
-        // List<CheckOnline> onlineUsersList =
-        //     Provider.of<OnlineUsers>(ctx, listen: false).getOnlineList;
+    // socket.onAny((event, data) async {
+    //   //print('event :$event, data :$data');
+    //   // if (event == 'disconnect') {
+    //   //   preEvent = 'disconnect';
+    //   // } else {
+    //   //   preEvent = '';
+    //   // }
+    //   String? userid = await localStorage.getUserId();
+    //   // if (userid != '' && event == 'connect' && preEvent == 'disconnect') {
+    //   if (userid != '' && event == 'connect') {
+    //     if (!ctx.mounted) return;
+    //     // List<CheckOnline> onlineUsersList =
+    //     //     Provider.of<OnlineUsers>(ctx, listen: false).getOnlineList;
 
-        // if (onlineUsersList.indexWhere((element) => element.userId == userid) ==
-        //     -1) {
-        List<Room> rooms = await dbHelper.getRooms();
-        List<MessageDetails> messageDetailsList =
-            await dbHelper.getAllRoomLatestMsgDetail();
-        int completedRooms = 0;
-        for (var room in rooms) {
-          await Future.delayed(const Duration(seconds: 1));
-          String messageId = '';
-          List<MessageDetails> msgList = messageDetailsList
-              .where((element) => element.roomId == room.roomId)
-              .toList();
-          if (msgList.isNotEmpty) {
-            messageId = msgList[0].messageId.toString();
-          }
-          completedRooms++;
-          print(
-              'SocketOnAny:IsRoomDeleted ${room.deleted!} - ${room.deleteDatetime!}');
-          await loginUser(room.roomId!, userid!, room.createDate!, messageId,
-              room.deleted!, room.deleteDatetime!);
+    //     // if (onlineUsersList.indexWhere((element) => element.userId == userid) ==
+    //     //     -1) {
+    //     List<Room> rooms = await dbHelper.getRooms();
+    //     List<MessageDetails> messageDetailsList =
+    //         await dbHelper.getAllRoomLatestMsgDetail();
+    //     int completedRooms = 0;
+    //     for (var room in rooms) {
+    //       await Future.delayed(const Duration(seconds: 1));
+    //       String messageId = '';
+    //       List<MessageDetails> msgList = messageDetailsList
+    //           .where((element) => element.roomId == room.roomId)
+    //           .toList();
+    //       if (msgList.isNotEmpty) {
+    //         messageId = msgList[0].messageId.toString();
+    //       }
+    //       completedRooms++;
+    //       print(
+    //           'SocketOnAny:IsRoomDeleted ${room.deleted!} - ${room.deleteDatetime!}');
+    //       await loginUser(room.roomId!, userid!, room.createDate!, messageId,
+    //           room.deleted!, room.deleteDatetime!);
 
-          if (completedRooms == rooms.length) {
-            sendFailedMessages();
-          }
-        }
-        // } else {
-        //   sendFailedMessages();
-        // }
-      }
-      notifyListeners();
-    });
+    //       if (completedRooms == rooms.length) {
+    //         sendFailedMessages();
+    //       }
+    //     }
+    //     // } else {
+    //     //   sendFailedMessages();
+    //     // }
+    //   }
+    //   notifyListeners();
+    // });
 
     socket.on('message', (data) async {
       String? userid = await localStorage.getUserId();
