@@ -120,6 +120,7 @@ dependencies:
   cached_network_image:
   path:
   sentry_sqflite:
+  flutter_app_badger:
 
 dependency_overrides:
   modal_bottom_sheet:

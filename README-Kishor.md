@@ -1,5 +1,31 @@
-23/11/2023 V.6.2.11
+04/12/2023 V.6.2.11
 WS 6.2.211
+
+- Updated socketclicnet_helper file if wifi turn of and on using socket.reconnect event to login to rooms and stoppd socket.onany function.
+
+30/11/2023 V.6.2.11
+WS 6.2.211
+
+- Enhanced database_helper dart file if add new column to table change database version and add alter command in upgrade function.
+
+29/11/2023 V.6.2.11
+WS 6.2.211
+
+- Enhanced search function on to search text changed event and highlight the search word with background color.
+- Enhanced logoutUserRoom() function by adding future.
+
+24/11/2023 V.6.2.11
+WS 6.2.211
+
+- Resolved sequence issue if wifi disconnect and connect back for below scenario.
+  Step 1: Already send 1,2,3 message sent success.
+  Step 2: Turnoff wifi and send message 3,4,5.
+  Step 3: Exit chat room and come back then 3,4,5 showing above the 1st message.
+  To resolve this issue i get failed messages send datetime ascending order and check list of all messages in chat room compare with client id if not exist adding and if exist then remove it add below the list . So all failed messages will show below the chat room.
+- Added new function to remove IOS badge icon count value.
+
+  23/11/2023 V.6.2.11
+  WS 6.2.211
 
 - Resolved issue in room list screen null check operator used on null value for deleted propertie in Room class.
 

@@ -25,6 +25,8 @@ import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:epandu/common_library/utils/loading_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
@@ -157,6 +159,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    initPlatformState();
     clearAllAppNotifications();
     _openHiveBoxes();
     // getStudentInfo();
@@ -183,6 +186,20 @@ class _HomeState extends State<Home> {
         }
       }
     });
+  }
+
+  initPlatformState() async {
+    try {
+      bool res = await FlutterAppBadger.isAppBadgeSupported();
+      if (res) {
+        print('IsappBadgeSupported: supported');
+        FlutterAppBadger.removeBadge();
+      } else {
+        print('IsappBadgeSupported:Not supported');
+      }
+    } on PlatformException {
+      print('IsappBadgeSupported :Failed to get badge support.');
+    }
   }
 
   Future<void> clearAllAppNotifications() async {
@@ -237,7 +254,8 @@ class _HomeState extends State<Home> {
             _getPhone(udf: feed.udfReturnParameter, phone: phone) +
             _getEmail(udf: feed.udfReturnParameter, email: email) +
             _getBirthDate(
-                udf: feed.udfReturnParameter, dob: dob.length >=10 ? dob.substring(0, 10): '') +
+                udf: feed.udfReturnParameter,
+                dob: dob.length >= 10 ? dob.substring(0, 10) : '') +
             _getLatitude(udf: feed.udfReturnParameter) +
             _getLongitude(udf: feed.udfReturnParameter) +
             _getPackageCode(udf: feed.udfReturnParameter);
@@ -969,7 +987,8 @@ class _HomeState extends State<Home> {
                                         ),
                                       ),
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           ClipRRect(
                                             borderRadius:

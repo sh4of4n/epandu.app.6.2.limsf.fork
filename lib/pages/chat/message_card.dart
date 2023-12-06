@@ -427,16 +427,9 @@ RichText buildRichText(String searchText, String fullText) {
 
     textSpans.add(
       WidgetSpan(
-        child: Container(
-          padding: const EdgeInsets.all(4.0),
-          decoration: BoxDecoration(
-            color: Colors.grey[300], // Light grey background color
-            borderRadius: BorderRadius.circular(4.0),
-          ),
-          child: Text(
-            matchingText,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
+        child: Text(
+          matchingText,
+          style: const TextStyle(backgroundColor: Colors.grey),
         ),
       ),
     );
