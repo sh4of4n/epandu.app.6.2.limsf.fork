@@ -1,3 +1,9 @@
+08/12/2023 V.6.2.11
+WS 6.2.211
+
+- Resolved issue if userA invite userB and navigate to room list screen then userB send message to userA.
+  Roomlist screen not show badge count.
+
 04/12/2023 V.6.2.11
 WS 6.2.211
 

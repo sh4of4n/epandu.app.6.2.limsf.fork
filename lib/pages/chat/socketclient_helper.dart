@@ -194,7 +194,7 @@ class SocketClientHelper extends ChangeNotifier {
             completedRooms++;
             print(
                 'SocketOnAny:IsRoomDeleted ${room.deleted!} - ${room.deleteDatetime!}');
-            await loginUser(room.roomId!, userid!, room.createDate!, messageId,
+            await loginUser(room.roomId!, userid, room.createDate!, messageId,
                 room.deleted!, room.deleteDatetime!);
 
             if (completedRooms == rooms.length) {
