@@ -14,9 +14,8 @@ class ChatHistory extends ChangeNotifier {
     int index = getMessageDetailsList.indexWhere(
         (element) => element.clientMessageId == messageDetail.clientMessageId);
     if (index == -1) {
-      getMessageDetailsList.add(messageDetail);
-      // getMessageDetailsList
-      //     .sort((a, b) => a.messageId!.compareTo(b.messageId!));
+      //getMessageDetailsList.add(messageDetail);
+      getMessageDetailsList.insert(0, messageDetail);
       notifyListeners();
     }
   }
@@ -132,18 +131,21 @@ class ChatHistory extends ChangeNotifier {
     }
     // getMessageDetailsList
     //     .sort((a, b) => a.sendDateTime!.compareTo(b.sendDateTime!));
-    getMessageDetailsList.sort((a, b) => a.messageId!.compareTo(b.messageId!));
+    // getMessageDetailsList.sort((a, b) => a.messageId!.compareTo(b.messageId!));
+    getMessageDetailsList.sort((a, b) => b.messageId!.compareTo(a.messageId!));
     if (failedMessagesList.isNotEmpty) {
       for (var newFailedMessage in failedMessagesList) {
         if (!getMessageDetailsList.any((existingMessage) =>
             existingMessage.clientMessageId ==
             newFailedMessage.clientMessageId)) {
-          getMessageDetailsList.add(newFailedMessage);
+          //getMessageDetailsList.add(newFailedMessage);
+          getMessageDetailsList.insert(0, newFailedMessage);
         } else {
           int index = getMessageDetailsList.indexWhere((element) =>
               element.clientMessageId == newFailedMessage.clientMessageId);
           getMessageDetailsList.removeAt(index);
-          getMessageDetailsList.add(newFailedMessage);
+          //getMessageDetailsList.add(newFailedMessage);
+          getMessageDetailsList.insert(0, newFailedMessage);
         }
       }
     }

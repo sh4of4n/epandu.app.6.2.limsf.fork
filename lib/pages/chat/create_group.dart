@@ -459,7 +459,8 @@ class _CreateGroupState extends State<CreateGroup> {
                       child: Center(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
-                          child: inviteFriendResponse.picturePath != null
+                          child: inviteFriendResponse.picturePath != null &&
+                                  inviteFriendResponse.picturePath != ''
                               ? Image.network(inviteFriendResponse.picturePath!
                                   .replaceAll(removeBracket, '')
                                   .split('\r\n')[0])

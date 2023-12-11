@@ -1,3 +1,8 @@
+11/12/2023 V.6.2.11
+WS 6.2.211
+
+- Resolved issue chat room history showing reverse order with flashing effect finally showing correct message order.
+
 08/12/2023 V.6.2.11
 WS 6.2.211
 

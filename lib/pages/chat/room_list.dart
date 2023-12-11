@@ -270,7 +270,7 @@ class _RoomListState extends State<RoomList> {
           },
         ),
         title: Text(roomTitle),
-        // backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.blueAccent,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.delete),

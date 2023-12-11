@@ -696,18 +696,18 @@ class _ChatRoomState extends State<ChatRoom> {
                       filePath: '',
                       binaryType: '');
 
-              getMessageDetailsList = msgList.getMessageDetailsList
-                  .where((element) => element.roomId == widget.roomId)
-                  .toList()
-                  .reversed
-                  .toList();
+              getMessageDetailsList = msgList.getMessageDetailsList;
+              // .where((element) => element.roomId == widget.roomId)
+              // .toList()
+              // .reversed
+              // .toList();
 
               int replyId = getMessageDetailsList[index].replyToId!;
               if (getMessageDetailsList[index].replyToId! > 0) {
-                int index = getMessageDetailsList
+                int replyIndex = getMessageDetailsList
                     .indexWhere((element) => element.messageId == replyId);
-                if (index > 0) {
-                  MessageDetails msgDetails = getMessageDetailsList[index];
+                if (replyIndex > 0) {
+                  MessageDetails msgDetails = getMessageDetailsList[replyIndex];
                   existingReplayMessageDetails.replyToId = msgDetails.messageId;
                   existingReplayMessageDetails.nickName = msgDetails.nickName;
                   existingReplayMessageDetails.filePath = msgDetails.filePath;
