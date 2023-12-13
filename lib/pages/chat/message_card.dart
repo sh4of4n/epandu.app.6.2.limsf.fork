@@ -86,7 +86,8 @@ class MessageCard extends StatelessWidget {
                       ),
                   replyMessageDetails.replyToId == 0
                       ? isSearching && searchKey != ''
-                          ? buildRichText(searchKey, messageDetails.msgBody!)
+                          ? buildRichText(searchKey, messageDetails.msgBody!,
+                              localUser, messageDetails.userId!)
                           : Text(
                               messageDetails.msgBody!,
                               style: MyTheme.bodyText1.copyWith(
@@ -172,180 +173,6 @@ class MessageCard extends StatelessWidget {
         ),
       ),
     );
-
-    // const styleMe = BubbleStyle(
-    //   nip: BubbleNip.rightTop,
-    //   // color: Color.fromARGB(255, 225, 255, 199),
-    //   color: Colors.lightBlueAccent,
-    //   borderColor: Colors.grey,
-    //   borderWidth: 1,
-    //   elevation: 4,
-    //   margin: BubbleEdges.only(top: 10),
-    //   alignment: Alignment.topRight,
-    // );
-    // const styleSomebody = BubbleStyle(
-    //   nip: BubbleNip.leftTop,
-    //   color: Colors.white,
-    //   borderColor: Colors.blueGrey,
-    //   borderWidth: 1,
-    //   elevation: 4,
-    //   margin: BubbleEdges.only(top: 10),
-    //   alignment: Alignment.topLeft,
-    // );
-
-    // return Bubble(
-    //   style: localUser == messageDetails.user_id! ? styleMe : styleSomebody,
-    //   child: Column(
-    //     mainAxisSize: MainAxisSize.min,
-    //     crossAxisAlignment: CrossAxisAlignment.start,
-    //     children: [
-    //       if (roomDesc.toUpperCase().contains("GROUP")) ...[
-    //         new Text(
-    //           messageDetails.nick_name!,
-    //           style: localUser == messageDetails.user_id!
-    //               ? MyTheme.isMeheading2.copyWith(fontSize: 13)
-    //               : MyTheme.heading2.copyWith(fontSize: 13),
-    //         ),
-    //         replyMessageDetails.reply_to_id == 0
-    //             ? Padding(
-    //                 padding: const EdgeInsets.all(5.0),
-    //                 child: new Text(
-    //                   messageDetails.msg_body!,
-    //                   style: localUser == messageDetails.user_id!
-    //                       ? MyTheme.isMebodyText1
-    //                       : MyTheme.bodyText1,
-    //                 ),
-    //               )
-    //             : Column(
-    //                 crossAxisAlignment: CrossAxisAlignment.end,
-    //                 children: [
-    //                   buildReplyMessage(replyMessageDetails),
-    //                   Divider(
-    //                     color: Colors.grey[500],
-    //                     height: 20,
-    //                     thickness: 2,
-    //                     indent: 10,
-    //                     endIndent: 10,
-    //                   ),
-    //                   Align(
-    //                     alignment: Alignment.centerLeft,
-    //                     child: Padding(
-    //                       padding: const EdgeInsets.all(5.0),
-    //                       child: new Text(messageDetails.msg_body!,
-    //                           style: MyTheme.bodyText1),
-    //                     ),
-    //                   )
-    //                 ],
-    //               ),
-    //         localUser == messageDetails.user_id!
-    //             ? Row(
-    //                 mainAxisAlignment: MainAxisAlignment.end,
-    //                 mainAxisSize: MainAxisSize.min,
-    //                 children: [
-    //                   if (messageDetails.edit_datetime != '')
-    //                     Icon(
-    //                       Icons.edit,
-    //                       size: 20,
-    //                       semanticLabel: "Edited",
-    //                     ),
-    //                   SizedBox(
-    //                     width: 5,
-    //                   ),
-    //                   Text(
-    //                       DateFormatter().getVerboseDateTimeRepresentation(
-    //                           DateTime.parse(messageDetails.send_datetime!)),
-    //                       style: MyTheme.isMebodyTextTime),
-    //                   SizedBox(
-    //                     width: 5,
-    //                   ),
-    //                   getStatusIcon(
-    //                     messageDetails.msgStatus!,
-    //                     messageDetails.send_datetime!,
-    //                   ),
-    //                 ],
-    //               )
-    //             : Row(
-    //                 mainAxisAlignment: MainAxisAlignment.end,
-    //                 mainAxisSize: MainAxisSize.min,
-    //                 children: [
-    //                   Text(
-    //                     DateFormatter().getVerboseDateTimeRepresentation(
-    //                         DateTime.parse(messageDetails.send_datetime!)),
-    //                     style: MyTheme.bodyTextTime,
-    //                   )
-    //                 ],
-    //               ),
-    //       ] else ...[
-    //         replyMessageDetails.reply_to_id == 0
-    //             ? Padding(
-    //                 padding: const EdgeInsets.all(5.0),
-    //                 child: new Text(messageDetails.msg_body!,
-    //                     style: MyTheme.bodyText1),
-    //               )
-    //             : Column(
-    //                 crossAxisAlignment: CrossAxisAlignment.end,
-    //                 children: [
-    //                   buildReplyMessage(replyMessageDetails),
-    //                   Divider(
-    //                     color: Colors.grey[500],
-    //                     height: 20,
-    //                     thickness: 2,
-    //                     indent: 10,
-    //                     endIndent: 10,
-    //                   ),
-    //                   Align(
-    //                     alignment: Alignment.centerLeft,
-    //                     child: Padding(
-    //                       padding: const EdgeInsets.all(5.0),
-    //                       child: new Text(messageDetails.msg_body!,
-    //                           style: MyTheme.bodyText1),
-    //                     ),
-    //                   )
-    //                 ],
-    //               ),
-    //         localUser == messageDetails.user_id!
-    //             ? Row(
-    //                 mainAxisAlignment: MainAxisAlignment.end,
-    //                 mainAxisSize: MainAxisSize.min,
-    //                 children: [
-    //                   if (messageDetails.edit_datetime != '')
-    //                     Icon(
-    //                       Icons.edit,
-    //                       size: 20,
-    //                       semanticLabel: "Edited",
-    //                     ),
-    //                   SizedBox(
-    //                     width: 5,
-    //                   ),
-    //                   Text(
-    //                     DateFormatter().getVerboseDateTimeRepresentation(
-    //                         DateTime.parse(messageDetails.send_datetime!)),
-    //                     style: MyTheme.isMebodyTextTime,
-    //                   ),
-    //                   SizedBox(
-    //                     width: 5,
-    //                   ),
-    //                   getStatusIcon(
-    //                     messageDetails.msgStatus!,
-    //                     messageDetails.send_datetime!,
-    //                   ),
-    //                 ],
-    //               )
-    //             : Row(
-    //                 mainAxisAlignment: MainAxisAlignment.end,
-    //                 mainAxisSize: MainAxisSize.min,
-    //                 children: [
-    //                   Text(
-    //                     DateFormatter().getVerboseDateTimeRepresentation(
-    //                         DateTime.parse(messageDetails.send_datetime!)),
-    //                     style: MyTheme.bodyTextTime,
-    //                   )
-    //                 ],
-    //               ),
-    //       ]
-    //     ],
-    //   ),
-    // );
   }
 
   Widget getStatusIcon(String status, String sentTime) {
@@ -412,7 +239,11 @@ class MessageCard extends StatelessWidget {
   }
 }
 
-RichText buildRichText(String searchText, String fullText) {
+RichText buildRichText(String searchText, String fullText, String localUserId,
+    String messageUserId) {
+  if (fullText == '10') {
+    print('fullText: $fullText');
+  }
   List<InlineSpan> textSpans = [];
   final RegExp regex = RegExp(searchText, caseSensitive: false);
   int startIndex = 0;
@@ -429,7 +260,10 @@ RichText buildRichText(String searchText, String fullText) {
       WidgetSpan(
         child: Text(
           matchingText,
-          style: const TextStyle(backgroundColor: Colors.grey),
+          style: TextStyle(
+              backgroundColor: Colors.grey,
+              color:
+                  localUserId == messageUserId ? Colors.white : Colors.black87),
         ),
       ),
     );
@@ -439,7 +273,11 @@ RichText buildRichText(String searchText, String fullText) {
 
   if (startIndex < fullText.length) {
     final String remainingText = fullText.substring(startIndex);
-    textSpans.add(TextSpan(text: remainingText));
+    textSpans.add(TextSpan(
+        text: remainingText,
+        style: TextStyle(
+            color:
+                localUserId == messageUserId ? Colors.white : Colors.black87)));
   }
 
   return RichText(

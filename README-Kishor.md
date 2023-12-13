@@ -1,3 +1,8 @@
+13/12/2023 V.6.2.11
+WS 6.2.211
+
+- While searching for the keyword in chat room, the text color for other members was changed from black to white, and the issue has been resolved.
+
 11/12/2023 V.6.2.11
 WS 6.2.211
 

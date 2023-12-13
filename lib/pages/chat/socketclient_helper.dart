@@ -646,7 +646,7 @@ class SocketClientHelper extends ChangeNotifier {
 
     socket.on('updateMessageReadBy', (data) async {
       if (data != null && !data.containsKey("error")) {
-        //print('updateMessageReadBy $data');
+        print('updateMessageReadBy $data');
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result["messageId"] != '') {
           if (_isEnterRoom) {
