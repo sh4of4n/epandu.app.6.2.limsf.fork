@@ -241,9 +241,6 @@ class MessageCard extends StatelessWidget {
 
 RichText buildRichText(String searchText, String fullText, String localUserId,
     String messageUserId) {
-  if (fullText == '10') {
-    print('fullText: $fullText');
-  }
   List<InlineSpan> textSpans = [];
   final RegExp regex = RegExp(searchText, caseSensitive: false);
   int startIndex = 0;
