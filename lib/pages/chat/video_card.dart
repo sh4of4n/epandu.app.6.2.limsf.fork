@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:jumping_dot/jumping_dot.dart';
 import 'package:video_player/video_player.dart';
 import '../../common_library/services/model/replymessage_model.dart';
 import '../../common_library/utils/capitalize_firstletter.dart';
@@ -8,6 +7,7 @@ import 'chat_room.dart';
 import 'chat_theme.dart';
 import 'date_formater.dart';
 import 'package:flick_video_player/flick_video_player.dart';
+import 'message_status.dart';
 import 'reply_message_widget.dart';
 
 class VideoCard extends StatefulWidget {
@@ -24,7 +24,7 @@ class VideoCard extends StatefulWidget {
   final VoidCallback onCancelReply;
   final ReplyMessageDetails replyMessageDetails;
   const VideoCard(
-      {super.key,
+      {Key? key,
       required this.filePath,
       required this.nickName,
       required this.time,
@@ -36,7 +36,8 @@ class VideoCard extends StatefulWidget {
       required this.replyMessageDetails,
       required this.onCancelReply,
       required this.callback,
-      required this.roomDesc});
+      required this.roomDesc})
+      : super(key: key);
 
   @override
   State<VideoCard> createState() => _VideoCardState();
@@ -83,9 +84,9 @@ class _VideoCardState extends State<VideoCard> {
       // asymmetric padding
       padding: EdgeInsets.fromLTRB(
         widget.localUser == widget.user ? 64.0 : 16.0,
-        4,
+        3,
         widget.localUser == widget.user ? 16.0 : 64.0,
-        4,
+        3,
       ),
       child: Align(
         // align the child within the container
@@ -94,21 +95,21 @@ class _VideoCardState extends State<VideoCard> {
             : Alignment.centerLeft,
         child: Container(
           decoration: BoxDecoration(
-            border: widget.localUser != widget.user
-                ? Border.all(color: Colors.blueAccent)
-                : Border.all(color: Colors.grey[300]!),
+            // border: widget.localUser != widget.user
+            //     ? Border.all(color: Colors.blueAccent)
+            //     : Border.all(color: Colors.grey[300]!),
             borderRadius: BorderRadius.circular(17),
           ),
           child: DecoratedBox(
             // chat bubble decoration
             decoration: BoxDecoration(
               color: widget.localUser == widget.user
-                  ? Colors.blueAccent
+                  ? Colors.blueAccent.withOpacity(0.3)
                   : Colors.grey[300],
               borderRadius: BorderRadius.circular(16),
             ),
             child: Padding(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(5),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,25 +125,29 @@ class _VideoCardState extends State<VideoCard> {
                         ),
                     widget.filePath != ''
                         ? widget.replyMessageDetails.replyToId == 0
-                            ? FlickVideoPlayer(
-                                flickManager: flickManager,
-                                flickVideoWithControls: FlickVideoWithControls(
-                                  controls: IconTheme(
-                                      data: const IconThemeData(
-                                          color: Colors.white),
-                                      child: FlickPortraitControls(
-                                        progressBarSettings:
-                                            FlickProgressBarSettings(
-                                          bufferedColor:
-                                              Colors.white.withOpacity(0.2),
-                                          playedColor: Colors.white,
-                                          handleColor: Colors.white,
-                                        ),
-                                      )),
-                                ),
-                                flickVideoWithControlsFullscreen:
-                                    const FlickVideoWithControls(
-                                  controls: FlickLandscapeControls(),
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: FlickVideoPlayer(
+                                  flickManager: flickManager,
+                                  flickVideoWithControls:
+                                      FlickVideoWithControls(
+                                    controls: IconTheme(
+                                        data: const IconThemeData(
+                                            color: Colors.white),
+                                        child: FlickPortraitControls(
+                                          progressBarSettings:
+                                              FlickProgressBarSettings(
+                                            bufferedColor:
+                                                Colors.white.withOpacity(0.2),
+                                            playedColor: Colors.white,
+                                            handleColor: Colors.white,
+                                          ),
+                                        )),
+                                  ),
+                                  flickVideoWithControlsFullscreen:
+                                      const FlickVideoWithControls(
+                                    controls: FlickLandscapeControls(),
+                                  ),
                                 ),
                               )
                             : Column(
@@ -177,47 +182,54 @@ class _VideoCardState extends State<VideoCard> {
                         : Center(
                             child: Text('No Video From Server',
                                 style: MyTheme.bodyText1)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            '',
-                            // widget.filePath.replaceAll(
-                            //     '/storage/emulated/0/Android/data/my.com.tbs.carser.app/files/e53a72b7d22514b7be83/Videos/',
-                            //     ''),
-                            style: MyTheme.bodyText1,
-                            overflow: TextOverflow.ellipsis,
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 10, right: 10, bottom: 5, top: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              '',
+                              // widget.filePath.replaceAll(
+                              //     '/storage/emulated/0/Android/data/my.com.tbs.carser.app/files/e53a72b7d22514b7be83/Videos/',
+                              //     ''),
+                              style: MyTheme.bodyText1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                        ),
-                        widget.localUser == widget.user
-                            ? Row(
-                                children: [
-                                  Text(
-                                    DateFormatter()
-                                        .getVerboseDateTimeRepresentation(
-                                            DateTime.parse(widget.time)),
-                                    //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time).toLocal()),
-                                    style: MyTheme.isMebodyTextTime,
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  getStatusIcon(widget.msgStatus)
-                                ],
-                              )
-                            : Row(
-                                children: [
-                                  Text(
-                                    DateFormatter()
-                                        .getVerboseDateTimeRepresentation(
-                                            DateTime.parse(widget.time)),
-                                    //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time).toLocal()),
-                                    style: MyTheme.bodyTextTime,
-                                  )
-                                ],
-                              ),
-                      ],
+                          widget.localUser == widget.user
+                              ? Row(
+                                  children: [
+                                    Text(
+                                      DateFormatter()
+                                          .getVerboseDateTimeRepresentation(
+                                              DateTime.parse(widget.time)),
+                                      //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time).toLocal()),
+                                      style: MyTheme.isMebodyTextTime,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    StatusIcon(
+                                      status: widget.msgStatus,
+                                      sentTime: widget.time,
+                                    ),
+                                  ],
+                                )
+                              : Row(
+                                  children: [
+                                    Text(
+                                      DateFormatter()
+                                          .getVerboseDateTimeRepresentation(
+                                              DateTime.parse(widget.time)),
+                                      //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time).toLocal()),
+                                      style: MyTheme.bodyTextTime,
+                                    )
+                                  ],
+                                ),
+                        ],
+                      ),
                     ),
                   ],
                 )),
@@ -249,42 +261,6 @@ class _VideoCardState extends State<VideoCard> {
                 messageDetails: replyMessageDetails,
                 onCancelReply: widget.onCancelReply,
                 type: "MESSAGE")),
-      );
-    }
-  }
-
-  Widget getStatusIcon(String status) {
-    int timeInMinutes =
-        DateTime.now().difference(DateTime.parse(widget.time)).inMinutes;
-    if (timeInMinutes == 1 && status == "SENDING") {
-      return const Icon(
-        Icons.sms_failed_outlined,
-        size: 20,
-        semanticLabel: "Failed",
-      );
-    }
-    if (status == "SENDING") {
-      return JumpingDots(
-        color: Colors.yellow,
-        radius: 10,
-        numberOfDots: 3,
-        animationDuration: const Duration(milliseconds: 200),
-      );
-    } else if (status == "SENT") {
-      return const Icon(
-        Icons.done,
-        size: 20,
-      );
-    } else if (status == "UNREAD") {
-      return const Icon(
-        Icons.done,
-        size: 20,
-      );
-    } else {
-      return const Icon(
-        Icons.done_all,
-        color: Colors.black,
-        size: 20,
       );
     }
   }

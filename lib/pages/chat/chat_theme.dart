@@ -32,7 +32,7 @@ class MyTheme {
       TextStyle(fontSize: 13, letterSpacing: 1.5, fontWeight: FontWeight.w600);
 
   static const TextStyle bodyTextTime = TextStyle(
-    color: Color(0xffAEABC9),
+    color: Color(0xff7E7B99),
     fontSize: 11,
     fontWeight: FontWeight.bold,
     letterSpacing: 1,

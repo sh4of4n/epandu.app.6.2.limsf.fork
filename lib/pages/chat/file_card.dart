@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:jumping_dot/jumping_dot.dart';
 import 'package:open_file/open_file.dart';
 import '../../common_library/services/model/replymessage_model.dart';
 import '../../common_library/utils/capitalize_firstletter.dart';
 import 'chat_room.dart';
 import 'chat_theme.dart';
 import 'date_formater.dart';
+import 'message_status.dart';
 import 'reply_message_widget.dart';
 
 class FileCard extends StatelessWidget {
@@ -22,7 +22,7 @@ class FileCard extends StatelessWidget {
   final MyCallback callback;
   final ReplyMessageDetails replyMessageDetails;
   const FileCard(
-      {super.key,
+      {Key? key,
       required this.time,
       required this.nickName,
       required this.text,
@@ -34,7 +34,8 @@ class FileCard extends StatelessWidget {
       required this.replyMessageDetails,
       required this.onCancelReply,
       required this.callback,
-      required this.roomDesc});
+      required this.roomDesc})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +47,9 @@ class FileCard extends StatelessWidget {
       // asymmetric padding
       padding: EdgeInsets.fromLTRB(
         localUser == user ? 64.0 : 16.0,
-        4,
+        3,
         localUser == user ? 16.0 : 64.0,
-        4,
+        3,
       ),
       child: Align(
         // align the child within the container
@@ -56,19 +57,21 @@ class FileCard extends StatelessWidget {
             localUser == user ? Alignment.centerRight : Alignment.centerLeft,
         child: Container(
           decoration: BoxDecoration(
-            border: localUser != user
-                ? Border.all(color: Colors.blueAccent)
-                : Border.all(color: Colors.grey[300]!),
+            // border: localUser != user
+            //     ? Border.all(color: Colors.blueAccent)
+            //     : Border.all(color: Colors.grey[300]!),
             borderRadius: BorderRadius.circular(17),
           ),
           child: DecoratedBox(
             // chat bubble decoration
             decoration: BoxDecoration(
-              color: localUser == user ? Colors.blueAccent : Colors.grey[200],
+              color: localUser == user
+                  ? Colors.blueAccent.withOpacity(0.3)
+                  : Colors.grey[300],
               borderRadius: BorderRadius.circular(16),
             ),
             child: Padding(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(5),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +96,7 @@ class FileCard extends StatelessWidget {
                                         MediaQuery.of(context).size.width * 0.7,
                                     padding: const EdgeInsets.all(8),
                                     decoration: BoxDecoration(
-                                      color: Colors.grey[300],
+                                      color: Colors.grey[400],
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Row(
@@ -195,45 +198,52 @@ class FileCard extends StatelessWidget {
                             'No File From Server',
                             style: MyTheme.bodyText1,
                           )),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            ".${text.split('.').last}",
-                            style: MyTheme.bodyText1,
-                            overflow: TextOverflow.ellipsis,
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 10, right: 10, bottom: 5, top: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              ".${text.split('.').last}",
+                              style: MyTheme.bodyText1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                        ),
-                        localUser == user
-                            ? Row(
-                                children: [
-                                  Text(
-                                    DateFormatter()
-                                        .getVerboseDateTimeRepresentation(
-                                            DateTime.parse(time)),
-                                    //DateFormat('hh:mm:ss').format(DateTime.parse(time)),
-                                    style: MyTheme.isMebodyTextTime,
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  getStatusIcon(msgStatus)
-                                ],
-                              )
-                            : Row(
-                                children: [
-                                  Text(
-                                    DateFormatter()
-                                        .getVerboseDateTimeRepresentation(
-                                            DateTime.parse(time)),
-                                    //DateFormat('hh:mm:ss').format(DateTime.parse(time)),
-                                    style: MyTheme.bodyTextTime,
-                                  )
-                                ],
-                              ),
-                      ],
+                          localUser == user
+                              ? Row(
+                                  children: [
+                                    Text(
+                                      DateFormatter()
+                                          .getVerboseDateTimeRepresentation(
+                                              DateTime.parse(time)),
+                                      //DateFormat('hh:mm:ss').format(DateTime.parse(time)),
+                                      style: MyTheme.isMebodyTextTime,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    StatusIcon(
+                                      status: msgStatus,
+                                      sentTime: time,
+                                    ),
+                                  ],
+                                )
+                              : Row(
+                                  children: [
+                                    Text(
+                                      DateFormatter()
+                                          .getVerboseDateTimeRepresentation(
+                                              DateTime.parse(time)),
+                                      //DateFormat('hh:mm:ss').format(DateTime.parse(time)),
+                                      style: MyTheme.bodyTextTime,
+                                    )
+                                  ],
+                                ),
+                        ],
+                      ),
                     ),
                   ],
                 )),
@@ -266,42 +276,6 @@ class FileCard extends StatelessWidget {
               onCancelReply: onCancelReply,
               type: "MESSAGE"),
         ),
-      );
-    }
-  }
-
-  Widget getStatusIcon(String status) {
-    int timeInMinutes =
-        DateTime.now().difference(DateTime.parse(time)).inMinutes;
-    if (timeInMinutes == 1 && status == "SENDING") {
-      return const Icon(
-        Icons.sms_failed_outlined,
-        size: 20,
-        semanticLabel: "Failed",
-      );
-    }
-    if (status == "SENDING") {
-      return JumpingDots(
-        color: Colors.yellow,
-        radius: 10,
-        numberOfDots: 3,
-        animationDuration: const Duration(milliseconds: 200),
-      );
-    } else if (status == "SENT") {
-      return const Icon(
-        Icons.done,
-        size: 20,
-      );
-    } else if (status == "UNREAD") {
-      return const Icon(
-        Icons.done,
-        size: 20,
-      );
-    } else {
-      return const Icon(
-        Icons.done_all,
-        color: Colors.black,
-        size: 20,
       );
     }
   }

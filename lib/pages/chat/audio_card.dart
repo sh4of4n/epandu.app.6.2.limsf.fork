@@ -4,12 +4,12 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart';
 import 'package:flutter_sound/public/util/flutter_sound_helper.dart';
-import 'package:jumping_dot/jumping_dot.dart';
 import '../../common_library/services/model/replymessage_model.dart';
 import '../../common_library/utils/capitalize_firstletter.dart';
 import 'chat_room.dart';
 import 'chat_theme.dart';
 import 'date_formater.dart';
+import 'message_status.dart';
 import 'reply_message_widget.dart';
 
 typedef Fn = void Function();
@@ -28,7 +28,7 @@ class AudioCard extends StatefulWidget {
   final ReplyMessageDetails replyMessageDetails;
   final MyCallback callback;
   const AudioCard(
-      {super.key,
+      {Key? key,
       required this.time,
       required this.nickName,
       required this.text,
@@ -40,7 +40,8 @@ class AudioCard extends StatefulWidget {
       required this.replyMessageDetails,
       required this.onCancelReply,
       required this.callback,
-      required this.roomDesc});
+      required this.roomDesc})
+      : super(key: key);
 
   @override
   State<AudioCard> createState() => _AudioCardState();
@@ -97,9 +98,9 @@ class _AudioCardState extends State<AudioCard> {
       // asymmetric padding
       padding: EdgeInsets.fromLTRB(
         widget.localUser == widget.user ? 64.0 : 16.0,
-        4,
+        3,
         widget.localUser == widget.user ? 16.0 : 64.0,
-        4,
+        3,
       ),
       child: Align(
         // align the child within the container
@@ -108,21 +109,21 @@ class _AudioCardState extends State<AudioCard> {
             : Alignment.centerLeft,
         child: Container(
           decoration: BoxDecoration(
-            border: widget.localUser != widget.user
-                ? Border.all(color: Colors.blueAccent)
-                : Border.all(color: Colors.grey[300]!),
+            // border: widget.localUser != widget.user
+            //     ? Border.all(color: Colors.blueAccent)
+            //     : Border.all(color: Colors.grey[300]!),
             borderRadius: BorderRadius.circular(17),
           ),
           child: DecoratedBox(
             // chat bubble decoration
             decoration: BoxDecoration(
               color: widget.localUser == widget.user
-                  ? Colors.blueAccent
-                  : Colors.grey[200],
+                  ? Colors.blueAccent.withOpacity(0.3)
+                  : Colors.grey[300],
               borderRadius: BorderRadius.circular(16),
             ),
             child: Padding(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(5),
                 child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,7 +145,7 @@ class _AudioCardState extends State<AudioCard> {
                                         MediaQuery.of(context).size.width * 0.8,
                                     padding: const EdgeInsets.all(8),
                                     decoration: BoxDecoration(
-                                      color: Colors.grey[300],
+                                      color: Colors.grey[400],
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Row(
@@ -282,49 +283,56 @@ class _AudioCardState extends State<AudioCard> {
                               child: Text('No Audio From Server',
                                   style: MyTheme.bodyText1),
                             ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              // widget.text,
-                              '',
-                              style: MyTheme.bodyText1.copyWith(
-                                  color: widget.localUser == widget.user
-                                      ? Colors.white
-                                      : Colors.black87),
-                              overflow: TextOverflow.ellipsis,
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10, bottom: 5, top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                // widget.text,
+                                '',
+                                style: MyTheme.bodyText1.copyWith(
+                                    color: widget.localUser == widget.user
+                                        ? Colors.white
+                                        : Colors.black87),
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
-                          ),
-                          widget.localUser == widget.user
-                              ? Row(
-                                  children: [
-                                    Text(
-                                      DateFormatter()
-                                          .getVerboseDateTimeRepresentation(
-                                              DateTime.parse(widget.time)),
-                                      //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time)),
-                                      style: MyTheme.isMebodyTextTime,
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    getStatusIcon(widget.msgStatus)
-                                  ],
-                                )
-                              : Row(
-                                  children: [
-                                    Text(
-                                      DateFormatter()
-                                          .getVerboseDateTimeRepresentation(
-                                              DateTime.parse(widget.time)),
-                                      //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time)),
-                                      style: MyTheme.bodyTextTime,
-                                    ),
-                                  ],
-                                ),
-                        ],
+                            widget.localUser == widget.user
+                                ? Row(
+                                    children: [
+                                      Text(
+                                        DateFormatter()
+                                            .getVerboseDateTimeRepresentation(
+                                                DateTime.parse(widget.time)),
+                                        //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time)),
+                                        style: MyTheme.isMebodyTextTime,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      StatusIcon(
+                                        status: widget.msgStatus,
+                                        sentTime: widget.time,
+                                      ),
+                                    ],
+                                  )
+                                : Row(
+                                    children: [
+                                      Text(
+                                        DateFormatter()
+                                            .getVerboseDateTimeRepresentation(
+                                                DateTime.parse(widget.time)),
+                                        //DateFormat('hh:mm:ss').format(DateTime.parse(widget.time)),
+                                        style: MyTheme.bodyTextTime,
+                                      ),
+                                    ],
+                                  ),
+                          ],
+                        ),
                       ),
                     ])),
           ),
@@ -356,42 +364,6 @@ class _AudioCardState extends State<AudioCard> {
               onCancelReply: widget.onCancelReply,
               type: "MESSAGE"),
         ),
-      );
-    }
-  }
-
-  Widget getStatusIcon(String status) {
-    int timeInMinutes =
-        DateTime.now().difference(DateTime.parse(widget.time)).inMinutes;
-    if (timeInMinutes == 1 && status == "SENDING") {
-      return const Icon(
-        Icons.sms_failed_outlined,
-        size: 20,
-        semanticLabel: "Failed",
-      );
-    }
-    if (status == "SENDING") {
-      return JumpingDots(
-        color: Colors.yellow,
-        radius: 10,
-        numberOfDots: 3,
-        animationDuration: const Duration(milliseconds: 200),
-      );
-    } else if (status == "SENT") {
-      return const Icon(
-        Icons.done,
-        size: 20,
-      );
-    } else if (status == "UNREAD") {
-      return const Icon(
-        Icons.done,
-        size: 20,
-      );
-    } else {
-      return const Icon(
-        Icons.done_all,
-        color: Colors.black,
-        size: 20,
       );
     }
   }
@@ -439,8 +411,8 @@ class _AudioCardState extends State<AudioCard> {
     }
     setState(() {
       pos = d;
-      // print('pos_ {$pos}');
-      // print('duration {$duration}');
+      print('pos_ {$pos}');
+      print('duration {$duration}');
     });
   }
 

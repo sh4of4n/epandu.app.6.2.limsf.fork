@@ -1,3 +1,11 @@
+15/12/2023 V.6.2.11
+WS 6.2.211
+
+- Resolved font size issue compare to whatsapp.
+- Message card width must show based on message length.
+- Image card enhanced same like whatsapp.
+- Resolved padding issues in between all the message types.
+
 13/12/2023 V.6.2.11
 WS 6.2.211
 
