@@ -1,3 +1,8 @@
+18/12/2023 V.6.2.11
+WS 6.2.211
+
+- Image card enhanced in chat_files.dart screen to show full image same like chat room.
+
 15/12/2023 V.6.2.11
 WS 6.2.211
 

@@ -3,13 +3,14 @@ import 'dart:typed_data';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart';
-import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:open_file/open_file.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import 'full_image.dart';
+
 class ChatFiles extends StatelessWidget {
-  const ChatFiles({super.key, required this.roomId});
+  const ChatFiles({Key? key, required this.roomId}) : super(key: key);
   final String roomId;
   @override
   Widget build(BuildContext context) {
@@ -50,10 +51,11 @@ class GalleryItems extends StatefulWidget {
   final String roomId;
   final String storagePath;
   const GalleryItems(
-      {super.key,
+      {Key? key,
       required this.type,
       required this.roomId,
-      required this.storagePath});
+      required this.storagePath})
+      : super(key: key);
 
   @override
   State<GalleryItems> createState() => _GalleryItemsState();
@@ -89,32 +91,46 @@ class _GalleryItemsState extends State<GalleryItems> {
         return GridView.builder(
           itemCount: imageList.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: widget.type == 'Images' ? 3 : 2,
+            crossAxisCount: widget.type == 'Images' ? 2 : 2,
             // crossAxisCount: _getCrossAxisCount(context),
             crossAxisSpacing: 1.0,
-            childAspectRatio: 16 / 9,
+            // childAspectRatio: 16 / 9,
             mainAxisSpacing: 1.0,
           ),
           itemBuilder: (context, index) {
-            return Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: widget.type == 'Images'
-                  ? FullScreenWidget(
-                      child: Center(
-                      child: Hero(
-                        tag: UniqueKey(),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.file(
-                            File(imageList[index]),
-                            fit: BoxFit.cover,
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FullScreenImagePage(
+                      imageUrl: imageList[index],
+                      heroTag: imageList[index].split('/').last,
+                    ),
+                  ),
+                );
+              },
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: widget.type == 'Images'
+                    ? Center(
+                        child: Hero(
+                          tag: UniqueKey(),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16.0),
+                            child: Image.file(
+                              File(imageList[index]),
+                              fit: BoxFit.cover,
+                              height: 300,
+                              width: 250,
+                            ),
                           ),
                         ),
-                      ),
-                    ))
-                  : VideoItems(filePath: imageList[index]),
+                      )
+                    : VideoItems(filePath: imageList[index]),
+              ),
             );
           },
         );
@@ -135,7 +151,7 @@ class _GalleryItemsState extends State<GalleryItems> {
 
 class VideoItems extends StatefulWidget {
   final String filePath;
-  const VideoItems({super.key, required this.filePath});
+  const VideoItems({Key? key, required this.filePath}) : super(key: key);
 
   @override
   State<VideoItems> createState() => _VideoItemsState();
@@ -187,7 +203,8 @@ class _VideoItemsState extends State<VideoItems> {
 }
 
 class MyAudioList extends StatefulWidget {
-  const MyAudioList({super.key, required this.roomId, required this.storagePath});
+  const MyAudioList({Key? key, required this.roomId, required this.storagePath})
+      : super(key: key);
   final String roomId;
   final String storagePath;
   @override
@@ -244,7 +261,7 @@ class _MyAudioListState extends State<MyAudioList> {
 
 class AudioItems extends StatefulWidget {
   final String filePath;
-  const AudioItems({super.key, required this.filePath});
+  const AudioItems({Key? key, required this.filePath}) : super(key: key);
 
   @override
   State<AudioItems> createState() => _AudioItemsState();
@@ -326,7 +343,7 @@ class _AudioItemsState extends State<AudioItems> {
 
 class FileItems extends StatelessWidget {
   final String filePath;
-  const FileItems({super.key, required this.filePath});
+  const FileItems({Key? key, required this.filePath}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -349,7 +366,8 @@ class FileItems extends StatelessWidget {
 }
 
 class MyFilesList extends StatefulWidget {
-  const MyFilesList({super.key, required this.roomId, required this.storagePath});
+  const MyFilesList({Key? key, required this.roomId, required this.storagePath})
+      : super(key: key);
   final String roomId;
   final String storagePath;
   @override

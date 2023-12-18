@@ -22,7 +22,7 @@ class FullScreenImagePage extends StatelessWidget {
         ),
       ),
       body: GestureDetector(
-        onTap: () {
+        onVerticalDragDown: (details) {
           Navigator.pop(context);
         },
         child: Center(
