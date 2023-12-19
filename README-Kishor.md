@@ -1,3 +1,11 @@
+19/12/2023 V.6.2.11
+WS 6.2.211
+
+- Chat message sent/received date time included year for all message types.
+- Resolved chat room batch by batch load chat history for below scenario.
+  If chat room contains only text messages of 1st batch then it's loading second batch. After 2nd batch next batches not loading even though data exist in database. After i change to batch size count=50 then problem resolved.
+- Enhanced chat room to segregate chathistory based on date.
+
 18/12/2023 V.6.2.11
 WS 6.2.211
 
