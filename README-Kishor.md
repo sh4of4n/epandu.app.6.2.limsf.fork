@@ -1,3 +1,8 @@
+20/12/2023 V.6.2.11
+WS 6.2.211
+
+- Enhanced chat repository WS call error messages text.
+
 19/12/2023 V.6.2.11
 WS 6.2.211
 

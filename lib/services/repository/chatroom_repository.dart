@@ -88,8 +88,7 @@ class ChatRoomRepo {
       return Response(true, data: getCreateRoomResponse.room);
     }
 
-    return Response(false,
-        message: response.message);
+    return Response(false, message: response.message);
   }
 
   Future<Response> getRoomList(String roomId) async {
@@ -237,7 +236,7 @@ class ChatRoomRepo {
     }
 
     return Response(false,
-        message: 'Failed to invite friend. Please try again later');
+        message: 'Failed to create group. Please try again later');
   }
 
   Future<Response> addMemberToGroup(String phoneNumber, String roomId) async {
@@ -274,7 +273,7 @@ class ChatRoomRepo {
     }
 
     return Response(false,
-        message: 'Failed to invite friend. Please try again later');
+        message: 'Failed to add new member. Please try again later');
   }
 
   Future<Response> changeGroupName(String roomId, String groupName) async {
@@ -310,7 +309,7 @@ class ChatRoomRepo {
     }
 
     return Response(false,
-        message: 'Failed to invite friend. Please try again later');
+        message: 'Change group name failed. Please try again later');
   }
 
   Future<Response> leaveRoom(String roomId) async {
