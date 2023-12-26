@@ -1,3 +1,9 @@
+26/12/2023 V.6.2.11
+WS 6.2.211
+
+- Enhanced room list room names start with uppercase letter & removed left side margin of image icon.
+- Enhanced room members member names start with uppercase letter.
+
 20/12/2023 V.6.2.11
 WS 6.2.211
 

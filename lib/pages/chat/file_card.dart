@@ -22,7 +22,7 @@ class FileCard extends StatelessWidget {
   final MyCallback callback;
   final ReplyMessageDetails replyMessageDetails;
   const FileCard(
-      {Key? key,
+      {super.key,
       required this.time,
       required this.nickName,
       required this.text,
@@ -34,8 +34,7 @@ class FileCard extends StatelessWidget {
       required this.replyMessageDetails,
       required this.onCancelReply,
       required this.callback,
-      required this.roomDesc})
-      : super(key: key);
+      required this.roomDesc});
 
   @override
   Widget build(BuildContext context) {
@@ -228,6 +227,7 @@ class FileCard extends StatelessWidget {
                                     StatusIcon(
                                       status: msgStatus,
                                       sentTime: time,
+                                      messageType: 'file',
                                     ),
                                   ],
                                 )

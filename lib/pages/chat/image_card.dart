@@ -23,7 +23,7 @@ class ImageCard extends StatelessWidget {
   final String roomDesc;
   final ReplyMessageDetails replyMessageDetails;
   const ImageCard(
-      {Key? key,
+      {super.key,
       required this.time,
       required this.nickName,
       required this.text,
@@ -35,8 +35,7 @@ class ImageCard extends StatelessWidget {
       required this.replyMessageDetails,
       required this.onCancelReply,
       required this.callback,
-      required this.roomDesc})
-      : super(key: key);
+      required this.roomDesc});
 
   @override
   Widget build(BuildContext context) {
@@ -207,6 +206,7 @@ class ImageCard extends StatelessWidget {
                             StatusIcon(
                               status: msgStatus,
                               sentTime: time,
+                              messageType: 'image',
                             ),
                           ],
                         )

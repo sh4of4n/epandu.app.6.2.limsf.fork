@@ -10,7 +10,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 import 'full_image.dart';
 
 class ChatFiles extends StatelessWidget {
-  const ChatFiles({Key? key, required this.roomId}) : super(key: key);
+  const ChatFiles({super.key, required this.roomId});
   final String roomId;
   @override
   Widget build(BuildContext context) {
@@ -51,11 +51,10 @@ class GalleryItems extends StatefulWidget {
   final String roomId;
   final String storagePath;
   const GalleryItems(
-      {Key? key,
+      {super.key,
       required this.type,
       required this.roomId,
-      required this.storagePath})
-      : super(key: key);
+      required this.storagePath});
 
   @override
   State<GalleryItems> createState() => _GalleryItemsState();
@@ -151,7 +150,7 @@ class _GalleryItemsState extends State<GalleryItems> {
 
 class VideoItems extends StatefulWidget {
   final String filePath;
-  const VideoItems({Key? key, required this.filePath}) : super(key: key);
+  const VideoItems({super.key, required this.filePath});
 
   @override
   State<VideoItems> createState() => _VideoItemsState();
@@ -203,8 +202,8 @@ class _VideoItemsState extends State<VideoItems> {
 }
 
 class MyAudioList extends StatefulWidget {
-  const MyAudioList({Key? key, required this.roomId, required this.storagePath})
-      : super(key: key);
+  const MyAudioList(
+      {super.key, required this.roomId, required this.storagePath});
   final String roomId;
   final String storagePath;
   @override
@@ -261,7 +260,7 @@ class _MyAudioListState extends State<MyAudioList> {
 
 class AudioItems extends StatefulWidget {
   final String filePath;
-  const AudioItems({Key? key, required this.filePath}) : super(key: key);
+  const AudioItems({super.key, required this.filePath});
 
   @override
   State<AudioItems> createState() => _AudioItemsState();
@@ -343,7 +342,7 @@ class _AudioItemsState extends State<AudioItems> {
 
 class FileItems extends StatelessWidget {
   final String filePath;
-  const FileItems({Key? key, required this.filePath}) : super(key: key);
+  const FileItems({super.key, required this.filePath});
 
   @override
   Widget build(BuildContext context) {
@@ -366,8 +365,8 @@ class FileItems extends StatelessWidget {
 }
 
 class MyFilesList extends StatefulWidget {
-  const MyFilesList({Key? key, required this.roomId, required this.storagePath})
-      : super(key: key);
+  const MyFilesList(
+      {super.key, required this.roomId, required this.storagePath});
   final String roomId;
   final String storagePath;
   @override

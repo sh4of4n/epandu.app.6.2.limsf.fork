@@ -8,6 +8,7 @@ import '../../common_library/services/repository/auth_repository.dart';
 import '../../common_library/utils/local_storage.dart';
 import '../../services/database/database_helper.dart';
 import '../../services/repository/chatroom_repository.dart';
+import '../../utils/capitalize_firstletter.dart';
 import 'chat_room.dart';
 import 'online_users.dart';
 
@@ -322,7 +323,8 @@ class _RoomMembersListState extends State<RoomMembersList> {
                         (roomMembers.nickName != '' &&
                                 roomMembers.nickName != 'null' &&
                                 roomMembers.nickName != null)
-                            ? roomMembers.nickName!
+                            ? CapitalizeFirstLetter().capitalizeFirstLetter(
+                                roomMembers.nickName!.trim())
                             : '',
                         style: const TextStyle(fontWeight: FontWeight.bold)),
                   )
@@ -399,7 +401,8 @@ class _RoomMembersListState extends State<RoomMembersList> {
                         (roomMembers.nickName != '' &&
                                 roomMembers.nickName != 'null' &&
                                 roomMembers.nickName != null)
-                            ? roomMembers.nickName!
+                            ? CapitalizeFirstLetter().capitalizeFirstLetter(
+                                roomMembers.nickName!.trim())
                             : '',
                         style: const TextStyle(fontWeight: FontWeight.bold)),
                   )

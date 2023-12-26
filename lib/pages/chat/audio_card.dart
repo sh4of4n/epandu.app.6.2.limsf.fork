@@ -317,6 +317,7 @@ class _AudioCardState extends State<AudioCard> {
                                       StatusIcon(
                                         status: widget.msgStatus,
                                         sentTime: widget.time,
+                                        messageType: 'audio',
                                       ),
                                     ],
                                   )

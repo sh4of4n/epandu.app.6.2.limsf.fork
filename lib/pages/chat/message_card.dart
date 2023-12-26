@@ -160,6 +160,7 @@ class MessageCard extends StatelessWidget {
                                   StatusIcon(
                                     status: messageDetails.msgStatus!,
                                     sentTime: messageDetails.sendDateTime!,
+                                    messageType: 'text',
                                   ),
                                 ],
                               )
