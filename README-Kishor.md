@@ -1,3 +1,12 @@
+30/12/2023 V.6.2.11
+WS 6.2.211
+
+- Removed logoutUserRoom function after logout from app it will solve double tick issue for below scenario. Currently app showing double tick suppose to show single tick.
+  Consider 3 Users (UserA, UserB, UserC) in group chat.
+  Step 1: UserB logout from the app and socket. But still, he is a member of the room.
+  Step 2: UserA sends a message.
+  Step 3: UserC read that message and updates to UserA.
+
 26/12/2023 V.6.2.11
 WS 6.2.211
 

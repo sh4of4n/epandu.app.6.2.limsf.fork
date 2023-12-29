@@ -107,6 +107,9 @@ class SocketClientHelper extends ChangeNotifier {
     } else {
       bool condition = false;
       if (rooms.where((room) => room.ownerId != userid).toList().isNotEmpty) {
+        if (!ctx.mounted) return;
+        Provider.of<ChatNotificationCount>(ctx, listen: false)
+            .clearNotificationBadge();
         await dbHelper.deleteDB();
         final dir = Directory((Platform.isAndroid
                 ? await getExternalStorageDirectory() //FOR ANDROID
@@ -285,6 +288,19 @@ class SocketClientHelper extends ChangeNotifier {
     }
   }
 
+  void disconnectSocket() {
+    //socket.emit("disconnect");
+
+    socket.emitWithAck('disconnect', '', ack: (data) {
+      //print('ack $data');
+      if (data != null && !data.containsKey("error")) {
+        //print('logout user from server $data');
+      } else {
+        //print("Null from logout user");
+      }
+    });
+  }
+
   logoutDefaultRoom() {
     var logoutJson = {
       "roomId": 'Tbs.Chat.Client-All-Users',
@@ -343,10 +359,10 @@ class SocketClientHelper extends ChangeNotifier {
       notifyListeners();
     });
     socket.onDisconnect((_) {
-      //print('event : server disconnected');
+      print('event : server disconnected');
       isSocketConnected = false;
       isReconnect = 'no';
-      loginUserRoom();
+      //loginUserRoom();
       notifyListeners();
     });
     // socket.onAny((event, data) async {
