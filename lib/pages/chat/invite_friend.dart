@@ -444,9 +444,10 @@ class _InviteFriendState extends State<InviteFriend> {
                       //print('roomMembers' + resultMembers.data.length.toString());
                       if (resultMembers.data != null &&
                           resultMembers.data.length > 0) {
+                        await dbHelper.batchInsertMembers(resultMembers.data);
                         for (int i = 0; i < resultMembers.data.length; i += 1) {
-                          await dbHelper
-                              .saveRoomMembersTable(resultMembers.data[i]);
+                          // await dbHelper
+                          //     .saveRoomMembersTable(resultMembers.data[i]);
                           if (i == resultMembers.data.length - 1) {
                             String? userId = await localStorage.getUserId();
                             String? caUid = await localStorage.getCaUid();

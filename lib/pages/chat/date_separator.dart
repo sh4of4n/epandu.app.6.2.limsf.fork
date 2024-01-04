@@ -9,17 +9,23 @@ class DateSeparator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
-    final difference = now.difference(date);
+    //final difference = now.difference(date);
 
+    DateTime yesterday = now.subtract(const Duration(days: 1));
     String formattedDate;
-    if (difference.inDays == 0) {
-      // If the message is from today, display "Today"
+    if (date.day == now.day &&
+        date.month == now.month &&
+        date.year == now.year) {
       formattedDate = 'Today';
-    } else if (difference.inDays < 7) {
-      // If the date is within the current week, display the day name
-      formattedDate = DateFormat('EEEE').format(date); // Day name
-    } else {
-      // Otherwise, display the full date
+    } else if (date.day == yesterday.day &&
+        date.month == now.month &&
+        date.year == now.year) {
+      formattedDate = 'Yesterday';
+    }
+    // else if (difference.inDays < 7) {
+    //   formattedDate = DateFormat('EEEE').format(date); // Day name
+    // }
+    else {
       formattedDate = DateFormat('MMMM dd, yyyy').format(date);
     }
     return Align(

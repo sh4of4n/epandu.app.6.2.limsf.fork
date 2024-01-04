@@ -1,3 +1,9 @@
+04/01/2024 V.6.2.11
+WS 6.2.211
+
+- Resolved date separater issue in chat room.
+- Enhanced loginUserRoom() function with batch insert of room and room members into database. If not once member select the merchant it's taking long time to load.
+
 30/12/2023 V.6.2.11
 WS 6.2.211
 

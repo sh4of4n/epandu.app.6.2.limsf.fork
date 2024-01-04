@@ -68,7 +68,7 @@ class SocketClientHelper extends ChangeNotifier {
     }
     //print('loginUserRoom');
     List<Room> rooms = [];
-    List<Room> newRooms = [];
+    //List<Room> newRooms = [];
 
     String? userid = await localStorage.getUserId();
     await loginUser('Tbs.Chat.Client-All-Users', userid!, '', '', '', '');
@@ -138,7 +138,14 @@ class SocketClientHelper extends ChangeNotifier {
                   deleted: result.data[i].deleted ?? 'false');
               if (!ctx.mounted) return;
               ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
-              newRooms.add(result.data[i]);
+              await loginUser(
+                  result.data[i].roomId,
+                  userid,
+                  result.data[i].createDate!,
+                  '',
+                  result.data[i].deleted ?? 'false',
+                  '');
+              //newRooms.add(result.data[i]);
             } else {
               if ((rooms[indexRoom].picturePath != result.data[i].picturePath &&
                       result.data[i].picturePath != '') ||
@@ -176,12 +183,12 @@ class SocketClientHelper extends ChangeNotifier {
               }
             }
           }
-          if (newRooms.isNotEmpty) {
-            for (var newroom in newRooms) {
-              await loginUser(newroom.roomId!, userid, newroom.createDate!, '',
-                  newroom.deleted!, '');
-            }
-          }
+          // if (newRooms.isNotEmpty) {
+          //   for (var newroom in newRooms) {
+          //     await loginUser(newroom.roomId!, userid, newroom.createDate!, '',
+          //         newroom.deleted!, '');
+          //   }
+          // }
           List<MessageDetails> messageDetailsList =
               await dbHelper.getAllRoomLatestMsgDetail();
           int completedRooms = 0;
@@ -516,9 +523,10 @@ class SocketClientHelper extends ChangeNotifier {
             await chatRoomRepo.getRoomMembersList(result.data[0].roomId);
         //print('roomMembers' + resultMembers.data.length.toString());
         if (resultMembers.data != null && resultMembers.data.length > 0) {
-          for (int i = 0; i < resultMembers.data.length; i += 1) {
-            await dbHelper.saveRoomMembersTable(resultMembers.data[i]);
-          }
+          await dbHelper.batchInsertMembers(resultMembers.data);
+          // for (int i = 0; i < resultMembers.data.length; i += 1) {
+          //   await dbHelper.saveRoomMembersTable(resultMembers.data[i]);
+          // }
         }
         String? userId = await localStorage.getUserId();
         String? caUid = await localStorage.getCaUid();

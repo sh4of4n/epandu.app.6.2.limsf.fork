@@ -247,6 +247,90 @@ class DatabaseHelper {
         .delete(messageTargetTable, where: 'id = ?', whereArgs: [id]);
   }
 
+  Future<void> batchInsertRooms(List<Room> rooms) async {
+    Database db = await instance.database;
+
+    await db.transaction((txn) async {
+      String? userId = await localStorage.getUserId();
+      Batch batch = txn.batch();
+      for (Room room in rooms) {
+        var res = await txn.rawQuery(
+          "SELECT room_id FROM $roomTable WHERE room_id = ?;",
+          ['$room.roomId'],
+        );
+        List<Room> list =
+            res.isNotEmpty ? res.map((m) => Room.fromJson(m)).toList() : [];
+        if (list.isEmpty) {
+          batch.insert(roomTable, {
+            'ID': room.id,
+            'room_id': room.roomId,
+            'app_code': room.appCode,
+            'merchant_user_id': room.merchantUserId,
+            'merchant_login_id': room.merchantLoginId,
+            'merchant_nick_name': room.merchantNickName,
+            'user_id': room.userId,
+            'login_id': room.loginId,
+            'member_nick_name': room.memberNickName,
+            'room_name': room.roomName,
+            'room_desc': room.roomDesc,
+            'create_user': room.createUser,
+            'create_date': room.createDate,
+            'edit_user': room.editUser,
+            'edit_date': room.editDate,
+            'row_key': room.rowKey,
+            'transtamp': room.transtamp,
+            'deleted': room.deleted,
+            'photo_filename': room.photoFilename,
+            'profile_photo': room.profilePhoto,
+            'merchant_no': room.merchantNo,
+            'picture_path': room.picturePath,
+            'owner_id': userId,
+            'delete_datetime': room.deleteDatetime
+          });
+        }
+      }
+      await batch.commit();
+    });
+  }
+
+  Future<void> batchInsertMembers(List<RoomMembers> members) async {
+    Database db = await instance.database;
+
+    await db.transaction((txn) async {
+      Batch batch = txn.batch();
+      for (RoomMembers roomMembers in members) {
+        var res = await txn.rawQuery(
+          "SELECT room_id FROM $roomMembersTable WHERE room_id = ? AND user_id = ?",
+          ['$roomMembers.roomId', '$roomMembers.userId'],
+        );
+        List<RoomMembers> list = res.isNotEmpty
+            ? res.map((m) => RoomMembers.fromJson(m)).toList()
+            : [];
+        if (list.isEmpty) {
+          batch.insert(roomMembersTable, {
+            'ID': roomMembers.id,
+            'room_id': roomMembers.roomId,
+            'app_code': roomMembers.appCode,
+            'user_id': roomMembers.userId,
+            'login_id': roomMembers.loginId,
+            'user_type': roomMembers.userType,
+            'create_user': roomMembers.createUser,
+            'create_date': roomMembers.createDate,
+            'edit_user': roomMembers.editUser,
+            'edit_date': roomMembers.editDate,
+            'row_key': roomMembers.rowKey,
+            'transtamp': roomMembers.transtamp,
+            'deleted': roomMembers.deleted,
+            'merchant_no': roomMembers.merchantNo,
+            'nick_name': roomMembers.nickName,
+            'picture_path': roomMembers.picturePath
+          });
+        }
+      }
+      await batch.commit();
+    });
+  }
+
   Future<int> saveRoomTable(Room room) async {
     Database db = await instance.database;
     String? userId = await localStorage.getUserId();
