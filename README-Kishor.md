@@ -1,3 +1,8 @@
+05/01/2024 V.6.2.11
+WS 6.2.211
+
+- Resolved sending duplicate message if socket disconnect and reconnect time.
+
 04/01/2024 V.6.2.11
 WS 6.2.211
 

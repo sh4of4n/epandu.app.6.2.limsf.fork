@@ -749,7 +749,7 @@ class DatabaseHelper {
   Future<List<MessageDetails>> getFailedMsgDetailList() async {
     Database db = await instance.database;
     var res = await db.rawQuery(
-        "Select $msgDetailTable.room_id as 'room_id',$msgDetailTable.msg_body as 'msg_body',$msgDetailTable.filePath as 'filePath',$msgDetailTable.reply_to_id as 'reply_to_id',$msgDetailTable.msg_binaryType as 'msg_binaryType',$msgDetailTable.clientMessageId as 'client_message_id',$roomTable.room_name as 'roomName'  from $msgDetailTable LEFT JOIN $roomTable ON $roomTable.room_id=$msgDetailTable.room_id   where msgStatus = 'SENDING' ORDER BY $msgDetailTable.send_datetime ASC;");
+        "Select $msgDetailTable.room_id as 'room_id',$msgDetailTable.msg_body as 'msg_body',$msgDetailTable.filePath as 'filePath',$msgDetailTable.reply_to_id as 'reply_to_id',$msgDetailTable.msg_binaryType as 'msg_binaryType',$msgDetailTable.clientMessageId as 'client_message_id',$roomTable.room_name as 'roomName'  from $msgDetailTable LEFT JOIN $roomTable ON $roomTable.room_id=$msgDetailTable.room_id   where msgStatus = 'SENDING' GROUP BY $msgDetailTable.room_id, $msgDetailTable.clientMessageId ORDER BY $msgDetailTable.send_datetime ASC;");
 
     List<MessageDetails> list = res.isNotEmpty
         ? res.map((m) => MessageDetails.fromJson(m)).toList()
