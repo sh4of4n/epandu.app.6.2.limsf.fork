@@ -1,3 +1,71 @@
+05/01/2024 V.6.2.11
+WS 6.2.211
+
+- Resolved sending duplicate message if socket disconnect and reconnect time.
+
+04/01/2024 V.6.2.11
+WS 6.2.211
+
+- Resolved date separater issue in chat room.
+- Enhanced loginUserRoom() function with batch insert of room and room members into database. If not once member select the merchant it's taking long time to load.
+
+30/12/2023 V.6.2.11
+WS 6.2.211
+
+- Removed logoutUserRoom function after logout from app it will solve double tick issue for below scenario. Currently app showing double tick suppose to show single tick.
+  Consider 3 Users (UserA, UserB, UserC) in group chat.
+  Step 1: UserB logout from the app and socket. But still, he is a member of the room.
+  Step 2: UserA sends a message.
+  Step 3: UserC read that message and updates to UserA.
+
+26/12/2023 V.6.2.11
+WS 6.2.211
+
+- Enhanced room list room names start with uppercase letter & removed left side margin of image icon.
+- Enhanced room members member names start with uppercase letter.
+
+20/12/2023 V.6.2.11
+WS 6.2.211
+
+- Enhanced chat repository WS call error messages text.
+
+19/12/2023 V.6.2.11
+WS 6.2.211
+
+- Chat message sent/received date time included year for all message types.
+- Resolved chat room batch by batch load chat history for below scenario.
+  If chat room contains only text messages of 1st batch then it's loading second batch. After 2nd batch next batches not loading even though data exist in database. After i change to batch size count=50 then problem resolved.
+- Enhanced chat room to segregate chathistory based on date.
+
+18/12/2023 V.6.2.11
+WS 6.2.211
+
+- Image card enhanced in chat_files.dart screen to show full image same like chat room.
+
+15/12/2023 V.6.2.11
+WS 6.2.211
+
+- Resolved font size issue compare to whatsapp.
+- Message card width must show based on message length.
+- Image card enhanced same like whatsapp.
+- Resolved padding issues in between all the message types.
+
+13/12/2023 V.6.2.11
+WS 6.2.211
+
+- While searching for the keyword in chat room, the text color for other members was changed from black to white, and the issue has been resolved.
+
+11/12/2023 V.6.2.11
+WS 6.2.211
+
+- Resolved issue chat room history showing reverse order with flashing effect finally showing correct message order.
+
+08/12/2023 V.6.2.11
+WS 6.2.211
+
+- Resolved issue if userA invite userB and navigate to room list screen then userB send message to userA.
+  Roomlist screen not show badge count.
+
 04/12/2023 V.6.2.11
 WS 6.2.211
 

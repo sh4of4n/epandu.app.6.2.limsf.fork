@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:epandu/pages/chat/chatnotification_count.dart';
 import 'package:epandu/pages/chat/rooms_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -458,7 +459,8 @@ class _CreateGroupState extends State<CreateGroup> {
                       child: Center(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
-                          child: inviteFriendResponse.picturePath != null
+                          child: inviteFriendResponse.picturePath != null &&
+                                  inviteFriendResponse.picturePath != ''
                               ? Image.network(inviteFriendResponse.picturePath!
                                   .replaceAll(removeBracket, '')
                                   .split('\r\n')[0])
@@ -578,15 +580,19 @@ class _CreateGroupState extends State<CreateGroup> {
                         deleted: inviteRoomResponse.deleted ?? 'false');
                     if (!context.mounted) return;
                     context.read<RoomHistory>().addRoom(room: roomHistoryModel);
+                    context.read<ChatNotificationCount>().addNotificationBadge(
+                        notificationBadge: 0,
+                        roomId: inviteRoomResponse.roomId!);
                     //print('Room Insert value ' + val.toString());
                     var resultMembers = await chatRoomRepo
                         .getRoomMembersList(inviteRoomResponse.roomId!);
                     //print('roomMembers' + resultMembers.data.length.toString());
                     if (resultMembers.data != null &&
                         resultMembers.data.length > 0) {
+                      await dbHelper.batchInsertMembers(resultMembers.data);
                       for (int i = 0; i < resultMembers.data.length; i += 1) {
-                        await dbHelper
-                            .saveRoomMembersTable(resultMembers.data[i]);
+                        // await dbHelper
+                        //     .saveRoomMembersTable(resultMembers.data[i]);
 
                         if (i == resultMembers.data.length - 1) {
                           String? userId = await localStorage.getUserId();

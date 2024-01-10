@@ -27,7 +27,7 @@ class DateFormatter {
       return 'Yesterday ${DateFormat('jm').format(dateTime)}';
     }
 
-    return '${DateFormat('dd MMM').format(dateTime)} $roughTimeString';
+    return '${DateFormat('dd MMM, yyyy').format(dateTime)} $roughTimeString';
   }
 
   String getDateTimeRepresentation(DateTime dateTime) {

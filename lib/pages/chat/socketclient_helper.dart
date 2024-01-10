@@ -68,7 +68,7 @@ class SocketClientHelper extends ChangeNotifier {
     }
     //print('loginUserRoom');
     List<Room> rooms = [];
-    List<Room> newRooms = [];
+    //List<Room> newRooms = [];
 
     String? userid = await localStorage.getUserId();
     await loginUser('Tbs.Chat.Client-All-Users', userid!, '', '', '', '');
@@ -107,6 +107,9 @@ class SocketClientHelper extends ChangeNotifier {
     } else {
       bool condition = false;
       if (rooms.where((room) => room.ownerId != userid).toList().isNotEmpty) {
+        if (!ctx.mounted) return;
+        Provider.of<ChatNotificationCount>(ctx, listen: false)
+            .clearNotificationBadge();
         await dbHelper.deleteDB();
         final dir = Directory((Platform.isAndroid
                 ? await getExternalStorageDirectory() //FOR ANDROID
@@ -135,7 +138,14 @@ class SocketClientHelper extends ChangeNotifier {
                   deleted: result.data[i].deleted ?? 'false');
               if (!ctx.mounted) return;
               ctx.read<RoomHistory>().addRoom(room: roomHistoryModel);
-              newRooms.add(result.data[i]);
+              await loginUser(
+                  result.data[i].roomId,
+                  userid,
+                  result.data[i].createDate!,
+                  '',
+                  result.data[i].deleted ?? 'false',
+                  '');
+              //newRooms.add(result.data[i]);
             } else {
               if ((rooms[indexRoom].picturePath != result.data[i].picturePath &&
                       result.data[i].picturePath != '') ||
@@ -173,12 +183,12 @@ class SocketClientHelper extends ChangeNotifier {
               }
             }
           }
-          if (newRooms.isNotEmpty) {
-            for (var newroom in newRooms) {
-              await loginUser(newroom.roomId!, userid, newroom.createDate!, '',
-                  newroom.deleted!, '');
-            }
-          }
+          // if (newRooms.isNotEmpty) {
+          //   for (var newroom in newRooms) {
+          //     await loginUser(newroom.roomId!, userid, newroom.createDate!, '',
+          //         newroom.deleted!, '');
+          //   }
+          // }
           List<MessageDetails> messageDetailsList =
               await dbHelper.getAllRoomLatestMsgDetail();
           int completedRooms = 0;
@@ -194,7 +204,7 @@ class SocketClientHelper extends ChangeNotifier {
             completedRooms++;
             print(
                 'SocketOnAny:IsRoomDeleted ${room.deleted!} - ${room.deleteDatetime!}');
-            await loginUser(room.roomId!, userid!, room.createDate!, messageId,
+            await loginUser(room.roomId!, userid, room.createDate!, messageId,
                 room.deleted!, room.deleteDatetime!);
 
             if (completedRooms == rooms.length) {
@@ -285,6 +295,19 @@ class SocketClientHelper extends ChangeNotifier {
     }
   }
 
+  void disconnectSocket() {
+    //socket.emit("disconnect");
+
+    socket.emitWithAck('disconnect', '', ack: (data) {
+      //print('ack $data');
+      if (data != null && !data.containsKey("error")) {
+        //print('logout user from server $data');
+      } else {
+        //print("Null from logout user");
+      }
+    });
+  }
+
   logoutDefaultRoom() {
     var logoutJson = {
       "roomId": 'Tbs.Chat.Client-All-Users',
@@ -343,10 +366,10 @@ class SocketClientHelper extends ChangeNotifier {
       notifyListeners();
     });
     socket.onDisconnect((_) {
-      //print('event : server disconnected');
+      print('event : server disconnected');
       isSocketConnected = false;
       isReconnect = 'no';
-      loginUserRoom();
+      //loginUserRoom();
       notifyListeners();
     });
     // socket.onAny((event, data) async {
@@ -500,9 +523,10 @@ class SocketClientHelper extends ChangeNotifier {
             await chatRoomRepo.getRoomMembersList(result.data[0].roomId);
         //print('roomMembers' + resultMembers.data.length.toString());
         if (resultMembers.data != null && resultMembers.data.length > 0) {
-          for (int i = 0; i < resultMembers.data.length; i += 1) {
-            await dbHelper.saveRoomMembersTable(resultMembers.data[i]);
-          }
+          await dbHelper.batchInsertMembers(resultMembers.data);
+          // for (int i = 0; i < resultMembers.data.length; i += 1) {
+          //   await dbHelper.saveRoomMembersTable(resultMembers.data[i]);
+          // }
         }
         String? userId = await localStorage.getUserId();
         String? caUid = await localStorage.getCaUid();
@@ -646,7 +670,7 @@ class SocketClientHelper extends ChangeNotifier {
 
     socket.on('updateMessageReadBy', (data) async {
       if (data != null && !data.containsKey("error")) {
-        //print('updateMessageReadBy $data');
+        print('updateMessageReadBy $data');
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result["messageId"] != '') {
           if (_isEnterRoom) {

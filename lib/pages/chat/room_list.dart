@@ -20,6 +20,7 @@ import '../../common_library/services/repository/auth_repository.dart';
 import '../../common_library/utils/local_storage.dart';
 import '../../services/database/database_helper.dart';
 import '../../services/repository/chatroom_repository.dart';
+import '../../utils/capitalize_firstletter.dart';
 import 'chatnotification_count.dart';
 import 'date_formater.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
@@ -270,7 +271,7 @@ class _RoomListState extends State<RoomList> {
           },
         ),
         title: Text(roomTitle),
-        // backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.blueAccent,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.delete),
@@ -548,114 +549,119 @@ class _RoomListState extends State<RoomList> {
 
     return Card(
       color: itemColor,
-      child: ListTile(
-        onLongPress: () {
-          if (room.roomDesc == 'Group Chat' ||
-              room.roomDesc == 'Private Chat') {
-            setState(() {
-              _selectedIndex = index;
-              _isSelected = true;
-              _selectedRoomId = room.roomId ?? '';
-              _selectedRoomName = room.roomName ?? '';
-              _selectedRoomDesc = room.roomDesc ?? '';
-            });
-          } else {
-            showCanNotDeleteDialog();
-          }
-        },
-        tileColor: _selectedIndex == index ? Colors.blueAccent : null,
-        leading: Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Colors.white,
-              width: 3,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(.3),
-                offset: const Offset(0, 2),
-                blurRadius: 5,
+      child: ListTileTheme(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 5.0),
+        child: ListTile(
+          onLongPress: () {
+            if (room.roomDesc == 'Group Chat' ||
+                room.roomDesc == 'Private Chat') {
+              setState(() {
+                _selectedIndex = index;
+                _isSelected = true;
+                _selectedRoomId = room.roomId ?? '';
+                _selectedRoomName = room.roomName ?? '';
+                _selectedRoomDesc = room.roomDesc ?? '';
+              });
+            } else {
+              showCanNotDeleteDialog();
+            }
+          },
+          tileColor: _selectedIndex == index ? Colors.blueAccent : null,
+          leading: Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.white,
+                width: 1,
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(.3),
+                  offset: const Offset(0, 2),
+                  blurRadius: 5,
+                ),
+              ],
+            ),
+            child: FullScreenWidget(
+              child: Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: room.picturePath != null && room.picturePath != ''
+                      ? Image.network(room.picturePath!
+                          .replaceAll(removeBracket, '')
+                          .split('\r\n')[0])
+                      : const Icon(Icons.account_circle),
+                ),
+              ),
+            ),
+          ),
+          trailing: badgeCount > 0
+              ? badges.Badge(
+                  showBadge: badgeCount > 0 ? true : false,
+                  badgeStyle: const badges.BadgeStyle(
+                    badgeColor: Colors.green,
+                    shape: badges.BadgeShape.circle,
+                    padding: EdgeInsets.all(8),
+                  ),
+                  badgeContent: Text(
+                    badgeCount.toString(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
+              : null,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  CapitalizeFirstLetter()
+                      .capitalizeFirstLetter(splitRoomName.trim()),
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              if (room.sendDatetime != null && room.sendDatetime != '')
+                Text(DateFormatter().getDateTimeRepresentation(
+                  DateTime.parse(room.sendDatetime!),
+                )),
             ],
           ),
-          child: FullScreenWidget(
-            child: Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: room.picturePath != null && room.picturePath != ''
-                    ? Image.network(room.picturePath!
-                        .replaceAll(removeBracket, '')
-                        .split('\r\n')[0])
-                    : const Icon(Icons.account_circle),
-              ),
-            ),
-          ),
-        ),
-        trailing: badgeCount > 0
-            ? badges.Badge(
-                showBadge: badgeCount > 0 ? true : false,
-                badgeStyle: const badges.BadgeStyle(
-                  badgeColor: Colors.green,
-                  shape: badges.BadgeShape.circle,
-                  padding: EdgeInsets.all(8),
-                ),
-                badgeContent: Text(
-                  badgeCount.toString(),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              )
-            : null,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Text(
-                splitRoomName.trim(),
-                maxLines: 1,
-                softWrap: false,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-            if (room.sendDatetime != null && room.sendDatetime != '')
-              Text(DateFormatter().getDateTimeRepresentation(
-                DateTime.parse(room.sendDatetime!),
-              )),
-          ],
-        ),
-        subtitle: showLatestMessage(room),
-        onTap: () async {
-          String members = '';
-          if (room.roomId != null) {
-            List<RoomMembers> roomMembers =
-                await dbHelper.getRoomMembersList(room.roomId!);
-            for (var roomMember in roomMembers) {
-              if (roomMember.userId != id) {
-                members += "${roomMember.nickName?.toUpperCase() ?? ''},";
+          subtitle: showLatestMessage(room),
+          onTap: () async {
+            String members = '';
+            if (room.roomId != null) {
+              List<RoomMembers> roomMembers =
+                  await dbHelper.getRoomMembersList(room.roomId!);
+              for (var roomMember in roomMembers) {
+                if (roomMember.userId != id) {
+                  members += "${roomMember.nickName?.toUpperCase() ?? ''},";
+                }
+              }
+              if (members.isNotEmpty) {
+                members = members.substring(0, members.length - 1);
               }
             }
-            if (members.isNotEmpty) {
-              members = members.substring(0, members.length - 1);
-            }
-          }
 
-          if (!context.mounted) return;
-          context.router.push(
-            ChatRoom(
-              roomId: room.roomId ?? '',
-              picturePath: room.picturePath ?? '',
-              roomName: splitRoomName,
-              roomDesc: room.roomDesc ?? '',
-            ),
-          );
-        },
+            if (!context.mounted) return;
+            context.router.push(
+              ChatRoom(
+                roomId: room.roomId ?? '',
+                picturePath: room.picturePath ?? '',
+                roomName: CapitalizeFirstLetter()
+                    .capitalizeFirstLetter(splitRoomName.trim()),
+                roomDesc: room.roomDesc ?? '',
+              ),
+            );
+          },
+        ),
       ),
     );
   }

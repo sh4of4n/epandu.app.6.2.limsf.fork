@@ -58,6 +58,7 @@ import 'room_members.dart';
 import 'video_card.dart';
 import '../../router.gr.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'date_separator.dart';
 
 const theSource = AudioSource.microphone;
 typedef MyCallback = void Function(int messageId);
@@ -66,13 +67,13 @@ typedef ResendCallback = void Function(int messageId);
 @RoutePage(name: 'chatRoom')
 class ChatRoom extends StatefulWidget {
   const ChatRoom({
-    Key? key,
+    super.key,
     required this.roomId,
     required this.picturePath,
     required this.roomName,
     required this.roomDesc,
     // required this.roomMembers
-  }) : super(key: key);
+  });
   final String roomId; //lowerCamelCase
   final String picturePath;
   final String roomName;
@@ -86,7 +87,7 @@ class _ChatRoomState extends State<ChatRoom> {
   bool isListviewVisible = true;
   String originalValue = '';
   bool _isSendingMessage = false;
-  final int batchSize = 10;
+  final int batchSize = 50;
   int offset = 0;
   bool isDataLoading = false;
   bool _isFetchingData = false;
@@ -208,20 +209,21 @@ class _ChatRoomState extends State<ChatRoom> {
       //FlutterAppBadger.removeBadge();
     });
     _getCameras();
-    //Provider.of<ChatHistory>(context, listen: false).deleteChats(widget.roomId);
 
-    // final allChatHistoryProvider =
-    //     Provider.of<ChatHistory>(context, listen: false);
-    // allChatHistoryProvider.getChatHistoryByRoomId(widget.roomId);
+    loadIntialData();
+    Future.delayed(const Duration(seconds: 1)).whenComplete(() {
+      itemPositionsListener.itemPositions.addListener(_onItemPositionsChanged);
+    });
+  }
 
+  loadIntialData() async {
     //BatchLoad
     final chatHistoryProvider =
         Provider.of<ChatHistory>(context, listen: false);
-    chatHistoryProvider.getLazyLoadChatHistory(
+    await chatHistoryProvider.getLazyLoadChatHistory(
         widget.roomId, offset, batchSize);
     offset += batchSize;
     _isFetchingData = false;
-    itemPositionsListener.itemPositions.addListener(_onItemPositionsChanged);
   }
 
   void _onItemPositionsChanged() {
@@ -661,6 +663,12 @@ class _ChatRoomState extends State<ChatRoom> {
     }
   }
 
+  bool isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
+  }
+
   Widget getListview() {
     return Expanded(
         child: Scrollbar(
@@ -696,18 +704,25 @@ class _ChatRoomState extends State<ChatRoom> {
                       filePath: '',
                       binaryType: '');
 
-              getMessageDetailsList = msgList.getMessageDetailsList
-                  .where((element) => element.roomId == widget.roomId)
-                  .toList()
-                  .reversed
-                  .toList();
+              getMessageDetailsList = msgList.getMessageDetailsList;
+              // .where((element) => element.roomId == widget.roomId)
+              // .toList()
+              // .reversed
+              // .toList();
+              final message = getMessageDetailsList[index];
+              final isLastMessageWithDate =
+                  index == getMessageDetailsList.length - 1 ||
+                      !isSameDay(
+                          DateTime.parse(message.sendDateTime!),
+                          DateTime.parse(
+                              getMessageDetailsList[index + 1].sendDateTime!));
 
               int replyId = getMessageDetailsList[index].replyToId!;
               if (getMessageDetailsList[index].replyToId! > 0) {
-                int index = getMessageDetailsList
+                int replyIndex = getMessageDetailsList
                     .indexWhere((element) => element.messageId == replyId);
-                if (index > 0) {
-                  MessageDetails msgDetails = getMessageDetailsList[index];
+                if (replyIndex > 0) {
+                  MessageDetails msgDetails = getMessageDetailsList[replyIndex];
                   existingReplayMessageDetails.replyToId = msgDetails.messageId;
                   existingReplayMessageDetails.nickName = msgDetails.nickName;
                   existingReplayMessageDetails.filePath = msgDetails.filePath;
@@ -747,6 +762,11 @@ class _ChatRoomState extends State<ChatRoom> {
                         children: [
                           Column(
                             children: [
+                              if (isLastMessageWithDate) ...[
+                                DateSeparator(
+                                    date:
+                                        DateTime.parse(message.sendDateTime!)),
+                              ],
                               if (getMessageDetailsList[index].msgBinaryType ==
                                   "image") ...[
                                 SwipeTo(

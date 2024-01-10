@@ -123,7 +123,8 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
   }
 
   Future<void> _getLdlkEnqGroupList() async {
-    Response<List<LdlEnqGroupList>> result = await authRepo.getLdlkEnqGroupList();
+    Response<List<LdlEnqGroupList>> result =
+        await authRepo.getLdlkEnqGroupList();
 
     if (result.isSuccess) {
       setState(() {
@@ -1371,8 +1372,8 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
           await authRepo.getUserRegisteredDI(context: context, type: 'LOGIN');
 
       if (getRegisteredDi.isSuccess) {
-        _chatRoom();
         localStorage.saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
+        _createChatSupport();
         if (!context.mounted) return;
         context.router.pushAndPopUntil(const Home(), predicate: (r) => false);
       } else {
@@ -1389,7 +1390,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
     });
   }
 
-  _chatRoom() async {
+  _createChatSupport() async {
     var createChatSupportResult =
         await chatRoomRepo.createChatSupportByMember(merchantNo: 'EPANDU');
 
