@@ -1014,14 +1014,6 @@ class SocketClientHelper extends ChangeNotifier {
   void getMissingMessages(String roomId, String userid, String createDate,
       String messageId, String isRoomDeleted, String deleteDatetime) async {
     String filePath = '';
-    // List<MessageDetails> messageDetailsList = [];
-    // if (messageId == '') {
-    //   messageDetailsList = await dbHelper.getLatestMsgDetail(roomId);
-    //   if (messageDetailsList.isNotEmpty) {
-    //     messageId = messageDetailsList[0].messageId.toString();
-    //   }
-    // }
-
     Map<String, Object> messageRoomJson;
 
     if (messageId != '') {
@@ -1032,11 +1024,20 @@ class SocketClientHelper extends ChangeNotifier {
       };
     } else {
       if (deleteDatetime == '') {
+        DateTime currentDate = DateTime.now();
+        DateTime startDate =
+            DateTime(currentDate.year, currentDate.month, currentDate.day - 13);
+        startDate = DateTime(startDate.year, startDate.month, startDate.day);
+        String formattedCurrentDate =
+            DateFormat('yyyy-MM-dd HH:mm:ss').format(currentDate);
+        String formattedStartDate =
+            DateFormat('yyyy-MM-dd HH:mm:ss').format(startDate);
+
         messageRoomJson = {
           "roomId": roomId,
           "returnMsgBinaryAsBase64": "true",
-          "bgnSendDateTime":
-              "${DateFormat("yyyy-MM-dd").format(DateTime.now())} 00:00:00"
+          "bgnSendDateTime": formattedStartDate,
+          "endSendDateTime": formattedCurrentDate
         };
       } else {
         messageRoomJson = {

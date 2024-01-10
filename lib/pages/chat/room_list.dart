@@ -348,7 +348,7 @@ class _RoomListState extends State<RoomList> {
                         DateFormat("yyyy-MM-dd HH:mm:ss")
                             .format(DateTime.now())
                             .toString());
-                    await dbHelper.deleteRoomMembersByRoomId(roomId);
+                    //await dbHelper.deleteRoomMembersByRoomId(roomId);
                     await dbHelper.deleteMessagesByRoomId(roomId);
                     final dir = Directory(
                         '${(Platform.isAndroid ? await getExternalStorageDirectory() //FOR ANDROID

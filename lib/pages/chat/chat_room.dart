@@ -704,11 +704,9 @@ class _ChatRoomState extends State<ChatRoom> {
                       filePath: '',
                       binaryType: '');
 
-              getMessageDetailsList = msgList.getMessageDetailsList;
-              // .where((element) => element.roomId == widget.roomId)
-              // .toList()
-              // .reversed
-              // .toList();
+              getMessageDetailsList = msgList.getMessageDetailsList
+                  .where((element) => element.roomId == widget.roomId)
+                  .toList();
               final message = getMessageDetailsList[index];
               final isLastMessageWithDate =
                   index == getMessageDetailsList.length - 1 ||
