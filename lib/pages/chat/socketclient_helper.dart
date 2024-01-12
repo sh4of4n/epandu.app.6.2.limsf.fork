@@ -264,13 +264,19 @@ class SocketClientHelper extends ChangeNotifier {
     return false; // 'Chat Support' does not exist
   }
 
-  String generateRandomString(int length) {
-    final random = Random();
-    const availableChars = '123456789';
-    // 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-    final randomString = List.generate(length,
-            (index) => availableChars[random.nextInt(availableChars.length)])
-        .join();
+  // String generateRandomString(int length) {
+  //   final random = Random();
+  //   const availableChars = '123456789';
+  //   final randomString = List.generate(length,
+  //           (index) => availableChars[random.nextInt(availableChars.length)])
+  //       .join();
+  //   return randomString;
+  // }
+  String generateRandomString() {
+    DateTime currentDateTime = DateTime.now();
+    String randomString =
+        DateFormat('yyyyMMddHHmmssSSS').format(currentDateTime);
+
     return randomString;
   }
 
@@ -1000,7 +1006,10 @@ class SocketClientHelper extends ChangeNotifier {
         notifyListeners();
         Provider.of<ChatNotificationCount>(ctx, listen: false)
             .addNotificationBadge(notificationBadge: 0, roomId: roomId);
-        if (roomId != 'Tbs.Chat.Client-All-Users') {
+        if (roomId != 'Tbs.Chat.Client-All-Users' &&
+            ((messageId != '' && messageId != '0') ||
+                (isRoomDeleted.toLowerCase() == 'true' &&
+                    deleteDatetime != ''))) {
           getMissingMessages(roomId, userId!, createDate, messageId,
               isRoomDeleted, deleteDatetime);
         }
@@ -1014,38 +1023,22 @@ class SocketClientHelper extends ChangeNotifier {
   void getMissingMessages(String roomId, String userid, String createDate,
       String messageId, String isRoomDeleted, String deleteDatetime) async {
     String filePath = '';
-    Map<String, Object> messageRoomJson;
+    Map<String, Object> messageRoomJson = {};
 
-    if (messageId != '') {
+    if (messageId != '' && deleteDatetime == '') {
       messageRoomJson = {
         "roomId": roomId,
         "returnMsgBinaryAsBase64": "true",
-        "bgnMessageId": int.parse(messageId) + 1
+        "bgnMessageId": int.parse(messageId) + 1,
       };
-    } else {
-      if (deleteDatetime == '') {
-        DateTime currentDate = DateTime.now();
-        DateTime startDate =
-            DateTime(currentDate.year, currentDate.month, currentDate.day - 13);
-        startDate = DateTime(startDate.year, startDate.month, startDate.day);
-        String formattedCurrentDate =
-            DateFormat('yyyy-MM-dd HH:mm:ss').format(currentDate);
-        String formattedStartDate =
-            DateFormat('yyyy-MM-dd HH:mm:ss').format(startDate);
-
-        messageRoomJson = {
-          "roomId": roomId,
-          "returnMsgBinaryAsBase64": "true",
-          "bgnSendDateTime": formattedStartDate,
-          "endSendDateTime": formattedCurrentDate
-        };
-      } else {
-        messageRoomJson = {
-          "roomId": roomId,
-          "returnMsgBinaryAsBase64": "true",
-          "bgnSendDateTime": deleteDatetime
-        };
-      }
+    } else if (deleteDatetime != '' &&
+        messageId == '' &&
+        isRoomDeleted.toLowerCase() == 'true') {
+      messageRoomJson = {
+        "roomId": roomId,
+        "returnMsgBinaryAsBase64": "true",
+        "bgnSendDateTime": deleteDatetime,
+      };
     }
     print('getMessageByRoom: $messageRoomJson');
     socket.emitWithAck('getMessageByRoom', messageRoomJson, ack: (data) async {

@@ -28,6 +28,7 @@ import '../../common_library/services/model/chat_mesagelist.dart';
 import '../../common_library/services/model/chatsendack_model.dart';
 import '../../common_library/services/model/inviteroom_response.dart';
 import '../../common_library/services/model/m_roommember_model.dart';
+import '../../common_library/services/model/messagebyroom_model.dart';
 import '../../common_library/services/model/read_message_by_id_model.dart';
 import '../../common_library/services/model/replymessage_model.dart';
 import '../../common_library/services/repository/auth_repository.dart';
@@ -59,6 +60,8 @@ import 'video_card.dart';
 import '../../router.gr.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'date_separator.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tzdata;
 
 const theSource = AudioSource.microphone;
 typedef MyCallback = void Function(int messageId);
@@ -72,18 +75,21 @@ class ChatRoom extends StatefulWidget {
     required this.picturePath,
     required this.roomName,
     required this.roomDesc,
-    // required this.roomMembers
+    required this.isMessagesExist,
   });
   final String roomId; //lowerCamelCase
   final String picturePath;
   final String roomName;
   final String roomDesc;
+  final bool isMessagesExist;
   // final String roomMembers;
   @override
   State<ChatRoom> createState() => _ChatRoomState();
 }
 
 class _ChatRoomState extends State<ChatRoom> {
+  String endSendDateTime = '';
+  String bgnSendDateTime = '';
   bool isListviewVisible = true;
   String originalValue = '';
   bool _isSendingMessage = false;
@@ -166,6 +172,7 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   void initState() {
     super.initState();
+    tzdata.initializeTimeZones();
     clearAllAppNotifications();
     //Provider.of<ChatHistory>(context, listen: false).getChatHistory();
     // this.members = widget.roomMembers;
@@ -217,13 +224,29 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   loadIntialData() async {
-    //BatchLoad
-    final chatHistoryProvider =
-        Provider.of<ChatHistory>(context, listen: false);
-    await chatHistoryProvider.getLazyLoadChatHistory(
-        widget.roomId, offset, batchSize);
-    offset += batchSize;
-    _isFetchingData = false;
+    await localStorage.saveChatHistoryDaysCount('13');
+    //BatchLoader
+    if (!widget.isMessagesExist && getMessageDetailsList.isEmpty) {
+      String? daysCount = await localStorage.getChatHistoryDaysCount();
+      DateTime currentDate = DateTime.now();
+      DateTime startDate = DateTime(currentDate.year, currentDate.month,
+          currentDate.day - int.parse(daysCount!));
+      startDate = DateTime(startDate.year, startDate.month, startDate.day);
+
+      endSendDateTime = await getMalaysiaTime();
+
+      bgnSendDateTime = DateFormat('yyyy-MM-dd').format(startDate);
+
+      await getMissingMessages(widget.roomId, endSendDateTime, bgnSendDateTime);
+    } else {
+      if (!context.mounted) return;
+      final chatHistoryProvider =
+          Provider.of<ChatHistory>(context, listen: false);
+      await chatHistoryProvider.getLazyLoadChatHistory(
+          widget.roomId, offset, batchSize);
+      offset += batchSize;
+      _isFetchingData = false;
+    }
   }
 
   void _onItemPositionsChanged() {
@@ -237,6 +260,23 @@ class _ChatRoomState extends State<ChatRoom> {
       _isFetchingData = true;
       _loadMoreChatHistory();
     }
+    // else if (positions.isNotEmpty &&
+    //     !_isFetchingData &&
+    //     !dataExist &&
+    //     positions.last.index == getMessageDetailsList.length - 1) {
+    //   DateTime startDate =
+    //       DateTime.parse(getMessageDetailsList.last.sendDateTime!)
+    //           .subtract(const Duration(days: 2));
+    //   DateTime endDate =
+    //       DateTime.parse(getMessageDetailsList.last.sendDateTime!)
+    //           .subtract(const Duration(days: 1));
+
+    //   endSendDateTime = DateFormat('yyyy-MM-dd').format(endDate);
+
+    //   bgnSendDateTime = DateFormat('yyyy-MM-dd').format(startDate);
+    //   getMissingMessages(
+    //       widget.roomId, '$endSendDateTime 00:00:00', bgnSendDateTime);
+    // }
   }
 
   Future<void> clearAllAppNotifications() async {
@@ -1674,6 +1714,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                 picturePath: widget.picturePath,
                                 roomName: widget.roomName,
                                 roomDesc: widget.roomDesc,
+                                isMessagesExist:
+                                    getMessageDetailsList.isNotEmpty
+                                        ? true
+                                        : false,
                                 // roomMembers: widget.roomMembers
                               )),
                     );
@@ -1721,6 +1765,8 @@ class _ChatRoomState extends State<ChatRoom> {
                         picturePath: widget.picturePath,
                         roomName: widget.roomName,
                         roomDesc: widget.roomDesc,
+                        isMessagesExist:
+                            getMessageDetailsList.isNotEmpty ? true : false,
                       ),
                     ),
                   );
@@ -1909,7 +1955,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         });
                       }
                     }
-                    String clientMessageId = generateRandomString(15);
+                    String clientMessageId = generateRandomString();
 
                     var messageJson = {
                       "roomId": inviteRoomResponse.roomId!,
@@ -2027,7 +2073,7 @@ class _ChatRoomState extends State<ChatRoom> {
                             ack: (data) async {});
                       }
                     }
-                    String clientMessageId = generateRandomString(15);
+                    String clientMessageId = generateRandomString();
 
                     var messageJson = {
                       "roomId": widget.roomId,
@@ -2180,7 +2226,7 @@ class _ChatRoomState extends State<ChatRoom> {
       ReplyMessageDetails replyMessageDetails, String clientMessageId) {
     if (updateStatus == false && updateMessageId == 0) {
       if (type == '') {
-        clientMessageId = generateRandomString(15);
+        clientMessageId = generateRandomString();
         storeMyMessage(text, '', '', 0, clientMessageId);
       }
       var messageJson = {
@@ -2297,12 +2343,18 @@ class _ChatRoomState extends State<ChatRoom> {
     }
   }
 
-  String generateRandomString(int length) {
-    final random = Random();
-    const availableChars = '123456789';
-    final randomString = List.generate(length,
-            (index) => availableChars[random.nextInt(availableChars.length)])
-        .join();
+  // String generateRandomString(int length) {
+  //   final random = Random();
+  //   const availableChars = '123456789';
+  //   final randomString = List.generate(length,
+  //           (index) => availableChars[random.nextInt(availableChars.length)])
+  //       .join();
+  //   return randomString;
+  // }
+  String generateRandomString() {
+    DateTime currentDateTime = DateTime.now();
+    String randomString =
+        DateFormat('yyyyMMddHHmmssSSS').format(currentDateTime);
 
     return randomString;
   }
@@ -2457,7 +2509,7 @@ class _ChatRoomState extends State<ChatRoom> {
     if (message == '') message = fileName;
 
     if (type == '') {
-      clientMessageId = generateRandomString(15);
+      clientMessageId = generateRandomString();
       await storeMyMessage(
           message, msgBinaryType, base64string, 0, clientMessageId);
     }
@@ -2997,6 +3049,184 @@ class _ChatRoomState extends State<ChatRoom> {
       setState(() {
         sendButton = false;
       });
+    }
+  }
+
+  Future<String> getMalaysiaTime() async {
+    // Set the Malaysia time zone
+    String timeZone = 'Asia/Kuala_Lumpur';
+    var malaysiaTimeZone = tz.getLocation(timeZone);
+
+    // Get the current time in Malaysia Standard Time (MYT)
+    var malaysiaTime = tz.TZDateTime.now(malaysiaTimeZone);
+    String formattedTime =
+        DateFormat('yyyy-MM-dd HH:mm:ss').format(malaysiaTime);
+
+    return formattedTime;
+  }
+
+  Future<void> getMissingMessages(
+      String roomId, String endSendDateTime, String bgnSendDateTime) async {
+    String? daysCount = await localStorage.getChatHistoryDaysCount();
+    String? userid = await localStorage.getUserId();
+    String filePath = '';
+    Map<String, Object> messageRoomJson;
+    await EasyLoading.show(
+        maskType: EasyLoadingMaskType.black, status: 'Fetching History...');
+
+    messageRoomJson = {
+      "roomId": roomId,
+      "returnMsgBinaryAsBase64": "true",
+      "bgnSendDateTime": '$bgnSendDateTime 00:00:00',
+      "endSendDateTime": endSendDateTime
+    };
+
+    print('getMessageByRoom: $messageRoomJson');
+    socket.emitWithAck('getMessageByRoom', messageRoomJson, ack: (data) async {
+      if (data != null && !data.containsKey("error")) {
+        MessageByRoomModel messageByRoomModel =
+            MessageByRoomModel.fromJson(data);
+        List<MessageList>? messageList =
+            messageByRoomModel.message?.messageList;
+        if (messageList!.isNotEmpty) {
+          for (var f in messageList) {
+            List<MessageDetails> isExist =
+                await dbHelper.isMessageExist(f.clientMessageId!);
+            if (isExist.isEmpty) {
+              String? nickName = '';
+              List<RoomMembers> roomMembersList =
+                  await dbHelper.getRoomMemberName(f.userId);
+              if (roomMembersList.isNotEmpty) {
+                nickName = roomMembersList[0].nickName;
+              }
+
+              MessageDetails messageDetails = MessageDetails(
+                  roomId: f.roomId,
+                  userId: f.userId,
+                  appId: f.appId,
+                  caUid: f.caUid,
+                  deviceId: f.deviceId,
+                  msgBody: f.msgBody ?? '',
+                  msgBinary: f.msgBinary,
+                  msgBinaryType: f.msgBinaryType,
+                  replyToId: int.parse(f.replyToId!),
+                  messageId: int.parse(f.id!),
+                  readBy: f.readBy,
+                  status: f.status,
+                  statusMsg: f.statusMsg,
+                  deleted: 0,
+                  sendDateTime: DateFormat("yyyy-MM-dd HH:mm:ss")
+                      .format(DateTime.parse(f.sendDatetime!).toLocal())
+                      .toString(),
+                  editDateTime: f.editDatetime,
+                  deleteDateTime: f.deleteDatetime,
+                  transtamp: f.transtamp,
+                  nickName: nickName,
+                  filePath: filePath,
+                  ownerId: userid,
+                  msgStatus: "",
+                  clientMessageId: f.clientMessageId,
+                  roomName: '');
+              // if (userid == messageDetails.userId) {
+              //   messageDetails.msgStatus = "READ";
+              // } else {
+              //   messageDetails.msgStatus = "UNREAD";
+              // }
+              if (userid != messageDetails.userId &&
+                  (messageDetails.readBy == null ||
+                      !messageDetails.readBy!.contains('[[ALL]]'))) {
+                messageDetails.msgStatus = "UNREAD";
+              } else if (userid != messageDetails.userId &&
+                  (messageDetails.readBy != null &&
+                      messageDetails.readBy!.contains('[[ALL]]'))) {
+                messageDetails.msgStatus = "READ";
+              } else if (userid == messageDetails.userId &&
+                  (messageDetails.readBy != null &&
+                      messageDetails.readBy!.contains('[[ALL]]'))) {
+                messageDetails.msgStatus = "READ";
+              } else {
+                messageDetails.msgStatus = "UNREAD";
+              }
+              if (f.msgBinaryType != '' &&
+                  f.msgBinary != null &&
+                  f.msgBinary != '') {
+                messageDetails.filePath = await createFileHistory(
+                    f.msgBinaryType ?? '',
+                    f.msgBinary ?? '',
+                    f.msgBody ?? '',
+                    f.roomId ?? '');
+              }
+              await dbHelper.saveMsgDetailTable(messageDetails);
+            }
+          }
+          if (!context.mounted) return;
+          final chatHistoryProvider =
+              Provider.of<ChatHistory>(context, listen: false);
+          await chatHistoryProvider.getLazyLoadChatHistory(
+              widget.roomId, offset, batchSize);
+          offset += batchSize;
+          _isFetchingData = false;
+          if (!context.mounted) return;
+          context.read<ChatHistory>().updateIsDataExist();
+          await EasyLoading.dismiss();
+        } else {
+          if (!context.mounted) return;
+          context.read<ChatHistory>().updateDataNotExist();
+          await EasyLoading.dismiss();
+        }
+      } else {
+        context.read<ChatHistory>().updateDataNotExist();
+        await EasyLoading.dismiss();
+      }
+    });
+  }
+
+  Future<String> createFileHistory(String fileType, String base64String,
+      String fileName, String roomId) async {
+    File file;
+    String folder = "";
+    String extension = "";
+    if (fileType == "audio") {
+      folder = "Audios";
+      extension = ".mp3";
+    } else if (fileType == "image") {
+      folder = "Images";
+      extension = ".png";
+    } else if (fileType == "video") {
+      folder = "Videos";
+      extension = ".mp4";
+    } else if (fileType == "file") {
+      folder = "Files";
+      extension = ".${fileName.split('.').last}";
+    }
+    try {
+      Uint8List bytes = base64.decode(base64String);
+      final dir = Directory(
+          '${(Platform.isAndroid ? await getExternalStorageDirectory() //FOR ANDROID
+                  : await getApplicationSupportDirectory() //FOR IOS
+              )!.path}/$roomId/$folder');
+      // var status = await Permission.storage.status;
+      // if (!status.isGranted) {
+      //   await Permission.storage.request();
+      // }
+      final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      final random = Random().nextInt(10000).toString();
+      if ((await dir.exists())) {
+        file = File("${dir.path}/$timestamp$random$extension");
+        await file.writeAsBytes(bytes);
+      } else {
+        await dir.create(recursive: true);
+        file = File("${dir.path}/$timestamp$random$extension");
+        await file.writeAsBytes(bytes);
+        //return dir.path;
+      }
+      return file.path;
+    } on Exception {
+      return '';
+      //print(exception);
+    } catch (error) {
+      return '';
+      //print(error);
     }
   }
 

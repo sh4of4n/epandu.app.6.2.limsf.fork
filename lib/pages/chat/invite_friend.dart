@@ -514,11 +514,11 @@ class _InviteFriendState extends State<InviteFriend> {
                             if (!context.mounted) return;
 
                             context.router.replace(ChatRoom(
-                              roomId: inviteRoomResponse.roomId!,
-                              picturePath: '',
-                              roomName: splitRoomName,
-                              roomDesc: 'Private Chat',
-                            ));
+                                roomId: inviteRoomResponse.roomId!,
+                                picturePath: '',
+                                roomName: splitRoomName,
+                                roomDesc: 'Private Chat',
+                                isMessagesExist: false));
 
                             // Navigator.push(
                             //     context,

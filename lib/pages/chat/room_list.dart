@@ -394,7 +394,7 @@ class _RoomListState extends State<RoomList> {
                         }
                       }
 
-                      String clientMessageId = generateRandomString(15);
+                      String clientMessageId = generateRandomString();
 
                       var messageJson = {
                         "roomId": roomId,
@@ -483,12 +483,18 @@ class _RoomListState extends State<RoomList> {
     }
   }
 
-  String generateRandomString(int length) {
-    final random = Random();
-    const availableChars = '123456789';
-    final randomString = List.generate(length,
-            (index) => availableChars[random.nextInt(availableChars.length)])
-        .join();
+  // String generateRandomString(int length) {
+  //   final random = Random();
+  //   const availableChars = '123456789';
+  //   final randomString = List.generate(length,
+  //           (index) => availableChars[random.nextInt(availableChars.length)])
+  //       .join();
+  //   return randomString;
+  // }
+  String generateRandomString() {
+    DateTime currentDateTime = DateTime.now();
+    String randomString =
+        DateFormat('yyyyMMddHHmmssSSS').format(currentDateTime);
 
     return randomString;
   }
@@ -658,6 +664,9 @@ class _RoomListState extends State<RoomList> {
                 roomName: CapitalizeFirstLetter()
                     .capitalizeFirstLetter(splitRoomName.trim()),
                 roomDesc: room.roomDesc ?? '',
+                isMessagesExist: room.messageId != null && room.messageId! > 0
+                    ? true
+                    : false,
               ),
             );
           },

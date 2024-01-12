@@ -121,6 +121,7 @@ dependencies:
   path:
   sentry_sqflite:
   flutter_app_badger:
+  timezone:
 
 dependency_overrides:
   modal_bottom_sheet:

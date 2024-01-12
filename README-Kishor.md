@@ -1,3 +1,12 @@
+11/01/2024 V.6.2.11
+WS 6.2.211
+
+- Removed load chat history from socket server while app loading time and moved to when user enter the room. Else app will be slow down if user having more rooms.
+  1: If member/admin install the app then fetch past 14 days records of that room store into database.
+  2: If member close the app and he got unread messages then get latest messageId from local database and pass to socket server to get next unread messages and store into database.
+  3: If member/admin uninstall and install back also app will fetch past 14 days records.
+- Client messageId generation function enhanced to use from current date with this format(yyyyMMddHHmmssSSS). So, it won't be duplicate in future.
+
 10/01/2024 V.6.2.11
 WS 6.2.211
 

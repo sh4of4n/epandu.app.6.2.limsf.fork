@@ -20,6 +20,7 @@ class RoomMembersList extends StatefulWidget {
     required this.picturePath,
     required this.roomName,
     required this.roomDesc,
+    required this.isMessagesExist,
     // required this.roomMembers
   });
   final String roomId;
@@ -27,6 +28,7 @@ class RoomMembersList extends StatefulWidget {
   final String picturePath;
   final String roomName;
   final String roomDesc;
+  final bool isMessagesExist;
   // final String roomMembers;
   @override
   State<RoomMembersList> createState() => _RoomMembersListState();
@@ -310,12 +312,13 @@ class _RoomMembersListState extends State<RoomMembersList> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ChatRoom(
-                            roomId: widget.roomId,
-                            picturePath: widget.picturePath,
-                            roomName: widget.roomName,
-                            roomDesc: widget.roomDesc,
-                            // roomMembers: widget.roomMembers,
-                          ),
+                              roomId: widget.roomId,
+                              picturePath: widget.picturePath,
+                              roomName: widget.roomName,
+                              roomDesc: widget.roomDesc,
+                              isMessagesExist: widget.isMessagesExist
+                              // roomMembers: widget.roomMembers,
+                              ),
                         ),
                       );
                     },
@@ -388,12 +391,13 @@ class _RoomMembersListState extends State<RoomMembersList> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ChatRoom(
-                            roomId: widget.roomId,
-                            picturePath: widget.picturePath,
-                            roomName: widget.roomName,
-                            roomDesc: widget.roomDesc,
-                            // roomMembers: widget.roomMembers,
-                          ),
+                              roomId: widget.roomId,
+                              picturePath: widget.picturePath,
+                              roomName: widget.roomName,
+                              roomDesc: widget.roomDesc,
+                              isMessagesExist: widget.isMessagesExist
+                              // roomMembers: widget.roomMembers,
+                              ),
                         ),
                       );
                     },

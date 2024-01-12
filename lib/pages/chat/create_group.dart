@@ -256,7 +256,7 @@ class _CreateGroupState extends State<CreateGroup> {
                         }
                       }
 
-                      String clientMessageId = generateRandomString(15);
+                      String clientMessageId = generateRandomString();
                       String caUid = await localStorage.getCaUid() ?? '';
                       String deviceId =
                           await localStorage.getLoginDeviceId() ?? '';
@@ -355,12 +355,14 @@ class _CreateGroupState extends State<CreateGroup> {
                     if (!context.mounted) return;
 
                     context.router.replace(ChatRoom(
-                      roomId: inviteRoomResponse.roomId!,
-                      picturePath: '',
-                      roomName: inviteRoomResponse.roomName!,
-                      roomDesc: 'Group Chat',
-                      // roomMembers: members,
-                    ));
+                        roomId: inviteRoomResponse.roomId!,
+                        picturePath: '',
+                        roomName: inviteRoomResponse.roomName!,
+                        roomDesc: 'Group Chat',
+                        isMessagesExist: true
+
+                        // roomMembers: members,
+                        ));
                   } else {
                     await EasyLoading.dismiss();
                     final customDialog = CustomDialog();
@@ -381,13 +383,18 @@ class _CreateGroupState extends State<CreateGroup> {
     );
   }
 
-  String generateRandomString(int length) {
-    final random = Random();
-    const availableChars = '123456789';
-    // 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-    final randomString = List.generate(length,
-            (index) => availableChars[random.nextInt(availableChars.length)])
-        .join();
+  // String generateRandomString(int length) {
+  //   final random = Random();
+  //   const availableChars = '123456789';
+  //   final randomString = List.generate(length,
+  //           (index) => availableChars[random.nextInt(availableChars.length)])
+  //       .join();
+  //   return randomString;
+  // }
+  String generateRandomString() {
+    DateTime currentDateTime = DateTime.now();
+    String randomString =
+        DateFormat('yyyyMMddHHmmssSSS').format(currentDateTime);
 
     return randomString;
   }
@@ -655,11 +662,11 @@ class _CreateGroupState extends State<CreateGroup> {
                           //             ))).then((_) {});
 
                           context.router.replace(ChatRoom(
-                            roomId: inviteRoomResponse.roomId!,
-                            picturePath: '',
-                            roomName: inviteRoomResponse.roomName!,
-                            roomDesc: 'Group Chat',
-                          ));
+                              roomId: inviteRoomResponse.roomId!,
+                              picturePath: '',
+                              roomName: inviteRoomResponse.roomName!,
+                              roomDesc: 'Group Chat',
+                              isMessagesExist: false));
                         }
                       }
                     }
