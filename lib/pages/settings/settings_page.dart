@@ -257,7 +257,7 @@ class _SettingsState extends State<Settings> {
               context.router.pop();
               // Provider.of<ChatNotificationCount>(context, listen: false)
               //     .clearNotificationBadge();
-              //context.read<SocketClientHelper>().disconnectSocket();
+              context.read<SocketClientHelper>().disconnectSocket();
               if (!context.mounted) return;
               await authRepo.logout(context: context, type: 'CLEAR');
               if (!context.mounted) return;

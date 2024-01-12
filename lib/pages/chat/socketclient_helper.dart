@@ -28,6 +28,8 @@ import '../../utils/app_config.dart';
 import 'chat_history.dart';
 import 'chatnotification_count.dart';
 import 'online_users.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tzdata;
 
 class SocketClientHelper extends ChangeNotifier {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -1006,10 +1008,7 @@ class SocketClientHelper extends ChangeNotifier {
         notifyListeners();
         Provider.of<ChatNotificationCount>(ctx, listen: false)
             .addNotificationBadge(notificationBadge: 0, roomId: roomId);
-        if (roomId != 'Tbs.Chat.Client-All-Users' &&
-            ((messageId != '' && messageId != '0') ||
-                (isRoomDeleted.toLowerCase() == 'true' &&
-                    deleteDatetime != ''))) {
+        if (roomId != 'Tbs.Chat.Client-All-Users') {
           getMissingMessages(roomId, userId!, createDate, messageId,
               isRoomDeleted, deleteDatetime);
         }
@@ -1018,6 +1017,19 @@ class SocketClientHelper extends ChangeNotifier {
         //print("Null from login user");
       }
     });
+  }
+
+  Future<String> getMalaysiaTime() async {
+    // Set the Malaysia time zone
+    String timeZone = 'Asia/Kuala_Lumpur';
+    var malaysiaTimeZone = tz.getLocation(timeZone);
+
+    // Get the current time in Malaysia Standard Time (MYT)
+    var malaysiaTime = tz.TZDateTime.now(malaysiaTimeZone);
+    String formattedTime =
+        DateFormat('yyyy-MM-dd HH:mm:ss').format(malaysiaTime);
+
+    return formattedTime;
   }
 
   void getMissingMessages(String roomId, String userid, String createDate,
@@ -1031,15 +1043,36 @@ class SocketClientHelper extends ChangeNotifier {
         "returnMsgBinaryAsBase64": "true",
         "bgnMessageId": int.parse(messageId) + 1,
       };
-    } else if (deleteDatetime != '' &&
-        messageId == '' &&
-        isRoomDeleted.toLowerCase() == 'true') {
-      messageRoomJson = {
-        "roomId": roomId,
-        "returnMsgBinaryAsBase64": "true",
-        "bgnSendDateTime": deleteDatetime,
-      };
+    } else {
+      if (deleteDatetime != '' && isRoomDeleted.toLowerCase() == 'true') {
+        messageRoomJson = {
+          "roomId": roomId,
+          "returnMsgBinaryAsBase64": "true",
+          "bgnSendDateTime": deleteDatetime,
+        };
+      } else {
+        tzdata.initializeTimeZones();
+        DateTime currentDate = DateTime.now();
+        //String? daysCount = await localStorage.getChatHistoryDaysCount();
+        // DateTime startDate = DateTime(currentDate.year, currentDate.month,
+        //     currentDate.day - int.parse(daysCount!));
+        // startDate = DateTime(startDate.year, startDate.month, startDate.day);
+
+        String endSendDateTime = await getMalaysiaTime();
+
+        DateTime startDate = currentDate.subtract(const Duration(hours: 24));
+        String bgnSendDateTime =
+            DateFormat('yyyy-MM-dd HH:mm:ss').format(startDate);
+
+        messageRoomJson = {
+          "roomId": roomId,
+          "returnMsgBinaryAsBase64": "true",
+          "bgnSendDateTime": bgnSendDateTime,
+          "endSendDateTime": endSendDateTime
+        };
+      }
     }
+
     print('getMessageByRoom: $messageRoomJson');
     socket.emitWithAck('getMessageByRoom', messageRoomJson, ack: (data) async {
       //print('getMessageByRoom $data');

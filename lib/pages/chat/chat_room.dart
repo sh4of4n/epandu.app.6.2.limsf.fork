@@ -224,29 +224,30 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   loadIntialData() async {
-    await localStorage.saveChatHistoryDaysCount('13');
+    //await localStorage.saveChatHistoryDaysCount('13');
     //BatchLoader
-    if (!widget.isMessagesExist && getMessageDetailsList.isEmpty) {
-      String? daysCount = await localStorage.getChatHistoryDaysCount();
-      DateTime currentDate = DateTime.now();
-      DateTime startDate = DateTime(currentDate.year, currentDate.month,
-          currentDate.day - int.parse(daysCount!));
-      startDate = DateTime(startDate.year, startDate.month, startDate.day);
+    // if (!widget.isMessagesExist && getMessageDetailsList.isEmpty) {
+    //   DateTime currentDate = DateTime.now();
+    //   //String? daysCount = await localStorage.getChatHistoryDaysCount();
+    //   // DateTime startDate = DateTime(currentDate.year, currentDate.month,
+    //   //     currentDate.day - int.parse(daysCount!));
+    //   // startDate = DateTime(startDate.year, startDate.month, startDate.day);
 
-      endSendDateTime = await getMalaysiaTime();
+    //   endSendDateTime = await getMalaysiaTime();
 
-      bgnSendDateTime = DateFormat('yyyy-MM-dd').format(startDate);
+    //   DateTime startDate = currentDate.subtract(const Duration(hours: 24));
+    //   bgnSendDateTime = DateFormat('yyyy-MM-dd').format(startDate);
 
-      await getMissingMessages(widget.roomId, endSendDateTime, bgnSendDateTime);
-    } else {
-      if (!context.mounted) return;
-      final chatHistoryProvider =
-          Provider.of<ChatHistory>(context, listen: false);
-      await chatHistoryProvider.getLazyLoadChatHistory(
-          widget.roomId, offset, batchSize);
-      offset += batchSize;
-      _isFetchingData = false;
-    }
+    //   await getMissingMessages(widget.roomId, endSendDateTime, bgnSendDateTime);
+    // } else {
+    if (!context.mounted) return;
+    final chatHistoryProvider =
+        Provider.of<ChatHistory>(context, listen: false);
+    await chatHistoryProvider.getLazyLoadChatHistory(
+        widget.roomId, offset, batchSize);
+    offset += batchSize;
+    _isFetchingData = false;
+    //}
   }
 
   void _onItemPositionsChanged() {
@@ -3067,7 +3068,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
   Future<void> getMissingMessages(
       String roomId, String endSendDateTime, String bgnSendDateTime) async {
-    String? daysCount = await localStorage.getChatHistoryDaysCount();
+    //String? daysCount = await localStorage.getChatHistoryDaysCount();
     String? userid = await localStorage.getUserId();
     String filePath = '';
     Map<String, Object> messageRoomJson;

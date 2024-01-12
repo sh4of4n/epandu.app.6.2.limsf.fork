@@ -1,3 +1,8 @@
+12/01/2024 V.6.2.11
+WS 6.2.211
+
+- Revert load chathistory function to after login and before navigate to Home screen with get only past 24 hours data.
+
 11/01/2024 V.6.2.11
 WS 6.2.211
 

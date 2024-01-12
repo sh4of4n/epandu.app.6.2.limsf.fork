@@ -258,6 +258,7 @@ Page resource error:
                     picturePath: '',
                     roomName: getCreateRoomResponse.roomName!,
                     roomDesc: getCreateRoomResponse.roomDesc!,
+                    isMessagesExist: false,
                   ),
                 ),
               );
