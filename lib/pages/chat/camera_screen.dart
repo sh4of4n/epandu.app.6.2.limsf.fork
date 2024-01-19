@@ -81,6 +81,17 @@ class _CameraScreenState extends State<CameraScreen> {
                   );
                 }
               }),
+              Positioned(
+            top: 25.0,
+            left: 25.0,
+            child: IconButton(
+              icon: const Icon(Icons.close, color: Colors.white, size: 28.0),
+              onPressed: () {
+                Navigator.of(context)
+                    .pop(); // Close the screen and navigate back
+              },
+            ),
+          ),
           Positioned(
             bottom: 0.0,
             child: Container(

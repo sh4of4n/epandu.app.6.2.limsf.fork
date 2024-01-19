@@ -1,3 +1,8 @@
+19/01/2024 V.6.2.11
+WS 6.2.211
+
+- Added exit button to camera_screen.dart file .
+
 12/01/2024 V.6.2.11
 WS 6.2.211
 
