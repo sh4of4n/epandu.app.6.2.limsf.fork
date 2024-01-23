@@ -1,3 +1,9 @@
+23/01/2024 V.6.2.11
+WS 6.2.211
+
+- Resolved Null check operator used on a null value in chat room getMessageReadBy function.
+- Resolved voice recording issue in IOS.
+
 19/01/2024 V.6.2.11
 WS 6.2.211
 

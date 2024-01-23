@@ -88,6 +88,8 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> {
+  bool isLongPressEnabled = true;
+  bool isTextFieldEnabled = true;
   String endSendDateTime = '';
   String bgnSendDateTime = '';
   bool isListviewVisible = true;
@@ -469,6 +471,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                       borderRadius: BorderRadius.circular(25),
                                     ),
                                     child: TextFormField(
+                                      enabled: isTextFieldEnabled,
                                       controller: editingController,
                                       focusNode: focusNode,
                                       style: TextStyle(fontSize: custFontSize),
@@ -528,41 +531,50 @@ class _ChatRoomState extends State<ChatRoom> {
                                         suffixIcon: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            IconButton(
-                                              icon: const Icon(
-                                                Icons.attach_file,
-                                                color: Colors.blue,
-                                              ),
-                                              onPressed: () {
-                                                showModalBottomSheet(
-                                                    backgroundColor:
-                                                        Colors.transparent,
-                                                    context: context,
-                                                    builder: (builder) =>
-                                                        bottomSheet());
-                                              },
-                                            ),
-                                            IconButton(
-                                              icon: const Icon(
-                                                Icons.camera_alt,
-                                                color: Colors.blue,
-                                              ),
-                                              onPressed: () {
-                                                setState(() {
-                                                  popTime = 2;
-                                                });
+                                            !isLoading
+                                                ? IconButton(
+                                                    icon: const Icon(
+                                                      Icons.attach_file,
+                                                      color: Colors.blue,
+                                                    ),
+                                                    onPressed: () {
+                                                      showModalBottomSheet(
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          context: context,
+                                                          builder: (builder) =>
+                                                              bottomSheet());
+                                                    },
+                                                  )
+                                                : const SizedBox(
+                                                    width: 0,
+                                                  ),
+                                            !isLoading
+                                                ? IconButton(
+                                                    icon: const Icon(
+                                                      Icons.camera_alt,
+                                                      color: Colors.blue,
+                                                    ),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        popTime = 2;
+                                                      });
 
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (builder) =>
-                                                            CameraScreen(
-                                                                cameras:
-                                                                    cameras,
-                                                                onImageSend:
-                                                                    onImageSend)));
-                                              },
-                                            ),
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (builder) =>
+                                                                  CameraScreen(
+                                                                      cameras:
+                                                                          cameras,
+                                                                      onImageSend:
+                                                                          onImageSend)));
+                                                    },
+                                                  )
+                                                : const SizedBox(
+                                                    width: 0,
+                                                  ),
                                           ],
                                         ),
                                         //contentPadding: EdgeInsets.all(5),
@@ -577,6 +589,27 @@ class _ChatRoomState extends State<ChatRoom> {
                             width: 5,
                           ),
                           GestureDetector(
+                              onLongPressStart: isLongPressEnabled
+                                  ? (_) async {
+                                      if (!sendButton) {
+                                        if (!_mRecorderIsInited) {
+                                          return;
+                                        }
+                                        if (_mRecorder!.isStopped) {
+                                          record();
+                                        }
+                                      }
+                                    }
+                                  : null,
+                              onLongPressCancel: () {},
+                              onLongPressEnd: (_) async {
+                                if (!sendButton) {
+                                  if (!_mRecorderIsInited) {
+                                    return;
+                                  }
+                                  stopRecorder();
+                                }
+                              },
                               child: CircleAvatar(
                                 radius: 25,
                                 backgroundColor: Colors.blue,
@@ -610,26 +643,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                     }
                                   },
                                 ),
-                              ),
-                              onLongPressStart: (_) async {
-                                if (!sendButton) {
-                                  if (!_mRecorderIsInited) {
-                                    return;
-                                  }
-                                  if (_mRecorder!.isStopped) {
-                                    record();
-                                  }
-                                }
-                              },
-                              onLongPressCancel: () {},
-                              onLongPressEnd: (_) async {
-                                if (!sendButton) {
-                                  if (!_mRecorderIsInited) {
-                                    return;
-                                  }
-                                  stopRecorder();
-                                }
-                              }),
+                              )),
                           const SizedBox(
                             width: 5,
                           ),
@@ -2323,19 +2337,14 @@ class _ChatRoomState extends State<ChatRoom> {
       socket.emitWithAck('getMessageById', messageJson, ack: (data) async {
         //print('getMessageById ack $data');
         if (data != null && !data.containsKey("error")) {
-          ReadByMessage readByMessage = ReadByMessage.fromJson(data);
-          if (readByMessage.message != null &&
-              readByMessage.message!.readMessage![0].readBy != null &&
-              readByMessage.message!.readMessage![0].readBy!
-                  .contains('[[ALL]]')) {
-            context.read<ChatHistory>().updateChatItemStatus(
-                '',
-                "READ",
-                int.parse(readByMessage.message!.readMessage![0].id!),
-                roomId,
-                '');
-            await dbHelper.updateMsgStatus(
-                'READ', int.parse(readByMessage.message!.readMessage![0].id!));
+          ReadMessage readMessage =
+              ReadByMessage.fromJson(data).message!.readMessage![0];
+          if (readMessage.readBy != null &&
+              readMessage.readBy!.contains('[[ALL]]')) {
+            context
+                .read<ChatHistory>()
+                .updateChatItemStatus('', "READ", messageId, roomId, '');
+            await dbHelper.updateMsgStatus('READ', messageId);
           }
         } else {
           print("Null from getMessageById");
@@ -2983,6 +2992,8 @@ class _ChatRoomState extends State<ChatRoom> {
     audioFilPath = '$dirPath/${DateTime.now().millisecondsSinceEpoch}.mp4';
 
     setState(() {
+      isLongPressEnabled = false;
+      isTextFieldEnabled = false;
       isLoading = true;
     });
 
@@ -3020,6 +3031,8 @@ class _ChatRoomState extends State<ChatRoom> {
     sendNotTyping();
     await _mRecorder!.stopRecorder().then((value) {
       setState(() {
+        isLongPressEnabled = true;
+        isTextFieldEnabled = true;
         isLoading = false;
         cancelRecorderSubscriptions();
         custFontSize = 15;
