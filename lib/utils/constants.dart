@@ -59,7 +59,7 @@ class ImagesConstant {
   String logo3 = 'assets/images/eDriving-logo.png';
   String ePanduIcon = 'assets/images/epandu-icon.png';
   // String feedSample = 'assets/images/feed-sample.jpg';
-  String friend = 'assets/images/friend.png';
+  String friend = 'assets/images/phone-plan-friends.webp';
   String car = 'assets/images/car.png';
   String motor = 'assets/images/motor.png';
   String sos = 'assets/images/sos-icon.png';

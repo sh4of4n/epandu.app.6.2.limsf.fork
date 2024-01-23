@@ -149,7 +149,10 @@ class _AuthenticationState extends State<Authentication> {
                 image.logo2,
               ),
             ), */
-            Image.asset(image.logo2),
+            Image.asset(
+              image.logo2,
+              width: MediaQuery.of(context).size.width * 0.5,
+            ),
             const SpinKitThreeBounce(
               color: Color(0xFFED3833),
               size: 30,

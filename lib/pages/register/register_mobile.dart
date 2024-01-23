@@ -67,6 +67,9 @@ class _RegisterMobileState extends State<RegisterMobile> {
             title: Image.asset(image.logo2, height: 90.h),
             elevation: 0,
             backgroundColor: Colors.transparent,
+            iconTheme: const IconThemeData(
+              color: Colors.black, //change your color here
+            ),
           ),
           body: SingleChildScrollView(
             child: Column(

@@ -1,3 +1,8 @@
+23/01/2024 V.6.2.2
+WS 6.2.48
+- Change ePandu new logo
+
+
 23/11/2023 V.6.2.1
 WS 6.2.27
 - Fixed banner bug
