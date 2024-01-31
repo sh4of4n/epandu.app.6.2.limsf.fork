@@ -1,3 +1,9 @@
+31/01/2024 V.6.2.11
+WS 6.2.211
+
+- Resolved widget has been unmounted, so the State no longer has a context (and should be considered defunct).
+  Consider canceling any active work during "dispose" or using the "mounted" getter to determine if the State is still active issue.
+
 23/01/2024 V.6.2.11
 WS 6.2.211
 

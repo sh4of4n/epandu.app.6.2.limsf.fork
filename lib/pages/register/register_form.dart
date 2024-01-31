@@ -120,6 +120,11 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
     _getAvailableCameras();
     _getLdlkEnqGroupList();
     _getCdlList();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final getSocket = Provider.of<SocketClientHelper>(context, listen: false);
+      socket = getSocket.socket;
+    });
   }
 
   Future<void> _getLdlkEnqGroupList() async {
@@ -1366,16 +1371,16 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
       deviceRemark: '$_deviceOs $_deviceVersion',
       phDeviceId: _deviceId,
     );
-    if (!context.mounted) return;
+
     if (result.isSuccess) {
+      if (!context.mounted) return;
       var getRegisteredDi =
           await authRepo.getUserRegisteredDI(context: context, type: 'LOGIN');
 
       if (getRegisteredDi.isSuccess) {
         localStorage.saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
-        _createChatSupport();
         if (!context.mounted) return;
-        context.router.pushAndPopUntil(const Home(), predicate: (r) => false);
+        _createChatSupport(context);
       } else {
         if (!context.mounted) return;
         context.router.pushAndPopUntil(const Login(), predicate: (r) => false);
@@ -1390,7 +1395,7 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
     });
   }
 
-  _createChatSupport() async {
+  _createChatSupport(BuildContext context) async {
     var createChatSupportResult =
         await chatRoomRepo.createChatSupportByMember(merchantNo: 'EPANDU');
 
@@ -1423,7 +1428,10 @@ class _RegisterFormState extends State<RegisterForm> with PageBaseClass {
         }
       }
     }
+
     if (!context.mounted) return;
-    context.router.popUntil(ModalRoute.withName('Home'));
+    context.router.pushAndPopUntil(const Home(), predicate: (r) => false);
+    // if (!context.mounted) return;
+    // context.router.popUntil(ModalRoute.withName('Home'));
   }
 }
