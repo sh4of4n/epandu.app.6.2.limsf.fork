@@ -154,6 +154,7 @@ class _TestWebviewState extends State<TestWebview> {
                   picturePath: '',
                   roomName: getCreateRoomResponse.roomName!,
                   roomDesc: getCreateRoomResponse.roomDesc!,
+                  isMessagesExist: false,
                 ),
               ),
             );

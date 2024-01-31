@@ -38,6 +38,7 @@ class LocalStorage {
   static const String kCdl = 'CDL';
   static const String kLdl = 'LDL';
   static const String kPlaces = 'PLACES';
+  static const String kChatHistoryDaysCount = 'CHAT_HISTORY_DAYS_COUNT';
 
   Future<bool> saveNickName(String nickName) {
     return Preference.setString(kNickName, nickName);
@@ -335,6 +336,14 @@ class LocalStorage {
     return Preference.setString(kPlaces, place);
   }
 
+  Future<bool> saveChatHistoryDaysCount(String count) {
+    return Preference.setString(kChatHistoryDaysCount, count);
+  }
+
+  Future<String?> getChatHistoryDaysCount() async {
+    return Preference.getString(kChatHistoryDaysCount, def: '');
+  }
+
   Future<void> reset() async {
     // await Preference.removeAll();
     await Preference.remove(kWsUrl);
@@ -373,5 +382,6 @@ class LocalStorage {
     await Preference.remove(kCdl);
     await Preference.remove(kLdl);
     await Preference.remove(kPlaces);
+    await Preference.remove(kChatHistoryDaysCount);
   }
 }

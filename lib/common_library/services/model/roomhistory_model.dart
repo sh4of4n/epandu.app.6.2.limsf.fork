@@ -11,6 +11,7 @@ class RoomHistoryModel {
   String? sendDatetime;
   String? merchantNo;
   String? deleted;
+  String? deletedDateTime;
 
   RoomHistoryModel(
       {this.roomId,
@@ -24,7 +25,8 @@ class RoomHistoryModel {
       this.nickName,
       this.sendDatetime,
       this.merchantNo,
-      this.deleted});
+      this.deleted,
+      this.deletedDateTime});
 
   RoomHistoryModel.fromJson(Map<String, dynamic> json) {
     roomId = json['room_id'] ?? '';
@@ -39,6 +41,7 @@ class RoomHistoryModel {
     sendDatetime = json['send_datetime'] ?? '';
     merchantNo = json['merchant_no'] ?? '';
     deleted = json['deleted'] ?? '';
+    deletedDateTime = json['deletedDateTime'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -55,6 +58,7 @@ class RoomHistoryModel {
     data['send_datetime'] = sendDatetime;
     data['merchant_no'] = merchantNo;
     data['deleted'] = deleted;
+    data['deletedDateTime'] = deletedDateTime;
     return data;
   }
 }

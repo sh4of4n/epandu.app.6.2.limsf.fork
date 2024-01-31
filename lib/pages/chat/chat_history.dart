@@ -75,6 +75,10 @@ class ChatHistory extends ChangeNotifier {
     isDataExist = true;
     notifyListeners();
   }
+  void updateDataNotExist() {
+    isDataExist = true;
+    notifyListeners();
+  }
 
   Future<void> deleteChatItem(int messageId, String roomId) async {
     int index = getMessageDetailsList.indexWhere((element) =>

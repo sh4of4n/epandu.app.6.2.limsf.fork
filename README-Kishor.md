@@ -1,3 +1,44 @@
+23/01/2024 V.6.2.11
+WS 6.2.211
+
+- Resolved Null check operator used on a null value in chat room getMessageReadBy function.
+- Resolved voice recording issue in IOS.
+
+19/01/2024 V.6.2.11
+WS 6.2.211
+
+- Added exit button to camera_screen.dart file .
+
+12/01/2024 V.6.2.11
+WS 6.2.211
+
+- Revert load chathistory function to after login and before navigate to Home screen with get only past 24 hours data.
+
+11/01/2024 V.6.2.11
+WS 6.2.211
+
+- Removed load chat history from socket server while app loading time and moved to when user enter the room. Else app will be slow down if user having more rooms.
+  1: If member/admin install the app then fetch past 14 days records of that room store into database.
+  2: If member close the app and he got unread messages then get latest messageId from local database and pass to socket server to get next unread messages and store into database.
+  3: If member/admin uninstall and install back also app will fetch past 14 days records.
+- Client messageId generation function enhanced to use from current date with this format(yyyyMMddHHmmssSSS). So, it won't be duplicate in future.
+
+10/01/2024 V.6.2.11
+WS 6.2.211
+
+- Resolved issue in below scenario.
+  Step 1: Member remove the private chat room .
+  Step 2: Another member in the room send messages then name of that message not showing.
+- Enhanced load chat history from socket server.
+  1: If member/admin install the app then fetch past 14 days records of that room store into database.
+  2: If member close the app and he got unread messages then get latest messageId from local database and pass to socket server to get next unread messages and store into database.
+  3: If member/admin uninstall and install back also app will fetch past 14 days records.
+- Resolved issue for below scenario.
+  Step 1: UserA and UserB send messages to Admin.
+  Step 2: Admin eneter UserA room.
+  Step 3: UserB send message to Admin.
+  Step 4: UserA room showing UserB latest messages.
+
 05/01/2024 V.6.2.11
 WS 6.2.211
 

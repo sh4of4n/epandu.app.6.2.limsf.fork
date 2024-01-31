@@ -28,6 +28,8 @@ import '../../utils/app_config.dart';
 import 'chat_history.dart';
 import 'chatnotification_count.dart';
 import 'online_users.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tzdata;
 
 class SocketClientHelper extends ChangeNotifier {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -264,13 +266,19 @@ class SocketClientHelper extends ChangeNotifier {
     return false; // 'Chat Support' does not exist
   }
 
-  String generateRandomString(int length) {
-    final random = Random();
-    const availableChars = '123456789';
-    // 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-    final randomString = List.generate(length,
-            (index) => availableChars[random.nextInt(availableChars.length)])
-        .join();
+  // String generateRandomString(int length) {
+  //   final random = Random();
+  //   const availableChars = '123456789';
+  //   final randomString = List.generate(length,
+  //           (index) => availableChars[random.nextInt(availableChars.length)])
+  //       .join();
+  //   return randomString;
+  // }
+  String generateRandomString() {
+    DateTime currentDateTime = DateTime.now();
+    String randomString =
+        DateFormat('yyyyMMddHHmmssSSS').format(currentDateTime);
+
     return randomString;
   }
 
@@ -1011,41 +1019,60 @@ class SocketClientHelper extends ChangeNotifier {
     });
   }
 
+  Future<String> getMalaysiaTime() async {
+    // Set the Malaysia time zone
+    String timeZone = 'Asia/Kuala_Lumpur';
+    var malaysiaTimeZone = tz.getLocation(timeZone);
+
+    // Get the current time in Malaysia Standard Time (MYT)
+    var malaysiaTime = tz.TZDateTime.now(malaysiaTimeZone);
+    String formattedTime =
+        DateFormat('yyyy-MM-dd HH:mm:ss').format(malaysiaTime);
+
+    return formattedTime;
+  }
+
   void getMissingMessages(String roomId, String userid, String createDate,
       String messageId, String isRoomDeleted, String deleteDatetime) async {
     String filePath = '';
-    // List<MessageDetails> messageDetailsList = [];
-    // if (messageId == '') {
-    //   messageDetailsList = await dbHelper.getLatestMsgDetail(roomId);
-    //   if (messageDetailsList.isNotEmpty) {
-    //     messageId = messageDetailsList[0].messageId.toString();
-    //   }
-    // }
+    Map<String, Object> messageRoomJson = {};
 
-    Map<String, Object> messageRoomJson;
-
-    if (messageId != '') {
+    if (messageId != '' && deleteDatetime == '') {
       messageRoomJson = {
         "roomId": roomId,
         "returnMsgBinaryAsBase64": "true",
-        "bgnMessageId": int.parse(messageId) + 1
+        "bgnMessageId": int.parse(messageId) + 1,
       };
     } else {
-      if (deleteDatetime == '') {
+      if (deleteDatetime != '' && isRoomDeleted.toLowerCase() == 'true') {
         messageRoomJson = {
           "roomId": roomId,
           "returnMsgBinaryAsBase64": "true",
-          "bgnSendDateTime":
-              "${DateFormat("yyyy-MM-dd").format(DateTime.now())} 00:00:00"
+          "bgnSendDateTime": deleteDatetime,
         };
       } else {
+        tzdata.initializeTimeZones();
+        DateTime currentDate = DateTime.now();
+        //String? daysCount = await localStorage.getChatHistoryDaysCount();
+        // DateTime startDate = DateTime(currentDate.year, currentDate.month,
+        //     currentDate.day - int.parse(daysCount!));
+        // startDate = DateTime(startDate.year, startDate.month, startDate.day);
+
+        String endSendDateTime = await getMalaysiaTime();
+
+        DateTime startDate = currentDate.subtract(const Duration(hours: 24));
+        String bgnSendDateTime =
+            DateFormat('yyyy-MM-dd HH:mm:ss').format(startDate);
+
         messageRoomJson = {
           "roomId": roomId,
           "returnMsgBinaryAsBase64": "true",
-          "bgnSendDateTime": deleteDatetime
+          "bgnSendDateTime": bgnSendDateTime,
+          "endSendDateTime": endSendDateTime
         };
       }
     }
+
     print('getMessageByRoom: $messageRoomJson');
     socket.emitWithAck('getMessageByRoom', messageRoomJson, ack: (data) async {
       //print('getMessageByRoom $data');

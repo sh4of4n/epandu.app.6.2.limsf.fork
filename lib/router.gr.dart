@@ -297,6 +297,7 @@ abstract class $AppRouter extends _i103.RootStackRouter {
           picturePath: args.picturePath,
           roomName: args.roomName,
           roomDesc: args.roomDesc,
+          isMessagesExist: args.isMessagesExist,
         ),
       );
     },
@@ -1643,6 +1644,7 @@ class ChatRoom extends _i103.PageRouteInfo<ChatRoomArgs> {
     required String picturePath,
     required String roomName,
     required String roomDesc,
+    required bool isMessagesExist,
     List<_i103.PageRouteInfo>? children,
   }) : super(
           ChatRoom.name,
@@ -1652,6 +1654,7 @@ class ChatRoom extends _i103.PageRouteInfo<ChatRoomArgs> {
             picturePath: picturePath,
             roomName: roomName,
             roomDesc: roomDesc,
+            isMessagesExist: isMessagesExist,
           ),
           initialChildren: children,
         );
@@ -1669,6 +1672,7 @@ class ChatRoomArgs {
     required this.picturePath,
     required this.roomName,
     required this.roomDesc,
+    required this.isMessagesExist,
   });
 
   final _i104.Key? key;
@@ -1681,9 +1685,11 @@ class ChatRoomArgs {
 
   final String roomDesc;
 
+  final bool isMessagesExist;
+
   @override
   String toString() {
-    return 'ChatRoomArgs{key: $key, roomId: $roomId, picturePath: $picturePath, roomName: $roomName, roomDesc: $roomDesc}';
+    return 'ChatRoomArgs{key: $key, roomId: $roomId, picturePath: $picturePath, roomName: $roomName, roomDesc: $roomDesc, isMessagesExist: $isMessagesExist}';
   }
 }
 
