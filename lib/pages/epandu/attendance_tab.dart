@@ -76,7 +76,7 @@ class _AttendanceTabState extends State<AttendanceTab>
     });
 
     var response = await epanduRepo.getStuPracByCode(context: context);
-
+    if (!mounted) return;
     if (response.isSuccess) {
       setState(() {
         attendanceData = response.data;

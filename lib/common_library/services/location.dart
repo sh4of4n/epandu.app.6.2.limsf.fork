@@ -15,6 +15,11 @@ class Location {
   final localStorage = LocalStorage();
 
   Future<void> getCurrentLocation() async {
+    final hasPermission = await handlePermission();
+
+    if (!hasPermission) {
+      return;
+    }
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 

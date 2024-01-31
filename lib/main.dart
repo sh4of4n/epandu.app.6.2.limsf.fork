@@ -203,9 +203,7 @@ Future<void> setupSentry(AppRunner appRunner,
     {bool isIntegrationTest = false,
     BeforeSendCallback? beforeSendCallback}) async {
   await SentryFlutter.init((options) {
-    options.dsn = kDebugMode
-        ? ''
-        : 'https://5525bd569e8849f0940925f93c1b164a@o354605.ingest.sentry.io/6739433';
+    options.dsn = 'https://5525bd569e8849f0940925f93c1b164a@o354605.ingest.sentry.io/6739433';
     options.tracesSampleRate = 1.0;
     options.attachThreads = true;
     options.enableWindowMetricBreadcrumbs = true;
@@ -492,6 +490,9 @@ class _MyAppState extends State<MyApp> {
         primaryTextTheme: FontTheme().primaryFont,
         appBarTheme: const AppBarTheme(
           color: Color(0xffffd225),
+          iconTheme: IconThemeData(
+             color: Colors.black,
+          ),
         ),
       ),
       // List all of the app's supported locales here

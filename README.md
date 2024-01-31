@@ -1,3 +1,11 @@
+31/01/2024 V.6.2.3
+WS 6.2.49
+Fixed
+- Register new account did not save LDL
+- Cannot show institute list if no grant location permission
+Enhanced
+- Change splash screen new logo
+
 23/01/2024 V.6.2.2
 WS 6.2.48
 - Change ePandu new logo

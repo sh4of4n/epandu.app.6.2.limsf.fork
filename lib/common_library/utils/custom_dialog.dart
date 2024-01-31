@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 enum DialogType {
@@ -13,7 +14,7 @@ class CustomDialog {
   final double _defIconSize = 120;
 
   Future show({
-    required context,
+    required BuildContext context,
     required String content,
     title,
     customActions,

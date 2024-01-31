@@ -2149,6 +2149,8 @@ class Enroll {
   String? race;
   String? birthDt;
   String? citizenship;
+  String? enqLdlGroup;
+  String? cdlGroup;
 
   Enroll(
       {this.id,
@@ -2205,7 +2207,9 @@ class Enroll {
       this.sex,
       this.race,
       this.birthDt,
-      this.citizenship});
+      this.citizenship,
+      this.enqLdlGroup,
+      this.cdlGroup});
 
   Enroll.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -2263,6 +2267,8 @@ class Enroll {
     race = json['race'];
     birthDt = json['birth_dt'];
     citizenship = json['citizenship'];
+    enqLdlGroup = json['enq_ldl_group'];
+    cdlGroup = json['cdl_group'];
   }
 
   Map<String, dynamic> toJson() {
@@ -2322,6 +2328,8 @@ class Enroll {
     data['race'] = race;
     data['birth_dt'] = birthDt;
     data['citizenship'] = citizenship;
+    data['enq_ldl_group'] = enqLdlGroup;
+    data['cdl_group'] = cdlGroup;
     return data;
   }
 }
@@ -2433,7 +2441,7 @@ class RegisterRequest {
   String? bdProduct;
   String? pfDeviceId;
   String? regId;
-  String? enqLdlGroup;
+  String? ldlEnqGroup;
   String? cdlGroup;
   String? langCode;
   bool? findDrvJobs;
@@ -2487,7 +2495,7 @@ class RegisterRequest {
       this.bdProduct,
       this.pfDeviceId,
       this.regId,
-      this.enqLdlGroup,
+      this.ldlEnqGroup,
       this.cdlGroup,
       this.langCode,
       this.findDrvJobs});
@@ -2541,7 +2549,7 @@ class RegisterRequest {
     bdProduct = json['bdProduct'];
     pfDeviceId = json['pfDeviceId'];
     regId = json['regId'];
-    enqLdlGroup = json['enqLdlGroup'];
+    ldlEnqGroup = json['ldlEnqGroup'];
     cdlGroup = json['cdlGroup'];
     langCode = json['langCode'];
     findDrvJobs = json['findDrvJobs'];
@@ -2597,7 +2605,7 @@ class RegisterRequest {
     data['bdProduct'] = bdProduct;
     data['pfDeviceId'] = pfDeviceId;
     data['regId'] = regId;
-    data['enqLdlGroup'] = enqLdlGroup;
+    data['ldlEnqGroup'] = ldlEnqGroup;
     data['cdlGroup'] = cdlGroup;
     data['langCode'] = langCode;
     data['findDrvJobs'] = findDrvJobs;

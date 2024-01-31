@@ -45,7 +45,7 @@ class _SelectClassState extends State<SelectClass> {
     );
 
     if (result.isSuccess) {
-      return result.data[0].status;
+      return result.data![0].status;
     }
     return null;
     // });

@@ -88,7 +88,6 @@ class _SelectInstituteState extends State<SelectInstitute> {
 
   Future<dynamic> _getDiNearMe() async {
     var result = await authRepo.getDiNearMe(
-      context: context,
       merchantNo: appConfig.diCode,
       startIndex: _startIndex,
       noOfRecords: 10,
@@ -155,7 +154,7 @@ class _SelectInstituteState extends State<SelectInstitute> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-            backgroundColor: Colors.transparent,
+            // backgroundColor: Colors.transparent,
             elevation: 0,
             title: Text(AppLocalizations.of(context)!
                 .translate('select_institute_lbl'))),

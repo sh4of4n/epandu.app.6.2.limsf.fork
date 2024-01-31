@@ -402,6 +402,9 @@ class _RegisterMobileState extends State<RegisterMobile> {
   }
 
   _next() async {
+    setState(() {
+      _message = '';
+    });
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       FocusScope.of(context).requestFocus(FocusNode());

@@ -647,7 +647,6 @@ class AuthRepo {
   }
 
   Future<Response> getDiNearMe({
-    context,
     required merchantNo,
     required startIndex,
     required noOfRecords,
@@ -701,7 +700,7 @@ class AuthRepo {
     return Response(false, message: 'No records found.');
   }
 
-  Future<Response> getEnrollHistory({groupId}) async {
+  Future<Response<List<Enroll>?>> getEnrollHistory({groupId}) async {
     String? caUid = await localStorage.getCaUid();
     String? caPwd = await localStorage.getCaPwdEncode();
     String? diCode = await localStorage.getMerchantDbCode();
@@ -710,7 +709,7 @@ class AuthRepo {
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&diCode=$diCode&icNo=$icNo&groupId=${groupId ?? ''}';
 
-    var response = await networking.getData(
+    Response response = await networking.getData(
       path: 'GetEnrollHistoryV2?$path',
     );
 
@@ -719,12 +718,12 @@ class AuthRepo {
     if (response.isSuccess && response.data != null) {
       GetEnrollHistoryResponse getEnrollHistoryResponse =
           GetEnrollHistoryResponse.fromJson(response.data);
-      var responseData = getEnrollHistoryResponse.enroll;
+      List<Enroll>? responseData = getEnrollHistoryResponse.enroll;
 
       return Response(true, data: responseData);
     }
 
-    return Response(false, message: 'No records found.');
+    return Response(false, message: response.message);
   }
 
   Future<Response> saveEnrollmentWithParticular({
@@ -1031,13 +1030,10 @@ class AuthRepo {
           message: 'Verification code sent.', data: response.data);
     }
 
-    if (response.message
-        .toString()
-        .contains('Phone number already registered')) {
-      return Response(false, message: 'Phone number is already registered.');
-    }
     return Response(false,
-        message: 'Failed to send verification code. Please try again later."');
+        message: response.message.isEmpty
+            ? 'Failed to send verification code. Please try again later.'
+            : response.message);
   }
 
   Future<Response> register({
@@ -1118,7 +1114,7 @@ class AuthRepo {
       bdProduct: '',
       pfDeviceId: '',
       regId: pushToken ?? '',
-      enqLdlGroup: enqLdlGroup,
+      ldlEnqGroup: enqLdlGroup,
       cdlGroup: cdlGroup,
       langCode: langCode ?? 'en-MY',
       findDrvJobs: findDrvJobs, //bool set to false

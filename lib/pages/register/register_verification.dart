@@ -167,22 +167,24 @@ class _RegisterVerificationState extends State<RegisterVerification> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 130.w),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
                         child: TextFormField(
-                          style: TextStyle(
-                            fontSize: 58.sp,
-                            color: const Color(0xff808080),
+                          style: const TextStyle(
+                            color: Color(0xff808080),
                           ),
                           keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
-                              // contentPadding:
-                              //     EdgeInsets.symmetric(vertical: 120.h),
-                              suffixIcon: IconButton(
-                            icon: const Icon(Icons.refresh),
-                            onPressed: _resend == false
-                                ? _requestVerificationCode
-                                : null,
-                          )),
+                            // contentPadding:
+                            //     EdgeInsets.symmetric(vertical: 120.h),
+                            suffixIcon: IconButton(
+                              icon: const Icon(Icons.refresh),
+                              onPressed: _resend == false
+                                  ? _requestVerificationCode
+                                  : null,
+                            ),
+                          ),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return AppLocalizations.of(context)!

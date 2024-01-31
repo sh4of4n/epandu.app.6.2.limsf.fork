@@ -6,9 +6,11 @@ import 'package:camera/camera.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:epandu/base/page_base_class.dart';
 import 'package:epandu/common_library/services/model/auth_model.dart';
+import 'package:epandu/common_library/services/model/profile_model.dart';
 import 'package:epandu/common_library/services/repository/auth_repository.dart';
 import 'package:epandu/common_library/services/repository/epandu_repository.dart';
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
+import 'package:epandu/common_library/services/response.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:epandu/common_library/utils/custom_snackbar.dart';
@@ -84,6 +86,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   String? _race = '';
   String? _raceParam = '';
   String? _message = '';
+  // String ldl = '';
+  // String cdl = '';
   bool _obtainingStatus = true;
 
   String _nickName = '';
@@ -92,7 +96,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   // String _countryCode = '+60';
   String? _potentialDob = '';
   final myImage = ImagesConstant();
-  var _enrollHistoryData;
+  List<Enroll> _enrollHistoryData = [];
   // String genderInt = '1';
 
   final hintStyle = const TextStyle(
@@ -116,9 +120,9 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   String profilePicBase64 = '';
   late File _image;
   late File _croppedImage;
-  var imageState;
-  var ldlList;
-  var cdlList;
+  late AppState imageState;
+  List<LdlEnqGroupList>? ldlList = [];
+  List<CdlList>? cdlList = [];
 
   String? ldlItem = '';
   String? cdlItem = '';
@@ -155,9 +159,9 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   }
 
   Future<void> _getCdlList() async {
-    var result = await authRepo.getCdlList();
+    Response<List<CdlList>?> result = await authRepo.getCdlList();
 
-    if (result.isSuccess) {
+    if (result.isSuccess && mounted) {
       setState(() {
         cdlList = result.data;
       });
@@ -166,12 +170,13 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
 
   Future<dynamic> _getEnrollHistory() async {
     // return _memoizer.runOnce(() async {
-    var result = await authRepo.getEnrollHistory();
+    Response<List<Enroll>?> result = await authRepo.getEnrollHistory();
 
     if (result.isSuccess) {
       setState(() {
-        _enrollHistoryData = result.data;
+        _enrollHistoryData = result.data ?? [];
         _obtainingStatus = false;
+        _showEnrollmentData();
       });
     } else {
       setState(() {
@@ -182,7 +187,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   }
 
   _getParticulars() async {
-    var result = await profileRepo.getUserProfile(context: context);
+    Response<List<UserProfile>> result =
+        await profileRepo.getUserProfile(context: context);
 
     // String getCountryCode = await localStorage.getCountryCode();
     // String getPhone = await localStorage.getUserPhone();
@@ -191,7 +197,9 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     // String _getIcNo = await localStorage.getStudentIc();
     // String _getDob = await localStorage.getBirthDate();
     // String _getProfilePic = await localStorage.getProfilePic();
-
+    cdlItem = await localStorage.getCdl();
+    ldlItem = await localStorage.getLdl();
+    print(DateTime.parse(result.data![0].birthDate!));
     if (mounted) {
       setState(() {
         // _phoneController.text = result.data[0].phone;
@@ -199,7 +207,14 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         _emailController.text = result.data![0].eMail ?? '';
         _idNameController.text = result.data![0].name ?? '';
         _icNoController.text = result.data![0].icNo ?? '';
-        _dobController.text = result.data![0].birthDate ?? '';
+        _dobController.text = result.data![0].birthDate == null
+            ? ''
+            : DateFormat('yyyy-MM-dd')
+                .format(DateTime.parse(result.data![0].birthDate!).toLocal());
+        _postcodeController.text = result.data![0].postcode ?? '';
+        // cdl = result.data![0].cdlGroup ?? '';
+        // ldl = result.data![0].enqLdlGroup ?? '';
+
         if (result.data![0].race == 'MALAY' || result.data![0].race == 'M') {
           _race = 'Malay';
           _raceParam = 'M';
@@ -997,7 +1012,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         ],
       );
     }
-    if (_enrollHistoryData == null && _obtainingStatus == false) {
+    if (_enrollHistoryData.isEmpty && _obtainingStatus == false) {
       return SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -1145,7 +1160,8 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                           value: value.groupId,
                           child: Text(value.groupId),
                         );
-                      })?.toList(),
+                      }).toList(),
+                      value: ldlItem!.isEmpty ? null : ldlItem,
                       validator: (value) {
                         if (value == null) {
                           return AppLocalizations.of(context)!
@@ -1197,7 +1213,10 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                           value: value.groupId,
                           child: Text(value.groupId),
                         );
-                      })?.toList(),
+                      }).toList(),
+                      value: cdlItem!.isEmpty
+                          ? null
+                          : cdlItem!.replaceAll('%20', ' '),
                       validator: (value) {
                         if (value == null) {
                           return AppLocalizations.of(context)!
@@ -1249,21 +1268,26 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
         ),
       );
     }
-    return _showEnrollmentData();
   }
 
-  _showEnrollmentData() {
+  _showEnrollmentData() async {
+    cdlItem = await localStorage.getCdl();
+    ldlItem = await localStorage.getLdl();
+    if (!mounted) return;
     setState(() {
       _icNo = _enrollHistoryData[0].icNo;
       _icName = _enrollHistoryData[0].name;
-      _dob = _enrollHistoryData[0].birthDt.substring(0, 10);
+      _dob = _enrollHistoryData[0].birthDt!.substring(0, 10);
       _race = _enrollHistoryData[0].race;
+      // ldl = _enrollHistoryData[0].enqLdlGroup ?? '';
+      // cdl = _enrollHistoryData[0].cdlGroup ?? '';
       // _nationality = _enrollHistoryData[0].citizenship;
       if (_enrollHistoryData[0].sex == 'L') {
         _genderValue = 'MALE';
       } else {
         _genderValue = 'FEMALE';
       }
+      print('object');
     });
 
     return SingleChildScrollView(
@@ -1339,7 +1363,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
                 ),
                 Text(
                   _enrollHistoryData[0].birthDt != null
-                      ? _enrollHistoryData[0].birthDt.substring(0, 10)
+                      ? _enrollHistoryData[0].birthDt!.substring(0, 10)
                       : '',
                   style: textStyle,
                 ),
@@ -1459,7 +1483,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   }
 
   _next() async {
-    if (_enrollHistoryData == null) {
+    if (_enrollHistoryData.isEmpty) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         FocusScope.of(context).requestFocus(FocusNode());
