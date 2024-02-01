@@ -89,6 +89,7 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
       ),
     );
     MarkerId a = const MarkerId('value');
+    if (!mounted) return;
     setState(() {
       _lat = lat;
       _lng = lng;

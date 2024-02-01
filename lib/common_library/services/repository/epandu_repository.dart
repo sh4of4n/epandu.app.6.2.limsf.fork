@@ -268,11 +268,7 @@ class EpanduRepo {
     );
   }
 
-  Future<Response> getTestListGroupIdByIcNo({
-    required context,
-  }) async {
-    assert(context != null);
-
+  Future<Response<List<GroupIdTest>?>> getTestListGroupIdByIcNo() async {
     String? caUid = await localStorage.getCaUid();
     String? caPwd = await localStorage.getCaPwdEncode();
     String? icNo = await localStorage.getStudentIc();
@@ -303,7 +299,7 @@ class EpanduRepo {
     );
   }
 
-  Future<Response> getTestListTestType({
+  Future<Response<List<TestTypeTest>?>> getTestListTestType({
     required context,
     groupId,
   }) async {
@@ -339,7 +335,7 @@ class EpanduRepo {
     );
   }
 
-  Future<Response> getTestList({
+  Future<Response<List<Test>?>> getTestList({
     required context,
     groupId,
     testType,

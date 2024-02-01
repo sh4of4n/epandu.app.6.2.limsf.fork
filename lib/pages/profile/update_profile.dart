@@ -149,7 +149,8 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   }
 
   Future<void> _getLdlkEnqGroupList() async {
-    Response<List<LdlEnqGroupList>> result = await authRepo.getLdlkEnqGroupList();
+    Response<List<LdlEnqGroupList>> result =
+        await authRepo.getLdlkEnqGroupList();
 
     if (result.isSuccess) {
       setState(() {
@@ -160,7 +161,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
 
   Future<void> _getCdlList() async {
     Response<List<CdlList>?> result = await authRepo.getCdlList();
-
+    if (!mounted) return;
     if (result.isSuccess) {
       setState(() {
         cdlList = result.data ?? [];
@@ -343,19 +344,28 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
           child: Text(AppLocalizations.of(context)!.translate('take_photo')),
           onPressed: () async {
             context.router.pop();
-            var newProfilePic = await context.router.push(
-              TakeProfilePicture(camera: cameras),
-            );
+            // var newProfilePic = await context.router.push(
+            //   TakeProfilePicture(camera: cameras),
+            // );
 
-            // String newProfilePic = await localStorage.getProfilePic();
-            if (newProfilePic != null) {
+            // // String newProfilePic = await localStorage.getProfilePic();
+            // if (newProfilePic != null) {
+            //   setState(() {
+            //     profilePicUrl = '';
+            //     _image = File(newProfilePic as String);
+            //     _editImage();
+            //     // profilePicBase64 =
+            //     //     base64Encode(File(newProfilePic).readAsBytesSync());
+            //   });
+            // }
+            XFile? pickedFile =
+                await picker.pickImage(source: ImageSource.camera);
+            if (pickedFile?.path != null) {
               setState(() {
-                profilePicUrl = '';
-                _image = File(newProfilePic as String);
-                _editImage();
-                // profilePicBase64 =
-                //     base64Encode(File(newProfilePic).readAsBytesSync());
+                _image = File(pickedFile!.path);
+                imageState = AppState.picked;
               });
+              _editImage();
             }
           },
         ),
@@ -372,7 +382,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   }
 
   Future _getImageGallery() async {
-    var pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile?.path != null) {
       setState(() {

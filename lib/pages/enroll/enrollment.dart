@@ -150,7 +150,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
 
   Future<void> _getLdlkEnqGroupList() async {
     var result = await authRepo.getLdlkEnqGroupList();
-
+    if (!mounted) return;
     if (result.isSuccess) {
       setState(() {
         ldlList = result.data;
@@ -199,7 +199,6 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
     // String _getProfilePic = await localStorage.getProfilePic();
     cdlItem = await localStorage.getCdl();
     ldlItem = await localStorage.getLdl();
-    print(DateTime.parse(result.data![0].birthDate!));
     if (mounted) {
       setState(() {
         // _phoneController.text = result.data[0].phone;

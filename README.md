@@ -1,3 +1,12 @@
+01/02/2024 V.6.2.4
+WS 6.2.49
+Enhanced
+- Improve profile page take photo ux
+- Remove job button and more button in home page
+- Can navigate to booking page
+Fixed
+- Cannot make phone call in SOS directory
+
 31/01/2024 V.6.2.3
 WS 6.2.49
 Fixed
