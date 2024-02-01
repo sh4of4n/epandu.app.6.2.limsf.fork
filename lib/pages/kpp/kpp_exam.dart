@@ -103,7 +103,7 @@ class _KppExamState extends State<KppExam> {
       groupId: groupId,
       paperNo: paperNo,
     );
-
+    if (!mounted) return;
     if (result.isSuccess) {
       setState(() {
         message = '';

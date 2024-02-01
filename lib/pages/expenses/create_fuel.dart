@@ -46,6 +46,7 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
       ),
     );
     MarkerId a = const MarkerId('value');
+    if (!mounted) return;
     setState(() {
       _lat = lat;
       _lng = lng;

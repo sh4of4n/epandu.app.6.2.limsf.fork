@@ -3,7 +3,7 @@ description: ePandu app.
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 6.2.3+175
+version: 6.2.4+176
 
 environment:
   sdk: ">=3.0.0-0 <4.0.0"

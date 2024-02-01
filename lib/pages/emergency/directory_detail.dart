@@ -65,10 +65,15 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
         type: MessageType.info,
       );
     } else {
-      Uri? trimNumber =
-          widget.snapshot.phone.replaceAll('-', '').replaceAll(' ', '');
+      // Uri? trimNumber =
+      //     widget.snapshot.phone.replaceAll('-', '').replaceAll(' ', '');
 
-      await launchUrl(Uri.parse('tel:$trimNumber'));
+      // await launchUrl(Uri.parse('tel:$trimNumber'));
+      final Uri launchUri = Uri(
+        scheme: 'tel',
+        path: widget.snapshot.phone.replaceAll('-', '').replaceAll(' ', ''),
+      );
+      await launchUrl(launchUri);
     }
   }
 

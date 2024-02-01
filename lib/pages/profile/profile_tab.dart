@@ -92,7 +92,7 @@ class _ProfileTabState extends State<ProfileTab>
     });
 
     var result = await profileRepo.getUserProfile(context: context);
-
+    if (!mounted) return;
     if (result.isSuccess) {
       setState(() {
         userProfile = UserProfile(

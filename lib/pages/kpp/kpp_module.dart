@@ -171,9 +171,7 @@ class _KppModuleState extends State<KppModule> {
             margin: EdgeInsets.only(top: ScreenUtil().setHeight(30)),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                minimumSize: Size(420.w, 45.h),
                 backgroundColor: const Color(0xffdd0e0e),
-                padding: const EdgeInsets.symmetric(vertical: 11.0),
                 shape: const StadiumBorder(),
                 textStyle: const TextStyle(color: Colors.white),
               ),
@@ -182,9 +180,6 @@ class _KppModuleState extends State<KppModule> {
               ),
               child: Text(
                 AppLocalizations.of(context)!.translate('more_question_lbl'),
-                style: TextStyle(
-                  fontSize: ScreenUtil().setSp(65),
-                ),
               ),
             ),
           ),

@@ -155,7 +155,6 @@ void main() async {
   await Firebase.initializeApp();
 
   // runZonedGuarded(() async {
-  EasyLoading.instance.userInteractions = false;
   setupSentry(
     () => runApp(
       MultiProvider(
@@ -227,19 +226,20 @@ Future<void> setupSentry(AppRunner appRunner,
 // }
 void configLoading() {
   EasyLoading.instance
-    ..displayDuration = const Duration(milliseconds: 2000)
-    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
-    ..loadingStyle = EasyLoadingStyle.dark
-    ..indicatorSize = 45.0
-    ..radius = 10.0
-    ..progressColor = Colors.yellow
-    ..backgroundColor = Colors.green
-    ..indicatorColor = Colors.yellow
-    ..textColor = Colors.yellow
-    ..maskColor = Colors.blue.withOpacity(0.5)
-    ..userInteractions = true
-    ..dismissOnTap = false
-    ..customAnimation = CustomAnimation();
+    // ..displayDuration = const Duration(milliseconds: 2000)
+    // ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    // ..loadingStyle = EasyLoadingStyle.dark
+    // ..indicatorSize = 45.0
+    // ..radius = 10.0
+    // ..progressColor = Colors.yellow
+    // ..backgroundColor = Colors.green
+    // ..indicatorColor = Colors.yellow
+    // ..textColor = Colors.yellow
+    // ..maskColor = Colors.blue.withOpacity(0.5)
+    ..userInteractions = false
+    // ..dismissOnTap = false
+    // ..customAnimation = CustomAnimation()
+    ..maskType = EasyLoadingMaskType.black;
 }
 
 class MyApp extends StatefulWidget {

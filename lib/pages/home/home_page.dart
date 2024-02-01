@@ -121,16 +121,16 @@ class _HomeState extends State<Home> {
       'title': 'Directory & Rating',
       'router': const EmergencyDirectory(),
     },
-    {
-      'image': 'assets/menu/Jobs-icon.png',
-      'title': 'Jobs',
-      'router': const BriefListRoute(),
-    },
-    {
-      'image': 'assets/menu/More-icon.png',
-      'title': 'More',
-      'router': '',
-    },
+    // {
+    //   'image': 'assets/menu/Jobs-icon.png',
+    //   'title': 'Jobs',
+    //   'router': const BriefListRoute(),
+    // },
+    // {
+    //   'image': 'assets/menu/More-icon.png',
+    //   'title': 'More',
+    //   'router': '',
+    // },
   ];
 
   final List<Map<String, String>> _productCategory = [

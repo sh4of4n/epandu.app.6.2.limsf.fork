@@ -94,7 +94,7 @@ class _AttendanceTabState extends State<AttendanceTab>
     });
 
     var result = await epanduRepo.getJpjTestCheckIn();
-
+    if (!mounted) return;
     if (result.isSuccess) {
       checkInData = result.data;
     }
