@@ -159,7 +159,9 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    initPlatformState();
+    //Temporary Hide It- Kishor
+    //initPlatformState();
+
     clearAllAppNotifications();
     _openHiveBoxes();
     // getStudentInfo();
