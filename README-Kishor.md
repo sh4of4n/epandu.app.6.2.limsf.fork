@@ -1,3 +1,8 @@
+01/02/2024 V.6.2.11
+WS 6.2.211
+
+- Temporary hided initPlatformState() in home_page.dart file it's not working for some devices.
+
 31/01/2024 V.6.2.11
 WS 6.2.211
 
