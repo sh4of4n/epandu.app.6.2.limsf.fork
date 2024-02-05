@@ -38,6 +38,12 @@ class _CreateFavouritePageState extends State<CreateFavouritePage> {
     super.initState();
   }
 
+    @override
+  void dispose() {
+    mapController.dispose();
+    super.dispose();
+  }
+
   Future saveFavPlace() async {
     if (_formKey.currentState?.saveAndValidate() ?? false) {
       EasyLoading.show(

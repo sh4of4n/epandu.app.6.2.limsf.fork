@@ -39,6 +39,12 @@ class _CreateFuelPageState extends State<CreateFuelPage> {
     setLocationOnMap(position.latitude, position.longitude);
   }
 
+  @override
+  void dispose() {
+    mapController.dispose();
+    super.dispose();
+  }
+
   void setLocationOnMap(double lat, double lng) {
     mapController.moveCamera(
       CameraUpdate.newLatLng(

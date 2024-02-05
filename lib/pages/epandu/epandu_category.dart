@@ -11,6 +11,14 @@ import '../../router.gr.dart';
 
 // import 'bottom_menu.dart';
 
+class Menu {
+  String icon;
+  String label;
+  PageRouteInfo route;
+
+  Menu({required this.icon, required this.label, required this.route});
+}
+
 @RoutePage(name: 'EpanduCategory')
 class EpanduCategory extends StatelessWidget {
   final authRepo = AuthRepo();
@@ -27,6 +35,69 @@ class EpanduCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Menu> menus = [
+      Menu(
+        icon: 'assets/menu/enrollment-icon.png',
+        label: AppLocalizations.of(context)!.translate('enroll_lbl'),
+        route: const Enrollment(),
+      ),
+      Menu(
+        icon: 'assets/menu/payment-icon.png',
+        label: 'Payment Record',
+        route: Records(),
+      ),
+      Menu(
+        icon: 'assets/menu/booking-icon.png',
+        label: AppLocalizations.of(context)!.translate('booking_lbl'),
+        route: const Booking(),
+      ),
+      Menu(
+        icon: 'assets/menu/training-icon.png',
+        label: 'Training Record',
+        route: const Booking(),
+      ),
+      Menu(
+        icon: ImagesConstant().pickupIcon,
+        label: AppLocalizations.of(context)!.translate('pickup'),
+        route: const RequestPickup(),
+      ),
+      Menu(
+        icon: 'assets/menu/account-icon.png',
+        label: 'Account',
+        route: const RequestPickup(),
+      ),
+      Menu(
+        icon: 'assets/menu/eLearning-icon.png',
+        label: AppLocalizations.of(context)!.translate('elearning'),
+        route: const KppCategory(),
+      ),
+      Menu(
+        icon: 'assets/menu/info-icon.png',
+        label: AppLocalizations.of(context)!.translate('info'),
+        route: const ComingSoon(),
+      ),
+      Menu(
+        icon: 'assets/menu/enrollment-icon.png',
+        label: 'Enrolled Classes',
+        route: const EnrolledClass(),
+      ),
+      Menu(
+        icon: 'assets/menu/training-icon.png',
+        label: 'Training Schedule',
+        route: const TrainingSchedule(),
+      ),
+      Menu(
+        icon: 'assets/menu/enrollment-icon.png',
+        label: 'Lessons Taken',
+        route: const LessonsTaken(),
+      ),
+      Menu(
+        icon: 'assets/menu/training-icon.png',
+        label: 'Test Schedule/Result',
+        route: const TestScheduleResult(),
+      ),
+    ];
+
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -80,282 +151,307 @@ class EpanduCategory extends StatelessWidget {
                 // childAspectRatio: 0.9,
 
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      context.router.push(const Enrollment());
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Image.asset(
-                            'assets/menu/enrollment-icon.png',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Text(AppLocalizations.of(context)!
-                            .translate('enroll_lbl')),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      context.router.push(Records());
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Image.asset(
-                            'assets/menu/payment-icon.png',
-                          ),
-                        ),
-                        const FittedBox(
-                          fit: BoxFit.fitWidth,
-                          child: Text(
-                            'Payment Record',
-                            // overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      context.router.push(const Booking());
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Image.asset(
-                            'assets/menu/booking-icon.png',
-                          ),
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!
-                              .translate('booking_lbl'),
-                        ),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      // context.router.push(Booking());
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Image.asset(
-                            'assets/menu/training-icon.png',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        const FittedBox(
-                          fit: BoxFit.fitWidth,
-                          child: Text(
-                            'Training Record',
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      context.router.push(const RequestPickup());
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Image.asset(
-                            ImagesConstant().pickupIcon,
-                          ),
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!.translate('pickup'),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      // context.router.push(RequestPickup());
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Image.asset(
-                            'assets/menu/account-icon.png',
-                          ),
-                        ),
-                        const Text(
-                          'Account',
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      context.router.push(const KppCategory());
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Image.asset(
-                            'assets/menu/eLearning-icon.png',
-                          ),
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!.translate('elearning'),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      context.router.push(const ComingSoon());
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Image.asset(
-                            'assets/menu/info-icon.png',
-                          ),
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!.translate('info'),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: GestureDetector(
+                  for (var menu in menus)
+                    GestureDetector(
                       onTap: () {
-                        context.router.push(const EnrolledClass());
+                        context.router.push(menu.route);
                       },
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
+                            flex: 2,
                             child: Image.asset(
-                              'assets/menu/enrollment-icon.png',
+                              menu.icon,
                               fit: BoxFit.cover,
                             ),
                           ),
-                          const FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: Text(
-                              'Enrolled Classes',
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                          const SizedBox(
+                            height: 4,
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        context.router.push(const TrainingSchedule());
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
                           Expanded(
-                            child: Image.asset(
-                              'assets/menu/training-icon.png',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          const FittedBox(
-                            fit: BoxFit.fitWidth,
+                            flex: 1,
                             child: Text(
-                              'Training Schedule',
-                              overflow: TextOverflow.ellipsis,
+                              menu.label,
+                              style: const TextStyle(
+                                fontSize: 12,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        context.router.push(const LessonsTaken());
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Image.asset(
-                              'assets/menu/enrollment-icon.png',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          const FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: Text(
-                              'Lessons Taken',
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        context.router.push(const TestScheduleResult());
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Image.asset(
-                              'assets/menu/training-icon.png',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          const FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: Text(
-                              'Test Schedule/Result',
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     context.router.push(Records());
+                  //   },
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                  //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //     children: [
+                  //       Expanded(
+                  //         flex: 2,
+                  //         child: Image.asset(
+                  //           'assets/menu/payment-icon.png',
+                  //         ),
+                  //       ),
+                  //       const SizedBox(
+                  //         height: 4,
+                  //       ),
+                  //       const Expanded(
+                  //         flex: 1,
+                  //         child: Text(
+                  //           'Payment Record',
+                  //           style: TextStyle(
+                  //             fontSize: 12,
+                  //           ),
+                  //           textAlign: TextAlign.center,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     context.router.push(const Booking());
+                  //   },
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Expanded(
+                  //         child: Image.asset(
+                  //           'assets/menu/booking-icon.png',
+                  //         ),
+                  //       ),
+                  //       Expanded(
+                  //         flex: 1,
+                  //         child: Text(
+                  //           AppLocalizations.of(context)!
+                  //               .translate('booking_lbl'),
+                  //           style: const TextStyle(
+                  //             fontSize: 12,
+                  //           ),
+                  //           textAlign: TextAlign.center,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     // context.router.push(Booking());
+                  //   },
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Expanded(
+                  //         child: Image.asset(
+                  //           'assets/menu/training-icon.png',
+                  //           fit: BoxFit.cover,
+                  //         ),
+                  //       ),
+                  //       const FittedBox(
+                  //         fit: BoxFit.fitWidth,
+                  //         child: Text(
+                  //           'Training Record',
+                  //           overflow: TextOverflow.ellipsis,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     context.router.push(const RequestPickup());
+                  //   },
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Expanded(
+                  //         child: Image.asset(
+                  //           ImagesConstant().pickupIcon,
+                  //         ),
+                  //       ),
+                  //       Text(
+                  //         AppLocalizations.of(context)!.translate('pickup'),
+                  //         overflow: TextOverflow.ellipsis,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     // context.router.push(RequestPickup());
+                  //   },
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Expanded(
+                  //         child: Image.asset(
+                  //           'assets/menu/account-icon.png',
+                  //         ),
+                  //       ),
+                  //       const Text(
+                  //         'Account',
+                  //         overflow: TextOverflow.ellipsis,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     context.router.push(const KppCategory());
+                  //   },
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Expanded(
+                  //         child: Image.asset(
+                  //           'assets/menu/eLearning-icon.png',
+                  //         ),
+                  //       ),
+                  //       Text(
+                  //         AppLocalizations.of(context)!.translate('elearning'),
+                  //         overflow: TextOverflow.ellipsis,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     context.router.push(const ComingSoon());
+                  //   },
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Expanded(
+                  //         child: Image.asset(
+                  //           'assets/menu/info-icon.png',
+                  //         ),
+                  //       ),
+                  //       Text(
+                  //         AppLocalizations.of(context)!.translate('info'),
+                  //         overflow: TextOverflow.ellipsis,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(2.0),
+                  //   child: GestureDetector(
+                  //     onTap: () {
+                  //       context.router.push(const EnrolledClass());
+                  //     },
+                  //     child: Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.center,
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: [
+                  //         Expanded(
+                  //           child: Image.asset(
+                  //             'assets/menu/enrollment-icon.png',
+                  //             fit: BoxFit.cover,
+                  //           ),
+                  //         ),
+                  //         const FittedBox(
+                  //           fit: BoxFit.fitWidth,
+                  //           child: Text(
+                  //             'Enrolled Classes',
+                  //             overflow: TextOverflow.ellipsis,
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(2.0),
+                  //   child: GestureDetector(
+                  //     onTap: () {
+                  //       context.router.push(const TrainingSchedule());
+                  //     },
+                  //     child: Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.center,
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: [
+                  //         Expanded(
+                  //           child: Image.asset(
+                  //             'assets/menu/training-icon.png',
+                  //             fit: BoxFit.cover,
+                  //           ),
+                  //         ),
+                  //         const FittedBox(
+                  //           fit: BoxFit.fitWidth,
+                  //           child: Text(
+                  //             'Training Schedule',
+                  //             overflow: TextOverflow.ellipsis,
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(2.0),
+                  //   child: GestureDetector(
+                  //     onTap: () {
+                  //       context.router.push(const LessonsTaken());
+                  //     },
+                  //     child: Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.center,
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: [
+                  //         Expanded(
+                  //           child: Image.asset(
+                  //             'assets/menu/enrollment-icon.png',
+                  //             fit: BoxFit.cover,
+                  //           ),
+                  //         ),
+                  //         const FittedBox(
+                  //           fit: BoxFit.fitWidth,
+                  //           child: Text(
+                  //             'Lessons Taken',
+                  //             overflow: TextOverflow.ellipsis,
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(2.0),
+                  //   child: GestureDetector(
+                  //     onTap: () {
+                  //       context.router.push(const TestScheduleResult());
+                  //     },
+                  //     child: Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.center,
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: [
+                  //         Expanded(
+                  //           child: Image.asset(
+                  //             'assets/menu/training-icon.png',
+                  //             fit: BoxFit.cover,
+                  //           ),
+                  //         ),
+                  //         const FittedBox(
+                  //           fit: BoxFit.fitWidth,
+                  //           child: Text(
+                  //             'Test Schedule/Result',
+                  //             overflow: TextOverflow.ellipsis,
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               // ListView(

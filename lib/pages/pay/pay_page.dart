@@ -41,7 +41,7 @@ class _PayState extends State<Pay> {
 
   bool isLoading = false;
 
-  String? _icNo = '';
+  String _icNo = '';
   // String _name = '';
   final String eMail = '';
   final String birthDate = '';
@@ -79,13 +79,13 @@ class _PayState extends State<Pay> {
 
     if (result.isSuccess) {
       setState(() {
-        _icNo = result.data![0].icNo;
+        _icNo = result.data![0].icNo ?? '';
       });
     } else {
       _getUserInfo();
     }
 
-    if (_icNo == null) {
+    if (_icNo.isEmpty) {
       if (!context.mounted) return;
       customDialog.show(
         context: context,
@@ -105,11 +105,11 @@ class _PayState extends State<Pay> {
       );
     }
 
-    Future.wait([
+    await Future.wait([
       getAppPaymentMenu(),
       getMerchantPaymentGateway(),
     ]);
-
+    if (!mounted) return;
     setState(() {
       isLoading = false;
     });
@@ -119,13 +119,13 @@ class _PayState extends State<Pay> {
     String? getStudentIc = await localStorage.getStudentIc();
 
     setState(() {
-      _icNo = getStudentIc;
+      _icNo = getStudentIc ?? '';
     });
   }
 
   Future<void> getAppPaymentMenu() async {
     Response<List<AppPaymentMenu>> result =
-        await fpxRepo.getAppPaymentMenu(context: context);
+        await fpxRepo.getAppPaymentMenu();
 
     if (result.isSuccess) {
       setState(() {
@@ -239,8 +239,8 @@ class _PayState extends State<Pay> {
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             title: Text(AppLocalizations.of(context)!.translate('pay_lbl')),
-            elevation: 0,
-            backgroundColor: Colors.transparent,
+            // elevation: 0,
+            // backgroundColor: Colors.transparent,
             actions: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40.w),
@@ -343,7 +343,10 @@ class _PayState extends State<Pay> {
                           ),
                         ),
                         validator: (value) {
-                          if (value!.replaceAll(',', '').toDouble()! <
+                          if (value!.isEmpty) {
+                            return 'Please enter amount';
+                          }
+                          if (value.replaceAll(',', '').toDouble()! <
                               double.tryParse(gatewayData[0].minAmt ?? '0')!) {
                             // return 'Please enter amount above ${gatewayData[0].minAmt}';
                             return 'Transaction amount is Lower than the Minimum Limit RM${gatewayData[0].minAmt}';

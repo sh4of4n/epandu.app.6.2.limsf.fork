@@ -6,6 +6,8 @@ import 'package:epandu/pages/home/navigation_controls.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:map_launcher/map_launcher.dart';
@@ -103,6 +105,10 @@ class _WebviewState extends State<Webview> {
   late io.Socket socket;
 
   String? _message = '';
+
+  final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers = {
+    Factory(() => EagerGestureRecognizer())
+  };
 
   @override
   void initState() {
@@ -389,7 +395,10 @@ Page resource error:
                 webViewControllerFuture: _controller, type: 'RELOAD'),
           ],
         ),
-        body: WebViewWidget(controller: _controller),
+        body: WebViewWidget(
+          controller: _controller,
+          gestureRecognizers: gestureRecognizers,
+        ),
       ),
     );
   }

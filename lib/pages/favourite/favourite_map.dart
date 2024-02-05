@@ -34,6 +34,12 @@ class _FavourieMapPageState extends State<FavourieMapPage> {
     super.initState();
   }
 
+    @override
+  void dispose() {
+    mapController.dispose();
+    super.dispose();
+  }
+
   Future<void> _getCurrentPosition() async {
     final hasPermission = await _handlePermission();
 

@@ -37,6 +37,12 @@ class _FuelMapPageState extends State<FuelMapPage> {
     );
   }
 
+    @override
+  void dispose() {
+    mapController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

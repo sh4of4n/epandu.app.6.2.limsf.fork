@@ -7,6 +7,7 @@ import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:map_launcher/map_launcher.dart';
 // import 'package:epandu/common_library/utils/map_launcher.dart';
@@ -102,8 +103,8 @@ class _DirectoryDetailState extends State<DirectoryDetail> {
                         );
                       },
                       title: Text(map.mapName),
-                      leading: Image(
-                        image: AssetImage(map.icon),
+                      leading: SvgPicture.asset(
+                        map.icon,
                         height: 30.0,
                         width: 30.0,
                       ),

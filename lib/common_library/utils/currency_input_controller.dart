@@ -21,7 +21,7 @@ class CurrencyInputController extends TextEditingController {
   String get thousandSymbol => _thousandSymbol;
 
   CurrencyInputController(
-      {String rightSymbol = "R\$ ",
+      {String rightSymbol = "RM ",
       String decimalSymbol = ",",
       String thousandSymbol = "."})
       : _leftSymbol = rightSymbol,

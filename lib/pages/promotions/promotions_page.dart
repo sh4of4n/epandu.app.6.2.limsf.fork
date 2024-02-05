@@ -44,7 +44,7 @@ class _PromotionsState extends State<Promotions> {
       context: context,
       feedType: 'PROMOTION',
       startIndex: _startIndex,
-      noOfRecords: 10,
+      noOfRecords: 100,
     );
 
     if (result.isSuccess) {

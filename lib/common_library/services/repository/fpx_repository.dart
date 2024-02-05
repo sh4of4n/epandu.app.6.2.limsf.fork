@@ -14,7 +14,7 @@ class FpxRepo {
   final xml2json = Xml2Json();
   final networking = Networking();
 
-  Future<Response<List<AppPaymentMenu>>> getAppPaymentMenu({required context}) async {
+  Future<Response<List<AppPaymentMenu>>> getAppPaymentMenu() async {
     String? caUid = await localStorage.getCaUid();
     String? caPwd = await localStorage.getCaPwdEncode();
 

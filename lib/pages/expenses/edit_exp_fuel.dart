@@ -163,6 +163,12 @@ class _EditExpFuelPageState extends State<EditExpFuelPage> {
     getExpPicture();
   }
 
+    @override
+  void dispose() {
+    mapController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

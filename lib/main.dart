@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:epandu/common_library/services/model/inbox_model.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 import 'package:epandu/common_library/services/repository/inbox_repository.dart';
@@ -157,41 +158,46 @@ void main() async {
   // runZonedGuarded(() async {
   setupSentry(
     () => runApp(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (context) => LanguageModel(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => CallStatusModel(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => HomeLoadingModel(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => CartStatus(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => NotificationCount(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => ChatNotificationCount(),
-          ),
-          ChangeNotifierProvider(create: (context) => OnlineUsers(context)),
-          ChangeNotifierProvider(create: (context) => ChatHistory()),
-          ChangeNotifierProvider(create: (context) => RoomHistory()),
-          ChangeNotifierProvider(
-              create: (context) => SocketClientHelper(context)),
-        ],
-        child: SentryScreenshotWidget(
-          child: SentryUserInteractionWidget(
-            child: DefaultAssetBundle(
-              bundle: SentryAssetBundle(),
-              child: const MyApp(),
-            ),
-          ),
-        ),
-      ),
+      DevicePreview(
+          enabled: !kReleaseMode,
+          builder: (context) {
+            return MultiProvider(
+              providers: [
+                ChangeNotifierProvider(
+                  create: (context) => LanguageModel(),
+                ),
+                ChangeNotifierProvider(
+                  create: (context) => CallStatusModel(),
+                ),
+                ChangeNotifierProvider(
+                  create: (context) => HomeLoadingModel(),
+                ),
+                ChangeNotifierProvider(
+                  create: (context) => CartStatus(),
+                ),
+                ChangeNotifierProvider(
+                  create: (context) => NotificationCount(),
+                ),
+                ChangeNotifierProvider(
+                  create: (context) => ChatNotificationCount(),
+                ),
+                ChangeNotifierProvider(
+                    create: (context) => OnlineUsers(context)),
+                ChangeNotifierProvider(create: (context) => ChatHistory()),
+                ChangeNotifierProvider(create: (context) => RoomHistory()),
+                ChangeNotifierProvider(
+                    create: (context) => SocketClientHelper(context)),
+              ],
+              child: SentryScreenshotWidget(
+                child: SentryUserInteractionWidget(
+                  child: DefaultAssetBundle(
+                    bundle: SentryAssetBundle(),
+                    child: const MyApp(),
+                  ),
+                ),
+              ),
+            );
+          }),
     ),
   );
 
@@ -202,7 +208,8 @@ Future<void> setupSentry(AppRunner appRunner,
     {bool isIntegrationTest = false,
     BeforeSendCallback? beforeSendCallback}) async {
   await SentryFlutter.init((options) {
-    options.dsn = 'https://5525bd569e8849f0940925f93c1b164a@o354605.ingest.sentry.io/6739433';
+    options.dsn =
+        'https://5525bd569e8849f0940925f93c1b164a@o354605.ingest.sentry.io/6739433';
     options.tracesSampleRate = 1.0;
     options.attachThreads = true;
     options.enableWindowMetricBreadcrumbs = true;
@@ -491,7 +498,7 @@ class _MyAppState extends State<MyApp> {
         appBarTheme: const AppBarTheme(
           color: Color(0xffffd225),
           iconTheme: IconThemeData(
-             color: Colors.black,
+            color: Colors.black,
           ),
         ),
       ),

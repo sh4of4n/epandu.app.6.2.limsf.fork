@@ -128,7 +128,7 @@ class UserProfile {
     stateName = json['state_name'] ?? '';
     countryName = json['country_name'] ?? '';
     icNo = json['ic_no'] ?? '';
-    birthDate = json['birth_date'] ?? '';
+    birthDate = json['birth_date'] ?? '0000-00-00';
     nationality = json['nationality'] ?? '';
     race = json['race'] ?? '';
     gender = json['gender'] ?? '';

@@ -71,7 +71,7 @@ class _MultilevelState extends State<Multilevel> {
       context: context,
       feedType: 'MAIN',
       startIndex: _startIndex,
-      noOfRecords: 10,
+      noOfRecords: 100,
       sourceDocDoc: widget.feed.docDoc,
       sourceDocRef: widget.feed.docRef,
     );

@@ -11,7 +11,7 @@ class FavouriteRepo {
   final appConfig = AppConfig();
   final networking = Networking();
 
-  Future<Response> getFavPlace({
+  Future<Response<List<FavPlace>?>> getFavPlace({
     required String placeId,
     required String type,
     required String name,
@@ -30,18 +30,14 @@ class FavouriteRepo {
     );
 
     if (response.isSuccess) {
-      if (response.data != null) {
-        FavPlaceResponse getPackageListByPackageCodeListResponse =
-            FavPlaceResponse.fromJson(response.data);
-        var responseData = getPackageListByPackageCodeListResponse.favPlace;
+      FavPlaceResponse getPackageListByPackageCodeListResponse =
+          FavPlaceResponse.fromJson(response.data ?? {});
+      List<FavPlace>? responseData = getPackageListByPackageCodeListResponse.favPlace;
 
-        return Response(true, data: responseData);
-      } else {
-        return Response(true, data: []);
-      }
+      return Response(true, data: responseData ?? []);
     }
 
-    return Response(false, message: response.message, data: []);
+    return Response(false, message: response.message.isEmpty ? 'No data' : response.message, data: []);
   }
 
   Future<Response> getFavPlacePicture({

@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'change_password_form.dart';
 
@@ -41,20 +40,17 @@ class ChangePassword extends StatelessWidget {
             title: Text(AppLocalizations.of(context)!
                 .translate('change_password_title')),
           ),
-          body: SafeArea(
+          body: const SafeArea(
             child: Stack(
               fit: StackFit.expand,
               children: <Widget>[
                 SingleChildScrollView(
                   child: Padding(
                     padding:
-                        const EdgeInsets.only(left: 40.0, right: 40.0, top: 60.0),
+                        EdgeInsets.only(left: 16, right: 16.0, top: 16.0),
                     child: Column(
                       children: <Widget>[
-                        SizedBox(
-                          height: ScreenUtil().setHeight(200),
-                        ),
-                        const ChangePasswordForm(),
+                        ChangePasswordForm(),
                       ],
                     ),
                   ),

@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:epandu/common_library/services/model/favourite_model.dart';
 import 'package:epandu/common_library/services/repository/favourite_repository.dart';
+import 'package:epandu/common_library/services/response.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:flutter/material.dart';
@@ -23,11 +25,10 @@ class FavouritePlaceListPage extends StatefulWidget {
 
 class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
     with AutomaticKeepAliveClientMixin {
-  late GoogleMapController mapController;
   // double _lat = 3.139003;
   // double _lng = 101.68685499999992;
   final favouriteRepo = FavouriteRepo();
-  Future? favPlaceFuture;
+  Future<Response<List<FavPlace>?>>? favPlaceFuture;
   Map<String, Future> favPlacePictureFuture = {};
   Future? favPlacePictureFutureTest;
   final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
@@ -43,11 +44,11 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
   final RegExp removeBracket =
       RegExp("\\[(.*?)\\]", multiLine: true, caseSensitive: true);
 
-  Future getFavPlace({
+  Future<Response<List<FavPlace>?>> getFavPlace({
     required String name,
   }) async {
     // placeLocalStorage = await localStorage.getPlaces();
-    var result = await favouriteRepo.getFavPlace(
+    Response<List<FavPlace>?> result = await favouriteRepo.getFavPlace(
         placeId: '', type: '', name: name, description: '');
     if (result.isSuccess && result.data != null) {
       // Map<String, dynamic> newResult = {
@@ -55,9 +56,9 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
       //   'message': result.message,
       //   'data': []
       // };
-      for (var element in result.data) {
-        favPlacePictureFuture[element.placeId] =
-            getFavPlacePicture(placeId: element.placeId);
+      for (FavPlace element in (result.data ?? [])) {
+        favPlacePictureFuture[element.placeId ?? ''] =
+            getFavPlacePicture(placeId: element.placeId ?? '');
         // newResult['data'].add((element as FavPlace).toJson());
       }
 
@@ -201,7 +202,8 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
         },
         child: FutureBuilder(
           future: favPlaceFuture,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
+          builder: (BuildContext context,
+              AsyncSnapshot<Response<List<FavPlace>?>> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
               case ConnectionState.none:
@@ -209,20 +211,19 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                 return const Center(child: CircularProgressIndicator());
               case ConnectionState.done:
                 if (snapshot.hasData) {
-                  if (snapshot.data == null) {
-                    return const Text('empty');
+                  if (!snapshot.data!.isSuccess) {
+                    return Center(child: Text(snapshot.data!.message));
                   }
-                  if (snapshot.data.data.length == 0) {
-                    return const Center(child: Text('No Data Found'));
+                  if (snapshot.data!.data!.isEmpty) {
+                    return const Center(child: Text('No Data'));
                   }
-                  print(snapshot.data);
                   return ListView.separated(
                     addRepaintBoundaries: false,
                     addAutomaticKeepAlives: true,
                     padding: const EdgeInsets.symmetric(
                       vertical: 16,
                     ),
-                    itemCount: snapshot.data.data.length,
+                    itemCount: snapshot.data!.data!.length,
                     separatorBuilder: (context, index) {
                       return Container(
                         height: 8,
@@ -234,8 +235,8 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                         children: [
                           FutureBuilder(
                             future: favPlacePictureFuture[snapshot
-                                .data
-                                .data[index]
+                                .data!
+                                .data![index]
                                 .placeId], // a previously-obtained Future<String> or null
                             builder: (BuildContext context,
                                 AsyncSnapshot snapshot2) {
@@ -283,8 +284,9 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                               }
                                               context.router.push(
                                                 PhotoViewRoute(
-                                                  title: snapshot
-                                                      .data.data[index].name,
+                                                  title: snapshot.data!
+                                                          .data![index].name ??
+                                                      '',
                                                   url: gallery,
                                                   initialIndex: index2,
                                                   type: 'network',
@@ -321,18 +323,18 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  snapshot.data.data[index].type,
+                                  snapshot.data!.data![index].type ?? '',
                                   style: const TextStyle(color: Colors.black54),
                                 ),
                                 Text(
-                                  snapshot.data.data[index].name,
+                                  snapshot.data!.data![index].name ?? '',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
                                   ),
                                 ),
                                 ReadMoreText(
-                                  snapshot.data.data[index].description,
+                                  snapshot.data!.data![index].description ?? '',
                                   trimLines: 5,
                                   trimMode: TrimMode.Line,
                                   trimCollapsedText: 'Show more',
@@ -368,16 +370,18 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                                         await map
                                                             .showDirections(
                                                           destination: Coords(
-                                                            double.parse(
-                                                                snapshot
-                                                                    .data
-                                                                    .data[index]
-                                                                    .lat),
-                                                            double.parse(
-                                                                snapshot
-                                                                    .data
-                                                                    .data[index]
-                                                                    .lng),
+                                                            double.parse(snapshot
+                                                                    .data!
+                                                                    .data![
+                                                                        index]
+                                                                    .lat ??
+                                                                ''),
+                                                            double.parse(snapshot
+                                                                    .data!
+                                                                    .data![
+                                                                        index]
+                                                                    .lng ??
+                                                                ''),
                                                           ),
                                                         );
                                                         if (context.mounted) {
@@ -414,33 +418,34 @@ class _FavouritePlaceListPageState extends State<FavouritePlaceListPage>
                                         await EasyLoading.show(
                                           maskType: EasyLoadingMaskType.black,
                                         );
-                                        await favPlacePictureFuture[
-                                            snapshot.data.data[index].placeId];
+                                        await favPlacePictureFuture[snapshot
+                                            .data!.data![index].placeId];
                                         await EasyLoading.dismiss();
                                         if (!context.mounted) return;
                                         var result = await context.router.push(
                                           EditFavouritePlaceRoute(
-                                            placeId: snapshot
-                                                .data.data[index].placeId,
-                                            place: snapshot.data.data[index],
+                                            placeId: snapshot.data!.data![index]
+                                                    .placeId ??
+                                                '',
+                                            place: snapshot.data!.data![index],
                                             images: imageMap[snapshot
-                                                .data.data[index].placeId],
+                                                .data!.data![index].placeId],
                                           ),
                                         );
 
                                         if (result != null) {
                                           Map resultUpdate = (result as Map);
                                           setState(() {
-                                            snapshot.data.data[index].type =
+                                            snapshot.data!.data![index].type =
                                                 resultUpdate['type'];
-                                            snapshot.data.data[index].name =
+                                            snapshot.data!.data![index].name =
                                                 resultUpdate['name'];
-                                            snapshot.data.data[index]
+                                            snapshot.data!.data![index]
                                                     .description =
                                                 resultUpdate['description'];
-                                            snapshot.data.data[index].lat =
+                                            snapshot.data!.data![index].lat =
                                                 resultUpdate['lat'].toString();
-                                            snapshot.data.data[index].lng =
+                                            snapshot.data!.data![index].lng =
                                                 resultUpdate['lng'].toString();
                                           });
                                         }

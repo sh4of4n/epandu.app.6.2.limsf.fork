@@ -212,6 +212,12 @@ class _EditFavouritePlacePageState extends State<EditFavouritePlacePage> {
     //     [getFavPlace(), getFavPlacePicture(placeId: widget.placeId)]);
   }
 
+    @override
+  void dispose() {
+    mapController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

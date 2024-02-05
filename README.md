@@ -1,3 +1,23 @@
+05/02/2024 V.6.2.5
+WS 6.2.49
+Enhanced
+1. Pay 
+- Change currency R to RM
+2. eDriving
+- Change menu label font size
+3. Setting
+- Hide CA ID, Device ID, Reg ID, Model info
+3. SOS
+- Can show installed maps app icon
+3. Favourite Place
+- Show proper error message
+4. Expenses
+- Show proper error message
+Fixed
+1. Webview
+- Cannot scroll down
+
+
 01/02/2024 V.6.2.4
 WS 6.2.49
 Enhanced

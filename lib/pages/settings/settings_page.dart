@@ -13,7 +13,6 @@ import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import '../../router.gr.dart';
-import '../chat/chatnotification_count.dart';
 import '../chat/socketclient_helper.dart';
 
 class Settings extends StatefulWidget {
@@ -45,6 +44,8 @@ class _SettingsState extends State<Settings> {
   String? _clientAcc = '';
 
   bool _isLoading = false;
+
+  bool isDebug = false;
 
   @override
   void initState() {
@@ -129,6 +130,11 @@ class _SettingsState extends State<Settings> {
               ),
               const Divider(),
               ListTile(
+                onLongPress: () {
+                  setState(() {
+                    isDebug = true;
+                  });
+                },
                 onTap: () async {
                   count += 1;
 
@@ -185,52 +191,38 @@ class _SettingsState extends State<Settings> {
                     }
                   }, */
               ),
-              const Divider(),
-              ListTile(
-                leading: Icon(Icons.code, size: _defIconSize),
-                title:
-                    Text(AppLocalizations.of(context)!.translate('client_acc')),
-                subtitle: Text(_clientAcc!),
-                /* onTap: () async {
-                    count += 1;
-
-                    if (count == 4) {
-                      customDialog.show(
-                        barrierDismissable: false,
-                        context: context,
-                        title: AppLocalizations.of(context)
-                            .translate('client_acc_title'),
-                        content: AppLocalizations.of(context)
-                            .translate('client_acc_desc'),
-                        type: DialogType.SUCCESS,
-                        onPressed: () async {
-                          Navigator.pushAndRemoveUntil(
-                              context, CLIENT_ACC, (r) => false,
-                              arguments: 'SETTINGS');
-                          await authRepo.logout();
-                        },
-                      );
-                    }
-                  }, */
-              ),
-              const Divider(),
-              ListTile(
-                leading: Icon(Icons.code, size: _defIconSize),
-                title: const Text('Device ID'),
-                subtitle: SelectableText(_deviceId ?? ''),
-              ),
-              const Divider(),
-              ListTile(
-                leading: Icon(Icons.code, size: _defIconSize),
-                title: const Text('Reg ID'),
-                subtitle: SelectableText(_regId ?? ''),
-              ),
-              const Divider(),
-              ListTile(
-                leading: Icon(Icons.code, size: _defIconSize),
-                title: const Text('Model'),
-                subtitle: SelectableText('$_deviceBrand $_deviceModel'),
-              ),
+              isDebug
+                  ? Column(
+                      children: [
+                        const Divider(),
+                        ListTile(
+                          leading: Icon(Icons.code, size: _defIconSize),
+                          title: Text(AppLocalizations.of(context)!
+                              .translate('client_acc')),
+                          subtitle: Text(_clientAcc!),
+                        ),
+                        const Divider(),
+                        ListTile(
+                          leading: Icon(Icons.code, size: _defIconSize),
+                          title: const Text('Device ID'),
+                          subtitle: SelectableText(_deviceId ?? ''),
+                        ),
+                        const Divider(),
+                        ListTile(
+                          leading: Icon(Icons.code, size: _defIconSize),
+                          title: const Text('Reg ID'),
+                          subtitle: SelectableText(_regId ?? ''),
+                        ),
+                        const Divider(),
+                        ListTile(
+                          leading: Icon(Icons.code, size: _defIconSize),
+                          title: const Text('Model'),
+                          subtitle:
+                              SelectableText('$_deviceBrand $_deviceModel'),
+                        ),
+                      ],
+                    )
+                  : const SizedBox(),
             ],
           ),
         ),

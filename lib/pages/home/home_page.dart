@@ -568,7 +568,7 @@ class _HomeState extends State<Home> {
       context: context,
       feedType: 'MAIN',
       startIndex: _startIndex,
-      noOfRecords: 10,
+      noOfRecords: 100,
     );
     if (result.isSuccess) {
       if (result.data!.isNotEmpty && mounted) {
@@ -998,13 +998,21 @@ class _HomeState extends State<Home> {
                                               topLeft: Radius.circular(10),
                                               topRight: Radius.circular(10),
                                             ),
-                                            child: Image.network(
-                                              (items[index].feedMediaFilename ??
+                                            child: CachedNetworkImage(
+                                              imageUrl: (items[index]
+                                                          .feedMediaFilename ??
                                                       '')
                                                   .replaceAll(removeBracket, '')
                                                   .split('\r\n')[0],
                                               fit: BoxFit.cover,
                                             ),
+                                            // Image.network(
+                                            //   (items[index].feedMediaFilename ??
+                                            //           '')
+                                            //       .replaceAll(removeBracket, '')
+                                            //       .split('\r\n')[0],
+                                            //   fit: BoxFit.cover,
+                                            // ),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
@@ -1377,8 +1385,9 @@ class _HomeState extends State<Home> {
                                           topLeft: Radius.circular(10),
                                           topRight: Radius.circular(10),
                                         ),
-                                        child: Image.network(
-                                          'https://www.mekanika.com.my/wp-content/uploads/2019/08/uc6-photo-data.png',
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                              'https://www.mekanika.com.my/wp-content/uploads/2019/08/uc6-photo-data.png',
                                           // 'https://tbsweb.tbsdns.com/WebCache/epandu_devp_3/EPANDU/R3W77BWEY6B6TQI7DB5YM5RC5Q/image/Feed/RW42FFIRRQSB4LGEN3ZX2FWOKM_n0_20210628181116.jpg',
                                           fit: BoxFit.contain,
                                           height: 165,
@@ -1437,8 +1446,9 @@ class _HomeState extends State<Home> {
                             padding: const EdgeInsets.symmetric(
                               horizontal: 16.0,
                             ),
-                            child: Image.network(
-                              'https://i.pinimg.com/736x/44/f8/41/44f8418a4afe49d2bbcf213cf9e66b7d.jpg',
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  'https://i.pinimg.com/736x/44/f8/41/44f8418a4afe49d2bbcf213cf9e66b7d.jpg',
                               fit: BoxFit.contain,
                               // height: 150,
                             ),

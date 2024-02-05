@@ -293,14 +293,14 @@ class _ChangePasswordFormState extends State<ChangePasswordForm>
 
             CustomSnackbar().show(
               context,
-              message: AppLocalizations.of(context)!.translate(result.message),
+              message: result.message,
               type: MessageType.success,
             );
           } else {
             if (!context.mounted) return;
             CustomSnackbar().show(
               context,
-              message: AppLocalizations.of(context)!.translate(result.message),
+              message: 'Current password is not correct',
               type: MessageType.error,
             );
 

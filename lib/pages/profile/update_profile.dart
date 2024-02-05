@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:camera/camera.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:epandu/base/page_base_class.dart';
@@ -151,7 +152,7 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
   Future<void> _getLdlkEnqGroupList() async {
     Response<List<LdlEnqGroupList>> result =
         await authRepo.getLdlkEnqGroupList();
-
+    if (!mounted) return;
     if (result.isSuccess) {
       setState(() {
         ldlList = result.data ?? [];
@@ -292,8 +293,8 @@ class _UpdateProfileState extends State<UpdateProfile> with PageBaseClass {
     if (profilePicUrl!.isNotEmpty && profilePicBase64.isEmpty) {
       return InkWell(
         onTap: _profilePicOption,
-        child: Image.network(
-          profilePicUrl!,
+        child: CachedNetworkImage(
+          imageUrl: profilePicUrl!,
           width: 600.w,
           height: 600.w,
           fit: BoxFit.cover,

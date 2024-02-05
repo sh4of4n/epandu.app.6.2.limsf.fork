@@ -57,7 +57,7 @@ class ExpensesRepo {
     return Response(false, message: response.message, data: []);
   }
 
-  Future<Response> getExp({
+  Future<Response<List<Exp>?>> getExp({
     required String expId,
     required String type,
     required String expStartDateString,
@@ -73,20 +73,16 @@ class ExpensesRepo {
     String path =
         'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantNo=$merchantNo&loginId=$phone&expId=$expId&type=$type&expStartDateString=$expStartDateString&expEndDateString=$expEndDateString&startIndex=$startIndex&noOfRecords=$noOfRecords';
 
-    var response = await networking.getData(
+    Response response = await networking.getData(
       path: 'GetExp?$path',
     );
 
     if (response.isSuccess) {
-      if (response.data != null) {
-        ExpResponse getPackageListByPackageCodeListResponse =
-            ExpResponse.fromJson(response.data);
-        var responseData = getPackageListByPackageCodeListResponse.exp;
+      ExpResponse getPackageListByPackageCodeListResponse =
+          ExpResponse.fromJson(response.data ?? {});
+      var responseData = getPackageListByPackageCodeListResponse.exp;
 
-        return Response(true, data: responseData);
-      } else {
-        return Response(true, data: []);
-      }
+      return Response(true, data: responseData ?? []);
     }
 
     return Response(false, message: response.message, data: []);

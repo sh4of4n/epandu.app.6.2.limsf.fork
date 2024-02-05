@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/common_library/services/repository/profile_repository.dart';
 import 'package:epandu/utils/constants.dart';
@@ -66,8 +67,8 @@ class _ProfileState extends State<Profile>
   _profileImage() {
     if (widget.userProfile?.picturePath != null &&
         widget.userProfile.picturePath.isNotEmpty) {
-      return Image.network(
-        widget.userProfile.picturePath,
+      return CachedNetworkImage(
+        imageUrl: widget.userProfile.picturePath,
         width: 600.w,
         height: 600.w,
         fit: BoxFit.cover,

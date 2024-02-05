@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:auto_route/auto_route.dart';
 import 'package:epandu/common_library/services/model/expenses_model.dart';
 import 'package:epandu/common_library/services/repository/expenses_repository.dart';
+import 'package:epandu/common_library/services/response.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
@@ -23,11 +24,11 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
   final GlobalKey<RefreshIndicatorState> _refresherKey =
       GlobalKey<RefreshIndicatorState>();
   final ExpensesRepo expensesRepo = ExpensesRepo();
-  Future? expFuelFuture;
+  Future<Response<List<Exp>?>>? expFuelFuture;
   NumberFormat formatter = NumberFormat.currency(locale: 'ms_MY', symbol: 'RM');
 
-  Future getExpFuel() async {
-    var result = await expensesRepo.getExp(
+  Future<Response<List<Exp>?>> getExpFuel() async {
+    Response<List<Exp>?> result = await expensesRepo.getExp(
       expId: '',
       type: '',
       expStartDateString: '',
@@ -99,9 +100,10 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
               expFuelFuture = getExpFuel();
             });
           },
-          child: FutureBuilder(
+          child: FutureBuilder<Response<List<Exp>?>>(
             future: expFuelFuture,
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
+            builder: (BuildContext context,
+                AsyncSnapshot<Response<List<Exp>?>> snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                 case ConnectionState.none:
@@ -112,7 +114,10 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                     return Text(snapshot.error.toString());
                   }
                   if (snapshot.hasData) {
-                    if (snapshot.data.data.length == 0) {
+                    if (!snapshot.data!.isSuccess) {
+                      return Center(child: Text(snapshot.data!.message));
+                    }
+                    if (snapshot.data!.data!.isEmpty) {
                       return SizedBox(
                         width: double.infinity,
                         child: Column(
@@ -145,7 +150,7 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                       ),
                       child: ListView.separated(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        itemCount: snapshot.data.data.length + 1,
+                        itemCount: snapshot.data!.data!.length + 1,
                         itemBuilder: (BuildContext context, int index) {
                           return const SizedBox(
                             height: 8,
@@ -187,9 +192,10 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                                   DateFormat('yyyy-MM-dd')
                                                       .format(DateTime.parse(
                                                           snapshot
-                                                              .data
-                                                              .data[index]
-                                                              .expDatetime)),
+                                                                  .data!
+                                                                  .data![index]
+                                                                  .expDatetime ??
+                                                              '')),
                                                   style: const TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                   ),
@@ -208,7 +214,7 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                               width: 4,
                                             ),
                                             Text(
-                                              '${snapshot.data.data[index].mileage} km',
+                                              '${snapshot.data!.data![index].mileage} km',
                                             ),
                                           ],
                                         ),
@@ -223,7 +229,9 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                               width: 4,
                                             ),
                                             Text(
-                                              snapshot.data.data[index].type,
+                                              snapshot.data!.data![index]
+                                                      .type ??
+                                                  '',
                                             ),
                                           ],
                                         ),
@@ -240,8 +248,9 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                             ),
                                             Expanded(
                                               child: ReadMoreText(
-                                                snapshot.data.data[index]
-                                                    .description,
+                                                snapshot.data!.data![index]
+                                                        .description ??
+                                                    '',
                                                 trimLines: 2,
                                                 preDataTextStyle:
                                                     const TextStyle(
@@ -259,8 +268,9 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                             Text(
                                               formatter.format(
                                                 double.parse(
-                                                  snapshot
-                                                      .data.data[index].amount,
+                                                  snapshot.data!.data![index]
+                                                          .amount ??
+                                                      '0',
                                                 ),
                                               ),
                                               style: const TextStyle(
@@ -310,7 +320,7 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                                           .pop();
                                                       deleteExpFuel(
                                                         fuels:
-                                                            snapshot.data.data,
+                                                            snapshot.data!.data,
                                                         fuelIndex: index,
                                                       );
                                                     },
@@ -329,25 +339,25 @@ class _ExpFuelListPageState extends State<ExpFuelListPage> {
                                           var result = await context.router
                                               .push(EditExpFuelRoute(
                                                   fuel: snapshot
-                                                      .data.data[index]));
+                                                      .data!.data![index]));
                                           if (result != null) {
                                             var resultFuel = Exp.fromJson(
                                                 jsonDecode(jsonEncode(result)));
                                             setState(() {
-                                              snapshot.data.data[index].type =
+                                              snapshot.data!.data![index].type =
                                                   resultFuel.type;
-                                              snapshot.data.data[index]
+                                              snapshot.data!.data![index]
                                                       .expDatetime =
                                                   resultFuel.expDatetime;
-                                              snapshot.data.data[index]
+                                              snapshot.data!.data![index]
                                                   .mileage = resultFuel.mileage;
-                                              snapshot.data.data[index].amount =
-                                                  resultFuel.amount;
-                                              snapshot.data.data[index].lat =
+                                              snapshot.data!.data![index]
+                                                  .amount = resultFuel.amount;
+                                              snapshot.data!.data![index].lat =
                                                   resultFuel.lat;
-                                              snapshot.data.data[index].lng =
+                                              snapshot.data!.data![index].lng =
                                                   resultFuel.lng;
-                                              snapshot.data.data[index]
+                                              snapshot.data!.data![index]
                                                       .description =
                                                   resultFuel.description;
                                             });

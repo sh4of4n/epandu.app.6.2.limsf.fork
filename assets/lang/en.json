@@ -2,7 +2,7 @@
   "country_code_lbl": "+60",
   "phone_lbl": "Phone",
   "phone_required_msg": "Phone is required.",
-  "password_lbl": "Password",
+  "password_lbl": "Current Password",
   "password_required_msg": "Password is required.",
   "forgot_password_lbl": "Forgot Password?",
   "login_btn": "LOGIN",
