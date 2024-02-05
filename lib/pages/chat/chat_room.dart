@@ -1945,7 +1945,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     InviteRoomResponse inviteRoomResponse =
                         inviteResult.data[0];
                     if (!rootcontext.mounted) return;
-                    context.read<RoomHistory>().updateRoom(
+                    rootcontext.read<RoomHistory>().updateRoom(
                         roomId: inviteRoomResponse.roomId!,
                         roomName: inviteRoomResponse.roomName!);
                     await dbHelper.updateRoomName(inviteRoomResponse.roomName!,
