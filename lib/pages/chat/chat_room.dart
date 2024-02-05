@@ -1901,7 +1901,7 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   Future<void> _displayTextInputDialog(
-      BuildContext context, String roomName) async {
+      BuildContext rootcontext, String roomName) async {
     _textFieldController.text = roomName;
     return showDialog(
         context: context,
@@ -1944,7 +1944,7 @@ class _ChatRoomState extends State<ChatRoom> {
                       inviteResult.data.length > 0) {
                     InviteRoomResponse inviteRoomResponse =
                         inviteResult.data[0];
-                    if (!context.mounted) return;
+                    if (!rootcontext.mounted) return;
                     context.read<RoomHistory>().updateRoom(
                         roomId: inviteRoomResponse.roomId!,
                         roomName: inviteRoomResponse.roomName!);
@@ -1990,7 +1990,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         SendAcknowledge sendAcknowledge =
                             SendAcknowledge.fromJson(data);
                         // if (sendAcknowledge.clientMessageId == clientMessageId) {
-                        context.read<ChatHistory>().updateChatItemStatus(
+                        rootcontext.read<ChatHistory>().updateChatItemStatus(
                             clientMessageId,
                             "SENT",
                             sendAcknowledge.messageId,

@@ -429,6 +429,16 @@ class _CreateGroupState extends State<CreateGroup> {
           memberByPhoneResponseList = memberByPhoneResponseList;
         });
         await EasyLoading.dismiss();
+      } else {
+        await EasyLoading.dismiss();
+        final customDialog = CustomDialog();
+        if (!context.mounted) return;
+        customDialog.show(
+          context: context,
+          type: DialogType.error,
+          content: result.message == null ? "No Data Found" : result.message!,
+          onPressed: () => Navigator.pop(context),
+        );
       }
     } else {
       setState(() {});
