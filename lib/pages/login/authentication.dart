@@ -101,8 +101,6 @@ class _AuthenticationState extends State<Authentication> {
       context.router.replace(const Home());
     } else if (userId != null && userId.isNotEmpty && diCode!.isEmpty) {
       if (!context.mounted) return;
-      // Provider.of<ChatNotificationCount>(context, listen: false)
-      //     .clearNotificationBadge();
       context.read<SocketClientHelper>().disconnectSocket();
       if (!context.mounted) return;
       await authRepo.logout(context: context, type: '');

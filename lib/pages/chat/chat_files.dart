@@ -4,44 +4,88 @@ import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart';
 import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import 'full_image.dart';
 
-class ChatFiles extends StatelessWidget {
+class ChatFiles extends StatefulWidget {
   const ChatFiles({super.key, required this.roomId});
   final String roomId;
+
+  @override
+  State<ChatFiles> createState() => _ChatFilesState();
+}
+
+class _ChatFilesState extends State<ChatFiles> {
+  late Future<String> _storagePathFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _storagePathFuture = getStoragePath();
+  }
+
+  Future<String> getStoragePath() async {
+    if (Platform.isAndroid) {
+      final directory = await getExternalStorageDirectory();
+      return directory!.path;
+    } else if (Platform.isIOS) {
+      final directory = await getApplicationDocumentsDirectory();
+      return directory.path;
+    } else {
+      throw UnsupportedError('Unsupported platform');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    String storagePath =
-        '/storage/emulated/0/Android/data/my.com.tbs.epandu.app/files/';
-    return DefaultTabController(
-      length: 4,
-      child: Scaffold(
-        appBar: AppBar(
-          bottom: const TabBar(
-            tabs: [
-              Tab(icon: Icon(Icons.camera_alt)),
-              Tab(icon: Icon(Icons.video_collection_rounded)),
-              Tab(icon: Icon(Icons.headset)),
-              Tab(icon: Icon(Icons.insert_drive_file)),
-            ],
-          ),
-          title: const Text('Media and Files'),
-          backgroundColor: Colors.blueAccent,
-        ),
-        body: TabBarView(
-          children: [
-            GalleryItems(
-                type: 'Images', roomId: roomId, storagePath: storagePath),
-            GalleryItems(
-                type: 'Videos', roomId: roomId, storagePath: storagePath),
-            MyAudioList(roomId: roomId, storagePath: storagePath),
-            MyFilesList(roomId: roomId, storagePath: storagePath),
-          ],
-        ),
-      ),
+    return FutureBuilder<String>(
+      future: _storagePathFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // Return a loading indicator or placeholder widget while waiting for the path
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          // Handle error if the path retrieval fails
+          return Text('Error: ${snapshot.error}');
+        } else {
+          // Once the path is available, build the UI using it
+          String storagePath = snapshot.data!;
+          return DefaultTabController(
+            length: 4,
+            child: Scaffold(
+              appBar: AppBar(
+                bottom: const TabBar(
+                  tabs: [
+                    Tab(icon: Icon(Icons.camera_alt)),
+                    Tab(icon: Icon(Icons.video_collection_rounded)),
+                    Tab(icon: Icon(Icons.headset)),
+                    Tab(icon: Icon(Icons.insert_drive_file)),
+                  ],
+                ),
+                title: const Text('Media and Files'),
+                backgroundColor: Colors.blueAccent,
+              ),
+              body: TabBarView(
+                children: [
+                  GalleryItems(
+                      type: 'Images',
+                      roomId: widget.roomId,
+                      storagePath: storagePath),
+                  GalleryItems(
+                      type: 'Videos',
+                      roomId: widget.roomId,
+                      storagePath: storagePath),
+                  MyAudioList(roomId: widget.roomId, storagePath: storagePath),
+                  MyFilesList(roomId: widget.roomId, storagePath: storagePath),
+                ],
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }
@@ -51,10 +95,11 @@ class GalleryItems extends StatefulWidget {
   final String roomId;
   final String storagePath;
   const GalleryItems(
-      {super.key,
+      {Key? key,
       required this.type,
       required this.roomId,
-      required this.storagePath});
+      required this.storagePath})
+      : super(key: key);
 
   @override
   State<GalleryItems> createState() => _GalleryItemsState();
@@ -65,12 +110,13 @@ class _GalleryItemsState extends State<GalleryItems> {
   @override
   void initState() {
     super.initState();
-    String path = '${widget.storagePath}${widget.roomId}/${widget.type}';
-    isDirectoryExists(path);
+    isDirectoryExists();
   }
 
-  Future<void> isDirectoryExists(String dirPath) async {
-    bool exists = await Directory(dirPath).exists();
+  Future<void> isDirectoryExists() async {
+    bool exists =
+        await Directory('${widget.storagePath}/${widget.roomId}/${widget.type}')
+            .exists();
     if (exists) {
       setState(() {
         isFolderExist = true;
@@ -82,7 +128,7 @@ class _GalleryItemsState extends State<GalleryItems> {
   Widget build(BuildContext context) {
     if (isFolderExist) {
       var imageList =
-          Directory('${widget.storagePath}${widget.roomId}/${widget.type}')
+          Directory('${widget.storagePath}/${widget.roomId}/${widget.type}')
               .listSync()
               .map((item) => item.path)
               .toList(growable: false);
@@ -150,7 +196,7 @@ class _GalleryItemsState extends State<GalleryItems> {
 
 class VideoItems extends StatefulWidget {
   final String filePath;
-  const VideoItems({super.key, required this.filePath});
+  const VideoItems({Key? key, required this.filePath}) : super(key: key);
 
   @override
   State<VideoItems> createState() => _VideoItemsState();
@@ -202,8 +248,8 @@ class _VideoItemsState extends State<VideoItems> {
 }
 
 class MyAudioList extends StatefulWidget {
-  const MyAudioList(
-      {super.key, required this.roomId, required this.storagePath});
+  const MyAudioList({Key? key, required this.roomId, required this.storagePath})
+      : super(key: key);
   final String roomId;
   final String storagePath;
   @override
@@ -215,12 +261,13 @@ class _MyAudioListState extends State<MyAudioList> {
   @override
   void initState() {
     super.initState();
-    String path = '${widget.storagePath}${widget.roomId}/Audios';
-    isDirectoryExists(path);
+    isDirectoryExists();
   }
 
-  Future<void> isDirectoryExists(String dirPath) async {
-    bool exists = await Directory(dirPath).exists();
+  Future<void> isDirectoryExists() async {
+    bool exists =
+        await Directory('${widget.storagePath}/${widget.roomId}/Audios')
+            .exists();
     if (exists) {
       setState(() {
         isFolderExist = true;
@@ -230,9 +277,8 @@ class _MyAudioListState extends State<MyAudioList> {
 
   @override
   Widget build(BuildContext context) {
-    String path = '${widget.storagePath}${widget.roomId}/Audios';
     if (isFolderExist) {
-      var imageList = Directory(path)
+      var imageList = Directory('${widget.storagePath}/${widget.roomId}/Audios')
           .listSync()
           .map((item) => item.path)
           .toList(growable: false);
@@ -260,7 +306,7 @@ class _MyAudioListState extends State<MyAudioList> {
 
 class AudioItems extends StatefulWidget {
   final String filePath;
-  const AudioItems({super.key, required this.filePath});
+  const AudioItems({Key? key, required this.filePath}) : super(key: key);
 
   @override
   State<AudioItems> createState() => _AudioItemsState();
@@ -342,7 +388,7 @@ class _AudioItemsState extends State<AudioItems> {
 
 class FileItems extends StatelessWidget {
   final String filePath;
-  const FileItems({super.key, required this.filePath});
+  const FileItems({Key? key, required this.filePath}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -365,8 +411,8 @@ class FileItems extends StatelessWidget {
 }
 
 class MyFilesList extends StatefulWidget {
-  const MyFilesList(
-      {super.key, required this.roomId, required this.storagePath});
+  const MyFilesList({Key? key, required this.roomId, required this.storagePath})
+      : super(key: key);
   final String roomId;
   final String storagePath;
   @override
@@ -379,12 +425,14 @@ class _MyFilesListState extends State<MyFilesList> {
   @override
   void initState() {
     super.initState();
-    String path = '${widget.storagePath}${widget.roomId}/Files';
-    isDirectoryExists(path);
+
+    isDirectoryExists();
   }
 
-  Future<void> isDirectoryExists(String dirPath) async {
-    bool exists = await Directory(dirPath).exists();
+  Future<void> isDirectoryExists() async {
+    bool exists =
+        await Directory('${widget.storagePath}/${widget.roomId}/Files')
+            .exists();
     if (exists) {
       setState(() {
         isFolderExist = true;
@@ -394,10 +442,8 @@ class _MyFilesListState extends State<MyFilesList> {
 
   @override
   Widget build(BuildContext context) {
-    String path = '${widget.storagePath}${widget.roomId}/Files';
-
     if (isFolderExist) {
-      var imageList = Directory(path)
+      var imageList = Directory('${widget.storagePath}/${widget.roomId}/Files')
           .listSync()
           .map((item) => item.path)
           .toList(growable: false);
