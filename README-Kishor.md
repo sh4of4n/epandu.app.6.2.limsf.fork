@@ -1,3 +1,9 @@
+05/02/2024 V.6.2.11
+WS 6.2.211
+
+- Resolved Null check operator used on a null value of context in chatroom displayTextInputDialog function.
+- Resolved Easyloading not dismiss if no member data found in create_group screen.
+
 01/02/2024 V.6.2.11
 WS 6.2.211
 
