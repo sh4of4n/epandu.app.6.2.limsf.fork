@@ -1100,6 +1100,14 @@ class SocketClientHelper extends ChangeNotifier {
             }
           }
           if (messageList.isNotEmpty) {
+            int toalUnreadCount = 0;
+            List<Map<String, dynamic>> unreadMessageCounts =
+                await dbHelper.getUnreadMsgDetailList(userid, roomId);
+
+            for (var countMap in unreadMessageCounts) {
+              toalUnreadCount = int.parse(countMap['unread_count'].toString());
+            }
+
             List<MessageList>? othersMessageList = messageList
                 .where((message) =>
                     message.userId != userid &&
@@ -1109,7 +1117,8 @@ class SocketClientHelper extends ChangeNotifier {
             if (!ctx.mounted) return;
             Provider.of<ChatNotificationCount>(ctx, listen: false)
                 .addNotificationBadge(
-                    notificationBadge: othersMessageList.length,
+                    notificationBadge:
+                        othersMessageList.length + toalUnreadCount,
                     roomId: roomId);
           }
 
@@ -1188,9 +1197,29 @@ class SocketClientHelper extends ChangeNotifier {
             }
           }
         } else {
+          List<Map<String, dynamic>> unreadMessageCounts =
+              await dbHelper.getUnreadMsgDetailList(userid, roomId);
+
+          for (var unreadCount in unreadMessageCounts) {
+            if (!ctx.mounted) continue;
+            Provider.of<ChatNotificationCount>(ctx, listen: false)
+                .addNotificationBadge(
+                    notificationBadge: unreadCount['unread_count'],
+                    roomId: roomId);
+          }
           //print("Null from getMessageByRoom");
         }
       } else {
+        List<Map<String, dynamic>> unreadMessageCounts =
+            await dbHelper.getUnreadMsgDetailList(userid, roomId);
+
+        for (var unreadCount in unreadMessageCounts) {
+          if (!ctx.mounted) continue;
+          Provider.of<ChatNotificationCount>(ctx, listen: false)
+              .addNotificationBadge(
+                  notificationBadge: unreadCount['unread_count'],
+                  roomId: roomId);
+        }
         // print("Null from getMessageByRoom");
       }
     });
