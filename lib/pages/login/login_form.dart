@@ -377,8 +377,6 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
                 .saveMerchantDbCode(getRegisteredDi.data[0].merchantNo);
             if (!context.mounted) return;
             {
-              // Provider.of<ChatNotificationCount>(context, listen: false)
-              //     .clearNotificationBadge();
               await context.read<SocketClientHelper>().loginUserRoom();
             }
             if (!context.mounted) return;
@@ -401,8 +399,6 @@ class _LoginFormState extends State<LoginForm> with PageBaseClass {
           await localStorage.saveMerchantDbCode(result.data[0].merchantNo);
           if (!context.mounted) return;
           {
-            // Provider.of<ChatNotificationCount>(context, listen: false)
-            //     .clearNotificationBadge();
             await context.read<SocketClientHelper>().loginUserRoom();
           }
           if (!context.mounted) return;

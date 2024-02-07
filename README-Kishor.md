@@ -1,3 +1,8 @@
+06/02/2024 V.6.2.11
+WS 6.2.211
+
+- Enhanced chat_files.dart screen to get storage path dynamically for both Android and IOS.
+
 05/02/2024 V.6.2.11
 WS 6.2.211
 
