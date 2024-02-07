@@ -6,6 +6,7 @@ WS 6.2.211
   Step1: UserA open the app and got 2 unread message in Room1 then home screen,room list screen badge count showing 2.
   Step2: UserA close the app and open again then badge count not showing.
   To resolve this issue i am getting unread message count from database based on roomId and pass to change notifier.Change notifier updating to home and room list screen.
+- Resolved CameraException: CameraException(error, stop failed.) in camer_screen.dart file.
 
 06/02/2024 V.6.2.11
 WS 6.2.211
