@@ -646,7 +646,7 @@ class AuthRepo {
     return Response(false, message: 'No records found.');
   }
 
-  Future<Response> getDiNearMe({
+  Future<Response<List<Merchant>?>> getDiNearMe({
     required merchantNo,
     required startIndex,
     required noOfRecords,
@@ -665,15 +665,15 @@ class AuthRepo {
       path: 'GetDINearMe?$path',
     );
 
-    if (response.isSuccess && response.data != null) {
+    if (response.isSuccess) {
       GetDiNearMeResponse getDiNearMeResponse =
-          GetDiNearMeResponse.fromJson(response.data);
-      var responseData = getDiNearMeResponse.merchant;
+          GetDiNearMeResponse.fromJson(response.data ?? {});
+      List<Merchant>? responseData = getDiNearMeResponse.merchant;
 
-      return Response(true, data: responseData);
+      return Response(true, data: responseData ?? []);
     }
 
-    return Response(false, message: 'No records found.');
+    return Response(false, message: response.message.isEmpty ? 'No records found.' : response.message);
   }
 
   Future<Response> getGroupIdByDiCodeForOnline({context, diCode}) async {
@@ -1582,5 +1582,70 @@ class AuthRepo {
     }
 
     return Response(false, message: 'Update failed, please try again later.');
+  }
+
+  Future ePanduConsumerInvitationV2({
+    required String name,
+    required String countryCode,
+    required String phone,
+  }) async {
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwd();
+    String? userId = await localStorage.getUserId();
+    String? merchantNo = await localStorage.getMerchantDbCode();
+    String? appVersion = await localStorage.getAppVersion();
+
+    EPanduConsumerInvitationRequest params = EPanduConsumerInvitationRequest(
+      wsCodeCrypt: appConfig.wsCodeCrypt,
+      caUid: caUid,
+      caPwd: caPwd,
+      appCode: appConfig.appCode,
+      appId: appConfig.appId,
+      appVersion: appVersion,
+      merchantNo: merchantNo ?? appConfig.diCode,
+      userId: userId,
+      name: name,
+      nickName: '',
+      icNo: '',
+      passportNo: '',
+      phoneCountryCode: countryCode,
+      phone: phone,
+      nationality: '',
+      dateOfBirthString: '',
+      gender: '',
+      race: '',
+      add1: '',
+      add2: '',
+      add3: '',
+      postcode: '',
+      city: '',
+      state: '',
+      country: '',
+      email: '',
+      reInvite: true,
+      sponsorAppId: appConfig.appId,
+    );
+
+    String body = jsonEncode(params);
+    String api = 'ePanduConsumerInvitationV2';
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+
+    var response =
+        await networking.postData(api: api, body: body, headers: headers);
+
+    String message = '';
+
+    if (response.isSuccess &&
+        response.data != null &&
+        response.data.isNotEmpty) {
+      message = 'Your invitation has been sent. Yay!';
+      return Response(true, message: message);
+    } else if (response.isSuccess && response.data.isEmpty) {
+      return Response(false, message: 'Phone number is already registered.');
+    }
+
+    message = 'Invitation failed, please try again later.';
+
+    return Response(false, message: response.message);
   }
 }

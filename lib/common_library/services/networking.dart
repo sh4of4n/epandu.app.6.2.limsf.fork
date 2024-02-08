@@ -82,7 +82,8 @@ class Networking extends BaseRepo {
             .replaceAll('[BLException]', '')
             .replaceAll('&#xD;', '')
             .replaceAll(r'"', '')
-            .replaceAll('\n', '');
+            .replaceAll('\n', '')
+            .replaceAll('\\u000d\\u000a\\u000d\\u000a', '');
 
         print(response.statusCode);
         print(message);
@@ -144,7 +145,8 @@ class Networking extends BaseRepo {
             .replaceAll('[BLException]', '')
             .replaceAll('&#xD;', '')
             .replaceAll(r'"', '')
-            .replaceAll('\n', '');
+            .replaceAll('\n', '')
+            .replaceAll('\\u000d\\u000a\\u000d\\u000a', '');
 
         print(response.statusCode);
         print(message);

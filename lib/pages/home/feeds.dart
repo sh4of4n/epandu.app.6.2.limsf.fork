@@ -59,20 +59,11 @@ class _FeedsState extends State<Feeds> {
   final fpxRepo = FpxRepo();
   final appConfig = AppConfig();
 
-  _checkLocationPermission(feed, context) async {
+  _checkLocationPermission(feed, BuildContext context) async {
     Provider.of<HomeLoadingModel>(context, listen: false).loadingStatus(true);
-    // contactBox = Hive.box('emergencyContact');
-
-    // await location.getCurrentLocation();
-
-    bool serviceLocationStatus = await Geolocator.isLocationServiceEnabled();
-
-    // GeolocationStatus geolocationStatus =
-    //     await Geolocator().checkGeolocationPermissionStatus();
-
-    if (serviceLocationStatus) {
-      _getCurrentLocation(feed, context);
-    } else {
+    await location.getCurrentLocation();
+    
+    if (location.status != Status.success) {
       customDialog.show(
         context: context,
         barrierDismissable: false,
@@ -82,11 +73,22 @@ class _FeedsState extends State<Feeds> {
         customActions: <Widget>[
           TextButton(
             child: Text(AppLocalizations.of(context)!.translate('yes_lbl')),
-            onPressed: () {
+            onPressed: () async {
               Provider.of<HomeLoadingModel>(context, listen: false)
                   .loadingStatus(false);
               context.router.pop();
-              AppSettings.openAppSettings(type: AppSettingsType.location);
+              GeolocatorPlatform geolocatorPlatform =
+                  GeolocatorPlatform.instance;
+              if (location.status == Status.locationServiceDisabled) {
+                await geolocatorPlatform.openLocationSettings();
+                return;
+              }
+              if (location.status == Status.locationPermissionDeniedForever ||
+                  location.status == Status.locationPermissionDenied) {
+                await geolocatorPlatform.openAppSettings();
+                return;
+              }
+              // AppSettings.openAppSettings(type: AppSettingsType.location);
             },
           ),
           TextButton(
@@ -107,7 +109,10 @@ class _FeedsState extends State<Feeds> {
         ],
         type: DialogType.general,
       );
+      return;
     }
+    _getCurrentLocation(feed, context);
+
   }
 
   _getCurrentLocation(feed, context) async {
@@ -323,13 +328,14 @@ class _FeedsState extends State<Feeds> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      if (constraints.maxWidth < 600) {
-        return defaultLayout();
-      }
-      return tabLayout();
-    });
+    return defaultLayout();
+    // return LayoutBuilder(
+    //     builder: (BuildContext context, BoxConstraints constraints) {
+    //   if (constraints.maxWidth < 600) {
+    //     return defaultLayout();
+    //   }
+    //   return tabLayout();
+    // });
   }
 
   defaultLayout() {
@@ -342,7 +348,6 @@ class _FeedsState extends State<Feeds> {
             Column(
               children: <Widget>[
                 Ink(
-                  // height: ScreenUtil().setHeight(780),
                   width: ScreenUtil().setWidth(1300),
                   decoration: BoxDecoration(
                     boxShadow: const [

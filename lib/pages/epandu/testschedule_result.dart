@@ -39,7 +39,7 @@ class _TestScheduleResultState extends State<TestScheduleResult> {
     if (!context.mounted) return;
     //String? userId = await localStorage.getUserId();
     var result = await epanduRepo.getDTestByCode(context: context);
-
+    if (!mounted) return;
     if (result.isSuccess) {
       setState(() {
         _testscheduleResultData = result.data;

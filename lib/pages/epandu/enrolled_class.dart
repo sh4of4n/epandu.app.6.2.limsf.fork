@@ -46,6 +46,7 @@ class _EnrolledClassState extends State<EnrolledClass> {
     var result = await epanduRepo.getEnrollByCode(
       groupId: '',
     );
+    if (!mounted) return;
     if (result.isSuccess) {
       try {
         enrollList = (result.data as List<dynamic>).cast<epandu_model.Enroll>();
