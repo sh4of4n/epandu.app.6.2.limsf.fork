@@ -1,3 +1,10 @@
+08/02/2024 V.6.2.11
+WS 6.2.211
+
+- Resolved the widget has been unmounted, so the state no longer has a context issue in chat_room screen getMessageReadBy,updateMessageReadBy function.
+- Resolved a RoomHistory was used after being disposed.
+  Once you have called dispose() on a RoomHistory, it can no longer be used.
+
 07/02/2024 V.6.2.11
 WS 6.2.211
 
