@@ -311,6 +311,7 @@ class _CreateGroupState extends State<CreateGroup> {
                         if (data != null && !data.containsKey("error")) {
                           SendAcknowledge sendAcknowledge =
                               SendAcknowledge.fromJson(data);
+                          if (!context.mounted) return;
                           context.read<ChatHistory>().updateChatItemStatus(
                               clientMessageId,
                               "SENT",

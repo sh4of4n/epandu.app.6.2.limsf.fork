@@ -1,9 +1,6 @@
-import 'dart:io';
 import 'dart:math';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'camer_view.dart';
 import 'video_view.dart';
 
@@ -22,7 +19,7 @@ class CameraScreen extends StatefulWidget {
 class _CameraScreenState extends State<CameraScreen> {
   late CameraController _cameraController;
   late Future<void> cameraValue;
-  bool isRecoring = false;
+  bool isRecording = false;
   bool flash = false;
   bool iscamerafront = true;
   double transform = 0;
@@ -56,7 +53,7 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   void dispose() {
     super.dispose();
-    if (isRecoring) {
+    if (_cameraController.value.isRecordingVideo) {
       _cameraController.stopVideoRecording();
     }
     _cameraController.dispose();
@@ -81,7 +78,7 @@ class _CameraScreenState extends State<CameraScreen> {
                   );
                 }
               }),
-              Positioned(
+          Positioned(
             top: 25.0,
             left: 25.0,
             child: IconButton(
@@ -121,27 +118,21 @@ class _CameraScreenState extends State<CameraScreen> {
                           }),
                       GestureDetector(
                         onLongPress: () async {
-                          // if (!_cameraController.value.isInitialized) {
-                          //   _cameraController = CameraController(
-                          //       widget.cameras[0], ResolutionPreset.high);
-                          //   cameraValue = _cameraController.initialize();
-                          //   setState(() {
-                          //     cameraValue = cameraValue;
-                          //   });
-                          // }
-
-                          await _cameraController.startVideoRecording();
-                          setState(() {
-                            isRecoring = true;
-                          });
+                          if (!_cameraController.value.isRecordingVideo) {
+                            _startVideoRecording();
+                          }
                         },
                         onLongPressUp: () async {
-                          takeVideo(context);
+                          if (_cameraController.value.isRecordingVideo) {
+                            _stopVideoRecording();
+                          }
                         },
                         onTap: () {
-                          if (!isRecoring) takePhoto(context);
+                          if (!isRecording) {
+                            takePhoto(context);
+                          }
                         },
-                        child: isRecoring
+                        child: isRecording
                             ? const Icon(
                                 Icons.radio_button_on,
                                 color: Colors.red,
@@ -179,8 +170,7 @@ class _CameraScreenState extends State<CameraScreen> {
                     height: 4,
                   ),
                   const Text(
-                    /* "Hold for Video, tap for photo",*/
-                    "Tap for photo",
+                    "Tap for Photo & longpress for Video",
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -207,35 +197,35 @@ class _CameraScreenState extends State<CameraScreen> {
                 )));
   }
 
-  void takeVideo(BuildContext context) async {
-    XFile videoPath = await _cameraController.stopVideoRecording();
-    setState(() {
-      isRecoring = false;
-    });
-    if (!context.mounted) return;
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (builder) => VideoViewPage(
-                  path: videoPath.path,
-                  onImageSend: widget.onImageSend,
-                )));
+  Future<void> _startVideoRecording() async {
+    try {
+      await _cameraController.startVideoRecording();
+      setState(() {
+        isRecording = true;
+      });
+    } catch (e) {
+      print('Error starting video recording: $e');
+    }
   }
 
-  Future<String> createFolder(String folder) async {
-    final dir = Directory(
-        '${(Platform.isAndroid ? await getExternalStorageDirectory() //FOR ANDROID
-                : await getApplicationSupportDirectory() //FOR IOS
-            )!.path}/$folder');
-    var status = await Permission.storage.status;
-    if (!status.isGranted) {
-      await Permission.storage.request();
-    }
-    if ((await dir.exists())) {
-      return dir.path;
-    } else {
-      dir.create();
-      return dir.path;
+  Future<void> _stopVideoRecording() async {
+    try {
+      XFile videoPath = await _cameraController.stopVideoRecording();
+      setState(() {
+        isRecording = false;
+      });
+      if (!context.mounted) return;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (builder) => VideoViewPage(
+            path: videoPath.path,
+            onImageSend: widget.onImageSend,
+          ),
+        ),
+      );
+    } catch (e) {
+      print('Error stopping video recording: $e');
     }
   }
 }

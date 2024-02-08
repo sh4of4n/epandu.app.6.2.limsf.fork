@@ -7,7 +7,6 @@ import 'package:device_preview/device_preview.dart';
 import 'package:epandu/common_library/services/model/inbox_model.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 import 'package:epandu/common_library/services/repository/inbox_repository.dart';
-import 'package:epandu/pages/chat/custom_animation.dart';
 import 'package:epandu/pages/chat/rooms_provider.dart';
 import 'package:epandu/pages/chat/socketclient_helper.dart';
 import 'package:epandu/router.dart';

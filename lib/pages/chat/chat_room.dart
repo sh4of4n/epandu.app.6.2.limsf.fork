@@ -370,15 +370,15 @@ class _ChatRoomState extends State<ChatRoom> {
             .toList();
 
         for (var messageDetails in mylist) {
-          updateMessageReadBy(
-              messageDetails.messageId.toString(), localUserid, widget.roomId);
+          updateMessageReadBy(messageDetails.messageId.toString(), localUserid,
+              widget.roomId, context);
         }
-        getReadByChatHistory();
+        getReadByChatHistory(context);
       }
     }
   }
 
-  void getReadByChatHistory() {
+  void getReadByChatHistory(BuildContext context) {
     List<MessageDetails> getUnreadMessageDetailsList = getMessageDetailsList
         .where((element) =>
             element.userId == localUserid &&
@@ -388,7 +388,7 @@ class _ChatRoomState extends State<ChatRoom> {
     if (getUnreadMessageDetailsList.isNotEmpty) {
       for (var messageDetails in getUnreadMessageDetailsList) {
         if (messageDetails.messageId.toString() != '') {
-          getMessageReadBy(messageDetails.messageId!, widget.roomId);
+          getMessageReadBy(messageDetails.messageId!, widget.roomId, context);
         }
       }
     }
@@ -678,7 +678,10 @@ class _ChatRoomState extends State<ChatRoom> {
 
                     // context.read<SocketClientHelper>().setRoomDetails('', '', '');
                     context.read<SocketClientHelper>().setIsEnterRoom(false);
-                    context.read<RoomHistory>().getRoomHistory();
+                    Provider.of<RoomHistory>(context, listen: false)
+                        .getRoomHistory();
+
+                    //context.read<RoomHistory>().getRoomHistory();
                     context.read<ChatHistory>().deleteChats(widget.roomId);
                     context.read<ChatHistory>().updateIsDataExist();
                     Navigator.pop(context);
@@ -1675,7 +1678,9 @@ class _ChatRoomState extends State<ChatRoom> {
                     //context.router.pop();
                     //context.router.navigate(const RoomList());
                     context.read<SocketClientHelper>().setIsEnterRoom(false);
-                    context.read<RoomHistory>().getRoomHistory();
+                    Provider.of<RoomHistory>(context, listen: false)
+                        .getRoomHistory();
+                    //context.read<RoomHistory>().getRoomHistory();
                     context.read<ChatHistory>().deleteChats(widget.roomId);
                     context.read<ChatHistory>().updateIsDataExist();
                   }
@@ -2305,7 +2310,8 @@ class _ChatRoomState extends State<ChatRoom> {
     }
   }
 
-  updateMessageReadBy(String messageId, String userId, String roomId) {
+  updateMessageReadBy(
+      String messageId, String userId, String roomId, BuildContext context) {
     var messageJson = {
       "messageId": messageId,
       "userId": userId,
@@ -2317,6 +2323,7 @@ class _ChatRoomState extends State<ChatRoom> {
         print('updateMessageReadBy from server $data');
         Map<String, dynamic> result = Map<String, dynamic>.from(data as Map);
         if (result["messageId"] != '') {
+          if (!context.mounted) return;
           context.read<ChatHistory>().updateChatItemStatus(
               '', "READ", int.parse(messageId), roomId, '');
           await dbHelper.updateMsgStatus('READ', int.parse(messageId));
@@ -2327,7 +2334,7 @@ class _ChatRoomState extends State<ChatRoom> {
     });
   }
 
-  getMessageReadBy(int messageId, String roomId) {
+  getMessageReadBy(int messageId, String roomId, BuildContext context) {
     if (socket.connected) {
       var messageJson = {
         "messageId": messageId,
@@ -2341,6 +2348,7 @@ class _ChatRoomState extends State<ChatRoom> {
               ReadByMessage.fromJson(data).message!.readMessage![0];
           if (readMessage.readBy != null &&
               readMessage.readBy!.contains('[[ALL]]')) {
+            if (!context.mounted) return;
             context
                 .read<ChatHistory>()
                 .updateChatItemStatus('', "READ", messageId, roomId, '');

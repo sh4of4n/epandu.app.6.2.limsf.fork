@@ -715,6 +715,15 @@ class DatabaseHelper {
     return list;
   }
 
+  Future<List<Map<String, dynamic>>> getUnreadMsgDetailList(
+      String userId, String roomId) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> unreadCounts = await db.rawQuery(
+        "SELECT room_id, COUNT(*) AS unread_count FROM $msgDetailTable WHERE msgStatus = 'UNREAD' AND user_id != '$userId' and room_id = '$roomId' and deleted = 0 GROUP BY room_id;");
+
+    return unreadCounts;
+  }
+
   Future<List<MessageDetails>> getLazyLoadMsgDetailList(
       String roomId, int batchSize, int offset) async {
     Database db = await instance.database;
