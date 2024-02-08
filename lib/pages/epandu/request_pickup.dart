@@ -389,7 +389,7 @@ class _RequestPickupState extends State<RequestPickup> with PageBaseClass {
           ],
         );
       } else {
-        if (!context.mounted) return;
+        if (!mounted) return;
         customDialog.show(
           context: context,
           type: DialogType.error,

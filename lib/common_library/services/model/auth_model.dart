@@ -4953,3 +4953,128 @@ class AppMinVersion {
     return data;
   }
 }
+
+class EPanduConsumerInvitationRequest {
+  String? wsCodeCrypt;
+  String? caUid;
+  String? caPwd;
+  String? appCode;
+  String? appId;
+  String? appVersion;
+  String? merchantNo;
+  String? userId;
+  String? name;
+  String? nickName;
+  String? icNo;
+  String? passportNo;
+  String? phoneCountryCode;
+  String? phone;
+  String? nationality;
+  String? dateOfBirthString;
+  String? gender;
+  String? race;
+  String? add1;
+  String? add2;
+  String? add3;
+  String? postcode;
+  String? city;
+  String? state;
+  String? country;
+  String? email;
+  bool? reInvite;
+  String? sponsorAppId;
+
+  EPanduConsumerInvitationRequest(
+      {this.wsCodeCrypt,
+      this.caUid,
+      this.caPwd,
+      this.appCode,
+      this.appId,
+      this.appVersion,
+      this.merchantNo,
+      this.userId,
+      this.name,
+      this.nickName,
+      this.icNo,
+      this.passportNo,
+      this.phoneCountryCode,
+      this.phone,
+      this.nationality,
+      this.dateOfBirthString,
+      this.gender,
+      this.race,
+      this.add1,
+      this.add2,
+      this.add3,
+      this.postcode,
+      this.city,
+      this.state,
+      this.country,
+      this.email,
+      this.reInvite,
+      this.sponsorAppId});
+
+  EPanduConsumerInvitationRequest.fromJson(Map<String, dynamic> json) {
+    wsCodeCrypt = json['wsCodeCrypt'];
+    caUid = json['caUid'];
+    caPwd = json['caPwd'];
+    appCode = json['appCode'];
+    appId = json['appId'];
+    appVersion = json['appVersion'];
+    merchantNo = json['merchantNo'];
+    userId = json['userId'];
+    name = json['name'];
+    nickName = json['nickName'];
+    icNo = json['icNo'];
+    passportNo = json['passportNo'];
+    phoneCountryCode = json['phoneCountryCode'];
+    phone = json['phone'];
+    nationality = json['nationality'];
+    dateOfBirthString = json['dateOfBirthString'];
+    gender = json['gender'];
+    race = json['race'];
+    add1 = json['add1'];
+    add2 = json['add2'];
+    add3 = json['add3'];
+    postcode = json['postcode'];
+    city = json['city'];
+    state = json['state'];
+    country = json['country'];
+    email = json['email'];
+    reInvite = json['reInvite'];
+    sponsorAppId = json['sponsorAppId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['wsCodeCrypt'] = wsCodeCrypt;
+    data['caUid'] = caUid;
+    data['caPwd'] = caPwd;
+    data['appCode'] = appCode;
+    data['appId'] = appId;
+    data['appVersion'] = appVersion;
+    data['merchantNo'] = merchantNo;
+    data['userId'] = userId;
+    data['name'] = name;
+    data['nickName'] = nickName;
+    data['icNo'] = icNo;
+    data['passportNo'] = passportNo;
+    data['phoneCountryCode'] = phoneCountryCode;
+    data['phone'] = phone;
+    data['nationality'] = nationality;
+    data['dateOfBirthString'] = dateOfBirthString;
+    data['gender'] = gender;
+    data['race'] = race;
+    data['add1'] = add1;
+    data['add2'] = add2;
+    data['add3'] = add3;
+    data['postcode'] = postcode;
+    data['city'] = city;
+    data['state'] = state;
+    data['country'] = country;
+    data['email'] = email;
+    data['reInvite'] = reInvite;
+    data['sponsorAppId'] = sponsorAppId;
+    return data;
+  }
+}

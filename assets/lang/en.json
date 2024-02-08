@@ -178,7 +178,7 @@
   "to_lbl": "To",
   "upgrade_sos_lbl": "Upgrade to premium",
   "loc_permission_title": "Location Permission",
-  "loc_permission_desc": "Location permission is required to use ePandu features. Enable location?",
+  "loc_permission_desc": "Location permission is required to use ePandu features.",
   "loc_permission_on": "Please enable location permission to take advantage of ePandu features.",
   "get_contacts_fail": "Failed to get contacts. Please try again later.",
   "language_lbl": "Language",

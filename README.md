@@ -1,3 +1,17 @@
+05/02/2024 V.6.2.6
+WS 6.2.52
+Enhanced
+1. Merchant Info
+- Can display merchant info
+2. Select Institute
+- Hide the IM list if user not allow location permission
+- Lead user to turn on the location service
+- Default IM icon
+3. Home
+- Added main menu - Driver's Job, Academy, CARSER, SmartBikers 
+- Feed banner auto play 
+
+
 05/02/2024 V.6.2.5
 WS 6.2.49
 Enhanced

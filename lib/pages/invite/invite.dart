@@ -27,9 +27,9 @@ class _InviteState extends State<Invite> with PageBaseClass {
   final image = ImagesConstant();
 
   // hardcode +60 for now
-  String? _countryCode = '+60';
+  String _countryCode = '+60';
   String? _phone = '';
-  String? _name = '';
+  String _name = '';
   String? _message = '';
   TextStyle _messageStyle = const TextStyle(color: Colors.red);
 
@@ -93,7 +93,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                           CountryCodePicker(
                             onChanged: (value) {
                               setState(() {
-                                _countryCode = value.code;
+                                _countryCode = value.code ?? '';
                               });
                             },
                             padding: EdgeInsets.only(top: 62.h),
@@ -163,7 +163,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                         },
                         onSaved: (value) {
                           if (value != _name) {
-                            _name = value;
+                            _name = value ?? '';
                           }
                         },
                       ),
@@ -177,41 +177,46 @@ class _InviteState extends State<Invite> with PageBaseClass {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      _message!.isNotEmpty
-                          ? Text(
-                              _message!,
-                              style: _messageStyle,
-                            )
-                          : const SizedBox.shrink(),
-                      Container(
-                        child: _isLoading
-                            ? const SpinKitFoldingCube(
-                                color: Colors.blue,
-                              )
-                            : ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  shape: const StadiumBorder(),
-                                  backgroundColor: const Color(0xffdd0e0e),
-                                  minimumSize: Size(420.w, 45.h),
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 11.0),
-                                  textStyle:
-                                      const TextStyle(color: Colors.white),
+                  Flexible(
+                    child: Column(
+                      children: <Widget>[
+                        _message!.isNotEmpty
+                            ? Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16,),
+                              child: Text(
+                                  _message!,
+                                  style: _messageStyle,
                                 ),
-                                onPressed: _submit,
-                                child: Text(
-                                  AppLocalizations.of(context)!
-                                      .translate('invite_btn'),
-                                  style: TextStyle(
-                                    fontSize: 60.sp,
-                                    fontWeight: FontWeight.w600,
+                            )
+                            : const SizedBox.shrink(),
+                        Container(
+                          child: _isLoading
+                              ? const SpinKitFoldingCube(
+                                  color: Colors.blue,
+                                )
+                              : ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    shape: const StadiumBorder(),
+                                    backgroundColor: const Color(0xffdd0e0e),
+                                    minimumSize: Size(420.w, 45.h),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 11.0),
+                                    textStyle:
+                                        const TextStyle(color: Colors.white),
+                                  ),
+                                  onPressed: _submit,
+                                  child: Text(
+                                    AppLocalizations.of(context)!
+                                        .translate('invite_btn'),
+                                    style: TextStyle(
+                                      fontSize: 60.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
-                              ),
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -271,7 +276,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                             CountryCodePicker(
                               onChanged: (value) {
                                 setState(() {
-                                  _countryCode = value.code;
+                                  _countryCode = value.code ?? '';
                                 });
                               },
                               padding: EdgeInsets.only(top: 52.h),
@@ -364,7 +369,7 @@ class _InviteState extends State<Invite> with PageBaseClass {
                           },
                           onSaved: (value) {
                             if (value != _name) {
-                              _name = value;
+                              _name = value ?? '';
                             }
                           },
                         ),
@@ -429,20 +434,15 @@ class _InviteState extends State<Invite> with PageBaseClass {
       _formKey.currentState!.save();
       FocusScope.of(context).requestFocus(FocusNode());
 
-      String? userId = await LocalStorage().getUserId();
-
       setState(() {
         _isLoading = true;
         _message = '';
       });
-      if (!context.mounted) return;
-      var result = await authRepo.getUserByUserPhone(
-        context: context,
+
+      var result = await authRepo.ePanduConsumerInvitationV2(
         countryCode: _countryCode,
         phone: _phone!.replaceAll(' ', ''),
-        userId: userId,
         name: _name,
-        scenario: 'INVITE',
       );
 
       if (result.isSuccess) {
@@ -462,4 +462,43 @@ class _InviteState extends State<Invite> with PageBaseClass {
       });
     }
   }
+
+  // _submit() async {
+  //   if (_formKey.currentState!.validate()) {
+  //     _formKey.currentState!.save();
+  //     FocusScope.of(context).requestFocus(FocusNode());
+
+  //     String? userId = await LocalStorage().getUserId();
+
+  //     setState(() {
+  //       _isLoading = true;
+  //       _message = '';
+  //     });
+  //     if (!context.mounted) return;
+  //     var result = await authRepo.getUserByUserPhone(
+  //       context: context,
+  //       countryCode: _countryCode,
+  //       phone: _phone!.replaceAll(' ', ''),
+  //       userId: userId,
+  //       name: _name,
+  //       scenario: 'INVITE',
+  //     );
+
+  //     if (result.isSuccess) {
+  //       setState(() {
+  //         _message = result.message;
+  //         _messageStyle = const TextStyle(color: Colors.green);
+  //       });
+  //     } else {
+  //       setState(() {
+  //         _message = result.message;
+  //         _messageStyle = const TextStyle(color: Colors.red);
+  //       });
+  //     }
+
+  //     setState(() {
+  //       _isLoading = false;
+  //     });
+  //   }
+  // }
 }

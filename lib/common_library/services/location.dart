@@ -4,12 +4,15 @@ import 'package:geocoder/geocoder.dart';
 import '../utils/local_storage.dart';
 import 'package:geolocator/geolocator.dart';
 
+enum Status { locationServiceDisabled, locationPermissionDenied, locationPermissionDeniedForever, success }
+
 class Location {
   double? latitude;
   double? longitude;
   String? address;
   String? places;
   double distanceInMeters = 0;
+  Status status = Status.success;
   final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
 
   final localStorage = LocalStorage();
@@ -73,6 +76,7 @@ class Location {
 
     serviceEnabled = await _geolocatorPlatform.isLocationServiceEnabled();
     if (!serviceEnabled) {
+      status = Status.locationServiceDisabled;
       return false;
     }
 
@@ -80,13 +84,16 @@ class Location {
     if (permission == LocationPermission.denied) {
       permission = await _geolocatorPlatform.requestPermission();
       if (permission == LocationPermission.denied) {
+        status = Status.locationPermissionDenied;
         return false;
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
+      status = Status.locationPermissionDeniedForever;
       return false;
     }
+    status = Status.success;
     return true;
   }
 }

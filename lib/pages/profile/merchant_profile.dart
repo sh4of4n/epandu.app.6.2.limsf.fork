@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:epandu/common_library/services/model/vclub_model.dart';
 import 'package:epandu/common_library/services/repository/vclub_repository.dart';
 import 'package:epandu/common_library/services/response.dart';
 import 'package:epandu/common_library/utils/local_storage.dart';
@@ -38,18 +40,11 @@ class _MerchantProfileState extends State<MerchantProfile> {
     getMerchant = getMerchantApi();
   }
 
-  Future<dynamic> getMerchantApi() async {
+  Future getMerchantApi() async {
     String? dbCode = await localStorage.getMerchantDbCode();
     if (!context.mounted) return;
-    Response result = await vClubRepo.getMerchant(
-      context: context,
-      keywordSearch: dbCode,
-      merchantType: 'DI',
-      startIndex: 0,
-      noOfRecords: 10,
-      latitude: '-90',
-      longitude: '-180',
-      maxRadius: '0',
+    Response<List<Merchant>?> result = await vClubRepo.getMerchantByCode(
+      merchantNo: dbCode ?? '',
     );
 
     if (result.isSuccess) {
@@ -61,13 +56,14 @@ class _MerchantProfileState extends State<MerchantProfile> {
   _profileImage(data) {
     if (data.merchantIconFilename != null &&
         data.merchantIconFilename.isNotEmpty) {
-      return Image.network(
-        data.merchantIconFilename
-            .replaceAll(removeBracket, '')
-            .split('\r\n')[0],
-        width: 600.w,
-        height: 600.w,
-        fit: BoxFit.contain,
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16,),
+        child: CachedNetworkImage(
+          imageUrl: data.merchantIconFilename
+              .replaceAll(removeBracket, '')
+              .split('\r\n')[0],
+          fit: BoxFit.contain,
+        ),
       );
     }
     return Icon(

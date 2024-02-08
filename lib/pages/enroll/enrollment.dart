@@ -116,7 +116,7 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
 
   List<CameraDescription>? cameras;
   final picker = ImagePicker();
-  String? profilePicUrl = '';
+  String profilePicUrl = '';
   String profilePicBase64 = '';
   late File _image;
   late File _croppedImage;
@@ -871,20 +871,20 @@ class _EnrollmentState extends State<Enrollment> with PageBaseClass {
   }
 
   _profileImage() {
-    if (profilePicUrl!.isNotEmpty && profilePicBase64.isEmpty) {
+    if (profilePicUrl.isNotEmpty && profilePicBase64.isEmpty) {
       return Padding(
         padding: EdgeInsets.only(bottom: 60.h),
         child: InkWell(
           onTap: _profilePicOption,
           child: Image.network(
-            profilePicUrl!,
+            profilePicUrl,
             width: 600.w,
             height: 600.w,
             fit: BoxFit.cover,
           ),
         ),
       );
-    } else if (profilePicBase64.isNotEmpty && profilePicUrl!.isEmpty) {
+    } else if (profilePicBase64.isNotEmpty && profilePicUrl.isEmpty) {
       return Padding(
         padding: EdgeInsets.only(bottom: 60.h),
         child: InkWell(

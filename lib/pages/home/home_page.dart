@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:app_settings/app_settings.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:epandu/common_library/services/location.dart';
 import 'package:epandu/common_library/services/model/auth_model.dart';
 import 'package:epandu/common_library/services/model/profile_model.dart';
@@ -14,6 +15,7 @@ import 'package:epandu/common_library/services/repository/profile_repository.dar
 import 'package:epandu/common_library/services/response.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/common_library/utils/custom_dialog.dart';
+import 'package:epandu/common_library/utils/new_custom_dialog.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:epandu/common_library/services/model/provider_model.dart';
 // import 'package:epandu/common_library/services/location.dart';
@@ -47,6 +49,15 @@ class Home extends StatefulWidget {
 
   @override
   State<Home> createState() => _HomeState();
+}
+
+class MainMenu {
+  String title;
+  String image;
+  PageRouteInfo? router;
+  String url;
+  MainMenu(
+      {required this.title, required this.image, this.router, this.url = ''});
 }
 
 class _HomeState extends State<Home> {
@@ -133,6 +144,31 @@ class _HomeState extends State<Home> {
     // },
   ];
 
+  List<MainMenu> mainMenus = [
+    MainMenu(
+      title: 'Driver\'s Job',
+      image: 'assets/menu/Espenses-icon.png',
+      router: null,
+      url: 'https://portal.epandu.com/consumer',
+    ),
+    MainMenu(
+      title: 'Academy',
+      image: 'assets/menu/Espenses-icon.png',
+      router: null,
+      url: 'https://portal.epandu.com/talent28',
+    ),
+    MainMenu(
+      title: 'CARSER',
+      image: 'assets/menu/Espenses-icon.png',
+      router: null,
+    ),
+    MainMenu(
+      title: 'SmartBikers',
+      image: 'assets/menu/Espenses-icon.png',
+      router: null,
+    ),
+  ];
+
   final List<Map<String, String>> _productCategory = [
     {
       'title': 'Tyre',
@@ -164,9 +200,6 @@ class _HomeState extends State<Home> {
 
     clearAllAppNotifications();
     _openHiveBoxes();
-    // getStudentInfo();
-    // _getCurrentLocation();
-    // _checkLocationPermission();
     _getDiProfile();
     _getActiveFeed();
     _getAppVersion();
@@ -342,20 +375,11 @@ class _HomeState extends State<Home> {
     }
   }
 
-  _checkLocationPermission(feed, context) async {
+  _checkLocationPermission(FeedByLevel feed, BuildContext context) async {
     Provider.of<HomeLoadingModel>(context, listen: false).loadingStatus(true);
-    // contactBox = Hive.box('emergencyContact');
-
-    // await location.getCurrentLocation();
-
-    bool serviceLocationStatus = await Geolocator.isLocationServiceEnabled();
-
-    // GeolocationStatus geolocationStatus =
-    //     await Geolocator().checkGeolocationPermissionStatus();
-
-    if (serviceLocationStatus) {
-      _getCurrentLocation(feed, context);
-    } else {
+    await location.getCurrentLocation();
+    if (!context.mounted) return;
+    if (location.status != Status.success) {
       customDialog.show(
         context: context,
         barrierDismissable: false,
@@ -364,33 +388,50 @@ class _HomeState extends State<Home> {
         content: AppLocalizations.of(context)!.translate('loc_permission_desc'),
         customActions: <Widget>[
           TextButton(
-            child: Text(AppLocalizations.of(context)!.translate('yes_lbl')),
-            onPressed: () {
+            child: const Text('Open Settings'),
+            onPressed: () async {
               Provider.of<HomeLoadingModel>(context, listen: false)
                   .loadingStatus(false);
               context.router.pop();
-              AppSettings.openAppSettings(type: AppSettingsType.location);
+              GeolocatorPlatform geolocatorPlatform =
+                  GeolocatorPlatform.instance;
+              if (location.status == Status.locationServiceDisabled) {
+                await geolocatorPlatform.openLocationSettings();
+                return;
+              }
+              if (location.status == Status.locationPermissionDeniedForever ||
+                  location.status == Status.locationPermissionDenied) {
+                await geolocatorPlatform.openAppSettings();
+                return;
+              }
             },
           ),
-          TextButton(
-            child: Text(AppLocalizations.of(context)!.translate('no_lbl')),
-            onPressed: () {
-              Provider.of<HomeLoadingModel>(context, listen: false)
-                  .loadingStatus(false);
+          // TextButton(
+          //   child: Text(AppLocalizations.of(context)!.translate('no_lbl')),
+          //   onPressed: () {
+          //     Provider.of<HomeLoadingModel>(context, listen: false)
+          //         .loadingStatus(false);
 
-              context.router.pop();
+          //     context.router.pop();
 
-              customDialog.show(
-                  context: context,
-                  content: AppLocalizations.of(context)!
-                      .translate('loc_permission_on'),
-                  type: DialogType.info);
-            },
-          ),
+          //     customDialog.show(
+          //         context: context,
+          //         content: AppLocalizations.of(context)!
+          //             .translate('loc_permission_on'),
+          //         type: DialogType.info);
+          //   },
+          // ),
         ],
         type: DialogType.general,
       );
+      return;
     }
+    _getCurrentLocation(feed, context);
+
+    // if (!context.mounted) return;
+    // if (serviceLocationStatus) {
+    //   _getCurrentLocation(feed, context);
+    // } else {}
   }
 
   getOnlinePaymentListByIcNo() async {
@@ -596,81 +637,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-  /* _checkLocationPermission() async {
-    // contactBox = Hive.box('emergencyContact');
-
-    // await location.getCurrentLocation();
-
-    bool serviceLocationStatus = await Geolocator().isLocationServiceEnabled();
-
-    // GeolocationStatus geolocationStatus =
-    //     await Geolocator().checkGeolocationPermissionStatus();
-
-    if (serviceLocationStatus) {
-      _getCurrentLocation();
-    } else {
-      customDialog.show(
-        context: context,
-        barrierDismissable: false,
-        title: Text(
-            AppLocalizations.of(context).translate('loc_permission_title')),
-        content: AppLocalizations.of(context).translate('loc_permission_desc'),
-        customActions: <Widget>[
-          TextButton(
-            child: Text(AppLocalizations.of(context).translate('yes_lbl')),
-            onPressed: () {
-              context.router.pop();
-              context.router.pop();
-              AppSettings.openLocationSettings();
-            },
-          ),
-          TextButton(
-            child: Text(AppLocalizations.of(context).translate('no_lbl')),
-            onPressed: () {
-              context.router.pop();
-              context.router.pop();
-            },
-          ),
-        ],
-        type: DialogType.GENERAL,
-      );
-    }
-  }
-
-  _getCurrentLocation() async {
-    await location.getCurrentLocation();
-
-    localStorage.saveUserLatitude(location.latitude.toString());
-    localStorage.saveUserLongitude(location.longitude.toString());
-
-    setState(() {
-      latitude = location.latitude.toString();
-      longitude = location.longitude.toString();
-    });
-  } */
-
-  // remember to add positionStream.cancel()
-  /* Future<void> _userTracking() async {
-    GeolocationStatus geolocationStatus =
-        await Geolocator().checkGeolocationPermissionStatus();
-
-    // print(geolocationStatus);
-
-    if (geolocationStatus == GeolocationStatus.granted) {
-      positionStream = geolocator
-          .getPositionStream(locationOptions)
-          .listen((Position position) async {
-        localStorage.saveUserLatitude(position.latitude.toString());
-        localStorage.saveUserLongitude(position.longitude.toString());
-
-        setState(() {
-          latitude = location.latitude.toString();
-          longitude = location.longitude.toString();
-        });
-      });
-    }
-  } */
-
   _openHiveBoxes() async {
     await Hive.openBox('telcoList');
     await Hive.openBox('serviceList');
@@ -800,6 +766,31 @@ class _HomeState extends State<Home> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
+                // Material(
+                //   type: MaterialType.transparency,
+                //   child: InkWell(
+                //     onTap: () {},
+                //     child: const Padding(
+                //       padding: EdgeInsets.all(8.0),
+                //       child: Column(
+                //         mainAxisSize: MainAxisSize.min,
+                //         crossAxisAlignment: CrossAxisAlignment.center,
+                //         children: [
+                //           Icon(
+                //             Icons.home,
+                //             color: Colors.grey,
+                //           ),
+                //           Text(
+                //             'Home',
+                //             style: TextStyle(
+                //               color: Colors.grey,
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Material(
                   type: MaterialType.transparency,
                   child: InkWell(
@@ -810,40 +801,18 @@ class _HomeState extends State<Home> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.home,
-                            color: Colors.grey,
-                          ),
-                          Text(
-                            'Home',
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Material(
-                  type: MaterialType.transparency,
-                  child: InkWell(
-                    onTap: () {},
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.menu,
-                            color: Colors.grey,
-                          ),
-                          Text(
-                            'Menu',
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
+                          // Icon(
+                          //   Icons.menu,
+                          //   color: Colors.grey,
+                          // ),
+                          // Text(
+                          //   'Menu',
+                          //   style: TextStyle(
+                          //     color: Colors.grey,
+                          //   ),
+                          // ),
+                          SizedBox(
+                            height: 16,
                           ),
                         ],
                       ),
@@ -909,144 +878,293 @@ class _HomeState extends State<Home> {
                           ? const SizedBox()
                           : SizedBox(
                               height: 200 + 8.8,
-                              child: ListView.separated(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0,
-                                ),
-                                scrollDirection: Axis.horizontal,
-                                separatorBuilder:
-                                    (BuildContext ctx, int index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      var feedValue = items[index].feedNavigate;
-                                      if (feedValue != null) {
-                                        bool isUrl = isURL(feedValue);
+                              child: CarouselSlider(
+                                items: items
+                                    .map(
+                                      (e) => GestureDetector(
+                                        onTap: () {
+                                          String? feedValue = e.feedNavigate;
+                                          if (feedValue != null) {
+                                            bool isUrl = isURL(feedValue);
 
-                                        // Navigation
-                                        if (!isUrl) {
-                                          switch (feedValue) {
-                                            case 'ETESTING':
-                                              context.router
-                                                  .push(EtestingCategory());
-                                              break;
-                                            case 'EDRIVING':
-                                              context.router
-                                                  .push(EpanduCategory());
-                                              break;
-                                            case 'ENROLLMENT':
-                                              context.router
-                                                  .push(const Enrollment());
-                                              break;
-                                            case 'DI_ENROLLMENT':
-                                              String packageCodeJson =
-                                                  _getPackageCode(
-                                                      udf: items[index]
-                                                          .udfReturnParameter);
+                                            // Navigation
+                                            if (!isUrl) {
+                                              switch (feedValue) {
+                                                case 'ETESTING':
+                                                  context.router
+                                                      .push(EtestingCategory());
+                                                  break;
+                                                case 'EDRIVING':
+                                                  context.router
+                                                      .push(EpanduCategory());
+                                                  break;
+                                                case 'ENROLLMENT':
+                                                  context.router
+                                                      .push(const Enrollment());
+                                                  break;
+                                                case 'DI_ENROLLMENT':
+                                                  String packageCodeJson =
+                                                      _getPackageCode(
+                                                          udf: e
+                                                              .udfReturnParameter);
 
-                                              context.router
-                                                  .push(
-                                                    DiEnrollment(
-                                                        packageCodeJson:
-                                                            packageCodeJson
-                                                                .replaceAll(
-                                                                    '&package=',
-                                                                    '')),
-                                                  )
-                                                  .then((value) =>
-                                                      getOnlinePaymentListByIcNo());
-                                              break;
-                                            case 'KPP':
-                                              context.router
-                                                  .push(const KppCategory());
-                                              break;
-                                            case 'VCLUB':
-                                              context.router
-                                                  .push(const ValueClub());
-                                              break;
-                                            case 'MULTILVL':
-                                              context.router.push(
-                                                Multilevel(
-                                                  feed: items[index],
-                                                ),
-                                              );
-                                              break;
-                                            default:
-                                              break;
+                                                  context.router
+                                                      .push(
+                                                        DiEnrollment(
+                                                            packageCodeJson:
+                                                                packageCodeJson
+                                                                    .replaceAll(
+                                                                        '&package=',
+                                                                        '')),
+                                                      )
+                                                      .then((value) =>
+                                                          getOnlinePaymentListByIcNo());
+                                                  break;
+                                                case 'KPP':
+                                                  context.router.push(
+                                                      const KppCategory());
+                                                  break;
+                                                case 'VCLUB':
+                                                  context.router
+                                                      .push(const ValueClub());
+                                                  break;
+                                                case 'MULTILVL':
+                                                  context.router.push(
+                                                    Multilevel(
+                                                      feed: e,
+                                                    ),
+                                                  );
+                                                  break;
+                                                default:
+                                                  break;
+                                              }
+                                            } else {
+                                              _checkLocationPermission(
+                                                  e, context);
+                                            }
                                           }
-                                        } else {
-                                          _checkLocationPermission(
-                                              items[index], context);
-                                        }
-                                      }
-                                    },
-                                    child: Container(
-                                      height: 200,
-                                      width: 300,
-                                      decoration: const BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10),
+                                        },
+                                        child: Container(
+                                          height: 200,
+                                          width: 300,
+                                          margin: EdgeInsets.all(4),
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10),
+                                            ),
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  topLeft: Radius.circular(10),
+                                                  topRight: Radius.circular(10),
+                                                ),
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      (e.feedMediaFilename ??
+                                                              '')
+                                                          .replaceAll(
+                                                              removeBracket, '')
+                                                          .split('\r\n')[0],
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                // Image.network(
+                                                //   (items[index].feedMediaFilename ??
+                                                //           '')
+                                                //       .replaceAll(removeBracket, '')
+                                                //       .split('\r\n')[0],
+                                                //   fit: BoxFit.cover,
+                                                // ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(horizontal: 4,),
+                                                child: Row(
+                                                  children: [
+                                                    const SizedBox(
+                                                      width: 8,
+                                                    ),
+                                                    Expanded(
+                                                      child: Text(
+                                                        e.feedText ?? '',
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      ),
+                                                    ),
+                                                    const Icon(
+                                                        Icons.chevron_right),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(10),
-                                              topRight: Radius.circular(10),
-                                            ),
-                                            child: CachedNetworkImage(
-                                              imageUrl: (items[index]
-                                                          .feedMediaFilename ??
-                                                      '')
-                                                  .replaceAll(removeBracket, '')
-                                                  .split('\r\n')[0],
-                                              fit: BoxFit.cover,
-                                            ),
-                                            // Image.network(
-                                            //   (items[index].feedMediaFilename ??
-                                            //           '')
-                                            //       .replaceAll(removeBracket, '')
-                                            //       .split('\r\n')[0],
-                                            //   fit: BoxFit.cover,
-                                            // ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Row(
-                                              children: [
-                                                const SizedBox(
-                                                  width: 8,
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    items[index].feedText ?? '',
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ),
-                                                ),
-                                                const Icon(Icons.chevron_right),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                                itemCount: items.length + 1,
-                                itemBuilder: (BuildContext ctx, int index) {
-                                  return const SizedBox(
-                                    width: 8,
-                                  );
-                                },
+                                    )
+                                    .toList(),
+                                options: CarouselOptions(
+                                  autoPlay: true,
+                                ),
                               ),
+
+                              // ListView.separated(
+                              //   padding: const EdgeInsets.symmetric(
+                              //     horizontal: 8.0,
+                              //   ),
+                              //   scrollDirection: Axis.horizontal,
+                              //   separatorBuilder:
+                              //       (BuildContext ctx, int index) {
+                              //     return GestureDetector(
+                              //       onTap: () {
+                              //         String? feedValue = items[index].feedNavigate;
+                              //         if (feedValue != null) {
+                              //           bool isUrl = isURL(feedValue);
+
+                              //           // Navigation
+                              //           if (!isUrl) {
+                              //             switch (feedValue) {
+                              //               case 'ETESTING':
+                              //                 context.router
+                              //                     .push(EtestingCategory());
+                              //                 break;
+                              //               case 'EDRIVING':
+                              //                 context.router
+                              //                     .push(EpanduCategory());
+                              //                 break;
+                              //               case 'ENROLLMENT':
+                              //                 context.router
+                              //                     .push(const Enrollment());
+                              //                 break;
+                              //               case 'DI_ENROLLMENT':
+                              //                 String packageCodeJson =
+                              //                     _getPackageCode(
+                              //                         udf: items[index]
+                              //                             .udfReturnParameter);
+
+                              //                 context.router
+                              //                     .push(
+                              //                       DiEnrollment(
+                              //                           packageCodeJson:
+                              //                               packageCodeJson
+                              //                                   .replaceAll(
+                              //                                       '&package=',
+                              //                                       '')),
+                              //                     )
+                              //                     .then((value) =>
+                              //                         getOnlinePaymentListByIcNo());
+                              //                 break;
+                              //               case 'KPP':
+                              //                 context.router
+                              //                     .push(const KppCategory());
+                              //                 break;
+                              //               case 'VCLUB':
+                              //                 context.router
+                              //                     .push(const ValueClub());
+                              //                 break;
+                              //               case 'MULTILVL':
+                              //                 context.router.push(
+                              //                   Multilevel(
+                              //                     feed: items[index],
+                              //                   ),
+                              //                 );
+                              //                 break;
+                              //               default:
+                              //                 break;
+                              //             }
+                              //           } else {
+                              //             _checkLocationPermission(
+                              //                 items[index], context);
+                              //           }
+                              //         }
+                              //       },
+                              //       child: Container(
+                              //         height: 200,
+                              //         width: 300,
+                              //         decoration: const BoxDecoration(
+                              //           color: Colors.white,
+                              //           borderRadius: BorderRadius.all(
+                              //             Radius.circular(10),
+                              //           ),
+                              //         ),
+                              //         child: Column(
+                              //           mainAxisAlignment:
+                              //               MainAxisAlignment.spaceBetween,
+                              //           children: [
+                              //             ClipRRect(
+                              //               borderRadius:
+                              //                   const BorderRadius.only(
+                              //                 topLeft: Radius.circular(10),
+                              //                 topRight: Radius.circular(10),
+                              //               ),
+                              //               child: CachedNetworkImage(
+                              //                 imageUrl: (items[index]
+                              //                             .feedMediaFilename ??
+                              //                         '')
+                              //                     .replaceAll(removeBracket, '')
+                              //                     .split('\r\n')[0],
+                              //                 fit: BoxFit.cover,
+                              //               ),
+                              //               // Image.network(
+                              //               //   (items[index].feedMediaFilename ??
+                              //               //           '')
+                              //               //       .replaceAll(removeBracket, '')
+                              //               //       .split('\r\n')[0],
+                              //               //   fit: BoxFit.cover,
+                              //               // ),
+                              //             ),
+                              //             Padding(
+                              //               padding: const EdgeInsets.all(8.0),
+                              //               child: Row(
+                              //                 children: [
+                              //                   const SizedBox(
+                              //                     width: 8,
+                              //                   ),
+                              //                   Expanded(
+                              //                     child: Text(
+                              //                       items[index].feedText ?? '',
+                              //                       overflow:
+                              //                           TextOverflow.ellipsis,
+                              //                     ),
+                              //                   ),
+                              //                   const Icon(Icons.chevron_right),
+                              //                 ],
+                              //               ),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     );
+                              //   },
+                              //   itemCount: items.length + 1,
+                              //   itemBuilder: (BuildContext ctx, int index) {
+                              //     return const SizedBox(
+                              //       width: 8,
+                              //     );
+                              //   },
+                              // ),
                             ),
                       const SizedBox(
                         height: 8,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 8.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Shortcut Menu',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       GridView.count(
                           shrinkWrap: true,
@@ -1078,173 +1196,128 @@ class _HomeState extends State<Home> {
                                       flex: 1,
                                       child: Text(
                                         e['title'],
-                                        style: const TextStyle(),
-                                        // overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                        ),
+                                        textAlign: TextAlign.center,
                                       ),
                                     ),
                                   ],
                                 ),
                               );
                             },
-                          ).toList()
-
-                          // <Widget>[
-
-                          //     GestureDetector(
-                          //       onTap: () {
-                          //         context.router.push(item);
-                          //       },
-                          //       child: Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.center,
-                          //         mainAxisAlignment:
-                          //             MainAxisAlignment.spaceEvenly,
-                          //         children: [
-                          //           Flexible(
-                          //             flex: 2,
-                          //             child: Container(
-                          //               child: Image.asset(
-                          //                 'assets/menu/Espenses-icon.png',
-                          //               ),
-                          //             ),
-                          //           ),
-                          //           Flexible(
-                          //             flex: 1,
-                          //             child: Text('eDriving'),
-                          //           ),
-                          //         ],
-                          //       ),
-                          //     ),
-                          //   GestureDetector(
-                          //     onTap: () {
-                          //       context.router.push(CreateFuelRoute());
-                          //     },
-                          //     child: Column(
-                          //       crossAxisAlignment: CrossAxisAlignment.center,
-                          //       mainAxisAlignment:
-                          //           MainAxisAlignment.spaceEvenly,
-                          //       children: [
-                          //         Container(
-                          //           child: Image.asset(
-                          //             'assets/menu/Espenses-icon.png',
-                          //           ),
-                          //         ),
-                          //         Text('Expenses'),
-                          //       ],
-                          //     ),
-                          //   ),
-                          //   GestureDetector(
-                          //     onTap: () {
-                          //       // context.router.push(CreateServiceCarRoute());
-                          //     },
-                          //     child: Column(
-                          //       crossAxisAlignment: CrossAxisAlignment.center,
-                          //       mainAxisAlignment:
-                          //           MainAxisAlignment.spaceEvenly,
-                          //       children: [
-                          //         Container(
-                          //           child: Image.asset(
-                          //             'assets/menu/Driving-routes-icon.png',
-                          //           ),
-                          //         ),
-                          //         Text('Driving Route'),
-                          //       ],
-                          //     ),
-                          //   ),
-                          //   GestureDetector(
-                          //     onTap: () {
-                          //       context.router.push(KppCategory());
-                          //     },
-                          //     child: Column(
-                          //       crossAxisAlignment: CrossAxisAlignment.center,
-                          //       mainAxisAlignment:
-                          //           MainAxisAlignment.spaceEvenly,
-                          //       children: [
-                          //         Container(
-                          //           child: Image.asset(
-                          //             'assets/menu/eLearning-icon.png',
-                          //           ),
-                          //         ),
-                          //         Text('eLearning'),
-                          //       ],
-                          //     ),
-                          //   ),
-                          //   GestureDetector(
-                          //     onTap: () {
-                          //       context.router.push(FavouritePlaceListRoute());
-                          //     },
-                          //     child: Column(
-                          //       crossAxisAlignment: CrossAxisAlignment.center,
-                          //       mainAxisAlignment:
-                          //           MainAxisAlignment.spaceEvenly,
-                          //       children: [
-                          //         Container(
-                          //           child: Image.asset(
-                          //             'assets/menu/Fovourite-icon.png',
-                          //           ),
-                          //         ),
-                          //         Text('Favourite'),
-                          //       ],
-                          //     ),
-                          //   ),
-                          //   GestureDetector(
-                          //     onTap: () {
-                          //       context.router.push(EmergencyDirectory());
-                          //     },
-                          //     child: Column(
-                          //       crossAxisAlignment: CrossAxisAlignment.center,
-                          //       mainAxisAlignment:
-                          //           MainAxisAlignment.spaceEvenly,
-                          //       children: [
-                          //         Container(
-                          //           child: Image.asset(
-                          //             'assets/menu/Directory-and-rating-icon.png',
-                          //           ),
-                          //         ),
-                          //         Text(
-                          //           'Directory & Rating',
-                          //           overflow: TextOverflow.ellipsis,
-                          //         ),
-                          //       ],
-                          //     ),
-                          //   ),
-                          //   GestureDetector(
-                          //     onTap: () {
-                          //       // context.router.push(CreateServiceCarRoute());
-                          //     },
-                          //     child: Column(
-                          //       crossAxisAlignment: CrossAxisAlignment.center,
-                          //       mainAxisAlignment:
-                          //           MainAxisAlignment.spaceEvenly,
-                          //       children: [
-                          //         Container(
-                          //           child: Image.asset(
-                          //             'assets/menu/Jobs-icon.png',
-                          //           ),
-                          //         ),
-                          //         Text('Jobs'),
-                          //       ],
-                          //     ),
-                          //   ),
-                          //   GestureDetector(
-                          //     onTap: () {
-                          //       // context.router.push(CreateServiceCarRoute());
-                          //     },
-                          //     child: Column(
-                          //       crossAxisAlignment: CrossAxisAlignment.center,
-                          //       mainAxisAlignment:
-                          //           MainAxisAlignment.spaceEvenly,
-                          //       children: [
-                          //         Container(
-                          //           child: Image.asset(
-                          //             'assets/menu/More-icon.png',
-                          //           ),
-                          //         ),
-                          //         Text('More'),
-                          //       ],
-                          //     ),
-                          //   ),
-                          // ],
+                          ).toList()),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 8.0),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Main Menu',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      GridView.count(
+                          shrinkWrap: true,
+                          primary: false,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0,
                           ),
+                          crossAxisCount: 4,
+                          childAspectRatio: 0.9,
+                          children: mainMenus.map(
+                            (e) {
+                              return GestureDetector(
+                                onTap: () async {
+                                  if (e.url.isNotEmpty) {
+                                    var caUid = await localStorage.getCaUid();
+                                    var caPwd = await localStorage.getCaPwd();
+                                    if (!context.mounted) return;
+                                    Response<List<UserProfile>> result =
+                                        await profileRepo.getUserProfile(
+                                            context: context);
+
+                                    if (result.isSuccess) {
+                                      String? userId =
+                                          await localStorage.getUserId();
+                                      String? loginDeviceId =
+                                          await localStorage.getLoginDeviceId();
+
+                                      String? url =
+                                          '${e.url}?appId=${appConfig.appId}&appVersion=$appVersion&userId=$userId&deviceId=$loginDeviceId&caUid=$caUid&caPwd=${Uri.encodeQueryComponent(caPwd!)},';
+                                      if (!context.mounted) return;
+                                      context.router.push(
+                                        Webview(url: url),
+                                      );
+
+                                      Provider.of<HomeLoadingModel>(context,
+                                              listen: false)
+                                          .loadingStatus(false);
+                                    } else {
+                                      if (!context.mounted) return;
+                                      customDialog.show(
+                                        context: context,
+                                        barrierDismissable: false,
+                                        content: result.message,
+                                        customActions: <Widget>[
+                                          TextButton(
+                                            child: Text(
+                                                AppLocalizations.of(context)!
+                                                    .translate('ok_btn')),
+                                            onPressed: () {
+                                              context.router.pop();
+                                              Provider.of<HomeLoadingModel>(
+                                                      context,
+                                                      listen: false)
+                                                  .loadingStatus(false);
+                                            },
+                                          ),
+                                        ],
+                                        type: DialogType.general,
+                                      );
+                                    }
+                                    return;
+                                  }
+                                  if (e.router != null) {
+                                    context.router.push(e.router!);
+                                    return;
+                                  } else {
+                                    NewCustomDialog().show(
+                                        context: context,
+                                        content: 'In progress');
+                                    return;
+                                  }
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Flexible(
+                                      flex: 2,
+                                      child: Image.asset(
+                                        e.image,
+                                      ),
+                                    ),
+                                    Flexible(
+                                      flex: 1,
+                                      child: Text(
+                                        e.title,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ).toList()),
                       const SizedBox(
                         height: 8,
                       ),
@@ -1272,6 +1345,7 @@ class _HomeState extends State<Home> {
                                     'Discover More',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
+                                      fontSize: 16,
                                     ),
                                   ),
                                 ),
@@ -1355,6 +1429,7 @@ class _HomeState extends State<Home> {
                                   'Promotions',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
+                                    fontSize: 16,
                                   ),
                                 ),
                                 Icon(Icons.chevron_right),
@@ -1436,6 +1511,7 @@ class _HomeState extends State<Home> {
                                   'Highlights',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
+                                    fontSize: 16,
                                   ),
                                 ),
                                 Icon(Icons.chevron_right),

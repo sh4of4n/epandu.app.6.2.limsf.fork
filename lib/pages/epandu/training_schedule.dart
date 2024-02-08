@@ -39,7 +39,7 @@ class _TrainingScheduleState extends State<TrainingSchedule> {
     //String? userId = await localStorage.getUserId();
     var result =
         await epanduRepo.getTimeTableListByIcNo(groupId: '', startIndex: 0);
-
+    if (!mounted) return;
     if (result.isSuccess) {
       setState(() {
         _scheduleHistoryData = result.data;

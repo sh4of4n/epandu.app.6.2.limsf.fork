@@ -68,4 +68,28 @@ class VclubRepo {
 
     return Response(false, message: 'No records found.');
   }
+
+  Future<Response<List<Merchant>?>> getMerchantByCode({
+    required String merchantNo,
+  }) async {
+    String? caUid = await localStorage.getCaUid();
+    String? caPwd = await localStorage.getCaPwdEncode();
+
+    String path =
+        'wsCodeCrypt=${appConfig.wsCodeCrypt}&caUid=$caUid&caPwd=$caPwd&merchantNo=$merchantNo';
+
+    var response = await networking.getData(
+      path: 'GetMerchantByCode?$path',
+    );
+
+    if (response.isSuccess && response.data != null) {
+      GetMerchantResponse getMerchantResponse;
+
+      getMerchantResponse = GetMerchantResponse.fromJson(response.data);
+
+      return Response(true, data: getMerchantResponse.merchant);
+    }
+
+    return Response(false, message: response.message.isEmpty ? 'No records found.' : response.message);
+  }
 }

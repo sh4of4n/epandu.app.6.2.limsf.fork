@@ -145,8 +145,6 @@ class _ProfileState extends State<Profile>
       child: Column(
         children: <Widget>[
           if (widget.userProfile?.name != null)
-            Text('${widget.userProfile?.name}', style: _titleStyle),
-          if (widget.userProfile?.name != null)
             ListTile(
               leading: const Icon(Icons.account_box),
               title:

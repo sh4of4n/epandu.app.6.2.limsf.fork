@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:epandu/common_library/services/response.dart';
 import 'package:epandu/common_library/utils/app_localizations.dart';
 import 'package:epandu/router.gr.dart';
 import 'package:epandu/common_library/services/model/auth_model.dart';
@@ -9,6 +11,7 @@ import 'package:epandu/utils/app_config.dart';
 import 'package:epandu/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 // import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -23,7 +26,8 @@ class SelectInstitute extends StatefulWidget {
   State<SelectInstitute> createState() => _SelectInstituteState();
 }
 
-class _SelectInstituteState extends State<SelectInstitute> {
+class _SelectInstituteState extends State<SelectInstitute>
+    with WidgetsBindingObserver {
   final authRepo = AuthRepo();
   final appConfig = AppConfig();
 
@@ -37,14 +41,15 @@ class _SelectInstituteState extends State<SelectInstitute> {
   String? _message = '';
   bool _isLoading = true;
   int _startIndex = 0;
-  List<dynamic> items = [];
+  List<Merchant> items = [];
 
   final ScrollController _scrollController = ScrollController();
-
+  final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
+  bool isOpenSetting = false;
   @override
   void initState() {
     super.initState();
-
+    WidgetsBinding.instance.addObserver(this);
     // _getInstitutes = _getDiList();
 
     _getCurrentLocation();
@@ -62,7 +67,19 @@ class _SelectInstituteState extends State<SelectInstitute> {
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      if (isOpenSetting)
+      {
+        _getCurrentLocation();
+        isOpenSetting = false;
+      }
+    }
+  }
+
+  @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
 
     _scrollController.dispose();
@@ -70,8 +87,12 @@ class _SelectInstituteState extends State<SelectInstitute> {
 
   _getCurrentLocation() async {
     await location.getCurrentLocation();
-
-    _getDiNearMe();
+    if (!mounted) return;
+    if (location.status == Status.success) {
+      _getDiNearMe();
+    } else {
+      setState(() {});
+    }
   }
 
   /* Future<dynamic> _getDiList() async {
@@ -86,8 +107,8 @@ class _SelectInstituteState extends State<SelectInstitute> {
     return result.message;
   } */
 
-  Future<dynamic> _getDiNearMe() async {
-    var result = await authRepo.getDiNearMe(
+  Future _getDiNearMe() async {
+    Response<List<Merchant>?> result = await authRepo.getDiNearMe(
       merchantNo: appConfig.diCode,
       startIndex: _startIndex,
       noOfRecords: 10,
@@ -97,20 +118,23 @@ class _SelectInstituteState extends State<SelectInstitute> {
           location.longitude != null ? location.longitude.toString() : '999',
       maxRadius: 50,
     );
-
+    if (!mounted) return;
+    _isLoading = false;
     if (result.isSuccess) {
-      if (result.data.length > 0) {
+      if (result.data!.isNotEmpty) {
         if (mounted) {
           setState(() {
-            for (int i = 0; i < result.data.length; i += 1) {
-              items.add(result.data[i]);
+            for (int i = 0; i < result.data!.length; i += 1) {
+              items.add(result.data![i]);
             }
           });
-        } else if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
         }
+      }
+      if (items.isEmpty) {
+        setState(() {
+          _message = 'No IM near this area.';
+          _isLoading = false;
+        });
       }
     } else {
       if (mounted) {
@@ -122,19 +146,30 @@ class _SelectInstituteState extends State<SelectInstitute> {
     }
   }
 
-  _loadImage(snapshot) {
-    return FadeInImage(
-      alignment: Alignment.center,
-      placeholder: MemoryImage(kTransparentImage),
+  _loadImage(Merchant snapshot) {
+    if (snapshot.merchantIconFilename == null) {
+      return Image.asset(
+        'assets/images/ePANDU_icon-14.png',
+        width: 250.w,
+      );
+    }
+    return CachedNetworkImage(
+      imageUrl:
+          snapshot.merchantIconFilename!.replaceAll(exp, '').split('\r\n')[0],
       width: 250.w,
-      // height: ScreenUtil().setHeight(350),
-      image: (snapshot.merchantIconFilename != null &&
-              snapshot.merchantIconFilename.isNotEmpty
-          ? NetworkImage(snapshot.merchantIconFilename
-              .replaceAll(exp, '')
-              .split('\r\n')[0])
-          : MemoryImage(kTransparentImage)) as ImageProvider<Object>,
     );
+    // return FadeInImage(
+    //   alignment: Alignment.center,
+    //   placeholder: MemoryImage(kTransparentImage),
+    //   width: 250.w,
+    //   // height: ScreenUtil().setHeight(350),
+    //   image: (snapshot.merchantIconFilename != null &&
+    //           snapshot.merchantIconFilename.isNotEmpty
+    //       ? NetworkImage(snapshot.merchantIconFilename
+    //           .replaceAll(exp, '')
+    //           .split('\r\n')[0])
+    //       : MemoryImage(kTransparentImage)) as ImageProvider<Object>,
+    // );
   }
 
   @override
@@ -158,15 +193,64 @@ class _SelectInstituteState extends State<SelectInstitute> {
             elevation: 0,
             title: Text(AppLocalizations.of(context)!
                 .translate('select_institute_lbl'))),
-        body: SingleChildScrollView(
-          controller: _scrollController,
-          child: _diNearMe(),
+        body: Center(
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            child: _diNearMe(),
+          ),
         ),
       ),
     );
   }
 
   _diNearMe() {
+    if (location.status == Status.locationPermissionDeniedForever ||
+        location.status == Status.locationPermissionDenied) {
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: Column(
+            children: [
+              const Text(
+                  'In order to use this service, please allow ePandu to access this device\'s location.'),
+              const SizedBox(
+                height: 8,
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  await _geolocatorPlatform.openAppSettings();
+                  isOpenSetting = true;
+                },
+                child: const Text('Enable Location'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    if (location.status == Status.locationServiceDisabled) {
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: Column(
+            children: [
+              const Text(
+                  'In order to use this service, please enable location in your device settings.'),
+              const SizedBox(
+                height: 8,
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  await _geolocatorPlatform.openLocationSettings();
+                  isOpenSetting = true;
+                },
+                child: const Text('Enable Location'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     if (items.isEmpty && _message!.isNotEmpty) {
       return Center(
         child: Text(_message!),
@@ -218,7 +302,7 @@ class _SelectInstituteState extends State<SelectInstitute> {
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold)),
                           Text(item.add1 != null
-                              ? item.add1.replaceAll('\r\n', ' ')
+                              ? item.add1!.replaceAll('\r\n', ' ')
                               : ''),
                           Text(item.phoneOff1 ?? ''),
                           Padding(
